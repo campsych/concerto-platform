@@ -241,8 +241,6 @@ class StartProcessCommand extends Command {
 
     private function respondToTestServer($response) {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__, true);
-        $this->lastClientTime = time();
-        $this->lastKeepAliveTime = time();
         if ($this->isDebug) {
             $response = $this->appendDebugDataToResponse($response);
         }
