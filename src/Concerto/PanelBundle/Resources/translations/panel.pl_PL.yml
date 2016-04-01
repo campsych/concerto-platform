@@ -1,0 +1,194 @@
+header:
+  logged.user: 'Zalogowany użytkownik: {0}' 
+  logout: Wyloguj
+  
+tab:
+  wizards: Kreatory testów
+  wizards.tooltip: To jest okno z kreatorami testów
+  tests: Testy
+  tests.tooltip: To jest okno z testami
+  templates: Szablony widoków
+  templates.tooltip: To jest okno z szablonami widoków
+  tables: Tabele danych
+  tables.tooltip: To jest okno z tabelami danych
+  users: Użytkownicy
+  users.tooltip: To jest okno z użytkownikami
+  files: Pliki
+  files.tooltip: Okno z menadżerem plików
+  
+list:
+  accessibility:
+    public: publiczna
+    group: grupowa
+    private: prywatna
+  field:
+    id: Id
+    info: Info
+    updated.on: Ost. akt. w
+    updated.by: Ost. akt. przez
+    protected: Chronione
+  edit: Edytuj
+  delete: Usuń
+  export: Eksportuj
+  checked.count: 'Ilość zaznaczonych obiektów:'
+  drag.column: Przeciągnij nagłówek kolumny i upuść go tutaj aby grupować według danej kolumny
+  button:
+    refresh: Odśwież
+    delete.checked: Usuń zaznaczone
+    export.checked: Eksportuj zaznaczone
+    add: Dodaj nowy
+    import: Importuj
+    download: Pobierz
+    upload: Wyślij CSV
+  filterable:
+    messages:
+      info: 'Pokaż rzędy z wartością, która:'
+      filter: Filtruj
+      clear: Wyczyść
+      and: I
+      or: LUB
+    operators:
+      string:
+        contains: Zawiera
+        eq: Równe
+        neq: Nie równe
+        startswith: Zaczyna się od
+        endswith: Kończy się na
+      number:
+        eq: Równe
+        neq: Nie równe
+        gte: Większe lub równe
+        gt: Większe niż
+        lte: Mniejsze lub równe
+        lt: Mniejsze niż
+  columnMenu:
+    messages:
+      filter: Filtruj
+      columns: Kolumny
+  pageable:
+    messages:
+      display: '{0} - {1} z {2} obiektów'
+      empty: Brak obiektów do wyświetlenia
+      page: Strona
+      of: 'z {0}'
+      itemsPerPage: elementów na stronę
+      first: Idź do pierwszej strony
+      previous: Idż do poprzedniej strony
+      next: Idź do następnej strony
+      last: Idź do ostatniej strony
+      refresh: Odśwież
+      
+form:
+  validation.failed: Walidacja nie powiodła się
+  button:
+    save.new: Kopiuj
+    delete: Usuń
+    export: Eksportuj
+    save: Zapisz
+    cancel: Anuluj
+    yes: Tak
+    no: Nie
+    add: Dodaj
+    change: Zmień
+    ok: Ok
+    apply: Zastosuj
+    upload: Wyślij
+    
+dialog:
+  title:
+    alert: Concerto - alert
+    confirm: Concerto - potwierdzenie
+    save: Zapisywanie obiektu
+    add: Dodawanie nowego obiektu
+    delete: Usuwanie obiektu
+  message: 
+    failed: Operacja nie powiodła się. Sprawdź dane i spróbuj jeszcze raz.
+    saved: Obiekt został zapisany
+    confirm.delete: Jesteś pewien, że chcesz usunąć wybrane obiekt(y)?
+    leaving: Jesteś pewien, że chcesz kontynuować? Wszystkie niezapisane zmiany zostaną utracone.
+   
+please.wait: Proszę czekać...
+none.choosen: Nie wybrano
+true: Prawda
+false: Fałsz
+all: wszystko
+
+description:
+    tooltip: Zmień opis
+    dialog:
+        title: Edycja opisu
+    fieldset:
+        legend: Opis
+        legend.tooltip: Opis obiektu
+        
+save_new:
+    dialog:
+        title: Nazwa nowego obiektu
+        message.copied: Obiekt skopiowany
+    fieldset:
+        legend.tooltip: >
+            Wprowadź nazwę dla skopiowanego obiektu. Zostaw puste pole dla by zachować orginalną. Możesz umieścić orginalną nazwę lub id poprzez: \{\{id\}\} lub \{\{name\}\}.
+        
+import:
+    dialog: 
+        title: Importowanie obiektu
+        title.uploaded: Plik wysłany
+        description: "Gdy istnieje prawdopodobieństwo, że nazwa importowanych obiektów lub obiektów-dzieci będzie taka sama jak już istniejących, musisz użyć w polu \"Nazwa\" poniżej zmienne \"id\" lub \"name\" aby nazwy importowanych plików były unikatowe. Sprawdź podpowiedź przy polu \"Nazwa\" aby uzyskać więcej informacji."
+        message: Jesteś pewien, że chcesz zaimportować obiekt z tego pliku?
+        message.imported: Obiekt zaimportowany
+    fieldset:
+        legend.tooltip: Zaimportuj obiekt z wcześniej wyeksportowanego pliku
+    form:
+        field:
+            name: Nazwa
+            name.tooltip: >
+                Wpisz nazwę jaką chcesz nadać zaimportowanym obiektom. Pozostaw puste aby użyć orginalnych nazw. Można wstawić orginalne id lub nazwe przez: \{\{id\}\} lub \{\{name\}\}. 
+            file: Plik
+            file.tooltip: Wybierz plik do zaimportowania
+            
+export:
+    dialog:
+        title: Eksport danych
+        error:
+            empty.content: Wybierz proszę przynajmniej jeden wiersz z tabeli poniżej aby go wyeksportować.
+        format:
+            info: Wybierz proszę format eksportowanego pliku. Pobranie pliku skompresowanego wymaga mniej miejsca i zużywa mniej transferu, ale trudne jest otwarcie jego zawartości. Plik tekstowy łatwo jest przeglądać lub edytować, ale prowadzi do tworzenia większych plików.
+            compressed: skompresowany
+            plaintext: tekstowy
+            
+download_list:
+    dialog:
+        title: Pobieranie listy
+        tooltip: Wybierz opcje listy
+        field:
+            format: Format
+            format.tooltip: Format pobieranej listy
+            format.csv: CSV
+            format.pdf: PDF
+            cols: Kolumny
+            cols.tooltip: Kolumny do pokazania
+            cols.all: Wszystkie
+            cols.visible: Widoczne
+            rows: Rzędy
+            rows.tooltip: Rzędy do pokazania
+            rows.all: Wszystkie
+            rows.visible: Widoczne
+            rows.selected: Wybrane       
+            
+upload_list:
+    dialog:
+        title: Wysyłanie CSV
+        tooltip: Wybierz plik CSV listy
+        description: Nowe dane zostaną dopisane do obecnie istniejących danych.
+        fields:
+            file: Plik
+            file.tooltip: Wybierz plik który chcesz wysłać
+
+code:
+    F11: tryb pełno-ekranowy
+    shift.tab: formatuj zaznaczony kod
+    ctrl.space: autouzupełnianie kodu
+    documentation:
+        error.info: Nie można załadować danych do autouzupełnienia kodu!
+        error.solve: Rozwiąż
+

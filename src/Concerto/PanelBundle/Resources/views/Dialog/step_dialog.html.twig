@@ -1,0 +1,42 @@
+{% trans_default_domain "TestWizard" %}
+<div type="text/ng-template" id="step_dialog.html">
+<div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block legend %}{%verbatim%}{{dialogTitle}}{%endverbatim%}{% endblock %}
+        {% block legend_tooltip %}{{ 'step.form.fieldset.legend.tooltip'|trans }}{% endblock %}
+        {% block elements %}
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'step.form.field.title'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'step.form.field.name.title'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.title" type="text" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'step.form.field.description'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'step.form.field.description.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <textarea ckeditor="editorOptions" ng-model="object.description"></textarea>
+                {% endblock %}
+            {% endembed %}
+            
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'step.form.field.order'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'step.form.field.name.order'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.orderNum" type="text" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="save()">{{ 'form.button.save'|trans({},"panel") }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+</div>
+</div>

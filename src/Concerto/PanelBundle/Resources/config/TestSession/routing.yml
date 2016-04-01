@@ -1,0 +1,29 @@
+TestSession_start_debug:
+    path: /admin/TestSession/Test/{test_slug}/debug/start/{params}
+    defaults: { _controller: concerto_panel.TestSession_controller:startDebugAction, params: "{}" }
+    methods:  [POST]
+
+TestSession_start:
+    path: /TestSession/Test/{test_slug}/start/{params}
+    defaults: { _controller: concerto_panel.TestSession_controller:startNewAction, params: "{}" }
+    methods:  [POST]
+    
+TestSession_submit:
+    path: /TestSession/{session_hash}/submit
+    defaults: { _controller: concerto_panel.TestSession_controller:submitAction }
+    methods:  [POST]
+    
+TestSession_keepalive:
+    path: /TestSession/{session_hash}/keepalive
+    defaults: { _controller: concerto_panel.TestSession_controller:keepAliveAction }
+    methods:  [POST]
+    
+TestSession_resume:
+    path: /TestSession/{session_hash}/resume
+    defaults: { _controller: concerto_panel.TestSession_controller:resumeAction }
+    methods:  [POST]
+    
+TestSession_results:
+    path: /TestSession/{session_hash}/results
+    defaults: { _controller: concerto_panel.TestSession_controller:resultsAction }
+    methods:  [POST]

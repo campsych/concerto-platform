@@ -1,0 +1,26 @@
+TestWizardStep_object:
+    path: /TestWizardStep/fetch/{object_id}/{format}
+    defaults: { _controller: concerto_panel.TestWizardStep_controller:objectAction, format: json }
+
+TestWizardStep_collection:
+    path: /TestWizardStep/collection/{format}
+    defaults: { _controller: concerto_panel.TestWizardStep_controller:collectionAction, format: json }
+    
+TestWizardStep_collection_by_wizard:
+    path: /TestWizardStep/TestWizard/{wizard_id}/collection/{format}
+    defaults: { _controller: concerto_panel.TestWizardStep_controller:collectionByWizardAction, format: json }
+    
+TestWizardStep_delete:
+    path: /TestWizardStep/{object_ids}/delete
+    defaults: { _controller: concerto_panel.TestWizardStep_controller:deleteAction }
+    methods:  [POST]
+    
+TestWizardStep_save:
+    path: /TestWizardStep/{object_id}/save
+    defaults: { _controller: concerto_panel.TestWizardStep_controller:saveAction }
+    methods:  [POST]
+    
+TestWizardStep_clear:
+    path: /TestWizardStep/TestWizard/{wizard_id}/clear
+    defaults: { _controller: concerto_panel.TestWizardStep_controller:clearAction }
+    methods:  [POST]

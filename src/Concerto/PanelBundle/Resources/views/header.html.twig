@@ -1,0 +1,29 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    <table ng-controller="HeaderController">
+        <tr>
+            <td><img src="{{ asset('bundles/concertopanel/images/symbol.png') }}" /></td>
+            <td style="font-weight: bold;">v{{ version }}</td>
+            <td style="width:100%; text-align: right; padding-right: 15px;">
+                {{ 'header.logged.user'|trans({'{0}':app.user.username}) }}
+            </td>
+            <td>
+                <div class="btn-group" uib-dropdown>
+                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                        <img src="{{ asset("bundles/concertopanel/images/") ~ app.request.locale ~ ".png" }}" /> {{ available_locales[app.request.locale] }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for key in available_locales|keys %}
+                            <li><a href="" ng-click="changeLocale('{{key}}')"><img src="{{ asset("bundles/concertopanel/images/") ~ key ~ ".png" }}" /> {{ available_locales[key] }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </td>
+            <td>
+                <button ng-click="logout()" class="btn btn-default"><i class="glyphicon glyphicon-user"></i> {{ 'header.logout'|trans }}</button>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,43 @@
+breadcrumb:
+    list: Wszyscy użytkownicy
+
+form:
+  title:
+    add: Tworzenie nowego użytkownika
+    edit: 'Edycja użytkownika #{0}'
+  field:
+    login: Login
+    login.tooltip: Podaj swój unikalny login
+    password: Hasło
+    password.tooltip: Podaj swoje hasło
+    passwordConfirmation: Potw. hasła
+    passwordConfirmation.tooltip: Powtórz swoje hasło
+    email: Email
+    email.tooltip: Podaj swój email
+    accessibility: Dostępność
+    accessibility.tooltip: Poziom dostępności użytkownika
+    protected: Chronione
+    protected.tooltip: Czy użytkownik jest chroniony?
+    archived: Zarchiwizowane
+    archived.tooltip: Czy użytkownik jest zarchiwizowany?
+    role_super_admin: Super administrator
+    role_super_admin.tooltip: Nadaje użytkownikowi dostęp do sekcji użytkowników i każdej innej sekcji
+    role_test: Dostęp do testów
+    role_test.tooltip: Nadaje użytkownikowi dostęp do sekcji testów
+    role_template: Dostęp do szablonów wikodu
+    role_template.tooltip: Nadaje użytkownikowi dostęp do sekcji szblonów widoku
+    role_table: Dostęp do tabeli danych
+    role_table.tooltip: Nadaje użytkownikowi dostęp do sekcji tabeli danych
+    role_file: Dostęp do plików
+    role_file.tooltip: Nadaje użytkownikowi dostęp do sekcji plików
+    role_wizard: Dostęp do kreatorów testu
+    role_wizard.tooltip: Nadaje użytkownikowi dostęp do sekcji kreatorów testu
+    owner: Właściciel
+    owner.tooltip: Właściciel obiektu
+    groups: Grupy
+    groups.tooltip: Lista grup, oddzielonych przecinkiem, do których należy obiekt
+    
+list:
+  field:
+    username: Login
+    email: Email

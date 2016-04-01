@@ -1,0 +1,33 @@
+#dragAndDropInfo {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.uploaderSection {
+    width: 300px;
+}
+
+#uploaderButtons {
+    margin: 15px;
+}
+
+.uploadProgress {
+    margin: 15px;
+}
+
+.fileTile{
+    float: left;
+    margin: 10px;
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+}
+
+.fileTile img {
+    height: 100px;
+    max-width: 178px;
+}
+
+.thumbnail .caption {
+    white-space: nowrap;
+}

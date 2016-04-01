@@ -1,0 +1,31 @@
+{% trans_default_domain "Test" %}
+<div type="text/ng-template" id="default_r_completion_wizard_dialog.html">
+<div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+        {% block legend_tooltip %}title{% endblock %}
+        {% block description %}{%verbatim%}{{comment}}{%endverbatim%}{% endblock %}
+        {% block elements %}
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Test" %}
+                {% block row %}<tr class="formRowV" ng-repeat="arg in arguments">{% endblock %}
+                {% block label %}{%verbatim%}{{arg.name}}{%endverbatim%}{% endblock %}
+                {% block tooltip %}{%verbatim%}{{arg.description}}{%endverbatim%}{% endblock%}
+                {% block control %}
+                    <ui-codemirror class="wizard-param-codemirror" ng-model="arg.value" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+    
+    <div>
+        <label><input ng-model="insertComments" type="checkbox" ng-true-value="1" ng-false-value="0" />{{ 'completion.wizard.default.insertcomments'|trans }}</label>
+        <label><input ng-model="autoFormat" type="checkbox" ng-true-value="1" ng-false-value="0" />{{ 'completion.wizard.default.autoformat'|trans }}</label>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="insert()">{{ 'form.button.apply'|trans({},"panel") }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+</div>
+</div>

@@ -1,0 +1,18 @@
+{% trans_default_domain "Test" %}
+<div type="text/ng-template" id="r_documentation_generation_help.html">
+    <div class="modal-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'completion.documentation.help.title'|trans }}</div>
+            <div class="panel-body">
+                <p>{{ 'completion.documentation.help.intro'|trans }}</p>
+                <p>{{ 'completion.documentation.help.info.directory'|trans }}</p>
+                <pre class="console">{% if is_win %}C:\\&gt;{% else %}bash$ {% endif %}cd {{root_dir}}</pre>
+                <p>{{ 'completion.documentation.help.info.console'|trans }} <a href="http://symfony.com/doc/current/cookbook/console/usage.html" target="_blank">({{ 'completion.documentation.help.info.console.more'|trans }})</a></p>
+                <pre class="console">{% if is_win %}C:\\&gt;{% else %}bash$ {% endif %}php console concerto:r:cache</pre>
+                <p>{{ 'completion.documentation.help.info.output'|trans }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">{{ 'form.button.ok'|trans({},"panel") }}</button>
+    </div>

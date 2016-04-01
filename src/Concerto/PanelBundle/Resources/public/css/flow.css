@@ -1,0 +1,124 @@
+#flowContainerScroll {
+    margin-top: 25px;
+    width: 100%;
+    height: 819px;
+    overflow: hidden;
+}
+
+#flowContainer {
+    width: 30000px;
+    height: 30000px;
+    position: relative;
+    background-color: #FBFBFB;
+}
+
+.node {
+    width: 250px;
+    height: 100px;
+    border: 1px solid black;
+    position: absolute;
+    background-color: white;
+    z-index: 5;
+}
+
+.nodeHeader {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+    border-bottom: solid grey 1px;
+}
+.nodeFooter {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 3px;
+}
+
+.nodeStart {
+}
+
+.nodeEnd {
+}
+
+.portLabel{
+    font-size: small;
+    width: 100px; 
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.portLabelIn {
+
+}
+
+.portLabelInput {
+    cursor: pointer;
+}
+
+.portLabelBranch {
+    text-align: right;
+}
+
+.portLabelReturn {
+    text-align: right;
+}
+
+.portLabelInputString{
+    text-decoration: underline;
+}
+
+.portValueDefault {
+    color: #86F40B;
+}
+
+.connectionLabel {
+    font-size: small;
+    width: 100px; 
+    text-align: center;
+}
+
+.glyphInteractable {
+    cursor: pointer;
+}
+
+.ctx-menu {
+    z-index: 9;
+    position: fixed;
+}
+
+.ctx-menu-ul {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ctx-element {
+    padding-left: 10px;
+    padding-right: 10px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.ctx-action {
+}
+
+.ctx-action-active {
+    cursor: pointer;
+}
+
+.ctx-action-inactive {
+    color: #d7d8d7;
+}
+
+.ctx-action-active:hover {
+    background-color: #FBFBFB;
+}
+
+._jsPlumb_connector { z-index:4; }
+._jsPlumb_endpoint { z-index:7; }
+._jsPlumb_overlay { z-index:8; }
+._jsPlumb_hover._jsPlumb_connector { z-index: 6; }

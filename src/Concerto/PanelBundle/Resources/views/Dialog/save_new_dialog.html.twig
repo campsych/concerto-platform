@@ -1,0 +1,16 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="save_new_dialog.html">
+    {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+        {% trans_default_domain "panel" %}
+        {% block legend %}{{ 'save_new.dialog.title'|trans }}{% endblock %}
+        {% block legend_tooltip %}{{ 'save_new.fieldset.legend.tooltip'|trans }}{% endblock %}
+
+        {% block control %}
+            <input type="text" style="width:100%;" ng-model="name" />
+        {% endblock %}
+    {% endembed %}
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="save()">{{ 'form.button.save'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+    </div>
+</div>

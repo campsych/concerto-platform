@@ -1,0 +1,209 @@
+breadcrumb:
+    list: Wszystkie wizardy
+
+form:
+  title:
+    add: Tworzenie nowego kreatora testu
+    edit: 'Edycja kreatora testu #{0}'
+  field:
+    name: Nazwa
+    name.tooltip: Nazwa kreatora testu
+    accessibility: Dostępność
+    accessibility.tooltip: Poziom dostępności kreatora testu
+    protected: Chronione
+    protected.tooltip: Czy kreator testu jest chroniony?
+    archived: Zarchiwizowane
+    archived.tooltip: Czy kreator testu jest zarchiwizowany?
+    test: Test
+    test.tooltip: Test przypisany do wizard\'a. Nie może być później zmieniony.
+    owner: Właściciel
+    owner.tooltip: Właściciel obiektu
+    groups: Grupy
+    groups.tooltip: Lista grup, oddzielonych przecinkiem, do których należy obiekt
+    
+list: 
+  field:
+    name: Nazwa
+    test: Test
+    
+step:
+    fieldset:
+        legend: Kroki wizarda testu
+        legend.tooltip: Deklaracja kroków wizarda testu
+    form:
+        fieldset:
+            legend: Właściwości kroku wizarda testu
+            legend.tooltip: Wprowadź właściwości kroku wizarda testu
+        field:
+            title: Tytuł
+            title.tooltip: Tytuł kroku wizarda testu
+            description: Opis
+            description.tooltip: Opis kroku wizarda testu
+            order: Kolejność
+            order.tooltip: Kolejność kroku wizarda testu
+    list:
+        button: 
+            add: Dodaj nowy krok
+            delete.all: Usuń wszystkie kroki
+            delete.checked: Usuń wybrane kroki
+            delete: Usuń
+            edit: Edytuj
+        field:
+            id: Id
+            info: Info
+            title: Tytuł
+            order: Kolejność
+    dialog:
+        title:
+            add: Dodawanie nowego kroku wizarda testu
+            edit: Edycja kroku wizarda testu
+            delete: Usuwanie kroku wizarda testu
+            clear: Usuwanie wszystkich kroków wizarda testu
+        message:
+            delete.confirm: Jesteś pewien, że chcesz usunąć wybrany krok wizarda testu?
+            clear.confirm: Jesteś pewien, że chcesz usunąć wszystkie kroki wizarda testu?
+            
+param:
+    move_up.tooltip: Przesuń parametr do góry
+    move_down.tooltip: Przesuń parametr na dół
+    fieldset:
+        legend: Parametry wizarda testu
+        legend.tooltip: Deklaracja parametrów wizarda testu
+    form:
+        fieldset:
+            legend: Właściwości parametru wizarda testu
+            legend.tooltip: Wprowadź właściwości parametru wizarda testu
+        field:
+            label: Nazwa
+            label.tooltip: Nazwa parametru wizarda testu
+            description: Opis
+            description.tooltip: Opis parametru wizarda testu
+            url: Ustawialne poprzez parametr URL
+            url.tooltip: Zaznacz jeśli wartość parametru może zostać ustawiona poprzez parametr URL
+            order: Kolejność
+            order.tooltip: Indeks kolejności parametru w kroku kreatora
+            variable: Zmienna testu
+            variable.tooltip: Parametr testu
+            step: Krok wizardu
+            step.tooltip: Wybierz krok wizardu testu dla tego parametru
+            definition: Definicja
+            definition.tooltip: Definicja parametru
+            definition.icon.tooltip: Ustaw definicję parametru
+            type: Typ
+            type.tooltip: Typ parametru wizarda testu
+            type.single_line_text: tekst w pojedyńczej linii
+            type.multi_line_text: tekst w wielu liniach
+            type.html: HTML
+            type.select: Rozwijana lista
+            type.view: Szablon widoku
+            type.test: Test
+            type.table: Tabela danych
+            type.column: Kolumna tabeli danych
+            type.column.def: Parametr tabeli danych
+            type.column.def.tooltip: Wybierz parametr tabeli danych, który wyznaczy tabelę gdzie należy szukać kolumn
+            type.checkbox: Logiczny
+            type.group: Grupa
+            type.list: Lista
+            value: Domyślna wartość
+            value.tooltip: Domyślna wartość parametru
+            hide_condition: Warunek ukrycia
+            hide_condition.tooltip: 'Warunek ukrycia. Używa składni javascript. Obecny obiekt kolekcji wartości parametrów to: <strong>values</strong>. Aby użyć parametr nadrzędny do obecnego parametru, użyj <strong>parent</strong>. Przykład: <strong>values.param1.subparam3 != "1"</strong>'
+            setter.icon.tooltip: Uruchom dialog ustawiający wartość
+    list:
+        button: 
+            add: Dodaj nowy parametr
+            delete.all: Usuń wszystkie parametry
+            delete.checked: Usuń wybrane parametry
+            delete: Usuń
+            edit: Edytuj
+        field:
+            id: Id
+            info: Info
+            label: Nazwa
+            step: Krok
+            variable: Parametr testu
+            type: Typ
+            order: Kolejność
+    dialog:
+        title:
+            add: Dodawanie nowego parametru wizarda testu
+            edit: Edycja parametru wizarda testu
+            delete: Usuwanie parametru wizarda testu
+            clear: Usuwanie wszystkich parametrów wizarda testu
+        message:
+            delete.confirm: Jesteś pewien, że chcesz usunąć wybrany parametr wizarda testu?
+            clear.confirm: Jesteś pewien, że chcesz usunąć wszystkie parametry wizarda testu?
+    definer:
+        titles:
+            select: "{0} - zdefiniuj możliwe opcje wyboru"
+            select.tooltip: Ustaw opcje wyboru obecnego parametru
+            group: "{0} - zdefiniuj pola grupy"
+            group.tooltip: Ustaw pola grupy obecnego parameteru
+            list: "{0} - zdefiniuj typ elementu listy"
+            list.tooltip: Ustaw type elementu listy obecnego parametru
+        summaries:
+            select: "Ilość opcji: {0}"
+            group: "Ilość pól: {0}"
+            list: "Typ elementów: {0}"
+        select.option.add: Dodaj nową opcję
+        select.option.remove.selected: Usuń wybrane opcje
+        select.option.remove.all: Usuń wszystkie opcje
+        select.list.field.order: Kolejność
+        select.list.field.label: Etykieta
+        select.list.field.value: Wartość
+        select.list.button.delete: Usuń
+        group.field.add: Dodaj nowe pole
+        group.field.remove.selected: Usuń wybrane pola
+        group.field.remove.all: Usuń wszystkie pola
+        group.field.move_up.tooltip: Przesuń pole do góry
+        group.field.move_down.tooltip: Przesuń pole w dół
+        group.list.field.name: Nazwa
+        group.list.field.label: Etykieta
+        group.list.field.type: Typ
+        group.list.field.hide_condition: Warunek ukrycia
+        group.list.field.definition: Definicja
+        group.list.field.order: Kolejność
+        group.list.button.delete: Usuń
+    setter:
+        titles:
+            textarea: "{0} - wieloliniowy tekst"
+            textarea.tooltip: Ustaw wartość tekstową obecnego parametru
+            html: "{0} - HTML"
+            html.tooltip: Ustaw wartość HTML obecnego parametru
+            column: kolumna tabeli danych
+            column.tooltip: Ustaw kolumnę tabeli danych obecnego parametru
+            group: pola grupy
+            group.tooltip: Ustaw wartości pól grupy obecnego parametru
+            list: elementy listy
+            list.tooltip: Ustaw elementy listy obecnego parametru
+        summaries:
+            textarea: "{0}"
+            html: "{0}"
+            column: "Tabela: {0}, Kolumna: {1}"
+            group: "{0}"
+            list: "Ilość elementów: {0}"
+        column.table: Tabela danych
+        column.table.tooltip: Wybierz tabelę danych z której później będzie można wybrać kolumnę
+        column: Kolumna
+        column.tooltip: Wybierz kolumnę z tabeli danych
+        list.element.add: Dodaj nowy element
+        list.element.remove.selected: Usuń wybrane elementy
+        list.element.remove.all: Usuń wszystkie elementy
+        list.element.move_up.tooltip: Przesuń element do góry
+        list.element.move_down.tooltip: Przesuń element na dół
+        list.element.remove: Usuń
+        list.column.element: Element
+            
+preview:
+    fieldset:
+        legend: Podgląd wizarda testu
+        legend.tooltip: Podgląd wizarda testu. Można zmienić kolejność parametrów w danym kroku.
+    buttons:
+        next: Następny krok
+        previous: Poprzedni krok
+        finish: Zakończ
+        
+alerts:
+    edit:
+        steps: Proszę zapisać wszelkie zmiany dokonane w kreatorze testu przed dodaniem/edycją/usunięciem jakiegokolwiek kroku aby zapobiec utracie niezapisanych zmian.
+        params: Proszę zapisać wszelkie zmiany dokonane w kreatorze testu przed dodaniem/edycją/usunięciem jakiegokolwiek parametru aby zapobiec utracie niezapisanych zmian.

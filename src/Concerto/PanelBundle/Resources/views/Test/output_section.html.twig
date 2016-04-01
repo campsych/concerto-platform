@@ -1,0 +1,41 @@
+{% extends "::base_include.html.twig" %}
+{% set class_name = "Test" %}
+{% trans_default_domain class_name %}
+
+{% block content %}
+    <uib-alert type="warning">
+        {{ "alerts.edit.output"|trans }}
+    </uib-alert>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%;">
+                <div class="center">
+                    <h4 align="center">
+                        <i class="glyphicon glyphicon-question-sign" uib-tooltip-html="'{{ 'variables.output.returns.legend.tooltip'|trans }}'"></i>
+                        {{ 'variables.output.returns.legend'|trans }}
+                    </h4>
+                    <div class="divButtonContainer center">
+                        <button ng-disabled="object.initProtected == '1'" class="btn btn-success btn-sm" ng-click="addVariable(1)">{{ 'variables.output.returns.list.add'|trans }}</button>
+                        <button ng-disabled="object.initProtected == '1'" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(1)">{{ 'variables.output.returns.list.delete.checked'|trans }}</button>
+                        <button ng-click="gridService.downloadList(returnsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                    </div>
+                </div>
+                <div ui-grid="returnsOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>
+            </td>
+            <td style="width:50%;">
+                <div class="center">
+                    <h4 align="center">
+                        <i class="glyphicon glyphicon-question-sign" uib-tooltip-html="'{{ 'variables.output.branches.legend.tooltip'|trans }}'"></i>
+                        {{ 'variables.output.branches.legend'|trans }}
+                    </h4>
+                    <div class="divButtonContainer center">
+                        <button ng-disabled="object.initProtected == '1'" class="btn btn-success btn-sm" ng-click="addVariable(2)">{{ 'variables.output.branches.list.add'|trans }}</button>
+                        <button ng-disabled="object.initProtected == '1'" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(2)">{{ 'variables.output.branches.list.delete.checked'|trans }}</button>
+                        <button ng-click="gridService.downloadList(branchesGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                    </div>
+                </div>
+                <div ui-grid="branchesOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

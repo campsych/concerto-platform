@@ -1,0 +1,15 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="confirmation_dialog.html">
+<div class="modal-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">{%verbatim%}{{title}}{%endverbatim%}</div>
+      <div class="panel-body">
+        <uib-alert type="warning">{%verbatim%}{{content}}{%endverbatim%}</uib-alert>
+      </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="ok()">{{ 'form.button.yes'|trans }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.no'|trans }}</button>
+</div>
+</div>

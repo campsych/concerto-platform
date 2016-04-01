@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheetsInclude %}
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap.min.css?v=' ~ version) }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap-theme.min.css?v=' ~ version) }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-block-ui/dist/angular-block-ui.css?v=' ~ version) }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/helper.css?v=' ~ version) }}" />
+{% endblock %}
+
+{% block javascriptsInclude %}
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/common/js/misc/helpers.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/jquery/dist/jquery.min.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/jquery.metadata/jquery.metadata.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/jquery.migrate/jquery-migrate-1.2.1.min.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/jquery-ui/jquery-ui.min.js?v=' ~ version) }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular/angular.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-sanitize/angular-sanitize.js?v=' ~ version) }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-bootstrap/ui-bootstrap.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-bootstrap/ui-bootstrap-tpls.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-block-ui/dist/angular-block-ui.js?v=' ~ version) }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/home/js/app.js?v=' ~ version) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/home/js/controllers/home_controller.js?v=' ~ version) }}"></script>
+{% endblock %}

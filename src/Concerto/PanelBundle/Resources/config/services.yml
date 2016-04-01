@@ -1,0 +1,287 @@
+parameters:
+#    concerto_panel.example.class: Concerto\PanelBundle\Example
+
+services:
+#    concerto_panel.example:
+#        class: %concerto_panel.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+  concerto_panel.locale_subscriber:
+    class: Concerto\PanelBundle\EventSubscriber\LocaleSubscriber
+    arguments: ["%kernel.default_locale%"]
+    tags:
+      - { name: kernel.event_subscriber }          
+      
+  concerto_panel.entity_subscriber:
+    class: Concerto\PanelBundle\EventSubscriber\EntitySubscriber
+    tags:
+      - { name: doctrine.event_subscriber }       
+            
+#   DataTable
+  concerto_panel.DataTable_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\DataTable"]
+  concerto_panel.DataTable_repository:
+    class: Concerto\PanelBundle\Repository\DataTableRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.DataTable_metadata"]
+  concerto_panel.db_structure_dao:
+    class: Concerto\PanelBundle\DAO\DBStructureDAO
+    arguments: ["@database_connection"]
+  concerto_panel.db_data_dao:
+    class: Concerto\PanelBundle\DAO\DBDataDAO
+    arguments: ["@database_connection"]
+  concerto_panel.db_structure_service:
+    class: Concerto\PanelBundle\Service\DBStructureService
+    arguments: ["@concerto_panel.db_structure_dao"]
+  concerto_panel.DataTable_service:
+    class: Concerto\PanelBundle\Service\DataTableService
+    arguments: ["@concerto_panel.DataTable_repository","@validator","@concerto_panel.db_structure_service","@concerto_panel.db_data_dao", "@security.authorization_checker"] 
+    
+#   Panel
+  concerto_panel.panel_service:
+    class: Concerto\PanelBundle\Service\PanelService
+    
+#   Home
+  concerto_panel.home_service:
+    class: Concerto\PanelBundle\Service\HomeService
+    arguments: ["@concerto_panel.Test_repository"]
+    
+#   File
+  concerto_panel.file_service:
+    class: Concerto\PanelBundle\Service\FileService
+    arguments: ["%kernel.environment%"]
+    
+#   Test
+  concerto_panel.Test_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\Test"]
+  concerto_panel.Test_repository:
+    class: Concerto\PanelBundle\Repository\TestRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.Test_metadata"]
+  concerto_panel.Test_service:
+    class: Concerto\PanelBundle\Service\TestService
+    arguments: ["@concerto_panel.Test_repository","@validator","@security.secure_random","@slugify","@concerto_panel.TestVariable_service","@concerto_panel.TestWizard_repository","@concerto_panel.TestNode_service","@concerto_panel.TestNodeConnection_service","@concerto_panel.TestNodePort_service","@security.authorization_checker"] 
+    
+#   TestNode
+  concerto_panel.TestNode_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestNode"]
+  concerto_panel.TestNode_repository:
+    class: Concerto\PanelBundle\Repository\TestNodeRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestNode_metadata"]
+  concerto_panel.TestNode_service:
+    class: Concerto\PanelBundle\Service\TestNodeService
+    arguments: ["@concerto_panel.TestNode_repository","@validator","@concerto_panel.TestNodePort_service","@concerto_panel.TestVariable_service","@concerto_panel.Test_repository", "@security.authorization_checker"]
+    
+#   TestNodePort
+  concerto_panel.TestNodePort_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestNodePort"]
+  concerto_panel.TestNodePort_repository:
+    class: Concerto\PanelBundle\Repository\TestNodePortRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestNodePort_metadata"]
+  concerto_panel.TestNodePort_service:
+    class: Concerto\PanelBundle\Service\TestNodePortService
+    arguments: ["@concerto_panel.TestNodePort_repository","@validator","@concerto_panel.TestVariable_repository","@concerto_panel.TestNode_repository", "@security.authorization_checker"]
+    
+#   TestNodeConnection
+  concerto_panel.TestNodeConnection_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestNodeConnection"]
+  concerto_panel.TestNodeConnection_repository:
+    class: Concerto\PanelBundle\Repository\TestNodeConnectionRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestNodeConnection_metadata"]
+  concerto_panel.TestNodeConnection_service:
+    class: Concerto\PanelBundle\Service\TestNodeConnectionService
+    arguments: ["@concerto_panel.TestNodeConnection_repository","@validator","@concerto_panel.Test_repository","@concerto_panel.TestNode_repository","@concerto_panel.TestNodePort_repository", "@security.authorization_checker"]
+    
+#   TestWizard
+  concerto_panel.TestWizard_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestWizard"]
+  concerto_panel.TestWizard_repository:
+    class: Concerto\PanelBundle\Repository\TestWizardRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestWizard_metadata"]
+  concerto_panel.TestWizard_service:
+    class: Concerto\PanelBundle\Service\TestWizardService
+    arguments: ["@concerto_panel.TestWizard_repository","@validator","@concerto_panel.Test_service","@concerto_panel.TestWizardParam_service", "@security.authorization_checker"] 
+    
+#   TestWizardStep
+  concerto_panel.TestWizardStep_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestWizardStep"]
+  concerto_panel.TestWizardStep_repository:
+    class: Concerto\PanelBundle\Repository\TestWizardStepRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestWizardStep_metadata"]
+  concerto_panel.TestWizardStep_service:
+    class: Concerto\PanelBundle\Service\TestWizardStepService
+    arguments: ["@concerto_panel.TestWizardStep_repository","@validator","@concerto_panel.TestWizard_repository", "@security.authorization_checker"]
+    
+#   TestWizardParam
+  concerto_panel.TestWizardParam_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestWizardParam"]
+  concerto_panel.TestWizardParam_repository:
+    class: Concerto\PanelBundle\Repository\TestWizardParamRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestWizardParam_metadata"]
+  concerto_panel.TestWizardParam_service:
+    class: Concerto\PanelBundle\Service\TestWizardParamService
+    arguments: ["@concerto_panel.TestWizardParam_repository","@validator","@concerto_panel.TestVariable_repository","@concerto_panel.TestWizard_repository","@concerto_panel.TestWizardStep_repository", "@security.authorization_checker"]
+    
+#   TestSessionLog
+  concerto_panel.TestSessionLog_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestSessionLog"]
+  concerto_panel.TestSessionLog_repository:
+    class: Concerto\PanelBundle\Repository\TestSessionLogRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestSessionLog_metadata"]
+  concerto_panel.TestSessionLog_service:
+    class: Concerto\PanelBundle\Service\TestSessionLogService
+    arguments: ["@concerto_panel.TestSessionLog_repository", "@concerto_panel.Test_service", "@security.authorization_checker"]
+    
+#   TestVariable
+  concerto_panel.TestVariable_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestVariable"]
+  concerto_panel.TestVariable_repository:
+    class: Concerto\PanelBundle\Repository\TestVariableRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestVariable_metadata"]
+  concerto_panel.TestVariable_service:
+    class: Concerto\PanelBundle\Service\TestVariableService
+    arguments: ["@concerto_panel.TestVariable_repository","@validator", "@concerto_panel.TestNodePort_service", "@concerto_panel.Test_repository", "@security.authorization_checker"]
+ 
+#   Role
+  concerto_panel.Role_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\Role"]
+  concerto_panel.Role_repository:
+    class: Concerto\PanelBundle\Repository\RoleRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.Role_metadata"]  
+    
+#   User
+  concerto_panel.User_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\User"]
+  concerto_panel.User_repository:
+    class: Concerto\PanelBundle\Repository\UserRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.User_metadata"]
+  concerto_panel.User_service:
+    class: Concerto\PanelBundle\Service\UserService
+    arguments: ["@concerto_panel.User_repository","@concerto_panel.Role_repository","@validator","@security.encoder_factory", "@security.authorization_checker", "%uio%", "@concerto_panel.import_service"]
+    
+#   ViewTemplate
+  concerto_panel.ViewTemplate_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\ViewTemplate"]
+  concerto_panel.ViewTemplate_repository:
+    class: Concerto\PanelBundle\Repository\ViewTemplateRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.ViewTemplate_metadata"]
+  concerto_panel.ViewTemplate_service:
+    class: Concerto\PanelBundle\Service\ViewTemplateService
+    arguments: ["@concerto_panel.ViewTemplate_repository","@validator", "@security.authorization_checker"] 
+    
+#   TestSession
+  concerto_panel.TestSession_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetaData
+    arguments: ["Concerto\\PanelBundle\\Entity\\TestSession"]
+  concerto_panel.TestSession_repository:
+    class: Concerto\PanelBundle\Repository\TestSessionRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestSession_metadata"]
+  concerto_panel.TestSession_service:
+    class: Concerto\PanelBundle\Service\TestSessionService
+    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%nodes%","%secret%","@logger", "@concerto_test.r_runner_service"]
+    
+#   ImportService
+  concerto_panel.import_service:
+      class: Concerto\PanelBundle\Service\ImportService
+      arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.Test_service", "@concerto_panel.TestNode_service", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.TestVariable_service", "@concerto_panel.TestWizard_service", "@concerto_panel.TestWizardStep_service", "@concerto_panel.TestWizardParam_service", "@concerto_panel.ViewTemplate_service"]
+    
+#   RDataCacheService
+  concerto_panel.r_data_cache_service:
+    class: Concerto\PanelBundle\Service\RDataCacheService
+    
+#   Configuration verifier service
+  concerto_panel.system_check_service:
+    class: Concerto\PanelBundle\Service\SystemCheckService
+    
+#   Controllers
+  concerto_panel.DataTable_controller:
+    class: Concerto\PanelBundle\Controller\DataTableController
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.DataTable_service","@request","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    scope: request
+  concerto_panel.panel_controller:
+    class: Concerto\PanelBundle\Controller\PanelController
+    arguments: ["@templating","@concerto_panel.panel_service","@concerto_panel.file_service","@request"]
+    scope: request
+  concerto_panel.home_controller:
+    class: Concerto\PanelBundle\Controller\HomeController
+    arguments: ["@templating","@concerto_panel.home_service","@request"]
+    scope: request
+  concerto_panel.Test_controller:
+    class: Concerto\PanelBundle\Controller\TestController
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.Test_service","@request","@translator","@security.token_storage","@concerto_panel.TestWizard_service", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    scope: request
+  concerto_panel.TestNode_controller:
+    class: Concerto\PanelBundle\Controller\TestNodeController
+    arguments: ["@templating","@concerto_panel.TestNode_service","@concerto_panel.Test_service","@request","@translator","@security.token_storage"]
+    scope: request
+  concerto_panel.TestNodeConnection_controller:
+    class: Concerto\PanelBundle\Controller\TestNodeConnectionController
+    arguments: ["@templating","@concerto_panel.Test_service","@concerto_panel.TestNodeConnection_service","@concerto_panel.TestNode_service","@concerto_panel.TestNodePort_service","@request","@translator","@security.token_storage"]
+    scope: request
+  concerto_panel.TestNodePort_controller:
+    class: Concerto\PanelBundle\Controller\TestNodePortController
+    arguments: ["@templating","@concerto_panel.TestNodePort_service","@concerto_panel.TestNode_service","@concerto_panel.TestVariable_service","@request","@translator","@security.token_storage"]
+    scope: request
+  concerto_panel.TestWizard_controller:
+    class: Concerto\PanelBundle\Controller\TestWizardController
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.TestWizard_service","@request","@translator","@security.token_storage","@concerto_panel.Test_service", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    scope: request
+  concerto_panel.TestWizardStep_controller:
+    class: Concerto\PanelBundle\Controller\TestWizardStepController
+    arguments: ["@templating","@concerto_panel.TestWizardStep_service","@request","@translator","@concerto_panel.TestWizard_service","@security.token_storage"]
+    scope: request
+  concerto_panel.TestWizardParam_controller:
+    class: Concerto\PanelBundle\Controller\TestWizardParamController
+    arguments: ["@templating","@concerto_panel.TestWizardParam_service","@request","@translator","@concerto_panel.TestVariable_service","@concerto_panel.TestWizardStep_service","@concerto_panel.TestWizard_service","@security.token_storage"]
+    scope: request
+  concerto_panel.TestSession_controller:
+    class: Concerto\PanelBundle\Controller\TestSessionController
+    arguments: ["@templating","@concerto_panel.TestSession_service","@request","@translator"]
+    scope: request
+  concerto_panel.TestSessionLog_controller:
+    class: Concerto\PanelBundle\Controller\TestSessionLogController
+    arguments: ["@templating","@concerto_panel.TestSessionLog_service","@request","@translator","@security.token_storage"]
+    scope: request
+  concerto_panel.TestVariable_controller:
+    class: Concerto\PanelBundle\Controller\TestVariableController
+    arguments: ["@templating","@concerto_panel.TestVariable_service","@request","@translator","@concerto_panel.Test_service","@security.token_storage"]
+    scope: request
+  concerto_panel.User_controller:
+    class: Concerto\PanelBundle\Controller\UserController
+    arguments: ["@templating","@concerto_panel.User_service","@request","@translator","@security.token_storage"]
+    scope: request
+  concerto_panel.ViewTemplate_controller:
+    class: Concerto\PanelBundle\Controller\ViewTemplateController
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.ViewTemplate_service","@request","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    scope: request
+  concerto_panel.FileBrowser_controller:
+    class: Concerto\PanelBundle\Controller\FileBrowserController
+    arguments: ["@templating","@concerto_panel.panel_service","@concerto_panel.file_service","@request"]
+    scope: request
+  concerto_panel.Dialog_controller:
+    class: Concerto\PanelBundle\Controller\DialogController
+    arguments: ["@templating","@concerto_panel.panel_service","@request","%kernel.root_dir%"]
+    scope: request
+    
+#security
+
+  security.access.object_voter:
+    class:      Concerto\PanelBundle\Security\ObjectVoter
+    public:     false
+    tags:
+      - { name: security.voter }
+  security.access.user_voter:
+    class:      Concerto\PanelBundle\Security\UserVoter
+    public:     false
+    tags:
+      - { name: security.voter }

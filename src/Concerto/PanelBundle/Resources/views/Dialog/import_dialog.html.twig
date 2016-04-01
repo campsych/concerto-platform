@@ -1,0 +1,38 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="import_dialog.html">
+    <div class="modal-body" nv-file-drop="" uploader="uploader">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+    {% trans_default_domain "panel" %}
+    {% block legend %}{{ 'import.dialog.title'|trans }}{% endblock %}
+    {% block legend_tooltip %}{{ 'import.fieldset.legend.tooltip'|trans }}{% endblock %}
+    {% block description %}
+        <uib-alert type="warning">{{ "import.dialog.description"|trans|raw }}</uib-alert>
+    {% endblock %}
+    {% block elements %}
+        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+            {% trans_default_domain "panel" %}
+            {% block label %}{{ 'import.form.field.name'|trans }}{% endblock%}
+            {% block tooltip %}{{ 'import.form.field.name.tooltip'|trans }}{% endblock%}
+            {% block control %}
+                <input type="text" style="width:100%;" ng-model="name" />
+            {% endblock %}
+        {% endembed %}
+
+        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+            {% trans_default_domain "panel" %}
+            {% block label %}{{ 'import.form.field.file'|trans }}{% endblock%}
+            {% block tooltip %}{{ 'import.form.field.file.tooltip'|trans }}{% endblock%}
+            {% block control %}
+                    <input type="file" nv-file-select uploader="uploader" ng-show="item==null && !uploader.isUploading" /></span>
+                    <uib-progressbar class="progress-striped active" value="progress" ng-show="item==null && uploader.isUploading"></uib-progressbar>
+                    <span ng-show="item!=null">{%verbatim%}{{item.file.name}}{%endverbatim%}</span>
+            {% endblock %}
+        {% endembed %}
+    {% endblock %}
+    {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="save()" ng-show="item!=null">{{ 'form.button.save'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+    </div>
+</div>

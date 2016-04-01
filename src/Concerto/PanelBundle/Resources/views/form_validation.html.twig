@@ -1,0 +1,17 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    <uib-alert type="danger" ng-if="object.validationErrors.length > 0">
+        <h3>{{ 'form.validation.failed'|trans }}</h3>
+            <ul>
+            <li ng-repeat="error in object.validationErrors">{%verbatim%}{{error}}{%endverbatim%}</li>
+            </ul>
+    </uib-alert>
+    <uib-alert type="danger" ng-if="object.systemErrors.length > 0">
+        <h3>{{ 'errors.title'|trans({},"messages") }}</h3>
+            <ul>
+            <li ng-repeat="error in object.systemErrors">{%verbatim%}{{error}}{%endverbatim%}</li>
+            </ul>
+    </uib-alert>
+    {% endblock %}

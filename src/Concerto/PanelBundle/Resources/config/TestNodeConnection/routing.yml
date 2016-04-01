@@ -1,0 +1,21 @@
+TestNodeConnection_object:
+    path: /TestNodeConnection/fetch/{object_id}/{format}
+    defaults: { _controller: concerto_panel.TestNodeConnection_controller:objectAction, format: json }
+    
+TestNodeConnection_collection:
+    path: /TestNodeConnection/collection/{format}
+    defaults: { _controller: concerto_panel.TestNodeConnection_controller:collectionAction, format: json }
+
+TestNodeConnection_collection_by_flow_test:
+    path: /TestNodeConnection/flow/{test_id}/collection
+    defaults: { _controller: concerto_panel.TestNodeConnection_controller:collectionByFlowTestAction }
+    
+TestNodeConnection_delete:
+    path: /TestNodeConnection/{object_ids}/delete
+    defaults: { _controller: concerto_panel.TestNodeConnection_controller:deleteAction }
+    methods:  [POST]
+    
+TestNodeConnection_save:
+    path: /TestNodeConnection/{object_id}/save
+    defaults: { _controller: concerto_panel.TestNodeConnection_controller:saveAction }
+    methods:  [POST]

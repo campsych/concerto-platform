@@ -1,0 +1,28 @@
+.CodeMirror-fullscreen {
+    display: block;
+    position: fixed !important;
+    top: 0; left: 0;
+    z-index: 9999;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+
+.modal-prc-lg {
+    width: 90%;
+}
+
+.clickable {
+    cursor: pointer;
+}

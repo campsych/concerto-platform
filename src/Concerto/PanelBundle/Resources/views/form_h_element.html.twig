@@ -1,0 +1,20 @@
+{% extends "::base_include.html.twig" %}
+
+{% block content %}
+    {% block div %}<div class="horizontalElement center">{% endblock %}
+        <table style="width:90%;" >
+            <tr>
+                <td class="formLabel" align="left">{% block label %}{% endblock %}</td>
+                <td class="formControl" align="center">
+                    <div class="formInnerControl">
+                    {% block control %}{% endblock %}
+                </div>
+            <td class="formInfo">
+                <i class="glyphicon glyphicon-question-sign" uib-tooltip-html="'{% block tooltip %}{% endblock %}'"></i>
+            {% block extra_info %}{% endblock %}
+        </td>
+        </td>
+    </tr>
+</table>
+</div>
+{% endblock %}

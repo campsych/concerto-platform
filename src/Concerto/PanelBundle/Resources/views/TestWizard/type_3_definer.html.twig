@@ -1,0 +1,22 @@
+<script type="text/ng-template" id="type_3_definer.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block definition %}
+            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.definer.titles.select.tooltip'|trans }}{% endblock %}
+                {% block control %}
+                    <div class="center">
+                        <button class="btn btn-success btn-sm" ng-click="addOption()">{{ 'param.definer.select.option.add'|trans }}</button>
+                        <button class="btn btn-danger btn-sm" ng-click="deleteSelectedOptions()">{{ 'param.definer.select.option.remove.selected'|trans }}</button>
+                        <button class="btn btn-danger btn-sm" ng-click="deleteAllOptions()">{{ 'param.definer.select.option.remove.all'|trans }}</button>
+                        <button ng-click="gridService.downloadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                        <button ng-click="gridService.uploadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                    </div>
+                    <div ui-grid="selectOptions" ui-grid-edit ui-grid-row-edit ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-importer ui-grid-selection ui-grid-move-columns class="grid"></div>
+                {% endblock %}
+            {% endembed %}            
+        {% endblock %}
+    {% endembed %}
+</script>

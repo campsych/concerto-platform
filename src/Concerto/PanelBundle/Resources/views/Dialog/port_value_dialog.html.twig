@@ -1,0 +1,18 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="port_value_dialog.html">
+    <div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+        {% trans_default_domain "panel" %}
+        {% block legend %}{% verbatim %}{{ object.variableObject.name }}{% endverbatim %}{% endblock %}
+        {% block legend_tooltip %}{% verbatim %}{{object.variableObject.description}}{% endverbatim %}{% endblock %}
+        {% block control %}
+            <ui-codemirror ng-model="object.value" ui-codemirror-opts="codeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
+        {% endblock %}
+    {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans }}</button>
+        <button class="btn btn-danger" ng-click="reset()">{{ 'flow.buttons.reset_to_default'|trans({},"Test") }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+    </div>
+</div>

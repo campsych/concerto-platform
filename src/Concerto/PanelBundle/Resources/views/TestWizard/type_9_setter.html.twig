@@ -1,0 +1,22 @@
+<script type="text/ng-template" id="type_9_setter.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block setter %}
+            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.setter.titles.group.tooltip'|trans }}{% endblock %}
+                {% block control %}
+                    <div ng-repeat="field in param.definition.fields | orderBy: 'order' track by $index">
+                        <div ng-if="wizardMode == 'dev' && wizardObject.initProtected != '1'">
+                            <i ng-if="$index > 0" style="margin: 2px;" class="glyphicon glyphicon-arrow-up clickable" uib-tooltip="{{ 'param.definer.group.field.move_up.tooltip'|trans }}" tooltip-append-to-body="true" ng-click="moveFieldDown($index)"></i>
+                                {%verbatim%}#{{$index + 1}}{%endverbatim%}
+                            <i ng-if="$index < param.definition.fields.length - 1" style="margin: 2px;" class="glyphicon glyphicon-arrow-down clickable" uib-tooltip="{{ 'param.definer.group.field.move_down.tooltip'|trans }}" tooltip-append-to-body="true" ng-click="moveFieldUp($index)"></i>
+                        </div>
+                    <wizard-param-setter param="field" output="output[field.name]" mode="outer" values="values" parent="output" wizard-object="wizardObject" wizard-mode="{%verbatim%}{{wizardMode}}{%endverbatim%}"></wizard-param-setter>
+                 </div>
+                {% endblock %}
+            {% endembed %}    
+        {% endblock %}
+    {% endembed %}
+</script>

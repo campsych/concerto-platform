@@ -1,0 +1,346 @@
+{% trans_default_domain "panel" %}
+
+<script>
+    function Paths() {
+    }
+    function Trans() {
+    }
+
+    Paths.CSS_PANEL_BUNDLE_1 = "{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap.min.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_2 = "{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap-theme.min.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_3 = "{{ asset('bundles/concertopanel/angularjs/bower_components/angular-ui-grid/ui-grid.min.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_4 = "{{ asset('bundles/concertopanel/angularjs/bower_components/angular-block-ui/dist/angular-block-ui.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_5 = "{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/lib/codemirror.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_6 = "{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/display/fullscreen.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_7 = "{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/hint/show-hint.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_8 = "{{ asset('bundles/concertopanel/angularjs/bower_components/angular-wizard-concerto/dist/angular-wizard.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_9 = "{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/css/codemirror-auto-resize.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_10 = "{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/css/angular-wizard.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_11 = "{{ asset('bundles/concertopanel/css/base.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_12 = "{{ asset('bundles/concertopanel/css/helper.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_13 = "{{ asset('bundles/concertopanel/css/flow.css?v=' ~ version) }}";
+    Paths.CSS_PANEL_BUNDLE_14 = "{{ asset('bundles/concertopanel/css/file_manager.css?v=' ~ version) }}";
+        
+    Paths.CSS_TEST_BUNDLE_2 = "{{ asset('bundles/concertotest/angularjs/bower_components/bootstrap/dist/css/bootstrap.min.css?v=' ~ version) }}";
+    Paths.CSS_TEST_BUNDLE_3 = "{{ asset('bundles/concertotest/angularjs/bower_components/bootstrap/dist/css/bootstrap-theme.min.css?v=' ~ version) }}";
+        
+    Paths.LOGOUT = "{{ path("logout") }}";
+    Paths.LOCALE = "{{ path("locale_change", {'locale':"{0}"}) }}";
+    Paths.FILE_UPLOAD = "{{ path("FileBrowser_upload") }}";
+    Paths.BREADCRUMBS_TEMPLATE = "{{ path("breadcrumbs_template") }}";
+    Paths.FILE_UPLOAD_BROWSER = "{{ path("FileBrowser_browser") }}";
+    Paths.FILE_UPLOAD_DELETE = "{{ path("FileBrowser_delete",{'filename':"_"}) }}".slice(0, -1);
+    Paths.FILE_UPLOAD_LIST = "{{ path("FileBrowser_list") }}";
+    Paths.R_CACHE_DIRECTORY = "{{ asset('bundles/concertopanel/rcache/') }}";
+
+    Paths.TEST_WIZARD_COLLECTION = "{{ path("TestWizard_collection") }}";
+    Paths.TEST_WIZARD_DELETE = "{{ path("TestWizard_delete", {'object_ids':"{0}"}) }}";
+    Paths.TEST_WIZARD_ADD_FORM = "{{ path("TestWizard_form",{'action':"add"}) }}";
+    Paths.TEST_WIZARD_FETCH_OBJECT = "{{ path("TestWizard_object",{'object_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_SAVE = "{{ path("TestWizard_save",{'object_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_SAVE_NEW = "{{ path("TestWizard_copy",{'object_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_IMPORT = "{{ path("TestWizard_import") }}";
+    Paths.TEST_WIZARD_EXPORT = "{{ path("TestWizard_export",{'object_ids':"{0}"}) }}";
+    Paths.TEST_WIZARD_STEP_COLLECTION = "{{ path("TestWizardStep_collection_by_wizard", {'wizard_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_STEP_DELETE_ALL = "{{ path("TestWizardStep_clear",{'wizard_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_STEP_DELETE = "{{ path("TestWizardStep_delete",{'object_ids':"{0}"}) }}";
+    Paths.TEST_WIZARD_STEP_SAVE = "{{ path("TestWizardStep_save", {"object_id":"{0}"}) }}";
+    Paths.TEST_WIZARD_STEP_FETCH_OBJECT = "{{ path("TestWizardStep_object",{'object_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_PARAM_COLLECTION = "{{ path("TestWizardParam_collection_by_wizard", {'wizard_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_PARAM_TYPE_COLLECTION = "{{ path("TestWizardParam_collection_by_wizard_and_type", {'wizard_id':"{0}", 'type':"{1}"}) }}";
+    Paths.TEST_WIZARD_PARAM_DELETE_ALL = "{{ path("TestWizardParam_clear",{'wizard_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_PARAM_DELETE = "{{ path("TestWizardParam_delete",{'object_ids':"{0}"}) }}";
+    Paths.TEST_WIZARD_PARAM_SAVE = "{{ path("TestWizardParam_save", {"object_id":"{0}"}) }}";
+    Paths.TEST_WIZARD_PARAM_FETCH_OBJECT = "{{ path("TestWizardParam_object",{'object_id':"{0}"}) }}";
+    
+    Paths.TEST_FLOW_NODE_COLLECTION = "{{ path("TestNode_collection_by_flow_test", {'test_id':"{0}"}) }}";
+    Paths.TEST_FLOW_NODE_SAVE = "{{ path("TestNode_save", {"object_id":"{0}"}) }}";
+    Paths.TEST_FLOW_NODE_ADD_COLLECTION = "{{ path("Test_add_node", {"object_id":"{0}"}) }}";
+    Paths.TEST_FLOW_NODE_DELETE = "{{ path("TestNode_delete", {"object_ids":"{0}"}) }}";
+    Paths.TEST_FLOW_NODE_DELETE_COLLECTION = "{{ path("Test_remove_node", {"node_id":"{0}"}) }}";
+    Paths.TEST_FLOW_CONNECTION_COLLECTION = "{{ path("TestNodeConnection_collection_by_flow_test", {'test_id':"{0}"}) }}";
+    Paths.TEST_FLOW_CONNECTION_SAVE = "{{ path("TestNodeConnection_save", {"object_id":"{0}"}) }}";
+    Paths.TEST_FLOW_CONNECTION_ADD_COLLECTION = "{{ path("Test_add_connection", {"object_id":"{0}"}) }}";
+    Paths.TEST_FLOW_CONNECTION_DELETE = "{{ path("TestNodeConnection_delete", {"object_ids":"{0}"}) }}";
+    Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION = "{{ path("Test_remove_connection", {"connection_id":"{0}"}) }}";
+    Paths.TEST_FLOW_PORT_SAVE = "{{ path("TestNodePort_save", {"object_id":"{0}"}) }}";
+    Paths.TEST_FLOW_PORT_SAVE_COLLECTION = "{{ path("TestNodePort_save_collection") }}";
+
+    Paths.TEST_COLLECTION = "{{ path("Test_collection") }}";
+    Paths.TEST_DELETE = "{{ path("Test_delete", {'object_ids':"{0}"}) }}";
+    Paths.TEST_ADD_FORM = "{{ path("Test_form",{'action':"add"}) }}";
+    Paths.TEST_FETCH_OBJECT = "{{ path("Test_object",{'object_id':"{0}"}) }}";
+    Paths.TEST_VARIABLE_FETCH_OBJECT = "{{ path("TestVariable_object",{'object_id':"{0}"}) }}";
+    Paths.TEST_UPDATE = "{{ path("Test_update_dependent",{'object_id':"{0}"}) }}";
+    Paths.TEST_SAVE = "{{ path("Test_save",{'object_id':"{0}"}) }}";
+    Paths.TEST_SAVE_NEW = "{{ path("Test_copy",{'object_id':"{0}"}) }}";
+    Paths.TEST_IMPORT = "{{ path("Test_import") }}";
+    Paths.TEST_EXPORT = "{{ path("Test_export", {"object_ids":"{0}"}) }}";
+    Paths.TEST_LOG_COLLECTION = "{{ path("TestSessionLog_collection_by_test", {'test_id':"{0}"}) }}";
+    Paths.TEST_LOG_DELETE_ALL = "{{ path("TestSessionLog_clear",{'test_id':"{0}"}) }}";
+    Paths.TEST_LOG_DELETE = "{{ path("TestSessionLog_delete",{'object_ids':"{0}"}) }}";
+    Paths.TEST_PARAMS_COLLECTION = "{{ path("TestVariable_parameters_collection",{'test_id':"{0}"}) }}";
+    Paths.TEST_RETURNS_COLLECTION = "{{ path("TestVariable_returns_collection",{'test_id':"{0}"}) }}";
+    Paths.TEST_BRANCHES_COLLECTION = "{{ path("TestVariable_branches_collection",{'test_id':"{0}"}) }}";
+    Paths.TEST_VARIABLE_BY_TEST_COLLECTION = "{{ path("TestVariable_by_test_collection", {'test_id':"{0}"}) }}";
+    Paths.TEST_VARIABLE_DELETE = "{{ path("TestVariable_delete", {"object_ids":"{0}"}) }}";
+    Paths.TEST_VARIABLE_SAVE = "{{ path("TestVariable_save", {"object_id":"{0}"}) }}";
+    Paths.TEST_RUN = "{{ path("test_runner_start",{"test_slug": "{0}" }) }}";
+    Paths.TEST_DEBUG = "{{ path("test_runner_start_debug",{"test_slug":"{0}"}) }}";
+
+    Paths.VIEW_TEMPLATE_COLLECTION = "{{ path("ViewTemplate_collection") }}";
+    Paths.VIEW_TEMPLATE_DELETE = "{{ path("ViewTemplate_delete", {'object_ids':"{0}"}) }}";
+    Paths.VIEW_TEMPLATE_ADD_FORM = "{{ path("ViewTemplate_form",{'action':"add"}) }}";
+    Paths.VIEW_TEMPLATE_FETCH_OBJECT = "{{ path("ViewTemplate_object",{'object_id':"{0}"}) }}";
+    Paths.VIEW_TEMPLATE_SAVE = "{{ path("ViewTemplate_save",{'object_id':"{0}"}) }}";
+    Paths.VIEW_TEMPLATE_SAVE_NEW = "{{ path("ViewTemplate_copy",{'object_id':"{0}"}) }}";
+    Paths.VIEW_TEMPLATE_IMPORT = "{{ path("ViewTemplate_import") }}";
+    Paths.VIEW_TEMPLATE_EXPORT = "{{ path("ViewTemplate_export",{'object_ids':"{0}"}) }}";
+
+    Paths.DATA_TABLE_COLLECTION = "{{ path("DataTable_collection") }}";
+    Paths.DATA_TABLE_DELETE = "{{ path("DataTable_delete", {'object_ids':"{0}"}) }}";
+    Paths.DATA_TABLE_ADD_FORM = "{{ path("DataTable_form",{'action':"add"}) }}";
+    Paths.DATA_TABLE_FETCH_OBJECT = "{{ path("DataTable_object",{'object_id':"{0}"}) }}";
+    Paths.DATA_TABLE_SAVE = "{{ path("DataTable_save",{'object_id':"{0}"}) }}";
+    Paths.DATA_TABLE_SAVE_NEW = "{{ path("DataTable_copy",{'object_id':"{0}"}) }}";
+    Paths.DATA_TABLE_IMPORT = "{{ path("DataTable_import") }}";
+    Paths.DATA_TABLE_EXPORT = "{{ path("DataTable_export",{'object_ids':"{0}"}) }}";
+    Paths.DATA_TABLE_COLUMNS_COLLECTION = "{{ path("DataTable_columns_collection", {'table_id':"{0}"}) }}";
+    Paths.DATA_TABLE_COLUMNS_DELETE = "{{ path("DataTable_column_delete", {"table_id":"{0}", "column_names":"{1}"}) }}";
+    Paths.DATA_TABLE_COLUMNS_FETCH_OBJECT = "{{ path("DataTable_column_object", {"table_id":"{0}", "column_name":"{1}"}) }}";
+    Paths.DATA_TABLE_DATA_COLLECTION = "{{ path("DataTable_data_collection", {'table_id':"{0}"}) }}";
+    Paths.DATA_TABLE_DATA_UPDATE = "{{ path("DataTable_row_update",{'table_id':"{0}",'row_id':"{1}", 'prefixed':0}) }}";
+    Paths.DATA_TABLE_DATA_INSERT = "{{ path("DataTable_row_insert",{'table_id':"{0}"}) }}";
+    Paths.DATA_TABLE_DATA_DELETE = "{{ path("DataTable_row_delete",{'table_id':"{0}","row_ids":"{1}"}) }}";
+    Paths.DATA_TABLE_DATA_TRUNCATE = "{{ path("DataTable_truncate",{'table_id':"{0}"}) }}";
+    Paths.DATA_TABLE_IMPORT_CSV = "{{ path("DataTable_csv_import",{'table_id':"{0}", 'restructure':"{1}", 'header':"{2}", 'delimiter':"{3}", 'enclosure':"{4}"}) }}";
+    Paths.DATA_TABLE_COLUMNS_SAVE = "{{ path("DataTable_column_save", {"table_id":"{0}", "column_name":"{1}"}) }}";
+
+    Paths.USER_COLLECTION = "{{ path("User_collection") }}";
+    Paths.USER_DELETE = "{{ path("User_delete", {'object_ids':"{0}"}) }}";
+    Paths.USER_ADD_FORM = "{{ path("User_form",{'action':"add"}) }}";
+    Paths.USER_FETCH_OBJECT = "{{ path("User_object",{'object_id':"{0}"}) }}";
+    Paths.USER_SAVE = "{{ path("User_save",{'object_id':"{0}"}) }}";
+
+    Paths.HOME_FEATURED_COLLECTION = "{{ path("home_featured_collection") }}";
+    Paths.TEST_RUNNER_START = "{{ path("test_runner_start",{"test_slug":"{0}"}) }}";
+
+    Paths.DIALOG_TEMPLATE_ROOT = "{{ path("Dialog_root") }}";
+    
+    Trans.LOCALE = "{{ app.request.locale }}"
+    Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
+    Trans.NONE = "{{ "none"|trans }}";
+    Trans.NONE_CHOOSEN = "{{ "none.choosen"|trans }}";
+    Trans.ACCESSIBILITY_PUBLIC = "{{ "list.accessibility.public"|trans }}";
+    Trans.ACCESSIBILITY_GROUP = "{{ "list.accessibility.group"|trans }}";
+    Trans.ACCESSIBILITY_PRIVATE = "{{ "list.accessibility.private"|trans }}";
+    Trans.LIST_FIELD_ID = "{{ "list.field.id"|trans }}";
+    Trans.LIST_FIELD_INFO = "{{ "list.field.info"|trans }}";
+    Trans.LIST_FIELD_UPDATED_ON = "{{ "list.field.updated.on"|trans }}";
+    Trans.LIST_FIELD_UPDATED_BY = "{{ "list.field.updated.by"|trans }}";
+    Trans.LIST_FIELD_NAME = "{{ "list.field.name"|trans }}";
+    Trans.LIST_FIELD_PROTECTED = "{{ "list.field.protected"|trans }}";
+    Trans.LIST_EDIT = "{{ "list.edit"|trans }}";
+    Trans.LIST_EXPORT = "{{ "list.export"|trans }}";
+    Trans.LIST_DELETE = "{{ "list.delete"|trans }}";
+    Trans.DIALOG_TITLE_DELETE = "{{ 'dialog.title.delete'|trans }}";
+    Trans.DIALOG_MESSAGE_CONFIRM_DELETE = "{{ 'dialog.message.confirm.delete'|trans }}";
+    Trans.DIALOG_TITLE_SAVE = "{{ 'dialog.title.save'|trans }}";
+    Trans.DIALOG_MESSAGE_SAVED = "{{ 'dialog.message.saved'|trans }}";
+    Trans.DIALOG_MESSAGE_FAILED = "{{ 'dialog.message.failed'|trans }}";
+    Trans.IMPORT_DIALOG_TITLE = "{{ 'import.dialog.title'|trans }}";
+    Trans.IMPORT_DIALOG_MESSAGE_IMPORTED = "{{ 'import.dialog.message.imported'|trans }}";
+    Trans.EXPORT_DIALOG_TITLE = "{{ 'export.dialog.title'|trans }}";
+    Trans.EXPORT_DIALOG_EMPTY_LIST_ERROR_CONTENT = "{{ 'export.dialog.error.empty.content'|trans }}";
+    Trans.SAVE_NEW_DIALOG_TITLE = "{{ 'save_new.dialog.title'|trans }}";
+    Trans.SAVE_NEW_DIALOG_MESSAGE_COPIED = "{{ 'save_new.dialog.message.copied'|trans }}";
+    Trans.DESCRIPTION_DIALOG_TITLE = "{{ 'description.fieldset.legend'|trans }}";
+    Trans.DESCRIPTION_DIALOG_TOOLTIP = "{{ 'description.fieldset.legend.tooltip'|trans }}";
+
+    {% trans_default_domain "TestWizard" %}
+        Trans.TEST_WIZARD_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
+        Trans.TEST_WIZARD_LIST_FIELD_NAME = "{{ "list.field.name"|trans }}";
+        Trans.TEST_WIZARD_LIST_FIELD_TEST = "{{ "list.field.test"|trans }}";
+        Trans.TEST_WIZARD_FORM_TITLE_ADD = "{{ 'form.title.add'|trans }}";
+        Trans.TEST_WIZARD_FORM_TITLE_EDIT = "{{ 'form.title.edit'|trans }}";
+        Trans.TEST_WIZARD_STEP_LIST_FIELD_ID = "{{ "step.list.field.id"|trans }}";
+        Trans.TEST_WIZARD_STEP_LIST_FIELD_INFO = "{{ "step.list.field.info"|trans }}";
+        Trans.TEST_WIZARD_STEP_LIST_FIELD_TITLE = "{{ "step.list.field.title"|trans }}";
+        Trans.TEST_WIZARD_STEP_LIST_FIELD_ORDER = "{{ "step.list.field.order"|trans }}";
+        Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE = "{{ "step.list.button.delete"|trans }}";
+        Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT = "{{ "step.list.button.edit"|trans }}";
+        Trans.TEST_WIZARD_STEP_DIALOG_TITLE_ADD = "{{ "step.dialog.title.add"|trans }}";
+        Trans.TEST_WIZARD_STEP_DIALOG_TITLE_EDIT = "{{ "step.dialog.title.edit"|trans }}";
+        Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR = "{{ 'step.dialog.title.clear'|trans }}";
+        Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_CLEAR_CONFIRM = "{{ 'step.dialog.message.clear.confirm'|trans }}";
+        Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE = "{{ 'step.dialog.title.delete'|trans }}";
+        Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'step.dialog.message.delete.confirm'|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_ID = "{{ "param.list.field.id"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_INFO = "{{ "param.list.field.info"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_LABEL = "{{ "param.list.field.label"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_STEP = "{{ "param.list.field.step"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_VARIABLE = "{{ "param.list.field.variable"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_TYPE = "{{ "param.list.field.type"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_FIELD_ORDER = "{{ "param.list.field.order"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE = "{{ "param.list.button.delete"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT = "{{ "param.list.button.edit"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_ADD = "{{ "param.dialog.title.add"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_EDIT = "{{ "param.dialog.title.edit"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR = "{{ 'param.dialog.title.clear'|trans }}";
+        Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_CLEAR_CONFIRM = "{{ 'param.dialog.message.clear.confirm'|trans }}";
+        Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE = "{{ 'param.dialog.title.delete'|trans }}";
+        Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'param.dialog.message.delete.confirm'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_SINGLE_LINE_TEXT = "{{ 'param.form.field.type.single_line_text'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_MULTI_LINE_TEXT = "{{ 'param.form.field.type.multi_line_text'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_HTML = "{{ 'param.form.field.type.html'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_SELECT = "{{ 'param.form.field.type.select'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_VIEW = "{{ 'param.form.field.type.view'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_TEST = "{{ 'param.form.field.type.test'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_TABLE = "{{ 'param.form.field.type.table'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_COLUMN = "{{ 'param.form.field.type.column'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_CHECKBOX = "{{ 'param.form.field.type.checkbox'|trans }}"; 
+        Trans.TEST_WIZARD_PARAM_TYPE_GROUP = "{{ 'param.form.field.type.group'|trans }}"; 
+        Trans.TEST_WIZARD_PARAM_TYPE_LIST = "{{ 'param.form.field.type.list'|trans }}"; 
+        Trans.TEST_WIZARD_PARAM_SELECT_LIST_FIELD_ORDER = "{{ "param.definer.select.list.field.order"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SELECT_LIST_FIELD_LABEL = "{{ "param.definer.select.list.field.label"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SELECT_LIST_FIELD_VALUE = "{{ "param.definer.select.list.field.value"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SELECT_LIST_BUTTON_DELETE = "{{ "param.definer.select.list.button.delete"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_NAME = "{{ "param.definer.group.list.field.name"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_LABEL = "{{ "param.definer.group.list.field.label"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_TYPE = "{{ "param.definer.group.list.field.type"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_HIDE_CONDITION = "{{ "param.definer.group.list.field.hide_condition"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_DEFINITION = "{{ "param.definer.group.list.field.definition"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_ORDER = "{{ "param.definer.group.list.field.order"|trans }}";
+        Trans.TEST_WIZARD_PARAM_GROUP_LIST_BUTTON_DELETE = "{{ "param.definer.select.list.button.delete"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINITION_ICON_TOOLTIP = "{{ "param.form.field.definition.icon.tooltip"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_ELEMENT_DELETE = "{{ "param.setter.list.element.remove"|trans }}";
+        Trans.TEST_WIZARD_PARAM_LIST_COLUMN_ELEMENT = "{{ "param.setter.list.column.element"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SELECT = "{{ "param.definer.titles.select"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_GROUP = "{{ "param.definer.titles.group"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_LIST = "{{ "param.definer.titles.list"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_TITLES_TEXTAREA = "{{ "param.setter.titles.textarea"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_TITLES_HTML = "{{ "param.setter.titles.html"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_TITLES_COLUMN = "{{ "param.setter.titles.column"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_TITLES_GROUP = "{{ "param.setter.titles.group"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_TITLES_LIST = "{{ "param.setter.titles.list"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_SELECT = "{{ "param.definer.summaries.select"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_GROUP = "{{ "param.definer.summaries.group"|trans }}";
+        Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_LIST = "{{ "param.definer.summaries.list"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_TEXTAREA = "{{ "param.setter.summaries.textarea"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_HTML = "{{ "param.setter.summaries.html"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_COLUMN = "{{ "param.setter.summaries.column"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_GROUP = "{{ "param.setter.summaries.group"|trans }}";
+        Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_LIST = "{{ "param.setter.summaries.list"|trans }}";
+
+    {% trans_default_domain "Test" %}
+        Trans.TEST_BUTTON_RUN = "{{"form.button.run"|trans }}";
+        Trans.TEST_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
+        Trans.TEST_LIST_FIELD_NAME = "{{ "list.field.name"|trans }}";
+        Trans.TEST_LIST_FIELD_WIZARD = "{{ "list.field.wizard"|trans }}";
+        Trans.TEST_LIST_FIELD_WIZARD_SOURCE = "{{ "list.field.wizard.source"|trans }}";
+        Trans.TEST_LIST_TIP_OUTDATED = "{{ "list.tooltips.outdated"|trans }}";
+        Trans.TEST_LIST_TIP_UPTODATE = "{{ "list.tooltips.uptodate"|trans }}";
+        Trans.TEST_FORM_TITLE_ADD = "{{ 'form.title.add'|trans }}";
+        Trans.TEST_FORM_TITLE_EDIT = "{{ 'form.title.edit'|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_DATE = "{{ "log.list.field.date"|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_BROWSER = "{{ "log.list.field.browser"|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_IP = "{{ "log.list.field.ip"|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_MESSAGE = "{{ "log.list.field.message"|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_TYPE = "{{ "log.list.field.type"|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_TYPE_R = "{{ "log.list.field.type.R"|trans }}";
+        Trans.TEST_LOG_LIST_FIELD_TYPE_JAVASCRIPT = "{{ "log.list.field.type.javascript"|trans }}";
+        Trans.TEST_LOG_LIST_BUTTON_DELETE = "{{ "log.list.button.delete"|trans }}";
+        Trans.TEST_VARS_PARAMS_DIALOG_TITLE_ADD = "{{ "variables.input.parameters.dialog.title.add"|trans }}";
+        Trans.TEST_VARS_PARAMS_DIALOG_TITLE_EDIT = "{{ "variables.input.parameters.dialog.title.edit"|trans }}";
+        Trans.TEST_VARS_PARAMS_DIALOG_TITLE_DELETE = "{{ 'variables.input.parameters.dialog.title.delete'|trans }}";
+        Trans.TEST_VARS_PARAMS_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'variables.input.parameters.dialog.message.delete.confirm'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_FIELD_INFO = "{{ 'variables.input.parameters.list.field.info'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_FIELD_NAME = "{{ 'variables.input.parameters.list.field.name'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_FIELD_URL = "{{ 'variables.input.parameters.list.field.url'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_FIELD_URL_YES = "{{ 'variables.input.parameters.list.field.url.yes'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_FIELD_URL_NO = "{{ 'variables.input.parameters.list.field.url.no'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_FIELD_VALUE = "{{ 'variables.input.parameters.list.field.value'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_EDIT = "{{ 'variables.input.parameters.list.edit'|trans }}";
+        Trans.TEST_VARS_PARAMS_LIST_DELETE = "{{ 'variables.input.parameters.list.delete'|trans }}";
+        Trans.TEST_VARS_RETURNS_DIALOG_TITLE_ADD = "{{ "variables.output.returns.dialog.title.add"|trans }}";
+        Trans.TEST_VARS_RETURNS_DIALOG_TITLE_EDIT = "{{ "variables.output.returns.dialog.title.edit"|trans }}";
+        Trans.TEST_VARS_RETURNS_DIALOG_TITLE_DELETE = "{{ 'variables.output.returns.dialog.title.delete'|trans }}";
+        Trans.TEST_VARS_RETURNS_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'variables.output.returns.dialog.message.delete.confirm'|trans }}";
+        Trans.TEST_VARS_RETURNS_LIST_FIELD_INFO = "{{ 'variables.output.returns.list.field.info'|trans }}";
+        Trans.TEST_VARS_RETURNS_LIST_FIELD_NAME = "{{ 'variables.output.returns.list.field.name'|trans }}";
+        Trans.TEST_VARS_RETURNS_LIST_FIELD_VALUE = "{{ 'variables.output.returns.list.field.value'|trans }}";
+        Trans.TEST_VARS_RETURNS_LIST_EDIT = "{{ 'variables.output.returns.list.edit'|trans }}";
+        Trans.TEST_VARS_RETURNS_LIST_DELETE = "{{ 'variables.output.returns.list.delete'|trans }}";
+        Trans.TEST_VARS_BRANCHES_DIALOG_TITLE_ADD = "{{ "variables.output.branches.dialog.title.add"|trans }}";
+        Trans.TEST_VARS_BRANCHES_DIALOG_TITLE_EDIT = "{{ "variables.output.branches.dialog.title.edit"|trans }}";
+        Trans.TEST_VARS_BRANCHES_DIALOG_TITLE_DELETE = "{{ 'variables.output.branches.dialog.title.delete'|trans }}";
+        Trans.TEST_VARS_BRANCHES_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'variables.output.branches.dialog.message.delete.confirm'|trans }}";
+        Trans.TEST_VARS_BRANCHES_LIST_FIELD_INFO = "{{ 'variables.output.branches.list.field.info'|trans }}";
+        Trans.TEST_VARS_BRANCHES_LIST_FIELD_NAME = "{{ 'variables.output.branches.list.field.name'|trans }}";
+        Trans.TEST_VARS_BRANCHES_LIST_FIELD_VALUE = "{{ 'variables.output.branches.list.field.value'|trans }}";
+        Trans.TEST_VARS_BRANCHES_LIST_EDIT = "{{ 'variables.output.branches.list.edit'|trans }}";
+        Trans.TEST_VARS_BRANCHES_LIST_DELETE = "{{ 'variables.output.branches.list.delete'|trans }}";
+        Trans.TEST_FORM_FIELD_VISIBILITY_REGULAR = "{{ 'form.field.visibility.regular'|trans }}";
+        Trans.TEST_FORM_FIELD_VISIBILITY_FEATURED = "{{ 'form.field.visibility.featured'|trans }}";
+        Trans.TEST_FORM_FIELD_VISIBILITY_SUBTEST = "{{ 'form.field.visibility.subtest'|trans }}";
+        Trans.TEST_FORM_FIELD_TYPE_CODE = "{{ 'form.field.type.code'|trans }}";
+        Trans.TEST_FORM_FIELD_TYPE_WIZARD = "{{ 'form.field.type.wizard'|trans }}";
+        Trans.TEST_FORM_FIELD_TYPE_FLOW = "{{ 'form.field.type.flow'|trans }}";
+        Trans.TEST_DIALOG_TITLE_UDPATE = "{{ 'form.dialog.title.update'|trans }}";
+        Trans.TEST_DIALOG_MESSAGE_UDPATE_SUCCESSFUL = "{{ 'form.dialog.message.update.successful'|trans }}";
+        Trans.TEST_LOG_DIALOG_TITLE_CLEAR = "{{ 'log.dialog.title.clear'|trans }}";
+        Trans.TEST_LOG_DIALOG_MESSAGE_CLEAR_CONFIRM = "{{ 'log.dialog.message.clear.confirm'|trans }}";
+        Trans.TEST_LOG_DIALOG_TITLE_DELETE = "{{ 'log.dialog.title.delete'|trans }}";
+        Trans.TEST_LOG_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'log.dialog.message.delete.confirm'|trans }}";
+        Trans.TEST_LOGIC_CONVERT_TITLE = "{{ "logic.convert.title"|trans }}";
+        Trans.TEST_LOGIC_CONVERT_CONFIRMATION = "{{ "logic.convert.confirmation"|trans }}";
+        
+        Trans.TEST_FLOW_NODE_NAME_START = "{{ "flow.nodes.names.test_start"|trans }}";
+        Trans.TEST_FLOW_NODE_NAME_END = "{{ "flow.nodes.names.test_end"|trans }}";
+        Trans.TEST_FLOW_NODE_DESCRIPTION_START = "{{ "flow.nodes.descriptions.test_start"|trans }}";
+        Trans.TEST_FLOW_NODE_DESCRIPTION_END = "{{ "flow.nodes.descriptions.test_end"|trans }}";
+        Trans.TEST_FLOW_NODE_WIZARD_TOOLTIP = "{{ "flow.nodes.tooltips.wizard"|trans }}";
+        Trans.TEST_FLOW_PORT_NAME_IN = "{{ "flow.ports.names.in"|trans }}";
+        Trans.TEST_FLOW_PORT_DESCRIPTION_IN = "{{ "flow.ports.descriptions.in"|trans }}";
+        Trans.TEST_FLOW_PORT_INPUT_LABEL_TOOLTIP = "{{ "flow.ports.tooltips.inputs.label"|trans }}";
+        Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP = "{{ "flow.buttons.toggle_collapse"|trans }}";
+        Trans.TEST_FLOW_RETURN_FUNCTION_TOOLTIP = "{{ "flow.fieldset.return_function.tooltip"|trans }}";
+
+    {% trans_default_domain "ViewTemplate" %}
+        Trans.VIEW_TEMPLATE_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
+        Trans.VIEW_TEMPLATE_LIST_FIELD_NAME = "{{ "list.field.name"|trans }}";
+        Trans.VIEW_TEMPLATE_FORM_TITLE_ADD = "{{ 'form.title.add'|trans }}";
+        Trans.VIEW_TEMPLATE_FORM_TITLE_EDIT = "{{ 'form.title.edit'|trans }}";
+
+    {% trans_default_domain "DataTable" %}
+        Trans.DATA_TABLE_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
+        Trans.DATA_TABLE_LIST_FIELD_NAME = "{{ "list.field.name"|trans }}";
+        Trans.DATA_TABLE_FORM_TITLE_ADD = "{{ 'form.title.add'|trans }}";
+        Trans.DATA_TABLE_FORM_TITLE_EDIT = "{{ 'form.title.edit'|trans }}";
+        Trans.DATA_TABLE_DATA_LIST_DELETE = "{{ "data.list.delete"|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_NAME = "{{ 'structure.list.field.name'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_TYPE = "{{ 'structure.list.field.type'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_LIST_EDIT = "{{ 'structure.list.edit'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_LIST_DELETE = "{{ 'structure.list.delete'|trans }}";
+        Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE = "{{ 'data.dialog.title.delete'|trans }}";
+        Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE = "{{ 'data.dialog.message.confirm.delete'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE = "{{ 'structure.dialog.title.delete'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_DIALOG_MESSAGE_CONFIRM_DELETE = "{{ 'structure.dialog.message.confirm.delete'|trans }}";
+        Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT = "{{ 'io.dialog.title.import'|trans }}";
+        Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED = "{{ 'io.dialog.message.imported'|trans }}";
+        Trans.DATA_TABLE_IO_DIALOG_MESSAGE_ERROR = "{{ 'io.dialog.message.error'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_ADD = "{{ 'structure.dialog.title.add'|trans }}";
+        Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_EDIT = "{{ 'structure.dialog.title.edit'|trans }}";
+        Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE = "{{ 'data.cell.text.fieldset.legend'|trans }}";
+        Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP = "{{ 'data.cell.text.fieldset.legend.tooltip'|trans }}";
+
+    {% trans_default_domain "User" %}
+        Trans.USER_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
+        Trans.USER_LIST_FIELD_USERNAME = "{{ "list.field.username"|trans }}";
+        Trans.USER_LIST_FIELD_EMAIL = "{{ "list.field.email"|trans }}";
+        Trans.USER_FORM_TITLE_ADD = "{{ 'form.title.add'|trans }}";
+        Trans.USER_FORM_TITLE_EDIT = "{{ 'form.title.edit'|trans }}";
+
+    {% trans_default_domain "FileBrowser" %}
+        Trans.FILE_BROWSER_BREADCRUMB_MANAGER = "{{ "breadcrumb.manager"|trans }}";
+</script>

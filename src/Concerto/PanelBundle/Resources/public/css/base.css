@@ -1,0 +1,253 @@
+root {
+}
+
+body{
+    padding-bottom:75px;
+}
+
+fieldset {
+    padding: 5px;
+    margin: 5px;
+}
+
+.mainLayoutElement {
+    min-width: 970px;
+}
+
+.horizontalElement {
+    float: left;
+    width: 33%;
+    height: 22px;
+}
+
+.horizontalElement > table {
+    width:100%;
+}
+
+td.formLabel {
+    white-space: nowrap;
+    padding-left: 5px;
+    font-style: italic;
+    width:80px;
+}
+
+td.formInfo {
+    width: 48px;
+    margin-top:2px;
+}
+
+td.formControl {
+    margin: 0px 5px 0px 12px;
+    height: 48px;
+}
+
+td.formControl > div.formInnerControl {
+    width:100%;
+}
+
+.formRowV > td {
+    padding-bottom: 22px;
+}
+
+.moduleForm, .moduleList {
+    text-align: left;
+}
+
+fieldset > legend {
+    font-weight:bold;
+    margin-top: 30px;
+    float:left;
+}
+
+.grid {
+    margin: 10px;
+    height: 400px
+}
+
+.formFloatingBar {
+    position: fixed;
+    bottom: 25px;
+    right: 0%;
+    right: 25px;
+    opacity: 0.75;
+    z-index: 10;
+    display: table;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+table.listPanel {
+    width:100%;
+}
+
+.tab-content{
+    border: 1px solid #ddd;
+    border-top: 0;
+    padding: 25px 25px 25px;
+}
+
+.mainContentContainer{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.divButtonContainer {
+    padding:8px;
+}
+
+.CodeMirror-hints {
+    z-index: 1051;
+}
+
+/** R documentation box**/
+#codemirrorRDocsWindow {
+    background-color: #ffffff;
+    border: 1px solid;
+    bottom: 50px;
+    height: 50%;
+    overflow: scroll;
+    padding: 10px;
+    position: fixed;
+    right: 10px;
+    width: 50%;
+    opacity: 0.90;
+    z-index: 1052;
+}
+
+
+/** R documentation wizards**/
+.completion-wizard-sql .wizard-row-value {
+    margin-bottom: 10px;
+    width:100%;
+}
+
+.completion-wizard-sql .wizard-row-value td {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.completion-wizard-sql .wizard-row-value .btn-group {
+    width:200px;
+}
+
+.completion-wizard-sql .wizard-add-button-wrapper {
+    text-align: center; 
+    margin: 0 auto;
+}
+
+.completion-wizard-sql .completion-sql-wizard-section{
+    padding: 10px;
+    border: 1px solid #ddd;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.completion-wizard-sql .completion-sql-wizard-section +  .completion-sql-wizard-section{
+    margin-top: 0;
+}
+
+pre.console {
+    background: black;
+    color: white;
+}
+
+.glyphicon {
+    width: 17px;
+    font-size: 14px;
+    margin: 0px 2px;
+    color: #999;
+}
+
+.subHeading{
+    border: none;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+.breadcrumb {
+    font-size: 1.2em;
+}
+.loginPageLogo{
+    text-align:center;
+}
+.logiinPageLogo .logoTxt{
+    font-weight: bold;
+}
+.loginContainer{
+    margin: 50px auto;
+    width: 314px;
+}
+.loginContainer td {
+    margin: 6px 5px;
+}
+
+.loginContainer legend {
+    padding: 18px 0px 8px 25px;
+    font-size: 19px;
+    color: #BDBDBD;
+    font-weight: normal;
+    margin: 10px 0px;
+}
+.loginContainer legend .glyphicon-question-sign {
+    margin: 3px;
+    display: none;
+}
+
+.bs-callout {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout-info {
+    border-left-color: #5bc0de;
+}
+
+.bs-callout-info h3 {
+    color: #5bc0de;
+}
+
+.bs-callout-warning {
+    border-left-color: #f0ad4e;
+}
+
+.bs-callout-warning h4 {
+    color: #f0ad4e;
+}
+
+.carouselParamHeader {
+}
+
+.breadcrumb {
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    border-left-color: #337ab7;
+    background-color: #ffffff !important;
+}
+
+ul.breadcrumb li {
+    background-color: #ffffff !important;
+    margin:0px !important;
+}
+
+.headerElement {
+    background: #FAFAFA;
+    padding: 10px 25px;
+    border-bottom: 1px solid #DDD;
+    margin-bottom: 15px;
+}
+
+.wizardParamSummary {
+    margin-left: 10px;
+    color: #BDBDBD;
+    font-style: italic;
+}

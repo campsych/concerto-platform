@@ -1,0 +1,10 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+{% block row %}<tr class="formRowV">{% endblock %}
+    <td class="formLabel">{% block label %}{% endblock %}:</td>
+    <td class="formInfo"><i class="glyphicon glyphicon-question-sign" uib-tooltip-html="'{% block tooltip %}{% endblock %}'"></i></td>
+    <td class="formControl">{% block control %}{% endblock %}</td>
+</tr>
+{% endblock %}

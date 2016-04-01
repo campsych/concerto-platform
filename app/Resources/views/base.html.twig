@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xmlns:v="urn:schemas-microsoft-com:vml">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Concerto Platform{% endblock %}</title>
+    {% block stylesheetsInclude %}{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block javascriptsInclude %}{% endblock %}
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+
+{% if angular_app is not defined %}
+    {% set angular_app = "concertoPanel" %}
+{% endif %}
+<body ng-app="{{angular_app}}" ng-cloak>
+    {% if controller is defined %}<div ng-controller="{{controller}}">{% endif %}
+    {% block body %}{% endblock %}
+    {% if controller is defined %}</div>{% endif %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

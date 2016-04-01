@@ -1,0 +1,15 @@
+<script type="text/ng-template" id="type_1_setter.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block setter %}
+            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.setter.titles.textarea.tooltip'|trans }}{% endblock %}
+                {% block control %}
+                    <textarea ng-model="output" ng-change="onPrimitiveValueChange(output)" ng-model-options="{ debounce: 0 }" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"></textarea>
+                {% endblock %}
+            {% endembed %}    
+        {% endblock %}
+    {% endembed %}
+</script>

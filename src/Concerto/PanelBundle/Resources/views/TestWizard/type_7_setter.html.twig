@@ -1,0 +1,38 @@
+<script type="text/ng-template" id="type_7_setter.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block setter %}
+            
+            {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.setter.titles.column.tooltip'|trans }}{% endblock %}
+                {% block elements %}
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "TestWizard" %}
+                        {% block label %}{{ 'param.setter.column.table'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'param.setter.column.table.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                            <select ng-model="output.table" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
+                            ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'}">
+                                <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                            </select>
+                        {% endblock %}
+                    {% endembed %}
+                        
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "TestWizard" %}
+                        {% block label %}{{ 'param.setter.column'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'param.setter.column.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                            <select ng-model="output.column" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
+                            ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns">
+                                <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                            </select>
+                        {% endblock %}
+                    {% endembed %}
+                {% endblock %}
+            {% endembed %} 
+        {% endblock %}
+    {% endembed %} 
+</script>

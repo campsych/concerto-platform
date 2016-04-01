@@ -1,0 +1,27 @@
+[{
+        "class_name": "DataTable",
+        "id": 8,
+        "globalId": 0,
+        "name": "imported_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": 0,
+        "updatedOn": "2015-10-09",
+        "updatedByName": "admin",
+        "columns": [{
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            }, {
+                "name": "temp",
+                "type": "text",
+                "nullable": false
+            }],
+        "data": [{
+                "id": "1",
+                "temp": "first"
+            }, {
+                "id": "2",
+                "temp": "second"
+            }]
+    }]

@@ -1,0 +1,6 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "TestWizard" %}
+
+{% block content %}
+    {{ include("ConcertoPanelBundle:TestWizard:carousel.html.twig", {'wizard_mode':'dev'}) }}
+{% endblock %}

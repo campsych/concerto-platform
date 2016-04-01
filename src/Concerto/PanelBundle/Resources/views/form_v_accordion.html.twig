@@ -1,0 +1,23 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
+    {% if accordion_internal is defined and accordion_internal == false %}
+        <uib-accordion close-others="false">
+        {% endif %}
+        <uib-accordion-group is-open="tabAccordion.{{ accordion_group }}.open" is-disabled="tabAccordion.{{ accordion_group }}.disabled">
+            <uib-accordion-heading>
+                <i class="glyphicon glyphicon-question-sign" uib-tooltip-html="'{% block legend_tooltip %}{% endblock %}'"></i>
+            {% block legend %}{% endblock %}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.form.open, 'glyphicon-chevron-right': !tabAccordion.form.open}"></i>
+        </uib-accordion-heading>
+        <p class="formDescription">{% block description %}{% endblock %}</p>
+        <table style="width:100%;">
+        {% block elements %}{% endblock %}
+    </table>
+</uib-accordion-group>
+{% if accordion_internal is defined and accordion_internal == false %}
+</uib-accordion>
+{% endif %}
+{% endblock %}

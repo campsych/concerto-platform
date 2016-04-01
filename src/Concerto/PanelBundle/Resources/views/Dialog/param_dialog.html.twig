@@ -1,0 +1,103 @@
+{% trans_default_domain "TestWizard" %}
+<div type="text/ng-template" id="param_dialog.html">
+    <div class="modal-body">
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+        {% block legend %}{%verbatim%}{{dialogTitle}}{%endverbatim%}{% endblock %}
+        {% block legend_tooltip %}{{ 'param.form.fieldset.legend.tooltip'|trans }}{% endblock %}
+        {% block elements %}
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.step'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.step.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <select ng-model="object.wizardStep" style="width:100%;" ng-options="wizardStep.id as wizardStep.title for wizardStep in wizardSteps" >
+                        <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                    </select>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.variable'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.variable.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <select ng-model="object.testVariable" style="width:100%;" ng-options="param.id as param.name for param in testParams | orderBy:'name'" >
+                        <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                    </select>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.label'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.name.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.label" type="text" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.type'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.type.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <select ng-model="object.type" style="width:100%;" ng-options="type.id as type.label for type in types">
+                    </select>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.hide_condition'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.hide_condition.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.hideCondition" type="text" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block row %}<tr ng-show="types[object.type].definer">{% endblock %}
+                    {% block label %}{{ 'param.form.field.definition'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'param.form.field.definition.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                    <i class='glyphicon glyphicon-align-justify clickable' ng-click='launchDefinitionDialog(object)' uib-tooltip-html='"{{ 'param.form.field.definition.icon.tooltip'|trans }}"' tooltip-append-to-body='true'></i>
+                    <span class="wizardParamSummary">{%verbatim%}{{testWizardParamService.getDefinerSummary(object)}}{%endverbatim%}</span>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.description'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.description.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <textarea ckeditor="editorOptions" ng-model="object.description"></textarea>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.url'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.url.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.passableThroughUrl" type="checkbox" ng-true-value="'1'" ng-false-value="'0'" />
+                {% endblock %}
+            {% endembed %}
+            
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block label %}{{ 'param.form.field.order'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.order.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.order" type="text" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="save()">{{ 'form.button.save'|trans({},"panel") }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+</div>
+</div>

@@ -1,0 +1,21 @@
+<script type="text/ng-template" id="type_9_definer.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block definition %}
+            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.definer.titles.group.tooltip'|trans }}{% endblock %}
+                {% block control %}
+                    <div class="center">
+                        <button class="btn btn-success btn-sm" ng-click="addField()">{{ 'param.definer.group.field.add'|trans }}</button>
+                        <button class="btn btn-danger btn-sm" ng-click="removeSelectedFields()">{{ 'param.definer.group.field.remove.selected'|trans }}</button>
+                        <button class="btn btn-danger btn-sm" ng-click="removeAllFields()">{{ 'param.definer.group.field.remove.all'|trans }}</button>
+                        <button ng-click="gridService.downloadList(groupGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                    </div>
+                    <div ui-grid="groupOptions" ui-grid-edit ui-grid-row-edit ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>
+                {% endblock %}
+            {% endembed %} 
+        {% endblock %}
+    {% endembed %}
+</script>

@@ -1,0 +1,17 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="node_wizard_dialog.html">
+    <div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+        {% trans_default_domain "panel" %}
+        {% block legend %}{% verbatim %}{{ object.name }}{% endverbatim %}{% endblock %}
+        {% block legend_tooltip %}{% verbatim %}{{object.description}}{% endverbatim %}{% endblock %}
+        {% block control %}
+            {{ include("ConcertoPanelBundle:TestWizard:carousel.html.twig", {'wizard_mode':'prod'}) }}
+        {% endblock %}
+    {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+    </div>
+</div>

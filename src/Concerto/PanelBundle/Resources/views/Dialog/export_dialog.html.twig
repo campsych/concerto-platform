@@ -1,0 +1,23 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="export_dialog.html">
+<div class="modal-body">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ 'export.dialog.title'|trans }}</div>
+        <div class="panel-body">
+                
+            <uib-alert type="info">{{ "export.dialog.format.info"|trans }}</uib-alert>
+            <span  class="btn-group">
+                <label class="btn btn-primary" ng-model="exportFormat" uib-btn-radio="'compressed'">{{ "export.dialog.format.compressed"|trans }}</label>
+                <label class="btn btn-primary" ng-model="exportFormat" uib-btn-radio="'text'">{{ "export.dialog.format.plaintext"|trans }}</label>
+
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="export()">{{ 'form.button.export'|trans({},"panel") }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+</div>
+</div>

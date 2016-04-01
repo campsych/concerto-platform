@@ -1,0 +1,35 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "ViewTemplate" %}
+
+{% block content %}
+
+    {% embed "ConcertoPanelBundle::form_v_accordion.html.twig" with {'internal': true, 'accordion_group': 'source'} %}
+        {% trans_default_domain "ViewTemplate" %}
+
+        {% block legend %}{{ 'source.fieldset.legend'|trans }}{% endblock %}
+        {% block legend_tooltip %}{{ 'source.fieldset.legend.tooltip'|trans }}{% endblock %}
+        {% block elements %}
+            <table style="width:100%;">
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "ViewTemplate" %}
+                    {% block label %}{{ 'source.field.head'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'source.field.head.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        {{ include("ConcertoPanelBundle::code_mirror_header.html.twig") }}
+                        <ui-codemirror ng-model="object.head" ui-codemirror-opts="headCodeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
+                        {% endblock %}
+                    {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "ViewTemplate" %}
+                    {% block label %}{{ 'source.field.html'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'source.field.html.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <textarea ckeditor="htmlEditorOptions" ng-model="object.html"></textarea>
+                    {% endblock %}
+                {% endembed %}
+            </table>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -1,0 +1,65 @@
+{% trans_default_domain "DataTable" %}
+
+<div type="text/ng-template" id="import_csv_dialog.html">
+    <div class="modal-body" nv-file-drop="" uploader="uploader">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "DataTable" %}
+        {% block legend %}{{ 'io.dialog.title.import'|trans }}{% endblock %}
+        {% block legend_tooltip %}{{ 'io.dialog.fieldset.legend.import.tooltip'|trans }}{% endblock %}
+        {% block elements %}
+            
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'io.dialog.fieldset.field.restructure'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'io.dialog.fieldset.field.restructure.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                        <input type="checkbox" ng-model="restructure" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'io.dialog.fieldset.field.header'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'io.dialog.fieldset.field.header.import.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                        <input type="checkbox" ng-model="headerRow" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'io.dialog.fieldset.field.field.delimiter'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'io.dialog.fieldset.field.field.delimiter.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                        <input type="text" maxlength="1" ng-model="delimiter" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'io.dialog.fieldset.field.field.enclosure'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'io.dialog.fieldset.field.field.enclosure.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                        <input type="text" maxlength="1" ng-model="enclosure" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'io.dialog.fieldset.field.file'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'io.dialog.fieldset.field.file.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input type="file" nv-file-select uploader="uploader" ng-show="item==null && !uploader.isUploading" /></span>
+                    <uib-progressbar class="progress-striped active" value="progress" ng-show="item==null && uploader.isUploading"></uib-progressbar>
+                    <span ng-show="item!=null">{%verbatim%}{{item.file.name}}{%endverbatim%}</span>
+                {% endblock %}
+            {% endembed %}
+
+        {% endblock %}
+    {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="save()" ng-show="item!=null">{{ 'form.button.save'|trans({},"panel") }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
+</div>

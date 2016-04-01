@@ -1,0 +1,52 @@
+{% trans_default_domain "Test" %}
+<div type="text/ng-template" id="variables_dialog.html">
+<div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "Test" %}
+        {% block legend %}{%verbatim%}{{dialogTitle}}{%endverbatim%}{% endblock %}
+        {% block legend_tooltip %}{{ 'variables.dialog.tooltip'|trans }}{% endblock %}
+        {% block elements %}
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Test" %}
+                {% block label %}{{ 'variables.form.field.name'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'variables.form.field.name.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input ng-model="object.name" type="text" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Test" %}
+                {% block label %}{{ 'variables.form.field.description'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'variables.form.field.description.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <textarea ckeditor="editorOptions" ng-model="object.description"></textarea>
+                {% endblock %}
+            {% endembed %}
+                
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Test" %}
+                {% block row %}<tr ng-if="object.type==0" class="formRowV">{% endblock %}
+                {% block label %}{{ 'variables.form.field.url'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'variables.form.field.url.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input type="checkbox" ng-model="object.passableThroughUrl"  ng-true-value="'1'" ng-false-value="'0'" />
+                {% endblock %}
+            {% endembed %}
+                
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Test" %}
+                {% block label %}{{ 'variables.form.field.value'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'variables.form.field.value.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <textarea ng-model="object.value" style="width:100%;"></textarea>
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">{{ 'form.button.save'|trans({},"panel") }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+</div>
+</div>

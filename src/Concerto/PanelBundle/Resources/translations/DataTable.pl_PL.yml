@@ -1,0 +1,106 @@
+breadcrumb:
+    list: Wszystkie tabele
+
+form:
+  title:
+    add: Tworzenie nowej tabeli danych
+    edit: 'Edycja tabeli danych #{0}'
+  field:
+    name: Nazwa
+    name.tooltip: Nazwa tabeli danych
+    accessibility: Dostępność
+    accessibility.tooltip: Poziom dostępności tabeli danych
+    protected: Chronione
+    protected.tooltip: Czy tabela danych jest chroniona?
+    archived: Zarchiwizowane
+    archived.tooltip: Czy tabela danych jest zarchiwizowana?
+    owner: Właściciel
+    owner.tooltip: Właściciel obiektu
+    groups: Grupy
+    groups.tooltip: Lista grup, oddzielonych przecinkiem, do których należy obiekt
+    
+  button:
+      import.csv: Wyślij CSV
+
+list: 
+  field:
+    name: Nazwa
+    
+structure:
+  fieldset:
+    legend: Struktura tabeli danych
+    legend.tooltip: Definicja struktury tabeli danych
+    
+  form:
+    title:
+      add: Dodawanie nowej kolumny
+      edit: Edytowanie kolumny
+    field:
+      name: Nazwa
+      name.tooltip: Nazwa kolumny
+      type: Typ
+      type.tooltip: Typ kolumny
+      
+  list:
+    field:
+      name: Nazwa
+      type: Typ
+    edit: Edytuj
+    add: Dodaj kolumnę
+    delete: Usuń
+    delete.checked: Usuń zaznaczone
+    
+  dialog:
+    title:
+      add: Dodawanie nowej kolumny tabeli danych
+      delete: Usuwanie kolumny tabeli danych
+      edit: Edycja kolumny tabeli danych
+    message:
+      confirm.delete: Napewno usunąć wybrane kolumny tabeli danych?
+      
+data:
+    dialog:
+        title:
+            delete: Usuwanie rekordu
+        message:
+            confirm.delete: Jesteś pewien, że chcesz usunąć wybrane rekordy?
+    fieldset:
+        legend: Dane tabeli
+        legend.tooltip: Dane tabeli
+    list:
+        add: Dodaj rekord
+        delete.checked: Usuń zaznaczone
+        delete.all: Usuń wszystkie
+        delete: Usuń
+        
+    cell:
+        text:
+            fieldset:
+                legend: Zawartość komórki tekstowej
+                legend.tooltip: Edytuj zawartość komórki tekstowej
+        
+io:
+    dialog:
+        title: 
+            import: Wysyłanie tabeli z pliku CSV
+        message: 
+            imported: Tabela zaimportowana.
+            error: Import nie powiódł się.
+        fieldset:
+            legend:
+              import.tooltip: Zadeklaruje właściwości pliku CSV
+            field:
+                header: Rząd nagłówka
+                header.import.tooltip: Jeśli zaznaczysz to pole to pierwszy rząd w CSV będzie używane jako zestaw kolumn
+                restructure: Zrestrukturyzuj tabele
+                restructure.tooltip: Tworzy nową strukturę tabeli i zamienia obecnie istniejącye dane. Jeśli nie jest zaznaczony dane zostaną dopisane do obecnej struktury, oraz dodatkowo jeśli rząd nagłówka jest zaznaczony, to pierwszy rząd w CSV będzie używany do mapowania kolumn, w innym przypadku kolumny będą mapowane w kolejności takiej jak w pliku CSV.
+                field.delimiter: Oddzielenie pól
+                field.delimiter.tooltip: Pojedyńczy znak używany do oddzielenia pól. Domyślnie jest to ,
+                field.enclosure: Zamknięcie pól
+                field.enclosure.tooltip: Pojedyńczy znak używany do otwarcia i zamknięcia pól. Domyślnie jest to \"
+                file: Plik
+                file.tooltip: Wybierz plik CSV do zaimportowania
+                
+alerts:
+    edit:
+        columns: Proszę zapisać wszelkie zmiany dokonane w tabeli przed dodaniem/edycją/usunięciem jakiejkolwiek kolumny aby zapobiec utracie niezapisanych zmian.

@@ -1,0 +1,17 @@
+FileBrowser_upload:
+    path:  /file/upload
+    defaults: { _controller: concerto_panel.FileBrowser_controller:fileUploadAction }
+    methods:  [POST]
+    
+FileBrowser_list:
+    path:  /file/list
+    defaults: { _controller: concerto_panel.FileBrowser_controller:fileListAction }
+    
+FileBrowser_delete:
+    path:  /file/delete/{filename}
+    defaults: { _controller: concerto_panel.FileBrowser_controller:fileDeleteAction }
+    methods:  [POST]
+    
+FileBrowser_browser:
+    path:  /file/browser
+    defaults: { _controller: concerto_panel.FileBrowser_controller:fileBrowserAction }

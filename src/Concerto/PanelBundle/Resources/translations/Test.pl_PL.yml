@@ -1,0 +1,283 @@
+breadcrumb:
+    list: Wszystkie testy
+
+form:
+  title:
+    add: Tworzenie nowego testu
+    edit: 'Edycja testu #{0}'
+  field:
+    name: Nazwa
+    name.tooltip: Nazwa testu
+    accessibility: Dostępność
+    accessibility.tooltip: Poziom dostępności testu
+    protected: Chronione
+    protected.tooltip: Czy test jest chroniony?
+    archived: Zarchiwizowane
+    archived.tooltip: Czy test jest zarchiwizowany?
+    slug: Nazwa w URLu
+    slug.tooltip: Fragment URL danego testu, modyfikowalny dla każdego testu; może być użyty do uczynienia linków do testów bardziej opisowymi
+    visibility: Widoczność
+    visibility.tooltip: Widoczność testu
+    visibility.subtest: Podtest
+    visibility.regular: Standardowy
+    visibility.featured: Uzewnętrzniony
+    type: Typ
+    type.tooltip: Typ testu
+    type.code: kod
+    type.wizard: wizard
+    type.flow: graf
+    resumable: Wznawialny
+    resumable.tooltip: Czy dialog wznowienia sesji jest dopuszczalny?
+    wizard: Wizard
+    wizard.tooltip: Wybierz wizard testu z którego ten test ma zostać stworzony
+    wizard.none: <nie wybrano>
+    owner: Właściciel
+    owner.tooltip: Właściciel obiektu
+    groups: Grupy
+    groups.tooltip: Lista grup, oddzielonych przecinkiem, do których należy obiekt
+  button:
+      run: Uruchom test
+      debug: Debuguj test
+      update: Zaktualizuj wszystkie zależne testy
+  dialog:
+      title:
+          update: Aktualizacja zależnych testów.
+      message:
+          update.successful: Aktualizacja zakończona.
+    
+list: 
+  field:
+    name: Nazwa
+    wizard: Wizard
+    wizard.source: Źródłowy test
+  tooltips:
+    outdated: Dostępna jest nowa wersja źródłowego testu. Proszę ponownie zapisać test aby go zaktualizować.
+    uptodate: Używana jest najnowsza wersja testu źródłowego.
+    
+variables:
+    form:
+        field:
+            name: Nazwa
+            name.tooltip: Unikalna nazwa zmiennej testu
+            description: Opis
+            description.tooltip: Opis zmiennej testu
+            url: URL
+            url.tooltip: Czy parametr jest przekazywalny przez URL?
+            value: Wartość domyślna
+            value.tooltip: Wartość domyślna zmiennej testu
+        dialog:
+            tooltip: Zdefiniuj zmienną testu
+    
+    input:
+        fieldset:
+            legend: Wejście testu
+            legend.tooltip: Zmienne wejścia testu.
+        parameters:
+            legend: Parametry wejścia
+            legend.tooltip: Zdefiniuj parametry wejścia testu
+            list:
+                add: Dodaj parametr wejścia
+                delete.checked: Usuń zaznaczone parametry
+                edit: Edytuj
+                delete: Usuń
+                field:
+                    info: Info
+                    name: Nazwa
+                    url: URL
+                    url.yes: Tak
+                    url.no: Nie
+                    value: Domyślna wartość
+            dialog:
+                title:
+                    add: Dodawanie nowego parametru wejścia
+                    edit: Edytowanie parametru wejścia
+                    delete: Usuwanie parametru wejścia
+                message:
+                    delete.confirm: Jesteś pewien, że chcesz usunąć wybrane parametry wejścia?
+    
+    output:
+        fieldset:
+            legend: Wyjście testu
+            legend.tooltip: Zmienne wyjścia testu.
+        returns:
+            legend: Zmienne wyjścia
+            legend.tooltip: Zdefiniuj zmienne wyjścia testu
+            list:
+                add: Dodaj zmienną wyjścia
+                delete.checked: Usuń zaznaczone zmienne wyjścia
+                edit: Edytuj
+                delete: Usuń
+                field:
+                    info: Info
+                    name: Nazwa
+                    value: Domyślna wartość
+            dialog:
+                title:
+                    add: Dodawanie nowej zmiennej wyjścia
+                    edit: Edytowanie zmiennej wyjścia
+                    delete: Usuwanie zmiennej wyjścia
+                message:
+                    delete.confirm: Jesteś pewien, że chcesz usunąć wybrane zmienne wyjścia?
+        branches:
+            legend: Rozgałęzienia
+            legend.tooltip: Zdefiniuj gałąź
+            list:
+                add: Dodaj gałąź
+                delete.checked: Usuń zaznaczone gałęzie
+                edit: Edytuj
+                delete: Usuń
+                field:
+                    info: Info
+                    name: Nazwa
+                    value: Domyślna wartość
+            dialog:
+                title:
+                    add: Dodawanie nowej gałęzi
+                    edit: Edytowanie gałęzi
+                    delete: Usuwanie gałęzi
+                message:
+                    delete.confirm: Jesteś pewien, że chcesz usunąć wybrane gałęzie?
+    
+log:
+    dialog:
+        title:
+            delete: Usuwanie loga
+            clear: Czyszczenie logów
+        message:
+            delete.confirm: Jesteś pewien, że chcesz usunąć wybrane logi?
+            clear.confirm: Jesteś pewien, że chcesz wyczyścić wszystkie logi?
+    fieldset:
+        legend: Logi błędów
+        legend.tooltip: Logi błędów testu
+    list:
+        button: 
+            delete.all: Usuń wszystkie
+            delete.checked: Usuń zaznaczone
+            delete: Usuń
+            refresh: Odśwież
+        field:
+            date: Data
+            type: Typ
+            type.R: R
+            type.javascript: Javascript
+            message: Wiadomość
+            browser: Przeglądarka
+            ip: IP
+            
+logic:
+    convert:
+        title: konwertowanie do kodu R
+        confirmation: Jesteś pewien, że chcesz skonwertować test do kodu R? Operacja ta nie może być cofnięta.
+        buttons:
+            convert: Konwertuj do kodu R
+    code:
+        fieldset:
+            legend: Logika testu
+            legend.tooltip: Kod logiki testu
+            
+
+completion:
+    wizard:
+        default:
+            autoformat: Formatuj wstawioną treść
+            insertcomments: Wstaw komentarze
+        
+        sql:
+            selection:
+                empty:
+                    column: -- wybierz kolumnę --
+                    table: -- wybierz tabelę --
+            options:
+                wizard: wizard
+                code: kod SQL
+            parameters: 
+                label: parametry
+                tooltip: Podaj parametry do kodu SQL.
+            fetchcount: 
+                label: limit pobranych
+                tooltip: Ilość wierszy do zwrócenia w odpowiedzi. Użyj -1 dla wszystkich, lub 0 aby nie zwracać niczego.
+            table:
+                label: wybierz tabelę
+                tooltip: Wybierz tabelę z danymi na której chcesz wykonać kwerendę.
+            type:
+                label: typ kwerendy
+                tooltip: Wybierz typ kwerendy (zapytania) SQL.
+            update:
+                label: ustaw (set)
+                tooltip: Ustaw wartości w wierszu.
+                empty: Nie wybrano wierszy do zmiany. Operacja nie zapisze żadnych wartości w tabeli. 
+            select:
+                label: wybierz (select)
+                tooltip: Wybierz kolumny, których zawartość chcesz pobrać.
+            where:
+                label: warunek (where)
+                tooltip: Declare conditional statement.
+                empty: Nie zdefiniowano warunków, zapytanie odniesie się do wszystkich wierszy tabeli.
+                logic:
+                    or: LUB
+                    and: I
+                operators:
+                    equal: równe
+                    notequal: różne od
+                    greater: większe niż
+                    equalgreater: większe lub równe
+                    lesser: mniejsze niż
+                    equallesser: mniejsze lub równe
+                    like: podobne do
+                    notlike: nie podobne do
+            order:
+                label: sortuj według (order by)
+                tooltip: Wybierz sposób sortowania.
+                empty:  Nie wybrano sposobu sortowania, zwrócone dane nie będą sortowane.
+                directions:
+                    ascending: rosnąco
+                    descending: malejąco
+            insert:
+                label: wstaw (inser)
+                tooltip: Wybierz wartości do wstawienia.
+                empty:  Nie wybrano wartości do wstawienia. Wiersz zostanie dodany z domyślnymi wartościami. 
+    documentation:
+        help:
+            title: Dokumentacja do autouzupełniania składni R - instrukcja generacji
+            intro: Przed rozpoczęciem użycia autouzupełniania kodu R w Concerto, należy upewnić się, że dokumentacja funkcji języka R dostępnych w systemie została wygenerowana.
+            info:
+                directory: >
+                    W celu wygenerowania tej dokumentacji, należy otworzyć aplikację terminala (w systemach Windows jest to `cmd`, na Linuksach `xterm`, `konsole` lub `gnome-terminal`), i za pomocą tej aplikacji przejść do katalogu, gdzie zainstalowane jest Concerto:
+                console: Z tej lokalizacji, będzie można użyć konsoli Symfony, w celu wykonania komendy concerto:r:cache generującej dokumentację 
+                console.more: więcej informacji na temat konsoli Symfony
+                output: Uruchomienie tej komendy spowoduje wyświetlenie na ekranie wszystkich odnalezionych w systemie funkcji języka R i przygotuje wszystkie potrzebne pliki dokumentacji. Po zakończeniu działania tej komendy należy przeładować stronę Concerto, lub przelogować się aby zacząć używać autouzupełniania składni R.
+                        
+flow:
+    fieldset:
+        legend: Graf testu
+        legend.tooltip: Graf testu
+        return_function.tooltip: Funkcja zwrotu.
+    nodes:
+        names:
+            test_start: rozpoczęcie testu
+            test_end: zakończenie testu
+        descriptions:
+            test_start: Jest to węzeł wejściowy testu. Wykonanie testu rozpoczyna się stąd. Zwraca parametry wejściowe testu.
+            test_end: Jest to węzeł w którym można ustawić wartości zwracanych zmiennych testu.
+        tooltips:
+            wizard: Uruchom dialog kreatora aby ustawić wartości węzła.
+    ports:
+        names:
+            in: wejście
+        descriptions:
+            in: Punkt wejścia węzła.
+        tooltips:
+            inputs:
+                label: Kliknij aby przełączyć, czy zmienna ma być traktowana jako ciąg znaków czy zewaluowana ekspresja R. Podkreślone wejścia są traktowane jako ciąg znaków.
+    buttons:
+        reset_view: Resetuj widok
+        remove_node: usuń węzeł
+        reset_to_default: Zresetuj do domyślnej
+        toggle_collapse: Zsuń/Wysuń niepołączone porty
+    tags:
+        all: Wszystkie
+        
+alerts:
+    edit:
+        input: Proszę zapisać wszelkie zmiany dokonane w teście przed dodaniem/edycją/usunięciem jakiejkolwiek zmiennej wejścia aby zapobiec utracie niezapisanych zmian.
+        output: Proszę zapisać wszelkie zmiany dokonane w teście przed dodaniem/edycją/usunięciem jakiejkolwiek zmiennej wyjścia aby zapobiec utracie niezapisanych zmian.

@@ -1,0 +1,3 @@
+parameters:
+    nodes:
+        - { id: local, protocol: http, ip: 127.0.0.1, host: localhost, dir: /, connection: local, hash: someRandomHash }

@@ -1,0 +1,13 @@
+{% extends "::base_include.html.twig" %}
+{% set class_name = "Test" %}
+{% trans_default_domain class_name %}
+
+{% block content %}
+    <div class="center">
+        <button ng-click="refreshLogs();" class="btn btn-default btn-sm">{{ "log.list.button.refresh"|trans }}</button>
+        <button ng-click="deleteAllLogs();" class="btn btn-danger btn-sm">{{ "log.list.button.delete.all"|trans }}</button>
+        <button ng-click="deleteSelectedLogs();" class="btn btn-danger btn-sm">{{ "log.list.button.delete.checked"|trans }}</button>
+        <button ng-click="gridService.downloadList(logsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+    </div>
+    <div ui-grid="logsOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>
+{% endblock %}

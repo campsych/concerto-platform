@@ -1,0 +1,24 @@
+breadcrumb:
+    manager: File manager
+
+uploader:
+    fieldset:
+        legend: File manager
+    library:
+        title: Files library
+        empty: Files library is currently empty.
+        buttons:
+            use: Use
+            remove: Remove
+            open: Open
+    queue:
+        title: Upload queue
+        droparea: Drag & drop your files here
+        progress: Total progress
+        buttons:
+            upload: Upload
+            cancel: Cancel
+            remove: Remove
+            uploadall: Upload all
+            cancelall: Cancel all
+            removeall: Remove all

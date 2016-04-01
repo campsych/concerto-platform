@@ -1,0 +1,8 @@
+<script type="text/ng-template" id="type_4_setter.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block setter %}
+            <input type="checkbox" ng-model="output" ng-change="onPrimitiveValueChange(output)" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="wizardObject.initProtected == '1'" />
+        {% endblock %}
+    {% endembed %}
+</script>

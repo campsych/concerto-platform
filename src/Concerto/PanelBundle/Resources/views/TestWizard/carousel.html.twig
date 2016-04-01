@@ -1,0 +1,33 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "TestWizard" %}
+
+{% block content %}
+    <wizard class="testWizard" edit-mode="true" steps-collection="object.steps" hide-indicators="object.steps.length<=1">
+        <div ng-controller="TestWizardCarouselStepController" ng-repeat="step in object.steps">
+            <wz-step title="{%verbatim%}{{step.title}}{%endverbatim%}" step-uid="{%verbatim%}{{step.id}}{%endverbatim%}">
+                <div class="center wizard-step-buttons-top" ng-if="$index > 0 || $index < object.steps.length-1">
+                    <button class="btn btn-warning" wz-previous ng-if="$index > 0">{{ "preview.buttons.previous"|trans }}</button>
+                    <button class="btn btn-primary" wz-next ng-if="$index < object.steps.length-1">{{ "preview.buttons.next"|trans }}</button>
+                </div>
+                <div class="bs-callout bs-callout-info" align="left">
+                    <h3 ng-bind="step.title"></h3>
+                    <p ng-bind-html="step.description | trustedHtml"></p>
+                </div>
+                <div ng-repeat="param in step.params | orderBy: 'order' track by $index">
+                    {% if wizard_mode == 'dev' %}
+                        <div ng-if="object.initProtected != '1'">
+                            <i ng-if="$index > 0" style="margin: 2px;" class="glyphicon glyphicon-arrow-up clickable" uib-tooltip="{{ 'param.move_up.tooltip'|trans }}" tooltip-append-to-body="true" ng-click="moveParamDown($index)"></i>
+                            {%verbatim%}#{{$index + 1}}{%endverbatim%}
+                            <i ng-if="$index < step.params.length - 1" style="margin: 2px;" class="glyphicon glyphicon-arrow-down clickable" uib-tooltip="{{ 'param.move_down.tooltip'|trans }}" tooltip-append-to-body="true" ng-click="moveParamUp($index)"></i>
+                        </div>
+                    {% endif %}
+                    <wizard-param-setter param="param" parent="null" output="param.output" mode="outer" wizard-mode="{{wizard_mode}}" values="values" wizard-object="object"></wizard-param-setter>
+                </div>
+                <div class="center wizard-step-buttons-bottom" ng-if="($index > 0 || $index < object.steps.length-1) && step.params.length > 0">
+                    <button class="btn btn-warning" wz-previous ng-if="$index > 0">{{ "preview.buttons.previous"|trans }}</button>
+                    <button class="btn btn-primary" wz-next ng-if="$index < object.steps.length-1">{{ "preview.buttons.next"|trans }}</button>
+                </div>
+            </wz-step>
+        </div>
+    </wizard>
+{% endblock %}

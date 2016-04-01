@@ -1,0 +1,9 @@
+/vendor/
+/web/bundles/concertopanel/
+/nbproject/
+/app/cache/
+/app/logs
+/web/bundles/concertotest/
+/bin/
+/composer.phar
+/app/config/parameters.yml

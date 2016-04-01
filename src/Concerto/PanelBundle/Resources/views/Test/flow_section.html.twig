@@ -1,0 +1,58 @@
+{% trans_default_domain "Test" %}
+
+<div flow-logic context-menu data-target="menu-flow">
+    <div class="center">
+        <button ng-click="resetView();" class="btn btn-default btn-sm btn-list-refresh">{{ "flow.buttons.reset_view"|trans }}</button>
+    </div>
+    <div id="flowContainerScroll">
+        <div id="flowContainer">
+        </div>
+    </div>
+
+    <div class="dropdown ctx-menu" id="menu-node">
+        <ul class="dropdown-menu ctx-menu-ul" role="menu">
+            <li class="ctx-element ctx-action ctx-action-active" ng-click="removeNode(nodeContext.id)">{{ "flow.buttons.remove_node"|trans }}</li>
+        </ul>
+    </div>
+
+    <div class="dropdown ctx-menu" id="menu-flow" context-menu-margin-bottom="10">
+        <ul class="dropdown-menu ctx-menu-ul" role="menu">
+            <div style="margin: 3px 20px 10px 10px;">
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:16px;"><i class="glyphicon glyphicon-search"></i></td>
+                        <td><input type="text" ng-model="nodeNameFilter" ctx-no-close-on-click></td>
+                    </tr>
+                </table>
+            </div>
+
+            <uib-accordion close-others="true">
+                <uib-accordion-group ng-init="isOpen = $first" is-open="isOpen" ng-repeat="tag in collectionService.getUniqueTags() | orderBy: 'name'" panel-class="panel-default">
+                    <uib-accordion-heading>
+                        <div ctx-no-close-on-click>{%verbatim%}{{tag | capitalize}} ({{ (collectionService.getTaggedCollection(tag) | filter:excludeSelfFilter | filter: { 'name': nodeNameFilter }).length}}){%endverbatim%}</div>
+                    </uib-accordion-heading>
+
+                    <li ng-repeat="test in collectionService.getTaggedCollection(tag) | filter:excludeSelfFilter | filter: { 'name': nodeNameFilter } | orderBy: 'name' as tests track by test.id" 
+                        class="ctx-element ctx-action ctx-action-active" ng-click="addNewNode(0, test.id)">
+                        <i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='test.description'></i>
+                        {% verbatim %}{{test.name}}{% endverbatim %}
+                    </li>
+
+                </uib-accordion-group>
+
+                <uib-accordion-group panel-class="panel-default">
+                    <uib-accordion-heading>
+                        <div ctx-no-close-on-click>{{ "flow.tags.all"|trans }} {%verbatim%}({{ (collectionService.collection | filter:excludeSelfFilter | filter: { 'name': nodeNameFilter }).length}}){%endverbatim%}</div>
+                    </uib-accordion-heading>
+
+                    <li ng-repeat="test in collectionService.collection | filter:excludeSelfFilter| filter: { 'name': nodeNameFilter } | orderBy: 'name' as tests track by test.id" 
+                        class="ctx-element ctx-action ctx-action-active" ng-click="addNewNode(0, test.id)">
+                        <i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='test.description'></i>
+                        {% verbatim %}{{test.name}}{% endverbatim %}
+                    </li>
+
+                </uib-accordion-group>
+            </uib-accordion>
+        </ul>
+    </div>
+</div>

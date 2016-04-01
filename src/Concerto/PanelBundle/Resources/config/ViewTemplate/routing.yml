@@ -1,0 +1,34 @@
+ViewTemplate_object:
+    path: /ViewTemplate/fetch/{object_id}/{format}
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:objectAction, format: json }
+
+ViewTemplate_collection:
+    path: /ViewTemplate/collection/{format}
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:collectionAction, format: json }
+
+ViewTemplate_form:
+    path: /ViewTemplate/form/{action}
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:formAction, action: edit }
+    
+ViewTemplate_save:
+    path: /ViewTemplate/{object_id}/save
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:saveAction }
+    methods:  [POST]
+    
+ViewTemplate_copy:
+    path: /ViewTemplate/{object_id}/copy
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:copyAction }
+    
+ViewTemplate_delete:
+    path: /ViewTemplate/{object_ids}/delete
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:deleteAction } 
+    methods:  [POST]
+    
+ViewTemplate_export:
+    path: /ViewTemplate/{object_ids}/export/{format}
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:exportAction, format: 'compressed' }
+    
+ViewTemplate_import:
+    path: /ViewTemplate/import
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:importAction }
+    methods:  [POST]

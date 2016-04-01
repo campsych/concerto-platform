@@ -1,0 +1,89 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    <div ng-controller="MainController">
+        <div ui-i18n="'{% 
+if app.request.locale == "en_GB" %}en{% 
+elseif app.request.locale == "pl_PL" %}pl{% 
+endif %}'">
+
+            <uib-tabset active="tab.activeIndex">
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TEST')) %}
+                    <uib-tab ng-click="setTab('tests')" index="0" ng-init="setFirstActiveTab(0, 'tests')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.tests.tooltip"|trans }}'">{{ "tab.tests"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="TestController" id="test-tab">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewTest" class="center"></div>
+                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"Test"}) }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TEMPLATE')) %}
+                    <uib-tab ng-click="setTab('templates')" index="1" ng-init="setFirstActiveTab(1, 'templates')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.templates.tooltip"|trans }}'">{{ "tab.templates"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="ViewTemplateController">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewViewTemplate" class="center"></div>
+                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"ViewTemplate"}) }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TABLE')) %}
+                    <uib-tab ng-click="setTab('tables')" index="2" ng-init="setFirstActiveTab(2, 'tables')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.tables.tooltip"|trans }}'">{{ "tab.tables"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="DataTableController">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewDataTable" class="center"></div>
+                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"DataTable"}) }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_FILE')) %}
+                    <uib-tab ng-click="setTab('files')" index="3" ng-init="setFirstActiveTab(3)">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.files.tooltip"|trans }}'">{{ "tab.files"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="FileBrowserController">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewFile" class="center"></div>
+                            {{ include("ConcertoPanelBundle:FileBrowser:file_browser_content.html.twig") }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
+                {% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
+                    <uib-tab ng-click="setTab('users')" index="4" ng-init="setFirstActiveTab(4, 'users')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.users.tooltip"|trans }}'">{{ "tab.users"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="UserController">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewUser" class="center"></div>
+                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"User"}) }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_WIZARD')) %}
+                    <uib-tab ng-click="setTab('wizards')" index="5" ng-init="setFirstActiveTab(5, 'wizards')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.wizards.tooltip"|trans }}'">{{ "tab.wizards"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="TestWizardController">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewTestWizard" class="center"></div>
+                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"TestWizard"}) }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
+            </uib-tabset>
+
+            <!-- wizard param setters -->
+            {% for i in 0..10 %}
+                {{ include("ConcertoPanelBundle:TestWizard:type_" ~ i ~ "_setter.html.twig") }}
+                {{ include("ConcertoPanelBundle:TestWizard:type_" ~ i ~ "_definer.html.twig") }}
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

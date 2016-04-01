@@ -1,0 +1,15 @@
+session.resuming: wznawianie sesji
+session.resuming.question: Ten test posiada rozpoczętą sesję. Nacisnij OK aby kontynuować test.
+session.resuming.start_new_checkbox_label: Chcę rozpocząć nową sesję
+OK: OK
+ignition.noscript: Twoja przeglądarka nie obsługuje javascript. Proszę włączyć obsługę javascript i odświeżyć przeglądarkę.
+ignition.ip: "IP:"
+ignition.browser: "Przeglądarka:"
+ignition.time: "Czas:"
+ignition.browser.notsupported: Wersja twojej przeglądarki nie jest wspierana. Zaktualizuj Internet Explorer do wersji 9 lub wyższej, albo przejdź na alternatywne przeglądarki jak Chrome czy Firefox.
+ignition.browser.potentionallynotsupported: Jeśli ta wiadomość nie zniknie po chwili, być może będzie trzeba użyć innej przeglądarki.
+default.template:
+    error: Napotkano problem. Wykonanie wstrzymane.
+    finished: Test ukończony.
+    loading: proszę czekać...
+    unresumable: Maksymalny limit czasu nieaktywności w sesji osiągnięty. Proszę odświeżyć stronę aby zacząć od nowa.

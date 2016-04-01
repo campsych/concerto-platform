@@ -1,0 +1,34 @@
+breadcrumb:
+    list: Wszystkie szablony
+
+form:
+  title:
+    add: Tworzenie nowego szablonu widoku
+    edit: 'Edycja szablonu widoku #{0}'
+  field:
+    name: Nazwa
+    name.tooltip: Nazwa szablonu widoku
+    accessibility: Dostępność
+    accessibility.tooltip: Poziom dostępności szablonu widoku
+    protected: Chronione
+    protected.tooltip: Czy szablon widoku jest chroniony?
+    archived: Zarchiwizowane
+    archived.tooltip: Czy szablon widoku jest zarchiwizowany?
+    owner: Właściciel
+    owner.tooltip: Właściciel obiektu
+    groups: Grupy
+    groups.tooltip: Lista grup, oddzielonych przecinkiem, do których należy obiekt
+
+list: 
+  field:
+    name: Nazwa
+    
+source:
+    fieldset:
+        legend: Źródła szablonu widoku
+        legend.tooltip: Kod nagłówka HTML i ciała HTML szablonu widoku
+    field:
+        head: Nagłówek HTML
+        head.tooltip: Tag nagłówka HTML
+        html: Ciało HTML
+        html.tooltip: Kod źródłowy ciała HTML

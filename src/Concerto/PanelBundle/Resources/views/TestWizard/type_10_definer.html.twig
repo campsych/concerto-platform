@@ -1,0 +1,34 @@
+<script type="text/ng-template" id="type_10_definer.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block definition %}
+            {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.definer.titles.list.tooltip'|trans }}{% endblock %}
+                {% block elements %}
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "TestWizard" %}
+                        {% block label %}{{ 'param.form.field.type'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'param.form.field.type.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                            <select ng-model="param.definition.element.type" ng-options="type.id as type.label for type in typesCollection" style="width:100%;">
+                            </select>
+                        {% endblock %}
+                    {% endembed %}
+                        
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "TestWizard" %}
+                        {% block row %}<tr ng-if="typesCollection[param.definition.element.type].definer">{% endblock %}
+                            {% block label %}{{ 'param.form.field.definition'|trans }}{% endblock%}
+                            {% block tooltip %}{{ 'param.form.field.definition.tooltip'|trans }}{% endblock%}
+                            {% block control %}
+                            <i class='glyphicon glyphicon-align-justify clickable' ng-click='launchDefinitionDialog(param.definition.element)' uib-tooltip-html='"{{ 'param.form.field.definition.icon.tooltip'|trans }}"' tooltip-append-to-body='true'></i>
+                            <span class="wizardParamSummary">{%verbatim%}{{testWizardParamService.getDefinerSummary(param.definition.element)}}{%endverbatim%}</span>
+                        {% endblock %}
+                    {% endembed %}
+                {% endblock %}
+            {% endembed %} 
+        {% endblock %}
+    {% endembed %}
+</script>

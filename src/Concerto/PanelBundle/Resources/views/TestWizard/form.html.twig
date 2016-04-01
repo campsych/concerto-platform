@@ -1,0 +1,115 @@
+{% extends "ConcertoPanelBundle::form_h.html.twig" %}
+{% set class_name = "TestWizard" %}
+{% trans_default_domain class_name %}
+{% set exportable = true %}
+
+{% block legend %} 
+    {% verbatim %}{{formTitle}}{% endverbatim %}
+{% endblock %}
+{% block elements %}
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain class_name %}
+        {% block label %}{{ 'form.field.name'|trans }}{% endblock %}
+        {% block tooltip %}{{'form.field.name.tooltip'|trans}}{% endblock %}
+        {% block control %}
+            <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.name" style="width:100%;" />
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain class_name %}
+        {% block label %}{{ 'form.field.protected'|trans }}{% endblock %}
+        {% block tooltip %}{{'form.field.protected.tooltip'|trans}}{% endblock %}
+        {% block control %}
+            <input type="checkbox" ng-model="object.protected" style="width:100%;" ng-true-value="'1'" ng-false-value="'0'">
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain class_name %}
+        {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
+        {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
+        {% block control %}
+            <input type="checkbox" ng-disabled="object.initProtected == '1'"  ng-model="object.archived" style="width:100%;" ng-true-value="'1'" ng-false-value="'0'">
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain class_name %}
+        {% block label %}{{ 'form.field.test'|trans }}{% endblock %}
+        {% block tooltip %}{{'form.field.test.tooltip'|trans}}{% endblock %}
+        {% block control %}
+            <select ng-model="object.test" style="width:100%;" {% if isAddDialog == false %}ng-disabled="true"{% else %}ng-disabled="object.initProtected == '1'"{% endif %} 
+                    ng-options="test.id as test.name for test in testCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
+                <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+            </select>
+        {% endblock %}
+        {% block extra_info %}
+            <a ng-href="#/tests/{% verbatim %}{{object.test}}{% endverbatim %}" ng-show="object.test !== null">
+                <i class="glyphicon glyphicon-link"></i>
+            </a>
+        {% endblock %}
+    {% endembed %}
+
+    {% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
+        {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+            {% trans_default_domain class_name %}
+            {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
+            {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
+            {% block control %}
+                <select ng-disabled="object.initProtected == '1'" ng-model="object.accessibility" style="width:100%;" ng-options="accessibility.value as accessibility.label for accessibility in accessibilities">
+                </select>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+            {% trans_default_domain class_name %}
+            {% block label %}{{ 'form.field.owner'|trans }}{% endblock %}
+            {% block tooltip %}{{'form.field.owner.tooltip'|trans}}{% endblock %}
+            {% block control %}
+                <select ng-disabled="object.initProtected == '1'" ng-model="object.owner" style="width:100%;" ng-options="owner.id as owner.username for owner in userCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'username' ">
+                    <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                </select>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+            {% trans_default_domain class_name %}
+            {% block label %}{{ 'form.field.groups'|trans }}{% endblock %}
+            {% block tooltip %}{{'form.field.groups.tooltip'|trans}}{% endblock %}
+            {% block control %}
+                <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.groups" style="width:100%;" />
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+
+{% endblock %}
+
+{% block sections %}
+    <uib-accordion-group is-open="tabAccordion.step.open">
+        <uib-accordion-heading>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'step.fieldset.legend.tooltip'|trans }}'"></i>
+            {{ 'step.fieldset.legend'|trans }}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.step.open, 'glyphicon-chevron-right': !tabAccordion.step.open}"></i>
+        </uib-accordion-heading>
+        {{ include("ConcertoPanelBundle:TestWizard:step_section.html.twig", {'class_name':"TestWizard"}) }}
+    </uib-accordion-group>
+
+    <uib-accordion-group is-open="tabAccordion.param.open">
+        <uib-accordion-heading>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'param.fieldset.legend.tooltip'|trans }}'"></i>
+            {{ 'param.fieldset.legend'|trans }}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.param.open, 'glyphicon-chevron-right': !tabAccordion.param.open}"></i>
+        </uib-accordion-heading>
+        {{ include("ConcertoPanelBundle:TestWizard:param_section.html.twig", {'class_name':"TestWizard"}) }}
+    </uib-accordion-group>
+
+    <uib-accordion-group is-open="tabAccordion.preview.open">
+        <uib-accordion-heading>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'preview.fieldset.legend.tooltip'|trans }}'"></i>
+            {{ 'preview.fieldset.legend'|trans }}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.preview.open, 'glyphicon-chevron-right': !tabAccordion.preview.open}"></i>
+        </uib-accordion-heading>
+        {{ include("ConcertoPanelBundle:TestWizard:preview_section.html.twig", {'class_name':"TestWizard"}) }}
+    </uib-accordion-group>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% trans_default_domain "panel" %}
+<div>
+    {% if mode is defined and mode == 'R' %}
+        {# twig if is there since it might be included outside R-codemirror. ng-if is there as this alert needs to be displayed only when there is an error #}
+        <div class="codemirrorCompletionAlert" ng-if="! codeOptions.hintOptions.functionIndex[0]">
+            <uib-alert type="danger">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                {{ 'code.documentation.error.info'|trans }}
+                <button ng-click="showDocumentationHelp()" class="btn-sm btn-primary">
+                    {{ 'code.documentation.error.solve' | trans }}
+                </button>
+            </uib-alert>
+        </div>
+    {% endif %}
+    <uib-alert type="info">
+        <i class="glyphicon glyphicon-info-sign"></i>
+        <span><b>F11:</b> {{ 'code.F11'|trans }}</span>
+        <span>, <b>Shift + Tab:</b> {{ 'code.shift.tab'|trans }}</span>
+        {% if mode is defined and mode == 'R' %}
+            <span ng-if="codeOptions.hintOptions.functionIndex[0]">, <b>Ctrl + Space:</b> {{ 'code.ctrl.space'|trans }}</span>
+        {% endif %}
+    </uib-alert>
+</div>

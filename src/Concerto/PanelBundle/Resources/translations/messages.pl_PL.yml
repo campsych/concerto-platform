@@ -1,0 +1,71 @@
+validate:
+    protected.mod: Próba modyfikacji chronionego obiektu
+    
+    user:
+      username.unique: Ten login już istnieje w systemie
+      username.min: Minimalna długość pola "login" to 3
+      username.max: Maksymalna długość pola "login" to 25
+      username.blank: Pole "login" nie może być puste
+      password.min: Minimalna długość pola "hasło" to 4
+      password.max: Maksymalna długość pola "hasło" to 40
+      password.match: Potwierdzenie hasła różni się od hasła
+      password.blank: Pole "hasło" nie może być puste
+      email: To nie jest poprawny adres email
+      email.unique: Ten email już istnieje w systemie
+      email.max: Maksymalna długość pola "email" to 60
+      email.blank: Pole "email" nie może być puste
+      
+    table:
+      name.unique: Ta nazwa już istnieje w systemie
+      name.min: Minimalna długość pola "nazwa" to 1
+      name.max: Maksymalna długość pola "nazwa" to 64
+      name.blank: Pole "nazwa" nie może być puste
+      name.incorrect: Niepoprawna nazwa
+      column.name.unique: Już jest taka kolumna w tabeli
+      column.name.blank: Nazwa nie może być pusta
+      column.name.incorrect: Niepoprawna nazwa
+      
+    template:
+      name.unique: Ta nazwa już istnieje w systemie
+      name.min: Minimalna długość pola "nazwa" to 1
+      name.max: Maksymalna długość pola "nazwa" to 64
+      name.blank: Pole "nazwa" nie może być puste
+      
+    test:
+      name.unique: Ta nazwa już istnieje w systemie
+      name.min: Minimalna długość pola "nazwa" to 1
+      name.max: Maksymalna długość pola "nazwa" to 64
+      name.blank: Pole "nazwa" nie może być puste
+      wizard.source: Musi zostać wybrany źródłowy wizard dla testu typu wizard
+      
+      variables:
+        unique: Zmienna o tej nazwie i typie jest już przypisana do testu
+        name.min: Minimalna długość pola "nazwa" to 1
+        name.max: Maksymalna długość pola "nazwa" to 64
+        name.blank: Pole "nazwa" nie może być puste
+        name.incorrect: Niepoprawna nazwa
+          
+      wizards:
+        name.unique: Ta nazwa już istnieje w systemie
+        name.min: Minimalna długość pola "nazwa" to 1
+        name.max: Maksymalna długość pola "nazwa" to 64
+        name.blank: Pole "nazwa" nie może być puste
+        test.null: Test musi zostać wybrany
+        
+        params:
+            label.min: Minimalna długość pola "nazwa" to 1
+            label.max: Maksymalna długość pola "nazwa" to 64
+            label.blank: Pole "nazwa" nie może być puste
+            variable.null: Zmienna testu musi zostać wybrana
+            variable.unique: Tylko jeden parametr wizarda może być przypisany do konkretnego parametru testu
+            step.null: Krok wizardu testu musi zostać wybrany
+        
+        steps:
+            title.min: Minimalna długość pola "tytuł" to 1
+            title.max: Maksymalna długość pola "tytuł" to 64
+            title.blank: Pole "tytuł" nie może być puste
+            
+errors:
+    title: Błedy systemu
+    table:
+        column.conversion: Wybrana konwersja typu nie jest dostępna przy używanym sterowniku bazy danych.

@@ -1,0 +1,16 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="ckeditor_dialog.html">
+    <div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+        {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+        {% block legend_tooltip %}{%verbatim%}{{tooltip}}{%endverbatim%}{% endblock %}
+        {% block control %}
+            <textarea ckeditor="editorOptions" ng-model="value"></textarea>
+        {% endblock %}
+    {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+    </div>
+</div>

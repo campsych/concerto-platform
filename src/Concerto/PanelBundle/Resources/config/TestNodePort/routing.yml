@@ -1,0 +1,22 @@
+TestNodePort_object:
+    path: /TestNodePort/fetch/{object_id}/{format}
+    defaults: { _controller: concerto_panel.TestNodePort_controller:objectAction, format: json }
+    
+TestNodePort_collection:
+    path: /TestNodePort/collection/{format}
+    defaults: { _controller: concerto_panel.TestNodePort_controller:collectionAction, format: json }
+
+TestNodePort_delete:
+    path: /TestNodePort/{object_ids}/delete
+    defaults: { _controller: concerto_panel.TestNodePort_controller:deleteAction }
+    methods:  [POST]
+    
+TestNodePort_save:
+    path: /TestNodePort/{object_id}/save
+    defaults: { _controller: concerto_panel.TestNodePort_controller:saveAction }
+    methods:  [POST]
+    
+TestNodePort_save_collection:
+    path: /TestNodePort/save
+    defaults: { _controller: concerto_panel.TestNodePort_controller:saveCollectionAction }
+    methods:  [POST]

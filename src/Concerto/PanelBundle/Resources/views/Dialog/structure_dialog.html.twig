@@ -1,0 +1,34 @@
+{% trans_default_domain "DataTable" %}
+<div type="text/ng-template" id="structure_dialog.html">
+<div class="modal-body">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "DataTable" %}
+        {% block legend %}{%verbatim%}{{dialogTitle}}{%endverbatim%}{% endblock %}
+        {% block legend_tooltip %}{{ 'structure.fieldset.legend.tooltip'|trans }}{% endblock %}
+        {% block elements %}
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'structure.form.field.name'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'structure.form.field.name.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input type="text" ng-model="object.name" style="width:100%;" />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'structure.form.field.type'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'structure.form.field.type.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <select ng-model="object.type" ng-options="type.value as type.label for type in types" style="width:100%;">
+                    </select>
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="save()">{{ 'form.button.save'|trans({},"panel") }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+</div>
+</div>

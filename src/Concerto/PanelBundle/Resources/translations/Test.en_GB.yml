@@ -1,0 +1,282 @@
+breadcrumb:
+    list: All tests
+
+form:
+  title:
+    add: Creating new test
+    edit: 'Editing test #{0}'
+  field:
+    name: Name
+    name.tooltip: Test name
+    accessibility: Accessibility
+    accessibility.tooltip: Accessibility level of test
+    protected: Protected
+    protected.tooltip: Is test protected?
+    archived: Archived
+    archived.tooltip: Is test archived?
+    slug: Url name
+    slug.tooltip: Url name (also called "slug") is a customizable part of URL under which the test will be available; it can be used to make test URLs more descriptive
+    visibility: Visibility
+    visibility.tooltip: Test visibility
+    visibility.subtest: Subtest
+    visibility.regular: Regular
+    visibility.featured: Featured
+    type: Type
+    type.tooltip: Test type
+    type.code: code
+    type.wizard: wizard
+    type.flow: flowchart
+    resumable: Resumable
+    resumable.tooltip: Is session resume dialog allowed?
+    wizard: Wizard
+    wizard.tooltip: Select a test wizard that this test will be created from
+    wizard.none: <none selected>
+    owner: Owner
+    owner.tooltip: Object owner
+    groups: Groups
+    groups.tooltip: Comma separated list of groups that object is assigned to
+  button:
+      run: Run test
+      debug: Debug test
+      update: Update all dependent tests
+  dialog:
+      title:
+          update: Updating dependent tests
+      message:
+          update.successful: Updating finished.
+    
+list: 
+  field:
+    name: Name
+    wizard: Wizard
+    wizard.source: Source test
+  tooltips:
+    outdated: There is a new version of source test available. Please resave test to update.
+    uptodate: Using latest version of source test.
+    
+variables:
+    form:
+        field:
+            name: Name
+            name.tooltip: Unique name of variable
+            description: Description
+            description.tooltip: Variable description
+            url: URL
+            url.tooltip: Is parameter passable through URL?
+            value: Default value
+            value.tooltip: Variable default value
+    dialog:
+        tooltip: Define test variable
+    
+    input:
+        fieldset:
+            legend: Test input
+            legend.tooltip: Test input variables.
+        parameters:
+            legend: Input parameters
+            legend.tooltip: Define test input parameters
+            list:
+                add: Add input parameter
+                delete.checked: Remove checked parameters
+                edit: Edit
+                delete: Delete
+                field:
+                    info: Info
+                    name: Name
+                    url: URL
+                    url.yes: Yes
+                    url.no: No
+                    value: Default value
+            dialog:
+                title:
+                    add: Adding new input parameter
+                    edit: Editing input parameter
+                    delete: Removing input parameter
+                message:
+                    delete.confirm: Are you sure you want to delete selected input parameters?
+    output:
+        fieldset:
+            legend: Test output
+            legend.tooltip: Test output variables.
+        returns:
+            legend: Return variables
+            legend.tooltip: Define test return variables
+            list:
+                add: Add return variable
+                delete.checked: Remove checked returns
+                edit: Edit
+                delete: Delete
+                field:
+                    info: Info
+                    name: Name
+                    value: Default value
+            dialog:
+                title:
+                    add: Adding new return variable
+                    edit: Editing return variable
+                    delete: Removing return variable
+                message:
+                    delete.confirm: Are you sure you want to delete selected return variables?
+        branches:
+            legend: Branching
+            legend.tooltip: Define test branching
+            list:
+                add: Add branch
+                delete.checked: Remove checked branches
+                edit: Edit
+                delete: Delete
+                field:
+                    info: Info
+                    name: Name
+                    value: Default value
+            dialog:
+                title:
+                    add: Adding new branch
+                    edit: Editing branch
+                    delete: Removing branch
+                message:
+                    delete.confirm: Are you sure you want to delete selected branch?
+    
+log:
+    dialog:
+        title:
+            delete: Removing log
+            clear: Clearing logs
+        message:
+            delete.confirm: Are you sure you want to remove selected logs?
+            clear.confirm: Are you sure you want to clear all logs?
+    fieldset:
+        legend: Error logs
+        legend.tooltip: Test error logs
+    list:
+        button: 
+            delete.all: Delete all
+            delete.checked: Delete checked
+            delete: Delete
+            refresh: Refresh
+        field:
+            date: Date
+            type: Type
+            type.R: R
+            type.javascript: Javascript
+            message: Message
+            browser: Browser
+            ip: IP
+            
+logic:
+    convert:
+        title: test conversion to R code
+        confirmation: Are you sure you want to convert this test to R code. This operation cannot be reverted.
+        buttons:
+            convert: Convert to R code
+    code:
+        fieldset:
+            legend: Test logic
+            legend.tooltip: Test logic code
+            
+completion:
+    wizard:
+        default:
+            autoformat: Autoformat
+            insertcomments: Insert comments
+        
+        sql:
+            selection:
+                empty:
+                    column: -- choose column --
+                    table: -- choose table --
+            options:
+                wizard: wizard
+                code: SQL code
+            parameters: 
+                label: parameters
+                tooltip: Define SQL code parameters.
+            fetchcount: 
+                label: fechCount
+                tooltip: Number of response records to return. Use -1 for all and 0 for none.
+            table:
+                label: choose table
+                tooltip: Choose the table you want to perform an action on.
+            type:
+                label: query type
+                tooltip: Choose query type.
+            update:
+                label: set
+                tooltip: Set record values.
+                empty: Set clause is empty. No changes will be made in updated rows. 
+            select:
+                label: select
+                tooltip: Choose columns that you want to select.
+            where:
+                label: where
+                tooltip: Declare conditional statement.
+                empty:  WHERE clause is empty. No filters will be applied.
+                logic:
+                    or: OR
+                    and: AND
+                operators:
+                    equal: equal
+                    notequal: not equal
+                    greater: greater than
+                    equalgreater: equal or greater than
+                    lesser: lesser than
+                    equallesser: equal or lesser than
+                    like: like
+                    notlike: not like
+            order:
+                label: order by
+                tooltip: Chose sorting.
+                empty:  ORDER BY clause is empty. No sorting will be applied.
+                directions:
+                    ascending: ascending
+                    descending: descending
+            insert:
+                label: insert
+                tooltip: Set values to insert.
+                empty:  Insert clause is empty. Record will be added with default values. 
+    documentation:
+        help:
+            title: R autocompletion documentation - generation instructions
+            intro: Before using R-autocompletion feature in Concerto, you need to make sure that R documentation based on R configuration in your system has been generated.
+            info:
+                directory: >
+                    In order to generate this documentation, you need to open a console application (on Windows systems - `cmd`, on Linux `xterm`, `konsole` or `gnome-terminal`) and, inside it navigate into your Concerto installation directory:
+                console: From that location, you will be able to use Symfony console. You will need to exacute `concerto:r:cache` operation with it
+                console.more: click here for more information about Symfony console
+                output: Running this command will display all R functions which were found in your system, and will prepare needed documentation files. Reload or reopen Concerto page in order to start using it when editing R sources.
+
+flow:
+    fieldset:
+        legend: Test flow
+        legend.tooltip: Test flow
+        return_function.tooltip: Return function.
+    nodes:
+        names:
+            test_start: test start
+            test_end: test end
+        descriptions:
+            test_start: This is a test entry node. Test flow execution starts from here. It returns test input parameters.
+            test_end: This is a test node where you can set the values of test return variables.
+        tooltips:
+            wizard: Launch wizard dialog to set node variables.
+    ports:
+        names:
+            in: in
+        descriptions:
+            in: Node entry point.
+        tooltips:
+            inputs:
+                label: Click to toggle whether variable should be treated as a string or evaluated R expression. Underlined inputs are treated as a string.
+    buttons:
+        reset_view: Reset view 
+        remove_node: remove node
+        reset_to_default: Reset to default
+        toggle_collapse: Collapse/Expand unconnected ports
+    tags:
+        all: All
+        
+alerts:
+    edit:
+        input: Please save any changes you made to test before adding/editing/removing any input variable to prevent loss of unsaved changes.
+        output: Please save any changes you made to test before adding/editing/removing any output variable to prevent loss of unsaved changes.
+        

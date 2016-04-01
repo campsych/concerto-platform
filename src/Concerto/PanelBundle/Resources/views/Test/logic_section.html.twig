@@ -1,0 +1,4 @@
+{% trans_default_domain "Test" %}
+
+{{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
+<ui-codemirror ng-model="object.code" ui-codemirror-opts="codeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>

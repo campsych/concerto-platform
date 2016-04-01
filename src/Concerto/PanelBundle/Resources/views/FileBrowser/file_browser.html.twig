@@ -1,0 +1,6 @@
+{% extends "ConcertoPanelBundle::base_panel.html.twig" %}
+{% set controller = 'FileBrowserController' %}
+
+{% block body %}
+    {{ include("ConcertoPanelBundle:FileBrowser:file_browser_content.html.twig") }}
+{% endblock %}

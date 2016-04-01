@@ -1,0 +1,54 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="download_list_dialog.html">
+    <div class="modal-body">
+
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "panel" %}
+            {% block legend %}{{ 'download_list.dialog.title' | trans}}{% endblock %}
+            {% block legend_tooltip %}{{ 'download_list.dialog.tooltip' | trans}}{% endblock %}
+            {% block elements %}
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}{{ 'download_list.dialog.field.format' | trans}}{% endblock %}
+                    {% block tooltip %}{{ 'download_list.dialog.field.format.tooltip' | trans}}{% endblock %}
+                    {% block control %}
+                        <span class="btn-group">
+                            <label class="btn btn-primary" ng-model="format" uib-btn-radio="'csv'">{{ 'download_list.dialog.field.format.csv' | trans}}</label>
+                            <label class="btn btn-primary" ng-model="format" uib-btn-radio="'pdf'">{{ 'download_list.dialog.field.format.pdf' | trans}}</label>
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}{{ 'download_list.dialog.field.cols' | trans}}{% endblock %}
+                    {% block tooltip %}{{ 'download_list.dialog.field.cols.tooltip' | trans}}{% endblock %}
+                    {% block control %}
+                        <span class="btn-group">
+                            <label class="btn btn-primary" ng-model="cols" uib-btn-radio="'all'">{{ 'download_list.dialog.field.cols.all' | trans}}</label>
+                            <label class="btn btn-primary" ng-model="cols" uib-btn-radio="'visible'">{{ 'download_list.dialog.field.cols.visible' | trans}}</label>
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}{{ 'download_list.dialog.field.rows' | trans}}{% endblock %}
+                    {% block tooltip %}{{ 'download_list.dialog.field.rows.tooltip' | trans}}{% endblock %}
+                    {% block control %}
+                        <span class="btn-group">
+                            <label class="btn btn-primary" ng-model="rows" uib-btn-radio="'all'">{{ 'download_list.dialog.field.rows.all' | trans}}</label>
+                            <label class="btn btn-primary" ng-model="rows" uib-btn-radio="'visible'">{{ 'download_list.dialog.field.rows.visible' | trans}}</label>
+                            <label class="btn btn-primary" ng-model="rows" uib-btn-radio="'selected'">{{ 'download_list.dialog.field.rows.selected' | trans}}</label>
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="download()">{{ 'list.button.download'|trans({},"panel") }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
+</div>

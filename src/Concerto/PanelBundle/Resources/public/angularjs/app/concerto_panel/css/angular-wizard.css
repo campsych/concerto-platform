@@ -1,0 +1,22 @@
+.steps-indicator {
+    margin-top:20px;
+    bottom: auto;
+}
+
+.steps-indicator li a:before {
+    left: calc(50% - 7px);
+}
+
+.steps {
+    //padding-top: 60px;
+}
+
+.wizard-step-buttons-top {
+    padding-top: 60px;
+    padding-bottom: 25px;
+}
+
+.wizard-step-buttons-bottom {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}

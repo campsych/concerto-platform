@@ -1,0 +1,38 @@
+{% extends "ConcertoPanelBundle::base_panel.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onbeforeunload = function (event) {
+            var message = "{{ 'dialog.message.leaving'|trans }}";
+            if (typeof event == 'undefined') {
+                event = window.event;
+            }
+            if (event) {
+                event.returnValue = message;
+            }
+            return message;
+        };
+    </script>
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="headerElement mainLayoutElement">
+        {% block header %}
+            {{ include("ConcertoPanelBundle::header.html.twig") }}
+        {% endblock %}
+    </div>
+
+    <div ng-controller="ContentController" class="mainLayoutElement mainContentContainer">
+        {% block content %}
+            {{ include("ConcertoPanelBundle::content.html.twig") }}
+        {% endblock %}
+    </div>
+
+    <div class="mainLayoutElement center">
+        {% block footer %}
+        {% endblock %}
+    </div>
+{% endblock %}

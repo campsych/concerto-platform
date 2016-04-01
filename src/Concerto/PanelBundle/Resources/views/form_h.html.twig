@@ -1,0 +1,47 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    {% if isAddDialog %}
+        <div class="modal-body">
+        {% endif %}
+        {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
+        <uib-accordion close-others="false">
+            <uib-accordion-group is-open="tabAccordion.form.open" is-disabled="tabAccordion.form.disabled">
+                <uib-accordion-heading>
+                    {% if isAddDialog == false and exportable %}
+                        <i class="glyphicon glyphicon-comment" ng-click="editDescription()" uib-tooltip-html="'{{ 'description.tooltip'|trans }}'"></i>
+                    {% endif %}
+                    {% block legend %}{% endblock %} 
+                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.form.open, 'glyphicon-chevron-right': !tabAccordion.form.open}"></i>
+                </uib-accordion-heading>
+                {% block elements %}
+                {% endblock %}
+                <div style="clear: left;"></div>
+            </uib-accordion-group>
+            {% if isAddDialog == false %}
+                {% block sections %}{% endblock %}
+            {% endif %}
+        </uib-accordion>
+        {% if isAddDialog %}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save()">{{ 'form.button.save'|trans }}</button>
+            <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+        </div>
+    {% endif %}
+
+    {% if isAddDialog == false %}
+
+    <div class="formFloatingBar" align="right">
+        <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
+        <button ng-disabled="object.initProtected == '1'" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
+        <button class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
+        <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
+        {% if exportable %}
+            <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
+        {% endif %}
+    {% block floatingBarExtraButtons %}{% endblock %}
+</div>
+{% endif %}
+{% endblock %}

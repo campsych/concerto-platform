@@ -1,0 +1,7 @@
+{% trans_default_domain "Test" %}
+
+<div class="center">
+    <button class="btn btn-primary" ng-click="convertToR()">{{ "logic.convert.buttons.convert"|trans }}</button>
+</div>
+
+{{ include("ConcertoPanelBundle:TestWizard:carousel.html.twig", {'wizard_mode':'prod'}) }}

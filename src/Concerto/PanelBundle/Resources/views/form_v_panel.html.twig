@@ -1,0 +1,19 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
+    {% if panel_class is not defined %}{% set panel_class = "default" %}{% endif %}
+    <div class="panel panel-{{panel_class}}">
+        <div class="panel-heading">
+            <i class="glyphicon glyphicon-question-sign" uib-tooltip-html="'{% block legend_tooltip %}{% endblock %}'"></i>
+            {% block legend %}{% endblock %}
+        </div>
+        <div class="panel-body">
+            <p class="formDescription">{% block description %}{% endblock %}</p>
+            <table style="width:100%;">
+            {% block elements %}{% endblock %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

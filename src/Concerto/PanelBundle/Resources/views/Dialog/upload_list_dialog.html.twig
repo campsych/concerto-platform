@@ -1,0 +1,29 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="upload_list_dialog.html">
+    <div class="modal-body" nv-file-drop="" uploader="uploader">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+    {% trans_default_domain "panel" %}
+    {% block legend %}{{ 'upload_list.dialog.title'|trans }}{% endblock %}
+    {% block legend_tooltip %}{{ 'upload_list.dialog.tooltip'|trans }}{% endblock %}
+    {% block description %}
+        <uib-alert type="info">{{ "upload_list.dialog.description"|trans|raw }}</uib-alert>
+    {% endblock %}
+    {% block elements %}
+        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+            {% trans_default_domain "panel" %}
+            {% block label %}{{ 'upload_list.dialog.fields.file'|trans }}{% endblock%}
+            {% block tooltip %}{{ 'upload_list.dialog.fields.file.tooltip'|trans }}{% endblock%}
+            {% block control %}
+                    <input type="file" nv-file-select uploader="uploader" ng-show="item==null && !uploader.isUploading" /></span>
+                    <uib-progressbar class="progress-striped active" value="progress" ng-show="item==null && uploader.isUploading"></uib-progressbar>
+                    <span ng-show="item!=null">{%verbatim%}{{item.file.name}}{%endverbatim%}</span>
+            {% endblock %}
+        {% endembed %}
+    {% endblock %}
+    {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="upload()" ng-show="item!=null">{{ 'form.button.upload'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% extends "ConcertoPanelBundle::base_panel.html.twig" %} 
+{% trans_default_domain "login" %} 
+{% block body %} 
+    {{ parent() }}
+    <div class="loginContainer">
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %} 
+            {% trans_default_domain "login" %} 
+            {% block legend %}{{ 'form.legend'|trans }}{% endblock %} 
+            {% block legend_tooltip %}{{ 'form.legend.tooltip'|trans }}{% endblock %} 
+            {% block description %}
+                <div class="loginPageLogo">
+                    <img src="{{ asset("bundles/concertopanel/images/symbol.png") }}">
+                    <div class="logoTxt">v{{ version }}</div>
+                </div>
+            {% endblock %}
+            {% block elements %}
+                <form action="{{ path('login_check') }}" method="POST">
+                    <table>
+                        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %} 
+                            {% trans_default_domain "login" %} 
+                            {% block label %}{{ 'form.field.login'|trans }}{% endblock%} 
+                            {% block tooltip %}{{ 'form.field.login.tooltip'|trans }}{% endblock%} 
+                            {% block control %}
+                                <input id="username" type="text" name="_username" value="{{ last_username }}" style="width:100%;" />
+                            {% endblock %} 
+                        {% endembed %} 
+                        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %} 
+                            {% trans_default_domain "login" %} 
+                            {% block label %}{{ 'form.field.password'|trans }}{% endblock%} 
+                            {% block tooltip %}{{ 'form.field.password.tooltip'|trans}}{% endblock%} 
+                            {% block control %}
+                                <input id="password" type="password" name="_password" style="width:100%;" />
+                            {% endblock %} 
+                        {% endembed %}
+                    </table>
+                    <div class="loginButton center">
+                        <button id="btn-login" class="btn btn-primary">{{ 'form.button.login'|trans }}</button>
+                    </div>
+                </form>
+            {% endblock %} 
+        {% endembed %} 
+        {% if error %}<uib-alert type="danger">{{ error.message|trans }}</uib-alert>{% endif %}
+    </div>
+{% endblock %}
