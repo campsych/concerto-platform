@@ -190,6 +190,7 @@ class StartProcessCommand extends Command {
                     $this->isWaitingForProcess = true;
                     $this->testServer = $msg->testServer;
                     $this->lastClientTime = time();
+                    $this->lastKeepAliveTime = time();
                     $this->respondToProcess($submitter_sock, $message);
                     return false;
                 }
