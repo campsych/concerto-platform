@@ -26,6 +26,8 @@ concerto.template.show = function(
     } else {
         concerto5:::concerto.session.update()
         concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
-        return(concerto5:::concerto.server.listen())
+
+        resp = concerto5:::concerto.server.listen()
+        return(resp)
     }
 }
