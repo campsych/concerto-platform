@@ -284,8 +284,10 @@ class StartProcessCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        if (posix_getpid() != posix_getsid(getmypid())){
-            posix_setsid();
+        if ($this->getOS() == RRunnerService::OS_LINUX) {
+            if (posix_getpid() != posix_getsid(getmypid())) {
+                posix_setsid();
+            }
         }
 
         $this->output = $output;
