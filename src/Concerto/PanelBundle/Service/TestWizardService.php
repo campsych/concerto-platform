@@ -54,13 +54,13 @@ class TestWizardService extends AExportableSectionService {
         if (!$new && $object->isProtected() == $protected && $protected) {
             array_push($errors, "validate.protected.mod");
         }
-        
+
         if ($this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
             $object->setOwner($owner);
             $object->setGroups($groups);
         }
-        
+
         $object->setProtected($protected);
         $object->setArchived($archived);
         if ($test !== null) {
@@ -123,7 +123,7 @@ class TestWizardService extends AExportableSectionService {
         $test = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
             $test_id = $map["Test"]["id" . $obj["test"]];
-            $test = $this->testService->get($test_id);
+            $test = $this->testService->repository->find($test_id);
         }
         if (!$test) {
             array_push($pre_queue, $obj["testObject"]);

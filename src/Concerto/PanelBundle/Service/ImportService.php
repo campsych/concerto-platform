@@ -1,6 +1,7 @@
 <?php
 
 namespace Concerto\PanelBundle\Service;
+
 use Concerto\PanelBundle\Entity\User;
 
 class ImportService {
@@ -93,7 +94,7 @@ class ImportService {
     }
 
     public function copyAction($class_name, User $user, $object_id, $name) {
-        
+
         $arr = array($this->serviceMap[$class_name]->entityToArray($this->serviceMap[$class_name]->get($object_id)));
         $result = $this->import(
                 $user, //

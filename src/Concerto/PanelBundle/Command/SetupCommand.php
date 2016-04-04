@@ -18,6 +18,7 @@ class SetupCommand extends ContainerAwareCommand {
     protected function configure() {
         $this->setName("concerto:setup")->setDescription("Sets up Concerto.");
         $this->addOption("check", null, InputOption::VALUE_NONE, "Perform system checks?");
+        $this->addOption("starter-content", null, InputOption::VALUE_NONE, "Import starter content?");
     }
 
     protected function verifySystemSoftware(InputInterface $input, OutputInterface $output, SystemCheckService $syscheck_service) {
@@ -60,6 +61,26 @@ class SetupCommand extends ContainerAwareCommand {
 
         $output->writeln(" -> verifying Concerto directories...");
         $this->verifyConcertoDirectories($input, $output, $syscheck_service);
+    }
+
+    protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user) {
+        $output->writeln("importing starter content...");
+
+        $file = __DIR__ . DIRECTORY_SEPARATOR .
+                ".." . DIRECTORY_SEPARATOR .
+                "Resources" . DIRECTORY_SEPARATOR .
+                "starter_content" . DIRECTORY_SEPARATOR .
+                "starter_content.concerto.json";
+        $service = $this->getContainer()->get('concerto_panel.import_service');
+        $results = $service->importFromFile($user, $file, "", false);
+        foreach ($results as $res) {
+            if ($res["errors"]) {
+                $output->writeln("starter content importing failed! (starter content might be already present)");
+                break;
+            }
+        }
+
+        $output->writeln("starter content importing finished");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
@@ -110,6 +131,7 @@ class SetupCommand extends ContainerAwareCommand {
         $output->writeln("checking for default user...");
         $userRepo = $em->getRepository("ConcertoPanelBundle:User");
         $users = $userRepo->findBy(array("username" => "admin"));
+        $user = null;
         if (count($users) === 0) {
 
             $factory = $this->getContainer()->get('security.encoder_factory');
@@ -125,7 +147,12 @@ class SetupCommand extends ContainerAwareCommand {
             $em->flush();
             $output->writeln("default user created");
         } else {
+            $user = $users[0];
             $output->writeln("default user found");
+        }
+
+        if ($input->getOption("starter-content")) {
+            $this->importStarterContent($input, $output, $user);
         }
     }
 
