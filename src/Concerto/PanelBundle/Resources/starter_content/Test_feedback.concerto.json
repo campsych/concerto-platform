@@ -1,0 +1,463 @@
+[
+    {
+        "class_name": "Test",
+        "id": 13,
+        "name": "feedback",
+        "accessibility": 0,
+        "protected": "1",
+        "archived": "0",
+        "visibility": 2,
+        "type": 1,
+        "code": "decoded_template_def = fromJSON(template_def)\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feedback = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(t_bound$min_value <= score && t_bound$max_value > score) {\n            feedback = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n        \n      content = paste0(content, \"<div class='feedbackTraitLabel'>\",t_fb$label,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitDescription'>\",t_fb$description,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitFeedback'>\",feedback,\"<\/div>\")\n    }\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = paste('<div class=\"button_panel button_panel_feedback\"><button name=\"button\">',button_label,'<\/button><\/div>',sep=\"\")\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer\n)))",
+        "resumable": "0",
+        "outdated": "0",
+        "description": "",
+        "variables": [
+            {
+                "class_name": "TestVariable",
+                "id": 179,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 13,
+                "parentVariable": 170,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 180,
+                "name": "paragraph",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "<p>Feedback<\/p>\n",
+                "test": 13,
+                "parentVariable": 171,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 181,
+                "name": "button_label",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "continue",
+                "test": 13,
+                "parentVariable": 172,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 182,
+                "name": "traits",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "[]",
+                "test": 13,
+                "parentVariable": 173,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 183,
+                "name": "inserts",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 13,
+                "parentVariable": 174,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 184,
+                "name": "scores",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 13,
+                "parentVariable": 175,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 185,
+                "name": "title",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "DEMO TEST",
+                "test": 13,
+                "parentVariable": 176,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 186,
+                "name": "template_def",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
+                "test": 13,
+                "parentVariable": 177,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 187,
+                "name": "template_def",
+                "type": 1,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 13,
+                "parentVariable": 178,
+                "globalId": 0
+            }
+        ],
+        "sourceWizard": 6,
+        "sourceWizardObject": {
+            "class_name": "TestWizard",
+            "id": 6,
+            "name": "feedback",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 15,
+                    "title": "Presentation",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 6,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 52,
+                            "label": "Paragraph",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 2,
+                            "passableThroughUrl": "0",
+                            "value": "<p>Feedback:<\/p>\n",
+                            "testVariable": 171,
+                            "name": "paragraph",
+                            "wizardStep": 15,
+                            "stepTitle": "Presentation",
+                            "order": 3,
+                            "wizard": 6,
+                            "definition": {
+                                "placeholder": "0"
+                            },
+                            "globalId": 0
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 53,
+                            "label": "Button label",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "continue",
+                            "testVariable": 172,
+                            "name": "button_label",
+                            "wizardStep": 15,
+                            "stepTitle": "Presentation",
+                            "order": 4,
+                            "wizard": 6,
+                            "definition": {
+                                "placeholder": "0"
+                            },
+                            "globalId": 0
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 54,
+                            "label": "Title",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "DEMO TEST",
+                            "testVariable": 176,
+                            "name": "title",
+                            "wizardStep": 15,
+                            "stepTitle": "Presentation",
+                            "order": 2,
+                            "wizard": 6,
+                            "definition": {
+                                "placeholder": 0
+                            },
+                            "globalId": 0
+                        }
+                    ],
+                    "globalId": 0
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 16,
+                    "title": "Scores",
+                    "description": "",
+                    "orderNum": 1,
+                    "colsNum": 0,
+                    "wizard": 6,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 55,
+                            "label": "Trait feedback",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 10,
+                            "passableThroughUrl": "0",
+                            "value": "[]",
+                            "testVariable": 173,
+                            "name": "traits",
+                            "wizardStep": 16,
+                            "stepTitle": "Scores",
+                            "order": 0,
+                            "wizard": 6,
+                            "definition": {
+                                "placeholder": "0",
+                                "element": {
+                                    "type": 9,
+                                    "definition": {
+                                        "placeholder": "0",
+                                        "fields": [
+                                            {
+                                                "type": "0",
+                                                "name": "trait",
+                                                "label": "Trait"
+                                            },
+                                            {
+                                                "type": "0",
+                                                "name": "label",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "type": "2",
+                                                "name": "description",
+                                                "label": "Description",
+                                                "definition": {
+                                                    "placeholder": "0"
+                                                }
+                                            },
+                                            {
+                                                "type": "10",
+                                                "name": "boundaries",
+                                                "label": "Score boundaries",
+                                                "definition": {
+                                                    "placeholder": "0",
+                                                    "element": {
+                                                        "type": 9,
+                                                        "definition": {
+                                                            "placeholder": "0",
+                                                            "fields": [
+                                                                {
+                                                                    "type": "0",
+                                                                    "name": "min_value",
+                                                                    "label": "Min value ( <= )"
+                                                                },
+                                                                {
+                                                                    "type": "0",
+                                                                    "name": "max_value",
+                                                                    "label": "Max value ( > )"
+                                                                },
+                                                                {
+                                                                    "type": "2",
+                                                                    "name": "feedback",
+                                                                    "label": "Feedback",
+                                                                    "definition": {
+                                                                        "placeholder": "0"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "globalId": 0
+                        }
+                    ],
+                    "globalId": 0
+                }
+            ],
+            "test": 12,
+            "testObject": {
+                "class_name": "Test",
+                "id": 12,
+                "name": "source_feedback",
+                "accessibility": 0,
+                "protected": "1",
+                "archived": "0",
+                "visibility": 2,
+                "type": 0,
+                "code": "decoded_template_def = fromJSON(template_def)\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feedback = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(t_bound$min_value <= score && t_bound$max_value > score) {\n            feedback = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n        \n      content = paste0(content, \"<div class='feedbackTraitLabel'>\",t_fb$label,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitDescription'>\",t_fb$description,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitFeedback'>\",feedback,\"<\/div>\")\n    }\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = paste('<div class=\"button_panel button_panel_feedback\"><button name=\"button\">',button_label,'<\/button><\/div>',sep=\"\")\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer\n)))",
+                "slug": "8a0cd370e874c5818c8cada97bf9048a",
+                "resumable": "0",
+                "outdated": "0",
+                "description": "",
+                "variables": [
+                    {
+                        "class_name": "TestVariable",
+                        "id": 170,
+                        "name": "out",
+                        "type": 2,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": "0",
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 171,
+                        "name": "paragraph",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 172,
+                        "name": "button_label",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 173,
+                        "name": "traits",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 174,
+                        "name": "inserts",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 175,
+                        "name": "scores",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 176,
+                        "name": "title",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 177,
+                        "name": "template_def",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 178,
+                        "name": "template_def",
+                        "type": 1,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 12,
+                        "parentVariable": null,
+                        "globalId": 0
+                    }
+                ],
+                "logs": [
+
+                ],
+                "sourceWizard": null,
+                "sourceWizardObject": null,
+                "updatedOn": "2016-04-04 19:12:59",
+                "updatedByName": "",
+                "nodes": [
+
+                ],
+                "nodesConnections": [
+
+                ],
+                "tags": "",
+                "globalId": 189,
+                "owner": 1,
+                "groups": ""
+            },
+            "testName": "source_feedback",
+            "updatedOn": "2016-04-04 19:13:00",
+            "updatedByName": "",
+            "globalId": 45,
+            "owner": 1,
+            "groups": ""
+        },
+        "updatedOn": "2016-04-04 19:13:00",
+        "updatedByName": "",
+        "nodes": [
+
+        ],
+        "nodesConnections": [
+
+        ],
+        "tags": "_concerto_core",
+        "globalId": 195,
+        "owner": 1,
+        "groups": ""
+    }
+]

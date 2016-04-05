@@ -1,0 +1,56 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 1,
+        "name": "default_user_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "login",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "password",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "encryption",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "test_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "email",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "enabled",
+                "type": "boolean",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:07",
+        "updatedByName": "",
+        "globalId": 28,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]

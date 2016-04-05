@@ -1,0 +1,51 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 4,
+        "name": "default_questionnaire_item_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "question",
+                "type": "text",
+                "nullable": false
+            },
+            {
+                "name": "order",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "trait",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "reversed_score",
+                "type": "boolean",
+                "nullable": false
+            },
+            {
+                "name": "test_id",
+                "type": "bigint",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:08",
+        "updatedByName": "",
+        "globalId": 31,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]

@@ -1,0 +1,116 @@
+[
+    {
+        "class_name": "Test",
+        "id": 1,
+        "name": "merge_lists",
+        "accessibility": 0,
+        "protected": "1",
+        "archived": "0",
+        "visibility": 2,
+        "type": 0,
+        "code": "merged_list = list()\n\nif(is.list(list1)) {\n  for(key in ls(list1)) {\n    merged_list[[key]] = list1[[key]]\n  }\n}\n\nif(is.list(list2)) {\n  for(key in ls(list2)) {\n    merged_list[[key]] = list2[[key]]\n  }\n}\n\nif(is.list(list3)) {\n  for(key in ls(list3)) {\n    merged_list[[key]] = list3[[key]]\n  }\n}\n\nif(is.list(list4)) {\n  for(key in ls(list4)) {\n    merged_list[[key]] = list4[[key]]\n  }\n}\n\nif(is.list(list5)) {\n  for(key in ls(list5)) {\n    merged_list[[key]] = list5[[key]]\n  }\n}",
+        "resumable": "0",
+        "outdated": "0",
+        "description": "",
+        "variables": [
+            {
+                "class_name": "TestVariable",
+                "id": 1,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 2,
+                "name": "merged_list",
+                "type": 1,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 3,
+                "name": "list1",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 4,
+                "name": "list2",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 5,
+                "name": "list3",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 6,
+                "name": "list4",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 7,
+                "name": "list5",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 1,
+                "parentVariable": null,
+                "globalId": 0
+            }
+        ],
+        "sourceWizard": null,
+        "sourceWizardObject": null,
+        "updatedOn": "2016-04-04 19:12:55",
+        "updatedByName": "",
+        "nodes": [
+
+        ],
+        "nodesConnections": [
+
+        ],
+        "tags": "_concerto_core",
+        "globalId": 187,
+        "owner": 1,
+        "groups": ""
+    }
+]

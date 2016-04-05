@@ -66,16 +66,53 @@ class SetupCommand extends ContainerAwareCommand {
     protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user) {
         $output->writeln("importing starter content...");
 
-        $file = __DIR__ . DIRECTORY_SEPARATOR .
+        $file_path_pefix = __DIR__ . DIRECTORY_SEPARATOR .
                 ".." . DIRECTORY_SEPARATOR .
                 "Resources" . DIRECTORY_SEPARATOR .
-                "starter_content" . DIRECTORY_SEPARATOR .
-                "starter_content.concerto.json";
+                "starter_content" . DIRECTORY_SEPARATOR;
+
+        $files = array(
+            "DataTable_default_cat_item_table.concerto.json",
+            "DataTable_default_cat_response_table.concerto.json",
+            "DataTable_default_data_table.concerto.json",
+            "DataTable_default_linear_item_table.concerto.json",
+            "DataTable_default_linear_response_table.concerto.json",
+            "DataTable_default_questionnaire_item_table.concerto.json",
+            "DataTable_default_questionnaire_response_table.concerto.json",
+            "DataTable_default_session_table.concerto.json",
+            "DataTable_default_user_table.concerto.json",
+            "Test_CAT.concerto.json",
+            "Test_consent.concerto.json",
+            "Test_create_graph.concerto.json",
+            "Test_create_template_definition.concerto.json",
+            "Test_feedback.concerto.json",
+            "Test_form.concerto.json",
+            "Test_info.concerto.json",
+            "Test_linear_test.concerto.json",
+            "Test_merge_lists.concerto.json",
+            "Test_questionnaire.concerto.json",
+            "Test_save_data.concerto.json",
+            "Test_start_session.concerto.json",
+            "ViewTemplate_default_layout.concerto.json"
+        );
+
         $service = $this->getContainer()->get('concerto_panel.import_service');
-        $results = $service->importFromFile($user, $file, "", false);
-        foreach ($results as $res) {
-            if ($res["errors"]) {
-                $output->writeln("starter content importing failed! (starter content might be already present)");
+
+        foreach ($files as $filename) {
+            $file = $file_path_pefix . $filename;
+            $results = $service->importFromFile($user, $file, "", false);
+            $success = true;
+            foreach ($results as $res) {
+                if ($res["errors"]) {
+                    $success = false;
+                    $output->writeln("importing $filename failed!");
+                    $output->writeln("starter content importing failed! (starter content might be already present)");
+                    break;
+                }
+            }
+            if ($success) {
+                $output->writeln("imported $filename successfully");
+            } else {
                 break;
             }
         }

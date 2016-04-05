@@ -1,0 +1,61 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 7,
+        "name": "default_cat_response_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "item_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "response",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "time_taken",
+                "type": "float",
+                "nullable": false
+            },
+            {
+                "name": "session_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "correct",
+                "type": "boolean",
+                "nullable": false
+            },
+            {
+                "name": "theta",
+                "type": "float",
+                "nullable": false
+            },
+            {
+                "name": "sem",
+                "type": "float",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:08",
+        "updatedByName": "",
+        "globalId": 34,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]

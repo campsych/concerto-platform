@@ -1,0 +1,275 @@
+[
+    {
+        "class_name": "Test",
+        "id": 23,
+        "name": "create_template_definition",
+        "accessibility": 0,
+        "protected": "1",
+        "archived": "0",
+        "visibility": 2,
+        "type": 1,
+        "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))",
+        "resumable": "0",
+        "outdated": "0",
+        "description": "",
+        "variables": [
+            {
+                "class_name": "TestVariable",
+                "id": 299,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 23,
+                "parentVariable": 294,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 300,
+                "name": "layout",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "default_layout",
+                "test": 23,
+                "parentVariable": 295,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 301,
+                "name": "header",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 23,
+                "parentVariable": 296,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 302,
+                "name": "footer",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 23,
+                "parentVariable": 297,
+                "globalId": 0
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 303,
+                "name": "template_def",
+                "type": 1,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 23,
+                "parentVariable": 298,
+                "globalId": 0
+            }
+        ],
+        "sourceWizard": 11,
+        "sourceWizardObject": {
+            "class_name": "TestWizard",
+            "id": 11,
+            "name": "create_template_definition",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 25,
+                    "title": "Template Properties",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 11,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 82,
+                            "label": "Layout",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 5,
+                            "passableThroughUrl": "0",
+                            "value": "default_layout",
+                            "testVariable": 295,
+                            "name": "layout",
+                            "wizardStep": 25,
+                            "stepTitle": "Template Properties",
+                            "order": 0,
+                            "wizard": 11,
+                            "definition": {
+                                "placeholder": 0
+                            },
+                            "globalId": 0
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 83,
+                            "label": "Template header",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 2,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 296,
+                            "name": "header",
+                            "wizardStep": 25,
+                            "stepTitle": "Template Properties",
+                            "order": 0,
+                            "wizard": 11,
+                            "definition": {
+                                "placeholder": 0
+                            },
+                            "globalId": 0
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 84,
+                            "label": "Template footer",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 2,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 297,
+                            "name": "footer",
+                            "wizardStep": 25,
+                            "stepTitle": "Template Properties",
+                            "order": 0,
+                            "wizard": 11,
+                            "definition": {
+                                "placeholder": 0
+                            },
+                            "globalId": 0
+                        }
+                    ],
+                    "globalId": 0
+                }
+            ],
+            "test": 22,
+            "testObject": {
+                "class_name": "Test",
+                "id": 22,
+                "name": "source_create_template_definition",
+                "accessibility": 0,
+                "protected": "1",
+                "archived": "0",
+                "visibility": 2,
+                "type": 0,
+                "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))",
+                "slug": "594c6a05dd706132103af8f43b3d1870",
+                "resumable": "0",
+                "outdated": "0",
+                "description": "",
+                "variables": [
+                    {
+                        "class_name": "TestVariable",
+                        "id": 294,
+                        "name": "out",
+                        "type": 2,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": "0",
+                        "test": 22,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 295,
+                        "name": "layout",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 22,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 296,
+                        "name": "header",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 22,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 297,
+                        "name": "footer",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 22,
+                        "parentVariable": null,
+                        "globalId": 0
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 298,
+                        "name": "template_def",
+                        "type": 1,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 22,
+                        "parentVariable": null,
+                        "globalId": 0
+                    }
+                ],
+                "logs": [
+
+                ],
+                "sourceWizard": null,
+                "sourceWizardObject": null,
+                "updatedOn": "2016-04-04 19:13:06",
+                "updatedByName": "",
+                "nodes": [
+
+                ],
+                "nodesConnections": [
+
+                ],
+                "tags": "",
+                "globalId": 206,
+                "owner": 1,
+                "groups": ""
+            },
+            "testName": "source_create_template_definition",
+            "updatedOn": "2016-04-04 19:13:07",
+            "updatedByName": "",
+            "globalId": 50,
+            "owner": 1,
+            "groups": ""
+        },
+        "updatedOn": "2016-04-04 19:13:07",
+        "updatedByName": "",
+        "nodes": [
+
+        ],
+        "nodesConnections": [
+
+        ],
+        "tags": "_concerto_core",
+        "globalId": 207,
+        "owner": 1,
+        "groups": ""
+    }
+]

@@ -55,9 +55,8 @@ abstract class AExportableTabController extends ASectionController {
     public function exportAction($object_ids, $format = AExportableSectionService::FORMAT_COMPRESSED) {
         $response = new Response($this->service->exportToFile($object_ids, $format));
         $response->headers->set('Content-Type', 'application/x-download');
-        $ext = ( $format == AExportableSectionService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
         $response->headers->set(
-                'Content-Disposition', 'attachment; filename="' . $this->exportFilePrefix . $object_ids . '.' . $ext . '"'
+                'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $object_ids, $format) . '"'
         );
         return $response;
     }

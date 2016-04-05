@@ -1,0 +1,56 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 9,
+        "name": "default_linear_response_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "item_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "response",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "trait",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "correct",
+                "type": "boolean",
+                "nullable": false
+            },
+            {
+                "name": "session_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "time_taken",
+                "type": "float",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:08",
+        "updatedByName": "",
+        "globalId": 36,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]

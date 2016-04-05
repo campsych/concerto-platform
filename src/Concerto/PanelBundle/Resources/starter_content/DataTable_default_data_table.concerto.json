@@ -1,0 +1,41 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 3,
+        "name": "default_data_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "session_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "value",
+                "type": "text",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:07",
+        "updatedByName": "",
+        "globalId": 30,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]

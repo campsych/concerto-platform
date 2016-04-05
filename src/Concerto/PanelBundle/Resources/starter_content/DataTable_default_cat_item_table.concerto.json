@@ -1,0 +1,71 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 6,
+        "name": "default_cat_item_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "question",
+                "type": "text",
+                "nullable": false
+            },
+            {
+                "name": "response_options",
+                "type": "text",
+                "nullable": false
+            },
+            {
+                "name": "a",
+                "type": "float",
+                "nullable": false
+            },
+            {
+                "name": "b",
+                "type": "float",
+                "nullable": false
+            },
+            {
+                "name": "c",
+                "type": "float",
+                "nullable": false
+            },
+            {
+                "name": "d",
+                "type": "float",
+                "nullable": false
+            },
+            {
+                "name": "correct",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "test_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "cb_group",
+                "type": "string",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:08",
+        "updatedByName": "",
+        "globalId": 33,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]

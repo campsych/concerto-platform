@@ -28,9 +28,21 @@ abstract class AExportableSectionService extends ASectionService {
             array_push($result, $this->entityToArray($this->get($object_id)));
         }
         if ($format === self::FORMAT_COMPRESSED)
-            return gzcompress(json_encode($result), 1);
+            return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
         else
-            return json_encode($result);
+            return json_encode($result, JSON_PRETTY_PRINT);
+    }
+
+    public function getExportFileName($prefix, $object_ids, $format) {
+        $ext = ( $format == AExportableSectionService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
+        $name = $object_ids;
+        if (count(explode(",", $object_ids)) == 1) {
+            $obj = $this->repository->find($object_ids);
+            if ($obj) {
+                $name = $obj->getName();
+            }
+        }
+        return $prefix . $name . '.' . $ext;
     }
 
     protected function formatImportName(User $user, $name, $arr) {
@@ -44,6 +56,6 @@ abstract class AExportableSectionService extends ASectionService {
         }
         return $name;
     }
-    
+
     abstract public function entityToArray(AEntity $entity);
 }

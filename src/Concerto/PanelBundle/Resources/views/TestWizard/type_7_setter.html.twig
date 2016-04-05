@@ -14,7 +14,7 @@
                         {% block tooltip %}{{ 'param.setter.column.table.tooltip'|trans }}{% endblock%}
                         {% block control %}
                             <select ng-model="output.table" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
-                            ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'}">
+                            ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
                                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                             </select>
                         {% endblock %}
@@ -26,7 +26,7 @@
                         {% block tooltip %}{{ 'param.setter.column.tooltip'|trans }}{% endblock%}
                         {% block control %}
                             <select ng-model="output.column" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
-                            ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns">
+                            ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'">
                                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                             </select>
                         {% endblock %}

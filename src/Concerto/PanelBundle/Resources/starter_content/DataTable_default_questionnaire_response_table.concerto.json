@@ -1,0 +1,51 @@
+[
+    {
+        "class_name": "DataTable",
+        "id": 5,
+        "name": "default_questionnaire_response_table",
+        "description": "",
+        "accessibility": 0,
+        "protected": "0",
+        "archived": "0",
+        "columns": [
+            {
+                "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "session_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "question_id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "nullable": false
+            },
+            {
+                "name": "score",
+                "type": "integer",
+                "nullable": false
+            },
+            {
+                "name": "trait",
+                "type": "string",
+                "nullable": false
+            }
+        ],
+        "updatedOn": "2016-04-04 19:13:08",
+        "updatedByName": "",
+        "globalId": 32,
+        "owner": 1,
+        "groups": "",
+        "data": [
+
+        ]
+    }
+]
