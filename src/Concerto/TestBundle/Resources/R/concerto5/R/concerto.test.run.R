@@ -145,7 +145,7 @@ concerto.test.run <-
         #BRANCH
         if(node$type != 2) {
           branch_port = NULL
-          branch_name = NULL
+          branch_name = NA
           for (port_id in ls(concerto$flow[[flowIndex]]$ports)){
             port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
             
@@ -159,7 +159,7 @@ concerto.test.run <-
             port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
             
             if(port$node_id == node$id && port$type == 2) {
-                if(is.null(branch_name)) {
+                if(is.na(branch_name)) {
                   branch_port = port
                   break
                 } else {

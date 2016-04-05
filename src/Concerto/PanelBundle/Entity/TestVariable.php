@@ -22,7 +22,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="string", length=64)
      * @Assert\Length(min="1", max="64", minMessage="validate.test.variables.name.min", maxMessage="validate.test.variables.name.max")
      * @Assert\NotBlank(message="validate.test.variables.name.blank")
-     * @Assert\Regex("/^[a-zA-Z][a-zA-Z0-9_]*(?<!_)$/", message="validate.test.variables.name.incorrect")
+     * @Assert\Regex("/^\.?[a-zA-Z][a-zA-Z0-9_]*(?<!_)$/", message="validate.test.variables.name.incorrect")
      */
     private $name;
 
