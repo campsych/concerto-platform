@@ -2,7 +2,7 @@
     {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
         {% trans_default_domain "TestWizard" %}
         {% block setter %}
-            <input ng-model="output" ng-change="onPrimitiveValueChange(output)" ng-model-options="{ debounce: 0 }" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'" />
+            <input type="text" ng-model="output" ng-trim="false" ng-change="onPrimitiveValueChange(output)" ng-model-options="{ debounce: 0 }" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'" />
         {% endblock %}
     {% endembed %}
 </script>
