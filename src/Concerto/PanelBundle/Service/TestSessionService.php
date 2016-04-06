@@ -147,6 +147,7 @@ class TestSessionService {
                 $session->setTestServerNodePort($test_server_node_port);
                 $session->setClientIp($client_ip);
                 $session->setClientBrowser($client_browser);
+                $session->setUpdated();
                 $this->testSessionRepository->save($session);
                 $this->testSessionRepository->clear();
 
@@ -191,6 +192,7 @@ class TestSessionService {
 
                 $session->setTestServerNodePort($test_server_node_port);
                 $session->setClientIp($client_ip);
+                $session->setUpdated();
                 $this->testSessionRepository->save($session);
                 $this->testSessionRepository->clear();
 

@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 23,
+        "id": 52,
         "name": "create_template_definition",
         "accessibility": 0,
         "protected": "1",
@@ -15,69 +15,69 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 299,
+                "id": 674,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 23,
-                "parentVariable": 294,
-                "globalId": 0
+                "test": 52,
+                "parentVariable": 669,
+                "globalId": "1459984402-674-7336"
             },
             {
                 "class_name": "TestVariable",
-                "id": 300,
+                "id": 675,
                 "name": "layout",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "default_layout",
-                "test": 23,
-                "parentVariable": 295,
-                "globalId": 0
+                "test": 52,
+                "parentVariable": 670,
+                "globalId": "1459984402-675-5443"
             },
             {
                 "class_name": "TestVariable",
-                "id": 301,
+                "id": 676,
                 "name": "header",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 23,
-                "parentVariable": 296,
-                "globalId": 0
+                "test": 52,
+                "parentVariable": 671,
+                "globalId": "1459984402-676-3961"
             },
             {
                 "class_name": "TestVariable",
-                "id": 302,
+                "id": 677,
                 "name": "footer",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 23,
-                "parentVariable": 297,
-                "globalId": 0
+                "test": 52,
+                "parentVariable": 672,
+                "globalId": "1459984402-677-6616"
             },
             {
                 "class_name": "TestVariable",
-                "id": 303,
+                "id": 678,
                 "name": "template_def",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 23,
-                "parentVariable": 298,
-                "globalId": 0
+                "test": 52,
+                "parentVariable": 673,
+                "globalId": "1459984402-678-4534"
             }
         ],
-        "sourceWizard": 11,
+        "sourceWizard": 25,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 11,
+            "id": 25,
             "name": "create_template_definition",
             "description": "",
             "accessibility": 0,
@@ -86,81 +86,81 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 25,
+                    "id": 55,
                     "title": "Template Properties",
                     "description": "",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 11,
+                    "wizard": 25,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 82,
+                            "id": 181,
                             "label": "Layout",
                             "description": "",
                             "hideCondition": "",
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "default_layout",
-                            "testVariable": 295,
+                            "testVariable": 670,
                             "name": "layout",
-                            "wizardStep": 25,
+                            "wizardStep": 55,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 25,
                             "definition": {
                                 "placeholder": 0
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-181-4225"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 83,
+                            "id": 182,
                             "label": "Template header",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 296,
+                            "testVariable": 671,
                             "name": "header",
-                            "wizardStep": 25,
+                            "wizardStep": 55,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 25,
                             "definition": {
                                 "placeholder": 0
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-182-1378"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 84,
+                            "id": 183,
                             "label": "Template footer",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 297,
+                            "testVariable": 672,
                             "name": "footer",
-                            "wizardStep": 25,
+                            "wizardStep": 55,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 25,
                             "definition": {
                                 "placeholder": 0
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-183-5833"
                         }
                     ],
-                    "globalId": 0
+                    "globalId": "1459984402-55-2715"
                 }
             ],
-            "test": 22,
+            "test": 51,
             "testObject": {
                 "class_name": "Test",
-                "id": 22,
+                "id": 51,
                 "name": "source_create_template_definition",
                 "accessibility": 0,
                 "protected": "1",
@@ -168,70 +168,70 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))",
-                "slug": "594c6a05dd706132103af8f43b3d1870",
+                "slug": "82fb0465b859c3b79e4c1ce7d3173299",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 294,
+                        "id": 669,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 22,
+                        "test": 51,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-669-5437"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 295,
+                        "id": 670,
                         "name": "layout",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 51,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-670-5803"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 296,
+                        "id": 671,
                         "name": "header",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 51,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-671-6651"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 297,
+                        "id": 672,
                         "name": "footer",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 51,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-672-4318"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 298,
+                        "id": 673,
                         "name": "template_def",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 51,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-673-2586"
                     }
                 ],
                 "logs": [
@@ -239,7 +239,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-04-04 19:13:06",
+                "updatedOn": "2016-04-07 01:03:53",
                 "updatedByName": "",
                 "nodes": [
 
@@ -248,18 +248,24 @@
 
                 ],
                 "tags": "",
-                "globalId": 206,
+                "globalId": "1459984402-51-5246",
                 "owner": 1,
-                "groups": ""
+                "groups": "",
+                "revision": 0,
+                "checksum": "",
+                "starterContent": true
             },
             "testName": "source_create_template_definition",
-            "updatedOn": "2016-04-04 19:13:07",
+            "updatedOn": "2016-04-07 01:03:53",
             "updatedByName": "",
-            "globalId": 50,
+            "globalId": "1459984402-25-7171",
             "owner": 1,
-            "groups": ""
+            "groups": "",
+            "revision": 0,
+            "checksum": "",
+            "starterContent": true
         },
-        "updatedOn": "2016-04-04 19:13:07",
+        "updatedOn": "2016-04-07 01:03:53",
         "updatedByName": "",
         "nodes": [
 
@@ -268,8 +274,11 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": 207,
+        "globalId": "1459984402-52-7839",
         "owner": 1,
-        "groups": ""
+        "groups": "",
+        "revision": 25,
+        "checksum": "f5c54cbcc33fd491db0f4860d011c602",
+        "starterContent": true
     }
 ]

@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Service;
 
-use Concerto\PanelBundle\Entity\AEntity;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestNodePortRepository;
 use Concerto\PanelBundle\Entity\TestNodePort;
@@ -27,8 +26,8 @@ class TestNodePortService extends ASectionService {
         $this->testNodeRepository = $testNodeRepository;
     }
 
-    public function get($object_id, $createNew = false) {
-        $object = parent::get($object_id, $createNew);
+    public function get($object_id, $createNew = false, $secure = true) {
+        $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestNodePort();
         }
@@ -104,12 +103,12 @@ class TestNodePortService extends ASectionService {
         }
     }
 
-    public function delete($object_ids) {
+    public function delete($object_ids, $secure = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
-            $object = $this->get($object_id);
+            $object = $this->get($object_id, false, $secure);
             if ($object) {
                 $this->repository->delete($object);
                 array_push($result, array("object" => $object, "errors" => array()));

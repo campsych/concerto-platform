@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "concerto-platform",
+    "license": "AGPLv3",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Online adaptive testing platform",
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -21,7 +21,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "cocur/slugify": "~1.0",
         "friendsofsymfony/oauth-server-bundle": "dev-master",
-        "jms/serializer-bundle": "dev-master"
+        "jms/serializer-bundle": "dev-master",
+        "symfony/finder":"~2.8",
+        "symfony/filesystem":"~2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

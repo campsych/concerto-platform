@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 1,
+        "id": 69,
         "name": "merge_lists",
         "accessibility": 0,
         "protected": "1",
@@ -15,92 +15,92 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 1,
+                "id": 921,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-921-6937"
             },
             {
                 "class_name": "TestVariable",
-                "id": 2,
+                "id": 922,
                 "name": "merged_list",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-922-5851"
             },
             {
                 "class_name": "TestVariable",
-                "id": 3,
+                "id": 923,
                 "name": "list1",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-923-9852"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4,
+                "id": 924,
                 "name": "list2",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-924-2061"
             },
             {
                 "class_name": "TestVariable",
-                "id": 5,
+                "id": 925,
                 "name": "list3",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-925-8865"
             },
             {
                 "class_name": "TestVariable",
-                "id": 6,
+                "id": 926,
                 "name": "list4",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-926-5042"
             },
             {
                 "class_name": "TestVariable",
-                "id": 7,
+                "id": 927,
                 "name": "list5",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 1,
+                "test": 69,
                 "parentVariable": null,
-                "globalId": 0
+                "globalId": "1459984402-927-2928"
             }
         ],
         "sourceWizard": null,
         "sourceWizardObject": null,
-        "updatedOn": "2016-04-04 19:12:55",
+        "updatedOn": "2016-04-07 01:04:07",
         "updatedByName": "",
         "nodes": [
 
@@ -109,8 +109,11 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": 187,
+        "globalId": "1459984402-69-9178",
         "owner": 1,
-        "groups": ""
+        "groups": "",
+        "revision": 25,
+        "checksum": "8b0ebdd7de095fb7c7085f683b7fa75a",
+        "starterContent": true
     }
 ]

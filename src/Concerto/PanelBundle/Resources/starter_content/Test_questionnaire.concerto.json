@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 19,
+        "id": 60,
         "name": "questionnaire",
         "accessibility": 0,
         "protected": "1",
@@ -15,273 +15,273 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 239,
+                "id": 785,
                 "name": "answered",
                 "type": 2,
                 "description": "<p>Passed all pages of questions successfuly<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 19,
-                "parentVariable": 218,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 763,
+                "globalId": "1459984402-785-4724"
             },
             {
                 "class_name": "TestVariable",
-                "id": 240,
+                "id": 786,
                 "name": "paragraph",
                 "type": 0,
                 "description": "<p>Item page pargraph<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer the questions below:<\/p>\n",
-                "test": 19,
-                "parentVariable": 219,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 764,
+                "globalId": "1459984402-786-9672"
             },
             {
                 "class_name": "TestVariable",
-                "id": 241,
+                "id": 787,
                 "name": "next_button_label",
                 "type": 0,
                 "description": "<p>Label of button used to submit responses and progress forward<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "next",
-                "test": 19,
-                "parentVariable": 220,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 765,
+                "globalId": "1459984402-787-2280"
             },
             {
                 "class_name": "TestVariable",
-                "id": 242,
+                "id": 788,
                 "name": "order",
                 "type": 0,
                 "description": "<p>Items order:<\/p>\n\n<ul>\n\t<li><strong>manual<\/strong>&nbsp;- will be set from&nbsp;<strong>order<\/strong>&nbsp;field of each item<\/li>\n\t<li><strong>random<\/strong>&nbsp;- every questionnaire run will have shuffled questions order<\/li>\n<\/ul>\n",
                 "passableThroughUrl": "0",
                 "value": "random",
-                "test": 19,
-                "parentVariable": 221,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 766,
+                "globalId": "1459984402-788-5124"
             },
             {
                 "class_name": "TestVariable",
-                "id": 243,
+                "id": 789,
                 "name": "item_bank",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"direct\",\"direct_table\":[],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_trait_column\":{},\"custom_reversed_score_column\":{},\"custom_test_id_column\":{}}",
-                "test": 19,
-                "parentVariable": 222,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 767,
+                "globalId": "1459984402-789-8122"
             },
             {
                 "class_name": "TestVariable",
-                "id": 244,
+                "id": 790,
                 "name": "items_per_page",
                 "type": 0,
                 "description": "<p>Maximum items that can be displayed on a single page<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "10",
-                "test": 19,
-                "parentVariable": 223,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 768,
+                "globalId": "1459984402-790-8636"
             },
             {
                 "class_name": "TestVariable",
-                "id": 245,
+                "id": 791,
                 "name": "response_options",
                 "type": 0,
                 "description": "<p>Set of possible response options<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "[]",
-                "test": 19,
-                "parentVariable": 224,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 769,
+                "globalId": "1459984402-791-6993"
             },
             {
                 "class_name": "TestVariable",
-                "id": 246,
+                "id": 792,
                 "name": "response_required",
                 "type": 0,
                 "description": "<p>Check if all responses must be given<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 19,
-                "parentVariable": 225,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 770,
+                "globalId": "1459984402-792-9079"
             },
             {
                 "class_name": "TestVariable",
-                "id": 247,
+                "id": 793,
                 "name": "no_response_alert",
                 "type": 0,
                 "description": "<p>Alert that will be shown when an item is left unanswered<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "All questions need to be answered!",
-                "test": 19,
-                "parentVariable": 226,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 771,
+                "globalId": "1459984402-793-1433"
             },
             {
                 "class_name": "TestVariable",
-                "id": 248,
+                "id": 794,
                 "name": "can_go_back",
                 "type": 0,
                 "description": "<p>Check to allow participants to go back and change already given responses<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 19,
-                "parentVariable": 227,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 772,
+                "globalId": "1459984402-794-2702"
             },
             {
                 "class_name": "TestVariable",
-                "id": 249,
+                "id": 795,
                 "name": "previous_button_label",
                 "type": 0,
                 "description": "<p>Label of button used to go back to page of items already answered<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "previous",
-                "test": 19,
-                "parentVariable": 228,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 773,
+                "globalId": "1459984402-795-3226"
             },
             {
                 "class_name": "TestVariable",
-                "id": 250,
+                "id": 796,
                 "name": "time_limit",
                 "type": 0,
                 "description": "<p>Time limit in seconds. Use <b>0&nbsp;<\/b>for unlimited time.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 19,
-                "parentVariable": 229,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 774,
+                "globalId": "1459984402-796-8018"
             },
             {
                 "class_name": "TestVariable",
-                "id": 251,
+                "id": 797,
                 "name": "response_bank",
                 "type": 0,
                 "description": "<p>Response bank definition.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_question_id_column\":{},\"custom_value_column\":{},\"custom_score_column\":{},\"custom_trait_column\":{}}",
-                "test": 19,
-                "parentVariable": 230,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 775,
+                "globalId": "1459984402-797-4213"
             },
             {
                 "class_name": "TestVariable",
-                "id": 252,
+                "id": 798,
                 "name": "session",
                 "type": 0,
                 "description": "<p>Session R list object<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 231,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 776,
+                "globalId": "1459984402-798-5584"
             },
             {
                 "class_name": "TestVariable",
-                "id": 253,
+                "id": 799,
                 "name": "inserts",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 233,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 778,
+                "globalId": "1459984402-799-6183"
             },
             {
                 "class_name": "TestVariable",
-                "id": 254,
+                "id": 800,
                 "name": "scores",
                 "type": 1,
                 "description": "<p>R list of scores where each element is named after trait. For trait&nbsp;<strong>A<\/strong>,&nbsp;<strong>B<\/strong>&nbsp;will output:<\/p>\n\n<ul>\n\t<li><strong>scores$A<\/strong><\/li>\n\t<li><strong>scores$B<\/strong><\/li>\n<\/ul>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 234,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 779,
+                "globalId": "1459984402-800-8446"
             },
             {
                 "class_name": "TestVariable",
-                "id": 255,
+                "id": 801,
                 "name": "out_of_time",
                 "type": 2,
                 "description": "<p>Run out of time<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 232,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 777,
+                "globalId": "1459984402-801-9788"
             },
             {
                 "class_name": "TestVariable",
-                "id": 256,
+                "id": 802,
                 "name": "title",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
-                "test": 19,
-                "parentVariable": 235,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 780,
+                "globalId": "1459984402-802-4253"
             },
             {
                 "class_name": "TestVariable",
-                "id": 257,
+                "id": 803,
                 "name": "template_def",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 236,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 781,
+                "globalId": "1459984402-803-5618"
             },
             {
                 "class_name": "TestVariable",
-                "id": 258,
+                "id": 804,
                 "name": "session",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 237,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 782,
+                "globalId": "1459984402-804-4551"
             },
             {
                 "class_name": "TestVariable",
-                "id": 259,
+                "id": 805,
                 "name": "template_def",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                "test": 19,
-                "parentVariable": 238,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 783,
+                "globalId": "1459984402-805-8316"
             },
             {
                 "class_name": "TestVariable",
-                "id": 309,
+                "id": 806,
                 "name": ".branch",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 308,
-                "globalId": 0
+                "test": 60,
+                "parentVariable": 784,
+                "globalId": "1459984402-806-8340"
             }
         ],
-        "sourceWizard": 9,
+        "sourceWizard": 29,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 9,
+            "id": 29,
             "name": "questionnaire",
             "description": "",
             "accessibility": 0,
@@ -290,80 +290,80 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 20,
+                    "id": 64,
                     "title": "Presentation",
                     "description": "<p>Questionnaire page presentation<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 29,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 63,
+                            "id": 205,
                             "label": "Paragraph",
                             "description": "<p>Item page pargraph<\/p>\n",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Please answer the questions below:<\/p>\n",
-                            "testVariable": 219,
+                            "testVariable": 764,
                             "name": "paragraph",
-                            "wizardStep": 20,
+                            "wizardStep": 64,
                             "stepTitle": "Presentation",
                             "order": 2,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-205-2935"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 64,
+                            "id": 206,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "DEMO TEST",
-                            "testVariable": 235,
+                            "testVariable": 780,
                             "name": "title",
-                            "wizardStep": 20,
+                            "wizardStep": 64,
                             "stepTitle": "Presentation",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": 0
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-206-4729"
                         }
                     ],
-                    "globalId": 0
+                    "globalId": "1459984402-64-4148"
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 21,
+                    "id": 65,
                     "title": "Items and navigation",
                     "description": "<p>Items declaration<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 29,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 65,
+                            "id": 207,
                             "label": "Items order",
                             "description": "<p>Items order:<\/p>\n\n<ul>\n\t<li><strong>manual<\/strong>&nbsp;- will be set from&nbsp;<strong>order<\/strong>&nbsp;field of each item<\/li>\n\t<li><strong>random<\/strong>&nbsp;- every questionnaire run will have shuffled questions order<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "random",
-                            "testVariable": 221,
+                            "testVariable": 766,
                             "name": "order",
-                            "wizardStep": 21,
+                            "wizardStep": 65,
                             "stepTitle": "Items and navigation",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0",
                                 "options": [
@@ -377,23 +377,23 @@
                                     }
                                 ]
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-207-9624"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 66,
+                            "id": 208,
                             "label": "Item bank",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"direct\",\"direct_table\":[],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_trait_column\":{},\"custom_reversed_score_column\":{},\"custom_test_id_column\":{}}",
-                            "testVariable": 222,
+                            "testVariable": 767,
                             "name": "item_bank",
-                            "wizardStep": 21,
+                            "wizardStep": 65,
                             "stepTitle": "Items and navigation",
                             "order": 0,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -497,115 +497,115 @@
                                     }
                                 ]
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-208-2240"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 67,
+                            "id": 209,
                             "label": "Max items per page",
                             "description": "<p>Maximum items that can be displayed on a single page<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "10",
-                            "testVariable": 223,
+                            "testVariable": 768,
                             "name": "items_per_page",
-                            "wizardStep": 21,
+                            "wizardStep": 65,
                             "stepTitle": "Items and navigation",
                             "order": 2,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-209-9058"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 68,
+                            "id": 210,
                             "label": "Next button label",
                             "description": "<p>Label of button used to submit responses and progress forward<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "next",
-                            "testVariable": 220,
+                            "testVariable": 765,
                             "name": "next_button_label",
-                            "wizardStep": 21,
+                            "wizardStep": 65,
                             "stepTitle": "Items and navigation",
                             "order": 3,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-210-4064"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 69,
+                            "id": 211,
                             "label": "Go back",
                             "description": "<p>Check to allow participants to go back and change already given responses<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 227,
+                            "testVariable": 772,
                             "name": "can_go_back",
-                            "wizardStep": 21,
+                            "wizardStep": 65,
                             "stepTitle": "Items and navigation",
                             "order": 4,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-211-2222"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 70,
+                            "id": 212,
                             "label": "Previous button label",
                             "description": "<p>Label of button used to go back to page of items already answered<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "previous",
-                            "testVariable": 228,
+                            "testVariable": 773,
                             "name": "previous_button_label",
-                            "wizardStep": 21,
+                            "wizardStep": 65,
                             "stepTitle": "Items and navigation",
                             "order": 5,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-212-3283"
                         }
                     ],
-                    "globalId": 0
+                    "globalId": "1459984402-65-7905"
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 22,
+                    "id": 66,
                     "title": "Responses",
                     "description": "<p>Responses options<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 29,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 71,
+                            "id": 213,
                             "label": "Response options",
                             "description": "<p>Set of possible response options<\/p>\n",
                             "hideCondition": "",
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 224,
+                            "testVariable": 769,
                             "name": "response_options",
-                            "wizardStep": 22,
+                            "wizardStep": 66,
                             "stepTitle": "Responses",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0",
                                 "element": {
@@ -631,83 +631,83 @@
                                     }
                                 }
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-213-4442"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 72,
+                            "id": 214,
                             "label": "Responses required",
                             "description": "<p>Check if all responses must be given<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 225,
+                            "testVariable": 770,
                             "name": "response_required",
-                            "wizardStep": 22,
+                            "wizardStep": 66,
                             "stepTitle": "Responses",
                             "order": 2,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-214-7055"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 73,
+                            "id": 215,
                             "label": "Unanswered item alert",
                             "description": "<p>Alert that will be shown when an item is left unanswered<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "All questions need to be answered!",
-                            "testVariable": 226,
+                            "testVariable": 771,
                             "name": "no_response_alert",
-                            "wizardStep": 22,
+                            "wizardStep": 66,
                             "stepTitle": "Responses",
                             "order": 3,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-215-6361"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 74,
+                            "id": 216,
                             "label": "Time limit (seconds)",
                             "description": "<p>Time limit in seconds. Use <b>0&nbsp;<\/b>for unlimited time.<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 229,
+                            "testVariable": 774,
                             "name": "time_limit",
-                            "wizardStep": 22,
+                            "wizardStep": 66,
                             "stepTitle": "Responses",
                             "order": 4,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-216-5883"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 75,
+                            "id": 217,
                             "label": "Response bank",
                             "description": "<p>Response bank definition.<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_question_id_column\":{},\"custom_value_column\":{},\"custom_score_column\":{},\"custom_trait_column\":{}}",
-                            "testVariable": 230,
+                            "testVariable": 775,
                             "name": "response_bank",
-                            "wizardStep": 22,
+                            "wizardStep": 66,
                             "stepTitle": "Responses",
                             "order": 0,
-                            "wizard": 9,
+                            "wizard": 29,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -766,16 +766,16 @@
                                     }
                                 ]
                             },
-                            "globalId": 0
+                            "globalId": "1459984402-217-1753"
                         }
                     ],
-                    "globalId": 0
+                    "globalId": "1459984402-66-8002"
                 }
             ],
-            "test": 18,
+            "test": 59,
             "testObject": {
                 "class_name": "Test",
-                "id": 18,
+                "id": 59,
                 "name": "source_questionnaire",
                 "accessibility": 0,
                 "protected": "1",
@@ -783,274 +783,274 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "decoded_template_def = fromJSON(template_def)\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"default\" || ib$table_type == \"custom\") {\n    table = \"default_questionnaire_item_table\"\n    question_column = \"question_id\"\n    order_column = \"order_id\"\n    trait_column = \"trait\"\n    reversed_score_column = \"reversed_score\"\n    test_id_column = \"test_id\"\n    test_id = concerto$mainTest$id\n    if(ib$table_type == \"custom\") {\n      table = ib$custom_table\n      question_column = ib$custom_question_column$column\n      order_column = ib$custom_order_column$column\n      trait_column = ib$custom_trait_column$column\n      reversed_score_column = ib$custom_reversed_score_column$column\n      test_id_column = ib$custom_test_id_column$column\n    }\n\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{trait_column}}` AS `trait`, `{{reversed_score_column}}` AS `reversed_score` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}} ORDER BY `{{order_column}}` ASC\", list(\n      question_column=question_column,\n      order_column=order_column,\n      trait_column=trait_column,\n      reversed_score_column=reversed_score_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        questions = rbind(questions, as.list(ib$direct_table[[i]]))\n      }\n    }\n  }\n\n  if(dim(questions)[1] > 0 && order == \"random\") {\n    questions = questions[sample(1:dim(questions)[1]),]\n  }\n\n  return(questions)\n}\n\ngetContent = function(questions, current_page, response_set, not_valid, all_responses) {\n  content = paragraph\n  content = paste0(content, \"<table class='questionnaireResponseTable'>\")\n  content = paste0(content, \"<tr>\")\n  content = paste0(content, \"<th class='questionnaireHeaderCell'><\/th>\")\n  if(dim(response_set)[1] > 0) {\n    for(i in 1:dim(response_set)[1]) {\n      response = response_set[i,]\n      content = paste0(content, \"<th class='questionnaireHeaderCell'>\",response$label,\"<\/th>\")\n    }\n  }\n  content = paste0(content, \"<\/tr>\")\n  for(i in ((current_page-1)*as.numeric(items_per_page)+1):(current_page*as.numeric(items_per_page))) {\n    if(i > dim(questions)[1]) { break }\n    question = questions[i,]\n    validationHighlight = \"\"\n    if(question$id %in% not_valid) {\n      validationHighlight = \"validationHighlight\"\n    }\n\n    content = paste0(content, \"<tr class='\",validationHighlight,\"'>\")\n    content = paste0(content, \"<td class='questionnaireQuestionCell'>\",question$question,\"<\/td>\")\n    if(dim(response_set)[1] > 0) {\n      for(i in 1:dim(response_set)[1]) {\n        response = response_set[i,]\n        checked = \"\"\n        if(!is.null(all_responses[[paste0(\"q\",question$id)]]) && all_responses[[paste0(\"q\",question$id)]] == response$value) { checked = \"checked\" }\n        content = paste0(content, \"<td class='questionnaireResponseCell'><label for='input_response_\",question$id,\"_\",response$value,\"' class='questionnaire_label'><input type='radio' id='input_response_\",question$id,\"_\",response$value,\"' name='q\",question$id,\"' value='\",response$value,\"' \",checked,\" \/><\/label><\/td>\")\n      }\n    }\n    content = paste0(content, \"<\/tr>\")\n  }\n  content = paste0(content, \"<\/table>\")\n\n  return(content)\n}\n\naddAnswers = function(answers, response, response_set, questions, rb, all_responses, scores) {\n  max_score = max(as.numeric(response_set[,\"score\"]))\n  min_score = min(as.numeric(response_set[,\"score\"]))\n\n  for(var in ls(response)) {\n    if(var == \"buttonPressed\" || var == \"timeTaken\" || var == \"isTimeout\") { next }\n\n    question_id = substr(var, 2, nchar(var))\n    value = response[[var]]\n    score = NULL\n    for(i in 1:dim(questions)[1]) {\n      question = questions[i,]\n      if(question$id == question_id) {\n        trait = question$trait\n        if(is.null(scores[[trait]])) {\n          scores[[trait]] = 0\n        }\n        for(j in 1:dim(response_set)[1]) {\n          r = response_set[j,]\n          if(r$value == value) {\n            score = as.numeric(r$score)\n            if(question$reversed_score == \"1\") {\n              score = max_score - score + min_score\n            }\n            scores[[trait]] = scores[[trait]] + score\n            break\n          }\n        }\n        break\n      }\n    }\n    saveResponse(rb, question_id, value, score, trait)\n  }\n  return(scores)\n}\n\nremoveAnswers = function(questions, current_page, response_set, all_responses, scores) {\n  max_score = max(as.numeric(response_set[,\"score\"]))\n  min_score = min(as.numeric(response_set[,\"score\"]))\n\n  for(i in ((current_page-1)*as.numeric(items_per_page)+1):(current_page*as.numeric(items_per_page))) {\n    if(i > dim(questions)[1]) { break }\n    question = questions[i,]\n    trait = question$trait\n    if(is.null(scores[[trait]])) {\n      scores[[trait]] = 0\n    }\n\n    if(dim(response_set)[1] > 0) {\n      for(i in 1:dim(response_set)[1]) {\n        response = response_set[i,]\n        if(!is.null(all_responses[[paste0(\"q\",question$id)]]) && all_responses[[paste0(\"q\",question$id)]] == response$value) { \n          score = as.numeric(response$score)\n          if(question$reversed_score == \"1\") {\n            score = max_score - score + min_score\n          }\n          scores[[trait]] = scores[[trait]] - score\n        }\n      }\n    }\n  }\n  return(scores)\n}\n\nsaveResponse = function(rb, question_id, value, score, trait) {\n  table = \"default_questionnaire_response_table\"\n  session_id_column = \"session_id\"\n  question_id_column = \"question_id\"\n  value_column = \"value\"\n  score_column = \"score\"\n  trait_column = \"trait\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    session_id_column = rb$custom_session_id_column$column\n    question_id_column = rb$custom_question_id_column$column\n    value_column = rb$custom_value_column$column\n    score_column = rb$custom_score_column$column\n    trait_column = rb$custom_trait_column$column\n  }\n  session_id = 0\n  if(is.list(session)) {\n    session_id = session$id\n  }\n\n  exists = FALSE\n  record = concerto.table.query(\"SELECT * FROM `{{table}}` WHERE `{{session_id_column}}`={{session_id}} AND `{{question_id_column}}`={{question_id}}\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    question_id_column=question_id_column,\n    question_id=question_id\n  ))\n  if(dim(record)[1] > 0) { exists = TRUE }\n\n  if(exists) {\n    concerto.table.query(\"UPDATE `{{table}}` SET `{{value_column}}`='{{value}}', `{{score_column}}`={{score}}, `{{trait_column}}`='{{trait}}' WHERE `{{session_id_column}}`={{session_id}} AND `{{question_id_column}}`={{question_id}}\", list(\n      table=table,\n      session_id_column=session_id_column,\n      session_id=session_id,\n      question_id_column=question_id_column,\n      question_id=question_id,\n      value_column=value_column,\n      value=value,\n      score_column=score_column,\n      score=score,\n      trait_column=trait_column,\n      trait=trait\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{session_id_column}}`={{session_id}}, `{{question_id_column}}`={{question_id}}, `{{value_column}}`='{{value}}', `{{score_column}}`={{score}}, `{{trait_column}}`='{{trait}}'\", list(\n      table=table,\n      session_id_column=session_id_column,\n      session_id=session_id,\n      question_id_column=question_id_column,\n      question_id=question_id,\n      value_column=value_column,\n      value=value,\n      score_column=score_column,\n      score=score,\n      trait_column=trait_column,\n      trait=trait\n    ))\n  }\n}\n\ngetNotValid = function(response, current_page, questions) {\n  not_valid = c()\n  for(i in ((current_page-1)*as.numeric(items_per_page)+1):(current_page*as.numeric(items_per_page))) {\n    if(i > dim(questions)[1]) { break }\n    question = questions[i,]\n    if(response_required == \"1\" && is.null(response[[paste0(\"q\",question$id)]])) {\n      not_valid = c(not_valid, question$id)\n    }\n  }\n  return(not_valid)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nrb = fromJSON(response_bank)                \nrs = fromJSON(response_options)\nresponse_set = NULL\nif(length(rs) > 0) {\n  for(i in 1:length(rs)) {\n    response_set = rbind(response_set, rs[[i]])\n  }\n}\ncurrent_page = 1\nquestions = getQuestions()\npage_count = ceiling(dim(questions)[1] \/ as.numeric(items_per_page))\nwarning_msg = NULL\nresponse = NULL\n\nanswers = list()\nnot_valid = c()\ntimer_set = FALSE\ntime_limit = as.numeric(time_limit)\nif(time_limit > 0) { timer_set = TRUE }\nall_responses = list()\nscores = list()\nwhile(T) {\n  buttons = \"<div class='button_panel button_panel_questionnaire'>\"\n  if(current_page > 1 && can_go_back == \"1\") {\n    buttons = paste0(buttons, \"<button name='previous' class='questionnaire_button'>\",previous_button_label,\"<\/button>\")\n  }\n  if(page_count > 1) {\n    buttons = paste0(buttons, \"<div id='page_number'>page \", current_page, \" of \", page_count,\"<\/div>\")\n  }\n  if(current_page <= page_count) {\n    buttons = paste0(buttons, \"<button name='next' class='questionnaire_button'>\",next_button_label,\"<\/button>\")\n  }\n  buttons = paste0(buttons,'<\/div>')\n  content = getContent(questions, current_page, response_set, not_valid, all_responses)\n  scores = removeAnswers(questions, current_page, response_set, all_responses, scores)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )), timeLimit=time_limit)\n  warning_msg = NULL\n\n  if(timer_set) {\n    time_limit = time_limit - as.numeric(response$timeTaken)\n    if(response$isTimeout == \"1\") {\n      .branch = \"out_of_time\"\n      break\n    }\n  }\n  if(response$buttonPressed == \"next\") {\n    for(var in ls(response)) {\n      if(var == \"buttonPressed\" || var == \"timeTaken\" || var == \"isTimeout\") { next }\n      all_responses[[var]] = response[[var]]\n    }\n\n    not_valid = getNotValid(response, current_page, questions)\n    scores = addAnswers(answers, response, response_set, questions, rb, all_responses, scores)\n    if(length(not_valid) == 0) {\n      current_page = current_page + 1\n    } else {\n      warning_msg = no_response_alert\n    }\n    if(current_page > page_count) { break }\n  } \n  if(response$buttonPressed == \"previous\") {\n    current_page = current_page - 1\n    not_valid = c()\n  }\n}\nrm(questions)",
-                "slug": "1de5198dbe47bc54a1b419b480ced154",
+                "slug": "854027b6e40c7363c578f391a95990a4",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 218,
+                        "id": 763,
                         "name": "answered",
                         "type": 2,
                         "description": "<p>Passed all pages of questions successfuly<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-763-5709"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 219,
+                        "id": 764,
                         "name": "paragraph",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-764-4147"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 220,
+                        "id": 765,
                         "name": "next_button_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-765-7585"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 221,
+                        "id": 766,
                         "name": "order",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-766-2510"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 222,
+                        "id": 767,
                         "name": "item_bank",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-767-3357"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 223,
+                        "id": 768,
                         "name": "items_per_page",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-768-8164"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 224,
+                        "id": 769,
                         "name": "response_options",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-769-5233"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 225,
+                        "id": 770,
                         "name": "response_required",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-770-5204"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 226,
+                        "id": 771,
                         "name": "no_response_alert",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-771-8070"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 227,
+                        "id": 772,
                         "name": "can_go_back",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-772-7171"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 228,
+                        "id": 773,
                         "name": "previous_button_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-773-4762"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 229,
+                        "id": 774,
                         "name": "time_limit",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-774-5062"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 230,
+                        "id": 775,
                         "name": "response_bank",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-775-3721"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 231,
+                        "id": 776,
                         "name": "session",
                         "type": 0,
                         "description": "<p>Session R list object<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-776-9400"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 232,
+                        "id": 777,
                         "name": "out_of_time",
                         "type": 2,
                         "description": "<p>Run out of time<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-777-5504"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 233,
+                        "id": 778,
                         "name": "inserts",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-778-9132"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 234,
+                        "id": 779,
                         "name": "scores",
                         "type": 1,
                         "description": "<p>R list of scores where each element is named after trait. For trait&nbsp;<strong>A<\/strong>,&nbsp;<strong>B<\/strong>&nbsp;will output:<\/p>\n\n<ul>\n\t<li><strong>scores$A<\/strong><\/li>\n\t<li><strong>scores$B<\/strong><\/li>\n<\/ul>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-779-3296"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 235,
+                        "id": 780,
                         "name": "title",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-780-6477"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 236,
+                        "id": 781,
                         "name": "template_def",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-781-1213"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 237,
+                        "id": 782,
                         "name": "session",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-782-9222"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 238,
+                        "id": 783,
                         "name": "template_def",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-783-1696"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 308,
+                        "id": 784,
                         "name": ".branch",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 59,
                         "parentVariable": null,
-                        "globalId": 0
+                        "globalId": "1459984402-784-3336"
                     }
                 ],
                 "logs": [
@@ -1058,8 +1058,8 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-04-05 23:08:04",
-                "updatedByName": "admin",
+                "updatedOn": "2016-04-07 01:03:56",
+                "updatedByName": "",
                 "nodes": [
 
                 ],
@@ -1067,19 +1067,25 @@
 
                 ],
                 "tags": "",
-                "globalId": 0,
+                "globalId": "1459984402-59-9078",
                 "owner": 1,
-                "groups": ""
+                "groups": "",
+                "revision": 0,
+                "checksum": "",
+                "starterContent": true
             },
             "testName": "source_questionnaire",
-            "updatedOn": "2016-04-05 17:08:59",
+            "updatedOn": "2016-04-07 01:03:57",
             "updatedByName": "",
-            "globalId": 0,
+            "globalId": "1459984402-29-8197",
             "owner": 1,
-            "groups": ""
+            "groups": "",
+            "revision": 0,
+            "checksum": "",
+            "starterContent": true
         },
-        "updatedOn": "2016-04-05 23:08:04",
-        "updatedByName": "admin",
+        "updatedOn": "2016-04-07 01:03:59",
+        "updatedByName": "",
         "nodes": [
 
         ],
@@ -1087,8 +1093,11 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": 0,
+        "globalId": "1459984402-60-5231",
         "owner": 1,
-        "groups": ""
+        "groups": "",
+        "revision": 25,
+        "checksum": "9f946aa9382afc3eb4f192509a364cbc",
+        "starterContent": true
     }
 ]

@@ -22,8 +22,8 @@ abstract class AEntity {
 
     /**
      *
-     * @var integer
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $globalId;
 
@@ -56,7 +56,6 @@ abstract class AEntity {
 
     public function __construct() {
         $this->tags = "";
-        $this->globalId = 0;
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
     }
@@ -127,9 +126,12 @@ abstract class AEntity {
     /**
      * Set global id
      *
-     * @param integer $id
+     * @param string $id
      */
-    public function setGlobalId($id) {
+    public function setGlobalId($id = null) {
+        if ($id === null) {
+            $id = time() . "-" . $this->getId() . "-" . rand(1000, 9999);
+        }
         $this->globalId = $id;
 
         return $this;
@@ -138,7 +140,7 @@ abstract class AEntity {
     /**
      * Get global id
      *
-     * @return integer 
+     * @return string 
      */
     public function getGlobalId() {
         return $this->globalId;

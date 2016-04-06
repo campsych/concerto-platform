@@ -98,7 +98,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                 "orderNum" => 0,
                 "wizard" => 1,
                 "colsNum" => 0,
-                "globalId" => 0,
+                "globalId" => null,
                 "params" => array(
                     array(
                         "class_name" => "TestWizardParam",
@@ -115,7 +115,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                         "order" => 0,
                         "value" => null,
                         "hideCondition" => "",
-                        "globalId" => 0,
+                        "globalId" => null,
                         "definition" => array(
                             "placeholder" => 0
                         )
@@ -145,7 +145,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                 "orderNum" => 0,
                 "wizard" => 1,
                 "colsNum" => 0,
-                "globalId" => 0,
+                "globalId" => null,
                 "params" => array(
                     array(
                         "class_name" => "TestWizardParam",
@@ -162,7 +162,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                         "order" => 0,
                         "value" => null,
                         "hideCondition" => "",
-                        "globalId" => 0,
+                        "globalId" => null,
                         "definition" => array(
                             "placeholder" => 0
                         )
@@ -224,7 +224,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                 "orderNum" => "1",
                 "wizard" => 1,
                 "colsNum" => 0,
-                "globalId" => 0,
+                "globalId" => null,
                 "params" => array()
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
@@ -253,7 +253,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                 "orderNum" => "1",
                 "wizard" => 1,
                 "colsNum" => 0,
-                "globalId" => 0,
+                "globalId" => null,
                 "params" => array(
                     array(
                         "class_name" => "TestWizardParam",
@@ -270,7 +270,7 @@ class TestWizardStepControllerTest extends AFunctionalTest {
                         "order" => 0,
                         "value" => null,
                         "hideCondition" => "",
-                        "globalId" => 0,
+                        "globalId" => null,
                         "definition" => array(
                             "placeholder" => 0
                         )

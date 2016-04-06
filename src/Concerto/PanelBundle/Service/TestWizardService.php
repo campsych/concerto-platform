@@ -22,10 +22,10 @@ class TestWizardService extends AExportableSectionService {
         $this->testWizardParamService = $paramService;
     }
 
-    public function get($object_id, $createNew = false) {
+    public function get($object_id, $createNew = false, $secure = true) {
         $object = null;
         if ($object_id !== null) {
-            $object = parent::get($object_id, $createNew);
+            $object = parent::get($object_id, $createNew, $secure);
         }
         if ($createNew && $object === null) {
             $object = new TestWizard();
@@ -93,15 +93,15 @@ class TestWizardService extends AExportableSectionService {
         }
     }
 
-    public function delete($object_ids) {
+    public function delete($object_ids, $secure = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
-            $object = $this->get($object_id);
+            $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
-            if ($object->isProtected()) {
+            if ($object->isProtected() && $secure) {
                 array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
                 continue;
             }
@@ -139,6 +139,9 @@ class TestWizardService extends AExportableSectionService {
         $ent->setGlobalId($obj["globalId"]);
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
+        $ent->setRevision($obj["revision"]);
+        $ent->setChecksum($obj["checksum"]);
+        $ent->setStarterContent($obj["starterContent"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

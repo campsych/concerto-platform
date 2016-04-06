@@ -5,7 +5,6 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Concerto\PanelBundle\Entity\TestWizardStep;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
-use Concerto\PanelBundle\Entity\AEntity;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
@@ -22,8 +21,8 @@ class TestWizardStepService extends ASectionService {
         $this->testWizardRepository = $testWizardRepository;
     }
 
-    public function get($object_id, $createNew = false) {
-        $object = parent::get($object_id, $createNew);
+    public function get($object_id, $createNew = false, $secure = true) {
+        $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestWizardStep();
         }
@@ -57,12 +56,12 @@ class TestWizardStepService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function delete($object_ids) {
+    public function delete($object_ids, $secure = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
-            $object = $this->get($object_id);
+            $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
             $this->repository->delete($object);

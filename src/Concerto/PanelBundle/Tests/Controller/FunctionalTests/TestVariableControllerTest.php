@@ -70,7 +70,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "passableThroughUrl" => "0",
                 "value" => "0",
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             ),
             array(
@@ -82,7 +82,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "passableThroughUrl" => "0",
                 "value" => null,
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             ),
             array(
@@ -94,7 +94,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "passableThroughUrl" => "0",
                 "value" => null,
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )
         );
@@ -116,7 +116,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "passableThroughUrl" => "0",
                 "value" => null,
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )
         );
@@ -138,7 +138,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "passableThroughUrl" => "0",
                 "value" => null,
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )
         );
@@ -160,7 +160,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "passableThroughUrl" => "0",
                 "value" => "0",
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )
         );
@@ -192,7 +192,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "value" => "123",
                 "passableThroughUrl" => "0",
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(4, self::$repository->findAll());
@@ -224,7 +224,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "value" => "123",
                 "passableThroughUrl" => "0",
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(3, self::$repository->findAll());
@@ -256,7 +256,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "value" => "123",
                 "passableThroughUrl" => "0",
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(3, self::$repository->findAll());
@@ -288,7 +288,7 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "value" => "123",
                 "passableThroughUrl" => "0",
-                "globalId" => 0,
+                "globalId" => null,
                 "parentVariable" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(4, self::$repository->findAll());

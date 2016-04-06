@@ -30,8 +30,8 @@ class TestNodeConnectionService extends ASectionService {
         $this->testNodePortRepository = $testNodePortRepository;
     }
 
-    public function get($object_id, $createNew = false) {
-        $object = parent::get($object_id, $createNew);
+    public function get($object_id, $createNew = false, $secure = true) {
+        $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestNodeConnection();
         }
@@ -101,12 +101,12 @@ class TestNodeConnectionService extends ASectionService {
         }
     }
 
-    public function delete($object_ids) {
+    public function delete($object_ids, $secure = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
-            $object = $this->get($object_id);
+            $object = $this->get($object_id, false, $secure);
             if ($object) {
                 $this->repository->delete($object);
                 $this->onObjectDeleted($object);

@@ -35,13 +35,16 @@ abstract class ASectionService {
         return $result;
     }
 
-    public function get($object_id, $createNew = false) {
+    public function get($object_id, $createNew = false, $secure = true) {
         if (!$object_id) {
             return null;
         }
-        $object = $this->authorizeObject($this->repository->find($object_id));
+        $object = $this->repository->find($object_id);
+        if ($secure) {
+            $object = $this->authorizeObject($object);
+        }
         return $object;
     }
 
-    public abstract function delete($object_ids);
+    public abstract function delete($object_ids, $secure = true);
 }

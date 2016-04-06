@@ -12,6 +12,10 @@
         "accessibility": 0,
         "protected": 0,
         "resumable": 0,
+        "globalId": null,
+        "revision": 0,
+        "checksum": "",
+        "starterContent": false,
         "variables": [
             {
                 "class_name": "TestVariable",

@@ -1,7 +1,7 @@
 [
     {
         "class_name": "DataTable",
-        "id": 6,
+        "id": 21,
         "name": "default_cat_item_table",
         "description": "",
         "accessibility": 0,
@@ -59,11 +59,14 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-04-04 19:13:08",
+        "updatedOn": "2016-04-07 01:04:01",
         "updatedByName": "",
-        "globalId": 33,
+        "globalId": "1459984402-21-5810",
         "owner": 1,
         "groups": "",
+        "revision": 25,
+        "checksum": "b39cf0f27c1677845e1dcc999e5713c3",
+        "starterContent": true,
         "data": [
 
         ]

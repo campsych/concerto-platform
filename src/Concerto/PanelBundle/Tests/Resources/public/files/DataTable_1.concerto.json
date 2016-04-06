@@ -8,6 +8,10 @@
         "protected": 0,
         "updatedOn": "2015-10-09",
         "updatedByName": "admin",
+        "globalId": null,
+        "revision": 0,
+        "checksum": "",
+        "starterContent": false,
         "columns": [{
                 "name": "id",
                 "type": "bigint",

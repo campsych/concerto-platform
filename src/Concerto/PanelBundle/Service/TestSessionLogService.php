@@ -3,7 +3,6 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\TestSessionLog;
-use Concerto\PanelBundle\Entity\AEntity;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Service\TestService;
 use Concerto\PanelBundle\Repository\AEntityRepository;
@@ -18,8 +17,8 @@ class TestSessionLogService extends ASectionService {
         $this->testService = $testService;
     }
 
-    public function get($object_id, $createNew = false) {
-        $object = parent::get($object_id, $createNew);
+    public function get($object_id, $createNew = false, $secure = true) {
+        $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestSessionLog();
         }
@@ -30,12 +29,12 @@ class TestSessionLogService extends ASectionService {
         return $this->authorizeCollection($this->repository->findByTest($test_id));
     }
 
-    public function delete($object_ids) {
+    public function delete($object_ids, $secure = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
-            $object = $this->get($object_id);
+            $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
             $this->repository->delete($object);

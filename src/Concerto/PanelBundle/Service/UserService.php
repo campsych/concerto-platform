@@ -35,8 +35,8 @@ class UserService extends ASectionService {
         $this->importService = $importService;
     }
 
-    public function get($object_id, $createNew = false) {
-        $object = parent::get($object_id, $createNew);
+    public function get($object_id, $createNew = false, $secure = true) {
+        $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new User();
         }
@@ -177,15 +177,15 @@ class UserService extends ASectionService {
         return $result;
     }
 
-    public function delete($object_ids) {
+    public function delete($object_ids, $secure = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
-            $object = $this->get($object_id);
+            $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
-            if ($object->isProtected()) {
+            if ($object->isProtected() && $secure) {
                 array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
                 continue;
             }

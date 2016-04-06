@@ -16,9 +16,10 @@ class ImportService {
     private $testWizardStepService;
     private $testWizardParamService;
     private $viewTemplateService;
-    private $serviceMap;
-    private $map;
     private $queue;
+    private $map;
+    
+    public $serviceMap;
 
     public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService) {
         $this->dataTableService = $dataTableService;

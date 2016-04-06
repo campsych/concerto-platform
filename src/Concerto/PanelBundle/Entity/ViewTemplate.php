@@ -149,7 +149,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
             "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
             "globalId" => $this->globalId,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
-            "groups" => $this->groups
+            "groups" => $this->groups,
+            "revision" => $this->revision,
+            "checksum" => $this->checksum,
+            "starterContent" => $this->starterContent
         );
     }
 
