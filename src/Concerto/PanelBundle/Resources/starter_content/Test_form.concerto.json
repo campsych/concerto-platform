@@ -1,143 +1,143 @@
 [
     {
         "class_name": "Test",
-        "id": 58,
+        "id": 301,
         "name": "form",
         "accessibility": 0,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
         "type": 1,
-        "code": "decoded_template_def = fromJSON(template_def)\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = paste(\"<table><tr><td class='tdFormSliderExtremeLabel'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr><\/table>\",sep=\"\")\n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
+        "code": "decoded_template_def = fromJSON(template_def)\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = \"\"\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"\n            <script>\n              var p_form\",i,\" = document.getElementById('form\",i,\"'),\n                res_form\",i,\" = document.getElementById('form\",i,\"number');\n\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";\n\n              p_form\",i,\".addEventListener('input', function() {\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";          \n              }, false); \n            <\/script>\n\t\t  \") \n        }\n        control = paste0(control, \"<table class='tableFormSlider'><tr><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr>\")\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"<tr><td>&nbsp;<\/td><td><div id='form\",i,\"number' class='tdFormSliderNumber'>&nbsp;<\/div><\/td><td>&nbsp;<\/td><\/tr>\") \n        }\n        control = paste0(control, \"<\/table>\")\n        \n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
         "resumable": "0",
         "outdated": "0",
         "description": "",
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 753,
+                "id": 4028,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 58,
-                "parentVariable": 743,
-                "globalId": "1459984402-753-3123"
+                "test": 301,
+                "parentVariable": 4018,
+                "globalId": "1460063223-4028-4143"
             },
             {
                 "class_name": "TestVariable",
-                "id": 754,
+                "id": 4029,
                 "name": "form",
                 "type": 0,
                 "description": "<p>Form fields list<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "[]",
-                "test": 58,
-                "parentVariable": 744,
-                "globalId": "1459984402-754-5502"
+                "test": 301,
+                "parentVariable": 4019,
+                "globalId": "1460063223-4029-2161"
             },
             {
                 "class_name": "TestVariable",
-                "id": 755,
+                "id": 4030,
                 "name": "button_label",
                 "type": 0,
                 "description": "<p>Continue button label<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "continue",
-                "test": 58,
-                "parentVariable": 745,
-                "globalId": "1459984402-755-8975"
+                "test": 301,
+                "parentVariable": 4020,
+                "globalId": "1460063223-4030-2158"
             },
             {
                 "class_name": "TestVariable",
-                "id": 756,
+                "id": 4031,
                 "name": "paragraph",
                 "type": 0,
                 "description": "<p>Form page paragraph<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer the questions below:<\/p>\n",
-                "test": 58,
-                "parentVariable": 746,
-                "globalId": "1459984402-756-8943"
+                "test": 301,
+                "parentVariable": 4021,
+                "globalId": "1460063223-4031-2485"
             },
             {
                 "class_name": "TestVariable",
-                "id": 757,
+                "id": 4032,
                 "name": "response",
                 "type": 1,
                 "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 58,
-                "parentVariable": 747,
-                "globalId": "1459984402-757-1400"
+                "test": 301,
+                "parentVariable": 4022,
+                "globalId": "1460063223-4032-5722"
             },
             {
                 "class_name": "TestVariable",
-                "id": 758,
+                "id": 4033,
                 "name": "inserts",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 58,
-                "parentVariable": 748,
-                "globalId": "1459984402-758-8450"
+                "test": 301,
+                "parentVariable": 4023,
+                "globalId": "1460063223-4033-3525"
             },
             {
                 "class_name": "TestVariable",
-                "id": 759,
+                "id": 4034,
                 "name": "warning_msg",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 58,
-                "parentVariable": 749,
-                "globalId": "1459984402-759-7355"
+                "test": 301,
+                "parentVariable": 4024,
+                "globalId": "1460063223-4034-1235"
             },
             {
                 "class_name": "TestVariable",
-                "id": 760,
+                "id": 4035,
                 "name": "title",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
-                "test": 58,
-                "parentVariable": 750,
-                "globalId": "1459984402-760-2868"
+                "test": 301,
+                "parentVariable": 4025,
+                "globalId": "1460063223-4035-3780"
             },
             {
                 "class_name": "TestVariable",
-                "id": 761,
+                "id": 4036,
                 "name": "template_def",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                "test": 58,
-                "parentVariable": 751,
-                "globalId": "1459984402-761-1956"
+                "test": 301,
+                "parentVariable": 4026,
+                "globalId": "1460063223-4036-3896"
             },
             {
                 "class_name": "TestVariable",
-                "id": 762,
+                "id": 4037,
                 "name": "template_def",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 58,
-                "parentVariable": 752,
-                "globalId": "1459984402-762-2797"
+                "test": 301,
+                "parentVariable": 4027,
+                "globalId": "1460063223-4037-2974"
             }
         ],
-        "sourceWizard": 28,
+        "sourceWizard": 144,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 28,
+            "id": 144,
             "name": "form",
             "description": "",
             "accessibility": 0,
@@ -146,100 +146,100 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 62,
+                    "id": 326,
                     "title": "Presentation",
                     "description": "<p>Visual presentation of form page<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 28,
+                    "wizard": 144,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 201,
+                            "id": 1093,
                             "label": "Button label",
                             "description": "<p>Continue button label<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "continue",
-                            "testVariable": 745,
+                            "testVariable": 4020,
                             "name": "button_label",
-                            "wizardStep": 62,
+                            "wizardStep": 326,
                             "stepTitle": "Presentation",
                             "order": 3,
-                            "wizard": 28,
+                            "wizard": 144,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-201-5617"
+                            "globalId": "1460063223-1093-5259"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 202,
+                            "id": 1094,
                             "label": "Paragraph",
                             "description": "<p>Form page paragraph<\/p>\n",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Please answer the questions below:<\/p>\n",
-                            "testVariable": 746,
+                            "testVariable": 4021,
                             "name": "paragraph",
-                            "wizardStep": 62,
+                            "wizardStep": 326,
                             "stepTitle": "Presentation",
                             "order": 2,
-                            "wizard": 28,
+                            "wizard": 144,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-202-4496"
+                            "globalId": "1460063223-1094-4968"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 203,
+                            "id": 1095,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
-                            "value": "DEMO TEST",
-                            "testVariable": 750,
+                            "value": "Page Title e.g. Demographics",
+                            "testVariable": 4025,
                             "name": "title",
-                            "wizardStep": 62,
+                            "wizardStep": 326,
                             "stepTitle": "Presentation",
                             "order": 1,
-                            "wizard": 28,
+                            "wizard": 144,
                             "definition": {
                                 "placeholder": 0
                             },
-                            "globalId": "1459984402-203-3745"
+                            "globalId": "1460063223-1095-7536"
                         }
                     ],
-                    "globalId": "1459984402-62-1860"
+                    "globalId": "1460063223-326-6410"
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 63,
+                    "id": 327,
                     "title": "Forms",
                     "description": "<p>Forms declaration<\/p>\n",
                     "orderNum": 1,
                     "colsNum": 0,
-                    "wizard": 28,
+                    "wizard": 144,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 204,
+                            "id": 1096,
                             "label": "Form fields",
                             "description": "<p>Form fields list<\/p>\n",
                             "hideCondition": "",
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 744,
+                            "testVariable": 4019,
                             "name": "form",
-                            "wizardStep": 63,
+                            "wizardStep": 327,
                             "stepTitle": "Forms",
                             "order": 0,
-                            "wizard": 28,
+                            "wizard": 144,
                             "definition": {
                                 "placeholder": "0",
                                 "element": {
@@ -253,8 +253,7 @@
                                                 "label": "Name",
                                                 "definition": {
                                                     "placeholder": "0"
-                                                },
-                                                "order": 1
+                                                }
                                             },
                                             {
                                                 "type": "0",
@@ -262,8 +261,7 @@
                                                 "label": "Label",
                                                 "definition": {
                                                     "placeholder": "0"
-                                                },
-                                                "order": 2
+                                                }
                                             },
                                             {
                                                 "type": 0,
@@ -271,8 +269,7 @@
                                                 "label": "Validation",
                                                 "definition": {
                                                     "placeholder": "0"
-                                                },
-                                                "order": 3
+                                                }
                                             },
                                             {
                                                 "type": "0",
@@ -281,8 +278,7 @@
                                                 "hideCondition": "parent.validation == \"\"",
                                                 "definition": {
                                                     "placeholder": "0"
-                                                },
-                                                "order": 4
+                                                }
                                             },
                                             {
                                                 "type": 0,
@@ -290,8 +286,7 @@
                                                 "label": "Default value",
                                                 "definition": {
                                                     "placeholder": 0
-                                                },
-                                                "order": 5
+                                                }
                                             },
                                             {
                                                 "type": 9,
@@ -418,157 +413,186 @@
                                                                 ]
                                                             },
                                                             "order": 0
+                                                        },
+                                                        {
+                                                            "type": 4,
+                                                            "name": "hide_number",
+                                                            "label": "Hide Slider Number?",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "order": 7,
+                                                            "hideCondition": "parent.type != \"slider\""
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "prefix_text",
+                                                            "label": "Prefix text for number, e.g. \"$\" (optional)",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\" || parent.hide_number == \"1\"",
+                                                            "order": 8
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "suffix_text",
+                                                            "label": "Suffix text for number, e.g. \" USD\" - note the extra space (optional)",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\" || parent.hide_number == \"1\"",
+                                                            "order": 9
                                                         }
                                                     ]
                                                 },
-                                                "hideCondition": "",
-                                                "order": 0
+                                                "hideCondition": ""
                                             }
                                         ]
                                     }
                                 }
                             },
-                            "globalId": "1459984402-204-5444"
+                            "globalId": "1460063223-1096-6914"
                         }
                     ],
-                    "globalId": "1459984402-63-4554"
+                    "globalId": "1460063223-327-1714"
                 }
             ],
-            "test": 57,
+            "test": 300,
             "testObject": {
                 "class_name": "Test",
-                "id": 57,
+                "id": 300,
                 "name": "source_form",
                 "accessibility": 0,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
-                "code": "decoded_template_def = fromJSON(template_def)\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = paste(\"<table><tr><td class='tdFormSliderExtremeLabel'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr><\/table>\",sep=\"\")\n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
-                "slug": "b886adbd3b7f24e79a79a5c32d9f397a",
+                "code": "decoded_template_def = fromJSON(template_def)\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = \"\"\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"\n            <script>\n              var p_form\",i,\" = document.getElementById('form\",i,\"'),\n                res_form\",i,\" = document.getElementById('form\",i,\"number');\n\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";\n\n              p_form\",i,\".addEventListener('input', function() {\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";          \n              }, false); \n            <\/script>\n\t\t  \") \n        }\n        control = paste0(control, \"<table class='tableFormSlider'><tr><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr>\")\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"<tr><td>&nbsp;<\/td><td><div id='form\",i,\"number' class='tdFormSliderNumber'>&nbsp;<\/div><\/td><td>&nbsp;<\/td><\/tr>\") \n        }\n        control = paste0(control, \"<\/table>\")\n        \n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
+                "slug": "99c74424fe632d030908cc47828b085b",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 743,
+                        "id": 4018,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-743-6992"
+                        "globalId": "1460063223-4018-7413"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 744,
+                        "id": 4019,
                         "name": "form",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-744-6550"
+                        "globalId": "1460063223-4019-1128"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 745,
+                        "id": 4020,
                         "name": "button_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-745-5637"
+                        "globalId": "1460063223-4020-9186"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 746,
+                        "id": 4021,
                         "name": "paragraph",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-746-1441"
+                        "globalId": "1460063223-4021-3292"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 747,
+                        "id": 4022,
                         "name": "response",
                         "type": 1,
                         "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-747-6410"
+                        "globalId": "1460063223-4022-4963"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 748,
+                        "id": 4023,
                         "name": "inserts",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-748-3896"
+                        "globalId": "1460063223-4023-3036"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 749,
+                        "id": 4024,
                         "name": "warning_msg",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-749-1972"
+                        "globalId": "1460063223-4024-1147"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 750,
+                        "id": 4025,
                         "name": "title",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-750-2080"
+                        "globalId": "1460063223-4025-5169"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 751,
+                        "id": 4026,
                         "name": "template_def",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-751-6925"
+                        "globalId": "1460063223-4026-8435"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 752,
+                        "id": 4027,
                         "name": "template_def",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 57,
+                        "test": 300,
                         "parentVariable": null,
-                        "globalId": "1459984402-752-5219"
+                        "globalId": "1460063223-4027-2309"
                     }
                 ],
                 "logs": [
@@ -576,7 +600,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-04-07 01:03:56",
+                "updatedOn": "2016-04-07 23:04:48",
                 "updatedByName": "",
                 "nodes": [
 
@@ -585,7 +609,7 @@
 
                 ],
                 "tags": "",
-                "globalId": "1459984402-57-6692",
+                "globalId": "181",
                 "owner": 1,
                 "groups": "",
                 "revision": 0,
@@ -593,16 +617,16 @@
                 "starterContent": true
             },
             "testName": "source_form",
-            "updatedOn": "2016-04-07 01:03:56",
+            "updatedOn": "2016-04-07 23:04:48",
             "updatedByName": "",
-            "globalId": "1459984402-28-9902",
+            "globalId": "46",
             "owner": 1,
             "groups": "",
             "revision": 0,
             "checksum": "",
             "starterContent": true
         },
-        "updatedOn": "2016-04-07 01:03:56",
+        "updatedOn": "2016-04-07 23:04:48",
         "updatedByName": "",
         "nodes": [
 
@@ -611,11 +635,11 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-58-2214",
+        "globalId": "196",
         "owner": 1,
         "groups": "",
-        "revision": 25,
-        "checksum": "76da95bdf66858909f5d17c404620aa0",
+        "revision": 1,
+        "checksum": "5c68261249fbf2969cd64062ea983962",
         "starterContent": true
     }
 ]
