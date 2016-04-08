@@ -139,6 +139,7 @@ class TestNodePortService extends ASectionService {
         $ent->setNode($node);
         $ent->setValue($obj["value"]);
         $ent->setVariable($variable);
+        $ent->setGlobalId($obj["globalId"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

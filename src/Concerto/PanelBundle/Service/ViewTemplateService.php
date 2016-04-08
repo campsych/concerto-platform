@@ -5,7 +5,6 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\AEntity;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class ViewTemplateService extends AExportableSectionService {
 
