@@ -1,7 +1,7 @@
 [
     {
         "class_name": "ViewTemplate",
-        "id": 13,
+        "id": 14,
         "name": "default_layout",
         "description": "",
         "accessibility": 0,
@@ -14,8 +14,8 @@
         "globalId": "1459984402-3-4526",
         "owner": 1,
         "groups": "",
-        "revision": 26,
-        "checksum": "b348c6e0daa3978445ba6505f48dce42",
+        "revision": 27,
+        "checksum": "18da4dac1439f041adb61b75381a5060",
         "starterContent": true
     }
 ]
