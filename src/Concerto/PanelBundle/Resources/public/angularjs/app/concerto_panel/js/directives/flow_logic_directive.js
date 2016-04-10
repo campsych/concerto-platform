@@ -33,10 +33,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.currentMouseEvent = null;
 
                 scope.resetView = function () {
-                    for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
+                    for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
-                        $("#flowContainerScroll").scrollLeft(node.posX);
-                        $("#flowContainerScroll").scrollTop(node.posY);
+                        $("#flowContainerScroll").scrollLeft(node.posX * scope.flowScale);
+                        $("#flowContainerScroll").scrollTop(node.posY * scope.flowScale);
+                        break;
                     }
                 };
 
@@ -678,10 +679,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.connect(scope.object.nodesConnections[i]);
                         }
                         if (!scope.initialized) {
-                            $("#flowContainerScroll").scrollLeft(15000);
-                            $("#flowContainerScroll").scrollTop(15000);
                             scope.initialized = true;
                             scope.refreshing = false;
+                            scope.resetView();
                         }
                     }, 100);
                 };
