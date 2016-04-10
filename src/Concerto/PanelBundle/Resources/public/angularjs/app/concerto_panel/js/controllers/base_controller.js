@@ -46,9 +46,15 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.super.onObjectChanged(newObject, oldObject);
     };
 
-    $scope.super.onCollectionChanged = function (newCollection, oldCollection) {
-        if ($scope.collectionService)
-            $scope.collectionData = $scope.collectionService.collection;
+    $scope.super.onCollectionChanged = function (newCollection) {
+        if ($scope.collectionService) {
+            $scope.collectionOptions.enableFiltering = newCollection.length > 0;
+            if ($scope.collectionGridApi && uiGridConstants.dataChange) {
+                $scope.collectionGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+            }
+
+            $scope.collectionData = newCollection;
+        }
     };
     $scope.onCollectionChanged = function (newCollection, oldCollection) {
         $scope.super.onCollectionChanged(newCollection, oldCollection);
@@ -152,7 +158,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.collectionData = [];
     $scope.collectionOptions = {
-        enableFiltering: false,
+        enableFiltering: true,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
@@ -164,13 +170,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             $scope.collectionGridApi = gridApi;
         }
     };
-
-    $scope.$watch("collectionData.length", function (newValue) {
-        $scope.collectionOptions.enableFiltering = newValue > 0;
-        if ($scope.collectionGridApi && uiGridConstants.dataChange) {
-            $scope.collectionGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
 
     $scope.deleteSelected = function () {
         var ids = [];
@@ -275,8 +274,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.getPersistObject = function () {
         return $scope.object;
     };
-
-
 
     $scope.persist = function (modalInstance) {
         $scope.object.validationErrors = [];

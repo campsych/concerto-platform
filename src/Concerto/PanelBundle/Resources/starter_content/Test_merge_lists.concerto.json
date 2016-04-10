@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 69,
+        "id": 299,
         "name": "merge_lists",
         "accessibility": 0,
         "protected": "1",
@@ -15,92 +15,92 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 921,
+                "id": 4011,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-921-6937"
+                "globalId": "1460132367-4011-9511"
             },
             {
                 "class_name": "TestVariable",
-                "id": 922,
+                "id": 4012,
                 "name": "merged_list",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-922-5851"
+                "globalId": "1460132367-4012-7700"
             },
             {
                 "class_name": "TestVariable",
-                "id": 923,
+                "id": 4013,
                 "name": "list1",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-923-9852"
+                "globalId": "1460132367-4013-3834"
             },
             {
                 "class_name": "TestVariable",
-                "id": 924,
+                "id": 4014,
                 "name": "list2",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-924-2061"
+                "globalId": "1460132367-4014-4535"
             },
             {
                 "class_name": "TestVariable",
-                "id": 925,
+                "id": 4015,
                 "name": "list3",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-925-8865"
+                "globalId": "1460132367-4015-2983"
             },
             {
                 "class_name": "TestVariable",
-                "id": 926,
+                "id": 4016,
                 "name": "list4",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-926-5042"
+                "globalId": "1460132367-4016-7888"
             },
             {
                 "class_name": "TestVariable",
-                "id": 927,
+                "id": 4017,
                 "name": "list5",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 69,
+                "test": 299,
                 "parentVariable": null,
-                "globalId": "1459984402-927-2928"
+                "globalId": "1460132367-4017-6638"
             }
         ],
         "sourceWizard": null,
         "sourceWizardObject": null,
-        "updatedOn": "2016-04-07 01:04:07",
+        "updatedOn": "2016-04-07 01:51:16",
         "updatedByName": "",
         "nodes": [
 
@@ -112,8 +112,8 @@
         "globalId": "1459984402-69-9178",
         "owner": 1,
         "groups": "",
-        "revision": 25,
-        "checksum": "8b0ebdd7de095fb7c7085f683b7fa75a",
+        "revision": 27,
+        "checksum": "1fcfa1c180d7dba47ceba5f50adc725f",
         "starterContent": true
     }
 ]

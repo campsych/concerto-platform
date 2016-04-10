@@ -6,7 +6,6 @@ use Concerto\PanelBundle\Repository\TestNodeConnectionRepository;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
 use Concerto\PanelBundle\Entity\TestNode;
-use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Repository\TestRepository;
@@ -164,6 +163,7 @@ class TestNodeConnectionService extends ASectionService {
         $ent->setSourceNode($sourceNode);
         $ent->setSourcePort($sourcePort);
         $ent->setAutomatic($obj["automatic"] == "1");
+        $ent->setGlobalId($obj["globalId"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

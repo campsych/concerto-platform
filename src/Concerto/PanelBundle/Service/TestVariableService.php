@@ -205,6 +205,7 @@ class TestVariableService extends ASectionService {
         $ent->setType($obj["type"]);
         $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
         $ent->setValue($obj['value']);
+        $ent->setGlobalId($obj["globalId"]);
         $ent->setParentVariable($parentVariable);
 
         $ent_errors = $this->validator->validate($ent);

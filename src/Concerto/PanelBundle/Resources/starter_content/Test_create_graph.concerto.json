@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 62,
+        "id": 292,
         "name": "create_graph",
         "accessibility": 0,
         "protected": "1",
@@ -15,177 +15,177 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 821,
+                "id": 3911,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 62,
-                "parentVariable": 807,
-                "globalId": "1459984402-821-9940"
+                "test": 292,
+                "parentVariable": 3897,
+                "globalId": "1460132367-3911-1232"
             },
             {
                 "class_name": "TestVariable",
-                "id": 822,
+                "id": 3912,
                 "name": "filename",
                 "type": 0,
                 "description": "<p>File name that should be used to save a file. It needs to be&nbsp;<strong>png<\/strong>&nbsp;file<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "plot.png",
-                "test": 62,
-                "parentVariable": 808,
-                "globalId": "1459984402-822-1313"
+                "test": 292,
+                "parentVariable": 3898,
+                "globalId": "1460132367-3912-5300"
             },
             {
                 "class_name": "TestVariable",
-                "id": 823,
+                "id": 3913,
                 "name": "data",
                 "type": 0,
                 "description": "<p>Plot data<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "[]",
-                "test": 62,
-                "parentVariable": 809,
-                "globalId": "1459984402-823-6870"
+                "test": 292,
+                "parentVariable": 3899,
+                "globalId": "1460132367-3913-7930"
             },
             {
                 "class_name": "TestVariable",
-                "id": 824,
+                "id": 3914,
                 "name": "x_name",
                 "type": 0,
                 "description": "<p>Name of the column from&nbsp;<strong>data<\/strong>&nbsp;that describes&nbsp;<strong>X<\/strong><\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "x",
-                "test": 62,
-                "parentVariable": 810,
-                "globalId": "1459984402-824-1373"
+                "test": 292,
+                "parentVariable": 3900,
+                "globalId": "1460132367-3914-6066"
             },
             {
                 "class_name": "TestVariable",
-                "id": 825,
+                "id": 3915,
                 "name": "y_name",
                 "type": 0,
                 "description": "<p><span style=\"line-height: 20.8px;\">Name of the column from&nbsp;<\/span><strong style=\"line-height: 20.8px;\">data<\/strong><span style=\"line-height: 20.8px;\">&nbsp;that describes&nbsp;<\/span><strong style=\"line-height: 20.8px;\">Y<\/strong><\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "y",
-                "test": 62,
-                "parentVariable": 811,
-                "globalId": "1459984402-825-3016"
+                "test": 292,
+                "parentVariable": 3901,
+                "globalId": "1460132367-3915-3906"
             },
             {
                 "class_name": "TestVariable",
-                "id": 826,
+                "id": 3916,
                 "name": "x_label",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "X",
-                "test": 62,
-                "parentVariable": 812,
-                "globalId": "1459984402-826-9096"
+                "test": 292,
+                "parentVariable": 3902,
+                "globalId": "1460132367-3916-8451"
             },
             {
                 "class_name": "TestVariable",
-                "id": 827,
+                "id": 3917,
                 "name": "y_label",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "Y",
-                "test": 62,
-                "parentVariable": 813,
-                "globalId": "1459984402-827-8392"
+                "test": 292,
+                "parentVariable": 3903,
+                "globalId": "1460132367-3917-7313"
             },
             {
                 "class_name": "TestVariable",
-                "id": 828,
+                "id": 3918,
                 "name": "title",
                 "type": 0,
                 "description": "<p>Plot title<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "Plot",
-                "test": 62,
-                "parentVariable": 814,
-                "globalId": "1459984402-828-6230"
+                "test": 292,
+                "parentVariable": 3904,
+                "globalId": "1460132367-3918-8593"
             },
             {
                 "class_name": "TestVariable",
-                "id": 829,
+                "id": 3919,
                 "name": "bar_colors",
                 "type": 0,
                 "description": "<p>Bar colors<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "[]",
-                "test": 62,
-                "parentVariable": 815,
-                "globalId": "1459984402-829-4680"
+                "test": 292,
+                "parentVariable": 3905,
+                "globalId": "1460132367-3919-5545"
             },
             {
                 "class_name": "TestVariable",
-                "id": 830,
+                "id": 3920,
                 "name": "x_numeric",
                 "type": 0,
                 "description": "<p>Check if&nbsp;<strong>X&nbsp;<\/strong>column of&nbsp;<strong>data<\/strong>&nbsp;is numeric<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"value\":\"\"}",
-                "test": 62,
-                "parentVariable": 816,
-                "globalId": "1459984402-830-4575"
+                "test": 292,
+                "parentVariable": 3906,
+                "globalId": "1460132367-3920-8840"
             },
             {
                 "class_name": "TestVariable",
-                "id": 831,
+                "id": 3921,
                 "name": "y_numeric",
                 "type": 0,
                 "description": "<p><span style=\"line-height: 20.8px;\">Check if&nbsp;<\/span><strong style=\"line-height: 20.8px;\">Y&nbsp;<\/strong><span style=\"line-height: 20.8px;\">column of&nbsp;<\/span><strong style=\"line-height: 20.8px;\">data<\/strong><span style=\"line-height: 20.8px;\">&nbsp;is numeric<\/span><\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 62,
-                "parentVariable": 817,
-                "globalId": "1459984402-831-4677"
+                "test": 292,
+                "parentVariable": 3907,
+                "globalId": "1460132367-3921-3128"
             },
             {
                 "class_name": "TestVariable",
-                "id": 832,
+                "id": 3922,
                 "name": "address",
                 "type": 1,
                 "description": "<p>R list object containing three elements:<\/p>\n\n<ul>\n\t<li><strong>address$filename<\/strong><\/li>\n\t<li><strong>address$path<\/strong><\/li>\n\t<li><strong>address$url<\/strong><\/li>\n<\/ul>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 62,
-                "parentVariable": 818,
-                "globalId": "1459984402-832-4469"
+                "test": 292,
+                "parentVariable": 3908,
+                "globalId": "1460132367-3922-7518"
             },
             {
                 "class_name": "TestVariable",
-                "id": 833,
+                "id": 3923,
                 "name": "width",
                 "type": 0,
                 "description": "<p>Width of plot image in pixels<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "200",
-                "test": 62,
-                "parentVariable": 819,
-                "globalId": "1459984402-833-7829"
+                "test": 292,
+                "parentVariable": 3909,
+                "globalId": "1460132367-3923-8920"
             },
             {
                 "class_name": "TestVariable",
-                "id": 834,
+                "id": 3924,
                 "name": "height",
                 "type": 0,
                 "description": "<p><span style=\"line-height: 20.8px;\">Height of plot image in pixels<\/span><\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "200",
-                "test": 62,
-                "parentVariable": 820,
-                "globalId": "1459984402-834-9295"
+                "test": 292,
+                "parentVariable": 3910,
+                "globalId": "1460132367-3924-6345"
             }
         ],
-        "sourceWizard": 30,
+        "sourceWizard": 140,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 30,
+            "id": 140,
             "name": "create_graph",
             "description": "",
             "accessibility": 0,
@@ -194,48 +194,48 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 67,
+                    "id": 317,
                     "title": "Data",
                     "description": "<p>Data declaration<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 30,
+                    "wizard": 140,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 218,
+                            "id": 1058,
                             "label": "File name",
                             "description": "<p>File name that should be used to save a file. It needs to be&nbsp;<strong>png<\/strong>&nbsp;file<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "plot.png",
-                            "testVariable": 808,
+                            "testVariable": 3898,
                             "name": "filename",
-                            "wizardStep": 67,
+                            "wizardStep": 317,
                             "stepTitle": "Data",
                             "order": 0,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-218-4481"
+                            "globalId": "1460132367-1058-3239"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 219,
+                            "id": 1059,
                             "label": "Data",
                             "description": "<p>Plot data<\/p>\n",
                             "hideCondition": "",
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 809,
+                            "testVariable": 3899,
                             "name": "data",
-                            "wizardStep": 67,
+                            "wizardStep": 317,
                             "stepTitle": "Data",
                             "order": 1,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0",
                                 "element": {
@@ -256,231 +256,231 @@
                                     }
                                 }
                             },
-                            "globalId": "1459984402-219-9251"
+                            "globalId": "1460132367-1059-3111"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 220,
+                            "id": 1060,
                             "label": "Name of X column",
                             "description": "<p>Name of the column from&nbsp;<strong>data<\/strong>&nbsp;that describes&nbsp;<strong>X<\/strong><\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "x",
-                            "testVariable": 810,
+                            "testVariable": 3900,
                             "name": "x_name",
-                            "wizardStep": 67,
+                            "wizardStep": 317,
                             "stepTitle": "Data",
                             "order": 2,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-220-4189"
+                            "globalId": "1460132367-1060-1111"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 221,
+                            "id": 1061,
                             "label": "Name of Y column",
                             "description": "<p><span style=\"line-height: 20.8px;\">Name of the column from&nbsp;<\/span><strong style=\"line-height: 20.8px;\">data<\/strong><span style=\"line-height: 20.8px;\">&nbsp;that describes&nbsp;<\/span><strong style=\"line-height: 20.8px;\">Y<\/strong><\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "y",
-                            "testVariable": 811,
+                            "testVariable": 3901,
                             "name": "y_name",
-                            "wizardStep": 67,
+                            "wizardStep": 317,
                             "stepTitle": "Data",
                             "order": 3,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-221-1214"
+                            "globalId": "1460132367-1061-2078"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 222,
+                            "id": 1062,
                             "label": "Numeric X",
                             "description": "<p>Check if&nbsp;<strong>X&nbsp;<\/strong>column of&nbsp;<strong>data<\/strong>&nbsp;is numeric<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "{\"value\":\"\"}",
-                            "testVariable": 816,
+                            "testVariable": 3906,
                             "name": "x_numeric",
-                            "wizardStep": 67,
+                            "wizardStep": 317,
                             "stepTitle": "Data",
                             "order": 4,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-222-9791"
+                            "globalId": "1460132367-1062-5652"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 223,
+                            "id": 1063,
                             "label": "Numeric Y",
                             "description": "<p><span style=\"line-height: 20.8px;\">Check if&nbsp;<\/span><strong style=\"line-height: 20.8px;\">Y&nbsp;<\/strong><span style=\"line-height: 20.8px;\">column of&nbsp;<\/span><strong style=\"line-height: 20.8px;\">data<\/strong><span style=\"line-height: 20.8px;\">&nbsp;is numeric<\/span><\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 817,
+                            "testVariable": 3907,
                             "name": "y_numeric",
-                            "wizardStep": 67,
+                            "wizardStep": 317,
                             "stepTitle": "Data",
                             "order": 5,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-223-3066"
+                            "globalId": "1460132367-1063-1270"
                         }
                     ],
-                    "globalId": "1459984402-67-5752"
+                    "globalId": "1460132367-317-6685"
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 68,
+                    "id": 318,
                     "title": "Presentation",
                     "description": "<p>Graph visual options<\/p>\n",
                     "orderNum": 1,
                     "colsNum": 0,
-                    "wizard": 30,
+                    "wizard": 140,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 224,
+                            "id": 1064,
                             "label": "Title",
                             "description": "<p>Plot title<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "Plot",
-                            "testVariable": 814,
+                            "testVariable": 3904,
                             "name": "title",
-                            "wizardStep": 68,
+                            "wizardStep": 318,
                             "stepTitle": "Presentation",
                             "order": 0,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-224-7479"
+                            "globalId": "1460132367-1064-1083"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 225,
+                            "id": 1065,
                             "label": "X label",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "X",
-                            "testVariable": 812,
+                            "testVariable": 3902,
                             "name": "x_label",
-                            "wizardStep": 68,
+                            "wizardStep": 318,
                             "stepTitle": "Presentation",
                             "order": 1,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-225-1234"
+                            "globalId": "1460132367-1065-5415"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 226,
+                            "id": 1066,
                             "label": "Y label",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "Y",
-                            "testVariable": 813,
+                            "testVariable": 3903,
                             "name": "y_label",
-                            "wizardStep": 68,
+                            "wizardStep": 318,
                             "stepTitle": "Presentation",
                             "order": 2,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-226-9141"
+                            "globalId": "1460132367-1066-7864"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 227,
+                            "id": 1067,
                             "label": "Bar colors",
                             "description": "<p>Bar colors<\/p>\n",
                             "hideCondition": "",
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 815,
+                            "testVariable": 3905,
                             "name": "bar_colors",
-                            "wizardStep": 68,
+                            "wizardStep": 318,
                             "stepTitle": "Presentation",
                             "order": 3,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0",
                                 "element": {
                                     "type": "0"
                                 }
                             },
-                            "globalId": "1459984402-227-3809"
+                            "globalId": "1460132367-1067-6323"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 228,
+                            "id": 1068,
                             "label": "Width",
                             "description": "<p>Width of plot image in pixels<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "200",
-                            "testVariable": 819,
+                            "testVariable": 3909,
                             "name": "width",
-                            "wizardStep": 68,
+                            "wizardStep": 318,
                             "stepTitle": "Presentation",
                             "order": 4,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-228-4590"
+                            "globalId": "1460132367-1068-4689"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 229,
+                            "id": 1069,
                             "label": "Height",
                             "description": "<p><span style=\"line-height: 20.8px;\">Height of plot image in pixels<\/span><\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "200",
-                            "testVariable": 820,
+                            "testVariable": 3910,
                             "name": "height",
-                            "wizardStep": 68,
+                            "wizardStep": 318,
                             "stepTitle": "Presentation",
                             "order": 5,
-                            "wizard": 30,
+                            "wizard": 140,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-229-2917"
+                            "globalId": "1460132367-1069-3158"
                         }
                     ],
-                    "globalId": "1459984402-68-6191"
+                    "globalId": "1460132367-318-7034"
                 }
             ],
-            "test": 61,
+            "test": 291,
             "testObject": {
                 "class_name": "Test",
-                "id": 61,
+                "id": 291,
                 "name": "source_create_graph",
                 "accessibility": 0,
                 "protected": "1",
@@ -488,178 +488,178 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "library(ggplot2)\n\nif(is.character(data)) {\n  d = fromJSON(data)\n  data = NULL\n  if(length(d) > 0) {\n    for(i in 1:length(d)) {\n      data = rbind(data, as.list(d[[i]]))\n    }\n  }\n}\ndata = as.data.frame(data)\n\nx = as.character(data[[x_name]])\nif(x_numeric == \"1\") { \n  x = as.numeric(x) \n}\n\ny = as.character(data[[y_name]])\nif(y_numeric == \"1\") { \n  y = as.numeric(y) \n}\ndata = data.frame(x=x, y=y)\n\ncolors = fromJSON(bar_colors)\nif(length(colors) == 0){\n  colors = x\n}\n\ngraph = ggplot(data=data, aes(x=x, y=y)) + \ngeom_bar(colour=\"black\", fill=colors, width=.8, stat=\"identity\") + \nguides(fill=FALSE) +\nxlab(x_label) + ylab(y_label) +\nggtitle(title)\n\npath = concerto.file.getPublicPath(filename)\npng(path, width=as.numeric(width), height=as.numeric(height))\nprint(graph)\ndev.off()\nurl = concerto.file.getUrl(filename)\naddress = list(filename=filename, path=path, url=url)",
-                "slug": "c6131c53b5c75bbcd15139cb9c492c41",
+                "slug": "b3c66136f5e94043ee8ae536a8477adf",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 807,
+                        "id": 3897,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-807-3952"
+                        "globalId": "1460132367-3897-5495"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 808,
+                        "id": 3898,
                         "name": "filename",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-808-3821"
+                        "globalId": "1460132367-3898-1240"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 809,
+                        "id": 3899,
                         "name": "data",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-809-7473"
+                        "globalId": "1460132367-3899-1208"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 810,
+                        "id": 3900,
                         "name": "x_name",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-810-6248"
+                        "globalId": "1460132367-3900-3051"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 811,
+                        "id": 3901,
                         "name": "y_name",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-811-9299"
+                        "globalId": "1460132367-3901-2200"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 812,
+                        "id": 3902,
                         "name": "x_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-812-7686"
+                        "globalId": "1460132367-3902-3472"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 813,
+                        "id": 3903,
                         "name": "y_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-813-5471"
+                        "globalId": "1460132367-3903-2730"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 814,
+                        "id": 3904,
                         "name": "title",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-814-9995"
+                        "globalId": "1460132367-3904-4559"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 815,
+                        "id": 3905,
                         "name": "bar_colors",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-815-1023"
+                        "globalId": "1460132367-3905-4588"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 816,
+                        "id": 3906,
                         "name": "x_numeric",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-816-9195"
+                        "globalId": "1460132367-3906-7983"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 817,
+                        "id": 3907,
                         "name": "y_numeric",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-817-9668"
+                        "globalId": "1460132367-3907-5931"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 818,
+                        "id": 3908,
                         "name": "address",
                         "type": 1,
                         "description": "<p>R list object containing three elements:<\/p>\n\n<ul>\n\t<li><strong>address$filename<\/strong><\/li>\n\t<li><strong>address$path<\/strong><\/li>\n\t<li><strong>address$url<\/strong><\/li>\n<\/ul>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-818-2303"
+                        "globalId": "1460132367-3908-8967"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 819,
+                        "id": 3909,
                         "name": "width",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-819-4320"
+                        "globalId": "1460132367-3909-6912"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 820,
+                        "id": 3910,
                         "name": "height",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 61,
+                        "test": 291,
                         "parentVariable": null,
-                        "globalId": "1459984402-820-7790"
+                        "globalId": "1460132367-3910-3106"
                     }
                 ],
                 "logs": [
@@ -667,7 +667,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-04-07 01:03:59",
+                "updatedOn": "2016-04-07 01:51:08",
                 "updatedByName": "",
                 "nodes": [
 
@@ -684,7 +684,7 @@
                 "starterContent": true
             },
             "testName": "source_create_graph",
-            "updatedOn": "2016-04-07 01:04:00",
+            "updatedOn": "2016-04-07 01:51:09",
             "updatedByName": "",
             "globalId": "1459984402-30-9064",
             "owner": 1,
@@ -693,7 +693,7 @@
             "checksum": "",
             "starterContent": true
         },
-        "updatedOn": "2016-04-07 01:04:00",
+        "updatedOn": "2016-04-07 01:51:09",
         "updatedByName": "",
         "nodes": [
 
@@ -705,8 +705,8 @@
         "globalId": "1459984402-62-1227",
         "owner": 1,
         "groups": "",
-        "revision": 25,
-        "checksum": "eb44eadd3fe6880cf25a841c027ee3fd",
+        "revision": 27,
+        "checksum": "e091f5326f01dc2ff4faab5e92ed4ae2",
         "starterContent": true
     }
 ]

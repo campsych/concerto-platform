@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 64,
+        "id": 294,
         "name": "consent",
         "accessibility": 0,
         "protected": "1",
@@ -15,117 +15,117 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 844,
+                "id": 3934,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 64,
-                "parentVariable": 835,
-                "globalId": "1459984402-844-2693"
+                "test": 294,
+                "parentVariable": 3925,
+                "globalId": "1460132367-3934-8909"
             },
             {
                 "class_name": "TestVariable",
-                "id": 845,
+                "id": 3935,
                 "name": "paragraph",
                 "type": 0,
                 "description": "<p>Consent page text paragraph<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer the questions below<\/p>\n",
-                "test": 64,
-                "parentVariable": 836,
-                "globalId": "1459984402-845-8262"
+                "test": 294,
+                "parentVariable": 3926,
+                "globalId": "1460132367-3935-8533"
             },
             {
                 "class_name": "TestVariable",
-                "id": 846,
+                "id": 3936,
                 "name": "consents",
                 "type": 0,
                 "description": "<p>Declare consent fields list<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "[]",
-                "test": 64,
-                "parentVariable": 837,
-                "globalId": "1459984402-846-2818"
+                "test": 294,
+                "parentVariable": 3927,
+                "globalId": "1460132367-3936-9111"
             },
             {
                 "class_name": "TestVariable",
-                "id": 847,
+                "id": 3937,
                 "name": "button_label",
                 "type": 0,
                 "description": "<p>Continue button label text<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "continue",
-                "test": 64,
-                "parentVariable": 838,
-                "globalId": "1459984402-847-1888"
+                "test": 294,
+                "parentVariable": 3928,
+                "globalId": "1460132367-3937-6893"
             },
             {
                 "class_name": "TestVariable",
-                "id": 848,
+                "id": 3938,
                 "name": "response",
                 "type": 1,
                 "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response<\/span><\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 64,
-                "parentVariable": 839,
-                "globalId": "1459984402-848-7930"
+                "test": 294,
+                "parentVariable": 3929,
+                "globalId": "1460132367-3938-4465"
             },
             {
                 "class_name": "TestVariable",
-                "id": 849,
+                "id": 3939,
                 "name": "inserts",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 64,
-                "parentVariable": 840,
-                "globalId": "1459984402-849-4122"
+                "test": 294,
+                "parentVariable": 3930,
+                "globalId": "1460132367-3939-8078"
             },
             {
                 "class_name": "TestVariable",
-                "id": 850,
+                "id": 3940,
                 "name": "title",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
-                "test": 64,
-                "parentVariable": 841,
-                "globalId": "1459984402-850-5209"
+                "test": 294,
+                "parentVariable": 3931,
+                "globalId": "1460132367-3940-3805"
             },
             {
                 "class_name": "TestVariable",
-                "id": 851,
+                "id": 3941,
                 "name": "template_def",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                "test": 64,
-                "parentVariable": 842,
-                "globalId": "1459984402-851-5721"
+                "test": 294,
+                "parentVariable": 3932,
+                "globalId": "1460132367-3941-6572"
             },
             {
                 "class_name": "TestVariable",
-                "id": 852,
+                "id": 3942,
                 "name": "template_def",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 64,
-                "parentVariable": 843,
-                "globalId": "1459984402-852-4063"
+                "test": 294,
+                "parentVariable": 3933,
+                "globalId": "1460132367-3942-8311"
             }
         ],
-        "sourceWizard": 31,
+        "sourceWizard": 141,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 31,
+            "id": 141,
             "name": "consent",
             "description": "",
             "accessibility": 0,
@@ -134,100 +134,100 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 69,
+                    "id": 319,
                     "title": "Presentation",
                     "description": "<p>Consent page properties<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 31,
+                    "wizard": 141,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 230,
+                            "id": 1070,
                             "label": "Paragraph",
                             "description": "<p>Consent page text paragraph<\/p>\n",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Please answer the questions below<\/p>\n",
-                            "testVariable": 836,
+                            "testVariable": 3926,
                             "name": "paragraph",
-                            "wizardStep": 69,
+                            "wizardStep": 319,
                             "stepTitle": "Presentation",
                             "order": 2,
-                            "wizard": 31,
+                            "wizard": 141,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-230-1613"
+                            "globalId": "1460132367-1070-5397"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 231,
+                            "id": 1071,
                             "label": "Button label",
                             "description": "<p>Continue button label text<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "continue",
-                            "testVariable": 838,
+                            "testVariable": 3928,
                             "name": "button_label",
-                            "wizardStep": 69,
+                            "wizardStep": 319,
                             "stepTitle": "Presentation",
                             "order": 3,
-                            "wizard": 31,
+                            "wizard": 141,
                             "definition": {
                                 "placeholder": "0"
                             },
-                            "globalId": "1459984402-231-6973"
+                            "globalId": "1460132367-1071-7498"
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 232,
+                            "id": 1072,
                             "label": "Page Title",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "DEMO TEST",
-                            "testVariable": 841,
+                            "testVariable": 3931,
                             "name": "title",
-                            "wizardStep": 69,
+                            "wizardStep": 319,
                             "stepTitle": "Presentation",
                             "order": 1,
-                            "wizard": 31,
+                            "wizard": 141,
                             "definition": {
                                 "placeholder": 0
                             },
-                            "globalId": "1459984402-232-7535"
+                            "globalId": "1460132367-1072-9437"
                         }
                     ],
-                    "globalId": "1459984402-69-1509"
+                    "globalId": "1460132367-319-5326"
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 70,
+                    "id": 320,
                     "title": "Consents",
                     "description": "<p>Declare&nbsp;consent fields<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 31,
+                    "wizard": 141,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 233,
+                            "id": 1073,
                             "label": "Consent fields",
                             "description": "<p>Declare consent fields list<\/p>\n",
                             "hideCondition": "",
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 837,
+                            "testVariable": 3927,
                             "name": "consents",
-                            "wizardStep": 70,
+                            "wizardStep": 320,
                             "stepTitle": "Consents",
                             "order": 0,
-                            "wizard": 31,
+                            "wizard": 141,
                             "definition": {
                                 "placeholder": "0",
                                 "element": {
@@ -264,16 +264,16 @@
                                     }
                                 }
                             },
-                            "globalId": "1459984402-233-5109"
+                            "globalId": "1460132367-1073-2360"
                         }
                     ],
-                    "globalId": "1459984402-70-1420"
+                    "globalId": "1460132367-320-1567"
                 }
             ],
-            "test": 63,
+            "test": 293,
             "testObject": {
                 "class_name": "Test",
-                "id": 63,
+                "id": 293,
                 "name": "source_consent",
                 "accessibility": 0,
                 "protected": "1",
@@ -281,118 +281,118 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "decoded_template_def = fromJSON(template_def)\n\ngetContent = function(paragraph, consents, response) {\n  content = paragraph\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])     \n      validationHighlight = if(!is.null(response) && !checked && consents[[i]]$required == \"1\") {\"validationHighlight\"} else {\"\"}\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><input id='consent\",i,\"' name='consent\",i,\"' type='checkbox' value='1' \",(if(checked) {\"checked\"}),\" \/><label for='consent\",i,\"'>\",consents[[i]]$consent,\"<\/label><\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(consents, response) {\n  alert = NULL\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      if(!checked && consents[[i]]$required == \"1\") {\n        alert = paste(alert, \"<div>\", consents[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_consent\"><button name=\"button\" class=\"consent_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nconsents = fromJSON(consents)\n\nwarning_msg = NULL\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, consents, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))  \n  warning_msg = getAlert(consents, response)\n  if(is.null(warning_msg)) { break }\n}",
-                "slug": "449f982dda95952688e7b420d3d6728a",
+                "slug": "232752a0861e67116299cdb55d87b9b4",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 835,
+                        "id": 3925,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-835-8021"
+                        "globalId": "1460132367-3925-9632"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 836,
+                        "id": 3926,
                         "name": "paragraph",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-836-6146"
+                        "globalId": "1460132367-3926-3534"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 837,
+                        "id": 3927,
                         "name": "consents",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-837-7635"
+                        "globalId": "1460132367-3927-2842"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 838,
+                        "id": 3928,
                         "name": "button_label",
                         "type": 0,
                         "description": "<p>Label of continue button.<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": "continue",
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-838-1973"
+                        "globalId": "1460132367-3928-5127"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 839,
+                        "id": 3929,
                         "name": "response",
                         "type": 1,
                         "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response<\/span><\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-839-8967"
+                        "globalId": "1460132367-3929-3774"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 840,
+                        "id": 3930,
                         "name": "inserts",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-840-5108"
+                        "globalId": "1460132367-3930-3050"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 841,
+                        "id": 3931,
                         "name": "title",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-841-7222"
+                        "globalId": "1460132367-3931-7179"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 842,
+                        "id": 3932,
                         "name": "template_def",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-842-8266"
+                        "globalId": "1460132367-3932-4974"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 843,
+                        "id": 3933,
                         "name": "template_def",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 63,
+                        "test": 293,
                         "parentVariable": null,
-                        "globalId": "1459984402-843-2795"
+                        "globalId": "1460132367-3933-5523"
                     }
                 ],
                 "logs": [
@@ -400,7 +400,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-04-07 01:04:01",
+                "updatedOn": "2016-04-07 01:51:10",
                 "updatedByName": "",
                 "nodes": [
 
@@ -417,7 +417,7 @@
                 "starterContent": true
             },
             "testName": "source_consent",
-            "updatedOn": "2016-04-07 01:04:02",
+            "updatedOn": "2016-04-07 01:51:10",
             "updatedByName": "",
             "globalId": "1459984402-31-3914",
             "owner": 1,
@@ -426,7 +426,7 @@
             "checksum": "",
             "starterContent": true
         },
-        "updatedOn": "2016-04-07 01:04:02",
+        "updatedOn": "2016-04-07 01:51:11",
         "updatedByName": "",
         "nodes": [
 
@@ -438,8 +438,8 @@
         "globalId": "1459984402-64-3245",
         "owner": 1,
         "groups": "",
-        "revision": 25,
-        "checksum": "7f5a116ef59a3d0bf89ae2c2964d044c",
+        "revision": 27,
+        "checksum": "f7691f00cc6140799724a18285b48e4f",
         "starterContent": true
     }
 ]
