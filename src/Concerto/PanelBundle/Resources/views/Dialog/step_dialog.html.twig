@@ -9,7 +9,7 @@
             {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                 {% trans_default_domain "TestWizard" %}
                 {% block label %}{{ 'step.form.field.title'|trans }}{% endblock%}
-                {% block tooltip %}{{ 'step.form.field.name.title'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'step.form.field.title.tooltip'|trans }}{% endblock%}
                 {% block control %}
                     <input ng-model="object.title" type="text" style="width:100%;" />
                 {% endblock %}
@@ -27,7 +27,7 @@
             {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                 {% trans_default_domain "TestWizard" %}
                 {% block label %}{{ 'step.form.field.order'|trans }}{% endblock%}
-                {% block tooltip %}{{ 'step.form.field.name.order'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'step.form.field.order.tooltip'|trans }}{% endblock%}
                 {% block control %}
                     <input ng-model="object.orderNum" type="text" style="width:100%;" />
                 {% endblock %}

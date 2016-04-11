@@ -73,8 +73,6 @@ variables:
             legend: Test input
             legend.tooltip: Test input variables.
         parameters:
-            legend: Input parameters
-            legend.tooltip: Define test input parameters
             list:
                 add: Add input parameter
                 delete.checked: Remove checked parameters

@@ -9,7 +9,7 @@
         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
             {% trans_default_domain "Test" %}
             {% block label %}{{ 'completion.wizard.sql.parameters.label'|trans }}{% endblock %}
-            {% block tooltip %}{{ 'completion.wizard.sql.parameters.label'|trans }}{% endblock%}
+            {% block tooltip %}{{ 'completion.wizard.sql.parameters.tooltip'|trans }}{% endblock%}
             {% block control %}
                 <ui-codemirror ui-refresh='codemirrorForceRefresh' ng-model="parameters" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
                 {% endblock %}
@@ -18,7 +18,7 @@
         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
             {% trans_default_domain "Test" %}
             {% block label %}{{ 'completion.wizard.sql.fetchcount.label'|trans }}{% endblock %}
-            {% block tooltip %}{{ 'completion.wizard.sql.fetchcount.label'|trans }}{% endblock%}
+            {% block tooltip %}{{ 'completion.wizard.sql.fetchcount.tooltip'|trans }}{% endblock%}
             {% block control %}
                 <ui-codemirror ui-refresh='codemirrorForceRefresh' ng-model="fetchcount" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
                 {% endblock %}

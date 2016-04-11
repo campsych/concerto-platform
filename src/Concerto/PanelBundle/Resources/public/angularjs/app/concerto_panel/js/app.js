@@ -14,6 +14,7 @@ concertoPanel.config(function (blockUIConfig) {
             return false;
         }
     };
+    blockUIConfig.message = Trans.PLEASE_WAIT;
     blockUIConfig.delay = 1000;
 });
 

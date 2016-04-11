@@ -2,8 +2,6 @@ breadcrumb:
     manager: File manager
 
 uploader:
-    fieldset:
-        legend: File manager
     library:
         title: Files library
         empty: Files library is currently empty.

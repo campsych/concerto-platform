@@ -31,7 +31,7 @@
             {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                 {% trans_default_domain "TestWizard" %}
                 {% block label %}{{ 'param.form.field.label'|trans }}{% endblock%}
-                {% block tooltip %}{{ 'param.form.field.name.tooltip'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'param.form.field.label.tooltip'|trans }}{% endblock%}
                 {% block control %}
                     <input ng-model="object.label" type="text" style="width:100%;" />
                 {% endblock %}

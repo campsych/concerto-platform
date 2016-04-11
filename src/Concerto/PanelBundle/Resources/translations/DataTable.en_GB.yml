@@ -31,9 +31,6 @@ structure:
     legend.tooltip: Data table structure definition
     
   form:
-    title:
-      add: Adding new column
-      edit: Editing column
     field:
       name: Name
       name.tooltip: Column name

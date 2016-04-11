@@ -30,8 +30,6 @@ list:
   edit: Edit
   delete: Delete
   export: Export
-  checked.count: 'Checked objects count:'
-  drag.column: Drag a column header and drop it here to group by that column
   button:
     refresh: Refresh
     delete.checked: Delete selected
@@ -40,43 +38,6 @@ list:
     import: Import
     download: Download
     upload: Upload CSV
-  filterable:
-    messages:
-      info: 'Show rows with value that:'
-      filter: Filter
-      clear: Clear
-      and: AND
-      or: OR
-    operators:
-      string:
-        contains: Contains
-        eq: Equal
-        neq: Not equal
-        startswith: Starts with
-        endswith: Ends with
-      number:
-        eq: Equal
-        neq: Not equal
-        gte: Equal or greater than
-        gt: Greater than
-        lte: Equal or lesser than
-        lt: Lesser than
-  columnMenu:
-    messages:
-      filter: Filter
-      columns: Columns
-  pageable:
-    messages:
-      display: '{0} - {1} of {2} objects'
-      empty: No objects to display
-      page: Page
-      of: 'of {0}'
-      itemsPerPage: tems per page
-      first: Go to the first page
-      previous: Go to the previous page
-      next: Go to the next page
-      last: Go to the last page
-      refresh: Refresh
 
 form:
   validation.failed: Validation failed
@@ -88,7 +49,6 @@ form:
     cancel: Cancel
     yes: Yes
     no: No
-    add: Add
     change: Change
     ok: Ok
     apply: Apply
@@ -96,10 +56,7 @@ form:
 
 dialog:
   title:
-    alert: Concerto - alert
-    confirm: Concerto - confirmation
     save: Saving object
-    add: Adding new object
     delete: Deleting object
   message:
     failed: Operation failed. Validate your data and try again.
@@ -110,14 +67,9 @@ dialog:
 please.wait: Please wait...
 none.choosen: None choosen
 none: None
-true: True
-false: False
-all: all
 
 description:
     tooltip: Change description
-    dialog:
-        title: Editing description
     fieldset:
         legend: Description
         legend.tooltip: Object description
@@ -133,9 +85,7 @@ save_new:
 import:
     dialog:
         title: Importing object
-        title.uploaded: File uploaded
         description: "When there is a probability that the name of imported object or child object will be the same as already existing one, you need to use in \"Name\" field below variables \"id\" or \"name\" to make imported files names unique. Check \"Name\" field tooltip for more info."
-        message: Are you sure you want to import the object from this file?
         message.imported: Object imported
     fieldset:
         legend.tooltip: Import new object from the file which was previously exported

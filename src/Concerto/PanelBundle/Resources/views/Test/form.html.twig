@@ -1,6 +1,6 @@
 {% extends "ConcertoPanelBundle::form_h.html.twig" %}
 {% set class_name = "Test" %}
-{% trans_default_domain class_name %}
+{% trans_default_domain "Test" %}
 {% set exportable = true %}
 
 {% block legend %} 
@@ -8,7 +8,7 @@
 {% endblock %}
 {% block elements %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.name'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.name.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -17,7 +17,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.protected'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.protected.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -26,7 +26,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -35,7 +35,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.slug'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.slug.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -44,7 +44,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.visibility'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.visibility.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -54,7 +54,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.resumable'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.resumable.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -63,7 +63,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.type'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.type.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -74,7 +74,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "Test" %}
         {% block div %}<div class="horizontalElement center" ng-show="object.type == 1">{% endblock %}
             {% block label %}{{ 'form.field.wizard'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.wizard.tooltip'|trans}}{% endblock %}
@@ -93,7 +93,7 @@
 
         {% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                {% trans_default_domain class_name %}
+                {% trans_default_domain "Test" %}
                 {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
                 {% block control %}
@@ -103,7 +103,7 @@
             {% endembed %}
 
             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                {% trans_default_domain class_name %}
+                {% trans_default_domain "Test" %}
                 {% block label %}{{ 'form.field.owner'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.owner.tooltip'|trans}}{% endblock %}
                 {% block control %}
@@ -114,7 +114,7 @@
             {% endembed %}
 
             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                {% trans_default_domain class_name %}
+                {% trans_default_domain "Test" %}
                 {% block label %}{{ 'form.field.groups'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.groups.tooltip'|trans}}{% endblock %}
                 {% block control %}

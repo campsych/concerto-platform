@@ -1,6 +1,6 @@
 {% extends "ConcertoPanelBundle::form_h.html.twig" %}
 {% set class_name = "DataTable" %}
-{% trans_default_domain class_name %}
+{% trans_default_domain "DataTable" %}
 {% set exportable = true %}
 
 {% block legend %}
@@ -8,7 +8,7 @@
 {% endblock %}
 {% block elements %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "DataTable" %}
         {% block label %}{{ 'form.field.name'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.name.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -17,7 +17,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "DataTable" %}
         {% block label %}{{ 'form.field.protected'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.protected.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -26,7 +26,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "DataTable" %}
         {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -36,7 +36,7 @@
     
     {% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
         {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-            {% trans_default_domain class_name %}
+            {% trans_default_domain "DataTable" %}
             {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
             {% block control %}
@@ -46,7 +46,7 @@
         {% endembed %}
 
         {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-            {% trans_default_domain class_name %}
+            {% trans_default_domain "DataTable" %}
             {% block label %}{{ 'form.field.owner'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.owner.tooltip'|trans}}{% endblock %}
             {% block control %}
@@ -57,7 +57,7 @@
         {% endembed %}
 
         {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-            {% trans_default_domain class_name %}
+            {% trans_default_domain "DataTable" %}
             {% block label %}{{ 'form.field.groups'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.groups.tooltip'|trans}}{% endblock %}
             {% block control %}

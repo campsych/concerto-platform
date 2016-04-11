@@ -1,6 +1,6 @@
 {% extends "ConcertoPanelBundle::form_h.html.twig" %}
 {% set class_name = "User" %}
-{% trans_default_domain class_name %}
+{% trans_default_domain "User" %}
 {% set exportable = false %}
 
 {% block legend %}
@@ -8,7 +8,7 @@
 {% endblock %}
 {% block elements %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.login'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.login.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -16,7 +16,7 @@
         {% endblock %}
     {% endembed %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.password'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.password.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -24,7 +24,7 @@
         {% endblock %}
     {% endembed %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.passwordConfirmation'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.passwordConfirmation.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -32,7 +32,7 @@
         {% endblock %}
     {% endembed %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.email'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.email.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -41,7 +41,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -51,7 +51,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.protected'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.protected.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -60,7 +60,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
         {% block control %} 
@@ -69,7 +69,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.role_super_admin'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.role_super_admin.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -78,7 +78,7 @@
     {% endembed %}
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain class_name %}
+        {% trans_default_domain "User" %}
         {% block div %}<div class="horizontalElement center" ng-hide="object.role_super_admin == '1'">{% endblock %}
             {% block label %}{{ 'form.field.role_test'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.role_test.tooltip'|trans}}{% endblock %}
@@ -88,7 +88,7 @@
         {% endembed %}
 
         {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-            {% trans_default_domain class_name %}
+            {% trans_default_domain "User" %}
             {% block div %}<div class="horizontalElement center" ng-hide="object.role_super_admin == '1'">{% endblock %}
                 {% block label %}{{ 'form.field.role_template'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.role_template.tooltip'|trans}}{% endblock %}
@@ -98,7 +98,7 @@
             {% endembed %}
 
             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                {% trans_default_domain class_name %}
+                {% trans_default_domain "User" %}
                 {% block div %}<div class="horizontalElement center" ng-hide="object.role_super_admin == '1'">{% endblock %}
                     {% block label %}{{ 'form.field.role_table'|trans }}{% endblock %}
                     {% block tooltip %}{{'form.field.role_table.tooltip'|trans}}{% endblock %}
@@ -108,7 +108,7 @@
                 {% endembed %}
 
                 {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                    {% trans_default_domain class_name %}
+                    {% trans_default_domain "User" %}
                     {% block div %}<div class="horizontalElement center" ng-hide="object.role_super_admin == '1'">{% endblock %}
                         {% block label %}{{ 'form.field.role_file'|trans }}{% endblock %}
                         {% block tooltip %}{{'form.field.role_file.tooltip'|trans}}{% endblock %}
@@ -118,7 +118,7 @@
                     {% endembed %}
 
                     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                        {% trans_default_domain class_name %}
+                        {% trans_default_domain "User" %}
                         {% block div %}<div class="horizontalElement center" ng-hide="object.role_super_admin == '1'">{% endblock %}
                             {% block label %}{{ 'form.field.role_wizard'|trans }}{% endblock %}
                             {% block tooltip %}{{'form.field.role_wizard.tooltip'|trans}}{% endblock %}
@@ -129,7 +129,7 @@
 
                         {% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
                             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                                {% trans_default_domain class_name %}
+                                {% trans_default_domain "User" %}
                                 {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
                                 {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
                                 {% block control %}
@@ -139,7 +139,7 @@
                             {% endembed %}
 
                             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                                {% trans_default_domain class_name %}
+                                {% trans_default_domain "User" %}
                                 {% block label %}{{ 'form.field.owner'|trans }}{% endblock %}
                                 {% block tooltip %}{{'form.field.owner.tooltip'|trans}}{% endblock %}
                                 {% block control %}
@@ -150,7 +150,7 @@
                             {% endembed %}
 
                             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-                                {% trans_default_domain class_name %}
+                                {% trans_default_domain "User" %}
                                 {% block label %}{{ 'form.field.groups'|trans }}{% endblock %}
                                 {% block tooltip %}{{'form.field.groups.tooltip'|trans}}{% endblock %}
                                 {% block control %}
