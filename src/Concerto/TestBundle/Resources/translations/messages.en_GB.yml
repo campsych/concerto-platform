@@ -1,6 +1,6 @@
-session.resuming: session resuming
-session.resuming.question: This test has an ongoing session. Press OK to continue the test.
-session.resuming.start_new_checkbox_label: I would like to start a new session
+session.resuming: Resume the test
+session.resuming.question: It looks like you started, but did not complete, the test. Click OK to go back to it or check the box and restart the test
+session.resuming.start_new_checkbox_label: Restart the test
 OK: OK
 ignition.noscript: Your browser does not support javascript. Please enable javascript and refresh your browser.
 ignition.ip: "IP:"
@@ -11,5 +11,5 @@ ignition.browser.potentionallynotsupported: If this message will not disappear i
 default.template:
     error: Error encountered. Execution halted.
     finished: Test finished.
-    loading: please wait...
+    loading: Please wait...
     unresumable: Test timed out. Refresh the page to start again.

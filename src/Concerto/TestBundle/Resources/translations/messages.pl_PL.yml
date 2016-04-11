@@ -1,6 +1,6 @@
-session.resuming: wznawianie sesji
-session.resuming.question: Ten test posiada rozpoczętą sesję. Nacisnij OK aby kontynuować test.
-session.resuming.start_new_checkbox_label: Chcę rozpocząć nową sesję
+session.resuming: Wznowienie testu
+session.resuming.question: Wygląda na to, że rozpocząłeś, lecz nie skończyłeś testu. Naciśnij OK by do niego wrócić, albo zaznacz chęć rozpoczęcia od nowa testu
+session.resuming.start_new_checkbox_label: Zacznij test od nowa
 OK: OK
 ignition.noscript: Twoja przeglądarka nie obsługuje javascript. Proszę włączyć obsługę javascript i odświeżyć przeglądarkę.
 ignition.ip: "IP:"
