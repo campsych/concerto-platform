@@ -32,7 +32,6 @@ step:
         legend.tooltip: Deklaracja kroków wizarda testu
     form:
         fieldset:
-            legend: Właściwości kroku wizarda testu
             legend.tooltip: Wprowadź właściwości kroku wizarda testu
         field:
             title: Tytuł
@@ -71,7 +70,6 @@ param:
         legend.tooltip: Deklaracja parametrów wizarda testu
     form:
         fieldset:
-            legend: Właściwości parametru wizarda testu
             legend.tooltip: Wprowadź właściwości parametru wizarda testu
         field:
             label: Nazwa
@@ -99,13 +97,9 @@ param:
             type.test: Test
             type.table: Tabela danych
             type.column: Kolumna tabeli danych
-            type.column.def: Parametr tabeli danych
-            type.column.def.tooltip: Wybierz parametr tabeli danych, który wyznaczy tabelę gdzie należy szukać kolumn
             type.checkbox: Logiczny
             type.group: Grupa
             type.list: Lista
-            value: Domyślna wartość
-            value.tooltip: Domyślna wartość parametru
             hide_condition: Warunek ukrycia
             hide_condition.tooltip: 'Warunek ukrycia. Używa składni javascript. Obecny obiekt kolekcji wartości parametrów to: <strong>values</strong>. Aby użyć parametr nadrzędny do obecnego parametru, użyj <strong>parent</strong>. Przykład: <strong>values.param1.subparam3 != "1"</strong>'
             setter.icon.tooltip: Uruchom dialog ustawiający wartość
@@ -163,7 +157,6 @@ param:
         group.list.field.hide_condition: Warunek ukrycia
         group.list.field.definition: Definicja
         group.list.field.order: Kolejność
-        group.list.button.delete: Usuń
     setter:
         titles:
             textarea: "{0} - wieloliniowy tekst"
@@ -189,8 +182,6 @@ param:
         list.element.add: Dodaj nowy element
         list.element.remove.selected: Usuń wybrane elementy
         list.element.remove.all: Usuń wszystkie elementy
-        list.element.move_up.tooltip: Przesuń element do góry
-        list.element.move_down.tooltip: Przesuń element na dół
         list.element.remove: Usuń
         list.column.element: Element
             
@@ -201,7 +192,6 @@ preview:
     buttons:
         next: Następny krok
         previous: Poprzedni krok
-        finish: Zakończ
         
 alerts:
     edit:

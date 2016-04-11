@@ -32,9 +32,6 @@ structure:
     legend.tooltip: Definicja struktury tabeli danych
     
   form:
-    title:
-      add: Dodawanie nowej kolumny
-      edit: Edytowanie kolumny
     field:
       name: Nazwa
       name.tooltip: Nazwa kolumny

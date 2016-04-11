@@ -2,8 +2,6 @@ breadcrumb:
     manager: Menadżer plików
 
 uploader:
-    fieldset:
-        legend: Menadżer plików
     library:
         title: Biblioteka plików
         empty: Biblioteka plików jest obecnie pusta.

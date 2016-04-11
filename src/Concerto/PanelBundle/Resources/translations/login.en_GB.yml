@@ -8,5 +8,5 @@ form:
     password.tooltip: Please enter your password
   button.login: Log in
 
-'Bad credentials.': Wrong login or password! #will come up as unused
-'User account is disabled.': User is archived! #will come up as unused
+'Bad credentials.': Wrong login or password!
+'User account is disabled.': User is archived!

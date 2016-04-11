@@ -65,16 +65,14 @@ variables:
             url.tooltip: Czy parametr jest przekazywalny przez URL?
             value: Wartość domyślna
             value.tooltip: Wartość domyślna zmiennej testu
-        dialog:
-            tooltip: Zdefiniuj zmienną testu
+    dialog:
+        tooltip: Zdefiniuj zmienną testu
     
     input:
         fieldset:
             legend: Wejście testu
             legend.tooltip: Zmienne wejścia testu.
         parameters:
-            legend: Parametry wejścia
-            legend.tooltip: Zdefiniuj parametry wejścia testu
             list:
                 add: Dodaj parametr wejścia
                 delete.checked: Usuń zaznaczone parametry

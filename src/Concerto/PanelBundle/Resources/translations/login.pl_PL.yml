@@ -1,12 +1,12 @@
 form:
-  info: Podaj swój login i hasło.
+  legend: Proszę podać swoje dane
+  legend.tooltip: Wpisz swój login i hasło
   field:
     login: Login
     login.tooltip: Proszę podać swój login
     password: Hasło
     password.tooltip: Proszę podać swoje hasło
-  button:
-    login: Zaloguj
+  button.login: Zaloguj
 
 'Bad credentials.': Zły login lub hasło!
 'User account is disabled.': Użytkownik jest zarchiwizowany!
