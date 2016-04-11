@@ -93,6 +93,6 @@ testRunner.controller('testRunnerController', [
 testRunner.overridableCallback = function (response) {
 };
 
-testRunner.submitView = function (buttonName, timeout) {
+testRunner.submitView = function (buttonName, timeout, passedValues) {
 
 };

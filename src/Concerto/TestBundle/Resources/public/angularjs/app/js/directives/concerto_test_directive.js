@@ -157,7 +157,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 });
             }
 
-            function submitView(btnName, isTimeout) {
+            function submitView(btnName, isTimeout, passedVals) {
                 if (settings.clientDebug)
                     console.log("submit");
                 removeSubmitEvents()
@@ -165,6 +165,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 var values = getControlsValues();
                 values["buttonPressed"] = btnName;
                 values["isTimeout"] = isTimeout ? 1 : 0;
+                if (passedVals) {
+                    angular.merge(values, passedVals);
+                }
                 hideView();
                 $http.post(settings.directory + "test/session/" + settings.hash + "/submit", {
                     node_id: settings.nodeId,
