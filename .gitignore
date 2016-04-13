@@ -7,3 +7,4 @@
 /bin/
 /composer.phar
 /app/config/parameters.yml
+/src/Concerto/PanelBundle/Resources/public/angularjs/test/protractor-conf.js

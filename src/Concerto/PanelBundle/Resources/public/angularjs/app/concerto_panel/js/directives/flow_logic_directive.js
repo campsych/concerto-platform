@@ -600,7 +600,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.refreshFlow = function () {
                     scope.refreshing = true;
-                    jsPlumb.setSuspendDrawing(true);
                     jsPlumb.unbind('beforeDrop');
                     jsPlumb.unbind('connection');
                     jsPlumb.unbind('connectionMoved');
@@ -671,19 +670,20 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $timeout(function () {
                         if (!scope.object.nodes)
                             return;
+                        //jsPlumb.setSuspendDrawing(true);
                         for (var i = 0; i < scope.object.nodes.length; i++) {
                             scope.drawNode(scope.object.nodes[i]);
                         }
                         for (var i = 0; i < scope.object.nodesConnections.length; i++) {
                             scope.connect(scope.object.nodesConnections[i]);
                         }
+                        //jsPlumb.setSuspendDrawing(false, true);
                         if (!scope.initialized) {
                             scope.initialized = true;
                             scope.resetView();
                         }
                         scope.refreshing = false;
                         jsPlumb.setZoom(scope.flowScale);
-                        jsPlumb.setSuspendDrawing(false, true);
                     }, 1);
                 };
 
