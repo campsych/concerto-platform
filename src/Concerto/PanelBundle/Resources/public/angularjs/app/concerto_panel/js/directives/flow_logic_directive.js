@@ -600,6 +600,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.refreshFlow = function () {
                     scope.refreshing = true;
+                    jsPlumb.setSuspendDrawing(true);
                     jsPlumb.unbind('beforeDrop');
                     jsPlumb.unbind('connection');
                     jsPlumb.unbind('connectionMoved');
@@ -607,8 +608,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     jsPlumb.deleteEveryEndpoint();
 
                     $("#flowContainer .node").remove();
-
-                    jsPlumb.setZoom(scope.flowScale);
 
                     jsPlumb.bind("beforeDrop", function (info) {
                         if (!info.dropEndpoint || info.connection.endpoints.length === 0)
@@ -680,10 +679,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                         if (!scope.initialized) {
                             scope.initialized = true;
-                            scope.refreshing = false;
                             scope.resetView();
                         }
-                    }, 100);
+                        scope.refreshing = false;
+                        jsPlumb.setZoom(scope.flowScale);
+                        jsPlumb.setSuspendDrawing(false, true);
+                    }, 1);
                 };
 
                 $(function () {
@@ -700,8 +701,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.$watchCollection(
                         "[ object.nodes, object.nodesConnections ]",
                         function () {
-                            if (scope.object.nodes.length > 0)
+                            if (scope.object.nodes.length > 0) {
                                 scope.refreshFlow();
+                            }
                         }
                 );
 

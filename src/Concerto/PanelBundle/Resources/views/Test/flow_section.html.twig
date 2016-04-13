@@ -1,11 +1,11 @@
 {% trans_default_domain "Test" %}
 
-<div flow-logic context-menu data-target="menu-flow">
+<div flow-logic>
     <div class="center">
         <button ng-click="resetView();" class="btn btn-default btn-sm btn-list-refresh">{{ "flow.buttons.reset_view"|trans }}</button>
     </div>
     <div id="flowContainerScroll">
-        <div id="flowContainer">
+        <div id="flowContainer" context-menu data-target="menu-flow">
         </div>
     </div>
 
