@@ -158,6 +158,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function submitView(btnName, isTimeout, passedVals) {
+                if(displayState !== DISPLAY_VIEW_SHOWN) {
+                    return;
+                }
+                
                 if (settings.clientDebug)
                     console.log("submit");
                 removeSubmitEvents()
