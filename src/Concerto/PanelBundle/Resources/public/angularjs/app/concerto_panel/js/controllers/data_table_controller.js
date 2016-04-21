@@ -69,7 +69,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     break;
                 case "text":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
-                            '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.editTextCell(row.entity, \'' + col.name + '\')" uib-tooltip="row.entity.' + col.name + '" tooltip-append-to-body="true"></i>' +
+                            '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.editTextCell(row.entity, \'' + col.name + '\')" uib-tooltip="{{row.entity.' + col.name + '}}" tooltip-append-to-body="true"></i>' +
                             "</div>";
                     colDef.enableCellEdit = false;
                     break;
