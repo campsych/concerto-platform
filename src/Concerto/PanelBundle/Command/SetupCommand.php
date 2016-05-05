@@ -18,6 +18,7 @@ class SetupCommand extends ContainerAwareCommand {
     protected function configure() {
         $this->setName("concerto:setup")->setDescription("Sets up Concerto.");
         $this->addOption("check", null, InputOption::VALUE_NONE, "Perform system checks?");
+        $this->addOption("admin-pass", null, InputOption::VALUE_REQUIRED, "Password for admin user", "admin");
     }
 
     protected function verifySystemSoftware(InputInterface $input, OutputInterface $output, SystemCheckService $syscheck_service) {
@@ -117,7 +118,7 @@ class SetupCommand extends ContainerAwareCommand {
             $user = new User();
             $encoder = $factory->getEncoder($user);
             $user->setSalt(md5(time()));
-            $pass = $encoder->encodePassword("admin", $user->getSalt());
+            $pass = $encoder->encodePassword($input->getOption("admin-pass"), $user->getSalt());
             $user->addRole($role);
             $user->setUsername("admin");
             $user->setPassword($pass);
