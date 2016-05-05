@@ -175,13 +175,19 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             pageSize: 500
         }
     };
+    
+    $scope.downloadDataList = function(){
+        $scope.dataOptions.exporterCsvFilename = $scope.object.name + ".csv";
+        $scope.gridService.downloadList($scope.dataGridApi);
+    };
+    
     $scope.dataOptions = {
         enableFiltering: true,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         data: 'data',
-        exporterCsvFilename: 'export.csv',
+        exporterCsvFilename: "export.csv",
         showGridFooter: true,
         columnDefs: [],
         onRegisterApi: function (gridApi) {

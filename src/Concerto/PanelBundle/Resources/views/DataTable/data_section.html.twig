@@ -8,7 +8,7 @@
         <button ng-disabled="object.initProtected == '1'" class="btn btn-success btn-sm" ng-click="addRow()">{{ 'data.list.add'|trans }}</button>
         <button ng-disabled="object.initProtected == '1'" class="btn btn-danger btn-sm" ng-click="deleteSelectedRows()">{{ 'data.list.delete.checked'|trans }}</button>
         <button ng-disabled="object.initProtected == '1'" class="btn btn-danger btn-sm" ng-click="deleteAllRows()">{{ 'data.list.delete.all'|trans }}</button>
-        <button ng-click="gridService.downloadList(dataGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+        <button ng-click="downloadDataList()" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
     </div>
     <div ui-grid="dataOptions" ui-grid-edit ui-grid-row-edit ui-grid-pagination ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>
 {% endblock %}
