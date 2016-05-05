@@ -24,7 +24,6 @@ class DataTableController extends AExportableTabController {
 
     private static $stream_param_data_collection_action_table_id;
     private static $stream_param_data_collection_action_prefixed;
-    
     private $userService;
 
     public function __construct($environment, EngineInterface $templating, DataTableService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, UserService $userService) {
@@ -32,7 +31,7 @@ class DataTableController extends AExportableTabController {
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
-        
+
         $this->userService = $userService;
     }
 
@@ -150,16 +149,23 @@ class DataTableController extends AExportableTabController {
     }
 
     public function importCsvAction($table_id, $restructure, $header, $delimiter, $enclosure) {
-        $this->service->importFromCsv(
-                $table_id, __DIR__ . DIRECTORY_SEPARATOR .
-                ".." . DIRECTORY_SEPARATOR .
-                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-                "Resources" . DIRECTORY_SEPARATOR .
-                "public" . DIRECTORY_SEPARATOR .
-                "files" . DIRECTORY_SEPARATOR .
-                $this->request->get("file"), $restructure === "1", $header === "1", $delimiter, $enclosure);
+        try {
+            $this->service->importFromCsv(
+                    $table_id, __DIR__ . DIRECTORY_SEPARATOR .
+                    ".." . DIRECTORY_SEPARATOR .
+                    ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
+                    "Resources" . DIRECTORY_SEPARATOR .
+                    "public" . DIRECTORY_SEPARATOR .
+                    "files" . DIRECTORY_SEPARATOR .
+                    $this->request->get("file"), $restructure === "1", $header === "1", $delimiter, $enclosure);
+        } catch (\Exception $ex) {
+            $response = new Response(json_encode(array("result" => 1, "object_id" => $table_id, "errors" => array($ex->getMessage()))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
         $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
 }

@@ -33,22 +33,41 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
         $http.post($scope.importCsvPath.pf($scope.object.id, $scope.restructure ? 1 : 0, $scope.headerRow ? 1 : 0, $scope.delimiter, $scope.enclosure), {
             file: $scope.item.file.name
         }).success(function (response) {
-            $uibModal.open({
-                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                controller: AlertController,
-                size: "sm",
-                resolve: {
-                    title: function () {
-                        return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
-                    },
-                    content: function () {
-                        return Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED;
-                    },
-                    type: function () {
-                        return "success";
+            if (response.result === 0) {
+                $uibModal.open({
+                    templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+                    controller: AlertController,
+                    size: "sm",
+                    resolve: {
+                        title: function () {
+                            return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
+                        },
+                        content: function () {
+                            return Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED;
+                        },
+                        type: function () {
+                            return "success";
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                $uibModal.open({
+                    templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+                    controller: AlertController,
+                    size: "sm",
+                    resolve: {
+                        title: function () {
+                            return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
+                        },
+                        content: function () {
+                            return response.errors[0];
+                        },
+                        type: function () {
+                            return "danger";
+                        }
+                    }
+                });
+            }
             $uibModalInstance.close($scope.item.file.name);
         }).error(function (data, status, headers, config) {
             $uibModal.open({
