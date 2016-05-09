@@ -5,13 +5,13 @@ concerto.template.insertParams = function(html,params=list()){
   while(length(matches)>offset){
     index <- 1
     while(index<=length(matches)){
-      value <- gsub("\\{\\{","",matches[index])
-      value <- gsub("\\}\\}","",value)
+      value <- gsub("\\{\\{", "", matches[index])
+      value <- gsub("\\}\\}", "", value)
       if(!is.null(params[[value]])){
-        html <- gsub(matches[index],toString(params[[value]]),html, fixed=TRUE)
+        html <- gsub(matches[index], toString(params[[value]]), html, fixed=TRUE)
       }
       else {
-        #html <- gsub(matches[index],"",html, fixed=TRUE)
+        #html <- gsub(matches[index], "", html, fixed=TRUE)
         offset=offset+1
       }
       index=index+1

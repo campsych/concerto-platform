@@ -33,10 +33,6 @@ submitter <- fromJSON(commandArgs(TRUE)[3])
 concerto$submitter.host <- submitter$host
 concerto$submitter.port <- submitter$port
 
-dbEscapeStrings <- function(con,string){
-    return(gsub("'","''",string))
-}
-
 connection <- fromJSON(commandArgs(TRUE)[1])
 concerto$connection <- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
 rm(connection)
