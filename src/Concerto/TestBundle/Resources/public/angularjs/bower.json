@@ -6,12 +6,12 @@
   "license": "AGPLv3",
   "private": false,
   "dependencies": {
-    "angular": "1.5.0",
-    "angular-route": "1.5.0",
-    "angular-loader": "1.5.0",
-    "angular-mocks": "1.5.0",
-    "angular-cookies": "1.5.0",
-    "angular-sanitize": "1.5.0",
+    "angular": "1.5.5",
+    "angular-route": "1.5.5",
+    "angular-loader": "1.5.5",
+    "angular-mocks": "1.5.5",
+    "angular-cookies": "1.5.5",
+    "angular-sanitize": "1.5.5",
     "html5-boilerplate": "5.2.x",
     "angular-bootstrap": "1.2.x",
     "bootstrap": "3.x",
@@ -19,6 +19,6 @@
     "jquery-ui": "1.11.x"
   },
     "resolutions": {
-        "angular": "1.5.0"
+        "angular": "1.5.5"
     }
 }

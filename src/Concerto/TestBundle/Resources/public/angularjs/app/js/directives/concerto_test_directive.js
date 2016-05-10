@@ -64,6 +64,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     startKeepAlive(lastResponse);
                     addSubmitEvents();
                 }
+
                 $compile(element.contents())(scope);
             });
             function clearTimer() {
@@ -158,10 +159,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function submitView(btnName, isTimeout, passedVals) {
-                if(displayState !== DISPLAY_VIEW_SHOWN) {
+                if (displayState !== DISPLAY_VIEW_SHOWN) {
                     return;
                 }
-                
+
                 if (settings.clientDebug)
                     console.log("submit");
                 removeSubmitEvents()
@@ -300,8 +301,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         angular.element("head").append($compile(head)(scope));
                     }
 
-                    html = $sce.trustAsHtml(html);
-                    scope.html = html;
+                    scope.html = $sce.trustAsHtml(html);
                 }
             }
 
@@ -393,7 +393,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
         return {
             restrict: "E",
-            template: "<div ng-bind-html='html' id='testHtml'></div>",
+            templateUrl: "test_container.html",
             replace: true,
             scope: {
                 options: "=concertoOptions"
