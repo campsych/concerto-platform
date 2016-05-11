@@ -57,15 +57,18 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var isResumable = true;
             var lastResponse = null;
             scope.timeLeft = "";
-            scope.html = $sce.trustAsHtml(settings.defaultLoaderHtml);
-            scope.$watch('html', function (newValue, oldValue) {
+
+            scope.html = settings.defaultLoaderHtml;
+
+            scope.$watch('html', function (newValue) {
+                angular.element("#testHtml").empty().append(newValue);
+                $compile(element.contents())(scope);
+                
                 if (displayState === DISPLAY_VIEW_SHOWN && lastResponse != null && lastResponse.code === RESPONSE_VIEW_TEMPLATE) {
                     initializeTimer();
                     startKeepAlive(lastResponse);
                     addSubmitEvents();
                 }
-
-                $compile(element.contents())(scope);
             });
             function clearTimer() {
                 $interval.cancel(timerId);
@@ -301,7 +304,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         angular.element("head").append($compile(head)(scope));
                     }
 
-                    scope.html = $sce.trustAsHtml(html);
+                    scope.html = html;
                 }
             }
 
@@ -323,7 +326,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 displayState = DISPLAY_LOADER_SHOWN;
                 if (settings.loaderHead != null && settings.loaderHead.trim() !== "")
                     angular.element("head").append($compile(settings.loaderHead)(scope));
-                scope.html = $sce.trustAsHtml(settings.loaderHtml);
+
+                scope.html = settings.loaderHtml;
             }
 
             function hideLoader() {
