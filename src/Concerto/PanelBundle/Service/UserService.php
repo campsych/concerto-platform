@@ -169,7 +169,7 @@ class UserService extends ASectionService {
             foreach (self::$uio_eligible_classes as $class) {
                 if (array_key_exists($class, $classes)) {
                     foreach ($classes[$class] as $obj) {
-                        $result = array_merge($result, $this->importService->copyAction($class, $user, $obj["id"], $obj["name"]));
+                        $result = array_merge($result, $this->importService->copy($class, $user, $obj["id"], $obj["name"]));
                     }
                 }
             }

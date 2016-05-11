@@ -18,7 +18,6 @@ class ImportService {
     private $viewTemplateService;
     private $queue;
     private $map;
-    
     public $serviceMap;
 
     public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService) {
@@ -94,9 +93,9 @@ class ImportService {
         return $result;
     }
 
-    public function copyAction($class_name, User $user, $object_id, $name) {
+    public function copy($class_name, User $user, $object_id, $name) {
 
-        $arr = array($this->serviceMap[$class_name]->entityToArray($this->serviceMap[$class_name]->get($object_id)));
+        $arr = array(json_decode(json_encode($this->serviceMap[$class_name]->entityToArray($this->serviceMap[$class_name]->get($object_id))), true));
         $result = $this->import(
                 $user, //
                 $name, //

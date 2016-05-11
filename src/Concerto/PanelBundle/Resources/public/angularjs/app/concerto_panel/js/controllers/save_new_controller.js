@@ -21,7 +21,7 @@ function SaveNewController($scope, $uibModalInstance, $http, $uibModal, saveNewP
                                 size: "sm",
                                 resolve: {
                                     title: function () {
-                                        return Trans.SAVE_NEW_DIALOG_TITLE;
+                                        return Trans.SAVE_NEW_DIALOG_TITLE_MAIN;
                                     },
                                     content: function () {
                                         return Trans.SAVE_NEW_DIALOG_MESSAGE_COPIED;
@@ -49,7 +49,7 @@ function SaveNewController($scope, $uibModalInstance, $http, $uibModal, saveNewP
                         size: "sm",
                         resolve: {
                             title: function () {
-                                return Trans.SAVE_NEW_DIALOG_TITLE;
+                                return Trans.SAVE_NEW_DIALOG_TITLE_MAIN;
                             },
                             content: function () {
                                 return Trans.DIALOG_MESSAGE_FAILED;

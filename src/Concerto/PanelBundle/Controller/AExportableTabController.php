@@ -62,7 +62,7 @@ abstract class AExportableTabController extends ASectionController {
     }
 
     public function copyAction($object_id) {
-        $result = $this->importService->copyAction($this->entityName, $this->securityTokenStorage->getToken()->getUser(), $object_id, $this->request->get("name"));
+        $result = $this->importService->copy($this->entityName, $this->securityTokenStorage->getToken()->getUser(), $object_id, $this->request->get("name"));
         $errors = array();
         foreach ($result as $r) {
             for ($i = 0; $i < count($r['errors']); $i++) {
