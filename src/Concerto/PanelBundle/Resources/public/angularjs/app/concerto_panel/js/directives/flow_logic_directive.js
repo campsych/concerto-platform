@@ -201,6 +201,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 0) || (node.type === 2 && port.variableObject.type === 1))) { //input param
                             jsPlumb.addEndpoint(elem, {
                                 uuid: "node" + node.id + "-ep" + port.id,
+                                maxConnections: -1,
                                 isTarget: true,
                                 endpoint: "Dot",
                                 anchor: [0, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
