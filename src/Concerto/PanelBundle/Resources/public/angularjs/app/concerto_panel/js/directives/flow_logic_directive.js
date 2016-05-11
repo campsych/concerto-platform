@@ -658,7 +658,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.addConnection(params.concertoConnection, info.connection);
                             return;
                         }
-                        //scope.setUpConnection(info.connection);
+                        scope.setUpConnection(info.connection);
                     });
 
                     jsPlumb.bind("connectionMoved", function (info) {
