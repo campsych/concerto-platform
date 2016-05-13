@@ -180,25 +180,14 @@ concerto.test.run <-
         }
 
         #values connections
-        for (source_port_id in ls(concerto$flow[[flowIndex]]$ports)){
-            source_port = concerto$flow[[flowIndex]]$ports[[source_port_id]]
-            if(source_port$node_id == node$id && source_port$type == 1) {
-
-              for (connection_id in ls(concerto$flow[[flowIndex]]$connections)){
-                connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
-                if(connection$sourcePort_id == source_port$id) {
-                    func = paste("retFunc = function(",concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name,"){ ",connection$returnFunction," }",sep="")
-                    eval(parse(text=func))
-
-                    for (dest_port_id in ls(concerto$flow[[flowIndex]]$ports)){
-                        dest_port = concerto$flow[[flowIndex]]$ports[[dest_port_id]]
-                        if(connection$destinationPort_id == dest_port$id && dest_port$node_id == connection$destinationNode_id && dest_port$type == 0) {
-                            concerto$flow[[flowIndex]]$ports[[dest_port_id]]$value = retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
-                        }
-                    }
-                }
-              }
-            }
+        for (connection_id in ls(concerto$flow[[flowIndex]]$connections)){
+            connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
+            if(connection$sourceNode_id != node$id) { next }
+            if(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != 1) { next }
+            
+            func = paste("retFunc = function(",concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name,"){ ",connection$returnFunction," }",sep="")
+            eval(parse(text=func))
+            concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
         }
       }
 
