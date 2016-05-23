@@ -36,10 +36,7 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
         });
 
         modalInstance.result.then(function (response) {
-            var httpRequest = $http({
-                method: 'GET',
-                url: $scope.delete_url + file.name,
-            }).success(function (data, status) {
+            $http.post($scope.delete_url + file.name, {}).success(function (data) {
                 if (data.result == 0)
                 {
                     $scope.loadFiles();
