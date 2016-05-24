@@ -257,8 +257,6 @@ flow:
         descriptions:
             test_start: Jest to węzeł wejściowy testu. Wykonanie testu rozpoczyna się stąd. Zwraca parametry wejściowe testu.
             test_end: Jest to węzeł w którym można ustawić wartości zwracanych zmiennych testu.
-        tooltips:
-            wizard: Uruchom dialog kreatora aby ustawić wartości węzła.
     ports:
         names:
             in: wejście

@@ -92,9 +92,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
 
                     var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getNode(" + node.id + ").sourceTestDescription'></i>";
-                    var name = "<a href='#/tests/" + node.sourceTest + "'><i class='glyphicon glyphicon-link'></i>" + node.sourceTestName + "</a>";
+                    var name = "";
                     var nodeClass = "";
-                    var wizard = "";
                     if (node.type === 1) {
                         name = Trans.TEST_FLOW_NODE_NAME_START;
                         tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_START + "\"'></i>";
@@ -104,11 +103,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_END + "\"'></i>";
                         nodeClass = "nodeEnd";
                     } else if (node.type === 0) {
+                        name = node.sourceTestName;
                         var test = scope.collectionService.get(node.sourceTest);
                         if (test.sourceWizard) {
-                            wizard = "<i class='glyphicon glyphicon-list-alt clickable' " +
-                                    "tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_WIZARD_TOOLTIP + "\"' " +
-                                    "ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'></i>";
+                            name = "<a href='#' ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + node.sourceTestName + "</a>";
                         }
                     }
 
@@ -119,7 +117,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     elemHtml +=
                             "<div class='nodeHeader'>" + tooltip + name + "</div>" +
                             "<div class='nodeFooter'>" +
-                            "<div style='display: table; margin: auto;'>" + wizard +
+                            "<div style='display: table; margin: auto;'>" +
                             "<i class='glyphicon clickable' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
                             "ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")' " +
                             "tooltip-placement='bottom' tooltip-append-to-body='false' uib-tooltip='" + Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP + "'></i></div>" +
@@ -504,6 +502,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         parameters: {
                             concertoConnection: concertoConnection
                         },
+                        connector: "Straight",
                         paintStyle: {dashstyle: "dot", strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject.variableObject.type), lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject.variableObject.type)}
                     });
                 };

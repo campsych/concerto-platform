@@ -255,8 +255,6 @@ flow:
         descriptions:
             test_start: This is a test entry node. Test flow execution starts from here. It returns test input parameters.
             test_end: This is a test node where you can set the values of test return variables.
-        tooltips:
-            wizard: Launch wizard dialog to set node variables.
     ports:
         names:
             in: in
