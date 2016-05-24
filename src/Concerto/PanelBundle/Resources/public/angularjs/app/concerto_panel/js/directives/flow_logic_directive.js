@@ -502,7 +502,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         parameters: {
                             concertoConnection: concertoConnection
                         },
-                        connector: "Straight",
                         paintStyle: {dashstyle: "dot", strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject.variableObject.type), lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject.variableObject.type)}
                     });
                 };

@@ -34,8 +34,7 @@ concertoPanel.config(function ($httpProvider) {
                     innerObj[fullSubName] = subValue;
                     query += param(innerObj) + '&';
                 }
-            }
-            else if (value instanceof Object) {
+            } else if (value instanceof Object) {
                 for (subName in value) {
                     subValue = value[subName];
                     fullSubName = name + '[' + subName + ']';
@@ -43,8 +42,7 @@ concertoPanel.config(function ($httpProvider) {
                     innerObj[fullSubName] = subValue;
                     query += param(innerObj) + '&';
                 }
-            }
-            else if (value !== undefined && value !== null)
+            } else if (value !== undefined && value !== null)
                 query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
         }
 
@@ -189,4 +187,5 @@ concertoPanel.config(function ($uibTooltipProvider) {
 });
 
 jsPlumb.importDefaults({
+    Connector: "Straight"
 });
