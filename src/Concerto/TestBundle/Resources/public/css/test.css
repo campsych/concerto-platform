@@ -1,0 +1,12 @@
+html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
+#testContainer {
+    height:100%;
+}
+#testHtml {
+    height:100%;
+}
