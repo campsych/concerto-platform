@@ -17,12 +17,10 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.htmlEditorOptions = Defaults.ckeditorTestContentOptions;
                 scope.mode = "dialog";
                 scope.wizardMode = "prod";
-
                 scope.complexSetters = [1, 2, 7, 9, 10];
                 scope.isSetterComplex = false;
                 scope.title = "";
                 scope.summary = "";
-
                 if ("mode" in attrs) {
                     scope.mode = attrs.mode;
                 }
@@ -32,22 +30,18 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
 
                 scope.onPrimitiveValueChange = function (value) {
                     scope.output = value;
-                    if(scope.parent === null)
+                    if (scope.parent === null)
                         scope.values[scope.param.name] = value;
                 };
-
                 scope.updateSeterComplexity = function () {
                     scope.isSetterComplex = scope.complexSetters.indexOf(parseInt(scope.param.type)) !== -1;
                 };
-
                 scope.updateTitle = function () {
                     scope.title = scope.testWizardParamService.getSetterTitle(scope.param);
                 };
-
                 scope.updateSummary = function () {
                     scope.summary = scope.testWizardParamService.getSetterSummary(scope.param, scope.output);
                 };
-
                 scope.listOptions = {
                     enableFiltering: true,
                     enableGridMenu: true,
@@ -62,18 +56,35 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         scope.listGridApi = gridApi;
                     },
                     importerDataAddCallback: function (grid, newObjects) {
+                        for (var i = 0; i < newObjects.length; i++) {
+                            for (var key in newObjects[i]) {
+                                for (var j = 0; j < scope.listOptions.columnDefs.length; j++) {
+                                    var col = scope.listOptions.columnDefs[j];
+                                    if (col.name === key) {
+                                        if (col.type == 9 || col.type == 10) {
+                                            newObjects[i][key] = angular.fromJson(newObjects[i][key]);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                         scope.output = scope.output.concat(newObjects);
+                    },
+                    exporterFieldCallback: function (grid, row, col, value) {
+                        if (value.constructor == Array) {
+                            value = angular.toJson(value);
+                        }
+                        return value;
                     },
                     enableCellEditOnFocus: true
                 };
-                
                 scope.$watch("output.length", function (newValue) {
                     scope.listOptions.enableFiltering = newValue > 0;
                     if (scope.listGridApi && uiGridConstants.dataChange) {
                         scope.listGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
                     }
                 });
-
                 scope.getColumnDefs = function (obj, param, parent, output, isGroupField) {
                     if (!obj)
                         return [];
@@ -81,11 +92,9 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         var fields = [];
                         for (var i = 0; i < obj.definition.fields.length; i++) {
                             var field = obj.definition.fields[i];
-
                             var param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
                             var parent = "grid.appScope.output[grid.renderContainers.body.visibleRowCache.indexOf(row)]";
                             var output = "grid.appScope.output[grid.renderContainers.body.visibleRowCache.indexOf(row)][grid.appScope.param.definition.element.definition.fields[" + i + "].name]";
-
                             var add = scope.getColumnDefs(field, param, parent, output, true);
                             for (var j = 0; j < add.length; j++) {
                                 fields.push(add[j]);
@@ -95,6 +104,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     }
 
                     return [{
+                            type: obj.type,
                             displayName: isGroupField ? obj.label : Trans.TEST_WIZARD_PARAM_LIST_COLUMN_ELEMENT,
                             name: isGroupField ? obj.name : "element",
                             cellTemplate:
@@ -103,12 +113,10 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                                     "</div>"
                         }];
                 };
-
                 scope.getParamSetterCellTemplate = function (param, parent, output) {
                     var cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject"></wizard-param-setter>';
                     return cell;
                 };
-
                 scope.initializeListColumnDefs = function () {
                     var defs = [];
                     var param = "grid.appScope.param.definition.element";
@@ -134,7 +142,6 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     });
                     scope.listOptions.columnDefs = defs;
                 };
-
                 scope.launchSetterDialog = function (param, output, parent, values, wizardObject) {
                     var modalInstance = $uibModal.open({
                         templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "param_setter_dialog.html",
@@ -162,21 +169,17 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         },
                         size: "prc-lg"
                     });
-
                     modalInstance.result.then(function (result) {
                         scope.output = result;
                     }, function () {
                     });
                 };
-
                 scope.moveElementUp = function (index) {
                     scope.output.splice(index + 1, 0, scope.output.splice(index, 1)[0]);
                 };
-
                 scope.moveElementDown = function (index) {
                     scope.output.splice(index - 1, 0, scope.output.splice(index, 1)[0]);
                 };
-
                 scope.moveFieldUp = function (index) {
                     var params = $filter('orderBy')(scope.param.definition.fields, "order");
                     var paramFound = false;
@@ -195,7 +198,6 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }
                     }
                 };
-
                 scope.moveFieldDown = function (index) {
                     var params = $filter('orderBy')(scope.param.definition.fields, "order");
                     for (var i = 0; i < params.length; i++) {
@@ -209,7 +211,6 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }
                     }
                 };
-
                 scope.addElement = function () {
                     if (scope.param.definition.element.type == 4) {
                         scope.output.push({value: "0"});
@@ -221,11 +222,9 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         scope.output.push({value: ""});
                     }
                 };
-
                 scope.removeElement = function (index) {
                     scope.output.splice(index, 1);
                 };
-
                 scope.removeSelectedElements = function () {
                     var selectedRows = scope.listGridApi.selection.getSelectedRows();
                     var rows = scope.listGridApi.grid.rows;
@@ -238,17 +237,14 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }
                     }
                 };
-
                 scope.removeAllElements = function () {
                     scope.output = [];
                 };
-
                 scope.$watch('param.type', function (newValue, oldValue) {
                     if (!scope.param)
                         return;
                     if (newValue === null || newValue === undefined)
                         return;
-
                     if (newValue == 4) {
                         if (scope.output === null || scope.output === undefined || typeof scope.output === 'object' || newValue != oldValue) {
                             scope.output = "0";
@@ -273,10 +269,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     scope.updateSeterComplexity();
                     scope.updateTitle();
                     scope.updateSummary();
-
                     element.html($templateCache.get("type_" + newValue + "_setter.html"));
                     $compile(element.contents())(scope);
-
                 });
                 scope.$watch('param.definition.element.type', function (newValue, oldValue) {
                     if (newValue === null || newValue === undefined)
