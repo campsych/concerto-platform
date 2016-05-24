@@ -48,7 +48,7 @@ Defaults.ckeditorTestContentOptions = {
     extraPlugins: 'cmsource',
     allowedContent: true,
     height: 400,
-    contentsCss: [Paths.CSS_TEST_BUNDLE_1, Paths.CSS_TEST_BUNDLE_2],
+    contentsCss: [Paths.CSS_TEST_BUNDLE_1, Paths.CSS_TEST_BUNDLE_2, Paths.CSS_TEST_BUNDLE_3],
     cmsource: {
         lineWrapping: true,
         lineNumbers: true,
