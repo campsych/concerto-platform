@@ -1,8 +1,12 @@
 {% trans_default_domain "Test" %}
 
 <div flow-logic>
-    <div class="center">
-        <button ng-click="resetView();" class="btn btn-default btn-sm btn-list-refresh">{{ "flow.buttons.reset_view"|trans }}</button>
+    <div id="flow-menu-wrapper">
+        <div id="flow-menu" class="panel panel-default">
+            <i class='glyphicon glyphicon-screenshot' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.reset_view"|trans }}"' style="cursor: pointer;" ng-click="resetView();"></i><br/>
+            <i class='glyphicon glyphicon-plus' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.zoom_in"|trans }}"' style="cursor: pointer;" ng-click="setZoom(1);"></i><br/>
+            <i class='glyphicon glyphicon-minus' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.zoom_out"|trans }}"' style="cursor: pointer;" ng-click="setZoom(-1);"></i>
+        </div>
     </div>
     <div id="flowContainerScroll">
         <div id="flowContainer" context-menu data-target="menu-flow">

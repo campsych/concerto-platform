@@ -270,6 +270,8 @@ flow:
         remove_node: usuń węzeł
         reset_to_default: Zresetuj do domyślnej
         toggle_collapse: Zsuń/Wysuń niepołączone porty
+        zoom_in: Przybliż
+        zoom_out: Oddal
     tags:
         all: Wszystkie
         

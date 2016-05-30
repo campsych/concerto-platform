@@ -41,13 +41,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                 };
 
-                scope.setZoom = function (event, instance, el) {
+                scope.setZoom = function (value, instance, el) {
                     if (scope.refreshing)
                         return;
                     var maxZoom = 1;
                     var minZoom = 0.1;
                     var zoomSteps = 25;
-                    var zoom = event.deltaY > 0 ? scope.flowScale + (maxZoom - minZoom) / zoomSteps : scope.flowScale - (maxZoom - minZoom) / zoomSteps;
+                    var zoom = value > 0 ? scope.flowScale + (maxZoom - minZoom) / zoomSteps : scope.flowScale - (maxZoom - minZoom) / zoomSteps;
                     zoom = Math.max(minZoom, zoom);
                     zoom = Math.min(maxZoom, zoom);
 
@@ -696,7 +696,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 $(function () {
                     $("#flowContainerScroll").attachPanning();
                     $('#flowContainer').mousewheel(function (event) {
-                        scope.setZoom(event);
+                        scope.setZoom(event.deltaY);
                         return false;
                     });
                     $('#flowContainer').mousemove(function (event) {
