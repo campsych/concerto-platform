@@ -58,6 +58,7 @@ dialog:
   title:
     save: Zapisywanie obiektu
     delete: Usuwanie obiektu
+    csv: CSV
   message: 
     failed: Operacja nie powiodła się. Sprawdź dane i spróbuj jeszcze raz.
     saved: Obiekt został zapisany

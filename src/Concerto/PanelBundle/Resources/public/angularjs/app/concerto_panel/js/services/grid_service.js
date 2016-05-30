@@ -1,4 +1,26 @@
 concertoPanel.factory('GridService', function ($uibModal) {
+    CSV.error = function (err) {
+        var msg = CSV.dump(err);
+        CSV.reset();
+
+        $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+            controller: AlertController,
+            size: "lg",
+            resolve: {
+                title: function () {
+                    return Trans.DIALOG_TITLE_CSV;
+                },
+                content: function () {
+                    return msg;
+                },
+                type: function () {
+                    return "danger";
+                }
+            }
+        });
+    };
+
     return {
         downloadList: function (gridApi) {
             var modalInstance = $uibModal.open({

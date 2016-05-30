@@ -58,6 +58,7 @@ dialog:
   title:
     save: Saving object
     delete: Deleting object
+    csv: CSV
   message:
     failed: Operation failed. Validate your data and try again.
     saved: Object has been saved
