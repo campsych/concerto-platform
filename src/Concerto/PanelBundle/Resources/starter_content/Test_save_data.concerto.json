@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 310,
+        "id": 8,
         "name": "save_data",
         "accessibility": 0,
         "protected": "1",
@@ -15,81 +15,81 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 4105,
+                "id": 67,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 310,
-                "parentVariable": 4099,
+                "test": 8,
+                "parentVariable": 61,
                 "globalId": "1460132367-3775-4833"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4106,
+                "id": 68,
                 "name": "data_bank",
                 "type": 0,
                 "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
-                "test": 310,
-                "parentVariable": 4100,
+                "test": 8,
+                "parentVariable": 62,
                 "globalId": "1460132367-3776-3025"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4107,
+                "id": 69,
                 "name": "new_data",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 310,
-                "parentVariable": 4101,
+                "test": 8,
+                "parentVariable": 63,
                 "globalId": "1460132367-3777-5905"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4108,
+                "id": 70,
                 "name": "session",
                 "type": 0,
                 "description": "<p>Current session R list object<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 310,
-                "parentVariable": 4102,
+                "test": 8,
+                "parentVariable": 64,
                 "globalId": "1460132367-3778-8426"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4109,
+                "id": 71,
                 "name": "data_bank",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 310,
-                "parentVariable": 4103,
+                "test": 8,
+                "parentVariable": 65,
                 "globalId": "1460132367-3779-4402"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4110,
+                "id": 72,
                 "name": "session",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 310,
-                "parentVariable": 4104,
+                "test": 8,
+                "parentVariable": 66,
                 "globalId": "1460132367-3780-9064"
             }
         ],
-        "sourceWizard": 148,
+        "sourceWizard": 4,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 148,
+            "id": 4,
             "name": "save_data",
             "description": "",
             "accessibility": 0,
@@ -98,28 +98,28 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 333,
+                    "id": 6,
                     "title": "Data bank",
                     "description": "<p>Session data bank definition<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 148,
+                    "wizard": 4,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 1112,
+                            "id": 16,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
-                            "testVariable": 4100,
+                            "testVariable": 62,
                             "name": "data_bank",
-                            "wizardStep": 333,
+                            "wizardStep": 6,
                             "stepTitle": "Data bank",
                             "order": 0,
-                            "wizard": 148,
+                            "wizard": 4,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -172,10 +172,10 @@
                     "globalId": "1460132367-306-8673"
                 }
             ],
-            "test": 309,
+            "test": 7,
             "testObject": {
                 "class_name": "Test",
-                "id": 309,
+                "id": 7,
                 "name": "source_save_data",
                 "accessibility": 0,
                 "protected": "1",
@@ -183,80 +183,80 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table\n  session_id_column = db$custom_session_id_column$column\n  name_column = db$custom_name_column$column\n  value_column = db$custom_value_column$column\n}\n\nif(is.null(session) || is.na(session) || !is.list(session)) {\n  session = list(\n    id=0\n  )\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = {{session_id}} AND {{name_column}} = '{{name}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session$id, \n    name_column=name_column, \n    name=name\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = {{session_id}} AND {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session$id, \n      name_column=name_column, \n      name=name\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_id_column}} = {{session_id}}, {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session$id, \n      name_column=name_column, \n      name=name\n    ))\n  }\n}",
-                "slug": "0e0b4107a14cda5edcb30857f0eb485c",
+                "slug": "883769688f4761c0c0d85fa20573039b",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 4099,
+                        "id": 61,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 309,
+                        "test": 7,
                         "parentVariable": null,
                         "globalId": "1460132367-3769-7060"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 4100,
+                        "id": 62,
                         "name": "data_bank",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 309,
+                        "test": 7,
                         "parentVariable": null,
                         "globalId": "1460132367-3770-5058"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 4101,
+                        "id": 63,
                         "name": "new_data",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 309,
+                        "test": 7,
                         "parentVariable": null,
                         "globalId": "1460132367-3771-4976"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 4102,
+                        "id": 64,
                         "name": "session",
                         "type": 0,
                         "description": "<p>Current session R list object<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 309,
+                        "test": 7,
                         "parentVariable": null,
                         "globalId": "1460132367-3772-4197"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 4103,
+                        "id": 65,
                         "name": "data_bank",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 309,
+                        "test": 7,
                         "parentVariable": null,
                         "globalId": "1460132367-3773-5161"
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 4104,
+                        "id": 66,
                         "name": "session",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 309,
+                        "test": 7,
                         "parentVariable": null,
                         "globalId": "1460132367-3774-6103"
                     }
@@ -266,7 +266,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-04-08 18:23:23",
+                "updatedOn": "2016-05-05 18:34:24",
                 "updatedByName": "",
                 "nodes": [
 
@@ -283,7 +283,7 @@
                 "starterContent": true
             },
             "testName": "source_save_data",
-            "updatedOn": "2016-04-08 18:23:23",
+            "updatedOn": "2016-05-05 18:34:24",
             "updatedByName": "",
             "globalId": "1459984402-26-6440",
             "owner": 1,
@@ -292,7 +292,7 @@
             "checksum": "",
             "starterContent": true
         },
-        "updatedOn": "2016-04-08 18:23:23",
+        "updatedOn": "2016-05-05 18:34:24",
         "updatedByName": "",
         "nodes": [
 
@@ -304,8 +304,8 @@
         "globalId": "1459984402-54-6253",
         "owner": 1,
         "groups": "",
-        "revision": 28,
-        "checksum": "81c317626f9c9f2e466901b4216856f2",
+        "revision": 29,
+        "checksum": "7b14ff2bf6840ccbf556f57130073291",
         "starterContent": true
     }
 ]

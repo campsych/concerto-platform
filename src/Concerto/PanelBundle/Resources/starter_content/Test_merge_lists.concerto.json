@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 325,
+        "id": 23,
         "name": "merge_lists",
         "accessibility": 0,
         "protected": "1",
@@ -15,92 +15,92 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 4341,
+                "id": 303,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4011-9511"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4342,
+                "id": 304,
                 "name": "merged_list",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4012-7700"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4343,
+                "id": 305,
                 "name": "list1",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4013-3834"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4344,
+                "id": 306,
                 "name": "list2",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4014-4535"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4345,
+                "id": 307,
                 "name": "list3",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4015-2983"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4346,
+                "id": 308,
                 "name": "list4",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4016-7888"
             },
             {
                 "class_name": "TestVariable",
-                "id": 4347,
+                "id": 309,
                 "name": "list5",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 325,
+                "test": 23,
                 "parentVariable": null,
                 "globalId": "1460132367-4017-6638"
             }
         ],
         "sourceWizard": null,
         "sourceWizardObject": null,
-        "updatedOn": "2016-04-08 18:23:36",
+        "updatedOn": "2016-05-05 18:34:37",
         "updatedByName": "",
         "nodes": [
 
@@ -112,8 +112,8 @@
         "globalId": "1459984402-69-9178",
         "owner": 1,
         "groups": "",
-        "revision": 28,
-        "checksum": "00ef266c9b5c9a85830f5e819e80efb7",
+        "revision": 29,
+        "checksum": "551578d1b9ca2d7dc92101693822f88f",
         "starterContent": true
     }
 ]
