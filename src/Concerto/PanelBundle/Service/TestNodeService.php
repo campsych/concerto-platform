@@ -130,13 +130,17 @@ class TestNodeService extends ASectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["id"], $map["TestNode"])) {
+            return(array());
+        }
+
         $flowTest = null;
         if (array_key_exists("Test", $map)) {
             $flowTest_id = $map["Test"]["id" . $obj["flowTest"]];
             $flowTest = $this->testRepository->find($flowTest_id);
         }
 
-        $pre_queue = array();
         $sourceTest = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["sourceTest"], $map["Test"])) {
             $sourceTest_id = $map["Test"]["id" . $obj["sourceTest"]];
@@ -145,6 +149,7 @@ class TestNodeService extends ASectionService {
         if (!$sourceTest) {
             array_push($pre_queue, $obj["sourceTestObject"]);
         }
+
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -171,7 +176,7 @@ class TestNodeService extends ASectionService {
         }
         $map["TestNode"]["id" . $obj["id"]] = $ent->getId();
 
-        $queue = array_merge($queue, $obj["ports"]);
+        array_splice($queue, 1, 0, $obj["ports"]);
 
         return array("errors" => null, "entity" => $ent);
     }

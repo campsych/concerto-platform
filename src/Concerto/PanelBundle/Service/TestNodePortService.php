@@ -123,6 +123,11 @@ class TestNodePortService extends ASectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["id"], $map["TestNodePort"])) {
+            return(array());
+        }
+
         $node = null;
         if (array_key_exists("TestNode", $map)) {
             $node_id = $map["TestNode"]["id" . $obj["node"]];
@@ -130,9 +135,18 @@ class TestNodePortService extends ASectionService {
         }
 
         $variable = null;
-        if (array_key_exists("TestVariable", $map)) {
-            $variable_id = $map["TestVariable"]["id" . $obj["variable"]];
-            $variable = $this->testVariableRepository->find($variable_id);
+        if ($obj["variable"]) {
+            if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["variable"], $map["TestVariable"])) {
+                $variable_id = $map["TestVariable"]["id" . $obj["variable"]];
+                $variable = $this->testVariableRepository->find($variable_id);
+            }
+            if (!$variable) {
+                array_push($pre_queue, $obj["variableObject"]);
+            }
+        }
+        
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
         }
 
         $ent = new TestNodePort();

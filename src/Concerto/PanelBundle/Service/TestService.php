@@ -189,9 +189,13 @@ class TestService extends AExportableSectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["id"], $map["Test"])) {
+            return(array());
+        }
+
         $formattedName = $this->formatImportName($user, $newName, $obj);
 
-        $pre_queue = array();
         $wizard = null;
         if ($obj["sourceWizard"]) {
             if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["sourceWizard"], $map["TestWizard"])) {
@@ -202,6 +206,7 @@ class TestService extends AExportableSectionService {
                 array_push($pre_queue, $obj["sourceWizardObject"]);
             }
         }
+        
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -236,9 +241,9 @@ class TestService extends AExportableSectionService {
         }
         $map["Test"]["id" . $obj["id"]] = $ent->getId();
 
-        $queue = array_merge($queue, $obj["variables"]);
-        $queue = array_merge($queue, $obj["nodes"]);
-        $queue = array_merge($queue, $obj["nodesConnections"]);
+        array_splice($queue, 1, 0, $obj["nodesConnections"]);
+        array_splice($queue, 1, 0, $obj["nodes"]);
+        array_splice($queue, 1, 0, $obj["variables"]);
 
         return array("errors" => null, "entity" => $ent);
     }

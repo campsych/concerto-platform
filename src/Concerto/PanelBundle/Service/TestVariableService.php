@@ -187,15 +187,27 @@ class TestVariableService extends ASectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
-        $test = null;
-        if (array_key_exists("Test", $map)) {
-            $test_id = $map["Test"]["id" . $obj["test"]];
-            $test = $this->testRepository->find($test_id);
+        $pre_queue = array();
+        if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["id"], $map["TestVariable"])) {
+            return(array());
         }
+
+        $test = null;
+        if ($obj["test"]) {
+            if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
+                $test_id = $map["Test"]["id" . $obj["test"]];
+                $test = $this->testRepository->find($test_id);
+            }
+        }
+
         $parentVariable = null;
         if (array_key_exists("TestVariable", $map) && $obj["parentVariable"]) {
             $parentVariable_id = $map["TestVariable"]["id" . $obj["parentVariable"]];
             $parentVariable = $this->repository->find($parentVariable_id);
+        }
+
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
         }
 
         $ent = new TestVariable();

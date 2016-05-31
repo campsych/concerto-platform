@@ -65,30 +65,23 @@ class ImportService {
 
     public function import(User $user, $name, $data) {
         $result = array();
-        foreach ($data as $obj) {
+        $this->queue = $data;
+        while (count($this->queue) > 0) {
+            $obj = $this->queue[0];
             if (array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
-                $dependants_missing = true;
-                while ($dependants_missing) {
-                    $last_result = $service->importFromArray($user, $name, $obj, $this->map, $this->queue);
-                    if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
-                        array_push($result, $last_result);
-                        return $result;
-                    }
-                    if (array_key_exists("pre_queue", $last_result) && count($last_result["pre_queue"]) > 0) {
-                        $result = array_merge($result, $this->import($user, $name, $last_result["pre_queue"]));
-                    } else {
-                        $dependants_missing = false;
-                        array_push($result, $last_result);
-                    }
+                $last_result = $service->importFromArray($user, $name, $obj, $this->map, $this->queue);
+                if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
+                    array_push($result, $last_result);
+                    return $result;
+                }
+                if (array_key_exists("pre_queue", $last_result) && count($last_result["pre_queue"]) > 0) {
+                    $this->queue = array_merge($last_result["pre_queue"], $this->queue);
+                } else {
+                    array_push($result, $last_result);
+                    array_shift($this->queue);
                 }
             }
-        }
-        while (count($this->queue) > 0) {
-            $queue = $this->queue;
-            $this->queue = array();
-            $r = $this->import($user, $name, $queue);
-            $result = array_merge($result, $r);
         }
         return $result;
     }

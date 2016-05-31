@@ -117,6 +117,11 @@ class TestWizardParamService extends ASectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("TestWizardParam", $map) && array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
+            return(array());
+        }
+        
         $variable = null;
         if (array_key_exists("TestVariable", $map)) {
             $variable_id = $map["TestVariable"]["id" . $obj["testVariable"]];
@@ -133,6 +138,10 @@ class TestWizardParamService extends ASectionService {
         if (array_key_exists("TestWizardStep", $map)) {
             $step_id = $map["TestWizardStep"]["id" . $obj["wizardStep"]];
             $step = $this->testWizardStepRepository->find($step_id);
+        }
+        
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
         }
 
         $ent = new TestWizardParam();

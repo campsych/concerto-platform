@@ -83,10 +83,19 @@ class TestWizardStepService extends ASectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("TestWizardStep", $map) && array_key_exists("id" . $obj["id"], $map["TestWizardStep"])) {
+            return(array());
+        }
+
         $wizard = null;
         if (array_key_exists("TestWizard", $map)) {
             $wizard_id = $map["TestWizard"]["id" . $obj["wizard"]];
             $wizard = $this->testWizardRepository->find($wizard_id);
+        }
+        
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
         }
 
         $ent = new TestWizardStep();
@@ -111,7 +120,7 @@ class TestWizardStepService extends ASectionService {
         }
         $map["TestWizardStep"]["id" . $obj["id"]] = $ent->getId();
 
-        $queue = array_merge($queue, $obj["params"]);
+        array_splice($queue, 1, 0, $obj["params"]);
 
         return array("errors" => null, "entity" => $ent);
     }

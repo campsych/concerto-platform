@@ -81,6 +81,15 @@ class ViewTemplateService extends AExportableSectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("ViewTemplate", $map) && array_key_exists("id" . $obj["id"], $map["ViewTemplate"])) {
+            return(array());
+        }
+        
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
+        }
+        
         $formattedName = $this->formatImportName($user, $newName, $obj);
 
         $ent = new ViewTemplate();

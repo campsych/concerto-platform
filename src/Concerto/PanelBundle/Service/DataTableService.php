@@ -371,10 +371,20 @@ class DataTableService extends AExportableSectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("DataTable", $map) && array_key_exists("id" . $obj["id"], $map["DataTable"])) {
+            return(array());
+        }
+
         $formattedName = $this->formatImportName($user, $newName, $obj);
+        
         $db_errors = $this->dbStructureService->createTable($formattedName, $obj["columns"], $obj["data"]);
         if (count($db_errors) > 0) {
             return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+        }
+        
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
         }
 
         $ent = new DataTable();

@@ -125,6 +125,11 @@ class TestNodeConnectionService extends ASectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("TestNodeConnection", $map) && array_key_exists("id" . $obj["id"], $map["TestNodeConnection"])) {
+            return(array());
+        }
+      
         $flowTest = null;
         if (array_key_exists("Test", $map)) {
             $flowTest_id = $map["Test"]["id" . $obj["flowTest"]];
@@ -144,15 +149,29 @@ class TestNodeConnectionService extends ASectionService {
         }
 
         $sourcePort = null;
-        if (array_key_exists("TestNodePort", $map) && $obj["sourcePort"]) {
-            $sourcePort_id = $map["TestNodePort"]["id" . $obj["sourcePort"]];
-            $sourcePort = $this->testNodePortRepository->find($sourcePort_id);
+        if ($obj["sourcePort"]) {
+            if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["sourcePort"], $map["TestNodePort"])) {
+                $sourcePort_id = $map["TestNodePort"]["id" . $obj["sourcePort"]];
+                $sourcePort = $this->testNodePortRepository->find($sourcePort_id);
+            }
+            if (!$sourcePort) {
+                array_push($pre_queue, $obj["sourcePortObject"]);
+            }
         }
 
         $destinationPort = null;
-        if (array_key_exists("TestNodePort", $map) && $obj["destinationPort"]) {
-            $destinationPort_id = $map["TestNodePort"]["id" . $obj["destinationPort"]];
-            $destinationPort = $this->testNodePortRepository->find($destinationPort_id);
+        if ($obj["destinationPort"]) {
+            if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["destinationPort"], $map["TestNodePort"])) {
+                $destinationPort_id = $map["TestNodePort"]["id" . $obj["destinationPort"]];
+                $destinationPort = $this->testNodePortRepository->find($destinationPort_id);
+            }
+            if (!$destinationPort) {
+                array_push($pre_queue, $obj["destinationPortObject"]);
+            }
+        }
+
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
         }
 
         $ent = new TestNodeConnection();

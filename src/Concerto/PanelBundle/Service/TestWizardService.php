@@ -117,9 +117,13 @@ class TestWizardService extends AExportableSectionService {
     }
 
     public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+        $pre_queue = array();
+        if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["id"], $map["TestWizard"])) {
+            return(array());
+        }
+        
         $formattedName = $this->formatImportName($user, $newName, $obj);
 
-        $pre_queue = array();
         $test = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
             $test_id = $map["Test"]["id" . $obj["test"]];
@@ -128,6 +132,10 @@ class TestWizardService extends AExportableSectionService {
         if (!$test) {
             array_push($pre_queue, $obj["testObject"]);
         }
+        if (count($pre_queue) > 0) {
+            return array("pre_queue" => $pre_queue);
+        }
+        
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -157,7 +165,7 @@ class TestWizardService extends AExportableSectionService {
         }
         $map["TestWizard"]["id" . $obj["id"]] = $ent->getId();
 
-        $queue = array_merge($queue, $obj["steps"]);
+        array_splice($queue, 1, 0, $obj["steps"]);
 
         return array("errors" => null, "entity" => $ent);
     }
