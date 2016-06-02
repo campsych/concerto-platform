@@ -774,7 +774,7 @@
                 "id": 13,
                 "name": "source_questionnaire",
                 "accessibility": 0,
-                "protected": "0",
+                "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
@@ -1092,8 +1092,8 @@
         "globalId": "1459984402-60-5231",
         "owner": 1,
         "groups": "",
-        "revision": 30,
-        "checksum": "67be1cefc0df8c6eada4048e9a0042a7",
+        "revision": 31,
+        "checksum": "ca961e0f1d926204ef30d9f4f18ff00f",
         "starterContent": true
     }
 ]
