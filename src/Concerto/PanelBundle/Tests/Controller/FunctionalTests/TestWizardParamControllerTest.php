@@ -103,7 +103,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "order" => 0,
                 "wizard" => 1,
                 "hideCondition" => "",
-                "globalId" => null,
                 "definition" => array(
                     "placeholder" => 0
                 )
@@ -133,7 +132,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "order" => 0,
                 "wizard" => 1,
                 "hideCondition" => "",
-                "globalId" => null,
                 "definition" => array(
                     "placeholder" => 0
                 )
@@ -168,7 +166,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "order" => 0,
                 "wizard" => 1,
                 "hideCondition" => "",
-                "globalId" => null,
                 "definition" => array(
                     "placeholder" => 0
                 )
@@ -244,7 +241,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "order" => 0,
                 "wizard" => 1,
                 "hideCondition" => "",
-                "globalId" => null,
                 "definition" => array(
                     "placeholder" => 0
                 )
@@ -288,7 +284,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "order" => 0,
                 "wizard" => 1,
                 "hideCondition" => "",
-                "globalId" => null,
                 "definition" => array(
                     "placeholder" => 0
                 )

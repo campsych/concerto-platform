@@ -75,7 +75,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
                 "defaultValue" => "1",
                 "variable" => 1,
                 "value" => "0",
-                "globalId" => null,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
                     "id" => 1,
@@ -85,7 +84,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
                     "passableThroughUrl" => "0",
                     "value" => '0',
                     "test" => 1,
-                    "globalId" => null,
                     "parentVariable" => null
                 )
             ),
@@ -97,7 +95,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
                 "defaultValue" => "1",
                 "variable" => 2,
                 "value" => "0",
-                "globalId" => null,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
                     "id" => 2,
@@ -107,7 +104,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
                     "passableThroughUrl" => "0",
                     "value" => '0',
                     "test" => 2,
-                    "globalId" => null,
                     "parentVariable" => null
                 )
             )
@@ -148,7 +144,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
             "defaultValue" => "0",
             "variable" => 2,
             "value" => "1",
-            "globalId" => null,
             "variableObject" => array(
                 "class_name" => "TestVariable",
                 "id" => 2,
@@ -158,7 +153,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
                 "passableThroughUrl" => "0",
                 "value" => '0',
                 "test" => 2,
-                "globalId" => null,
                 "parentVariable" => null
             )
         );

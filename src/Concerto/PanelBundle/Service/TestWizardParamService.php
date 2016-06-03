@@ -155,7 +155,6 @@ class TestWizardParamService extends ASectionService {
         $ent->setVariable($variable);
         $ent->setWizard($wizard);
         $ent->setDefinition($obj["definition"]);
-        $ent->setGlobalId($obj["globalId"]);
         $ent->setHideCondition($obj["hideCondition"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

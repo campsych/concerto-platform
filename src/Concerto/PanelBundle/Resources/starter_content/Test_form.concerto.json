@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 12,
-                "parentVariable": 125,
-                "globalId": "1460063223-4028-4143"
+                "parentVariable": 125
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": "[]",
                 "test": 12,
-                "parentVariable": 126,
-                "globalId": "1460063223-4029-2161"
+                "parentVariable": 126
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": "continue",
                 "test": 12,
-                "parentVariable": 127,
-                "globalId": "1460063223-4030-2158"
+                "parentVariable": 127
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer the questions below:<\/p>\n",
                 "test": 12,
-                "parentVariable": 128,
-                "globalId": "1460063223-4031-2485"
+                "parentVariable": 128
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 12,
-                "parentVariable": 129,
-                "globalId": "1460063223-4032-5722"
+                "parentVariable": 129
             },
             {
                 "class_name": "TestVariable",
@@ -82,8 +77,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 12,
-                "parentVariable": 130,
-                "globalId": "1460063223-4033-3525"
+                "parentVariable": 130
             },
             {
                 "class_name": "TestVariable",
@@ -94,8 +88,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 12,
-                "parentVariable": 131,
-                "globalId": "1460063223-4034-1235"
+                "parentVariable": 131
             },
             {
                 "class_name": "TestVariable",
@@ -106,8 +99,7 @@
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
                 "test": 12,
-                "parentVariable": 132,
-                "globalId": "1460063223-4035-3780"
+                "parentVariable": 132
             },
             {
                 "class_name": "TestVariable",
@@ -118,8 +110,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                 "test": 12,
-                "parentVariable": 133,
-                "globalId": "1460063223-4036-3896"
+                "parentVariable": 133
             },
             {
                 "class_name": "TestVariable",
@@ -130,8 +121,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 12,
-                "parentVariable": 134,
-                "globalId": "1460063223-4037-2974"
+                "parentVariable": 134
             }
         ],
         "sourceWizard": 6,
@@ -170,8 +160,7 @@
                             "wizard": 6,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460063223-1093-5259"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -190,8 +179,7 @@
                             "wizard": 6,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460063223-1094-4968"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -210,11 +198,9 @@
                             "wizard": 6,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460063223-1095-7536"
+                            }
                         }
-                    ],
-                    "globalId": "1460063223-326-6410"
+                    ]
                 },
                 {
                     "class_name": "TestWizardStep",
@@ -451,11 +437,9 @@
                                         ]
                                     }
                                 }
-                            },
-                            "globalId": "1460063223-1096-6914"
+                            }
                         }
-                    ],
-                    "globalId": "1460063223-327-1714"
+                    ]
                 }
             ],
             "test": 11,
@@ -469,7 +453,7 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "decoded_template_def = fromJSON(template_def)\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = \"\"\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"\n            <script>\n              var p_form\",i,\" = document.getElementById('form\",i,\"'),\n                res_form\",i,\" = document.getElementById('form\",i,\"number');\n\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";\n\n              p_form\",i,\".addEventListener('input', function() {\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";          \n              }, false); \n            <\/script>\n\t\t  \") \n        }\n        control = paste0(control, \"<table class='tableFormSlider'><tr><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr>\")\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"<tr><td>&nbsp;<\/td><td><div id='form\",i,\"number' class='tdFormSliderNumber'>&nbsp;<\/div><\/td><td>&nbsp;<\/td><\/tr>\") \n        }\n        control = paste0(control, \"<\/table>\")\n        \n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
-                "slug": "4563919d1b92fd6b582e7dc574b4431d",
+                "slug": "06e8070d7fd5c1fd99a48ac42ca36252",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -483,8 +467,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4018-7413"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -495,8 +478,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4019-1128"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -507,8 +489,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4020-9186"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -519,8 +500,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4021-3292"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -531,8 +511,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4022-4963"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -543,8 +522,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4023-3036"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -555,8 +533,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4024-1147"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -567,8 +544,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4025-5169"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -579,8 +555,7 @@
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4026-8435"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -591,8 +566,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 11,
-                        "parentVariable": null,
-                        "globalId": "1460063223-4027-2309"
+                        "parentVariable": null
                     }
                 ],
                 "logs": [
@@ -600,7 +574,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-05-05 18:34:26",
+                "updatedOn": "2016-06-02 18:25:14",
                 "updatedByName": "",
                 "nodes": [
 
@@ -609,24 +583,18 @@
 
                 ],
                 "tags": "",
-                "globalId": "181",
                 "owner": 1,
                 "groups": "",
-                "revision": 0,
-                "checksum": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_form",
-            "updatedOn": "2016-05-05 18:34:26",
+            "updatedOn": "2016-06-02 18:25:14",
             "updatedByName": "",
-            "globalId": "46",
             "owner": 1,
             "groups": "",
-            "revision": 0,
-            "checksum": "",
-            "starterContent": true
+            "starterContent": false
         },
-        "updatedOn": "2016-05-05 18:34:27",
+        "updatedOn": "2016-06-02 18:25:14",
         "updatedByName": "",
         "nodes": [
 
@@ -635,11 +603,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "196",
         "owner": 1,
         "groups": "",
-        "revision": 3,
-        "checksum": "1d1217a5887946c23776a65e7c0b4690",
         "starterContent": true
     }
 ]

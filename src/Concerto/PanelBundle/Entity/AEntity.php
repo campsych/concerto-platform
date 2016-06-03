@@ -22,13 +22,6 @@ abstract class AEntity {
 
     /**
      *
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $globalId;
-
-    /**
-     *
      * @var DateTime
      * @ORM\Column(type="datetime")
      */
@@ -121,29 +114,6 @@ abstract class AEntity {
      */
     public function getCreated() {
         return $this->created;
-    }
-
-    /**
-     * Set global id
-     *
-     * @param string $id
-     */
-    public function setGlobalId($id = null) {
-        if ($id === null) {
-            $id = time() . "-" . $this->getId() . "-" . rand(1000, 9999);
-        }
-        $this->globalId = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get global id
-     *
-     * @return string 
-     */
-    public function getGlobalId() {
-        return $this->globalId;
     }
 
     /**

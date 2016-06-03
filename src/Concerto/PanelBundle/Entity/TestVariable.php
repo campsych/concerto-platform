@@ -333,8 +333,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
             "passableThroughUrl" => $this->isPassableThroughUrl() ? "1" : "0",
             "value" => $this->getValue(),
             "test" => $this->getTest()->getId(),
-            "parentVariable" => $this->getParentVariable() ? $this->getParentVariable()->getId() : null,
-            "globalId" => $this->globalId
+            "parentVariable" => $this->getParentVariable() ? $this->getParentVariable()->getId() : null
         );
     }
 

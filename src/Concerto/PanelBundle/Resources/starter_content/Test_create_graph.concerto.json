@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 16,
-                "parentVariable": 189,
-                "globalId": "1460132367-3911-1232"
+                "parentVariable": 189
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": "plot.png",
                 "test": 16,
-                "parentVariable": 190,
-                "globalId": "1460132367-3912-5300"
+                "parentVariable": 190
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": "[]",
                 "test": 16,
-                "parentVariable": 191,
-                "globalId": "1460132367-3913-7930"
+                "parentVariable": 191
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": "x",
                 "test": 16,
-                "parentVariable": 192,
-                "globalId": "1460132367-3914-6066"
+                "parentVariable": 192
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": "y",
                 "test": 16,
-                "parentVariable": 193,
-                "globalId": "1460132367-3915-3906"
+                "parentVariable": 193
             },
             {
                 "class_name": "TestVariable",
@@ -82,8 +77,7 @@
                 "passableThroughUrl": "0",
                 "value": "X",
                 "test": 16,
-                "parentVariable": 194,
-                "globalId": "1460132367-3916-8451"
+                "parentVariable": 194
             },
             {
                 "class_name": "TestVariable",
@@ -94,8 +88,7 @@
                 "passableThroughUrl": "0",
                 "value": "Y",
                 "test": 16,
-                "parentVariable": 195,
-                "globalId": "1460132367-3917-7313"
+                "parentVariable": 195
             },
             {
                 "class_name": "TestVariable",
@@ -106,8 +99,7 @@
                 "passableThroughUrl": "0",
                 "value": "Plot",
                 "test": 16,
-                "parentVariable": 196,
-                "globalId": "1460132367-3918-8593"
+                "parentVariable": 196
             },
             {
                 "class_name": "TestVariable",
@@ -118,8 +110,7 @@
                 "passableThroughUrl": "0",
                 "value": "[]",
                 "test": 16,
-                "parentVariable": 197,
-                "globalId": "1460132367-3919-5545"
+                "parentVariable": 197
             },
             {
                 "class_name": "TestVariable",
@@ -130,8 +121,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"value\":\"\"}",
                 "test": 16,
-                "parentVariable": 198,
-                "globalId": "1460132367-3920-8840"
+                "parentVariable": 198
             },
             {
                 "class_name": "TestVariable",
@@ -142,8 +132,7 @@
                 "passableThroughUrl": "0",
                 "value": "1",
                 "test": 16,
-                "parentVariable": 199,
-                "globalId": "1460132367-3921-3128"
+                "parentVariable": 199
             },
             {
                 "class_name": "TestVariable",
@@ -154,8 +143,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 16,
-                "parentVariable": 200,
-                "globalId": "1460132367-3922-7518"
+                "parentVariable": 200
             },
             {
                 "class_name": "TestVariable",
@@ -166,8 +154,7 @@
                 "passableThroughUrl": "0",
                 "value": "200",
                 "test": 16,
-                "parentVariable": 201,
-                "globalId": "1460132367-3923-8920"
+                "parentVariable": 201
             },
             {
                 "class_name": "TestVariable",
@@ -178,8 +165,7 @@
                 "passableThroughUrl": "0",
                 "value": "200",
                 "test": 16,
-                "parentVariable": 202,
-                "globalId": "1460132367-3924-6345"
+                "parentVariable": 202
             }
         ],
         "sourceWizard": 8,
@@ -218,8 +204,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1058-3239"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -255,8 +240,7 @@
                                         ]
                                     }
                                 }
-                            },
-                            "globalId": "1460132367-1059-3111"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -275,8 +259,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1060-1111"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -295,8 +278,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1061-2078"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -315,8 +297,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1062-5652"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -335,11 +316,9 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1063-1270"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-317-6685"
+                    ]
                 },
                 {
                     "class_name": "TestWizardStep",
@@ -367,8 +346,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1064-1083"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -387,8 +365,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1065-5415"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -407,8 +384,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1066-7864"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -430,8 +406,7 @@
                                 "element": {
                                     "type": "0"
                                 }
-                            },
-                            "globalId": "1460132367-1067-6323"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -450,8 +425,7 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1068-4689"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -470,11 +444,9 @@
                             "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1069-3158"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-318-7034"
+                    ]
                 }
             ],
             "test": 15,
@@ -488,7 +460,7 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "library(ggplot2)\n\nif(is.character(data)) {\n  d = fromJSON(data)\n  data = NULL\n  if(length(d) > 0) {\n    for(i in 1:length(d)) {\n      data = rbind(data, as.list(d[[i]]))\n    }\n  }\n}\ndata = as.data.frame(data)\n\nx = as.character(data[[x_name]])\nif(x_numeric == \"1\") { \n  x = as.numeric(x) \n}\n\ny = as.character(data[[y_name]])\nif(y_numeric == \"1\") { \n  y = as.numeric(y) \n}\ndata = data.frame(x=x, y=y)\n\ncolors = fromJSON(bar_colors)\nif(length(colors) == 0){\n  colors = x\n}\n\ngraph = ggplot(data=data, aes(x=x, y=y)) + \ngeom_bar(colour=\"black\", fill=colors, width=.8, stat=\"identity\") + \nguides(fill=FALSE) +\nxlab(x_label) + ylab(y_label) +\nggtitle(title)\n\npath = concerto.file.getPublicPath(filename)\npng(path, width=as.numeric(width), height=as.numeric(height))\nprint(graph)\ndev.off()\nurl = concerto.file.getUrl(filename)\naddress = list(filename=filename, path=path, url=url)",
-                "slug": "f31ee3ba2a362f17157d87749fd46274",
+                "slug": "af02c09e862100365ce3353fe408eae6",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -502,8 +474,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3897-5495"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -514,8 +485,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3898-1240"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -526,8 +496,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3899-1208"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -538,8 +507,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3900-3051"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -550,8 +518,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3901-2200"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -562,8 +529,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3902-3472"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -574,8 +540,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3903-2730"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -586,8 +551,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3904-4559"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -598,8 +562,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3905-4588"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -610,8 +573,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3906-7983"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -622,8 +584,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3907-5931"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -634,8 +595,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3908-8967"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -646,8 +606,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3909-6912"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -658,8 +617,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 15,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3910-3106"
+                        "parentVariable": null
                     }
                 ],
                 "logs": [
@@ -667,7 +625,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-05-05 18:34:29",
+                "updatedOn": "2016-06-02 18:25:20",
                 "updatedByName": "",
                 "nodes": [
 
@@ -676,24 +634,18 @@
 
                 ],
                 "tags": "",
-                "globalId": "1459984402-61-1257",
                 "owner": 1,
                 "groups": "",
-                "revision": 0,
-                "checksum": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_create_graph",
-            "updatedOn": "2016-05-05 18:34:29",
+            "updatedOn": "2016-06-02 18:25:21",
             "updatedByName": "",
-            "globalId": "1459984402-30-9064",
             "owner": 1,
             "groups": "",
-            "revision": 0,
-            "checksum": "",
-            "starterContent": true
+            "starterContent": false
         },
-        "updatedOn": "2016-05-05 18:34:30",
+        "updatedOn": "2016-06-02 18:25:22",
         "updatedByName": "",
         "nodes": [
 
@@ -702,11 +654,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-62-1227",
         "owner": 1,
         "groups": "",
-        "revision": 29,
-        "checksum": "facadc6c73c8c843952e6a6ab81a62ed",
         "starterContent": true
     }
 ]

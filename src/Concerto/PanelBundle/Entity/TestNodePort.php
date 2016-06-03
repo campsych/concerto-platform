@@ -240,8 +240,7 @@ class TestNodePort extends AEntity implements \JsonSerializable {
             "variable" => $this->variable->getId(),
             "variableObject" => $this->variable,
             "string" => $this->string ? "1" : "0",
-            "defaultValue" => $this->defaultValue ? "1" : "0",
-            "globalId" => $this->globalId
+            "defaultValue" => $this->defaultValue ? "1" : "0"
         );
     }
 

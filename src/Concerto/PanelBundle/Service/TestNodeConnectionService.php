@@ -182,7 +182,6 @@ class TestNodeConnectionService extends ASectionService {
         $ent->setSourceNode($sourceNode);
         $ent->setSourcePort($sourcePort);
         $ent->setAutomatic($obj["automatic"] == "1");
-        $ent->setGlobalId($obj["globalId"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

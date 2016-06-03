@@ -131,7 +131,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "destinationNode" => 4,
                 "destinationPort" => 5,
                 "returnFunction" => "out",
-                "globalId" => null,
                 "automatic" => 0,
                 "sourcePortObject" => array(
                     "class_name" => "TestNodePort",
@@ -141,7 +140,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "string" => "1",
                     "defaultValue" => "1",
                     "variable" => 2,
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 2,
@@ -151,8 +149,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => '0',
                         "value" => '0',
                         "test" => 2,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 "destinationPortObject" => array(
@@ -163,7 +160,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "string" => "1",
                     "defaultValue" => "1",
                     "variable" => 3,
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 3,
@@ -173,8 +169,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => '0',
                         "value" => '0',
                         "test" => 3,
-                        "parentVariable" => null,
-                        "globalId" => null,
+                        "parentVariable" => null
                     )
                 )
             )
@@ -217,7 +212,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "destinationNode" => 4,
             "destinationPort" => null,
             "returnFunction" => "params",
-            "globalId" => null,
             "automatic" => 0,
             "sourcePortObject" => array(
                 "class_name" => "TestNodePort",
@@ -227,7 +221,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "string" => "1",
                 "defaultValue" => "1",
                 "variable" => 5,
-                "globalId" => null,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
                     "id" => 5,
@@ -237,8 +230,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "passableThroughUrl" => '0',
                     "value" => null,
                     "test" => 3,
-                    "parentVariable" => null,
-                    "globalId" => null
+                    "parentVariable" => null
                 )
             ),
             "destinationPortObject" => null
@@ -276,7 +268,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "destinationNode" => 4,
             "destinationPort" => null,
             "returnFunction" => "params",
-            "globalId" => null,
             "automatic" => 0,
             "sourcePortObject" => array(
                 "class_name" => "TestNodePort",
@@ -286,7 +277,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "string" => "1",
                 "defaultValue" => "1",
                 "variable" => 5,
-                "globalId" => null,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
                     "id" => 5,
@@ -296,8 +286,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "passableThroughUrl" => '0',
                     "value" => null,
                     "test" => 3,
-                    "parentVariable" => null,
-                    "globalId" => null
+                    "parentVariable" => null
                 )
             ),
             "destinationPortObject" => null

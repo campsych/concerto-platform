@@ -98,7 +98,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
                 "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[0]["sourceTestObject"],
-                "globalId" => null,
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -108,7 +107,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 1,
                         "value" => '0',
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 1,
@@ -118,8 +116,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => '0',
                             "test" => 1,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     )
                 )
@@ -135,8 +132,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
                 "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[1]["sourceTestObject"],
-                "ports" => array(),
-                "globalId" => null
+                "ports" => array()
             ),
             array(
                 "class_name" => "TestNode",
@@ -149,7 +145,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTestName" => "test_s1",
                 "sourceTestDescription" => "description",
                 "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[2]["sourceTestObject"],
-                "globalId" => null,
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -159,7 +154,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 4,
                         "value" => null,
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 4,
@@ -169,8 +163,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => null,
                             "test" => 2,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     ),
                     array(
@@ -181,7 +174,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 3,
                         "value" => null,
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 3,
@@ -191,8 +183,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => null,
                             "test" => 2,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     ),
                     array(
@@ -203,7 +194,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 2,
                         "value" => "0",
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 2,
@@ -213,8 +203,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => '0',
                             "test" => 2,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     )
                 )
@@ -240,7 +229,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
                 "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[0]["sourceTestObject"],
-                "globalId" => null,
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -250,7 +238,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 1,
                         "value" => '0',
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 1,
@@ -260,7 +247,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => '0',
                             "test" => 1,
-                            "globalId" => null,
                             "parentVariable" => null
                         )
                     )
@@ -277,8 +263,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
                 "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[1]["sourceTestObject"],
-                "ports" => array(),
-                "globalId" => null
+                "ports" => array()
             ),
             array(
                 "class_name" => "TestNode",
@@ -291,7 +276,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTestName" => "test_s1",
                 "sourceTestDescription" => "description",
                 "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[2]["sourceTestObject"],
-                "globalId" => null,
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -301,7 +285,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 4,
                         "value" => null,
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 4,
@@ -311,8 +294,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => null,
                             "test" => 2,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     ),
                     array(
@@ -323,7 +305,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 3,
                         "value" => null,
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 3,
@@ -333,8 +314,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => null,
                             "test" => 2,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     ),
                     array(
@@ -345,7 +325,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "defaultValue" => "1",
                         "variable" => 2,
                         "value" => "0",
-                        "globalId" => null,
                         "variableObject" => array(
                             "class_name" => "TestVariable",
                             "id" => 2,
@@ -355,8 +334,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                             "passableThroughUrl" => "0",
                             "value" => '0',
                             "test" => 2,
-                            "parentVariable" => null,
-                            "globalId" => null
+                            "parentVariable" => null
                         )
                     )
                 )
@@ -405,7 +383,6 @@ class TestNodeControllerTest extends AFunctionalTest {
             "sourceTestName" => "test_s1",
             "sourceTestDescription" => "description",
             "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)["object"]["sourceTestObject"],
-            "globalId" => null,
             "ports" => array(
                 array(
                     "class_name" => "TestNodePort",
@@ -415,7 +392,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "defaultValue" => "1",
                     "variable" => 4,
                     "value" => null,
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 4,
@@ -425,8 +401,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => null,
                         "test" => 2,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 array(
@@ -437,7 +412,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "defaultValue" => "1",
                     "variable" => 3,
                     "value" => null,
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 3,
@@ -447,8 +421,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => null,
                         "test" => 2,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 array(
@@ -459,7 +432,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "defaultValue" => "1",
                     "variable" => 2,
                     "value" => "0",
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 2,
@@ -469,8 +441,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => '0',
                         "test" => 2,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 )
             )
@@ -509,7 +480,6 @@ class TestNodeControllerTest extends AFunctionalTest {
             "sourceTestName" => "test_s1",
             "sourceTestDescription" => "description",
             "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)["object"]["sourceTestObject"],
-            "globalId" => null,
             "ports" => array(
                 array(
                     "class_name" => "TestNodePort",
@@ -519,7 +489,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "defaultValue" => "1",
                     "variable" => 4,
                     "value" => null,
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 4,
@@ -529,7 +498,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => null,
                         "test" => 2,
-                        "globalId" => null,
                         "parentVariable" => null
                     )
                 ),
@@ -541,7 +509,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "defaultValue" => "1",
                     "variable" => 3,
                     "value" => null,
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 3,
@@ -551,7 +518,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => null,
                         "test" => 2,
-                        "globalId" => null,
                         "parentVariable" => null
                     )
                 ),
@@ -563,7 +529,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "defaultValue" => "1",
                     "variable" => 2,
                     "value" => "0",
-                    "globalId" => null,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
                         "id" => 2,
@@ -573,7 +538,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => '0',
                         "test" => 2,
-                        "globalId" => null,
                         "parentVariable" => null
                     )
                 )

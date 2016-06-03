@@ -349,8 +349,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
             "stepTitle" => $this->step->getTitle(),
             "order" => $this->order,
             "wizard" => $this->wizard->getId(),
-            "definition" => $this->definition,
-            "globalId" => $this->globalId
+            "definition" => $this->definition
         );
     }
 

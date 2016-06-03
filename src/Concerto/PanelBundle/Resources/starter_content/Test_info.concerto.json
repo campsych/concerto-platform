@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 22,
-                "parentVariable": 285,
-                "globalId": "1460132367-4002-2865"
+                "parentVariable": 285
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 22,
-                "parentVariable": 286,
-                "globalId": "1460132367-4003-3856"
+                "parentVariable": 286
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": "continue",
                 "test": 22,
-                "parentVariable": 287,
-                "globalId": "1460132367-4004-4789"
+                "parentVariable": 287
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 22,
-                "parentVariable": 288,
-                "globalId": "1460132367-4005-4537"
+                "parentVariable": 288
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 22,
-                "parentVariable": 289,
-                "globalId": "1460132367-4006-4668"
+                "parentVariable": 289
             },
             {
                 "class_name": "TestVariable",
@@ -82,8 +77,7 @@
                 "passableThroughUrl": "0",
                 "value": "1",
                 "test": 22,
-                "parentVariable": 290,
-                "globalId": "1460132367-4007-1165"
+                "parentVariable": 290
             },
             {
                 "class_name": "TestVariable",
@@ -94,8 +88,7 @@
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
                 "test": 22,
-                "parentVariable": 291,
-                "globalId": "1460132367-4008-7221"
+                "parentVariable": 291
             },
             {
                 "class_name": "TestVariable",
@@ -106,8 +99,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                 "test": 22,
-                "parentVariable": 292,
-                "globalId": "1460132367-4009-7434"
+                "parentVariable": 292
             },
             {
                 "class_name": "TestVariable",
@@ -118,8 +110,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 22,
-                "parentVariable": 293,
-                "globalId": "1460132367-4010-7234"
+                "parentVariable": 293
             }
         ],
         "sourceWizard": 11,
@@ -158,8 +149,7 @@
                             "wizard": 11,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1089-2188"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -178,8 +168,7 @@
                             "wizard": 11,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1090-4776"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -198,8 +187,7 @@
                             "wizard": 11,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1091-4500"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -218,11 +206,9 @@
                             "wizard": 11,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1092-3266"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-325-5474"
+                    ]
                 }
             ],
             "test": 21,
@@ -236,7 +222,7 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "decoded_template_def = fromJSON(template_def)\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = \"\"\nif(button_exists == 1) {\n  buttons = paste('<div class=\"button_panel button_panel_info\"><button name=\"button\" class=\"info_button\">',button_label,'<\/button><\/div>',sep=\"\")\n}\n\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer\n)))",
-                "slug": "7d38e7f84fdb1f40ae93bbd500b831b2",
+                "slug": "60abe24160bf68bc4d886ea13ef0e4df",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -250,8 +236,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3993-3670"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -262,8 +247,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3994-8540"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -274,8 +258,7 @@
                         "passableThroughUrl": "0",
                         "value": "continue",
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3995-2494"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -286,8 +269,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3996-7538"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -298,8 +280,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3997-5811"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -310,8 +291,7 @@
                         "passableThroughUrl": "0",
                         "value": "1",
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3998-8103"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -322,8 +302,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3999-8298"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -334,8 +313,7 @@
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-4000-6548"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -346,8 +324,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 21,
-                        "parentVariable": null,
-                        "globalId": "1460132367-4001-2790"
+                        "parentVariable": null
                     }
                 ],
                 "logs": [
@@ -355,8 +332,8 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-05-11 15:43:18",
-                "updatedByName": "admin",
+                "updatedOn": "2016-06-02 18:25:32",
+                "updatedByName": "",
                 "nodes": [
 
                 ],
@@ -364,25 +341,19 @@
 
                 ],
                 "tags": "",
-                "globalId": "1459984402-67-7964",
                 "owner": 1,
                 "groups": "",
-                "revision": 0,
-                "checksum": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_info",
-            "updatedOn": "2016-05-05 18:34:35",
+            "updatedOn": "2016-06-02 18:25:33",
             "updatedByName": "",
-            "globalId": "1459984402-33-2474",
             "owner": 1,
             "groups": "",
-            "revision": 0,
-            "checksum": "",
-            "starterContent": true
+            "starterContent": false
         },
-        "updatedOn": "2016-05-11 15:43:19",
-        "updatedByName": "admin",
+        "updatedOn": "2016-06-02 18:25:34",
+        "updatedByName": "",
         "nodes": [
 
         ],
@@ -390,11 +361,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-68-7957",
         "owner": 1,
         "groups": "",
-        "revision": 29,
-        "checksum": "85a5730d072f6ae0c37db5eb4ba0f047",
         "starterContent": true
     }
 ]

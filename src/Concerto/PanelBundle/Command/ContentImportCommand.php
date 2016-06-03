@@ -15,7 +15,6 @@ class ContentImportCommand extends ContainerAwareCommand {
     protected function configure() {
         $this->setName("concerto:content:import")->setDescription("Imports starter content");
         $this->addArgument("name", InputArgument::OPTIONAL, "Naming rules for imported content", "");
-        $this->addOption("drop-existing", null, InputOption::VALUE_NONE, "Should already existing object be removed before importing new object?");
     }
 
     protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user) {
@@ -66,39 +65,11 @@ class ContentImportCommand extends ContainerAwareCommand {
         $em = $this->getContainer()->get("doctrine")->getManager();
         foreach ($array as $obj) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $obj["class_name"]);
-            if ($repo->findOneBy(array("globalId" => $obj["globalId"])) && $obj["globalId"] !== null) {
+            if ($repo->findOneBy(array("name" => $obj["name"]))) {
                 return false;
             }
         }
         return true;
-    }
-
-    protected function dropStarterContent(InputInterface $input, OutputInterface $output) {
-        $output->writeln("removing existing starter content started");
-
-        $classes = array(
-            "DataTable",
-            "TestWizard",
-            "Test",
-            "ViewTemplate"
-        );
-        $em = $this->getContainer()->get("doctrine")->getManager();
-        $importService = $this->getContainer()->get('concerto_panel.import_service');
-
-        foreach ($classes as $class_name) {
-            $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $collection = $repo->findBy(array("starterContent" => 1));
-            $service = $importService->serviceMap[$class_name];
-            foreach ($collection as $ent) {
-                $obj = $service->get($ent->getId(), false, false);
-                if ($obj) {
-                    $service->delete($obj->getId(), false);
-                    $output->writeln("removed ConcertoPanelBundle:" . $class_name . ":" . $obj->getId() . ":" . $obj->getName());
-                }
-            }
-        }
-
-        $output->writeln("removing existing starter content finished");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
@@ -109,10 +80,6 @@ class ContentImportCommand extends ContainerAwareCommand {
         $user = null;
         if (count($users) > 0) {
             $user = $users[0];
-        }
-
-        if ($input->getOption("drop-existing")) {
-            $this->dropStarterContent($input, $output, $user);
         }
 
         $this->importStarterContent($input, $output, $user);

@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 6,
-                "parentVariable": 51,
-                "globalId": "1460132367-3764-5117"
+                "parentVariable": 51
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": "default_layout",
                 "test": 6,
-                "parentVariable": 52,
-                "globalId": "1460132367-3765-3652"
+                "parentVariable": 52
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 6,
-                "parentVariable": 53,
-                "globalId": "1460132367-3766-9173"
+                "parentVariable": 53
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 6,
-                "parentVariable": 54,
-                "globalId": "1460132367-3767-8210"
+                "parentVariable": 54
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 6,
-                "parentVariable": 55,
-                "globalId": "1460132367-3768-9679"
+                "parentVariable": 55
             }
         ],
         "sourceWizard": 3,
@@ -110,8 +105,7 @@
                             "wizard": 3,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1021-7138"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -130,8 +124,7 @@
                             "wizard": 3,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1022-3633"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -150,11 +143,9 @@
                             "wizard": 3,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1023-5050"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-305-2635"
+                    ]
                 }
             ],
             "test": 5,
@@ -168,7 +159,7 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))",
-                "slug": "72a322cbea88a364eef71a4c5d9bb978",
+                "slug": "13a9536f3100edb56fdf6fd7e62912d5",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -182,8 +173,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 5,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3759-6018"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -194,8 +184,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 5,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3760-4827"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -206,8 +195,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 5,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3761-4170"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -218,8 +206,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 5,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3762-6500"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -230,8 +217,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 5,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3763-1547"
+                        "parentVariable": null
                     }
                 ],
                 "logs": [
@@ -239,7 +225,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-05-05 18:34:24",
+                "updatedOn": "2016-06-02 18:25:09",
                 "updatedByName": "",
                 "nodes": [
 
@@ -248,24 +234,18 @@
 
                 ],
                 "tags": "",
-                "globalId": "1459984402-51-5246",
                 "owner": 1,
                 "groups": "",
-                "revision": 0,
-                "checksum": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_create_template_definition",
-            "updatedOn": "2016-05-05 18:34:24",
+            "updatedOn": "2016-06-02 18:25:09",
             "updatedByName": "",
-            "globalId": "1459984402-25-7171",
             "owner": 1,
             "groups": "",
-            "revision": 0,
-            "checksum": "",
-            "starterContent": true
+            "starterContent": false
         },
-        "updatedOn": "2016-05-05 18:34:24",
+        "updatedOn": "2016-06-02 18:25:10",
         "updatedByName": "",
         "nodes": [
 
@@ -274,11 +254,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-52-7839",
         "owner": 1,
         "groups": "",
-        "revision": 29,
-        "checksum": "98365ffb70f29d237a41a87ec8b6d0db",
         "starterContent": true
     }
 ]

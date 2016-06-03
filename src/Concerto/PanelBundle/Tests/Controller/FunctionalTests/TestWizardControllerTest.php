@@ -101,9 +101,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testObject" => json_decode($client->getResponse()->getContent(), true)[0]["testObject"],
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -116,7 +113,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                         "orderNum" => 0,
                         "wizard" => 1,
                         "colsNum" => 0,
-                        "globalId" => null,
                         "params" => array(
                             array(
                                 "class_name" => "TestWizardParam",
@@ -133,7 +129,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                                 "order" => 0,
                                 "value" => null,
                                 "hideCondition" => "",
-                                "globalId" => null,
                                 "definition" => array(
                                     "placeholder" => 0
                                 )
@@ -204,9 +199,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -241,9 +233,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"],
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -256,7 +245,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                         "orderNum" => 0,
                         "wizard" => 1,
                         "colsNum" => 0,
-                        "globalId" => null,
                         "params" => array(
                             array(
                                 "class_name" => "TestWizardParam",
@@ -273,7 +261,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                                 "order" => 0,
                                 "value" => null,
                                 "hideCondition" => "",
-                                "globalId" => null,
                                 "definition" => array("placeholder" => 0)
                             )
                         )
@@ -311,9 +298,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"],
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -326,7 +310,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                         "orderNum" => 0,
                         "wizard" => 1,
                         "colsNum" => 0,
-                        "globalId" => null,
                         "params" => array(
                             array(
                                 "class_name" => "TestWizardParam",
@@ -343,7 +326,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                                 "order" => 0,
                                 "value" => null,
                                 "hideCondition" => "",
-                                "globalId" => null,
                                 "definition" => array("placeholder" => 0)
                             )
                         )
@@ -386,9 +368,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "accessibility" => AEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",

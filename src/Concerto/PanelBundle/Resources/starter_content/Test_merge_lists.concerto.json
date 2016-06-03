@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4011-9511"
+                "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4012-7700"
+                "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4013-3834"
+                "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4014-4535"
+                "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4015-2983"
+                "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
@@ -82,8 +77,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4016-7888"
+                "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
@@ -94,13 +88,12 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 23,
-                "parentVariable": null,
-                "globalId": "1460132367-4017-6638"
+                "parentVariable": null
             }
         ],
         "sourceWizard": null,
         "sourceWizardObject": null,
-        "updatedOn": "2016-05-05 18:34:37",
+        "updatedOn": "2016-06-02 18:25:35",
         "updatedByName": "",
         "nodes": [
 
@@ -109,11 +102,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-69-9178",
         "owner": 1,
         "groups": "",
-        "revision": 29,
-        "checksum": "551578d1b9ca2d7dc92101693822f88f",
         "starterContent": true
     }
 ]

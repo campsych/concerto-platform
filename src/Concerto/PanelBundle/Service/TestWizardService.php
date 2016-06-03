@@ -144,11 +144,8 @@ class TestWizardService extends AExportableSectionService {
         $ent->setName($formattedName);
         $ent->setTest($test);
         $ent->setDescription($obj["description"]);
-        $ent->setGlobalId($obj["globalId"]);
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
-        $ent->setRevision($obj["revision"]);
-        $ent->setChecksum($obj["checksum"]);
         $ent->setStarterContent($obj["starterContent"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

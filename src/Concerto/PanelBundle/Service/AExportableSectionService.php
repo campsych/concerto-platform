@@ -49,7 +49,6 @@ abstract class AExportableSectionService extends ASectionService {
         if ($name != "") {
             $name = str_replace("{{id}}", $arr['id'], $name);
             $name = str_replace("{{name}}", $arr['name'], $name);
-            $name = str_replace("{{revision}}", $arr['revision'], $name);
             $name = str_replace("{{user_id}}", $user->getId(), $name);
             $name = str_replace("{{user_username}}", $user->getUsername(), $name);
         } else {

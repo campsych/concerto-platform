@@ -2,7 +2,6 @@
     {
         "class_name": "Test",
         "id": 1,
-        "globalId": 0,
         "name": "subtest",
         "description": "\u003Cp\u003E\u003Cspan style=\"font-size:11px\"\u003Easdasd\u003C\/span\u003E\u003C\/p\u003E\n",
         "visibility": 0,
@@ -12,9 +11,6 @@
         "accessibility": 0,
         "protected": 0,
         "resumable": 0,
-        "globalId": null,
-        "revision": 0,
-        "checksum": "",
         "starterContent": false,
         "variables": [
             {
@@ -26,8 +22,7 @@
                 "passableThroughUrl": false,
                 "value": "1",
                 "test": 1,
-                "parentVariable": null,
-                "globalId": null
+                "parentVariable": null
             }, {
                 "class_name": "TestVariable",
                 "id": 2,
@@ -37,8 +32,7 @@
                 "passableThroughUrl": false,
                 "value": "1",
                 "test": 1,
-                "parentVariable": null,
-                "globalId": null
+                "parentVariable": null
             }, {
                 "class_name": "TestVariable",
                 "id": 3,
@@ -48,8 +42,7 @@
                 "passableThroughUrl": true,
                 "value": "100",
                 "test": 1,
-                "parentVariable": null,
-                "globalId": null
+                "parentVariable": null
             }, {
                 "class_name": "TestVariable",
                 "id": 4,
@@ -59,8 +52,7 @@
                 "passableThroughUrl": false,
                 "value": "111",
                 "test": 1,
-                "parentVariable": null,
-                "globalId": null
+                "parentVariable": null
             }
         ],
         "nodes": [],

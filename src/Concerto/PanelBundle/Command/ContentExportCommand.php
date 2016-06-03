@@ -36,28 +36,11 @@ class ContentExportCommand extends ContainerAwareCommand {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
             $collection = $repo->findBy(array("starterContent" => 1));
             foreach ($collection as $ent) {
-                if (strpos($ent->getName(), "source_") === 0) {
-                    continue;
-                }
                 if ($class_name == "DataTable") {
                     $ent = $service->assignColumnCollection(array($ent))[0];
                 }
-                $current_checksum = $ent->getChecksum();
 
                 $arr = $service->entityToArray($ent);
-                $arr_check = $arr;
-                unset($arr_check["checksum"]);
-                unset($arr_check["revision"]);
-
-                $json_check = json_encode($arr_check);
-                $new_checksum = md5($json_check);
-
-                if ($current_checksum !== $new_checksum) {
-                    $ent->incrementRevision();
-                    $ent->setChecksum($new_checksum);
-                    $output->writeln("ConcertoPanelBundle:" . $class_name . ":" . $ent->getId() . ":" . $ent->getName() . " modification detected");
-                    $arr = $service->entityToArray($ent);
-                }
                 $em->persist($ent);
                 $json = json_encode(array($arr), JSON_PRETTY_PRINT);
 
@@ -100,42 +83,10 @@ class ContentExportCommand extends ContainerAwareCommand {
         $em->flush();
     }
 
-    protected function setGlobalIds(InputInterface $input, OutputInterface $output) {
-        $output->writeln("assigning missing global ids");
-
-        $classes = array(
-            "DataTable",
-            "Test",
-            "TestNode",
-            "TestNodeConnection",
-            "TestNodePort",
-            "TestVariable",
-            "TestWizard",
-            "TestWizardParam",
-            "TestWizardStep",
-            "ViewTemplate"
-        );
-
-        $em = $this->getContainer()->get("doctrine")->getManager();
-        foreach ($classes as $class_name) {
-            $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $collection = $repo->findAll();
-            foreach ($collection as $ent) {
-                if ($ent->getGlobalId() === null) {
-                    $ent->setGlobalId();
-                    $em->persist($ent);
-                }
-            }
-        }
-        $em->flush();
-        $output->writeln("finished assigning global ids");
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output) {
         if ($input->getOption("set-protected")) {
             $this->protectStarterContent($input, $output);
         }
-        $this->setGlobalIds($input, $output);
 
         $this->exportStarterContent($input, $output);
     }

@@ -218,13 +218,10 @@ class TestService extends AExportableSectionService {
         $ent->setType($obj["type"]);
         $ent->setCode($obj["code"]);
         $ent->setSourceWizard($wizard);
-        $ent->setGlobalId($obj["globalId"]);
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
         $ent->setResumable($obj["resumable"] == "1");
         $ent->setProtected($obj["protected"] == "1");
-        $ent->setRevision($obj["revision"]);
-        $ent->setChecksum($obj["checksum"]);
         $ent->setStarterContent($obj["starterContent"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

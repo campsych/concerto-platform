@@ -58,8 +58,7 @@ class TestControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => "0",
                         "test" => 1,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 'logs' => array(),
@@ -73,9 +72,6 @@ class TestControllerTest extends AFunctionalTest {
                 "accessibility" => AEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -139,9 +135,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(array(array(
                 'class_name' => 'Test',
                 'id' => 1,
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 'name' => 'test',
                 'description' => 'description',
@@ -169,8 +162,7 @@ class TestControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => "0",
                         "value" => "0",
                         "test" => 1,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 'nodes' => array(),
@@ -243,9 +235,6 @@ class TestControllerTest extends AFunctionalTest {
                 "accessibility" => AEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -261,8 +250,7 @@ class TestControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => '0',
                         "value" => 0,
                         "test" => 2,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 "tags" => ""
@@ -308,9 +296,6 @@ class TestControllerTest extends AFunctionalTest {
                 "accessibility" => AEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -326,8 +311,7 @@ class TestControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => 0,
                         "value" => 0,
                         "test" => 1,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 "tags" => ""
@@ -370,9 +354,6 @@ class TestControllerTest extends AFunctionalTest {
                 "accessibility" => AEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -388,8 +369,7 @@ class TestControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => 0,
                         "value" => 0,
                         "test" => 1,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 "tags" => ""
@@ -432,9 +412,6 @@ class TestControllerTest extends AFunctionalTest {
                 "accessibility" => AEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
-                "globalId" => null,
-                "revision" => 0,
-                "checksum" => "",
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
@@ -450,8 +427,7 @@ class TestControllerTest extends AFunctionalTest {
                         "passableThroughUrl" => '0',
                         "value" => 0,
                         "test" => 2,
-                        "parentVariable" => null,
-                        "globalId" => null
+                        "parentVariable" => null
                     )
                 ),
                 "tags" => ""

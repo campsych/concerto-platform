@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 20,
-                "parentVariable": 235,
-                "globalId": "1460132367-3968-1760"
+                "parentVariable": 235
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer question below:<\/p>\n",
                 "test": 20,
-                "parentVariable": 236,
-                "globalId": "1460132367-3969-1736"
+                "parentVariable": 236
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": "next",
                 "test": 20,
-                "parentVariable": 237,
-                "globalId": "1460132367-3970-4687"
+                "parentVariable": 237
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": "previous",
                 "test": 20,
-                "parentVariable": 238,
-                "globalId": "1460132367-3971-4566"
+                "parentVariable": 238
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"direct\",\"direct_table\":[],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_response_options\":{},\"custom_correct_column\":{},\"custom_trait_column\":{},\"custom_test_id_column\":{}}",
                 "test": 20,
-                "parentVariable": 239,
-                "globalId": "1460132367-3972-7308"
+                "parentVariable": 239
             },
             {
                 "class_name": "TestVariable",
@@ -82,8 +77,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_trait_column\":{},\"custom_correct_column\":{},\"custom_session_id_column\":{},\"custom_time_taken_column\":{}}",
                 "test": 20,
-                "parentVariable": 240,
-                "globalId": "1460132367-3973-2998"
+                "parentVariable": 240
             },
             {
                 "class_name": "TestVariable",
@@ -94,8 +88,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"time_limit\":\"\",\"type\":null}",
                 "test": 20,
-                "parentVariable": 241,
-                "globalId": "1460132367-3974-2672"
+                "parentVariable": 241
             },
             {
                 "class_name": "TestVariable",
@@ -106,8 +99,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"count\":\"\"}",
                 "test": 20,
-                "parentVariable": 242,
-                "globalId": "1460132367-3975-1811"
+                "parentVariable": 242
             },
             {
                 "class_name": "TestVariable",
@@ -118,8 +110,7 @@
                 "passableThroughUrl": "0",
                 "value": "1",
                 "test": 20,
-                "parentVariable": 243,
-                "globalId": "1460132367-3976-6376"
+                "parentVariable": 243
             },
             {
                 "class_name": "TestVariable",
@@ -130,8 +121,7 @@
                 "passableThroughUrl": "0",
                 "value": "random",
                 "test": 20,
-                "parentVariable": 244,
-                "globalId": "1460132367-3977-3684"
+                "parentVariable": 244
             },
             {
                 "class_name": "TestVariable",
@@ -142,8 +132,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 245,
-                "globalId": "1460132367-3978-3765"
+                "parentVariable": 245
             },
             {
                 "class_name": "TestVariable",
@@ -154,8 +143,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 246,
-                "globalId": "1460132367-3979-7068"
+                "parentVariable": 246
             },
             {
                 "class_name": "TestVariable",
@@ -166,8 +154,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 20,
-                "parentVariable": 247,
-                "globalId": "1460132367-3980-3289"
+                "parentVariable": 247
             },
             {
                 "class_name": "TestVariable",
@@ -178,8 +165,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 248,
-                "globalId": "1460132367-3981-1265"
+                "parentVariable": 248
             },
             {
                 "class_name": "TestVariable",
@@ -190,8 +176,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 249,
-                "globalId": "1460132367-3982-6600"
+                "parentVariable": 249
             },
             {
                 "class_name": "TestVariable",
@@ -202,8 +187,7 @@
                 "passableThroughUrl": "0",
                 "value": "1",
                 "test": 20,
-                "parentVariable": 250,
-                "globalId": "1460132367-3983-5023"
+                "parentVariable": 250
             },
             {
                 "class_name": "TestVariable",
@@ -214,8 +198,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 20,
-                "parentVariable": 251,
-                "globalId": "1460132367-3984-5283"
+                "parentVariable": 251
             },
             {
                 "class_name": "TestVariable",
@@ -226,8 +209,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 252,
-                "globalId": "1460132367-3985-5053"
+                "parentVariable": 252
             },
             {
                 "class_name": "TestVariable",
@@ -238,8 +220,7 @@
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
                 "test": 20,
-                "parentVariable": 253,
-                "globalId": "1460132367-3986-3103"
+                "parentVariable": 253
             },
             {
                 "class_name": "TestVariable",
@@ -250,8 +231,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                 "test": 20,
-                "parentVariable": 254,
-                "globalId": "1460132367-3987-8934"
+                "parentVariable": 254
             },
             {
                 "class_name": "TestVariable",
@@ -262,8 +242,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 255,
-                "globalId": "1460132367-3988-6041"
+                "parentVariable": 255
             },
             {
                 "class_name": "TestVariable",
@@ -274,8 +253,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 256,
-                "globalId": "1460132367-3989-3025"
+                "parentVariable": 256
             },
             {
                 "class_name": "TestVariable",
@@ -286,8 +264,7 @@
                 "passableThroughUrl": "0",
                 "value": "vertical",
                 "test": 20,
-                "parentVariable": 257,
-                "globalId": "1460132367-3990-7712"
+                "parentVariable": 257
             },
             {
                 "class_name": "TestVariable",
@@ -298,8 +275,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 258,
-                "globalId": "1460132367-3991-9803"
+                "parentVariable": 258
             },
             {
                 "class_name": "TestVariable",
@@ -310,8 +286,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 20,
-                "parentVariable": 259,
-                "globalId": "1460132367-3992-4998"
+                "parentVariable": 259
             }
         ],
         "sourceWizard": 10,
@@ -350,8 +325,7 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1074-6945"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -370,8 +344,7 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1075-7633"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -402,8 +375,7 @@
                                         "order": 1
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1076-2254"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -422,11 +394,9 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1077-5056"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-321-2864"
+                    ]
                 },
                 {
                     "class_name": "TestWizardStep",
@@ -464,8 +434,7 @@
                                         "label": "random"
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1078-4460"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -656,8 +625,7 @@
                                         "hideCondition": "parent.table_type != \"custom\""
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1079-4881"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -676,8 +644,7 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1080-5829"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -696,8 +663,7 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1081-2589"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -716,8 +682,7 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1082-8782"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -736,11 +701,9 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1083-1759"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-322-6915"
+                    ]
                 },
                 {
                     "class_name": "TestWizardStep",
@@ -799,8 +762,7 @@
                                         "hideCondition": "!parent.type"
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1084-8558"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -835,11 +797,9 @@
                                         "hideCondition": "parent.enabled != \"1\""
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1085-9769"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-323-9349"
+                    ]
                 },
                 {
                     "class_name": "TestWizardStep",
@@ -950,8 +910,7 @@
                                         "hideCondition": "parent.table_type != \"custom\""
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1086-8948"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -970,8 +929,7 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1087-2665"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -990,11 +948,9 @@
                             "wizard": 10,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1088-4389"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-324-3623"
+                    ]
                 }
             ],
             "test": 19,
@@ -1008,7 +964,7 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "decoded_template_def = fromJSON(template_def)\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table\n    question_column = ib$custom_question_column$column\n    response_options_column = ib$custom_response_options_column$column\n    correct_column = ib$custom_correct_column$column\n    trait_column = ib$custom_trait_column$column\n    order_column = ib$custom_order_column$column\n    test_id_column = ib$custom_test_id_column$column\n\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{correct_column}}` AS `correct`, `{{trait_column}}` AS `trait` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}} ORDER BY `{{order_column}}` ASC\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      trait_column=trait_column,\n      order_column=order_column,\n      correct_column=correct_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options)\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] > 0 && order == \"random\") {\n    questions = questions[sample(1:dim(questions)[1]),]\n  }\n\n  return(questions)\n}\n\ngetContent = function(question, current_item, answers) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, question$question)\n  content = paste0(content, getResponseOptions(question, current_item, answers))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question, current_item, answers) {\n  content = \"\"\n  options = NULL\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n\n  if(length(o) > 0) {\n    #response options\n    for(i in 1:length(o)) {\n      options = rbind(options, as.list(o[[i]]))\n    }\n\n    if(randomized_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      checked = \"\"\n      if(!is.null(answers[current_item]) && !is.na(answers[current_item]) && answers[current_item] == option$value) { checked = \"checked\" }\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \",checked,\" \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n  } else {\n    #open question\n    value = \"\"\n    if(!is.null(answers[current_item]) && !is.na(answers[current_item])) { value = answers[current_item] }\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' value='\",value,\"' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, answers, questions, current_item, next_item) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n\n  if((sr_count$enabled == \"1\" && current_item >= as.numeric(sr_count$count)) || next_item > dim(questions)[1]) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, correct, scores, correctness, current_item) {\n  if(is.null(response$response)) { return(scores) }\n\n  table = \"default_linear_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  trait_column = \"trait\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    item_id_column = rb$custom_item_id_column$column\n    response_column = rb$custom_response_column$column\n    time_taken_column = rb$custom_time_taken_column$column\n    session_id_column = rb$custom_session_id_column$column\n    correct_column = rb$custom_correct_column$column\n    trait_column = rb$custom_trait_column$column\n  }\n  session_id = 0\n  if(is.list(session)) { \n    session_id = session$id\n  }\n\n  r = concerto.table.query(\"SELECT `id` FROM `{{table}}` WHERE `{{item_id_column}}`={{item_id}} AND `{{session_id_column}}`={{session_id}}\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id\n  ))\n  if(dim(r)[1] > 0) { \n    rid = r[1,\"id\"]\n    concerto.table.query(\"UPDATE `{{table}}` SET `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{correct_column}}`={{correct}} WHERE `id`={{id}}\", list(\n      table=table,\n      session_id_column=session_id_column,\n      session_id=session_id,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait,\n      id=rid\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_id_column}}`={{session_id}}, `{{correct_column}}`={{correct}}, `{{trait_column}}`='{{trait}}'\", list(\n      table=table,\n      session_id_column=session_id_column,\n      session_id=session_id,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait\n    ))\n  }\n\n  if(is.null(scores[[question$trait]])) {\n    scores[[question$trait]] = 0\n  }\n\n  if(!is.null(correctness[current_item]) && !is.na(correctness[current_item])) { \n    prev_correct = correctness[current_item] \n    scores[[question$trait]] = scores[[question$trait]] - prev_correct\n  }\n\n  scores[[question$trait]] = scores[[question$trait]] + correct\n  return(scores)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\nquestions = getQuestions()\nrb = fromJSON(response_bank)\nanswers = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { \n  time_limit = as.numeric(sr_time$time_limit) \n}\nif(time_limit > 0) { timer_set = TRUE }\nscores = list()\ncorrectness = NULL\nmax_items = dim(questions)[1]\nsr_item_count = fromJSON(stopping_item_count)\nif(sr_item_count$enabled == \"1\") { max_items = min(max_items, as.numeric(sr_item_count$count)) }\n\ncurrent_item = 1\nwhile(T) {\n  buttons = \"<div class='button_panel button_panel_linear'>\"\n  if(current_item > 1 && can_go_back == \"1\" && item_debug == \"0\") {\n    buttons = paste0(buttons, \"<button name='previous' class='linear_test_button'>\",previous_button_label,\"<\/button>\")\n  }\n  if(dim(questions)[1] > 1 && item_debug == \"0\") {\n    buttons = paste0(buttons, current_item,\"\/\",max_items)\n  }\n  if(current_item <= dim(questions)[1] || item_debug == \"1\") {\n    buttons = paste0(buttons, \"<button name='next' class='linear_test_button'>\",next_button_label,\"<\/button>\")\n  }\n  buttons = paste0(buttons,'<\/div>')\n\n  question = questions[current_item,]\n  content = getContent(question, current_item, answers)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n\n    if(!is.null(response$response) || response$isTimeout == \"1\") {\n      correct = 0\n      if(is.null(response$response)) { response$response = \"\" }\n      if(response$response == question$correct) { correct = 1 }\n      scores = saveResponse(response, question, rb, correct, scores, correctness, current_item)\n      if(length(answers) < current_item) {\n        answers = c(answers, response$response)\n        correctness = c(correctness, correct)\n      } else {\n        answers[current_item] = response$response\n        correctness[current_item] = correct\n      }\n    }\n\n    prev_item = current_item\n    if(response$buttonPressed == \"next\" || response$isTimeout == \"1\") {\n      if(response_required == \"0\" || (!is.null(response$response) && response$response != \"\") || response$isTimeout == \"1\") {\n        current_item = current_item + 1\n        if(timer_set && sr_time$type == \"item\"){\n          time_limit = as.numeric(sr_time$time_limit) \n        }\n      } else {\n        warning_msg = no_response_alert\n      }\n    }\n    if(response$buttonPressed == \"previous\") {\n      current_item = current_item - 1\n      if(timer_set && sr_time$type == \"item\"){\n        time_limit = as.numeric(sr_time$time_limit) \n      }\n    }\n\n    if(shouldStop(response, answers, questions, prev_item, current_item)) {\n      if(response$isTimeout == \"1\") {\n        .branch = \"out_of_time\"\n      }\n      break\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nrm(questions)",
-                "slug": "0653553726d7e8c359eb9d8ca188c2c5",
+                "slug": "715033e1faecbd9e735ab978826808e0",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -1022,8 +978,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3943-8105"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1034,8 +989,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3944-4503"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1046,8 +1000,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3945-4378"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1058,8 +1011,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3946-2012"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1070,8 +1022,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3947-2954"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1082,8 +1033,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3948-1691"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1094,8 +1044,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3949-9605"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1106,8 +1055,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3950-7499"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1118,8 +1066,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3951-9532"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1130,8 +1077,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3952-2734"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1142,8 +1088,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3953-5018"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1154,8 +1099,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3954-8453"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1166,8 +1110,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3955-8079"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1178,8 +1121,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3956-4650"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1190,8 +1132,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3957-1987"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1202,8 +1143,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3958-9922"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1214,8 +1154,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3959-8778"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1226,8 +1165,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3960-4762"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1238,8 +1176,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3961-2972"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1250,8 +1187,7 @@
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3962-5957"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1262,8 +1198,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3963-8737"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1274,8 +1209,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3964-7496"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1286,8 +1220,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3965-4867"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1298,8 +1231,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3966-7270"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1310,8 +1242,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 19,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3967-6608"
+                        "parentVariable": null
                     }
                 ],
                 "logs": [
@@ -1319,8 +1250,8 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-05-31 16:33:41",
-                "updatedByName": "admin",
+                "updatedOn": "2016-06-02 18:25:26",
+                "updatedByName": "",
                 "nodes": [
 
                 ],
@@ -1328,25 +1259,19 @@
 
                 ],
                 "tags": "",
-                "globalId": "1459984402-65-5592",
                 "owner": 1,
                 "groups": "",
-                "revision": 0,
-                "checksum": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_linear_test",
-            "updatedOn": "2016-05-31 16:22:23",
-            "updatedByName": "admin",
-            "globalId": "1459984402-32-6701",
+            "updatedOn": "2016-06-02 18:25:28",
+            "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "revision": 0,
-            "checksum": "",
-            "starterContent": true
+            "starterContent": false
         },
-        "updatedOn": "2016-05-31 16:33:41",
-        "updatedByName": "admin",
+        "updatedOn": "2016-06-02 18:25:30",
+        "updatedByName": "",
         "nodes": [
 
         ],
@@ -1354,11 +1279,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-66-8595",
         "owner": 1,
         "groups": "",
-        "revision": 30,
-        "checksum": "c20e030efa96fbd4c78524fc94dd801a",
         "starterContent": true
     }
 ]

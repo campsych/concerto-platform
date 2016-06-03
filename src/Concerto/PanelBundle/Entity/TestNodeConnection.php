@@ -217,7 +217,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
             "destinationPort" => $this->destinationPort ? $this->destinationPort->getId() : null,
             "destinationPortObject" => $this->destinationPort,
             "returnFunction" => $this->returnFunction,
-            "globalId" => $this->globalId,
             "automatic" => $this->automatic ? "1" : "0"
         );
     }

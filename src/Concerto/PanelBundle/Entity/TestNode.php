@@ -280,7 +280,6 @@ class TestNode extends AEntity implements \JsonSerializable {
             "sourceTestName" => $this->sourceTest->getName(),
             "sourceTestDescription" => $this->sourceTest->getDescription(),
             "ports" => $this->getPorts()->toArray(),
-            "globalId" => $this->globalId
         );
     }
 }

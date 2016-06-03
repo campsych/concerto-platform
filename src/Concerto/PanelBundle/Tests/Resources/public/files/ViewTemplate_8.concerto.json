@@ -1,15 +1,11 @@
 [{
         "class_name": "ViewTemplate",
         "id": 8,
-        "globalId": 0,
         "name": "some_template",
         "description": "",
         "accessibility": 0,
         "protected": 0,
         "head": "",
         "html": "\u003Cp\u003Eexample html\u003C\/p\u003E\n",
-        "globalId": null,
-        "revision": 0,
-        "checksum": "",
         "starterContent": false
     }]

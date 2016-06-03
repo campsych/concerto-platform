@@ -51,20 +51,6 @@ abstract class ATopEntity extends AEntity {
      * @ORM\Column(type="boolean")
      */
     protected $starterContent;
-    
-    /**
-     *
-     * @var integer
-     * @ORM\Column(type="integer")
-     */
-    protected $revision;
-    
-    /**
-     *
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $checksum;
 
     public function __construct() {
         parent::__construct();
@@ -74,8 +60,6 @@ abstract class ATopEntity extends AEntity {
         $this->archived = false;
         $this->protected = false;
         $this->starterContent = false;
-        $this->revision = 0;
-        $this->checksum = "";
     }
 
     /**
@@ -175,55 +159,6 @@ abstract class ATopEntity extends AEntity {
      */
     public function isStarterContent() {
         return $this->starterContent;
-    }
-    
-    /**
-     * Set revision
-     *
-     * @param integer $revision
-     */
-    public function setRevision($revision) {
-        $this->revision = $revision;
-
-        return $this;
-    }
-    
-    /**
-     * Increment revision
-     */
-    public function incrementRevision() {
-        $this->revision++;
-
-        return $this;
-    }
-
-    /**
-     * Get revision
-     *
-     * @return integer 
-     */
-    public function getRevision() {
-        return $this->revision;
-    }
-    
-    /**
-     * Set checksum
-     *
-     * @param string $checksum
-     */
-    public function setChecksum($checksum) {
-        $this->checksum = $checksum;
-
-        return $this;
-    }
-
-    /**
-     * Get checksum
-     *
-     * @return string 
-     */
-    public function getChecksum() {
-        return $this->checksum;
     }
 
     /**

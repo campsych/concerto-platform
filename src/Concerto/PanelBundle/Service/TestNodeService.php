@@ -160,7 +160,6 @@ class TestNodeService extends ASectionService {
         $ent->setPosY($obj["posY"]);
         $ent->setSourceTest($sourceTest);
         $ent->setType($obj["type"]);
-        $ent->setGlobalId($obj["globalId"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

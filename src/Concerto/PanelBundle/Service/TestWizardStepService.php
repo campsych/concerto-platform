@@ -104,7 +104,6 @@ class TestWizardStepService extends ASectionService {
         $ent->setOrderNum($obj["orderNum"]);
         $ent->setTitle($obj["title"]);
         $ent->setWizard($wizard);
-        $ent->setGlobalId($obj["globalId"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

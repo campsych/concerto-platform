@@ -581,11 +581,8 @@ class Test extends ATopEntity implements \JsonSerializable {
             "nodes" => $this->getNodes()->toArray(),
             "nodesConnections" => $this->getNodesConnections()->toArray(),
             "tags" => $this->tags,
-            "globalId" => $this->globalId,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
-            "revision" => $this->revision,
-            "checksum" => $this->checksum,
             "starterContent" => $this->starterContent
         );
     }

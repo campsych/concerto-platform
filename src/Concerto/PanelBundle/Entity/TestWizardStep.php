@@ -210,8 +210,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
             "orderNum" => $this->orderNum,
             "colsNum" => $this->colsNum,
             "wizard" => $this->wizard->getId(),
-            "params" => $this->params->toArray(),
-            "globalId" => $this->globalId
+            "params" => $this->params->toArray()
         );
     }
 }

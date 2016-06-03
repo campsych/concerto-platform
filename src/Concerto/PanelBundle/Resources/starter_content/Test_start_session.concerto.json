@@ -22,8 +22,7 @@
                 "passableThroughUrl": "0",
                 "value": "0",
                 "test": 2,
-                "parentVariable": 1,
-                "globalId": "1460132367-3725-2924"
+                "parentVariable": 1
             },
             {
                 "class_name": "TestVariable",
@@ -34,8 +33,7 @@
                 "passableThroughUrl": "0",
                 "value": "<p>Please log in:<\/p>\n",
                 "test": 2,
-                "parentVariable": 2,
-                "globalId": "1460132367-3726-6724"
+                "parentVariable": 2
             },
             {
                 "class_name": "TestVariable",
@@ -46,8 +44,7 @@
                 "passableThroughUrl": "0",
                 "value": "Authorization failed!",
                 "test": 2,
-                "parentVariable": 3,
-                "globalId": "1460132367-3727-2238"
+                "parentVariable": 3
             },
             {
                 "class_name": "TestVariable",
@@ -58,8 +55,7 @@
                 "passableThroughUrl": "0",
                 "value": "log in",
                 "test": 2,
-                "parentVariable": 4,
-                "globalId": "1460132367-3728-2068"
+                "parentVariable": 4
             },
             {
                 "class_name": "TestVariable",
@@ -70,8 +66,7 @@
                 "passableThroughUrl": "0",
                 "value": "table",
                 "test": 2,
-                "parentVariable": 5,
-                "globalId": "1460132367-3729-8701"
+                "parentVariable": 5
             },
             {
                 "class_name": "TestVariable",
@@ -82,8 +77,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 2,
-                "parentVariable": 6,
-                "globalId": "1460132367-3730-5872"
+                "parentVariable": 6
             },
             {
                 "class_name": "TestVariable",
@@ -94,8 +88,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"direct_table\":[],\"custom_table\":\"\",\"custom_login_column\":{},\"custom_password_column\":{},\"custom_encryption_column\":{},\"custom_test_id_column\":{}}",
                 "test": 2,
-                "parentVariable": 7,
-                "globalId": "1460132367-3731-1482"
+                "parentVariable": 7
             },
             {
                 "class_name": "TestVariable",
@@ -106,8 +99,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 2,
-                "parentVariable": 8,
-                "globalId": "1460132367-3732-6719"
+                "parentVariable": 8
             },
             {
                 "class_name": "TestVariable",
@@ -118,8 +110,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_user_id_login\":{\"table\":null},\"custom_test_id_column\":{}}",
                 "test": 2,
-                "parentVariable": 9,
-                "globalId": "1460132367-3733-1946"
+                "parentVariable": 9
             },
             {
                 "class_name": "TestVariable",
@@ -130,8 +121,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 2,
-                "parentVariable": 10,
-                "globalId": "1460132367-3734-7152"
+                "parentVariable": 10
             },
             {
                 "class_name": "TestVariable",
@@ -142,8 +132,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 2,
-                "parentVariable": 11,
-                "globalId": "1460132367-3735-8626"
+                "parentVariable": 11
             },
             {
                 "class_name": "TestVariable",
@@ -154,8 +143,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"registration_button_label\":\"registration\",\"layout\":\"default_layout\",\"header\":\"<p><strong>Welcome to demo test<\/strong><\/p>\",\"paragraph\":\"<p>Please fill the form below to register:<\/p>\\n\",\"login_label\":\"Login\",\"login_alert\":\"You need to enter your login!\",\"password_label\":\"Password\",\"password_alert\":\"You need to enter your password!\",\"password_confirmation_label\":\"Password confirmation\",\"password_confirmation_alert\":\"Password and password confirmation must match!\",\"email_label\":\"Email\",\"email_alert\":\"You need to enter your email!\",\"form_button_label\":\"register\",\"login_exists_alert\":\"Login already exists!\",\"email_confirmation\":\"0\",\"ec_smtp\":{\"host\":\"aspmx.l.google.com\",\"port\":\"25\"},\"ec_page\":{\"layout\":\"default_layout\",\"header\":\"<p><strong>Email confirmation<\/strong><\/p>\\n\",\"paragraph\":\"<p>Email has been sent to the email address specified. Please check your inbox.<\/p>\\n\",\"content\":\"<p>Email has been sent to the address specified. Please check your inbox.<\/p>\\n\"},\"ec_email\":{\"sender\":\"no-reply@domain.com\",\"subject\":\"Email confirmation\",\"paragraph\":\"<p>Please follow the link below:<\/p>\\n\",\"url\":\"http:\/\/domain.com\/test\/slug\/start?ecuid={{ecuid}}\"},\"ec_request_page\":{\"layout\":\"default_layout\",\"header\":\"<p>Email confirmation<\/p>\\n\",\"content\":\"<p>Confirmation email has been sent to address specified. Please check your inbox.<\/p>\\n\"},\"ec_successful_page\":{\"layout\":\"default_layout\",\"header\":\"<p>Email confirmation<\/p>\\n\",\"content\":\"<p>Email confirmation has been successfuly completed.<\/p>\\n\"},\"info_test\":\"info\",\"form_test\":\"form\",\"title\":\"Registration\"}",
                 "test": 2,
-                "parentVariable": 12,
-                "globalId": "1460132367-3736-4093"
+                "parentVariable": 12
             },
             {
                 "class_name": "TestVariable",
@@ -166,8 +154,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 2,
-                "parentVariable": 13,
-                "globalId": "1460132367-3737-7026"
+                "parentVariable": 13
             },
             {
                 "class_name": "TestVariable",
@@ -178,8 +165,7 @@
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
                 "test": 2,
-                "parentVariable": 14,
-                "globalId": "1460132367-3738-7886"
+                "parentVariable": 14
             },
             {
                 "class_name": "TestVariable",
@@ -190,8 +176,7 @@
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                 "test": 2,
-                "parentVariable": 15,
-                "globalId": "1460132367-3739-6848"
+                "parentVariable": 15
             },
             {
                 "class_name": "TestVariable",
@@ -202,8 +187,7 @@
                 "passableThroughUrl": "0",
                 "value": null,
                 "test": 2,
-                "parentVariable": 16,
-                "globalId": "1460132367-3740-5297"
+                "parentVariable": 16
             }
         ],
         "sourceWizard": 1,
@@ -279,11 +263,9 @@
                                         "hideCondition": "parent.table_type != \"custom\""
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1009-1918"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-301-9429"
+                    ]
                 },
                 {
                     "class_name": "TestWizardStep",
@@ -311,8 +293,7 @@
                             "wizard": 1,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1010-3930"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -331,8 +312,7 @@
                             "wizard": 1,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1011-8663"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -351,8 +331,7 @@
                             "wizard": 1,
                             "definition": {
                                 "placeholder": "0"
-                            },
-                            "globalId": "1460132367-1012-8630"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -377,8 +356,7 @@
                                         "label": "user table"
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1013-3733"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -555,8 +533,7 @@
                                         "hideCondition": "parent.table_type != \"custom\""
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1014-3661"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -877,8 +854,7 @@
                                         "hideCondition": "parent.enabled == \"0\""
                                     }
                                 ]
-                            },
-                            "globalId": "1460132367-1015-2301"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
@@ -897,11 +873,9 @@
                             "wizard": 1,
                             "definition": {
                                 "placeholder": 0
-                            },
-                            "globalId": "1460132367-1016-2274"
+                            }
                         }
-                    ],
-                    "globalId": "1460132367-302-4771"
+                    ]
                 }
             ],
             "test": 1,
@@ -915,7 +889,7 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "library(digest)\n\ndecoded_template_def = fromJSON(template_def)\n\ngetContent = function() {\n  content = paragraph\n\n  if(!is.na(type) && type == \"table\") {\n    content = paste(content, \"<div class='formField'><label for='login'>login<\/label><br\/><input type='text' name='login' id='login' \/><\/div>\",sep=\"\")\n    content = paste(content, \"<div class='formField'><label for='password'>password<\/label><br\/><input type='password' name='password' id='password' \/><\/div>\",sep=\"\")\n  }\n\n  return(content)\n}\n\nauthorizeUser = function(response) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"direct\") {\n      users = ub$direct_table\n      if(length(users) > 0) {\n        for(i in 1:length(users)) {\n          user = users[[i]]\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE test_id = {{id}}\", list(id=concerto$mainTest$id))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = as.list(users[i,])\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{test_column}} = {{id}}\", list(table=ub$custom_table, test_column=ub$custom_test_id_column$column, id=concerto$mainTest$id))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = list(\n            id=users[i, \"id\"],\n            login=users[i, ub$custom_login_column$column],\n            password=users[i, ub$custom_password_column$column],\n            encryption=users[i, ub$custom_encryption_column$column],\n            email=users[i,ub$custom_email_column$column],\n            enabled=users[i, ub$custom_enabled_column$column]\n          )\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    }\n  }\n  return(NULL)\n}\n\ncreateSession = function(user) {\n  sb = fromJSON(session_bank)\n  user_id = NULL\n  if(!is.null(user)) { user_id = user$id }\n\n  if(sb$table_type == \"default\") {\n    concerto.table.query(\"INSERT INTO `default_session_table` SET `test_id` = {{test_id}}, `user_id` = '{{user_id}}'\", list(test_id=concerto$mainTest$id, user_id=user_id))\n  } \n  if(sb$table_type == \"custom\") {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{test_id_column}}` = {{test_id}}, `{{user_id_column}}` = '{{user_id}}'\", list(table=sb$custom_table, test_id_column=sb$custom_test_id_column$column, test_id=concerto$mainTest$id, user_id_column=sb$custom_user_id_column$column, user_id=user_id, ))\n  }\n  return(list(id=concerto.table.lastInsertId(), test_id=concerto$mainTest$id, user_id=user_id))\n}\n\ndoesLoginExists = function(login) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE test_id = {{id}} AND login = '{{login}}'\", list(\n        id=concerto$mainTest$id,\n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{test_column}} = {{id}} AND {{login_column}} = '{{login}}'\", list(\n        table=ub$custom_table, \n        test_column=ub$custom_test_id_column$column, \n        id=concerto$mainTest$id,\n        login_column=ub$custom_login_column$column, \n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    }\n  }\n  return(FALSE)\n}\n\ncreateNewUser = function(login, password, email, enabled) {\n  ub = fromJSON(user_bank)\n  encryption = \"sha1\"\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"INSERT INTO default_user_table SET test_id={{id}}, login='{{login}}', password='{{password}}', encryption='{{encryption}}', email='{{email}}', enabled='{{enabled}}'\", list(\n        id=concerto$mainTest$id,\n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"INSERT INTO {{table}} SET {{test_column}}={{id}}, {{login_column}}='{{login}}', {{password_column}}='{{password}}', {{encryption_column}}='{{encryption}}', {{email_column}}='{{email}}', {{enabled_column}}='{{enabled}}'\", list(\n        table=ub$custom_table, \n        test_column=ub$custom_test_id_column$column, \n        id=concerto$mainTest$id,\n        login_column=ub$custom_login_column$column, \n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password_column=ub$custom_password_column$column, \n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption_column=ub$custom_encryption_column$column, \n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email_column=ub$custom_email_column$column, \n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled_column=ub$custom_enabled_column$column, \n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    }\n    return(concerto.table.lastInsertId())\n  }\n  return(NULL)\n}\n\nsendConfirmationMail = function(uid, email, smtp_host, smtp_port, sender, subject, paragraph, url){\n  library(mailR)\n\n  url = concerto.template.insertParams(url, params=list(ecuid=uid))\n  recipients = c(email)\n  body = paste0(paragraph, \"<p><a href='\",url,\"'>\",url,\"<\/a><\/p>\")\n\n  send.mail(\n    from = sender,\n    to = recipients,\n    subject = subject,\n    body = body,\n    smtp = list(host.name = smtp_host, port = smtp_port),\n    html = TRUE, \n    inline = TRUE,\n    authenticate = FALSE,\n    send = TRUE\n  )\n}\n\nenableUser = function(uid) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"UPDATE default_user_table SET enabled='{{enabled}}' WHERE test_id={{test_id}} AND id={{id}}\", list(\n        enabled=1,\n        test_id=concerto$mainTest$id,\n        id=uid\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"UPDATE {{table}} SET {{enabled_column}}='{{enabled}}' WHERE {{test_column}}={{test_id}} AND id={{id}}'\", list(\n        table=ub$custom_table, \n        enabled_column=ub$custom_enabled_column$column, \n        enabled=1,\n        test_column=ub$custom_test_id_column$column, \n        test_id=concerto$mainTest$id,\n        id=uid\n      ))\n    }\n  }\n}\n\nreg = fromJSON(registration)\n#email confirmation\nif(!is.na(ecuid) && !is.null(ecuid) && ecuid != \"\"){\n  enableUser(ecuid)\n  concerto.test.run(reg$info_test, params=list(\n    template=decoded_template_def$layout,\n    header=decoded_template_def$header,\n    title=reg$ec_successful_page$title,\n    content=reg$ec_successful_page$content,\n    footer=decoded_template_def$footer,\n    button_exists=\"0\"\n  ))\n}\n\nuser = NULL\nemail_confirmation = FALSE\nif(!is.na(type) && type==\"table\") {\n  buttons = paste0('<button name=\"login\">',button_label,'<\/button>')\n  if(reg$enabled == \"1\") {\n    buttons = paste0(buttons, '<button name=\"register\">',reg$registration_button_label,'<\/button>')\n  }\n  warning_msg = NULL\n  response = NULL\n  while(T) {\n    content = getContent()\n    response = concerto.template.show(decoded_template_def$layout, params=list(\n      header=decoded_template_def$header, \n      title=title, \n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    ))  \n    if(response$buttonPressed == \"login\") {\n      user = authorizeUser(response)\n      if(is.null(user)) {\n        warning_msg = paste(\"<div>\",failed_alert,\"<\/div>\",sep=\"\")\n      } else {\n        break\n      }\n    }\n    if(response$buttonPressed == \"register\") {\n      reg_warning_msg = NULL\n      result = NULL\n      while(T) {\n        result = concerto.test.run(reg$form_test, params=list(\n          template=decoded_template_def$layout,\n          header=decoded_template_def$header,\n          title=reg$title, \n          paragraph=reg$paragraph,\n          footer=decoded_template_def$footer,\n          form=toJSON(\n            list(\n              list(name=\"login\", definition=list(type=\"singleline\"), label=reg$login_label, validation=\"login!=''\", alert=reg$login_alert),\n              list(name=\"password\", definition=list(type=\"password\"), label=reg$password_label, validation=\"password!=''\", alert=reg$password_alert),\n              list(name=\"password_confirmation\", definition=list(type=\"password\"), label=reg$password_confirmation_label, validation=\"password==password_confirmation\", alert=reg$password_confirmation_alert),\n              list(name=\"email\", definition=list(type=\"singleline\"), label=reg$email_label, validation=\"email!=''\", alert=reg$email_alert)\n            )\n          ),\n          warning_msg = reg_warning_msg,\n          button_label=reg$form_button_label\n        ));\n\n        if(!doesLoginExists(result$response$login)) {\n          break\n        } else {\n          reg_warning_msg = reg$login_exists_alert\n        }\n      }\n      email_confirmation = reg$email_confirmation == \"1\"\n      enabled = \"1\"\n      if(email_confirmation) { \n        enabled == \"0\" \n      }\n      uid = createNewUser(result$response$login, result$response$password, result$response$email, enabled)\n      if(email_confirmation) { \n        sendConfirmationMail(uid, result$response$email, reg$ec_smtp$host, reg$ec_smtp$port, reg$ec_email$sender, reg$ec_email$subject, reg$ec_email$paragraph, reg$ec_email$url)\n        concerto.test.run(reg$info_test, params=list(\n          template=decoded_template_def$layout,\n          header=decoded_template_def$header,\n          title=reg$ec_request_page$title,\n          content=reg$ec_request_page$content,\n          footer=decoded_template_def$footer,\n          button_exists=\"0\"\n        ))\n      }\n      user = authorizeUser(list(login=result$response$login, result$response$password))\n      break\n    }\n  }\n}\n\nsession = createSession(user)",
-                "slug": "dd3207f6f39ec5c1835724da27b952cd",
+                "slug": "f94f09e83c8efc2c05dca7f22e3e391c",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -929,8 +903,7 @@
                         "passableThroughUrl": "0",
                         "value": "0",
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3709-8270"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -941,8 +914,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3710-9250"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -953,8 +925,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3711-4254"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -965,8 +936,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3712-6829"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -977,8 +947,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3713-4498"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -989,8 +958,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3714-7760"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1001,8 +969,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3715-8674"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1013,8 +980,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3716-3956"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1025,8 +991,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3717-4513"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1037,8 +1002,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3718-4357"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1049,8 +1013,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3719-3936"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1061,8 +1024,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3720-2929"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1073,8 +1035,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3721-9545"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1085,8 +1046,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3722-5496"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1097,8 +1057,7 @@
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3723-6094"
+                        "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
@@ -1109,8 +1068,7 @@
                         "passableThroughUrl": "0",
                         "value": null,
                         "test": 1,
-                        "parentVariable": null,
-                        "globalId": "1460132367-3724-4354"
+                        "parentVariable": null
                     }
                 ],
                 "logs": [
@@ -1118,7 +1076,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-05-05 18:34:23",
+                "updatedOn": "2016-06-02 18:25:08",
                 "updatedByName": "",
                 "nodes": [
 
@@ -1127,24 +1085,18 @@
 
                 ],
                 "tags": "",
-                "globalId": "1459984402-47-8263",
                 "owner": 1,
                 "groups": "",
-                "revision": 0,
-                "checksum": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_start_session",
-            "updatedOn": "2016-05-05 18:34:23",
+            "updatedOn": "2016-06-02 18:25:08",
             "updatedByName": "",
-            "globalId": "1459984402-23-8737",
             "owner": 1,
             "groups": "",
-            "revision": 0,
-            "checksum": "",
-            "starterContent": true
+            "starterContent": false
         },
-        "updatedOn": "2016-05-05 18:34:23",
+        "updatedOn": "2016-06-02 18:25:08",
         "updatedByName": "",
         "nodes": [
 
@@ -1153,11 +1105,8 @@
 
         ],
         "tags": "_concerto_core",
-        "globalId": "1459984402-48-6791",
         "owner": 1,
         "groups": "",
-        "revision": 30,
-        "checksum": "2462913265fc838666a2a2bf6440d0a9",
         "starterContent": true
     }
 ]
