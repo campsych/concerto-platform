@@ -1,0 +1,377 @@
+[
+    {
+        "class_name": "Test",
+        "id": 30,
+        "name": "random_branch",
+        "accessibility": 0,
+        "protected": "1",
+        "archived": "0",
+        "visibility": 0,
+        "type": 1,
+        "code": "#Error Catching because of input types\nif (is.na(as.numeric(number_branches))) { #if it can't convert it to numeric it sets it as NA, so we need to look for that\n  stop(paste0(\"random_branch Node Error: number_branches is not numeric. Please enter an integer between 1 and 8. number_branches is set to: \", number_branches))\n}\nif (is.na(as.numeric(branch_chosen))) { #if it can't convert it to numeric it sets it as NA, so we need to look for that\n  stop(paste0(\"random_branch Node Error: branch_chosen is not numeric. Please enter an integer between 1 and 8. Alternatively, if you want to let it choose the branch randomly then leave it as the default of 0. branch_chosen is set to: \", branch_chosen))\n}\nnumber_branches = as.numeric(number_branches) #can't simply use tryCatch because as.numeric doesn't return an error; if it fails it sets it to NA\nbranch_chosen = as.numeric(branch_chosen)\n\nif (number_branches > 8 | number_branches < 1 | number_branches != as.integer(number_branches)) { #Notice that I let it be 1 still, although it's obviously pointless to have it choose a random branch between 1 and 1\n  stop(paste0(\"random_branch Node Error: number_branches is not an integer between 1 and 8. number_branches is set to: \", number_branches))\n}\nif (number_branches == 1) { #Give a warning if number_branches == 1\n  print(\"random_branch Node Warning: number_branches is set to 1. This will choose a random number between 1 and 1. So it's rather pointless!\")\n}\nif (branch_chosen > 8 | branch_chosen < 0 | branch_chosen != as.integer(branch_chosen)) {\n  stop(paste0(\"random_branch Node Error: branch_chosen is not an integer between 1 and 8. Alternatively, if you want to let it choose the branch randomly, then leave it as the default of 0. branch_chosen is set to: \", branch_chosen))\n}\n  \n\nif (as.numeric(branch_chosen) == 0) { #user did not set return branch from outside, so choose branch randomly\n  random_number = sample(1:number_branches, 1)\n  .branch = paste0(\"branch_\", random_number)\n  branch_chosen = random_number\n} else { #user already told us what branch to use\n  .branch = paste0(\"branch_\", branch_chosen)\n}\n\nprint(paste0(\".branch = \", .branch)) #for bug checking",
+        "resumable": "0",
+        "outdated": "0",
+        "description": "<p>Chooses a random branch to send the user down (up to 8 branches). Good for randomly putting the user into a certain experimental condition.<\/p>\n",
+        "variables": [
+            {
+                "class_name": "TestVariable",
+                "id": 358,
+                "name": "number_branches",
+                "type": 0,
+                "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": "8",
+                "test": 30,
+                "parentVariable": 322
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 359,
+                "name": "branch_chosen",
+                "type": 0,
+                "description": "<p>By default the branch will be chosen randomly. If you want to override that behaviour and set the branch using a variable from elsewhere then you can enter it here. It should be an integer between 1 and 8. If you want to keep the default random behaviour then set it to 0.<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 30,
+                "parentVariable": 323
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 360,
+                "name": ".branch",
+                "type": 1,
+                "description": "<p>The branch chosen. Will be a character string like so: &quot;branch_1&quot; until &quot;branch_8&quot;<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 324
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 361,
+                "name": "branch_1",
+                "type": 2,
+                "description": "<p>Branch 1<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 325
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 362,
+                "name": "branch_2",
+                "type": 2,
+                "description": "<p>Branch 2<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 326
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 363,
+                "name": "branch_3",
+                "type": 2,
+                "description": "<p>Branch 3<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 327
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 364,
+                "name": "branch_4",
+                "type": 2,
+                "description": "<p>Branch 4<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 328
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 365,
+                "name": "branch_5",
+                "type": 2,
+                "description": "<p>Branch 5<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 329
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 366,
+                "name": "branch_6",
+                "type": 2,
+                "description": "<p>Branch 6<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 330
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 367,
+                "name": "branch_7",
+                "type": 2,
+                "description": "<p>Branch 7<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 331
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 368,
+                "name": "branch_8",
+                "type": 2,
+                "description": "<p>Branch 8<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 332
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 369,
+                "name": "branch_chosen",
+                "type": 1,
+                "description": "<p>An integer between 1 and 8 representing the branch chosen.<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 30,
+                "parentVariable": 333
+            }
+        ],
+        "sourceWizard": 13,
+        "sourceWizardObject": {
+            "class_name": "TestWizard",
+            "id": 13,
+            "name": "random_branch",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 27,
+                    "title": "How many branches?",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 13,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 86,
+                            "label": "Number of branches",
+                            "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "8",
+                            "testVariable": 322,
+                            "name": "number_branches",
+                            "wizardStep": 27,
+                            "stepTitle": "How many branches?",
+                            "order": 0,
+                            "wizard": 13,
+                            "definition": {
+                                "placeholder": 0
+                            }
+                        }
+                    ]
+                }
+            ],
+            "test": 27,
+            "testObject": {
+                "class_name": "Test",
+                "id": 27,
+                "name": "source_random_branch",
+                "accessibility": 0,
+                "protected": "1",
+                "archived": "0",
+                "visibility": 0,
+                "type": 0,
+                "code": "#Error Catching because of input types\nif (is.na(as.numeric(number_branches))) { #if it can't convert it to numeric it sets it as NA, so we need to look for that\n  stop(paste0(\"random_branch Node Error: number_branches is not numeric. Please enter an integer between 1 and 8. number_branches is set to: \", number_branches))\n}\nif (is.na(as.numeric(branch_chosen))) { #if it can't convert it to numeric it sets it as NA, so we need to look for that\n  stop(paste0(\"random_branch Node Error: branch_chosen is not numeric. Please enter an integer between 1 and 8. Alternatively, if you want to let it choose the branch randomly then leave it as the default of 0. branch_chosen is set to: \", branch_chosen))\n}\nnumber_branches = as.numeric(number_branches) #can't simply use tryCatch because as.numeric doesn't return an error; if it fails it sets it to NA\nbranch_chosen = as.numeric(branch_chosen)\n\nif (number_branches > 8 | number_branches < 1 | number_branches != as.integer(number_branches)) { #Notice that I let it be 1 still, although it's obviously pointless to have it choose a random branch between 1 and 1\n  stop(paste0(\"random_branch Node Error: number_branches is not an integer between 1 and 8. number_branches is set to: \", number_branches))\n}\nif (number_branches == 1) { #Give a warning if number_branches == 1\n  print(\"random_branch Node Warning: number_branches is set to 1. This will choose a random number between 1 and 1. So it's rather pointless!\")\n}\nif (branch_chosen > 8 | branch_chosen < 0 | branch_chosen != as.integer(branch_chosen)) {\n  stop(paste0(\"random_branch Node Error: branch_chosen is not an integer between 1 and 8. Alternatively, if you want to let it choose the branch randomly, then leave it as the default of 0. branch_chosen is set to: \", branch_chosen))\n}\n  \n\nif (as.numeric(branch_chosen) == 0) { #user did not set return branch from outside, so choose branch randomly\n  random_number = sample(1:number_branches, 1)\n  .branch = paste0(\"branch_\", random_number)\n  branch_chosen = random_number\n} else { #user already told us what branch to use\n  .branch = paste0(\"branch_\", branch_chosen)\n}\n\nprint(paste0(\".branch = \", .branch)) #for bug checking",
+                "slug": "83b511ced3fafa356281ebfa4188ebb0",
+                "resumable": "0",
+                "outdated": "0",
+                "description": "<p>Chooses a random branch to send the user down (up to 8 branches). Good for randomly putting the user into a certain experimental condition.<\/p>\n",
+                "variables": [
+                    {
+                        "class_name": "TestVariable",
+                        "id": 322,
+                        "name": "number_branches",
+                        "type": 0,
+                        "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": "8",
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 323,
+                        "name": "branch_chosen",
+                        "type": 0,
+                        "description": "<p>By default the branch will be chosen randomly. If you want to override that behaviour and set the branch using a variable from elsewhere then you can enter it here. It should be an integer between 1 and 8. If you want to keep the default random behaviour then set it to 0.<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": "0",
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 324,
+                        "name": ".branch",
+                        "type": 1,
+                        "description": "<p>The branch chosen. Will be a character string like so: &quot;branch_1&quot; until &quot;branch_8&quot;<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 325,
+                        "name": "branch_1",
+                        "type": 2,
+                        "description": "<p>Branch 1<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 326,
+                        "name": "branch_2",
+                        "type": 2,
+                        "description": "<p>Branch 2<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 327,
+                        "name": "branch_3",
+                        "type": 2,
+                        "description": "<p>Branch 3<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 328,
+                        "name": "branch_4",
+                        "type": 2,
+                        "description": "<p>Branch 4<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 329,
+                        "name": "branch_5",
+                        "type": 2,
+                        "description": "<p>Branch 5<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 330,
+                        "name": "branch_6",
+                        "type": 2,
+                        "description": "<p>Branch 6<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 331,
+                        "name": "branch_7",
+                        "type": 2,
+                        "description": "<p>Branch 7<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 332,
+                        "name": "branch_8",
+                        "type": 2,
+                        "description": "<p>Branch 8<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 333,
+                        "name": "branch_chosen",
+                        "type": 1,
+                        "description": "<p>An integer between 1 and 8 representing the branch chosen.<\/p>\n",
+                        "passableThroughUrl": "0",
+                        "value": null,
+                        "test": 27,
+                        "parentVariable": null
+                    }
+                ],
+                "logs": [
+
+                ],
+                "sourceWizard": null,
+                "sourceWizardObject": null,
+                "updatedOn": "2016-06-06 02:40:02",
+                "updatedByName": "admin",
+                "nodes": [
+
+                ],
+                "nodesConnections": [
+
+                ],
+                "tags": "",
+                "owner": null,
+                "groups": "",
+                "starterContent": false
+            },
+            "testName": "source_random_branch",
+            "updatedOn": "2016-06-06 02:41:54",
+            "updatedByName": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": false
+        },
+        "updatedOn": "2016-06-06 02:42:12",
+        "updatedByName": "admin",
+        "nodes": [
+
+        ],
+        "nodesConnections": [
+
+        ],
+        "tags": "_concerto_core",
+        "owner": null,
+        "groups": "",
+        "starterContent": true
+    }
+]
