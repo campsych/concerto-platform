@@ -263,6 +263,12 @@ flow:
         tooltips:
             inputs:
                 label: Click to toggle whether variable should be treated as a string or evaluated R expression. Underlined inputs are treated as a string.
+        dialog:
+            fields:
+                string: As string?
+                string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
+                value: Value
+                value.tooltip: Variable value in this port
     buttons:
         reset_view: Reset view 
         remove_node: remove node

@@ -211,7 +211,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                                 var varName = component._jsPlumb.parameters.targetPort.variableObject.name;
                                                 var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getPort(" + portId + ").variableObject.description'></i>";
                                                 var overlayElem = $("<div>" +
-                                                        "<div ng-click='toggleInputEval(collectionService.getPort(" + portId + "))' " +
+                                                        "<div " +
                                                         "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + portId + ").string === \"1\"}'" +
                                                         ">" + tooltip + "<span uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_INPUT_LABEL_TOOLTIP + "\"' tooltip-append-to-body='true'>" + varName + "</span></div>" +
                                                         "</div>");
@@ -224,7 +224,16 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         "Custom", {
                                             create: function (component) {
                                                 var portId = component._jsPlumb.parameters.targetPort.id;
-                                                var overlayElem = $("<div id='divPortControl" + portId + "'>" +
+                                                var connected = false;
+                                                for (var j = 0; j < scope.object.nodesConnections.length; j++) {
+                                                    var connection = scope.object.nodesConnections[j];
+                                                    if (connection.destinationPort == portId) {
+                                                        connected = true;
+                                                        break;
+                                                    }
+                                                }
+
+                                                var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
                                                         "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"portValueDefault\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
                                                         "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
                                                         "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
@@ -354,7 +363,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 return port;
                             }
                         },
-                        size: "lg"
+                        size: "prc-lg"
                     });
 
                     modalInstance.result.then(function (response) {

@@ -265,6 +265,13 @@ flow:
         tooltips:
             inputs:
                 label: Kliknij aby przełączyć, czy zmienna ma być traktowana jako ciąg znaków czy zewaluowana ekspresja R. Podkreślone wejścia są traktowane jako ciąg znaków.
+        dialog:
+            fields:
+                string: Ciąg znaków?
+                string.tooltip: Jeśli zaznaczone, wartość będzie traktowana jako ciąg znaków, w innym przypadku jako kod R
+                value: Wartość
+                value.tooltip: Wartość zmiennej w tym porcie
+                
     buttons:
         reset_view: Resetuj widok
         remove_node: usuń węzeł

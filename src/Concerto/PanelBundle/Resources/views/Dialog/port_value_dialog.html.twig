@@ -1,18 +1,35 @@
-{% trans_default_domain "panel" %}
+{% trans_default_domain "Test" %}
 <div type="text/ng-template" id="port_value_dialog.html">
     <div class="modal-body">
-    {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
-        {% trans_default_domain "panel" %}
-        {% block legend %}{% verbatim %}{{ object.variableObject.name }}{% endverbatim %}{% endblock %}
-        {% block legend_tooltip %}{% verbatim %}{{object.variableObject.description}}{% endverbatim %}{% endblock %}
-        {% block control %}
-            <ui-codemirror ng-model="object.value" ui-codemirror-opts="codeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
-        {% endblock %}
-    {% endembed %}
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "Test" %}
+            {% block legend %}{% verbatim %}{{ object.variableObject.name}}{% endverbatim %}{% endblock %}
+            {% block legend_tooltip %}{% verbatim %}{{object.variableObject.description}}{% endverbatim %}{% endblock %}
+            {% block description %}{% endblock %}
+            {% block elements %}
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.string'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.string.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <input type="checkbox" ng-model="object.string" ng-true-value='"1"' ng-false-value='"0"' />
+                    {% endblock %}
+                {% endembed %}
+                
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.value'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.value.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <ui-codemirror ng-model="object.value" ui-codemirror-opts="codeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans }}</button>
-        <button class="btn btn-danger" ng-click="reset()">{{ 'flow.buttons.reset_to_default'|trans({},"Test") }}</button>
-        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
+        <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans({},"panel") }}</button>
+        <button class="btn btn-danger" ng-click="reset()">{{ 'flow.buttons.reset_to_default'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
     </div>
 </div>
