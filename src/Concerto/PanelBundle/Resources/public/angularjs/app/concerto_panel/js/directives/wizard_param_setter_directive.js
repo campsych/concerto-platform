@@ -50,6 +50,10 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     importerShowMenu: false,
                     data: "output",
                     exporterCsvFilename: 'export.csv',
+                    exporterHeaderFilterUseName: true,
+                    exporterHeaderFilter: function (name) {
+                        return name;
+                    },
                     showGridFooter: true,
                     columnDefs: [],
                     onRegisterApi: function (gridApi) {
