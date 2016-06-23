@@ -10,27 +10,26 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class GenerateRDocumentationCommand extends ContainerAwareCommand {
 
-    private $functionRepository;
-    private $libraryRepository;
-
     protected function configure() {
         $this->setName("concerto:r:cache")->setDescription("Caches R functions documentation.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         gc_enable();
+        $output->writeln("Generating R documentation cache. This might take several minutes...");
         $lastLibrary = null;
-
-        $r_environ_path = $this->getContainer()->getParameter('test_runner_settings')['r_environ_path'];
-        $env = array();
-        if ($r_environ_path != null) {
-            $env["R_ENVIRON"] = $r_environ_path;
-        }
 
         $function_cache = $this->getContainer()->get('concerto_panel.r_data_cache_service');
         $script_path = $this->getContainer()->get("kernel")->getRootDir() . "/../src/Concerto/PanelBundle/Resources/R/function_documentation.R";
         $process = new Process($this->getContainer()->getParameter('test_runner_settings')['rscript_exec'] . " --no-save --no-restore --quiet --no-readline " . $script_path);
-        $process->setEnv($env);
+        
+        $r_environ_path = $this->getContainer()->getParameter('test_runner_settings')['r_environ_path'];
+        if ($r_environ_path != null) {
+            $env = array();
+            $env["R_ENVIRON"] = $r_environ_path;
+            $process->setEnv($env);
+        }
+        
         $process->setTimeout(3600);
         $process->run();
         $out = explode("\n", $process->getOutput());
@@ -88,6 +87,7 @@ class GenerateRDocumentationCommand extends ContainerAwareCommand {
         } else {
             $output->writeln("Saved: $successful/" . ($failed + $successful) . " | 0%");
         }
+        $output->writeln("R documentation cache generated.");
     }
 
     private function isDocumentationValid($name, $doc) {

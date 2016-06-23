@@ -2,10 +2,11 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Symfony\Component\Finder\Finder;
+
 class RDataCacheService {
 
     private $tmp_file = null;
-    private $tmp_file_handle;
     private $tmp_cache_dir;
     private $first;
 
@@ -15,12 +16,12 @@ class RDataCacheService {
 
     public function createNewFunctionCacheSet() {
         if (!is_dir(self::getCacheDirectory()))
-                mkdir(self::getCacheDirectory(), 0755, true);
-    
-        $this->tmp_file = tempnam(self::getCacheDirectory(), 'rch');
-        $this->tmp_file_handle = fopen($this->tmp_file, "w+");
+            mkdir(self::getCacheDirectory(), 0755, true);
 
-        if ($this->tmp_file_handle === FALSE)
+        $this->tmp_file = tempnam(self::getCacheDirectory(), 'rch');
+        $fh = fopen($this->tmp_file, "w+");
+
+        if ($fh === FALSE)
             throw new RuntimeException(
             "Unable to open cache file in {$this->tmp_cache_dir} for writing. Please check your permissions."
             );
@@ -32,16 +33,19 @@ class RDataCacheService {
             );
         $this->tmp_cache_dir.= DIRECTORY_SEPARATOR;
 
-        fwrite($this->tmp_file_handle, "[");
+        fwrite($fh, "[");
+        fclose($fh);
         $this->first = true;
     }
 
     public function addRFunction($library, $method_name, $documentation_html, $arguments, $defaults) {
         if (is_null($this->tmp_file))
             throw new LogicException("addRMethod must be used after creating a cache set first.");
+        $fh = fopen($this->tmp_file, "w+");
         fwrite(
-                $this->tmp_file_handle, ( $this->first ? '' : ',' ) . "{\"lib\":\"$library\",\"fun\":\"$method_name\"}"
+                $fh, ( $this->first ? '' : ',' ) . "{\"lib\":\"$library\",\"fun\":\"$method_name\"}"
         );
+        fclose($fh);
         file_put_contents($this->tmp_cache_dir . $method_name . ".html", $this->attachArgumentsMetadata($documentation_html, $arguments, $defaults));
 
         $this->first = false;
@@ -50,8 +54,9 @@ class RDataCacheService {
     public function saveCache() {
         if (is_null($this->tmp_file))
             throw new LogicException("saveCache must be used after creating a cache set first.");
-        fwrite($this->tmp_file_handle, "]");
-        fclose($this->tmp_file_handle);
+        $fh = fopen($this->tmp_file, "w+");
+        fwrite($fh, "]");
+        fclose($fh);
 
         if (!is_dir(self::getCacheDirectory()))
             mkdir(self::getCacheDirectory(), 0755, true);
@@ -61,9 +66,12 @@ class RDataCacheService {
 
         $html_dir = self::getCacheDirectory() . 'html';
         if (is_dir($html_dir)) {
-            foreach (new \DirectoryIterator($html_dir) as $file_info)
-                if (!$file_info->isDot())
-                    unlink($file_info->getPathname());
+            $finder = new Finder();
+            $finder->ignoreDotFiles(false);
+            $finder->files()->in($html_dir);
+            foreach ($finder as $file) {
+                unlink($file->getRealPath());
+            }
             rmdir($html_dir);
         }
 
