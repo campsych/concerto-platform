@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestWizardStepService extends ASectionService {
 
@@ -71,7 +72,7 @@ class TestWizardStepService extends ASectionService {
     }
 
     public function clear($wizard_id) {
-        $wizard = $this->authorizeObject($this->testWizardRepository->find($wizard_id));
+        $wizard = parent::authorizeObject($this->testWizardRepository->find($wizard_id));
         if ($wizard)
             $this->repository->deleteByTestWizard($wizard_id);
         return array("errors" => array());
@@ -93,7 +94,7 @@ class TestWizardStepService extends ASectionService {
             $wizard_id = $map["TestWizard"]["id" . $obj["wizard"]];
             $wizard = $this->testWizardRepository->find($wizard_id);
         }
-        
+
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -122,6 +123,12 @@ class TestWizardStepService extends ASectionService {
         array_splice($queue, 1, 0, $obj["params"]);
 
         return array("errors" => null, "entity" => $ent);
+    }
+
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getWizard()))
+            return $object;
+        return null;
     }
 
 }

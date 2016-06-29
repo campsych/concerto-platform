@@ -10,6 +10,7 @@ use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestWizardParamService extends ASectionService {
 
@@ -105,7 +106,7 @@ class TestWizardParamService extends ASectionService {
     }
 
     public function clear($wizard_id) {
-        $wizard = $this->authorizeObject($this->testWizardRepository->find($wizard_id));
+        $wizard = parent::authorizeObject($this->testWizardRepository->find($wizard_id));
         if ($wizard)
             $this->repository->deleteByTestWizard($wizard_id);
         return array("errors" => array());
@@ -121,7 +122,7 @@ class TestWizardParamService extends ASectionService {
         if (array_key_exists("TestWizardParam", $map) && array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
             return(array());
         }
-        
+
         $variable = null;
         if (array_key_exists("TestVariable", $map)) {
             $variable_id = $map["TestVariable"]["id" . $obj["testVariable"]];
@@ -139,7 +140,7 @@ class TestWizardParamService extends ASectionService {
             $step_id = $map["TestWizardStep"]["id" . $obj["wizardStep"]];
             $step = $this->testWizardStepRepository->find($step_id);
         }
-        
+
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -172,6 +173,12 @@ class TestWizardParamService extends ASectionService {
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
 
         return array("errors" => null, "entity" => $ent);
+    }
+
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getWizard()))
+            return $object;
+        return null;
     }
 
 }

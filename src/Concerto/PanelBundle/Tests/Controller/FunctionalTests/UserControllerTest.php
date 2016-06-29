@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\Role;
 
@@ -52,6 +52,7 @@ class UserControllerTest extends AFunctionalTest {
         $passwordConfirmation = $encoder->encodePassword("admin", $user->getSalt());
         $user->setPassword($password);
         $user->setPasswordConfirmation($passwordConfirmation);
+        $user->setAccessibility(ATopEntity::ACCESS_PUBLIC);
         self::$entityManager->persist($user);
         self::$entityManager->flush();
     }
@@ -69,7 +70,7 @@ class UserControllerTest extends AFunctionalTest {
                 "email" => "username@domain.com",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedByName" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'protected' => '0',
                 'archived' => '0',
                 'role_super_admin' => '1',
@@ -130,7 +131,7 @@ class UserControllerTest extends AFunctionalTest {
             "email" => "new@user.com",
             "password" => "pass",
             "passwordConfirmation" => "pass",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             'role_super_admin' => '1',
             'role_test' => '0',
             'role_template' => '0',
@@ -151,7 +152,7 @@ class UserControllerTest extends AFunctionalTest {
                 "email" => "new@user.com",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'role_super_admin' => '1',
                 'role_test' => '0',
                 'role_template' => '0',
@@ -174,7 +175,7 @@ class UserControllerTest extends AFunctionalTest {
             "email" => "new@user.com",
             "password" => "pass",
             "passwordConfirmation" => "pass",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             'role_super_admin' => '1',
             'role_test' => '0',
             'role_template' => '0',
@@ -205,7 +206,7 @@ class UserControllerTest extends AFunctionalTest {
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -218,7 +219,7 @@ class UserControllerTest extends AFunctionalTest {
             "email" => "new@user.com",
             "password" => "pass",
             "passwordConfirmation" => "pass",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             'role_super_admin' => '1',
             'role_test' => '0',
             'role_template' => '0',
@@ -249,7 +250,7 @@ class UserControllerTest extends AFunctionalTest {
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -262,7 +263,7 @@ class UserControllerTest extends AFunctionalTest {
             "email" => "new@user.com",
             "password" => "pass",
             "passwordConfirmation" => "pass",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             'role_super_admin' => '1',
             'role_test' => '0',
             'role_template' => '0',
@@ -293,7 +294,7 @@ class UserControllerTest extends AFunctionalTest {
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 
@@ -302,7 +303,7 @@ class UserControllerTest extends AFunctionalTest {
             "email" => "new2@user.com",
             "password" => "pass",
             "passwordConfirmation" => "pass",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));

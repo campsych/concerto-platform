@@ -85,15 +85,6 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     }
 
     /**
-     * Get flow test
-     *
-     * @return Test 
-     */
-    public function getFlowTest() {
-        return $this->flowTest;
-    }
-
-    /**
      * Set node
      *
      * @param TestNode $node

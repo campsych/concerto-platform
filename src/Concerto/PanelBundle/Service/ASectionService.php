@@ -29,7 +29,7 @@ abstract class ASectionService {
     public function authorizeCollection($collection) {
         $result = array();
         foreach ($collection as $object) {
-            if ($this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object))
+            if ($this->authorizeObject($object))
                 array_push($result, $object);
         }
         return $result;

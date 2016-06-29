@@ -11,6 +11,7 @@ use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestNodePortService extends ASectionService {
 
@@ -144,7 +145,7 @@ class TestNodePortService extends ASectionService {
                 array_push($pre_queue, $obj["variableObject"]);
             }
         }
-        
+
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -169,6 +170,12 @@ class TestNodePortService extends ASectionService {
         $map["TestNodePort"]["id" . $obj["id"]] = $ent->getId();
 
         return array("errors" => null, "entity" => $ent);
+    }
+
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getNode()))
+            return $object;
+        return null;
     }
 
 }

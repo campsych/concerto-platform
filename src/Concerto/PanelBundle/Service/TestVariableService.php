@@ -10,6 +10,7 @@ use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Service\TestNodePortService;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestVariableService extends ASectionService {
 
@@ -181,7 +182,7 @@ class TestVariableService extends ASectionService {
     }
 
     public function deleteAll($test_id, $type) {
-        $test = $this->authorizeObject($this->testRepository->find($test_id));
+        $test = parent::authorizeObject($this->testRepository->find($test_id));
         if ($test)
             $this->repository->deleteByTestAndType($test_id, $type);
     }
@@ -240,6 +241,12 @@ class TestVariableService extends ASectionService {
     public function entityToArray(TestVariable $ent) {
         $e = $ent->jsonSerialize();
         return $e;
+    }
+
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
+            return $object;
+        return null;
     }
 
 }

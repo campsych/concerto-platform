@@ -4,7 +4,7 @@
         "id": 1,
         "name": "default_user_table",
         "description": "",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "0",
         "archived": "0",
         "columns": [

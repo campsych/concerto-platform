@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 
 class ViewTemplateControllerTest extends AFunctionalTest {
 
@@ -23,7 +23,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
             "html" => "html",
             "head" => "<link />",
             "description" => "description",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -51,7 +51,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -102,7 +102,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 'description' => 'description',
                 'head' => '<link />',
                 'html' => 'html',
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "updatedOn" => $content[0]["updatedOn"],
                 "protected" => "0",
                 "archived" => "0",
@@ -151,7 +151,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
 
         $client->request("POST", "/admin/ViewTemplate/-1/save", array(
             "name" => "new_view",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -173,7 +173,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -186,7 +186,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
             "description" => "edited view description",
             "head" => "head",
             "html" => "html",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -208,7 +208,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -221,7 +221,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
             "description" => "edited view description",
             "head" => "head",
             "html" => "html",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -243,7 +243,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -253,7 +253,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
 
         $client->request("POST", "/admin/ViewTemplate/-1/save", array(
             "name" => "new_view",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -275,7 +275,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 

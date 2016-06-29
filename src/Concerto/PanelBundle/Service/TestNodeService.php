@@ -11,6 +11,7 @@ use Concerto\PanelBundle\Service\TestVariableService;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestNodeService extends ASectionService {
 
@@ -178,6 +179,12 @@ class TestNodeService extends ASectionService {
         array_splice($queue, 1, 0, $obj["ports"]);
 
         return array("errors" => null, "entity" => $ent);
+    }
+
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getFlowTest()))
+            return $object;
+        return null;
     }
 
 }

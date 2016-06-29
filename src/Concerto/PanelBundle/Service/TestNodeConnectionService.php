@@ -12,6 +12,7 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Concerto\PanelBundle\Repository\TestNodePortRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestNodeConnectionService extends ASectionService {
 
@@ -200,4 +201,9 @@ class TestNodeConnectionService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getFlowTest()))
+            return $object;
+        return null;
+    }
 }

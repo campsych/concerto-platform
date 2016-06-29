@@ -6,6 +6,7 @@ use Concerto\PanelBundle\Entity\TestSessionLog;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Service\TestService;
 use Concerto\PanelBundle\Repository\AEntityRepository;
+use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestSessionLogService extends ASectionService {
 
@@ -44,10 +45,16 @@ class TestSessionLogService extends ASectionService {
     }
 
     public function clear($test_id) {
-        $test = $this->authorizeObject($this->testService->get($test_id));
+        $test = parent::authorizeObject($this->testService->get($test_id));
         if ($test)
             $this->repository->deleteByTest($test_id);
         return array("errors" => array());
+    }
+
+    public function authorizeObject($object) {
+        if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
+            return $object;
+        return null;
     }
 
 }

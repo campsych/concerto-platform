@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 
@@ -28,7 +28,7 @@ class TestSessionLogControllerTest extends AFunctionalTest {
             "code" => "print('start')",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);

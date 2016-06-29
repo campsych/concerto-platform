@@ -3,7 +3,7 @@
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
 use Concerto\PanelBundle\Entity\Test;
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 
 class HomeControllerTest extends AFunctionalTest {
 
@@ -17,19 +17,19 @@ class HomeControllerTest extends AFunctionalTest {
     protected function setUp() {
         self::truncateClass("ConcertoPanelBundle:Test");
         self::truncateClass("ConcertoPanelBundle:TestSession");
-        
+
         $client = self::createLoggedClient();
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test1",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test2",
             "visibility" => Test::VISIBILITY_SUBTEST,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
     }
 
@@ -63,9 +63,9 @@ class HomeControllerTest extends AFunctionalTest {
                 "updatedByName" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)[0]['slug'],
                 "outdated" => '0',
-                "accessibility" => 0,
-                "protected" => 0,
-                "archived" => 0,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "protected" => '0',
+                "archived" => '0',
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",

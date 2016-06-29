@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
 class TestNodeControllerTest extends AFunctionalTest {
@@ -26,7 +26,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "code" => "print('start')",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_FLOW,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -39,7 +39,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "code" => "print('start')",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);

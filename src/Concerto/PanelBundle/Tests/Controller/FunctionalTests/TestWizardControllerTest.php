@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Entity\Test;
 
@@ -29,7 +29,7 @@ class TestWizardControllerTest extends AFunctionalTest {
             "code" => "print('start')",
             "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -39,7 +39,7 @@ class TestWizardControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestWizard/-1/save", array(
             "name" => "wizard",
             "description" => "description",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             "test" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -140,7 +140,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -181,7 +181,7 @@ class TestWizardControllerTest extends AFunctionalTest {
             "name" => "new_wizard",
             "description" => "desc",
             "test" => 1,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -204,7 +204,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"],
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
@@ -217,7 +217,7 @@ class TestWizardControllerTest extends AFunctionalTest {
             "name" => "edited_wizard",
             "description" => "edited wizard description",
             "test" => "1",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -270,7 +270,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -282,7 +282,7 @@ class TestWizardControllerTest extends AFunctionalTest {
             "name" => "wizard",
             "description" => "edited wizard description",
             "test" => "1",
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -335,7 +335,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => AEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -347,7 +347,7 @@ class TestWizardControllerTest extends AFunctionalTest {
             "name" => "new_wizard",
             "description" => "desc",
             "test" => 1,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -365,7 +365,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -379,7 +379,7 @@ class TestWizardControllerTest extends AFunctionalTest {
             "name" => "wizard",
             "description" => "edited view description",
             "test" => 1,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));

@@ -8,10 +8,6 @@ use Concerto\PanelBundle\Entity\User;
 
 abstract class AEntity {
 
-    const ACCESS_PUBLIC = 0;
-    const ACCESS_PROTECTED = 1;
-    const ACCESS_ARCHIVED = 2;
-
     /**
      * @var integer
      * @ORM\Column(type="integer")

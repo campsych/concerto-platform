@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
 class TestControllerTest extends AFunctionalTest {
@@ -26,7 +26,7 @@ class TestControllerTest extends AFunctionalTest {
             "code" => "print('start')",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -69,7 +69,7 @@ class TestControllerTest extends AFunctionalTest {
                 "slug" => json_decode($client->getResponse()->getContent(), true)[0]['slug'],
                 "outdated" => '0',
                 "type" => Test::TYPE_CODE,
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -140,7 +140,7 @@ class TestControllerTest extends AFunctionalTest {
                 'description' => 'description',
                 'visibility' => 1,
                 'code' => 'print(\'start\')',
-                'accessibility' => 0,
+                'accessibility' => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "owner" => null,
@@ -207,7 +207,7 @@ class TestControllerTest extends AFunctionalTest {
             "name" => "new_test",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -232,7 +232,7 @@ class TestControllerTest extends AFunctionalTest {
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
                 "outdated" => '0',
                 "type" => Test::TYPE_CODE,
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -268,7 +268,7 @@ class TestControllerTest extends AFunctionalTest {
             "code" => "code",
             "resumable" => '1',
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -293,7 +293,7 @@ class TestControllerTest extends AFunctionalTest {
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
                 "outdated" => '0',
                 "type" => Test::TYPE_CODE,
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -327,6 +327,7 @@ class TestControllerTest extends AFunctionalTest {
             "description" => "edited test description",
             "visibility" => Test::VISIBILITY_FEATURED,
             "code" => "code",
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             "resumable" => 0));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -351,7 +352,7 @@ class TestControllerTest extends AFunctionalTest {
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
                 "outdated" => '0',
                 "type" => Test::TYPE_CODE,
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -384,7 +385,7 @@ class TestControllerTest extends AFunctionalTest {
             "name" => "new_test",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -409,7 +410,7 @@ class TestControllerTest extends AFunctionalTest {
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
                 "outdated" => '0',
                 "type" => Test::TYPE_CODE,
-                "accessibility" => AEntity::ACCESS_PUBLIC,
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -464,7 +465,7 @@ class TestControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestWizard/-1/save", array(
             "name" => "wizard",
             "description" => "description",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             "test" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -479,7 +480,7 @@ class TestControllerTest extends AFunctionalTest {
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_WIZARD,
             "sourceWizard" => 1,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -492,7 +493,7 @@ class TestControllerTest extends AFunctionalTest {
             "visibility" => Test::VISIBILITY_FEATURED,
             "code" => "aaa",
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);

@@ -2,7 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
 class TestWizardParamControllerTest extends AFunctionalTest {
@@ -24,7 +24,7 @@ class TestWizardParamControllerTest extends AFunctionalTest {
             "code" => "print('start')",
             "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
-            "accessibility" => AEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -45,7 +45,7 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestWizard/-1/save", array(
             "name" => "wizard",
             "description" => "description",
-            "accessibility" => AEntity::ACCESS_PUBLIC,
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
             "test" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
