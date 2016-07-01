@@ -140,7 +140,7 @@ concerto.test.run <-
         } else if(node$type == 2){
           r = node_params
         }
-        
+
         #BRANCH
         if(node$type != 2) {
           branch_port = NULL
@@ -180,10 +180,12 @@ concerto.test.run <-
         }
 
         #values connections
+        return_type = 1
+        if(node$type == 1) return_type = 0
         for (connection_id in ls(concerto$flow[[flowIndex]]$connections)){
             connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
             if(connection$sourceNode_id != node$id) { next }
-            if(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != 1) { next }
+            if(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != return_type) { next }
             
             func = paste("retFunc = function(",concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name,"){ ",connection$returnFunction," }",sep="")
             eval(parse(text=func))
