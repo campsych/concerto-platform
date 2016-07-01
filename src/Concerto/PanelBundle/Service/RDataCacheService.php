@@ -41,7 +41,7 @@ class RDataCacheService {
     public function addRFunction($library, $method_name, $documentation_html, $arguments, $defaults) {
         if (is_null($this->tmp_file))
             throw new LogicException("addRMethod must be used after creating a cache set first.");
-        $fh = fopen($this->tmp_file, "w+");
+        $fh = fopen($this->tmp_file, "a+");
         fwrite(
                 $fh, ( $this->first ? '' : ',' ) . "{\"lib\":\"$library\",\"fun\":\"$method_name\"}"
         );
@@ -54,7 +54,7 @@ class RDataCacheService {
     public function saveCache() {
         if (is_null($this->tmp_file))
             throw new LogicException("saveCache must be used after creating a cache set first.");
-        $fh = fopen($this->tmp_file, "w+");
+        $fh = fopen($this->tmp_file, "a+");
         fwrite($fh, "]");
         fclose($fh);
 
