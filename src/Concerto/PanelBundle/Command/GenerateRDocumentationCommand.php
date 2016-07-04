@@ -21,15 +21,16 @@ class GenerateRDocumentationCommand extends ContainerAwareCommand {
 
         $function_cache = $this->getContainer()->get('concerto_panel.r_data_cache_service');
         $script_path = $this->getContainer()->get("kernel")->getRootDir() . "/../src/Concerto/PanelBundle/Resources/R/function_documentation.R";
-        $process = new Process($this->getContainer()->getParameter('test_runner_settings')['rscript_exec'] . " --no-save --no-restore --quiet --no-readline " . $script_path);
-        
+        $p = "\"" . $this->getContainer()->getParameter('test_runner_settings')['rscript_exec'] . "\" --no-save --no-restore --quiet --no-readline \"" . $script_path . "\"";
+        $process = new Process($p);
+
         $r_environ_path = $this->getContainer()->getParameter('test_runner_settings')['r_environ_path'];
         if ($r_environ_path != null) {
             $env = array();
             $env["R_ENVIRON"] = $r_environ_path;
             $process->setEnv($env);
         }
-        
+
         $process->setTimeout(3600);
         $process->run();
         $out = explode("\n", $process->getOutput());
