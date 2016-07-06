@@ -13,7 +13,8 @@ CKEDITOR.plugins.add('cmsource', {
         );
 
         var handleResize = function () {
-            _codemirror_instance.setSize(_editor_wrapper_box.$.clientWidth - 5, _editor_wrapper_box.$.clientHeight);
+            if (_codemirror_instance)
+                _codemirror_instance.setSize(_editor_wrapper_box.$.clientWidth - 5, _editor_wrapper_box.$.clientHeight);
         };
 
         var _data_transfer_running = false;
@@ -61,8 +62,7 @@ CKEDITOR.plugins.add('cmsource', {
                 if (editor.config.cmsource)
                 {
                     $rootScope.cmOptions = editor.config.cmsource;
-                }
-                else // sane defaults
+                } else // sane defaults
                 {
                     $rootScope.cmOptions = {
                         lineWrapping: true,
@@ -116,13 +116,11 @@ CKEDITOR.plugins.add('cmsource', {
                     _data_return_running = true;
                     _codemirror_instance.setValue(editor.getData());
                     _data_return_running = false;
-                }
-                catch (exc)
+                } catch (exc)
                 {
                     // we're fine here, it'll be loaded by default then
                 }
-            }
-            else
+            } else
             {
                 _data_transfer_running = true;
                 editor.setData(_codemirror_instance.getValue());
