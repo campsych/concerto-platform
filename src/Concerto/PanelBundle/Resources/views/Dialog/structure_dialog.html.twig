@@ -11,7 +11,7 @@
                 {% block label %}{{ 'structure.form.field.name'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'structure.form.field.name.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <input type="text" ng-model="object.name" style="width:100%;" />
+                    <input type="text" ng-model="object.name" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
 
@@ -20,7 +20,7 @@
                 {% block label %}{{ 'structure.form.field.type'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'structure.form.field.type.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <select ng-model="object.type" ng-options="type.value as type.label for type in types" style="width:100%;">
+                    <select ng-model="object.type" ng-options="type.value as type.label for type in types" style="width:100%;" class='form-control'>
                     </select>
                 {% endblock %}
             {% endembed %}

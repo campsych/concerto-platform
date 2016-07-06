@@ -3,7 +3,7 @@
         {% trans_default_domain "TestWizard" %}
         {% block setter %}
             <select ng-model="output" ng-change="onPrimitiveValueChange(output)" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
-            ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
+            ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
             </select>
         {% endblock %}

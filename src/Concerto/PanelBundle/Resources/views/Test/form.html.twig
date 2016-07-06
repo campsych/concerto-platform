@@ -12,7 +12,7 @@
         {% block label %}{{ 'form.field.name'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.name.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.name" style="width:100%;" />
+            <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.name" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
         {% endblock %}
     {% endembed %}
 
@@ -21,7 +21,7 @@
         {% block label %}{{ 'form.field.protected'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.protected.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input type="checkbox" ng-model="object.protected" style="width:100%;" ng-true-value="'1'" ng-false-value="'0'">
+            <input type="checkbox" ng-model="object.protected" ng-true-value="'1'" ng-false-value="'0'" />
         {% endblock %}
     {% endembed %}
 
@@ -30,7 +30,7 @@
         {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input type="checkbox" ng-disabled="object.initProtected == '1'"  ng-model="object.archived" style="width:100%;" ng-true-value="'1'" ng-false-value="'0'">
+            <input type="checkbox" ng-disabled="object.initProtected == '1'"  ng-model="object.archived" ng-true-value="'1'" ng-false-value="'0'" />
         {% endblock %}
     {% endembed %}
 
@@ -39,7 +39,7 @@
         {% block label %}{{ 'form.field.slug'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.slug.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.slug" style="width:100%;" />
+            <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.slug" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
         {% endblock %}
     {% endembed %}
 
@@ -48,7 +48,7 @@
         {% block label %}{{ 'form.field.visibility'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.visibility.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <select ng-disabled="object.initProtected == '1'" ng-model="object.visibility" style="width:100%;" ng-options="visibility.value as visibility.label for visibility in visibilities">
+            <select ng-disabled="object.initProtected == '1'" ng-model="object.visibility" style="width:100%;" ng-options="visibility.value as visibility.label for visibility in visibilities" class='form-control'>
             </select>
         {% endblock %}
     {% endembed %}
@@ -68,7 +68,7 @@
         {% block tooltip %}{{'form.field.type.tooltip'|trans}}{% endblock %}
         {% block control %}
             <select ng-model="object.type" {% if isAddDialog == false %}ng-disabled="true"{% else %}ng-disabled="object.initProtected == '1'"{% endif %} 
-                    style="width:100%;" ng-options="type.value as type.label for type in types">
+                    style="width:100%;" ng-options="type.value as type.label for type in types" class='form-control'>
             </select>
         {% endblock %}
     {% endembed %}
@@ -80,7 +80,7 @@
             {% block tooltip %}{{'form.field.wizard.tooltip'|trans}}{% endblock %}
             {% block control %}
                 <select ng-model="object.sourceWizard" {% if isAddDialog == false %}ng-disabled="true"{% else %}ng-disabled="object.initProtected == '1'"{% endif %} 
-                        style="width:100%;" ng-options="wizard.id as wizard.name for wizard in testWizardCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
+                        style="width:100%;" ng-options="wizard.id as wizard.name for wizard in testWizardCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
                     <option value="">{{ "form.field.wizard.none"|trans }}</option>
                 </select>
             {% endblock %}
@@ -97,7 +97,7 @@
                 {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
                 {% block control %}
-                    <select ng-disabled="object.initProtected == '1'" ng-model="object.accessibility" style="width:100%;" ng-options="accessibility.value as accessibility.label for accessibility in accessibilities">
+                    <select ng-disabled="object.initProtected == '1'" ng-model="object.accessibility" style="width:100%;" ng-options="accessibility.value as accessibility.label for accessibility in accessibilities" class='form-control'>
                     </select>
                 {% endblock %}
             {% endembed %}
@@ -107,7 +107,7 @@
                 {% block label %}{{ 'form.field.owner'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.owner.tooltip'|trans}}{% endblock %}
                 {% block control %}
-                    <select ng-disabled="object.initProtected == '1'" ng-model="object.owner" style="width:100%;" ng-options="owner.id as owner.username for owner in userCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'username' ">
+                    <select ng-disabled="object.initProtected == '1'" ng-model="object.owner" style="width:100%;" ng-options="owner.id as owner.username for owner in userCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'username'" class='form-control'>
                         <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                     </select>
                 {% endblock %}
@@ -118,7 +118,7 @@
                 {% block label %}{{ 'form.field.groups'|trans }}{% endblock %}
                 {% block tooltip %}{{'form.field.groups.tooltip'|trans}}{% endblock %}
                 {% block control %}
-                    <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.groups" style="width:100%;" />
+                    <input ng-disabled="object.initProtected == '1'" type="text" ng-model="object.groups" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
         {% endif %}

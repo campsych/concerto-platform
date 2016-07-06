@@ -11,7 +11,7 @@
                 {% block label %}{{ 'step.form.field.title'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'step.form.field.title.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <input ng-model="object.title" type="text" style="width:100%;" />
+                    <input ng-model="object.title" type="text" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
 
@@ -20,7 +20,7 @@
                 {% block label %}{{ 'step.form.field.description'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'step.form.field.description.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <textarea ckeditor="editorOptions" ng-model="object.description"></textarea>
+                    <textarea ckeditor="editorOptions" ng-model="object.description" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                 {% endblock %}
             {% endembed %}
             
@@ -29,7 +29,7 @@
                 {% block label %}{{ 'step.form.field.order'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'step.form.field.order.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <input ng-model="object.orderNum" type="text" style="width:100%;" />
+                    <input ng-model="object.orderNum" type="text" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
         {% endblock %}

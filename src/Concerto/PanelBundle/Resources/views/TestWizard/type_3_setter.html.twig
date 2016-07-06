@@ -3,7 +3,7 @@
         {% trans_default_domain "TestWizard" %}
         {% block setter %}
             <select ng-model="output" ng-change="onPrimitiveValueChange(output)" style="width:100%;" 
-                    ng-options="opt.value as opt.label for opt in param.definition.options | orderBy:'order'" ng-disabled="wizardObject.initProtected == '1'">
+                    ng-options="opt.value as opt.label for opt in param.definition.options | orderBy:'order'" ng-disabled="wizardObject.initProtected == '1'" class='form-control'>
                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
             </select>
         {% endblock %}

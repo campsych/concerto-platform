@@ -31,7 +31,7 @@
                 {% block label %}{{ 'io.dialog.fieldset.field.field.delimiter'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'io.dialog.fieldset.field.field.delimiter.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                        <input type="text" maxlength="1" ng-model="delimiter" style="width:100%;" />
+                        <input type="text" maxlength="1" ng-model="delimiter" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
 
@@ -40,7 +40,7 @@
                 {% block label %}{{ 'io.dialog.fieldset.field.field.enclosure'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'io.dialog.fieldset.field.field.enclosure.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                        <input type="text" maxlength="1" ng-model="enclosure" style="width:100%;" />
+                        <input type="text" maxlength="1" ng-model="enclosure" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
 

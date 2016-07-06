@@ -6,7 +6,7 @@
         {% block legend_tooltip %}{{ 'save_new.fieldset.legend.tooltip'|trans }}{% endblock %}
 
         {% block control %}
-            <input type="text" style="width:100%;" ng-model="name" />
+            <input type="text" style="width:100%;" ng-model="name" class='form-control' ng-model-options='{ updateOn: "blur" }' />
         {% endblock %}
     {% endembed %}
     <div class="modal-footer">

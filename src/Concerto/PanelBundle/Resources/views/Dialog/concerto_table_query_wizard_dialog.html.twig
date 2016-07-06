@@ -29,7 +29,7 @@
             {% block label %}{{ 'completion.wizard.sql.table.label'|trans }}{% endblock %}
             {% block tooltip %}{{ 'completion.wizard.sql.table.tooltip'|trans }}{% endblock%}
             {% block control %}
-                <select ng-model="selectedTable" ng-options="tables.name for tables in tables.collection">
+                <select ng-model="selectedTable" ng-options="tables.name for tables in tables.collection" class='form-control'>
                     <option value="">{{ 'completion.wizard.sql.selection.empty.table'|trans }}</option>
                 </select>
             {% endblock %}
@@ -64,7 +64,7 @@
                             </div>
                         </td>
                         <td>
-                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns">
+                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" class='form-control'>
                                 <option value=""></option>
                             </select>
                         </td>
@@ -101,7 +101,7 @@
                         </td>
 
                         <td ng-if="!value.useCode">
-                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns">
+                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" class='form-control'>
                                 <option value="">{{ 'completion.wizard.sql.selection.empty.column'|trans }}</option>
                             </select>
                         </td>
@@ -138,7 +138,7 @@
                         </td>
 
                         <td ng-if="!value.useCode" style="width:100%;" align="left">
-                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" style="width:100%;">
+                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" style="width:100%;" class='form-control'>
                                 <option value="">{{ 'completion.wizard.sql.selection.empty.column'|trans }}</option>
                             </select>
                         </td>
@@ -173,20 +173,20 @@
                         </td>
 
                         <td ng-if="!value.useCode">
-                            <select ng-if="$index" ng-model="value.logicOperator">
+                            <select ng-if="$index" ng-model="value.logicOperator" class='form-control'>
                                 <option selected="selected" value="AND">{{ 'completion.wizard.sql.where.logic.and'|trans }}</option>
                                 <option value="OR">{{ 'completion.wizard.sql.where.logic.or'|trans }}</option>
                             </select>
                         </td>
 
                         <td ng-if="!value.useCode">
-                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns">
+                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" class='form-control'>
                                 <option value="">{{ 'completion.wizard.sql.selection.empty.column'|trans }}</option>
                             </select>
                         </td>
 
                         <td ng-if="!value.useCode">
-                            <select ng-model="value.operator">
+                            <select ng-model="value.operator" class='form-control'>
                                 <option selected="selected" value="=">{{ 'completion.wizard.sql.where.operators.equal'|trans }}</option>
                                 <option value="!=">{{ 'completion.wizard.sql.where.operators.notequal'|trans }}</option>
                                 <option value=">">{{ 'completion.wizard.sql.where.operators.greater'|trans }}</option>
@@ -230,12 +230,12 @@
                         </td>
 
                         <td ng-if="!value.useCode" style="width:100%;">
-                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" style="width:100%;">
+                            <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" style="width:100%;" class='form-control'>
                                 <option value="">{{ 'completion.wizard.sql.selection.empty.column'|trans }}</option>
                             </select>
                         </td>
                         <td ng-if="!value.useCode">
-                            <select ng-model="value.direction">
+                            <select ng-model="value.direction" class='form-control'>
                                 <option selected="selected" value="ASC">{{ 'completion.wizard.sql.order.directions.ascending'|trans }}</option>
                                 <option value="DESC">{{ 'completion.wizard.sql.order.directions.descending'|trans }}</option>
                             </select>

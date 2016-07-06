@@ -11,7 +11,7 @@
                 {% block label %}{{ 'param.form.field.step'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.step.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <select ng-model="object.wizardStep" style="width:100%;" ng-options="wizardStep.id as wizardStep.title for wizardStep in wizardSteps" >
+                    <select ng-model="object.wizardStep" style="width:100%;" ng-options="wizardStep.id as wizardStep.title for wizardStep in wizardSteps" class='form-control'>
                         <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                     </select>
                 {% endblock %}
@@ -22,7 +22,7 @@
                 {% block label %}{{ 'param.form.field.variable'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.variable.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <select ng-model="object.testVariable" style="width:100%;" ng-options="param.id as param.name for param in testParams | orderBy:'name'" >
+                    <select ng-model="object.testVariable" style="width:100%;" ng-options="param.id as param.name for param in testParams | orderBy:'name'" class='form-control'>
                         <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                     </select>
                 {% endblock %}
@@ -33,7 +33,7 @@
                 {% block label %}{{ 'param.form.field.label'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.label.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <input ng-model="object.label" type="text" style="width:100%;" />
+                    <input ng-model="object.label" type="text" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
 
@@ -42,7 +42,7 @@
                 {% block label %}{{ 'param.form.field.type'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.type.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <select ng-model="object.type" style="width:100%;" ng-options="type.id as type.label for type in types">
+                    <select ng-model="object.type" style="width:100%;" ng-options="type.id as type.label for type in types" class='form-control'>
                     </select>
                 {% endblock %}
             {% endembed %}
@@ -52,7 +52,7 @@
                 {% block label %}{{ 'param.form.field.hide_condition'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.hide_condition.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <input ng-model="object.hideCondition" type="text" style="width:100%;" />
+                    <input ng-model="object.hideCondition" type="text" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
 
@@ -72,7 +72,7 @@
                 {% block label %}{{ 'param.form.field.description'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.description.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <textarea ckeditor="editorOptions" ng-model="object.description"></textarea>
+                    <textarea ckeditor="editorOptions" ng-model="object.description" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                 {% endblock %}
             {% endembed %}
 
@@ -90,7 +90,7 @@
                 {% block label %}{{ 'param.form.field.order'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.order.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <input ng-model="object.order" type="text" style="width:100%;" />
+                    <input ng-model="object.order" type="text" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
                 {% endblock %}
             {% endembed %}
         {% endblock %}

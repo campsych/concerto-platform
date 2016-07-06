@@ -26,7 +26,7 @@
                     {% block label %}{{ 'source.field.html'|trans }}{% endblock%}
                     {% block tooltip %}{{ 'source.field.html.tooltip'|trans }}{% endblock%}
                     {% block control %}
-                        <textarea ckeditor="htmlEditorOptions" ng-model="object.html"></textarea>
+                        <textarea ckeditor="htmlEditorOptions" ng-model="object.html" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                     {% endblock %}
                 {% endembed %}
             </table>

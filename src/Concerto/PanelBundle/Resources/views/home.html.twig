@@ -10,7 +10,7 @@
             <div style="display: table;">
                 <fieldset>
                     <legend>{{ 'available.tests'|trans }}</legend>
-                    <select ng-model="test" ng-options="t.name for t in testsCollection">
+                    <select ng-model="test" ng-options="t.name for t in testsCollection" class='form-control'>
                         <option value="">&lt;{{ 'none.selected'|trans }}&gt;</option>
                     </select>
                     <button class="btn btn-primary" ng-click="runTest()">{{ 'run.test'|trans }}</button>

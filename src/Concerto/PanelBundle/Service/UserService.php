@@ -135,13 +135,16 @@ class UserService extends ASectionService {
 
         $object->setProtected($protected);
         $object->setArchived($archived);
+        $encoder = $this->encoderFactory->getEncoder($object);
         if ($password != null) {
-            $encoder = $this->encoderFactory->getEncoder($object);
             $password = $encoder->encodePassword($password, $object->getSalt());
-            $passwordConfirmation = $encoder->encodePassword($passwordConfirmation, $object->getSalt());
             $object->setPassword($password);
+            $passwordConfirmation = $encoder->encodePassword($passwordConfirmation, $object->getSalt());
             $object->setPasswordConfirmation($passwordConfirmation);
+        } else {
+            $object->setPasswordConfirmation($object->getPassword());
         }
+        
 
         foreach ($this->validator->validate($object, null, $validatation_groups) as $err) {
             array_push($errors, $err->getMessage());

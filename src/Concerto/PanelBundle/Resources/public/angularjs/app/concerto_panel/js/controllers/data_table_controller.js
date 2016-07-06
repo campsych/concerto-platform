@@ -63,7 +63,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
                             "<input ng-disabled='grid.appScope.object.initProtected == \"1\"' type='text' ng-click='row.entity._datepicker_opened=true' ng-model='row.entity." + col.name + "' " +
                             "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity)' style='width:100%;' " +
-                            "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' datepicker-popup='{{datePickerFormat}}' />" +
+                            "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' datepicker-popup='{{datePickerFormat}}' class='form-control' ng-model-options='{ updateOn: \"blur\" }' />" +
                             "</div>";
                     colDef.enableCellEdit = false;
                     break;
