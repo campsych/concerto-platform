@@ -79,6 +79,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                 };
 
+                scope.truncateNodeName = function (name) {
+                    if (name.length > 25) {
+                        name = name.substr(0, 11) + "..." + name.substr(name.length - 11, 11);
+                    }
+                    return name;
+                };
+
                 scope.drawNode = function (node) {
                     /* SETTINGS START */
                     var portTopMargin = 40;
@@ -92,21 +99,25 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
 
                     var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getNode(" + node.id + ").sourceTestDescription'></i>";
+                    var fullName = "";
                     var name = "";
                     var nodeClass = "";
                     if (node.type === 1) {
-                        name = Trans.TEST_FLOW_NODE_NAME_START;
+                        fullName = Trans.TEST_FLOW_NODE_NAME_START;
+                        name = scope.truncateNodeName(fullName);
                         tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_START + "\"'></i>";
                         nodeClass = "nodeStart";
                     } else if (node.type === 2) {
-                        name = Trans.TEST_FLOW_NODE_NAME_END;
+                        fullName = Trans.TEST_FLOW_NODE_NAME_END;
+                        name = scope.truncateNodeName(fullName);
                         tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_END + "\"'></i>";
                         nodeClass = "nodeEnd";
                     } else if (node.type === 0) {
-                        name = node.sourceTestName;
+                        fullName = node.sourceTestName;
+                        name = scope.truncateNodeName(fullName);
                         var test = scope.collectionService.get(node.sourceTest);
                         if (test.sourceWizard) {
-                            name = "<a href='#' ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + node.sourceTestName + "</a>";
+                            name = "<a href='#' ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + name + "</a>";
                         }
                     }
 
@@ -115,7 +126,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
                     }
                     elemHtml +=
-                            "<div class='nodeHeader'>" + tooltip + name + "</div>" +
+                            "<div class='nodeHeader' tooltip-append-to-body='true' uib-tooltip-html='\"" + fullName + "\"'>" + tooltip + name + "</div>" +
                             "<div class='nodeFooter'>" +
                             "<div style='display: table; margin: auto;'>" +
                             "<i class='glyphicon clickable' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
