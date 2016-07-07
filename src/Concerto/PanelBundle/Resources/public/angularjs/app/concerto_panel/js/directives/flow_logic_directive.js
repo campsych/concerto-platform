@@ -315,24 +315,78 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     elem.css("height", (portTopMargin + Math.max(leftCount, rightCount) * portElemMargin) + "px");
                     jsPlumb.draggable(elem, {
                         containment: true,
-                        stop: function (event, ui) {
-                            var x = elem.position().left / scope.flowScale;
-                            var y = elem.position().top / scope.flowScale;
-                            $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
-                                "type": node.type,
-                                "flowTest": scope.object.id,
-                                "sourceTest": node.sourceTest,
-                                "posX": x,
-                                "posY": y
-                            }).success(function (data) {
-                                if (data.result === 0) {
-                                    node.posX = x;
-                                    node.posY = y;
+                        drag: function (event, ui) {
+                            if (scope.selectedNodeIds.indexOf(node.id) === -1)
+                                return;
+                            var offset = {
+                                x: (elem.position().left - node.posX) / scope.flowScale,
+                                y: (elem.position().top - node.posY) / scope.flowScale
+                            };
+
+                            node.posX = elem.position().left / scope.flowScale;
+                            node.posY = elem.position().top / scope.flowScale;
+
+                            for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                                var id = scope.selectedNodeIds[a];
+                                if (id == node.id)
+                                    continue;
+                                for (var i = 0; i < scope.object.nodes.length; i++) {
+                                    var n = scope.object.nodes[i];
+                                    if (n.id === id) {
+                                        n.posX += offset.x;
+                                        n.posY += offset.y;
+                                        var nelem = $("#node" + n.id);
+                                        nelem.css("top", n.posY + "px");
+                                        nelem.css("left", n.posX + "px");
+                                        jsPlumb.revalidate(nelem);
+                                    }
                                 }
-                            });
+                            }
+                        },
+                        stop: function (event, ui) {
+                            if (scope.selectedNodeIds.indexOf(node.id) === -1) {
+                                var x = elem.position().left / scope.flowScale;
+                                var y = elem.position().top / scope.flowScale;
+                                $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
+                                    "type": node.type,
+                                    "flowTest": scope.object.id,
+                                    "sourceTest": node.sourceTest,
+                                    "posX": x,
+                                    "posY": y
+                                }).success(function (data) {
+                                    if (data.result === 0) {
+                                        node.posX = x;
+                                        node.posY = y;
+                                    }
+                                });
+                            } else {
+                                $http.post(Paths.TEST_FLOW_NODE_MOVE, {
+                                    nodes: scope.serializeSelectedNodes()
+                                }).success(function (data) {
+
+                                });
+                            }
                         }
                     });
                     $compile(elem)(scope);
+                };
+
+                scope.serializeSelectedNodes = function () {
+                    var result = [];
+                    for (var i = 0; i < scope.selectedNodeIds.length; i++) {
+                        var id = scope.selectedNodeIds[i];
+                        for (var j = 0; j < scope.object.nodes.length; j++) {
+                            var node = scope.object.nodes[j];
+                            if (id != node.id)
+                                continue;
+                            result.push({
+                                id: node.id,
+                                posX: node.posX,
+                                posY: node.posY
+                            });
+                        }
+                    }
+                    return angular.toJson(result);
                 };
 
                 scope.toggleInputEval = function (port) {
@@ -526,7 +580,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
 
                     modalInstance.result.then(function (response) {
-                        for (var id in scope.selectedNodeIds) {
+                        for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                            var id = scope.selectedNodeIds[a];
                             var node = null;
                             for (var i = 0; i < scope.object.nodes.length; i++) {
                                 if (id === scope.object.nodes[i].id)
@@ -544,7 +599,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {
                         }).success(function (data) {
                             if (data.result === 0) {
-                                for (var id in scope.selectedNodeIds) {
+                                for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                                    var id = scope.selectedNodeIds[a];
                                     jsPlumb.remove("node" + id);
                                 }
 

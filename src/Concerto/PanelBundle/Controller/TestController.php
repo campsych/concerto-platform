@@ -137,4 +137,13 @@ class TestController extends AExportableTabController {
         return $response;
     }
 
+    public function moveNodeAction() {
+        $nodes = json_decode($this->request->get("nodes"), true);
+        $result = $this->service->moveFlowNode($nodes);
+
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

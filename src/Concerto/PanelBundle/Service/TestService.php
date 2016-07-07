@@ -265,6 +265,15 @@ class TestService extends AExportableSectionService {
         return $result;
     }
 
+    public function moveFlowNode($nodes) {
+        for ($i = 0; $i < count($nodes); $i++) {
+            $node = $this->testNodeService->get($nodes[$i]["id"]);
+            $node->setPosX($nodes[$i]["posX"]);
+            $node->setPosY($nodes[$i]["posY"]);
+            $this->testNodeService->repository->save($node);
+        }
+    }
+
     public function addFlowConnection(User $user, Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $return_collections = false) {
         $sourceNode = $this->testNodeService->get($sourceNode);
         $sourcePort = $this->testNodePortService->get($sourcePort);

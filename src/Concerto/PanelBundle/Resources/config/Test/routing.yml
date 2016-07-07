@@ -58,3 +58,8 @@ Test_remove_connection:
     path: /Test/connection/{connection_id}/remove
     defaults: { _controller: concerto_panel.Test_controller:removeNodeConnectionAction }
     methods:  [POST]
+    
+Test_move_node:
+    path: /Test/node/move
+    defaults: { _controller: concerto_panel.Test_controller:moveNodeAction }
+    methods:  [POST]
