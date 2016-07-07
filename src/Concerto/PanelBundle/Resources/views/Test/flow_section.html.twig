@@ -9,13 +9,16 @@
         </div>
     </div>
     <div id="flowContainerScroll">
-        <div id="flowContainer" context-menu data-target="menu-flow">
+        <div id="flowContainer" context-menu="onFlowCtxOpened()" data-target="menu-flow">
         </div>
     </div>
 
     <div class="dropdown ctx-menu" id="menu-node">
         <ul class="dropdown-menu ctx-menu-ul" role="menu">
+            <li class="ctx-element ctx-action" ng-class="{'ctx-action-active':selectedNodeIds.indexOf(nodeContext.id) !== -1, 'ctx-action-inactive':selectedNodeIds.indexOf(nodeContext.id) === -1}" ng-click="selectedNodeIds = []">{{ "flow.buttons.clear_selection"|trans }}</li>
+            <li class="ctx-element ctx-action ctx-action-active" ng-click="toggleNodeSelection(nodeContext.id, true)">{{ "flow.buttons.toggle_selection"|trans }}</li>
             <li class="ctx-element ctx-action ctx-action-active" ng-click="removeNode(nodeContext.id)">{{ "flow.buttons.remove_node"|trans }}</li>
+            <li class="ctx-element ctx-action" ng-class="{'ctx-action-active':selectedNodeIds.indexOf(nodeContext.id) !== -1, 'ctx-action-inactive':selectedNodeIds.indexOf(nodeContext.id) === -1}" ng-click="removeSelectedNodes()">{{ "flow.buttons.remove_selected_nodes"|trans }}</li>
         </ul>
     </div>
 

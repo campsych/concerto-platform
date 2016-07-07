@@ -45,7 +45,7 @@ Test_add_node:
     methods:  [POST]
     
 Test_remove_node:
-    path: /Test/node/{node_id}/remove
+    path: /Test/node/{node_ids}/remove
     defaults: { _controller: concerto_panel.Test_controller:removeNodeAction }
     methods:  [POST]
     

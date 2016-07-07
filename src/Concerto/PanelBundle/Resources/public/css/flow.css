@@ -38,6 +38,11 @@
     z-index: 5;
 }
 
+.node-selected {
+    border: 1px solid blue;
+    background-color: #DFEFF5;
+}
+
 .nodeHeader {
     padding-left: 5px;
     padding-right: 5px;

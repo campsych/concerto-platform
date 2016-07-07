@@ -88,17 +88,20 @@ class TestController extends AExportableTabController {
         return $this->getSaveResponse($result);
     }
 
-    public function removeNodeAction($node_id) {
-        $result = $this->service->removeFlowNode($node_id, true);
+    public function removeNodeAction($node_ids) {
+        $result = $this->service->removeFlowNode($node_ids, true);
 
         $errors = array();
-        for ($i = 0; $i < count($result['errors']); $i++) {
-            $errors[] = "#" . $result["object"]->getId() . ": " . $result["object"]->getName() . " - " . $this->translator->trans($result['errors'][$i]);
+        for ($a = 0; $a < count($result["results"]); $a++) {
+            for ($i = 0; $i < count($result["results"][$a]['errors']); $i++) {
+                $errors[] = "#" . $result["results"][$a]["object"]->getId() . ": " . $result["results"][$a]["object"]->getName() . " - " . $this->translator->trans($result["results"][$a]['errors'][$i]);
+            }
         }
+
         if (count($errors) > 0) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors, "collections" => $result["collections"])));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object_ids" => $node_id, "collections" => $result["collections"])));
+            $response = new Response(json_encode(array("result" => 0, "object_ids" => $node_ids, "collections" => $result["collections"])));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
