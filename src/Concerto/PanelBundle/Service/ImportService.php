@@ -62,6 +62,10 @@ class ImportService {
         }
         return $this->import($user, $name, $imports);
     }
+    
+    public function reset(){
+        $this->map = array();
+    }
 
     public function import(User $user, $name, $data) {
         $result = array();

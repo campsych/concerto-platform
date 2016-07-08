@@ -1483,14 +1483,14 @@
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": true
+                "starterContent": false
             },
             "testName": "source_linear_test",
             "updatedOn": "2016-07-07 16:39:55",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": true
+            "starterContent": false
         },
         "updatedOn": "2016-07-07 16:53:37",
         "updatedByName": "",
