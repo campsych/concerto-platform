@@ -72,7 +72,7 @@
                 {% block label %}{{ 'param.form.field.description'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.description.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <textarea ckeditor="editorOptions" ng-model="object.description" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                    <textarea ckeditor="editorOptions" ng-model="object.description" class='form-control'></textarea>
                 {% endblock %}
             {% endembed %}
 
