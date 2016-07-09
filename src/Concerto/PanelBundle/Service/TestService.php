@@ -206,7 +206,7 @@ class TestService extends AExportableSectionService {
                 array_push($pre_queue, $obj["sourceWizardObject"]);
             }
         }
-        
+
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -253,13 +253,25 @@ class TestService extends AExportableSectionService {
         return $result;
     }
 
-    public function removeFlowNode($node_id, $return_collections = false) {
-        $node = $this->testNodeService->get($node_id);
-        $result = $this->testNodeService->delete($node_id)[0];
+    public function removeFlowNode($node_ids, $return_collections = false) {
+        $ids = explode(",", $node_ids);
+        $first_node = $this->testNodeService->get($ids[0]);
+        $result = array(
+            "results" => $this->testNodeService->delete($node_ids)
+        );
         if ($return_collections) {
-            $result["collections"] = $this->getFlowCollections($node->getFlowTest()->getId());
+            $result["collections"] = $this->getFlowCollections($first_node->getFlowTest()->getId());
         }
         return $result;
+    }
+
+    public function moveFlowNode($nodes) {
+        for ($i = 0; $i < count($nodes); $i++) {
+            $node = $this->testNodeService->get($nodes[$i]["id"]);
+            $node->setPosX($nodes[$i]["posX"]);
+            $node->setPosY($nodes[$i]["posY"]);
+            $this->testNodeService->repository->save($node);
+        }
     }
 
     public function addFlowConnection(User $user, Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $return_collections = false) {

@@ -63,7 +63,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
                             "<input ng-disabled='grid.appScope.object.initProtected == \"1\"' type='text' ng-click='row.entity._datepicker_opened=true' ng-model='row.entity." + col.name + "' " +
                             "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity)' style='width:100%;' " +
-                            "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' datepicker-popup='{{datePickerFormat}}' class='form-control' ng-model-options='{ updateOn: \"blur\" }' />" +
+                            "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
                             "</div>";
                     colDef.enableCellEdit = false;
                     break;
@@ -175,12 +175,12 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             pageSize: 500
         }
     };
-    
-    $scope.downloadDataList = function(){
+
+    $scope.downloadDataList = function () {
         $scope.dataOptions.exporterCsvFilename = $scope.object.name + ".csv";
         $scope.gridService.downloadList($scope.dataGridApi);
     };
-    
+
     $scope.dataOptions = {
         enableFiltering: true,
         enableGridMenu: true,
@@ -252,16 +252,17 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
     };
     $scope.saveRow = function (row) {
-        for (var key in row) {
+        var newRow = angular.copy(row);
+        for (var key in newRow) {
             if (key.substring(0, 1) === "$" || key.substring(0, 1) === "_")
-                delete row[key];
-            if (row[key] instanceof Date) {
-                row[key] = $filter('date')(row[key], "yyyy-MM-dd");
+                delete newRow[key];
+            if (newRow[key] instanceof Date) {
+                newRow[key] = $filter('date')(newRow[key], "yyyy-MM-dd");
             }
         }
 
-        $http.post($scope.dataUpdatePath.pf($scope.object.id, row.id), {
-            values: row
+        $http.post($scope.dataUpdatePath.pf($scope.object.id, newRow.id), {
+            values: newRow
         }).success(function (response) {
         });
     };
@@ -324,6 +325,21 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $http.post($scope.dataCollectionPath.pf(tableId), {
             filters: angular.toJson($scope.dataFilterOptions)
         }).success(function (collection) {
+            for (var i = 0; i < $scope.object.columns.length; i++) {
+                var col = $scope.object.columns[i];
+                if (col.type == "date") {
+                    for (var j = 0; j < collection.content.length; j++) {
+                        var row = collection.content[j];
+                        if (!(row[col.name]  instanceof Date)) {
+                            row[col.name] = new Date(row[col.name]);
+                        }
+                        if (isNaN(row[col.name].getTime())) {
+                            row[col.name] = new Date(0);
+                        }
+                    }
+                }
+            }
+
             $scope.data = collection.content;
             $scope.dataOptions.totalItems = collection.count;
         });

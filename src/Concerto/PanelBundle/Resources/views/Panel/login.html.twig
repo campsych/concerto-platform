@@ -21,7 +21,7 @@
                             {% block label %}{{ 'form.field.login'|trans }}{% endblock%} 
                             {% block tooltip %}{{ 'form.field.login.tooltip'|trans }}{% endblock%} 
                             {% block control %}
-                                <input id="username" type="text" name="_username" value="{{ last_username }}" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
+                                <input id="username" type="text" name="_username" value="{{ last_username }}" style="width:100%;" class='form-control' />
                             {% endblock %} 
                         {% endembed %} 
                         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %} 
@@ -29,7 +29,7 @@
                             {% block label %}{{ 'form.field.password'|trans }}{% endblock%} 
                             {% block tooltip %}{{ 'form.field.password.tooltip'|trans}}{% endblock%} 
                             {% block control %}
-                                <input id="password" type="password" name="_password" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
+                                <input id="password" type="password" name="_password" style="width:100%;" class='form-control' />
                             {% endblock %} 
                         {% endembed %}
                     </table>

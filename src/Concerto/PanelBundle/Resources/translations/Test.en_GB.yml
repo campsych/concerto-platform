@@ -255,6 +255,13 @@ flow:
         descriptions:
             test_start: This is a test entry node. Test flow execution starts from here. It returns test input parameters.
             test_end: This is a test node where you can set the values of test return variables.
+        dialog:
+            delete:
+                title: Removing node
+                message: Are you sure you want to remove this node?
+            selection_delete:
+                title: Removing selected nodes
+                message: Are you sure you want to remove selected nodes?
     ports:
         names:
             in: in
@@ -271,7 +278,10 @@ flow:
                 value.tooltip: Variable value in this port
     buttons:
         reset_view: Reset view 
+        toggle_selection: toggle node selection
         remove_node: remove node
+        remove_selected_nodes: remove selected nodes
+        clear_selection: clear selection
         reset_to_default: Reset to default
         toggle_collapse: Collapse/Expand unconnected ports
         zoom_in: Zoom in

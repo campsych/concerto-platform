@@ -45,7 +45,7 @@ Test_add_node:
     methods:  [POST]
     
 Test_remove_node:
-    path: /Test/node/{node_id}/remove
+    path: /Test/node/{node_ids}/remove
     defaults: { _controller: concerto_panel.Test_controller:removeNodeAction }
     methods:  [POST]
     
@@ -57,4 +57,9 @@ Test_add_connection:
 Test_remove_connection:
     path: /Test/connection/{connection_id}/remove
     defaults: { _controller: concerto_panel.Test_controller:removeNodeConnectionAction }
+    methods:  [POST]
+    
+Test_move_node:
+    path: /Test/node/move
+    defaults: { _controller: concerto_panel.Test_controller:moveNodeAction }
     methods:  [POST]

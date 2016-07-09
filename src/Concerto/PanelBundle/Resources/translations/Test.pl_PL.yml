@@ -257,6 +257,13 @@ flow:
         descriptions:
             test_start: Jest to węzeł wejściowy testu. Wykonanie testu rozpoczyna się stąd. Zwraca parametry wejściowe testu.
             test_end: Jest to węzeł w którym można ustawić wartości zwracanych zmiennych testu.
+        dialog:
+            delete:
+                title: Usuwanie węzła
+                message: Jesteś pewien, że chcesz usunąć węzeł?
+            selection_delete:
+                title: Usuwanie wybranych węzłów
+                message: Jesteś pewien, że chcesz usunąć wybrane węzły?
     ports:
         names:
             in: wejście
@@ -274,7 +281,10 @@ flow:
                 
     buttons:
         reset_view: Resetuj widok
+        toggle_selection: przełącz wybór węzła
         remove_node: usuń węzeł
+        remove_selected_nodes: usuń wybrane węzły
+        clear_selection: wyczyść wybór
         reset_to_default: Zresetuj do domyślnej
         toggle_collapse: Zsuń/Wysuń niepołączone porty
         zoom_in: Przybliż

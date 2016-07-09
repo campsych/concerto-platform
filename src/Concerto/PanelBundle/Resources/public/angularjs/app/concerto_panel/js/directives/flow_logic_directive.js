@@ -1,16 +1,20 @@
 'use strict';
-$.fn.attachPanning = function () {
-    var attachment = false, lastPosition, position, difference;
+$.fn.pannable = function () {
+    var lastPosition = null;
+    var position = null;
+    var difference = null;
     $($(this).selector).on("mousedown mouseup mousemove", function (e) {
         window.cursorEvent = e;
-        if (e.type == "mousedown")
-            attachment = true, lastPosition = [e.clientX, e.clientY];
+        if (e.type == "mousedown") {
+            window.mouseDown = true;
+            lastPosition = [e.clientX, e.clientY];
+        }
         if (e.button === 2) {
             window.rightClickEvent = e;
         }
         if (e.type == "mouseup")
-            attachment = false;
-        if (e.type == "mousemove" && attachment == true) {
+            window.mouseDown = false;
+        if (e.type == "mousemove" && window.mouseDown == true) {
             position = [e.clientX, e.clientY];
             difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
             $(this).scrollLeft($(this).scrollLeft() - difference[0]);
@@ -18,10 +22,8 @@ $.fn.attachPanning = function () {
             lastPosition = [e.clientX, e.clientY];
         }
     });
-    $(window).on("mouseup", function () {
-        attachment = false;
-    });
 };
+
 angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$timeout', '$uibModal', '$filter', function ($http, $compile, $timeout, $uibModal, $filter) {
         return {
             restrict: 'A',
@@ -31,6 +33,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.flowScale = 1;
                 scope.nodeContext = null;
                 scope.currentMouseEvent = null;
+                scope.selectedNodeIds = [];
 
                 scope.resetView = function () {
                     for (var i = 0; i < scope.object.nodes.length; i++) {
@@ -71,11 +74,33 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     scope.flowScale = zoom;
                 };
 
+                scope.onFlowCtxOpened = function () {
+                    scope.selectedNodeIds = [];
+                };
+
                 scope.onNodeCtxOpened = function (nodeId) {
                     for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
                         if (nodeId === node.id)
                             scope.nodeContext = node;
+                    }
+                };
+
+                scope.truncateNodeName = function (name) {
+                    if (name.length > 25) {
+                        name = name.substr(0, 11) + "..." + name.substr(name.length - 11, 11);
+                    }
+                    return name;
+                };
+
+                scope.toggleNodeSelection = function (id, ignoreCtrl) {
+                    if (window.cntrlIsPressed || ignoreCtrl) {
+                        var index = scope.selectedNodeIds.indexOf(id);
+                        if (index === -1) {
+                            scope.selectedNodeIds.push(id);
+                        } else {
+                            scope.selectedNodeIds.splice(index, 1);
+                        }
                     }
                 };
 
@@ -92,30 +117,34 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
 
                     var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getNode(" + node.id + ").sourceTestDescription'></i>";
+                    var fullName = "";
                     var name = "";
                     var nodeClass = "";
                     if (node.type === 1) {
-                        name = Trans.TEST_FLOW_NODE_NAME_START;
+                        fullName = Trans.TEST_FLOW_NODE_NAME_START;
+                        name = scope.truncateNodeName(fullName);
                         tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_START + "\"'></i>";
                         nodeClass = "nodeStart";
                     } else if (node.type === 2) {
-                        name = Trans.TEST_FLOW_NODE_NAME_END;
+                        fullName = Trans.TEST_FLOW_NODE_NAME_END;
+                        name = scope.truncateNodeName(fullName);
                         tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_END + "\"'></i>";
                         nodeClass = "nodeEnd";
                     } else if (node.type === 0) {
-                        name = node.sourceTestName;
+                        fullName = node.sourceTestName;
+                        name = scope.truncateNodeName(fullName);
                         var test = scope.collectionService.get(node.sourceTest);
                         if (test.sourceWizard) {
-                            name = "<a href='#' ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + node.sourceTestName + "</a>";
+                            name = "<a href='#' ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + name + "</a>";
                         }
                     }
 
-                    var elemHtml = "<div context-menu='onNodeCtxOpened(" + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
+                    var elemHtml = "<div context-menu='onNodeCtxOpened(" + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
                     if (node.type === 1 || node.type === 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
                     }
                     elemHtml +=
-                            "<div class='nodeHeader'>" + tooltip + name + "</div>" +
+                            "<div class='nodeHeader' tooltip-append-to-body='true' uib-tooltip-html='\"" + fullName + "\"'>" + tooltip + name + "</div>" +
                             "<div class='nodeFooter'>" +
                             "<div style='display: table; margin: auto;'>" +
                             "<i class='glyphicon clickable' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
@@ -286,24 +315,78 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     elem.css("height", (portTopMargin + Math.max(leftCount, rightCount) * portElemMargin) + "px");
                     jsPlumb.draggable(elem, {
                         containment: true,
-                        stop: function (event, ui) {
-                            var x = elem.position().left / scope.flowScale;
-                            var y = elem.position().top / scope.flowScale;
-                            $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
-                                "type": node.type,
-                                "flowTest": scope.object.id,
-                                "sourceTest": node.sourceTest,
-                                "posX": x,
-                                "posY": y
-                            }).success(function (data) {
-                                if (data.result === 0) {
-                                    node.posX = x;
-                                    node.posY = y;
+                        drag: function (event, ui) {
+                            if (scope.selectedNodeIds.indexOf(node.id) === -1)
+                                return;
+                            var offset = {
+                                x: (elem.position().left - node.posX) / scope.flowScale,
+                                y: (elem.position().top - node.posY) / scope.flowScale
+                            };
+
+                            node.posX = elem.position().left / scope.flowScale;
+                            node.posY = elem.position().top / scope.flowScale;
+
+                            for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                                var id = scope.selectedNodeIds[a];
+                                if (id == node.id)
+                                    continue;
+                                for (var i = 0; i < scope.object.nodes.length; i++) {
+                                    var n = scope.object.nodes[i];
+                                    if (n.id === id) {
+                                        n.posX += offset.x;
+                                        n.posY += offset.y;
+                                        var nelem = $("#node" + n.id);
+                                        nelem.css("top", n.posY + "px");
+                                        nelem.css("left", n.posX + "px");
+                                        jsPlumb.revalidate(nelem);
+                                    }
                                 }
-                            });
+                            }
+                        },
+                        stop: function (event, ui) {
+                            if (scope.selectedNodeIds.indexOf(node.id) === -1) {
+                                var x = elem.position().left / scope.flowScale;
+                                var y = elem.position().top / scope.flowScale;
+                                $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
+                                    "type": node.type,
+                                    "flowTest": scope.object.id,
+                                    "sourceTest": node.sourceTest,
+                                    "posX": x,
+                                    "posY": y
+                                }).success(function (data) {
+                                    if (data.result === 0) {
+                                        node.posX = x;
+                                        node.posY = y;
+                                    }
+                                });
+                            } else {
+                                $http.post(Paths.TEST_FLOW_NODE_MOVE, {
+                                    nodes: scope.serializeSelectedNodes()
+                                }).success(function (data) {
+
+                                });
+                            }
                         }
                     });
                     $compile(elem)(scope);
+                };
+
+                scope.serializeSelectedNodes = function () {
+                    var result = [];
+                    for (var i = 0; i < scope.selectedNodeIds.length; i++) {
+                        var id = scope.selectedNodeIds[i];
+                        for (var j = 0; j < scope.object.nodes.length; j++) {
+                            var node = scope.object.nodes[j];
+                            if (id != node.id)
+                                continue;
+                            result.push({
+                                id: node.id,
+                                posX: node.posX,
+                                posY: node.posY
+                            });
+                        }
+                    }
+                    return angular.toJson(result);
                 };
 
                 scope.toggleInputEval = function (port) {
@@ -441,27 +524,90 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
                 };
                 scope.removeNode = function (id) {
-                    var node = null;
-                    for (var i = 0; i < scope.object.nodes.length; i++) {
-                        if (id === scope.object.nodes[i].id)
-                            node = scope.object.nodes[i];
-                    }
-
-                    for (var i = 0; i < scope.object.nodesConnections.length; i++) {
-                        var connection = scope.object.nodesConnections[i];
-                        if (id === connection.sourceNode || id === connection.destinationNode) {
-                            connection.removed = true;
+                    var modalInstance = $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+                        controller: ConfirmController,
+                        size: "sm",
+                        resolve: {
+                            title: function () {
+                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE;
+                            },
+                            content: function () {
+                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_MESSAGE;
+                            }
                         }
-                    }
+                    });
 
-                    $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {
-                    }).success(function (data) {
-                        if (data.result === 0) {
-                            jsPlumb.remove("node" + id);
-
-                            scope.object.nodes = data.collections.nodes;
-                            scope.object.nodesConnections = data.collections.nodesConnections;
+                    modalInstance.result.then(function (response) {
+                        var node = null;
+                        for (var i = 0; i < scope.object.nodes.length; i++) {
+                            if (id === scope.object.nodes[i].id)
+                                node = scope.object.nodes[i];
                         }
+
+                        for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                            var connection = scope.object.nodesConnections[i];
+                            if (id === connection.sourceNode || id === connection.destinationNode) {
+                                connection.removed = true;
+                            }
+                        }
+
+                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {
+                        }).success(function (data) {
+                            if (data.result === 0) {
+                                jsPlumb.remove("node" + id);
+
+                                scope.object.nodes = data.collections.nodes;
+                                scope.object.nodesConnections = data.collections.nodesConnections;
+                            }
+                        });
+                    });
+                };
+
+                scope.removeSelectedNodes = function () {
+                    var modalInstance = $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+                        controller: ConfirmController,
+                        size: "sm",
+                        resolve: {
+                            title: function () {
+                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE;
+                            },
+                            content: function () {
+                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_MESSAGE;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (response) {
+                        for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                            var id = scope.selectedNodeIds[a];
+                            var node = null;
+                            for (var i = 0; i < scope.object.nodes.length; i++) {
+                                if (id === scope.object.nodes[i].id)
+                                    node = scope.object.nodes[i];
+                            }
+
+                            for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                                var connection = scope.object.nodesConnections[i];
+                                if (id === connection.sourceNode || id === connection.destinationNode) {
+                                    connection.removed = true;
+                                }
+                            }
+                        }
+
+                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {
+                        }).success(function (data) {
+                            if (data.result === 0) {
+                                for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                                    var id = scope.selectedNodeIds[a];
+                                    jsPlumb.remove("node" + id);
+                                }
+
+                                scope.object.nodes = data.collections.nodes;
+                                scope.object.nodesConnections = data.collections.nodesConnections;
+                            }
+                        });
                     });
                 };
 
@@ -615,6 +761,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.refreshFlow = function () {
                     scope.refreshing = true;
+                    scope.selectedNodeIds = [];
                     jsPlumb.unbind('beforeDrop');
                     jsPlumb.unbind('connection');
                     jsPlumb.unbind('connectionMoved');
@@ -703,7 +850,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 $(function () {
-                    $("#flowContainerScroll").attachPanning();
+                    $("#flowContainerScroll").pannable();
                     $('#flowContainer').mousewheel(function (event) {
                         scope.setZoom(event.deltaY);
                         return false;

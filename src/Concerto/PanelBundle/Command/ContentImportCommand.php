@@ -30,6 +30,7 @@ class ContentImportCommand extends ContainerAwareCommand {
         $finder->files()->in($files_dir)->name('*.concerto.json');
 
         foreach ($finder as $f) {
+            $importService->reset();
             if (!$this->preImport($input, $output, $f)) {
                 $output->writeln("skipping objects in " . $f->getFileName());
                 continue;
