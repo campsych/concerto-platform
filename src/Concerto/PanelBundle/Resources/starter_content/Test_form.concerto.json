@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 12,
+        "id": 38,
         "name": "form",
         "accessibility": 2,
         "protected": "1",
@@ -15,119 +15,119 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 135,
+                "id": 502,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 12,
-                "parentVariable": 125
+                "test": 38,
+                "parentVariable": 225
             },
             {
                 "class_name": "TestVariable",
-                "id": 136,
+                "id": 503,
                 "name": "form",
                 "type": 0,
                 "description": "<p>Form fields list<\/p>\n",
                 "passableThroughUrl": "0",
-                "value": "[]",
-                "test": 12,
-                "parentVariable": 126
+                "value": "[{\"name\":\"age\",\"label\":\"How old are you?\",\"validation\":\"age != \\\"\\\"\",\"alert\":\"Please enter your age\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"gender\",\"label\":\"What is your gender?\",\"validation\":\"gender != \\\"none\\\"\",\"alert\":\"Please select your gender\",\"default\":\"\",\"definition\":{\"type\":\"select\",\"select_options\":[{\"value\":\"none\",\"label\":\"\"},{\"value\":\"male\",\"label\":\"Male\"},{\"value\":\"female\",\"label\":\"Female\"}],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"email_address\",\"label\":\"What is your email address?\",\"validation\":\"grepl(\\\"\\\\\\\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\\\\\.[A-Z]{2,}\\\\\\\\>\\\", as.character(email_address), ignore.case=TRUE)\",\"alert\":\"Please enter a valid email address\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}}]",
+                "test": 38,
+                "parentVariable": 226
             },
             {
                 "class_name": "TestVariable",
-                "id": 137,
+                "id": 504,
                 "name": "button_label",
                 "type": 0,
                 "description": "<p>Continue button label<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "continue",
-                "test": 12,
-                "parentVariable": 127
+                "test": 38,
+                "parentVariable": 227
             },
             {
                 "class_name": "TestVariable",
-                "id": 138,
+                "id": 505,
                 "name": "paragraph",
                 "type": 0,
                 "description": "<p>Form page paragraph<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer the questions below:<\/p>\n",
-                "test": 12,
-                "parentVariable": 128
+                "test": 38,
+                "parentVariable": 228
             },
             {
                 "class_name": "TestVariable",
-                "id": 139,
+                "id": 506,
                 "name": "response",
                 "type": 1,
                 "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 12,
-                "parentVariable": 129
+                "test": 38,
+                "parentVariable": 229
             },
             {
                 "class_name": "TestVariable",
-                "id": 140,
+                "id": 507,
                 "name": "inserts",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 12,
-                "parentVariable": 130
+                "test": 38,
+                "parentVariable": 230
             },
             {
                 "class_name": "TestVariable",
-                "id": 141,
+                "id": 508,
                 "name": "warning_msg",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 12,
-                "parentVariable": 131
+                "test": 38,
+                "parentVariable": 231
             },
             {
                 "class_name": "TestVariable",
-                "id": 142,
+                "id": 509,
                 "name": "title",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
-                "value": "DEMO TEST",
-                "test": 12,
-                "parentVariable": 132
+                "value": "Page Title e.g. Demographics",
+                "test": 38,
+                "parentVariable": 232
             },
             {
                 "class_name": "TestVariable",
-                "id": 143,
+                "id": 510,
                 "name": "template_def",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                "test": 12,
-                "parentVariable": 133
+                "test": 38,
+                "parentVariable": 233
             },
             {
                 "class_name": "TestVariable",
-                "id": 144,
+                "id": 511,
                 "name": "template_def",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 12,
-                "parentVariable": 134
+                "test": 38,
+                "parentVariable": 234
             }
         ],
-        "sourceWizard": 6,
+        "sourceWizard": 8,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 6,
+            "id": 8,
             "name": "form",
             "description": "",
             "accessibility": 2,
@@ -136,66 +136,66 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 12,
+                    "id": 20,
                     "title": "Presentation",
                     "description": "<p>Visual presentation of form page<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 6,
+                    "wizard": 8,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 33,
+                            "id": 57,
                             "label": "Button label",
                             "description": "<p>Continue button label<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "continue",
-                            "testVariable": 127,
+                            "testVariable": 227,
                             "name": "button_label",
-                            "wizardStep": 12,
+                            "wizardStep": 20,
                             "stepTitle": "Presentation",
                             "order": 3,
-                            "wizard": 6,
+                            "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 34,
+                            "id": 58,
                             "label": "Paragraph",
                             "description": "<p>Form page paragraph<\/p>\n",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Please answer the questions below:<\/p>\n",
-                            "testVariable": 128,
+                            "testVariable": 228,
                             "name": "paragraph",
-                            "wizardStep": 12,
+                            "wizardStep": 20,
                             "stepTitle": "Presentation",
                             "order": 2,
-                            "wizard": 6,
+                            "wizard": 8,
                             "definition": {
                                 "placeholder": "0"
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 35,
+                            "id": 59,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "Page Title e.g. Demographics",
-                            "testVariable": 132,
+                            "testVariable": 232,
                             "name": "title",
-                            "wizardStep": 12,
+                            "wizardStep": 20,
                             "stepTitle": "Presentation",
                             "order": 1,
-                            "wizard": 6,
+                            "wizard": 8,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -204,28 +204,28 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 13,
+                    "id": 21,
                     "title": "Forms",
                     "description": "<p>Forms declaration<\/p>\n",
                     "orderNum": 1,
                     "colsNum": 0,
-                    "wizard": 6,
+                    "wizard": 8,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 36,
+                            "id": 60,
                             "label": "Form fields",
                             "description": "<p>Form fields list<\/p>\n",
                             "hideCondition": "",
                             "type": 10,
                             "passableThroughUrl": "0",
-                            "value": "[]",
-                            "testVariable": 126,
+                            "value": "[{\"name\":\"age\",\"label\":\"How old are you?\",\"validation\":\"age != \\\"\\\"\",\"alert\":\"Please enter your age\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"gender\",\"label\":\"What is your gender?\",\"validation\":\"gender != \\\"none\\\"\",\"alert\":\"Please select your gender\",\"default\":\"\",\"definition\":{\"type\":\"select\",\"select_options\":[{\"value\":\"none\",\"label\":\"\"},{\"value\":\"male\",\"label\":\"Male\"},{\"value\":\"female\",\"label\":\"Female\"}],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"email_address\",\"label\":\"What is your email address?\",\"validation\":\"grepl(\\\"\\\\\\\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\\\\\.[A-Z]{2,}\\\\\\\\>\\\", as.character(email_address), ignore.case=TRUE)\",\"alert\":\"Please enter a valid email address\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}}]",
+                            "testVariable": 226,
                             "name": "form",
-                            "wizardStep": 13,
+                            "wizardStep": 21,
                             "stepTitle": "Forms",
                             "order": 0,
-                            "wizard": 6,
+                            "wizard": 8,
                             "definition": {
                                 "placeholder": "0",
                                 "element": {
@@ -442,10 +442,10 @@
                     ]
                 }
             ],
-            "test": 11,
+            "test": 15,
             "testObject": {
                 "class_name": "Test",
-                "id": 11,
+                "id": 15,
                 "name": "source_form",
                 "accessibility": 2,
                 "protected": "1",
@@ -453,119 +453,119 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "decoded_template_def = fromJSON(template_def)\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = \"\"\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"\n            <script>\n              var p_form\",i,\" = document.getElementById('form\",i,\"'),\n                res_form\",i,\" = document.getElementById('form\",i,\"number');\n\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";\n\n              p_form\",i,\".addEventListener('input', function() {\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";          \n              }, false); \n            <\/script>\n\t\t  \") \n        }\n        control = paste0(control, \"<table class='tableFormSlider'><tr><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr>\")\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"<tr><td>&nbsp;<\/td><td><div id='form\",i,\"number' class='tdFormSliderNumber'>&nbsp;<\/div><\/td><td>&nbsp;<\/td><\/tr>\") \n        }\n        control = paste0(control, \"<\/table>\")\n        \n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
-                "slug": "06e8070d7fd5c1fd99a48ac42ca36252",
+                "slug": "5e52123513a0f0dd544d254a07e6b27d",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 125,
+                        "id": 225,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 126,
+                        "id": 226,
                         "name": "form",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 127,
+                        "id": 227,
                         "name": "button_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 128,
+                        "id": 228,
                         "name": "paragraph",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 129,
+                        "id": 229,
                         "name": "response",
                         "type": 1,
                         "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 130,
+                        "id": 230,
                         "name": "inserts",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 131,
+                        "id": 231,
                         "name": "warning_msg",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 132,
+                        "id": 232,
                         "name": "title",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 133,
+                        "id": 233,
                         "name": "template_def",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "{\"layout\":\"default_layout\", \"header\":\"<p>Welcome.<\/p>\",\"footer\":\"\"}",
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 134,
+                        "id": 234,
                         "name": "template_def",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 11,
+                        "test": 15,
                         "parentVariable": null
                     }
                 ],
@@ -574,7 +574,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-06-02 18:25:14",
+                "updatedOn": "2016-07-08 16:43:37",
                 "updatedByName": "",
                 "nodes": [
 
@@ -588,13 +588,13 @@
                 "starterContent": false
             },
             "testName": "source_form",
-            "updatedOn": "2016-06-02 18:25:14",
+            "updatedOn": "2016-07-08 20:52:22",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": false
         },
-        "updatedOn": "2016-06-02 18:25:14",
+        "updatedOn": "2016-07-08 20:53:22",
         "updatedByName": "",
         "nodes": [
 
