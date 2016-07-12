@@ -23,6 +23,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.formTitleAddLabel = Trans.TEST_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.TEST_FORM_TITLE_EDIT;
     $scope.formTitle = $scope.formTitleAddLabel;
+    
+    $scope.copiedNodes = [];
 
     $scope.getWizardCellTemplate = function (col) {
         if (col !== null) {

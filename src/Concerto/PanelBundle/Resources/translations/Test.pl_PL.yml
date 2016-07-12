@@ -282,6 +282,9 @@ flow:
     buttons:
         reset_view: Resetuj widok
         toggle_selection: przełącz wybór węzła
+        copy_node: kopiuj węzeł
+        copy_selected_nodes: kopiuj wybrane węzły
+        paste_nodes: wklej węzły
         remove_node: usuń węzeł
         remove_selected_nodes: usuń wybrane węzły
         clear_selection: wyczyść wybór

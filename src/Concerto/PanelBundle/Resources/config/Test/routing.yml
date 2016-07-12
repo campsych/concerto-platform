@@ -63,3 +63,8 @@ Test_move_node:
     path: /Test/node/move
     defaults: { _controller: concerto_panel.Test_controller:moveNodeAction }
     methods:  [POST]
+    
+Test_paste_nodes:
+    path: /Test/{object_id}/node/paste
+    defaults: { _controller: concerto_panel.Test_controller:pasteNodesAction }
+    methods:  [POST]

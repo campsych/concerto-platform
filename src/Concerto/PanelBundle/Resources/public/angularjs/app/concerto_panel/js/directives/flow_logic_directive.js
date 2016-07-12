@@ -74,6 +74,19 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     scope.flowScale = zoom;
                 };
 
+                scope.onKeyUp = function (event) {
+                    if (!window.cntrlIsPressed)
+                        return;
+                    if (scope.selectedNodeIds.length > 0 && event.which === 67) {
+                        scope.copySelectedNodes();
+                        return;
+                    }
+                    if (scope.copiedNodes.length > 0 && event.which === 86) {
+                        scope.pasteNodes(scope.currentMouseEvent);
+                        return;
+                    }
+                };
+
                 scope.onFlowCtxOpened = function () {
                     scope.selectedNodeIds = [];
                 };
@@ -94,6 +107,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.toggleNodeSelection = function (id, ignoreCtrl) {
+                    $('#flowContainer').focus();
                     if (window.cntrlIsPressed || ignoreCtrl) {
                         var index = scope.selectedNodeIds.indexOf(id);
                         if (index === -1) {
@@ -523,6 +537,75 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     });
                 };
+
+                scope.copyNode = function (id) {
+                    for (var i = 0; i < scope.object.nodes.length; i++) {
+                        var node = scope.object.nodes[i];
+                        if (node.id === id) {
+                            scope.copiedNodes = [
+                                node
+                            ];
+                            break;
+                        }
+                    }
+                };
+
+                scope.copySelectedNodes = function () {
+                    var nodes = [];
+                    for (var j = 0; j < scope.selectedNodeIds.length; j++) {
+                        var id = scope.selectedNodeIds[j];
+                        for (var i = 0; i < scope.object.nodes.length; i++) {
+                            var node = scope.object.nodes[i];
+                            if (node.id === id) {
+                                nodes.push(node);
+                                break;
+                            }
+                        }
+                    }
+                    scope.copiedNodes = nodes;
+                };
+
+                scope.pasteNodes = function (cursorPos) {
+                    var posX = 0;
+                    var posY = 0;
+                    if (!cursorPos) {
+                        posX = window.rightClickEvent.offsetX;
+                        posY = window.rightClickEvent.offsetY;
+                    } else {
+                        posX = scope.currentMouseEvent.offsetX;
+                        posY = scope.currentMouseEvent.offsetY;
+                    }
+                    var offset = null;
+
+                    var nodes = angular.copy(scope.copiedNodes);
+
+                    for (var i = 0; i < nodes.length; i++) {
+                        var node = nodes[i];
+                        if (offset === null) {
+                            offset = {
+                                posX: node.posX,
+                                posY: node.posY
+                            };
+                        } else {
+                            offset.posX = Math.min(offset.posX, node.posX);
+                            offset.posY = Math.min(offset.posY, node.posY);
+                        }
+                    }
+
+                    for (var i = 0; i < nodes.length; i++) {
+                        var node = nodes[i];
+                        node.posX = posX + node.posX - offset.posX;
+                        node.posY = posY + node.posY - offset.posY;
+                    }
+
+                    var serializedNodes = angular.toJson(nodes);
+                    $http.post(Paths.TEST_FLOW_NODE_PASTE_COLLECTION.pf(scope.object.id), {
+                        nodes: serializedNodes
+                    }).success(function (data) {
+                        scope.object.nodes = data.collections.nodes;
+                    });
+                };
+
                 scope.removeNode = function (id) {
                     var modalInstance = $uibModal.open({
                         templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
@@ -854,10 +937,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $('#flowContainer').mousewheel(function (event) {
                         scope.setZoom(event.deltaY);
                         return false;
-                    });
-                    $('#flowContainer').mousemove(function (event) {
+                    }).mousemove(function (event) {
                         scope.currentMouseEvent = event;
-                    });
+                    }).keyup(function (event) {
+                        scope.onKeyUp(event);
+                    }).focus();
                 });
 
                 scope.$watchCollection(

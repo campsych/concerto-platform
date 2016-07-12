@@ -146,4 +146,13 @@ class TestController extends AExportableTabController {
         return $response;
     }
 
+    public function pasteNodesAction($object_id) {
+        $result = $this->service->pasteNodes(//
+                $this->securityTokenStorage->getToken()->getUser(), //
+                $this->service->get($object_id), //
+                json_decode($this->request->get("nodes"), true), //
+                true);
+        return $this->getSaveResponse($result);
+    }
+
 }

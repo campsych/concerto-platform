@@ -302,4 +302,27 @@ class TestService extends AExportableSectionService {
         );
     }
 
+    public function pasteNodes(User $user, Test $flowTest, $nodes, $return_collections = false) {
+        foreach ($nodes as $node) {
+            $result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), false);
+            $new_node = $result["object"];
+
+            foreach ($node["ports"] as $src_port) {
+                foreach ($new_node->getPorts() as $dest_port) {
+                    if ($src_port["variable"] !== null && $src_port["variable"] == $dest_port->getVariable()->getId()) {
+                        $dest_port->setValue($src_port["value"]);
+                        $dest_port->setString($src_port["string"]);
+                        $this->testNodePortService->repository->save($dest_port);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ($return_collections) {
+            $result["collections"] = $this->getFlowCollections($flowTest->getId());
+        }
+        return $result;
+    }
+
 }

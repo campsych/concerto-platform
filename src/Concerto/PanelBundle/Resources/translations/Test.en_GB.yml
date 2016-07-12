@@ -279,6 +279,9 @@ flow:
     buttons:
         reset_view: Reset view 
         toggle_selection: toggle node selection
+        copy_node: copy node
+        copy_selected_nodes: copy selected nodes
+        paste_nodes: paste nodes
         remove_node: remove node
         remove_selected_nodes: remove selected nodes
         clear_selection: clear selection
