@@ -266,7 +266,7 @@ services:
     scope: request
   concerto_panel.FileBrowser_controller:
     class: Concerto\PanelBundle\Controller\FileBrowserController
-    arguments: ["@templating","@concerto_panel.panel_service","@concerto_panel.file_service","@request"]
+    arguments: ["@templating","@concerto_panel.panel_service","@concerto_panel.file_service","@request", "@templating.helper.assets"]
     scope: request
   concerto_panel.Dialog_controller:
     class: Concerto\PanelBundle\Controller\DialogController

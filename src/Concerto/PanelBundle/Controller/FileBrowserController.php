@@ -8,6 +8,7 @@ use Concerto\PanelBundle\Service\FileService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
 
 /**
  * @Security("has_role('ROLE_FILE') or has_role('ROLE_SUPER_ADMIN')")
@@ -18,12 +19,14 @@ class FileBrowserController {
     private $service;
     private $request;
     private $fileService;
+    private $assetHelper;
 
-    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, Request $request) {
+    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, Request $request, AssetsHelper $assetHelper) {
         $this->templating = $templating;
         $this->service = $service;
         $this->fileService = $fileService;
         $this->request = $request;
+        $this->assetHelper = $assetHelper;
     }
 
     /**
@@ -46,7 +49,7 @@ class FileBrowserController {
      * @return Response
      */
     public function fileListAction() {
-        $files = $this->fileService->listUploadedFiles($this->request->getSchemeAndHttpHost() . '/bundles/concertopanel/files/');
+        $files = $this->fileService->listUploadedFiles($this->assetHelper->getUrl("bundles/concertopanel/files/"));
         // if there are any errors <=> files service returned false, we return error status 1
         $response = new Response(json_encode((false === $files) ? array("result" => 1) : array("result" => 0, "files" => $files)));
         $response->headers->set('Content-Type', 'application/json');
