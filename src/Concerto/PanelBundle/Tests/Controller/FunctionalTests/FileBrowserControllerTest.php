@@ -17,11 +17,11 @@ class FileBrowserControllerTest extends AFunctionalTest {
         $this->assertCount(5, $result["files"]);
 
         $elems = array(
-            array("name" => "csv_table.csv", "url" => "http://localhost/bundles/concertopanel/files/csv_table.csv"),
-            array("name" => "DataTable_1.concerto.json", "url" => "http://localhost/bundles/concertopanel/files/DataTable_1.concerto.json"),
-            array("name" => "Test_1.concerto.json", "url" => "http://localhost/bundles/concertopanel/files/Test_1.concerto.json"),
-            array("name" => "large_table.csv", "url" => "http://localhost/bundles/concertopanel/files/large_table.csv"),
-            array("name" => "ViewTemplate_8.concerto.json", "url" => "http://localhost/bundles/concertopanel/files/ViewTemplate_8.concerto.json")
+            array("name" => "csv_table.csv", "url" => "/bundles/concertopanel/files/csv_table.csv"),
+            array("name" => "DataTable_1.concerto.json", "url" => "/bundles/concertopanel/files/DataTable_1.concerto.json"),
+            array("name" => "Test_1.concerto.json", "url" => "/bundles/concertopanel/files/Test_1.concerto.json"),
+            array("name" => "large_table.csv", "url" => "/bundles/concertopanel/files/large_table.csv"),
+            array("name" => "ViewTemplate_8.concerto.json", "url" => "/bundles/concertopanel/files/ViewTemplate_8.concerto.json")
         );
         foreach($elems as $elem){
             $this->assertContains($elem, $result["files"]);

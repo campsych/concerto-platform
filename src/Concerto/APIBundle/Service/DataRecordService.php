@@ -21,7 +21,7 @@ class DataRecordService extends AModelService {
     }
 
     public function getData($table_id, $id, $format = null) {
-        $table = $this->dataTableService->get($table_id);
+        $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
 
@@ -36,7 +36,7 @@ class DataRecordService extends AModelService {
     }
 
     public function getDataCollection($table_id, $filter, $format = null) {
-        $table = $this->dataTableService->get($table_id);
+        $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null) {
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
         }
@@ -58,7 +58,7 @@ class DataRecordService extends AModelService {
     }
 
     public function updateData($table_id, $id, $newSerializedData, $format = "json") {
-        $table = $this->dataTableService->get($table_id);
+        $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
 
@@ -79,7 +79,7 @@ class DataRecordService extends AModelService {
     }
 
     public function insertData($table_id, $newSerializedData, $format = "json") {
-        $table = $this->dataTableService->get($table_id);
+        $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
 
@@ -100,7 +100,7 @@ class DataRecordService extends AModelService {
     }
 
     public function deleteData($table_id, $id) {
-        $table = $this->dataTableService->get($table_id);
+        $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
 

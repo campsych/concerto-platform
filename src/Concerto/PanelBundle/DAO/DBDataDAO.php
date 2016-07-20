@@ -23,6 +23,8 @@ class DBDataDAO {
         $i = 0;
         if ($filter !== null) {
             foreach ($filter as $k => $v) {
+                if (is_a($v, "DateTime"))
+                    $v = $v->format("Y-m-d");
                 if ($i == 0) {
                     $q = $q->where("d.$k " . $operators[$k] . " :$k")->setParameter(":$k", $v);
                 } else {

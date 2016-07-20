@@ -22,7 +22,7 @@ class DataRecordController {
     }
 
     /**
-     * @Route("/")
+     * @Route("")
      * @Method({"GET","POST","PUT"})
      */
     public function dataCollectionAction($table_id) {
