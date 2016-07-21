@@ -1,0 +1,147 @@
+header:
+  logged.user: 'Usuario conectado: {0}'
+  logout: Salir
+
+tab:
+  wizards: Asistentes de prueba
+  wizards.tooltip: Esta es la pestaña del asistente de pruebas
+  tests: Pruebas
+  tests.tooltip: Esta es una ficha de prueba
+  templates: Plantillas
+  templates.tooltip: Esta ficha es una plantilla de vista
+  tables: Tablas de datos
+  tables.tooltip: Esta es una ficha Tabla de datos
+  files: Archivos
+  files.tooltip: Pestaña Administrador de archivos
+  users: Usuarios
+  users.tooltip: Esta es una ficha de usuario
+
+list:
+  accessibility:
+      public: público
+      group: grupo
+      private: privado
+  field:
+    id: Id
+    info: Info
+    updated.on: Última actualización el
+    updated.by: Última actualización por
+    protected: Protegido
+  edit: Editar
+  delete: Eliminar
+  export: Exportar
+  button:
+    refresh: Actualizar
+    delete.checked: Eliminar seleccionado
+    export.checked: Exportar selección
+    add: Añade nuevos
+    import: Importar
+    download: Descargar
+    upload: Cargar archivo CSV
+
+form:
+  validation.failed: Error de validación
+  button:
+    save.new: Copiar
+    delete: Eliminar
+    export: Exportar
+    save: Guardar
+    cancel: Cancelar
+    yes: Sí
+    no: No
+    change: Change
+    ok: Ok
+    apply: Aplicar
+    upload: Cargar
+
+dialog:
+  title:
+    save: Guardar el objeto
+    delete: Eliminar el objeto
+    csv: CSV
+  message:
+    failed: Error en la operación. Validar los datos y vuelva a intentarlo.
+    saved: Objeto ha sido guardado
+    confirm.delete: Está seguro de que desea eliminar el objeto(s) seleccionado(s)??
+    leaving: ¿Está seguro que desea continuar? Se perderán todos los cambios no guardados.
+
+please.wait: Por favor espera...
+none.choosen: Ninguno elegido
+none: Ninguno
+
+description:
+    tooltip: Cambiar descripción
+    fieldset:
+        legend: Descripción
+        legend.tooltip: Descripción del objeto
+        
+save_new:
+    dialog:
+        title: Nombre del nuevo objeto
+        title_main: Copiar objeto
+        message.copied: Objeto copiado
+    fieldset:
+        legend.tooltip: >
+                        Introduzca el nombre que desea establecer para objetos copiados. Déjelo en blanco para establecer el nombre original. Puede insertar el id del objeto original o nombre mediante: \{\{id\}\} o \{\{name\}\}.
+
+import:
+    dialog:
+        title: Importar objeto
+        description: "Cuando hay una probabilidad de que el nombre del objeto importado o el objeto hijo será el mismo que uno ya existente, deberá utilizar en \"Nombre\" debajo del campo variables \"id\" o \"name\" para importar archivos con nombres únicos. Verificar \"Name\" el campo Descripción para obtener más información."
+        message.imported: Objeto importado
+    fieldset:
+        legend.tooltip: Importar nuevo objeto del archivo que se ha exportado anteriormente
+    form:
+        field:
+            name: Nombre
+            name.tooltip: >
+                Introduzca el nombre que desea establecer para el objeto importado. Déjelo en blanco para establecer el nombre original. Puede insertar el id del objeto original o nombre mediante: \{\{id\}\} o \{\{name\}\}.
+            file: Archivo
+            file.tooltip: Seleccione el archivo a ser importado
+
+export:
+    dialog:
+        title: Exportación de datos
+        error:
+            empty.content: seleccione al menos una entrada en la tabla de abajo con el fin de exportarlo.
+        format:
+            info: Por favor, seleccione un formato para el archivo exportado. Formato comprimido requiere menos espacio en disco y ancho de banda, pero no puede abrirse fácilmente. Formato de texto es más fácil de ver o editar, pero genera archivos más grandes.
+            compressed: Comprimido
+            plaintext: Texto
+     
+download_list:
+    dialog:
+        title: Descargar grid
+        tooltip: Seleccione las opciones de cuadrícula
+        field:
+            format: Formato
+            format.tooltip: Formato de archivo descargado
+            format.csv: CSV
+            format.pdf: PDF
+            cols: Columnas
+            cols.tooltip: Columnas para mostrar
+            cols.all: Todos
+            cols.visible: Visible
+            rows: Filas
+            rows.tooltip: Filas para mostrar
+            rows.all: Todos
+            rows.visible: Visible
+            rows.selected: Seleccionado
+            
+upload_list:
+    dialog:
+        title: Cargar archivos CSV de cuadrícula
+        tooltip: Seleccione Cuadrícula CSV
+        description: Nuevos datos se agregarán a los datos existentes en la actualidad.
+        fields:
+            file: Archivo
+            file.tooltip: Elegir el archivo que desea cargar.
+    
+code:
+    F11: Modo de pantalla completa
+    shift.tab: Formato código seleccionado
+    ctrl.space: Autocompletar
+    documentation:
+        error.info: No se pueden cargar datos de autocompletado!
+        error.solve: Resolver
+    

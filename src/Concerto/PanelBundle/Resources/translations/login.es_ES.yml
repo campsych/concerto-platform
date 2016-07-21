@@ -1,0 +1,12 @@
+form:
+  legend: Por favor ingrese sus credenciales
+  legend.tooltip: Ingrese su usuario y contraseña
+  field:
+    login: Login
+    login.tooltip: Por favor ingrese su ID de usuario
+    password: Contraseña
+    password.tooltip: Por favor entre su contraseña
+  button.login: Log in
+
+'Bad credentials.': ¡Usuario o contraseña incorrectos!
+'User account is disabled.': Usuario está archivado!

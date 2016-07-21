@@ -1,0 +1,296 @@
+breadcrumb:
+    list: Todas las pruebas
+
+form:
+  title:
+    add: Crear nueva prueba
+    edit: 'Editando prueba #{0}'
+  field:
+    name: Nombre
+    name.tooltip: Nombre de la prueba
+    accessibility: Accesibilidad
+    accessibility.tooltip: El nivel de accesibilidad de la prueba
+    protected: Protegida
+    protected.tooltip: Está protegida esta prueba?
+    archived: Archivado
+    archived.tooltip: Esta prueba esta archivada?
+    slug: Nombre de la Url
+    slug.tooltip: El nombre de URL (también llamados "SLUG") es una parte del URL personalizable en virtud de la cual la prueba estará disponible; puede utilizarse para realizar pruebas de URLs más descriptiva
+    visibility: Visibilidad
+    visibility.tooltip: Visibilidad de la Prueba
+    visibility.subtest: Subprueba
+    visibility.regular: Regular
+    visibility.featured: Destacados
+    type: Tipo
+    type.tooltip: Tipo de prueba
+    type.code: Código
+    type.wizard: asistente
+    type.flow: Diagrama de flujo
+    resumable: Reanudar
+    resumable.tooltip: Permitió reanudar la sesión?
+    wizard: Asistente
+    wizard.tooltip: Seleccionar un asistente de prueba que esta prueba se crea a partir de
+    wizard.none: <Ninguno seleccionado>
+    owner: Propietario
+    owner.tooltip: Propietario del objeto
+    groups: Grupos
+    groups.tooltip: Lista separada por comas de los grupos que objeto se asigna a separarse
+  button:
+      run: Ejecutar el test
+      debug: Depuración de la prueba
+      update: Actualizar todas las pruebas dependientes
+  dialog:
+      title:
+          update: Actualización de las pruebas dependientes
+      message:
+          update.successful: Actualización finalizada.
+    
+list: 
+  field:
+    name: Nombre
+    wizard: Asistente
+    wizard.source: Prueba de origen
+  tooltips:
+    outdated: Hay una nueva versión de prueba de fuente disponible. Por favor, guarde de nuevo test para la actualización.
+    uptodate: Utilizando la última versión de la prueba de origen..
+    
+variables:
+    form:
+        field:
+            name: Nombre
+            name.tooltip: El nombre único de la variable
+            description: Descripción
+            description.tooltip: Descripción de la Variable 
+            url: URL
+            url.tooltip: Es un parámetro transitables a través de URL?
+            value: Valor predeterminado
+            value.tooltip: Valor por defecto de la variable
+    dialog:
+        tooltip: Definir la variable test
+    
+    input:
+        fieldset:
+            legend: Entrada de prueba
+            legend.tooltip: Prueba de variables de entrada.
+        parameters:
+            list:
+                add: Agrega el parámetro de entrada
+                delete.checked: Quitar Comprobacion de parametros
+                edit: Editar
+                delete: Eliminar
+                field:
+                    info: Info
+                    name: Nombre
+                    url: URL
+                    url.yes: Si
+                    url.no: No
+                    value: Valor predeterminado
+            dialog:
+                title:
+                    add: Añade nuevos parámetros de entrada
+                    edit: Edición de parámetros de entrada
+                    delete: Eliminar el parámetro de entrada
+                message:
+                    delete.confirm: ¿Está seguro de que desea eliminar los parámetros de entrada seleccionados?
+    output:
+        fieldset:
+            legend: salida de Test
+            legend.tooltip: Prueba de variables de salida.
+        returns:
+            legend: Devolver las variables
+            legend.tooltip: Definir variables de retorno de prueba
+            list:
+                add: Añade variable de retorno
+                delete.checked: Eliminar retornos chequeados
+                edit: Editar
+                delete: Eliminar
+                field:
+                    info: Info
+                    name: Nombre
+                    value: Valor predeterminado
+            dialog:
+                title:
+                    add: Añadir nueva variable de retorno
+                    edit: Edita variable de retorno
+                    delete: Eliminar variable de retorno
+                message:
+                    delete.confirm: ¿Está seguro de que desea eliminar variables de retorno seleccionadas?
+        branches:
+            legend: Ramificación
+            legend.tooltip: Definir la ramificación de prueba
+            list:
+                add: Añade rama
+                delete.checked: Eliminar ramas marcadas
+                edit: Editar
+                delete: Eliminar
+                field:
+                    info: Info
+                    name: Nombre
+                    value: Valor predeterminado
+            dialog:
+                title:
+                    add: Añadir nueva rama
+                    edit: Editar rama
+                    delete: Eliminar la rama
+                message:
+                    delete.confirm: ¿Está seguro de que desea eliminar la rama seleccionada?
+    
+log:
+    dialog:
+        title:
+            delete: Eliminar log
+            clear: Borrar log
+        message:
+            delete.confirm: ¿Está seguro de que desea eliminar los registros seleccionados?
+            clear.confirm: ¿Está seguro de que desea borrar todos los registros?
+    fieldset:
+        legend: Registros de Error
+        legend.tooltip: Registros de test de error
+    list:
+        button: 
+            delete.all: Borrar todo
+            delete.checked: Borrar seleccionados
+            delete: Eliminar
+            refresh: Actualizar
+        field:
+            date: Fecha
+            type: Tipo
+            type.R: R
+            type.javascript: Javascript
+            message: Mensaje
+            browser: Navegador
+            ip: IP
+            
+logic:
+    convert:
+        title: probar la conversión a código R
+        confirmation: Está seguro de que desea convertir esta prueba para código R?. Esta operación no puede ser revertida.
+        buttons:
+            convert: Convertir a código R
+    code:
+        fieldset:
+            legend: Logica del Test
+            legend.tooltip: código de lógica de la prueba
+            
+completion:
+    wizard:
+        default:
+            autoformat: Autoformato
+            insertcomments: Insertar comentarios
+        
+        sql:
+            selection:
+                empty:
+                    column: -- seleccionen columna --
+                    table: -- seleccione tabla --
+            options:
+                wizard: Asistente
+                code: código SQL
+            parameters: 
+                label: parámetros
+                tooltip: Definir parámetros de código SQL.
+            fetchcount: 
+                label: fechCount
+                tooltip: El número de registros que devuelve la respuesta. Utilice -1 para todos y 0 para ninguno.
+            table:
+                label: seleccione tabla
+                tooltip: Seleccione la tabla que desee para realizar una acción.
+            type:
+                label: tipo de consulta
+                tooltip: Seleccione el tipo de consulta.
+            update:
+                label: set
+                tooltip: Establezca los valores de registro.
+                empty: cláusula Set está vacía. No se harán cambios en las filas actualizadas. 
+            select:
+                label: seleccione
+                tooltip: Elija las columnas que desea seleccionar.
+            where:
+                label: donde
+                tooltip: Declarar la instrucción condicional.
+                empty:  cláusula WHERE está vacía. Los filtros no se aplican.
+                logic:
+                    or: O
+                    and: Y
+                operators:
+                    equal: igualdad
+                    notequal: no son iguales
+                    greater: mas grande que
+                    equalgreater: igual o superior a
+                    lesser: menor que
+                    equallesser: igual o menor que
+                    like: como
+                    notlike: no como
+            order:
+                label: ordenar por
+                tooltip: Elija la clasificación.
+                empty:  cláusula ORDER BY está vacía. La clasificación no se aplicó.
+                directions:
+                    ascending: ascendente
+                    descending: descendente
+            insert:
+                label: insertar
+                tooltip: Establecer valores a insertar.
+                empty:  cláusula INSERT está vacía. El registro será añadido con valores predeterminados. 
+    documentation:
+        help:
+            title: instrucciones de generación de documentación R de Autocompletar
+            intro: Antes de utilizar la característica Autocompletar R en este software, es necesario asegurarse de que se ha generado la documentación R basándose en la configuración R en su sistema.
+            info:
+                directory: >
+                    Para generar esta documentación, usted necesita abrir una aplicación de consola (en sistemas Windows - "cmd", en Linux 'xterm', 'konsole' o 'gnome-terminal") y, dentro de ella, vaya a su directorio de instalación:
+                console: Desde esa ubicación, usted será capaz de utilizar la consola de symfony. Necesitará ejecutar `concerto:r:cache`
+                console.more: Haga clic aquí para obtener más información acerca de la consola Symfony
+                output: Ejecutar este comando mostrará todos las funciones r que se encuentra en su sistema, y preparará la documentación necesaria de los archivos. Recargar o reabrir la página para empezar a usarlo cuando se edita las fuentes r.
+
+flow:
+    fieldset:
+        legend: Prueba de flujo
+        legend.tooltip: Prueba de flujo
+        return_function.tooltip: Función de retorno.
+    nodes:
+        names:
+            test_start: Comienzo de prueba
+            test_end: Final de prueba
+        descriptions:
+            test_start: Esta es una entrada de prueba de nodo. Prueba de flujo comienza la ejecución desde aquí. Devuelve los parámetros de entrada de prueba.
+            test_end: Este es un nodo de prueba donde puede establecer los valores de las variables de retorno de prueba.
+        dialog:
+            delete:
+                title: Quitar el nodo
+                message: ¿Está seguro que desea eliminar este nodo?
+            selection_delete:
+                title: Eliminación de nodos seleccionados
+                message: ¿Está seguro de que desea quitar nodos seleccionados?
+    ports:
+        names:
+            in: in
+        descriptions:
+            in: Nodo de punto de entrada.
+        tooltips:
+            inputs:
+                label: Haga clic para alternar entre mostrar como la variable debe ser tratada, como una cadena o evaluados como expresión R. entradas subrayadas son tratados como una cadena.
+        dialog:
+            fields:
+                string: Como cadena?
+                string.tooltip: Si está marcada, entonces el valor del puerto será tratada como cadena, de lo contrario como código r.
+                value: Valor
+                value.tooltip: Valo de la variable en este puerto
+    buttons:
+        reset_view: Restablecer vista 
+        toggle_selection: Alternar la selección de nodos
+        remove_node: quitar el nodo
+        remove_selected_nodes: quitar nodos seleccionados
+        clear_selection: Borrar selección
+        reset_to_default: Resetear por default
+        toggle_collapse: Contraer/Expandir puertos desconectados
+        zoom_in: Acercar
+        zoom_out: Alejar
+    tags:
+        all: Todos
+        
+alerts:
+    edit:
+        input: Guarde los cambios realizados para probar antes de añadir/editar/eliminar cualquier variable de entrada para evitar la pérdida de los cambios no guardados.
+        output: Guarde los cambios realizados para probar antes de añadir/editar/eliminar cualquier variable de salida para evitar la pérdida de los cambios no guardados.
+        
