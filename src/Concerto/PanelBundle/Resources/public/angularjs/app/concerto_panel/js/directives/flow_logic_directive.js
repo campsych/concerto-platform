@@ -118,6 +118,17 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                 };
 
+                scope.isGetterNode = function (node) {
+                    if (node.type !== 0)
+                        return false;
+                    for (var i = 0; i < node.ports.length; i++) {
+                        var port = node.ports[i];
+                        if (port.variableObject !== null && port.variableObject.type === 2)
+                            return false;
+                    }
+                    return true;
+                };
+
                 scope.drawNode = function (node) {
                     /* SETTINGS START */
                     var portTopMargin = 40;
@@ -170,7 +181,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var leftCount = 0;
                     var rightCount = 0;
                     //in port
-                    if (node.type !== 1) {
+                    if (node.type !== 1 && !scope.isGetterNode(node)) {
                         jsPlumb.addEndpoint(elem, {
                             uuid: "node" + node.id + "-ep_entry",
                             isTarget: true,
@@ -726,7 +737,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }).success(function (data) {
                         if (data.result === 0) {
                             jspConnection.setParameter("concertoConnection", data.object);
-                            scope.setUpConnection(jspConnection);
+                            //scope.setUpConnection(jspConnection);
                         }
                     });
                 };
@@ -773,6 +784,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     if (params.targetPort)
                         $("#divPortControl" + params.targetPort.id).hide();
                     if ((params.sourceNode.type === 1 && params.sourcePort.variableObject.type === 0) || (params.sourceNode.type === 0 && params.sourcePort.variableObject.type === 1)) {
+                        if (jspConnection.getOverlay("overlayConnection" + params.concertoConnection.id))
+                            return;
                         jspConnection.addOverlay(
                                 ["Custom", {
                                         create: function (component) {
@@ -805,6 +818,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(id), {
                     }).success(function (data) {
                         if (data.result === 0) {
+                            $("#overlayConnection" + id).remove();
                             scope.object.nodesConnections = data.collections.nodesConnections;
                         }
                     });

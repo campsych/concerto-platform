@@ -86,13 +86,17 @@ concerto.test.run <-
 
       concerto$flow[[flowIndex]]$currentNode <<- NULL
       concerto$flow[[flowIndex]]$nextNode <<- beginNode
-      
-      while(!is.null(concerto$flow[[flowIndex]]$nextNode)) {
-        node = concerto$flow[[flowIndex]]$nextNode
-        
-        concerto$flow[[flowIndex]]$currentNode <<- node
-        concerto$flow[[flowIndex]]$nextNode <<- NULL
-        
+
+      isGetterNode = function(node){
+        if(node$type != 0) return(F)
+        for (port_id in ls(concerto$flow[[flowIndex]]$ports)){
+            port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+            if(port$node_id == node$id && port$type == 2) return(F)
+        }
+        return(T)
+      }
+
+      runNode = function(node){
         #PARAMS
         node_params = list()
         input_type = 0
@@ -107,6 +111,14 @@ concerto.test.run <-
                 connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
                 if(!is.na(connection$destinationPort_id) && connection$destinationPort_id == port$id) {
                   port_connected = TRUE
+
+                  #check for getter node
+                  source_node = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
+                  if(isGetterNode(source_node)) {
+                    runNode(source_node)
+                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                  }
+
                   break
                 }
               }
@@ -170,11 +182,13 @@ concerto.test.run <-
             }
           }
           
-          for (connection_id in ls(concerto$flow[[flowIndex]]$connections)){
-            connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
-            if(connection$sourcePort_id == branch_port$id) {
-              concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$nodes[[as.character(connection$destinationNode_id)]]
-              break
+          if(!is.null(branch_port)) {
+            for (connection_id in ls(concerto$flow[[flowIndex]]$connections)){
+              connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
+              if(connection$sourcePort_id == branch_port$id) {
+                concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$nodes[[as.character(connection$destinationNode_id)]]
+                break
+              }
             }
           }
         }
@@ -191,6 +205,15 @@ concerto.test.run <-
             eval(parse(text=func))
             concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
         }
+      }
+      
+      while(!is.null(concerto$flow[[flowIndex]]$nextNode)) {
+        node = concerto$flow[[flowIndex]]$nextNode
+        
+        concerto$flow[[flowIndex]]$currentNode <<- node
+        concerto$flow[[flowIndex]]$nextNode <<- NULL
+        
+        runNode(node)
       }
 
       concerto$flow[[flowIndex]] <<- NULL

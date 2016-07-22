@@ -136,7 +136,7 @@ class TestService extends AExportableSectionService {
                 $this->testVariableService->saveCollection($user, $serializedVariables, $object);
             }
         }
-        if (count($this->testVariableService->getBranches($object->getId())) == 0) {
+        if ($is_new && count($this->testVariableService->getBranches($object->getId())) == 0) {
             $this->testVariableService->save($user, 0, "out", 2, "", false, 0, $object);
         }
         $this->updateDependentTests($user, $object->getId());
