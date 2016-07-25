@@ -100,7 +100,7 @@ class RRunnerService {
     }
 
     private function getMediaUrl($node) {
-        return $node["protocol"] . "://" . $node["host"] . $node["dir"] . "bundles/concertopanel/files/";
+        return $node["dir"] . "bundles/concertopanel/files/";
     }
 
     private function getWorkingDirPath($node_id, $session_hash) {
