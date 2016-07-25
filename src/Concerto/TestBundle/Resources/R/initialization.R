@@ -21,6 +21,7 @@ STATUS_FINALIZED = 2
 STATUS_ERROR = 3
 
 concerto <- list()
+concerto$promoted <- list()
 concerto$workingDir <- commandArgs(TRUE)[6]
 concerto$sessionFile <- paste(concerto$workingDir,"session.Rs",sep="")
 concerto$publicDir <- commandArgs(TRUE)[7]

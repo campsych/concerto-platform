@@ -1,9 +1,9 @@
 [
     {
         "class_name": "Test",
-        "id": 41,
+        "id": 7,
         "name": "if_statement",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -15,94 +15,94 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 550,
+                "id": 56,
                 "name": "if_true",
                 "type": 2,
                 "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 41,
-                "parentVariable": 352
+                "test": 7,
+                "parentVariable": 51
             },
             {
                 "class_name": "TestVariable",
-                "id": 551,
+                "id": 57,
                 "name": "if_condition",
                 "type": 0,
                 "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "TRUE == TRUE",
-                "test": 41,
-                "parentVariable": 353
+                "test": 7,
+                "parentVariable": 52
             },
             {
                 "class_name": "TestVariable",
-                "id": 552,
+                "id": 58,
                 "name": ".branch",
                 "type": 1,
                 "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "if_true",
-                "test": 41,
-                "parentVariable": 354
+                "test": 7,
+                "parentVariable": 53
             },
             {
                 "class_name": "TestVariable",
-                "id": 553,
+                "id": 59,
                 "name": "ifdata",
                 "type": 0,
                 "description": "<p>Data to be made available for the if statement<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 41,
-                "parentVariable": 355
+                "test": 7,
+                "parentVariable": 54
             },
             {
                 "class_name": "TestVariable",
-                "id": 554,
+                "id": 60,
                 "name": "if_false",
                 "type": 2,
                 "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 41,
-                "parentVariable": 356
+                "test": 7,
+                "parentVariable": 55
             }
         ],
-        "sourceWizard": 13,
+        "sourceWizard": 3,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 13,
+            "id": 3,
             "name": "if_statement",
             "description": "",
-            "accessibility": 2,
+            "accessibility": 0,
             "protected": "1",
             "archived": "0",
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 30,
+                    "id": 5,
                     "title": "Condition",
                     "description": "",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 13,
+                    "wizard": 3,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 93,
+                            "id": 13,
                             "label": "Condition to be evaluated",
                             "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "TRUE == TRUE",
-                            "testVariable": 353,
+                            "testVariable": 52,
                             "name": "if_condition",
-                            "wizardStep": 30,
+                            "wizardStep": 5,
                             "stepTitle": "Condition",
                             "order": 0,
-                            "wizard": 13,
+                            "wizard": 3,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -110,75 +110,75 @@
                     ]
                 }
             ],
-            "test": 26,
+            "test": 6,
             "testObject": {
                 "class_name": "Test",
-                "id": 26,
+                "id": 6,
                 "name": "source_if",
-                "accessibility": 2,
+                "accessibility": 0,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "condition = paste0(\"if(\",if_condition,\") { .branch = 'if_true' } else { .branch = 'if_false' }\" )\nprint(paste0(\"if condition: \",condition)) #for bug checking\n\neval(parse(text=condition))\nprint(paste0(\".branch: \", .branch)) #for bug checking",
-                "slug": "a1176cb9daaf0852bcca605027685b4c",
+                "slug": "b4d7b71429d05b3fe2549a7bfb274cc6",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "<p>Node that evaluates a conditional statement and returns via the TRUE or FALSE branch. Data can also be made available to the node via the ifdata variable input.<\/p>\n",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 352,
+                        "id": 51,
                         "name": "if_true",
                         "type": 2,
                         "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 26,
+                        "test": 6,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 353,
+                        "id": 52,
                         "name": "if_condition",
                         "type": 0,
                         "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": "TRUE",
-                        "test": 26,
+                        "test": 6,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 354,
+                        "id": 53,
                         "name": ".branch",
                         "type": 1,
                         "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": "if_true",
-                        "test": 26,
+                        "test": 6,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 355,
+                        "id": 54,
                         "name": "ifdata",
                         "type": 0,
                         "description": "<p>Data to be made available for the if statement<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 26,
+                        "test": 6,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 356,
+                        "id": 55,
                         "name": "if_false",
                         "type": 2,
                         "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 26,
+                        "test": 6,
                         "parentVariable": null
                     }
                 ],
@@ -187,7 +187,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-08 16:43:42",
+                "updatedOn": "2016-07-25 17:32:40",
                 "updatedByName": "",
                 "nodes": [
 
@@ -201,13 +201,13 @@
                 "starterContent": false
             },
             "testName": "source_if",
-            "updatedOn": "2016-07-08 20:35:56",
+            "updatedOn": "2016-07-25 17:32:40",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": false
         },
-        "updatedOn": "2016-07-09 00:53:43",
+        "updatedOn": "2016-07-25 17:32:41",
         "updatedByName": "",
         "nodes": [
 

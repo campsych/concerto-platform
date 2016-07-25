@@ -1,146 +1,176 @@
 [
     {
         "class_name": "Test",
-        "id": 36,
+        "id": 11,
         "name": "create_template_definition",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
         "type": 1,
-        "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))",
+        "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))\nif(set_as_default == \"1\") {\n  concerto.var.set(\"template_def\", template_def)\n}",
         "resumable": "0",
         "outdated": "0",
         "description": "",
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 475,
+                "id": 113,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 36,
-                "parentVariable": 298
+                "test": 11,
+                "parentVariable": 107
             },
             {
                 "class_name": "TestVariable",
-                "id": 476,
+                "id": 114,
                 "name": "layout",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "default_layout",
-                "test": 36,
-                "parentVariable": 299
+                "test": 11,
+                "parentVariable": 108
             },
             {
                 "class_name": "TestVariable",
-                "id": 477,
+                "id": 115,
                 "name": "header",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "<p>Your header goes here. For example, it could be a logo.<\/p>\n",
-                "test": 36,
-                "parentVariable": 300
+                "test": 11,
+                "parentVariable": 109
             },
             {
                 "class_name": "TestVariable",
-                "id": 478,
+                "id": 116,
                 "name": "footer",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "<p>Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.<\/p>\n",
-                "test": 36,
-                "parentVariable": 301
+                "test": 11,
+                "parentVariable": 110
             },
             {
                 "class_name": "TestVariable",
-                "id": 479,
+                "id": 117,
                 "name": "template_def",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 36,
-                "parentVariable": 302
+                "test": 11,
+                "parentVariable": 111
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 118,
+                "name": "set_as_default",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "1",
+                "test": 11,
+                "parentVariable": 112
             }
         ],
-        "sourceWizard": 11,
+        "sourceWizard": 5,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 11,
+            "id": 5,
             "name": "create_template_definition",
             "description": "",
-            "accessibility": 2,
+            "accessibility": 0,
             "protected": "1",
             "archived": "0",
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 26,
+                    "id": 11,
                     "title": "Template Properties",
                     "description": "",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 11,
+                    "wizard": 5,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 77,
+                            "id": 29,
                             "label": "Layout",
                             "description": "",
                             "hideCondition": "",
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "default_layout",
-                            "testVariable": 299,
+                            "testVariable": 108,
                             "name": "layout",
-                            "wizardStep": 26,
+                            "wizardStep": 11,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 5,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 78,
+                            "id": 30,
                             "label": "Template header",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Your header goes here. For example, it could be a logo.<\/p>\n",
-                            "testVariable": 300,
+                            "testVariable": 109,
                             "name": "header",
-                            "wizardStep": 26,
+                            "wizardStep": 11,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 5,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 79,
+                            "id": 31,
                             "label": "Template footer",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.<\/p>\n",
-                            "testVariable": 301,
+                            "testVariable": 110,
                             "name": "footer",
-                            "wizardStep": 26,
+                            "wizardStep": 11,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": 0
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 32,
+                            "label": "Set as default",
+                            "description": "<p>Should this template definition be set as default?<\/p>\n",
+                            "hideCondition": "",
+                            "type": 4,
+                            "passableThroughUrl": "0",
+                            "value": "1",
+                            "testVariable": 112,
+                            "name": "set_as_default",
+                            "wizardStep": 11,
+                            "stepTitle": "Template Properties",
+                            "order": 4,
+                            "wizard": 5,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -148,75 +178,86 @@
                     ]
                 }
             ],
-            "test": 22,
+            "test": 10,
             "testObject": {
                 "class_name": "Test",
-                "id": 22,
+                "id": 10,
                 "name": "source_create_template_definition",
-                "accessibility": 2,
+                "accessibility": 0,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
-                "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))",
-                "slug": "e2052156cba4a7ee9a4655eee7b32f6a",
+                "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))\nif(set_as_default == \"1\") {\n  concerto.var.set(\"template_def\", template_def)\n}",
+                "slug": "366845f85eb423131f54dab60fd87613",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 298,
+                        "id": 107,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 22,
+                        "test": 10,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 299,
+                        "id": 108,
                         "name": "layout",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 10,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 300,
+                        "id": 109,
                         "name": "header",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 10,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 301,
+                        "id": 110,
                         "name": "footer",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 10,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 302,
+                        "id": 111,
                         "name": "template_def",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 22,
+                        "test": 10,
+                        "parentVariable": null
+                    },
+                    {
+                        "class_name": "TestVariable",
+                        "id": 112,
+                        "name": "set_as_default",
+                        "type": 0,
+                        "description": "",
+                        "passableThroughUrl": "0",
+                        "value": "1",
+                        "test": 10,
                         "parentVariable": null
                     }
                 ],
@@ -225,7 +266,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-08 16:43:40",
+                "updatedOn": "2016-07-25 17:32:44",
                 "updatedByName": "",
                 "nodes": [
 
@@ -239,13 +280,13 @@
                 "starterContent": false
             },
             "testName": "source_create_template_definition",
-            "updatedOn": "2016-07-08 20:35:47",
+            "updatedOn": "2016-07-25 17:32:45",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": false
         },
-        "updatedOn": "2016-07-08 20:45:04",
+        "updatedOn": "2016-07-25 17:32:45",
         "updatedByName": "",
         "nodes": [
 

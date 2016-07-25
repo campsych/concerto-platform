@@ -4,7 +4,7 @@
         "id": 3,
         "name": "default_data_table",
         "description": "",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "0",
         "archived": "0",
         "columns": [
@@ -14,7 +14,7 @@
                 "nullable": false
             },
             {
-                "name": "session_id",
+                "name": "session_internal_id",
                 "type": "bigint",
                 "nullable": false
             },
@@ -29,7 +29,7 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-06-02 18:25:24",
+        "updatedOn": "2016-07-25 17:33:02",
         "updatedByName": "",
         "owner": 1,
         "groups": "",

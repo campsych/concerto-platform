@@ -4,7 +4,7 @@
         "id": 1,
         "name": "default_user_table",
         "description": "",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "0",
         "archived": "0",
         "columns": [
@@ -44,7 +44,7 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-06-02 18:25:08",
+        "updatedOn": "2016-07-25 17:32:38",
         "updatedByName": "",
         "owner": 1,
         "groups": "",

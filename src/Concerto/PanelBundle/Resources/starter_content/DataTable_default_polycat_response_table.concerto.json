@@ -1,10 +1,10 @@
 [
     {
         "class_name": "DataTable",
-        "id": 9,
+        "id": 6,
         "name": "default_polycat_response_table",
         "description": "",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "0",
         "archived": "0",
         "columns": [
@@ -29,7 +29,7 @@
                 "nullable": false
             },
             {
-                "name": "session_id",
+                "name": "session_internal_id",
                 "type": "bigint",
                 "nullable": false
             },
@@ -44,7 +44,7 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-07-07 19:14:17",
+        "updatedOn": "2016-07-25 17:33:15",
         "updatedByName": "",
         "owner": 1,
         "groups": "",

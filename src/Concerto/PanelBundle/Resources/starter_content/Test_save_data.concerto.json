@@ -1,119 +1,108 @@
 [
     {
         "class_name": "Test",
-        "id": 8,
+        "id": 15,
         "name": "save_data",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
         "type": 1,
-        "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table\n  session_id_column = db$custom_session_id_column$column\n  name_column = db$custom_name_column$column\n  value_column = db$custom_value_column$column\n}\n\nif(is.null(session) || is.na(session) || !is.list(session)) {\n  session = list(\n    id=0\n  )\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = {{session_id}} AND {{name_column}} = '{{name}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session$id, \n    name_column=name_column, \n    name=name\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = {{session_id}} AND {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session$id, \n      name_column=name_column, \n      name=name\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_id_column}} = {{session_id}}, {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session$id, \n      name_column=name_column, \n      name=name\n    ))\n  }\n}",
+        "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_internal_id_column = \"session_internal_id\"\nname_column = \"name\"\nvalue_column = \"value\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table\n  session_internal_id_column = db$custom_session_internal_id_column$column\n  name_column = db$custom_name_column$column\n  value_column = db$custom_value_column$column\n}\n\nsession_internal_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_internal_id = session$internal_id\n} else {\n  session_internal_id = concerto$session$id\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_internal_id_column}} = {{session_internal_id}} AND {{name_column}} = '{{name}}'\", list(\n    table=table, \n    session_internal_id_column=session_internal_id_column, \n    session_internal_id=session_internal_id, \n    name_column=name_column, \n    name=name\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_internal_id_column}} = {{session_internal_id}} AND {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_internal_id_column=session_internal_id_column, \n      session_internal_id=session_internal_id, \n      name_column=name_column, \n      name=name\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_internal_id_column}} = {{session_internal_id}}, {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_internal_id_column=session_internal_id_column, \n      session_internal_id=session_internal_id, \n      name_column=name_column, \n      name=name\n    ))\n  }\n}",
         "resumable": "0",
         "outdated": "0",
         "description": "",
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 67,
+                "id": 148,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 8,
-                "parentVariable": 61
+                "test": 15,
+                "parentVariable": 143
             },
             {
                 "class_name": "TestVariable",
-                "id": 68,
+                "id": 149,
                 "name": "data_bank",
                 "type": 0,
                 "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
-                "test": 8,
-                "parentVariable": 62
+                "test": 15,
+                "parentVariable": 144
             },
             {
                 "class_name": "TestVariable",
-                "id": 69,
+                "id": 150,
                 "name": "new_data",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 8,
-                "parentVariable": 63
+                "test": 15,
+                "parentVariable": 145
             },
             {
                 "class_name": "TestVariable",
-                "id": 70,
+                "id": 151,
                 "name": "session",
                 "type": 0,
                 "description": "<p>Current session R list object<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 8,
-                "parentVariable": 64
+                "test": 15,
+                "parentVariable": 146
             },
             {
                 "class_name": "TestVariable",
-                "id": 71,
+                "id": 152,
                 "name": "data_bank",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 8,
-                "parentVariable": 65
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 72,
-                "name": "session",
-                "type": 1,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 8,
-                "parentVariable": 66
+                "test": 15,
+                "parentVariable": 147
             }
         ],
-        "sourceWizard": 4,
+        "sourceWizard": 7,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 4,
+            "id": 7,
             "name": "save_data",
             "description": "",
-            "accessibility": 2,
+            "accessibility": 0,
             "protected": "1",
             "archived": "0",
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 6,
+                    "id": 13,
                     "title": "Data bank",
                     "description": "<p>Session data bank definition<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 4,
+                    "wizard": 7,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 16,
+                            "id": 34,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
-                            "testVariable": 62,
+                            "testVariable": 144,
                             "name": "data_bank",
-                            "wizardStep": 6,
+                            "wizardStep": 13,
                             "stepTitle": "Data bank",
                             "order": 0,
-                            "wizard": 4,
+                            "wizard": 7,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -142,8 +131,8 @@
                                     },
                                     {
                                         "type": "7",
-                                        "name": "custom_session_id_column",
-                                        "label": "Session Id column",
+                                        "name": "custom_session_internal_id_column",
+                                        "label": "Session internal Id column",
                                         "hideCondition": "parent.table_type != \"custom\""
                                     },
                                     {
@@ -164,86 +153,75 @@
                     ]
                 }
             ],
-            "test": 7,
+            "test": 14,
             "testObject": {
                 "class_name": "Test",
-                "id": 7,
+                "id": 14,
                 "name": "source_save_data",
-                "accessibility": 2,
+                "accessibility": 0,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
-                "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table\n  session_id_column = db$custom_session_id_column$column\n  name_column = db$custom_name_column$column\n  value_column = db$custom_value_column$column\n}\n\nif(is.null(session) || is.na(session) || !is.list(session)) {\n  session = list(\n    id=0\n  )\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = {{session_id}} AND {{name_column}} = '{{name}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session$id, \n    name_column=name_column, \n    name=name\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = {{session_id}} AND {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session$id, \n      name_column=name_column, \n      name=name\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_id_column}} = {{session_id}}, {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session$id, \n      name_column=name_column, \n      name=name\n    ))\n  }\n}",
-                "slug": "87d2d18093fc961ee106b84ca7d4645e",
+                "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_internal_id_column = \"session_internal_id\"\nname_column = \"name\"\nvalue_column = \"value\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table\n  session_internal_id_column = db$custom_session_internal_id_column$column\n  name_column = db$custom_name_column$column\n  value_column = db$custom_value_column$column\n}\n\nsession_internal_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_internal_id = session$internal_id\n} else {\n  session_internal_id = concerto$session$id\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_internal_id_column}} = {{session_internal_id}} AND {{name_column}} = '{{name}}'\", list(\n    table=table, \n    session_internal_id_column=session_internal_id_column, \n    session_internal_id=session_internal_id, \n    name_column=name_column, \n    name=name\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_internal_id_column}} = {{session_internal_id}} AND {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_internal_id_column=session_internal_id_column, \n      session_internal_id=session_internal_id, \n      name_column=name_column, \n      name=name\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_internal_id_column}} = {{session_internal_id}}, {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_internal_id_column=session_internal_id_column, \n      session_internal_id=session_internal_id, \n      name_column=name_column, \n      name=name\n    ))\n  }\n}",
+                "slug": "8ed2d79930ce671c9a38c28d93cb3727",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 61,
+                        "id": 143,
                         "name": "out",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 7,
+                        "test": 14,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 62,
+                        "id": 144,
                         "name": "data_bank",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 7,
+                        "test": 14,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 63,
+                        "id": 145,
                         "name": "new_data",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 7,
+                        "test": 14,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 64,
+                        "id": 146,
                         "name": "session",
                         "type": 0,
                         "description": "<p>Current session R list object<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 7,
+                        "test": 14,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 65,
+                        "id": 147,
                         "name": "data_bank",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 7,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 66,
-                        "name": "session",
-                        "type": 1,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": null,
-                        "test": 7,
+                        "test": 14,
                         "parentVariable": null
                     }
                 ],
@@ -252,7 +230,7 @@
                 ],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-06-02 18:25:10",
+                "updatedOn": "2016-07-25 17:32:47",
                 "updatedByName": "",
                 "nodes": [
 
@@ -266,13 +244,13 @@
                 "starterContent": false
             },
             "testName": "source_save_data",
-            "updatedOn": "2016-06-02 18:25:10",
+            "updatedOn": "2016-07-25 17:32:47",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": false
         },
-        "updatedOn": "2016-06-02 18:25:10",
+        "updatedOn": "2016-07-25 17:32:47",
         "updatedByName": "",
         "nodes": [
 

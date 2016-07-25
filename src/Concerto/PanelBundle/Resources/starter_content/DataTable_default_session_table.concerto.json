@@ -4,12 +4,17 @@
         "id": 2,
         "name": "default_session_table",
         "description": "",
-        "accessibility": 2,
+        "accessibility": 0,
         "protected": "0",
         "archived": "0",
         "columns": [
             {
                 "name": "id",
+                "type": "bigint",
+                "nullable": false
+            },
+            {
+                "name": "internal_id",
                 "type": "bigint",
                 "nullable": false
             },
@@ -24,7 +29,7 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-06-02 18:25:23",
+        "updatedOn": "2016-07-25 17:33:02",
         "updatedByName": "",
         "owner": 1,
         "groups": "",
