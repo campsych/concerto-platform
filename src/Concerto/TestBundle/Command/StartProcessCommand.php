@@ -274,7 +274,7 @@ class StartProcessCommand extends Command {
     private function getCommand($rscript_exec, $ini_path, $test_server_connection, $r_server, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
         switch ($this->getOS()) {
             case RRunnerService::OS_LINUX:
-                return $rscript_exec . " --no-save --no-restore --quiet --no-readline '$ini_path' '$test_server_connection' '$r_server' '$submitter' '$client' $test_session_id '$wd' '$pd' '$murl' '$values' >> '" . $this->logPath . "' > '" . $this->rLogPath . "' 2>&1";
+                return $rscript_exec . " --no-save --no-restore --quiet '$ini_path' '$test_server_connection' '$r_server' '$submitter' '$client' $test_session_id '$wd' '$pd' '$murl' '$values' >> '" . $this->logPath . "' > '" . $this->rLogPath . "' 2>&1";
             default:
                 $client = str_replace("(", "^(", $client);
                 $client = str_replace(")", "^)", $client);
