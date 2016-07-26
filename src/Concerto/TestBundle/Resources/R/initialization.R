@@ -22,6 +22,11 @@ STATUS_ERROR = 3
 
 concerto <- list()
 concerto$promoted <- list()
+
+#DEFAULTS START
+concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Your header goes here. For example, it could be a logo.\",\"footer\":\"Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.\"}"
+#DEFAULTS END
+
 concerto$workingDir <- commandArgs(TRUE)[6]
 concerto$sessionFile <- paste(concerto$workingDir,"session.Rs",sep="")
 concerto$publicDir <- commandArgs(TRUE)[7]
