@@ -344,8 +344,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             if (scope.selectedNodeIds.indexOf(node.id) === -1)
                                 return;
                             var offset = {
-                                x: (elem.position().left - node.posX) / scope.flowScale,
-                                y: (elem.position().top - node.posY) / scope.flowScale
+                                x: elem.position().left / scope.flowScale - node.posX,
+                                y: elem.position().top / scope.flowScale - node.posY
                             };
 
                             node.posX = elem.position().left / scope.flowScale;
@@ -526,8 +526,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.addNewNode = function (type, testId) {
-                    var posX = window.rightClickEvent.offsetX;
-                    var posY = window.rightClickEvent.offsetY;
+                    var posX = (window.rightClickEvent.offsetX || (window.rightClickEvent.pageX - $(window.rightClickEvent.target).offset().left) / scope.flowScale);
+                    var posY = (window.rightClickEvent.offsetY || (window.rightClickEvent.pageY - $(window.rightClickEvent.target).offset().top) / scope.flowScale);
                     if (testId == null)
                         testId = scope.object.id;
                     $http.post(Paths.TEST_FLOW_NODE_ADD_COLLECTION.pf(scope.object.id), {
@@ -580,11 +580,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var posX = 0;
                     var posY = 0;
                     if (!cursorPos) {
-                        posX = window.rightClickEvent.offsetX;
-                        posY = window.rightClickEvent.offsetY;
+                        posX = (window.rightClickEvent.offsetX || (window.rightClickEvent.pageX - $(window.rightClickEvent.target).offset().left) / scope.flowScale);
+                        posY = (window.rightClickEvent.offsetY || (window.rightClickEvent.pageY - $(window.rightClickEvent.target).offset().top) / scope.flowScale);
                     } else {
-                        posX = scope.currentMouseEvent.offsetX;
-                        posY = scope.currentMouseEvent.offsetY;
+                        posX = (window.currentMouseEvent.offsetX || (window.currentMouseEvent.pageX - $(window.currentMouseEvent.target).offset().left) / scope.flowScale);
+                        posY = (window.currentMouseEvent.offsetY || (window.currentMouseEvent.pageY - $(window.currentMouseEvent.target).offset().top) / scope.flowScale);
                     }
                     var offset = null;
 
