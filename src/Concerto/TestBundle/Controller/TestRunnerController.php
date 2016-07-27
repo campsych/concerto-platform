@@ -36,14 +36,13 @@ class TestRunnerController {
      */
     public function startNewTestAction($test_slug, $params = "{}", $debug = false) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $params");
-        
+
         $params = json_decode($params, true);
         $keys = $this->request->query->keys();
-        foreach($keys as $k){
+        foreach ($keys as $k) {
             $params[$k] = $this->request->query->get($k);
         }
         $params = json_encode($params);
-        
 
         $browser_valid = $this->testRunnerService->isBrowserValid($this->request->headers->get('User-Agent'));
         $node = $this->testRunnerService->getNodeById($this->request->get("node_id"));
@@ -51,7 +50,7 @@ class TestRunnerController {
                     "directory" => ($node == null ? "/" : $node["dir"]) . ($this->environment === "dev" ? "app_dev.php/" : ""),
                     "test_slug" => $test_slug,
                     "node_id" => $node == null ? "local" : $node["id"],
-                    "params" => $params,
+                    "params" => addcslashes($params, "'"), 
                     "keep_alive_interval" => $this->settings["keep_alive_interval_time"],
                     "debug" => $debug,
                     "browser_valid" => $browser_valid

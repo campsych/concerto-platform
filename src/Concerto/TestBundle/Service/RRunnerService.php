@@ -120,19 +120,65 @@ class RRunnerService {
         $keep_alive_tolerance_time = $this->settings["keep_alive_tolerance_time"];
         $renviron = "";
         if ($this->settings["r_environ_path"] != null) {
-            $renviron = "--r_environ=\"" . $this->settings["r_environ_path"] . "\"";
+            $renviron = "--r_environ=\"" . addcslashes($this->settings["r_environ_path"], "\\") . "\"";
         }
         $decoded_test_server = json_decode($test_server, true);
         $decoded_r_server_node = $this->getRServerNode();
         $r_server_node = json_encode($decoded_r_server_node);
         switch ($this->getOS()) {
             case self::OS_WIN:
-                $cmd = "start cmd /C \"\"" . $this->settings["php_exec"] . "\" \"" . $this->root . "/console\" concerto:r:start \"" . $this->settings["rscript_exec"] . "\" \"" . $this->getIniFilePath() . "\" \"" . addcslashes($r_server_node, '"') . "\" \"" . addcslashes($test_server, '"') . "\" $session_hash \"" . addcslashes($test_server_node_connection, '"') . "\" \"" . addcslashes($client, '"') . "\" \"" . $this->getWorkingDirPath($decoded_test_server["id"], $session_hash) . "\" \"" . $this->getPublicDirPath() . "\" \"" . $this->getMediaUrl($decoded_r_server_node) . "\" \"" . $this->getOutputFilePath($decoded_test_server["id"], $session_hash) . "\" $debug $max_idle_time $max_exec_time $keep_alive_interval_time $keep_alive_tolerance_time \"" . ($values ? addcslashes($values, '"') : "") . "\" $renviron >> \"" . $this->getOutputFilePath($decoded_test_server["id"], $session_hash) . "\" 2>&1\"";
+                $cmd = "start cmd /C \""
+                        . "\"" . $this->settings["php_exec"] . "\" "
+                        . "\"" . $this->root . "/console\" concerto:r:start "
+                        . "\"" . $this->settings["rscript_exec"] . "\" "
+                        . "\"" . addcslashes($this->getIniFilePath(), "\\") . "\" "
+                        . "\"" . addcslashes($r_server_node, '"\\') . "\" "
+                        . "\"" . addcslashes($test_server, '"\\') . "\" "
+                        . "$session_hash "
+                        . "\"" . addcslashes($test_server_node_connection, '"\\') . "\" "
+                        . "\"" . addcslashes($client, '"\\') . "\" "
+                        . "\"" . addcslashes($this->getWorkingDirPath($decoded_test_server["id"], $session_hash), "\\") . "\" "
+                        . "\"" . addcslashes($this->getPublicDirPath(), "\\") . "\" "
+                        . "\"" . $this->getMediaUrl($decoded_r_server_node) . "\" "
+                        . "\"" . addcslashes($this->getOutputFilePath($decoded_test_server["id"], $session_hash), "\\") . "\" "
+                        . "$debug "
+                        . "$max_idle_time "
+                        . "$max_exec_time "
+                        . "$keep_alive_interval_time "
+                        . "$keep_alive_tolerance_time "
+                        . "\"" . addcslashes($values, '"\\') . "\" "
+                        . "$renviron "
+                        . ">> "
+                        . "\"" . addcslashes($this->getOutputFilePath($decoded_test_server["id"], $session_hash), "\\") . "\" "
+                        . "2>&1\"";
                 $cmd = str_replace("(", "^(", $cmd);
                 $cmd = str_replace(")", "^)", $cmd);
                 return $cmd;
             default:
-                return "nohup " . $this->settings["php_exec"] . " '" . $this->root . "/console' concerto:r:start '" . $this->settings["rscript_exec"] . "' '" . $this->getIniFilePath() . "' '$r_server_node' '$test_server' $session_hash '$test_server_node_connection' '$client' '" . $this->getWorkingDirPath($decoded_test_server["id"], $session_hash) . "' '" . $this->getPublicDirPath() . "' '" . $this->getMediaUrl($decoded_r_server_node) . "' '" . $this->getOutputFilePath($decoded_test_server["id"], $session_hash) . "' $debug $max_idle_time $max_exec_time $keep_alive_interval_time $keep_alive_tolerance_time " . ($values ? "'" . $values . "'" : "") . " $renviron >> " . $this->getOutputFilePath($decoded_test_server["id"], $session_hash) . " 2>&1 & echo $!";
+                return "nohup "
+                        . $this->settings["php_exec"] . " "
+                        . "'" . $this->root . "/console' concerto:r:start "
+                        . "'" . $this->settings["rscript_exec"] . "' "
+                        . "'" . $this->getIniFilePath() . "' "
+                        . "'$r_server_node' "
+                        . "'$test_server' "
+                        . "$session_hash "
+                        . "'$test_server_node_connection' "
+                        . "'$client' "
+                        . "'" . $this->getWorkingDirPath($decoded_test_server["id"], $session_hash) . "' "
+                        . "'" . $this->getPublicDirPath() . "' "
+                        . "'" . $this->getMediaUrl($decoded_r_server_node) . "' "
+                        . "'" . $this->getOutputFilePath($decoded_test_server["id"], $session_hash) . "' "
+                        . "$debug "
+                        . "$max_idle_time "
+                        . "$max_exec_time "
+                        . "$keep_alive_interval_time "
+                        . "$keep_alive_tolerance_time "
+                        . ($values ? "'" . $values . "'" : "") . " "
+                        . "$renviron "
+                        . ">> "
+                        . $this->getOutputFilePath($decoded_test_server["id"], $session_hash) . " "
+                        . "2>&1 & echo $!";
         }
     }
 

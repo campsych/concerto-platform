@@ -274,11 +274,41 @@ class StartProcessCommand extends Command {
     private function getCommand($rscript_exec, $ini_path, $test_server_connection, $r_server, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
         switch ($this->getOS()) {
             case RRunnerService::OS_LINUX:
-                return $rscript_exec . " --no-save --no-restore --quiet '$ini_path' '$test_server_connection' '$r_server' '$submitter' '$client' $test_session_id '$wd' '$pd' '$murl' '$values' >> '" . $this->logPath . "' > '" . $this->rLogPath . "' 2>&1";
+                return $rscript_exec . " --no-save --no-restore --quiet "
+                        . "'$ini_path' "
+                        . "'$test_server_connection' "
+                        . "'$r_server' "
+                        . "'$submitter' "
+                        . "'$client' "
+                        . "$test_session_id "
+                        . "'$wd' "
+                        . "'$pd' "
+                        . "'$murl' "
+                        . "'$values' "
+                        . ">> "
+                        . "'" . $this->logPath . "' "
+                        . "> "
+                        . "'" . $this->rLogPath . "' "
+                        . "2>&1";
             default:
                 $client = str_replace("(", "^(", $client);
                 $client = str_replace(")", "^)", $client);
-                $cmd = "\"" . $rscript_exec . "\" --no-save --no-restore --quiet \"$ini_path\" \"" . addcslashes($test_server_connection, '"') . "\" \"" . addcslashes($r_server, '"') . "\" \"" . addcslashes($submitter, '"') . "\" \"" . addcslashes($client, '"') . "\" $test_session_id \"$wd\" \"$pd\" $murl \"" . addcslashes($values, '"') . "\" >> \"" . $this->logPath . "\" > \"" . $this->rLogPath . "\" 2>&1";
+                $cmd = "\"$rscript_exec\" --no-save --no-restore --quiet "
+                        . "\"" . addcslashes($ini_path, '\\') . "\" "
+                        . "\"" . addcslashes($test_server_connection, '"\\') . "\" "
+                        . "\"" . addcslashes($r_server, '"\\') . "\" "
+                        . "\"" . addcslashes($submitter, '"\\') . "\" "
+                        . "\"" . addcslashes($client, '"\\') . "\" "
+                        . "$test_session_id "
+                        . "\"" . addcslashes($wd, '\\') . "\" "
+                        . "\"" . addcslashes($pd, '\\') . "\" "
+                        . "$murl "
+                        . "\"" . addcslashes($values, '"\\') . "\" "
+                        . ">> "
+                        . "\"" . addcslashes($this->logPath, '\\') . "\" "
+                        . "> "
+                        . "\"" . addcslashes($this->rLogPath, '\\') . "\" "
+                        . "2>&1";
                 return $cmd;
         }
     }
