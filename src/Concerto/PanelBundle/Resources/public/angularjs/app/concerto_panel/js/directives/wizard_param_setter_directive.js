@@ -65,6 +65,9 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                                 for (var j = 0; j < scope.listOptions.columnDefs.length; j++) {
                                     var col = scope.listOptions.columnDefs[j];
                                     if (col.name === key) {
+                                        if(col.type == 4){
+                                            newObjects[i][key] = newObjects[i][key].toString();
+                                        }
                                         if (col.type == 9 || col.type == 10) {
                                             newObjects[i][key] = angular.fromJson(newObjects[i][key]);
                                         }
