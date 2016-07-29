@@ -4,7 +4,7 @@
 {% set exportable = true %}
 
 {% block legend %} 
-    {% verbatim %}{{formTitle}}{% endverbatim %}
+    <span ng-bind-html="formTitle"></span>
 {% endblock %}
 {% block elements %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
