@@ -267,9 +267,6 @@ flow:
             in: in
         descriptions:
             in: Node entry point.
-        tooltips:
-            inputs:
-                label: Click to toggle whether variable should be treated as a string or evaluated R expression. Underlined inputs are treated as a string.
         dialog:
             fields:
                 string: As string?

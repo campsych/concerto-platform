@@ -192,9 +192,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             overlays: [
                                 ["Custom", {
                                         create: function (component) {
-                                            var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_DESCRIPTION_IN + "\"'></i>";
+                                            var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
                                             var overlayElem = $("<div>" +
-                                                    "<div class='portLabel portLabelIn'>" + tooltip + Trans.TEST_FLOW_PORT_NAME_IN + "</div>" +
+                                                    "<div class='portLabel portLabelIn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</div>" +
                                                     "</div>");
                                             $compile(overlayElem)(scope);
                                             return overlayElem;
@@ -227,9 +227,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                                 create: function (component) {
                                                     var portId = component._jsPlumb.parameters.sourcePort.id;
                                                     var varName = component._jsPlumb.parameters.sourcePort.variableObject.name;
-                                                    var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getPort(" + portId + ").variableObject.description'></i>";
+                                                    var tooltip = scope.getPortTooltip(portId);
                                                     var overlayElem = $("<div>" +
-                                                            "<div class='portLabel portLabelBranch'>" + varName + tooltip + "</div>" +
+                                                            "<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + varName + "</div>" +
                                                             "</div>");
                                                     $compile(overlayElem)(scope);
                                                     return overlayElem;
@@ -263,11 +263,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                             create: function (component) {
                                                 var portId = component._jsPlumb.parameters.targetPort.id;
                                                 var varName = component._jsPlumb.parameters.targetPort.variableObject.name;
-                                                var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getPort(" + portId + ").variableObject.description'></i>";
+                                                var tooltip = scope.getPortTooltip(portId);
                                                 var overlayElem = $("<div>" +
                                                         "<div " +
-                                                        "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + portId + ").string === \"1\"}'" +
-                                                        ">" + tooltip + "<span uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_INPUT_LABEL_TOOLTIP + "\"' tooltip-append-to-body='true'>" + varName + "</span></div>" +
+                                                        "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + portId + ").string === \"1\"}' " +
+                                                        "uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + varName + "</div>" +
                                                         "</div>");
                                                 $compile(overlayElem)(scope);
                                                 return overlayElem;
@@ -317,9 +317,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                             create: function (component) {
                                                 var portId = component._jsPlumb.parameters.sourcePort.id;
                                                 var varName = component._jsPlumb.parameters.sourcePort.variableObject.name;
-                                                var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getPort(" + portId + ").variableObject.description'></i>";
+                                                var tooltip = scope.getPortTooltip(portId);
                                                 var overlayElem = $("<div>" +
-                                                        "<div class='portLabel portLabelReturn'>" + varName + tooltip + "</div>" +
+                                                        "<div class='portLabel portLabelReturn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + varName + "</div>" +
                                                         "</div>");
                                                 $compile(overlayElem)(scope);
                                                 return overlayElem;
@@ -395,6 +395,16 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
                     $compile(elem)(scope);
                 };
+
+                scope.getPortTooltip = function (portId) {
+                    var port = scope.collectionService.getPort(portId);
+                    var varName = port.variableObject.name;
+                    var description = port.variableObject.description;
+                    var tooltip = "<b>" + varName + "</b>";
+                    if (description && description != "")
+                        tooltip += "<br/><br/>" + port.variableObject.description;
+                    return tooltip;
+                }
 
                 scope.serializeSelectedNodes = function () {
                     var result = [];

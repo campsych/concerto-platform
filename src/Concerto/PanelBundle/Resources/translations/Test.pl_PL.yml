@@ -269,9 +269,6 @@ flow:
             in: wejście
         descriptions:
             in: Punkt wejścia węzła.
-        tooltips:
-            inputs:
-                label: Kliknij aby przełączyć, czy zmienna ma być traktowana jako ciąg znaków czy zewaluowana ekspresja R. Podkreślone wejścia są traktowane jako ciąg znaków.
         dialog:
             fields:
                 string: Ciąg znaków?

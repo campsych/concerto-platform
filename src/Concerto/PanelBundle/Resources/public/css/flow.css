@@ -70,13 +70,14 @@
 }
 
 .portLabelIn {
-
+    font-weight: bold;
 }
 
 .portLabelInput {
 }
 
 .portLabelBranch {
+    font-weight: bold;
     text-align: right;
 }
 
