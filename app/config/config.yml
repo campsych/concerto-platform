@@ -1,5 +1,5 @@
 parameters:
-    version: 5.0.beta.2.126
+    version: 5.0.beta.2.127
     available_locales:
         en_GB: english
         pl_PL: polski

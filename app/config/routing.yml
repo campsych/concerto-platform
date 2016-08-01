@@ -77,3 +77,10 @@ concerto_panel_file_browser:
 concerto_panel_dialog:
     resource: "@ConcertoPanelBundle/Resources/config/Dialog/routing.yml"
     prefix:   /admin/
+
+remove_trailing_slash:
+    path: /{url}
+    defaults: { _controller: ConcertoPanelBundle:Redirect:removeTrailingSlash }
+    requirements:
+        url: .*/$
+    methods: [GET]
