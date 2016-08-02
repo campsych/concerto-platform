@@ -1,29 +1,4 @@
 'use strict';
-$.fn.pannable = function () {
-    var lastPosition = null;
-    var position = null;
-    var difference = null;
-    $($(this).selector).on("mousedown mouseup mousemove", function (e) {
-        window.cursorEvent = e;
-        if (e.type == "mousedown") {
-            window.mouseDown = true;
-            lastPosition = [e.clientX, e.clientY];
-        }
-        if (e.button === 2) {
-            window.rightClickEvent = e;
-        }
-        if (e.type == "mouseup")
-            window.mouseDown = false;
-        if (e.type == "mousemove" && window.mouseDown == true) {
-            position = [e.clientX, e.clientY];
-            difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
-            $(this).scrollLeft($(this).scrollLeft() - difference[0]);
-            $(this).scrollTop($(this).scrollTop() - difference[1]);
-            lastPosition = [e.clientX, e.clientY];
-        }
-    });
-};
-
 angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$timeout', '$uibModal', '$filter', function ($http, $compile, $timeout, $uibModal, $filter) {
         return {
             restrict: 'A',
@@ -34,6 +9,38 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.nodeContext = null;
                 scope.currentMouseEvent = null;
                 scope.selectedNodeIds = [];
+                scope.disableContextMenu = false;
+
+                $.fn.pannable = function () {
+                    var lastPosition = null;
+                    var position = null;
+                    var difference = null;
+                    $($(this).selector).on("mousedown mouseup mousemove", function (e) {
+                        window.cursorEvent = e;
+                        if (e.type == "mousedown") {
+                            window.mouseDown = true;
+                            lastPosition = [e.clientX, e.clientY];
+                            scope.disableContextMenu = false;
+                        }
+                        if (e.button === 2) {
+                            window.rightClickEvent = e;
+                        }
+                        if (e.type == "mouseup"){
+                            window.mouseDown = false;
+                        }
+                        if (e.type == "mousemove" && window.mouseDown == true && e.button === 2) {
+                            position = [e.clientX, e.clientY];
+                            difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
+                            $(this).scrollLeft($(this).scrollLeft() - difference[0]);
+                            $(this).scrollTop($(this).scrollTop() - difference[1]);
+                            lastPosition = [e.clientX, e.clientY];
+                            var dist = Math.sqrt(difference[0] * difference[0] + difference[1] * difference[1]);
+                            if(dist > 2) {
+                                scope.disableContextMenu = true;
+                            }
+                        }
+                    });
+                };
 
                 scope.resetView = function () {
                     for (var i = 0; i < scope.object.nodes.length; i++) {
