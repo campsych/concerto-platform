@@ -8,7 +8,7 @@
             <i class='glyphicon glyphicon-minus' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.zoom_out"|trans }}"' style="cursor: pointer;" ng-click="setZoom(-1);"></i>
         </div>
     </div>
-    <div id="flowContainerScroll">
+    <div id="flowContainerScroll" oncontextmenu="return false;">
         <div id="flowContainer" context-menu="onFlowCtxOpened()" data-target="menu-flow" tabindex="0" context-menu-disabled="disableContextMenu">
         </div>
     </div>

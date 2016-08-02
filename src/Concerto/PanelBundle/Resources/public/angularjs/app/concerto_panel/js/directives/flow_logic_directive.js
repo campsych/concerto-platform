@@ -10,32 +10,44 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.currentMouseEvent = null;
                 scope.selectedNodeIds = [];
                 scope.disableContextMenu = false;
+                scope.cntrlIsPressed = false;
+                scope.mouseDown = false;
+                scope.rightClickEvent = null;
 
-                $.fn.pannable = function () {
+                $.fn.flow = function () {
                     var lastPosition = null;
                     var position = null;
                     var difference = null;
+
+                    $($(this).selector).on("keydown", function (e) {
+                        if (e.which == "17")
+                            scope.cntrlIsPressed = true;
+                    });
+
+                    $($(this).selector).on("keyup", function (e) {
+                        if (e.which == "17")
+                            scope.cntrlIsPressed = false;
+                    });
+
                     $($(this).selector).on("mousedown mouseup mousemove", function (e) {
-                        window.cursorEvent = e;
+                        if (e.button === 2)
+                            scope.rightClickEvent = e;
                         if (e.type == "mousedown") {
-                            window.mouseDown = true;
+                            scope.mouseDown = true;
                             lastPosition = [e.clientX, e.clientY];
                             scope.disableContextMenu = false;
                         }
-                        if (e.button === 2) {
-                            window.rightClickEvent = e;
+                        if (e.type == "mouseup") {
+                            scope.mouseDown = false;
                         }
-                        if (e.type == "mouseup"){
-                            window.mouseDown = false;
-                        }
-                        if (e.type == "mousemove" && window.mouseDown == true && e.button === 2) {
+                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 2) {
                             position = [e.clientX, e.clientY];
                             difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
                             $(this).scrollLeft($(this).scrollLeft() - difference[0]);
                             $(this).scrollTop($(this).scrollTop() - difference[1]);
                             lastPosition = [e.clientX, e.clientY];
                             var dist = Math.sqrt(difference[0] * difference[0] + difference[1] * difference[1]);
-                            if(dist > 2) {
+                            if (dist > 2) {
                                 scope.disableContextMenu = true;
                             }
                         }
@@ -82,7 +94,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.onKeyUp = function (event) {
-                    if (!window.cntrlIsPressed)
+                    if (!scope.cntrlIsPressed)
                         return;
                     if (scope.selectedNodeIds.length > 0 && event.which === 67) {
                         scope.copySelectedNodes();
@@ -115,7 +127,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.toggleNodeSelection = function (id, ignoreCtrl) {
                     $('#flowContainer').focus();
-                    if (window.cntrlIsPressed || ignoreCtrl) {
+                    if (scope.cntrlIsPressed || ignoreCtrl) {
                         var index = scope.selectedNodeIds.indexOf(id);
                         if (index === -1) {
                             scope.selectedNodeIds.push(id);
@@ -543,8 +555,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.addNewNode = function (type, testId) {
-                    var posX = (window.rightClickEvent.offsetX || (window.rightClickEvent.pageX - $(window.rightClickEvent.target).offset().left) / scope.flowScale);
-                    var posY = (window.rightClickEvent.offsetY || (window.rightClickEvent.pageY - $(window.rightClickEvent.target).offset().top) / scope.flowScale);
+                    var posX = (scope.rightClickEvent.offsetX || (scope.rightClickEvent.pageX - $(scope.rightClickEvent.target).offset().left) / scope.flowScale);
+                    var posY = (scope.rightClickEvent.offsetY || (scope.rightClickEvent.pageY - $(scope.rightClickEvent.target).offset().top) / scope.flowScale);
                     if (testId == null)
                         testId = scope.object.id;
                     $http.post(Paths.TEST_FLOW_NODE_ADD_COLLECTION.pf(scope.object.id), {
@@ -597,11 +609,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var posX = 0;
                     var posY = 0;
                     if (!cursorPos) {
-                        posX = (window.rightClickEvent.offsetX || (window.rightClickEvent.pageX - $(window.rightClickEvent.target).offset().left) / scope.flowScale);
-                        posY = (window.rightClickEvent.offsetY || (window.rightClickEvent.pageY - $(window.rightClickEvent.target).offset().top) / scope.flowScale);
+                        posX = (scope.rightClickEvent.offsetX || (scope.rightClickEvent.pageX - $(scope.rightClickEvent.target).offset().left) / scope.flowScale);
+                        posY = (scope.rightClickEvent.offsetY || (scope.rightClickEvent.pageY - $(scope.rightClickEvent.target).offset().top) / scope.flowScale);
                     } else {
-                        posX = (window.currentMouseEvent.offsetX || (window.currentMouseEvent.pageX - $(window.currentMouseEvent.target).offset().left) / scope.flowScale);
-                        posY = (window.currentMouseEvent.offsetY || (window.currentMouseEvent.pageY - $(window.currentMouseEvent.target).offset().top) / scope.flowScale);
+                        posX = (scope.currentMouseEvent.offsetX || (scope.currentMouseEvent.pageX - $(scope.currentMouseEvent.target).offset().left) / scope.flowScale);
+                        posY = (scope.currentMouseEvent.offsetY || (scope.currentMouseEvent.pageY - $(scope.currentMouseEvent.target).offset().top) / scope.flowScale);
                     }
                     var offset = null;
 
@@ -964,7 +976,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 $(function () {
-                    $("#flowContainerScroll").pannable();
+                    $("#flowContainerScroll").flow();
                     $('#flowContainer').mousewheel(function (event) {
                         scope.setZoom(event.deltaY);
                         return false;
