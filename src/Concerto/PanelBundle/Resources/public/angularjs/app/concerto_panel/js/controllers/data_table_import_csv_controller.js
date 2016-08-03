@@ -3,7 +3,6 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
 
     $scope.object = object;
     $scope.item = null;
-    $scope.progress = 0;
     $scope.restructure = false;
     $scope.headerRow = false;
     $scope.delimiter = ",";
@@ -17,10 +16,6 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
         autoUpload: true,
         url: Paths.FILE_UPLOAD
     });
-
-    $scope.uploader.onProgress = function (progress) {
-        $scope.progress = progress;
-    };
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
         if (response.result === 0) {

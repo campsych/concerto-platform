@@ -1,6 +1,5 @@
 function UploadListController($scope, $uibModalInstance, FileUploader) {
     $scope.item = null;
-    $scope.progress = 0;
 
     $scope.getFileName = function () {
         return $scope.item.file.name;
@@ -11,10 +10,6 @@ function UploadListController($scope, $uibModalInstance, FileUploader) {
         url: Paths.FILE_UPLOAD
 
     });
-
-    $scope.uploader.onProgress = function (progress) {
-        $scope.progress = progress;
-    };
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
         if (response.result === 0) {

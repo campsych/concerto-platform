@@ -1,7 +1,6 @@
 function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploader, importPath) {
     $scope.name = "";
     $scope.item = null;
-    $scope.progress = 0;
     $scope.object.validationErrors = [];
     $scope.importPath = importPath;
 
@@ -15,10 +14,6 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
         url: Paths.FILE_UPLOAD
 
     });
-
-    $scope.uploader.onProgress = function (progress) {
-        $scope.progress = progress;
-    };
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
         if (response.result === 0) {
