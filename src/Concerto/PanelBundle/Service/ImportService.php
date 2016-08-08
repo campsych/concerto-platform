@@ -48,23 +48,47 @@ class ImportService {
         );
     }
 
-    public function importFromFile(User $user, $file, $name = "", $unlink = true) {
+    public function getImportFileContents($file, $unlink = true) {
         $file_content = file_get_contents($file);
-
-        $imports = json_decode($file_content, true);
-        if (is_null($imports)) {
-            $imports = json_decode(gzuncompress($file_content), true);
+        $data = json_decode($file_content, true);
+        if (is_null($data)) {
+            $data = json_decode(gzuncompress($file_content), true);
         }
-
         unset($file_content);
         if ($unlink) {
             unlink($file);
         }
-        return $this->import($user, $name, $imports);
+        return $data;
     }
-    
-    public function reset(){
+
+    public function getPreImportStatus($file) {
+        $data = $this->getImportFileContents($file, false);
+        $result = array();
+        foreach ($data as $imported_object) {
+            $service = $this->serviceMap[$imported_object["class_name"]];
+            $existing_entity = $service->repository->findOneBy(array("name" => $imported_object["name"]));
+            if ($existing_entity !== null)
+                $existing_entity = $service->get($existing_entity->getId());
+            $obj_status = array(
+                "id" => $imported_object["id"],
+                "name" => $imported_object["name"],
+                "class_name" => $imported_object["class_name"],
+                "new_name" => $imported_object["name"],
+                "revision" => array_key_exists("revision", $imported_object) ? $imported_object["revision"] : 0,
+                "existing_object" => $existing_entity
+            );
+            array_push($result, $obj_status);
+        }
+        return $result;
+    }
+
+    public function reset() {
         $this->map = array();
+    }
+
+    public function importFromFile(User $user, $file, $name = "", $unlink = true) {
+        $data = $this->getImportFileContents($file, $unlink);
+        return $this->import($user, $name, $data);
     }
 
     public function import(User $user, $name, $data) {

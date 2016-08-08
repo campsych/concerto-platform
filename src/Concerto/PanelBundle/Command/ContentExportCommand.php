@@ -27,6 +27,7 @@ class ContentExportCommand extends ContainerAwareCommand {
         $classes = array(
             "DataTable",
             "Test",
+            "TestWizard",
             "ViewTemplate"
         );
         $importService = $this->getContainer()->get('concerto_panel.import_service');
@@ -36,10 +37,7 @@ class ContentExportCommand extends ContainerAwareCommand {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
             $collection = $repo->findBy(array("starterContent" => 1));
             foreach ($collection as $ent) {
-                if ($class_name == "DataTable") {
-                    $ent = $service->assignColumnCollection(array($ent))[0];
-                }
-
+                $ent = $service->get($ent->getId(), false, false);
                 $arr = $service->entityToArray($ent);
                 $em->persist($ent);
                 $json = json_encode(array($arr), JSON_PRETTY_PRINT);

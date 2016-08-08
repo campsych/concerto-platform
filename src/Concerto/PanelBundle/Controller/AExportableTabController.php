@@ -25,6 +25,21 @@ abstract class AExportableTabController extends ASectionController {
         $this->importService = $importService;
     }
 
+    public function preImportStatusAction() {
+        $status = $this->importService->getPreImportStatus(
+                __DIR__ . DIRECTORY_SEPARATOR .
+                ".." . DIRECTORY_SEPARATOR .
+                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
+                "Resources" . DIRECTORY_SEPARATOR .
+                "public" . DIRECTORY_SEPARATOR .
+                "files" . DIRECTORY_SEPARATOR .
+                $this->request->get("file"), //
+                $this->request->get("name"));
+        $response = new Response(json_encode(array("result" => 0, "status" => $status)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
     public function importAction() {
         $result = $this->importService->importFromFile(
                 $this->securityTokenStorage->getToken()->getUser(), //

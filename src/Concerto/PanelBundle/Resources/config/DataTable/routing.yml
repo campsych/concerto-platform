@@ -80,6 +80,10 @@ DataTable_import:
     defaults: { _controller: concerto_panel.DataTable_controller:importAction }
     methods:  [POST]
     
+DataTable_pre_import_status:
+    path: /DataTable/import/status
+    defaults: { _controller: concerto_panel.DataTable_controller:preImportStatusAction }
+    
 DataTable_csv_import:
     path: /DataTable/{table_id}/csv/{restructure}/{header}/{delimiter}/{enclosure}/import
     defaults: { _controller: concerto_panel.DataTable_controller:importCsvAction }
