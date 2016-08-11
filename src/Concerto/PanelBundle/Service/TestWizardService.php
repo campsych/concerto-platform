@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Service\TestWizardParamService;
+use Concerto\PanelBundle\Service\TestWizardStepService;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\AEntity;
@@ -14,18 +15,25 @@ class TestWizardService extends AExportableSectionService {
 
     private $testService;
     private $testWizardParamService;
+    private $testWizardStepService;
 
-    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker) {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->testService = $testService;
+        $this->testWizardStepService = $stepService;
         $this->testWizardParamService = $paramService;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
         $object = null;
-        if ($object_id !== null) {
+        if (is_numeric($object_id)) {
             $object = parent::get($object_id, $createNew, $secure);
+        } else {
+            $object = $this->repository->findOneByName($object_id);
+            if ($secure) {
+                $object = $this->authorizeObject($object);
+            }
         }
         if ($createNew && $object === null) {
             $object = new TestWizard();
@@ -116,13 +124,13 @@ class TestWizardService extends AExportableSectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["id"], $map["TestWizard"])) {
+        if (!array_key_exists("TestWizard", $map))
+            $map["TestWizard"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestWizard"])) {
             return(array());
         }
-        
-        $formattedName = $this->formatImportName($user, $newName, $obj);
 
         $test = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
@@ -135,18 +143,31 @@ class TestWizardService extends AExportableSectionService {
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
-        
-        if (count($pre_queue) > 0) {
-            return array("pre_queue" => $pre_queue);
-        }
 
+        $instruction = self::getObjectImportInstruction($obj, $instructions);
+        $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $obj["name"]);
+        $result = null;
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($instruction["action"] == 1 && $src_ent)
+            $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
+        else
+            $result = $this->importNew($user, $new_name, $obj, $map, $queue, $test);
+
+        array_splice($queue, 1, 0, $obj["steps"]);
+
+        return $result;
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test) {
         $ent = new TestWizard();
-        $ent->setName($formattedName);
+        $ent->setName($new_name);
         $ent->setTest($test);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
+        if (array_key_exists("revision", $obj))
+            $ent->setRevision($obj["revision"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -156,15 +177,42 @@ class TestWizardService extends AExportableSectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
+        $map["TestWizard"]["id" . $obj["id"]] = $ent->getId();
+        return array("errors" => null, "entity" => $ent);
+    }
 
-        if (!array_key_exists("TestWizard", $map)) {
-            $map["TestWizard"] = array();
+    protected function findConversionSource($obj, $map) {
+        return $this->get($obj["name"]);
+    }
+
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test) {
+        $ent = $this->findConversionSource($obj, $map);
+        $ent->setName($new_name);
+        $ent->setTest($test);
+        $ent->setDescription($obj["description"]);
+        $ent->setOwner($user);
+        $ent->setProtected($obj["protected"] == "1");
+        $ent->setStarterContent($obj["starterContent"]);
+        if (array_key_exists("revision", $obj))
+            $ent->setRevision($obj["revision"]);
+        $ent_errors = $this->validator->validate($ent);
+        $ent_errors_msg = array();
+        foreach ($ent_errors as $err) {
+            array_push($ent_errors_msg, $err->getMessage());
         }
+        if (count($ent_errors_msg) > 0) {
+            return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
+        }
+        $this->repository->save($ent);
         $map["TestWizard"]["id" . $obj["id"]] = $ent->getId();
 
-        array_splice($queue, 1, 0, $obj["steps"]);
+        $this->onConverted($ent, $src_ent);
 
         return array("errors" => null, "entity" => $ent);
+    }
+
+    protected function onConverted($new_ent, $old_ent) {
+        $this->testWizardStepService->clear($old_ent->getId());
     }
 
 }

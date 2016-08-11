@@ -125,12 +125,14 @@ class TestNodeConnectionService extends ASectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestNodeConnection", $map) && array_key_exists("id" . $obj["id"], $map["TestNodeConnection"])) {
+        if (!array_key_exists("TestNodeConnection", $map))
+            $map["TestNodeConnection"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestNodeConnection"])) {
             return(array());
         }
-      
+
         $flowTest = null;
         if (array_key_exists("Test", $map)) {
             $flowTest_id = $map["Test"]["id" . $obj["flowTest"]];
@@ -174,7 +176,11 @@ class TestNodeConnectionService extends ASectionService {
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
+        
+        return $this->importNew($user, null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
+    }
 
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode) {
         $ent = new TestNodeConnection();
         $ent->setDestinationNode($destinationNode);
         $ent->setDestinationPort($destinationPort);
@@ -192,12 +198,7 @@ class TestNodeConnectionService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-
-        if (!array_key_exists("TestNodeConnection", $map)) {
-            $map["TestNodeConnection"] = array();
-        }
         $map["TestNodeConnection"]["id" . $obj["id"]] = $ent->getId();
-
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -206,4 +207,5 @@ class TestNodeConnectionService extends ASectionService {
             return $object;
         return null;
     }
+
 }

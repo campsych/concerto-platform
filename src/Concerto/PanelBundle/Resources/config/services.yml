@@ -103,7 +103,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestWizard_metadata"]
   concerto_panel.TestWizard_service:
     class: Concerto\PanelBundle\Service\TestWizardService
-    arguments: ["@concerto_panel.TestWizard_repository","@validator","@concerto_panel.Test_service","@concerto_panel.TestWizardParam_service", "@security.authorization_checker"] 
+    arguments: ["@concerto_panel.TestWizard_repository","@validator","@concerto_panel.Test_service","@concerto_panel.TestWizardStep_service","@concerto_panel.TestWizardParam_service", "@security.authorization_checker"] 
     
 #   TestWizardStep
   concerto_panel.TestWizardStep_metadata:

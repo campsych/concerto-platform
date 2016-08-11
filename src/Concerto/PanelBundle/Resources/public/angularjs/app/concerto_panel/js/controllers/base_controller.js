@@ -7,6 +7,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.fetchObjectPath = "";
     $scope.savePath = "";
     $scope.importPath = "";
+    $scope.preImportStatusPath = "";
     $scope.saveNewPath = "";
     $scope.exportPath = "";
 
@@ -363,10 +364,13 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "import_dialog.html",
             controller: ImportController,
             scope: $scope,
-            size: "lg",
+            size: "prc-lg",
             resolve: {
                 importPath: function () {
                     return $scope.importPath;
+                },
+                preImportStatusPath: function () {
+                    return $scope.preImportStatusPath;
                 }
             }
         });

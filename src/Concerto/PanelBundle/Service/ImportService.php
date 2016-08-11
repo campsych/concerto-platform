@@ -47,6 +47,10 @@ class ImportService {
             "ViewTemplate" => $this->viewTemplateService
         );
     }
+    
+    public static function is_array_assoc($arr) {
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
 
     public function getImportFileContents($file, $unlink = true) {
         $file_content = file_get_contents($file);
@@ -60,21 +64,57 @@ class ImportService {
         }
         return $data;
     }
+    
+    private function getAllTopObjectsFromImportData($data, &$top_data) {
+        foreach ($data as $obj) {
+            if (array_key_exists("class_name", $obj) && in_array($obj["class_name"], array(
+                        "DataTable",
+                        "Test",
+                        "TestWizard",
+                        "ViewTemplate"
+                    ))) {
+                $found = false;
+                foreach ($top_data as $cur_obj) {
+                    if ($cur_obj["class_name"] == $obj["class_name"] && $cur_obj["id"] == $obj["id"]) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found)
+                    array_push($top_data, $obj);
+            }
+
+            foreach ($obj as $k => $v) {
+                if (is_array($v) && self::is_array_assoc($v)) {
+                    $this->getAllTopObjectsFromImportData(array($v), $top_data);
+                } else if (is_array($v)) {
+                    $this->getAllTopObjectsFromImportData($v, $top_data);
+                }
+            }
+        }
+    }
 
     public function getPreImportStatus($file) {
         $data = $this->getImportFileContents($file, false);
+        $top_data = array();
+        $this->getAllTopObjectsFromImportData($data, $top_data);
         $result = array();
-        foreach ($data as $imported_object) {
+        foreach ($top_data as $imported_object) {
             $service = $this->serviceMap[$imported_object["class_name"]];
+            $new_revision = array_key_exists("revision", $imported_object) ? $imported_object["revision"] : 0;
             $existing_entity = $service->repository->findOneBy(array("name" => $imported_object["name"]));
-            if ($existing_entity !== null)
+            if ($existing_entity !== null) {
                 $existing_entity = $service->get($existing_entity->getId());
+            }
+
             $obj_status = array(
                 "id" => $imported_object["id"],
                 "name" => $imported_object["name"],
                 "class_name" => $imported_object["class_name"],
-                "new_name" => $imported_object["name"],
-                "revision" => array_key_exists("revision", $imported_object) ? $imported_object["revision"] : 0,
+                "action" => "0",
+                "rename" => $imported_object["name"],
+                "revision" => $new_revision,
+                "starter_content" => $imported_object["starterContent"],
                 "existing_object" => $existing_entity
             );
             array_push($result, $obj_status);
@@ -86,19 +126,19 @@ class ImportService {
         $this->map = array();
     }
 
-    public function importFromFile(User $user, $file, $name = "", $unlink = true) {
+    public function importFromFile(User $user, $file, $instructions, $unlink = true) {
         $data = $this->getImportFileContents($file, $unlink);
-        return $this->import($user, $name, $data);
+        return $this->import($user, $instructions, $data);
     }
 
-    public function import(User $user, $name, $data) {
+    public function import(User $user, $instructions, $data) {
         $result = array();
         $this->queue = $data;
         while (count($this->queue) > 0) {
             $obj = $this->queue[0];
             if (array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
-                $last_result = $service->importFromArray($user, $name, $obj, $this->map, $this->queue);
+                $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->queue);
                 if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
                     array_push($result, $last_result);
                     return $result;

@@ -10,6 +10,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.fetchVariableObjectPath = Paths.TEST_VARIABLE_FETCH_OBJECT;
     $scope.savePath = Paths.TEST_SAVE;
     $scope.importPath = Paths.TEST_IMPORT;
+    $scope.preImportStatusPath = Paths.TEST_PRE_IMPORT_STATUS;
     $scope.saveNewPath = Paths.TEST_SAVE_NEW;
     $scope.exportPath = Paths.TEST_EXPORT;
     $scope.logsCollectionPath = Paths.TEST_LOG_COLLECTION;

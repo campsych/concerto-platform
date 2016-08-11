@@ -9,6 +9,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     $scope.fetchObjectPath = Paths.VIEW_TEMPLATE_FETCH_OBJECT;
     $scope.savePath = Paths.VIEW_TEMPLATE_SAVE;
     $scope.importPath = Paths.VIEW_TEMPLATE_IMPORT;
+    $scope.preImportStatusPath = Paths.VIEW_TEMPLATE_PRE_IMPORT_STATUS;
     $scope.exportPath = Paths.VIEW_TEMPLATE_EXPORT;
     $scope.saveNewPath = Paths.VIEW_TEMPLATE_SAVE_NEW;
 

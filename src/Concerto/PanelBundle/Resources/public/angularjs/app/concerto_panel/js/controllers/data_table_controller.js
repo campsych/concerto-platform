@@ -8,6 +8,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.fetchObjectPath = Paths.DATA_TABLE_FETCH_OBJECT;
     $scope.savePath = Paths.DATA_TABLE_SAVE;
     $scope.importPath = Paths.DATA_TABLE_IMPORT;
+    $scope.preImportStatusPath = Paths.DATA_TABLE_PRE_IMPORT_STATUS;
     $scope.saveNewPath = Paths.DATA_TABLE_SAVE_NEW;
     $scope.exportPath = Paths.DATA_TABLE_EXPORT;
     $scope.columnsCollectionPath = Paths.DATA_TABLE_COLUMNS_COLLECTION;

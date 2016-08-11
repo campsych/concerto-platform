@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Concerto\PanelBundle\Service\ASectionService;
 use Symfony\Component\Finder\Finder;
 use Concerto\PanelBundle\Entity\User;
 
@@ -14,7 +15,6 @@ class ContentImportCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this->setName("concerto:content:import")->setDescription("Imports starter content");
-        $this->addArgument("name", InputArgument::OPTIONAL, "Naming rules for imported content", "");
     }
 
     protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user) {
@@ -36,7 +36,8 @@ class ContentImportCommand extends ContainerAwareCommand {
                 continue;
             }
             $output->writeln("importing " . $f->getFileName() . "...");
-            $results = $importService->importFromFile($user, $f->getRealpath(), $input->getArgument("name"), false);
+            $instructions = $importService->getPreImportStatus($f->getRealpath());
+            $results = $importService->importFromFile($user, $f->getRealpath(), $instructions, false);
             $success = true;
             foreach ($results as $res) {
                 if ($res["errors"]) {
@@ -74,6 +75,7 @@ class ContentImportCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        ASectionService::$securityOn = false;
         $em = $this->getContainer()->get("doctrine")->getManager();
 
         $userRepo = $em->getRepository("ConcertoPanelBundle:User");

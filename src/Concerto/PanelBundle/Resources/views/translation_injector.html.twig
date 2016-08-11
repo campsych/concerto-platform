@@ -44,6 +44,7 @@
     Paths.TEST_WIZARD_SAVE = "{{ path("TestWizard_save",{'object_id':"{0}"}) }}";
     Paths.TEST_WIZARD_SAVE_NEW = "{{ path("TestWizard_copy",{'object_id':"{0}"}) }}";
     Paths.TEST_WIZARD_IMPORT = "{{ path("TestWizard_import") }}";
+    Paths.TEST_WIZARD_PRE_IMPORT_STATUS = "{{ path("TestWizard_pre_import_status") }}";
     Paths.TEST_WIZARD_EXPORT = "{{ path("TestWizard_export",{'object_ids':"{0}"}) }}";
     Paths.TEST_WIZARD_STEP_COLLECTION = "{{ path("TestWizardStep_collection_by_wizard", {'wizard_id':"{0}"}) }}";
     Paths.TEST_WIZARD_STEP_DELETE_ALL = "{{ path("TestWizardStep_clear",{'wizard_id':"{0}"}) }}";
@@ -81,6 +82,7 @@
     Paths.TEST_SAVE = "{{ path("Test_save",{'object_id':"{0}"}) }}";
     Paths.TEST_SAVE_NEW = "{{ path("Test_copy",{'object_id':"{0}"}) }}";
     Paths.TEST_IMPORT = "{{ path("Test_import") }}";
+    Paths.TEST_PRE_IMPORT_STATUS = "{{ path("Test_pre_import_status") }}";
     Paths.TEST_EXPORT = "{{ path("Test_export", {"object_ids":"{0}"}) }}";
     Paths.TEST_LOG_COLLECTION = "{{ path("TestSessionLog_collection_by_test", {'test_id':"{0}"}) }}";
     Paths.TEST_LOG_DELETE_ALL = "{{ path("TestSessionLog_clear",{'test_id':"{0}"}) }}";
@@ -101,6 +103,7 @@
     Paths.VIEW_TEMPLATE_SAVE = "{{ path("ViewTemplate_save",{'object_id':"{0}"}) }}";
     Paths.VIEW_TEMPLATE_SAVE_NEW = "{{ path("ViewTemplate_copy",{'object_id':"{0}"}) }}";
     Paths.VIEW_TEMPLATE_IMPORT = "{{ path("ViewTemplate_import") }}";
+    Paths.VIEW_TEMPLATE_PRE_IMPORT_STATUS = "{{ path("ViewTemplate_pre_import_status") }}";
     Paths.VIEW_TEMPLATE_EXPORT = "{{ path("ViewTemplate_export",{'object_ids':"{0}"}) }}";
 
     Paths.DATA_TABLE_COLLECTION = "{{ path("DataTable_collection") }}";
@@ -110,6 +113,7 @@
     Paths.DATA_TABLE_SAVE = "{{ path("DataTable_save",{'object_id':"{0}"}) }}";
     Paths.DATA_TABLE_SAVE_NEW = "{{ path("DataTable_copy",{'object_id':"{0}"}) }}";
     Paths.DATA_TABLE_IMPORT = "{{ path("DataTable_import") }}";
+    Paths.DATA_TABLE_PRE_IMPORT_STATUS = "{{ path("DataTable_pre_import_status") }}";
     Paths.DATA_TABLE_EXPORT = "{{ path("DataTable_export",{'object_ids':"{0}"}) }}";
     Paths.DATA_TABLE_COLUMNS_COLLECTION = "{{ path("DataTable_columns_collection", {'table_id':"{0}"}) }}";
     Paths.DATA_TABLE_COLUMNS_DELETE = "{{ path("DataTable_column_delete", {"table_id":"{0}", "column_names":"{1}"}) }}";
@@ -146,6 +150,11 @@
     Trans.LIST_FIELD_UPDATED_ON = "{{ "list.field.updated.on"|trans }}";
     Trans.LIST_FIELD_UPDATED_BY = "{{ "list.field.updated.by"|trans }}";
     Trans.LIST_FIELD_PROTECTED = "{{ "list.field.protected"|trans }}";
+    Trans.LIST_FIELD_TYPE = "{{ "list.field.type"|trans }}";
+    Trans.LIST_FIELD_EXISTS = "{{ "list.field.exists"|trans }}";
+    Trans.LIST_FIELD_ACTION = "{{ "list.field.action"|trans }}";
+    Trans.LIST_FIELD_RENAME = "{{ "list.field.rename"|trans }}";
+    Trans.LIST_FIELD_SAFE = "{{ "list.field.safe"|trans }}";
     Trans.LIST_EDIT = "{{ "list.edit"|trans }}";
     Trans.LIST_EXPORT = "{{ "list.export"|trans }}";
     Trans.LIST_DELETE = "{{ "list.delete"|trans }}";
@@ -164,6 +173,8 @@
     Trans.SAVE_NEW_DIALOG_MESSAGE_COPIED = "{{ 'save_new.dialog.message.copied'|trans }}";
     Trans.DESCRIPTION_DIALOG_TITLE = "{{ 'description.fieldset.legend'|trans }}";
     Trans.DESCRIPTION_DIALOG_TOOLTIP = "{{ 'description.fieldset.legend.tooltip'|trans }}";
+    Trans.IMPORT_ACTION_NEW = "{{ 'import.action.new'|trans }}";
+    Trans.IMPORT_ACTION_CONVERT = "{{ 'import.action.convert'|trans }}";
 
     {% trans_default_domain "TestWizard" %}
         Trans.TEST_WIZARD_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";

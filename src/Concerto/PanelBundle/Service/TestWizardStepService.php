@@ -83,9 +83,11 @@ class TestWizardStepService extends ASectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestWizardStep", $map) && array_key_exists("id" . $obj["id"], $map["TestWizardStep"])) {
+        if (!array_key_exists("TestWizardStep", $map))
+            $map["TestWizardStep"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestWizardStep"])) {
             return(array());
         }
 
@@ -99,6 +101,14 @@ class TestWizardStepService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
+        $result = $this->importNew($user, null, $obj, $map, $queue, $wizard);
+
+        array_splice($queue, 1, 0, $obj["params"]);
+
+        return $result;
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $wizard) {
         $ent = new TestWizardStep();
         $ent->setColsNum($obj["colsNum"]);
         $ent->setDescription($obj["description"]);
@@ -114,14 +124,7 @@ class TestWizardStepService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-
-        if (!array_key_exists("TestWizardStep", $map)) {
-            $map["TestWizardStep"] = array();
-        }
         $map["TestWizardStep"]["id" . $obj["id"]] = $ent->getId();
-
-        array_splice($queue, 1, 0, $obj["params"]);
-
         return array("errors" => null, "entity" => $ent);
     }
 

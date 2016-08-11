@@ -9,6 +9,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.fetchObjectPath = Paths.TEST_WIZARD_FETCH_OBJECT;
     $scope.savePath = Paths.TEST_WIZARD_SAVE;
     $scope.importPath = Paths.TEST_WIZARD_IMPORT;
+    $scope.preImportStatusPath = Paths.TEST_WIZARD_PRE_IMPORT_STATUS;
     $scope.saveNewPath = Paths.TEST_WIZARD_SAVE_NEW;
     $scope.exportPath = Paths.TEST_WIZARD_EXPORT;
     $scope.stepsCollectionPath = Paths.TEST_WIZARD_STEP_COLLECTION;

@@ -583,7 +583,8 @@ class Test extends ATopEntity implements \JsonSerializable {
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
-            "starterContent" => $this->starterContent
+            "starterContent" => $this->starterContent,
+            "revision" => $this->revision
         );
     }
 

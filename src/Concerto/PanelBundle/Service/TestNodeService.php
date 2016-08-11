@@ -130,9 +130,11 @@ class TestNodeService extends ASectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["id"], $map["TestNode"])) {
+        if (!array_key_exists("TestNode", $map))
+            $map["TestNode"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestNode"])) {
             return(array());
         }
 
@@ -155,6 +157,12 @@ class TestNodeService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
+        $result = $this->importNew($user, null, $obj, $map, $queue, $flowTest, $sourceTest);
+        array_splice($queue, 1, 0, $obj["ports"]);
+        return $result;
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $flowTest, $sourceTest) {
         $ent = new TestNode();
         $ent->setFlowTest($flowTest);
         $ent->setPosX($obj["posX"]);
@@ -170,14 +178,7 @@ class TestNodeService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-
-        if (!array_key_exists("TestNode", $map)) {
-            $map["TestNode"] = array();
-        }
         $map["TestNode"]["id" . $obj["id"]] = $ent->getId();
-
-        array_splice($queue, 1, 0, $obj["ports"]);
-
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -186,5 +187,4 @@ class TestNodeService extends ASectionService {
             return $object;
         return null;
     }
-
 }

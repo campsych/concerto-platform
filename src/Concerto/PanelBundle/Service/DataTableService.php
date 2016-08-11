@@ -370,45 +370,110 @@ class DataTableService extends AExportableSectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue, $secure = true) {
         $pre_queue = array();
-        if (array_key_exists("DataTable", $map) && array_key_exists("id" . $obj["id"], $map["DataTable"])) {
+        if (!array_key_exists("DataTable", $map))
+            $map["DataTable"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["DataTable"])) {
             return(array());
         }
-
-        $formattedName = $this->formatImportName($user, $newName, $obj);
-        
-        $db_errors = $this->dbStructureService->createTable($formattedName, $obj["columns"], $obj["data"]);
-        if (count($db_errors) > 0) {
-            return array("errors" => $db_errors, "entity" => null, "source" => $obj);
-        }
-        
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
 
+        $instruction = self::getObjectImportInstruction($obj, $instructions);
+        $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $obj["name"]);
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($instruction["action"] == 1 && $src_ent)
+            return $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
+        else
+            return $this->importNew($user, $new_name, $obj, $map, $queue);
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue) {
         $ent = new DataTable();
-        $ent->setName($formattedName);
+        $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
+        if (array_key_exists("revision", $obj))
+            $ent->setRevision($obj["revision"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
             array_push($ent_errors_msg, $err->getMessage());
         }
-        if (count($ent_errors_msg) > 0) {
+        if (count($ent_errors_msg) > 0)
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
-        }
-        $this->repository->save($ent);
 
-        if (!array_key_exists("DataTable", $map)) {
-            $map["DataTable"] = array();
-        }
+        $db_errors = $this->dbStructureService->createTable($new_name, $obj["columns"], $obj["data"]);
+        if (count($db_errors) > 0)
+            return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+
+        $this->repository->save($ent);
         $map["DataTable"]["id" . $obj["id"]] = $ent->getId();
 
         return array("errors" => null, "entity" => $ent);
+    }
+
+    protected function findConversionSource($obj, $map) {
+        return $this->get($obj["name"]);
+    }
+
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue) {
+        $ent = $this->findConversionSource($obj, $map);
+        $ent->setName($new_name);
+        $ent->setDescription($obj["description"]);
+        $ent->setOwner($user);
+        $ent->setProtected($obj["protected"] == "1");
+        $ent->setStarterContent($obj["starterContent"]);
+        if (array_key_exists("revision", $obj))
+            $ent->setRevision($obj["revision"]);
+        $ent_errors = $this->validator->validate($ent);
+        $ent_errors_msg = array();
+        foreach ($ent_errors as $err) {
+            array_push($ent_errors_msg, $err->getMessage());
+        }
+        if (count($ent_errors_msg) > 0)
+            return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
+
+        if ($src_ent->getName() != $new_name) {
+            $db_errors = $this->dbStructureService->renameTable($src_ent->getName(), $new_name);
+            if (count($db_errors) > 0)
+                return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+
+            $old_columns = $ent->getColumns();
+            $new_columns = $obj["columns"];
+            foreach ($new_columns as $new_col) {
+                $found = false;
+                foreach ($old_columns as $old_col) {
+                    if ($old_col["name"] == $new_col["name"]) {
+                        $found = true;
+                        $db_errors = $this->dbStructureService->saveColumn($new_name, $old_col["name"], $new_col["name"], $new_col["type"]);
+                        if (count($db_errors) > 0)
+                            return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $db_errors = $this->dbStructureService->saveColumn($new_name, "0", $new_col["name"], $new_col["type"]);
+                    if (count($db_errors) > 0)
+                        return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+                }
+            }
+        }
+
+        $this->repository->save($ent);
+        $map["DataTable"]["id" . $obj["id"]] = $ent->getId();
+
+        $this->onConverted($ent, $src_ent);
+
+        return array("errors" => null, "entity" => $ent);
+    }
+
+    protected function onConverted($new_ent, $old_ent) {
+        //TODO 
     }
 
 }

@@ -27,6 +27,11 @@ list:
     updated.on: Last update on
     updated.by: Last update by
     protected: Protected
+    type: Type
+    exists: Exists
+    action: Action
+    rename: Rename
+    safe: Safe
   edit: Edit
   delete: Delete
   export: Export
@@ -85,6 +90,9 @@ save_new:
             Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
 
 import:
+    action:
+        new: New
+        convert: Convert
     dialog:
         title: Importing object
         description: "When there is a probability that the name of imported object or child object will be the same as already existing one, you need to use in \"Name\" field below variables \"id\" or \"name\" to make imported files names unique. Check \"Name\" field tooltip for more info."
@@ -98,6 +106,8 @@ import:
                 Enter the name you want to set for imported object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
             file: File
             file.tooltip: Choose the file to be imported
+            instructions: Instructions
+            instructions.tooltip: Import instructions
 
 export:
     dialog:

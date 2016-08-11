@@ -57,5 +57,27 @@ abstract class AExportableSectionService extends ASectionService {
         return $name;
     }
 
+    protected function getNextValidName($name, $action, $old_name) {
+        if (!$this->doesNameExist($name) || ($action == 1 && $name == $old_name))
+            return $name;
+        $result = $name;
+        $index = strripos($name, "_");
+        if ($index !== -1) {
+            $prefix = substr($name, 0, $index);
+            $suffix = substr($name, $index + 1);
+            if (is_numeric($suffix)) {
+                $suffix += 1;
+                $result = $prefix . "_" . $suffix;
+                return $result;
+            }
+        }
+        $result = $name . "_1";
+        return $result;
+    }
+
+    protected function doesNameExist($name) {
+        return $this->repository->findOneBy(array("name" => $name)) != null;
+    }
+
     abstract public function entityToArray(AEntity $entity);
 }

@@ -27,6 +27,11 @@ list:
     updated.on: Ost. akt. w
     updated.by: Ost. akt. przez
     protected: Chronione
+    type: Typ
+    exists: Istnieje
+    action: Akcja
+    rename: Zm. nazwy
+    safe: Bezpieczne
   edit: Edytuj
   delete: Usuń
   export: Eksportuj
@@ -85,6 +90,9 @@ save_new:
             Wprowadź nazwę dla skopiowanego obiektu. Zostaw puste pole dla by zachować orginalną. Możesz umieścić orginalną nazwę lub id poprzez: \{\{id\}\} lub \{\{name\}\}.
         
 import:
+    action:
+        new: Nowy
+        convert: Skonwertuj
     dialog: 
         title: Importowanie obiektu
         description: "Gdy istnieje prawdopodobieństwo, że nazwa importowanych obiektów lub obiektów-dzieci będzie taka sama jak już istniejących, musisz użyć w polu \"Nazwa\" poniżej zmienne \"id\" lub \"name\" aby nazwy importowanych plików były unikatowe. Sprawdź podpowiedź przy polu \"Nazwa\" aby uzyskać więcej informacji."
@@ -98,6 +106,8 @@ import:
                 Wpisz nazwę jaką chcesz nadać zaimportowanym obiektom. Pozostaw puste aby użyć orginalnych nazw. Można wstawić orginalne id lub nazwe przez: \{\{id\}\} lub \{\{name\}\}. 
             file: Plik
             file.tooltip: Wybierz plik do zaimportowania
+            instructions: Instrukcje
+            instructions.tooltip: Instrukcje importu
             
 export:
     dialog:

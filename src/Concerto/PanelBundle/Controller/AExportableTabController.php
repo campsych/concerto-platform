@@ -50,7 +50,7 @@ abstract class AExportableTabController extends ASectionController {
                 "public" . DIRECTORY_SEPARATOR .
                 "files" . DIRECTORY_SEPARATOR .
                 $this->request->get("file"), //
-                $this->request->get("name"), //
+                json_decode($this->request->get("instructions"), true), //
                 false);
         $errors = array();
         foreach ($result as $r) {
@@ -79,7 +79,12 @@ abstract class AExportableTabController extends ASectionController {
     }
 
     public function copyAction($object_id) {
-        $result = $this->importService->copy($this->entityName, $this->securityTokenStorage->getToken()->getUser(), $object_id, $this->request->get("name"));
+        $result = $this->importService->copy(
+                $this->entityName, //
+                $this->securityTokenStorage->getToken()->getUser(), //
+                $object_id, //
+                $this->request->get("name")
+        );
         $errors = array();
         foreach ($result as $r) {
             for ($i = 0; $i < count($r['errors']); $i++) {
