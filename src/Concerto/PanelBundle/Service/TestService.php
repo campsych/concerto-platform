@@ -199,9 +199,8 @@ class TestService extends AExportableSectionService {
         $pre_queue = array();
         if (!array_key_exists("Test", $map))
             $map["Test"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["Test"])) {
-            return(array());
-        }
+        if (array_key_exists("id" . $obj["id"], $map["Test"]))
+            return array();
 
         $wizard = null;
         if ($obj["sourceWizard"]) {
@@ -220,11 +219,13 @@ class TestService extends AExportableSectionService {
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $obj["name"]);
-        $result = null;
+        $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $wizard);
-        else
+        else if ($instruction["action"] == 2) {
+            $map["Test"]["id" . $obj["id"]] = $obj["id"];
+        } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue, $wizard);
 
         array_splice($queue, 1, 0, $obj["nodesConnections"]);

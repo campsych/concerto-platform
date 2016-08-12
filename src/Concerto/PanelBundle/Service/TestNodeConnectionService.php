@@ -129,9 +129,8 @@ class TestNodeConnectionService extends ASectionService {
         $pre_queue = array();
         if (!array_key_exists("TestNodeConnection", $map))
             $map["TestNodeConnection"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestNodeConnection"])) {
-            return(array());
-        }
+        if (array_key_exists("id" . $obj["id"], $map["TestNodeConnection"]))
+            return array();
 
         $flowTest = null;
         if (array_key_exists("Test", $map)) {
@@ -176,8 +175,17 @@ class TestNodeConnectionService extends ASectionService {
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
-        
-        return $this->importNew($user, null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
+
+        $parent_instruction = self::getObjectImportInstruction(array(
+                    "class_name" => "Test",
+                    "id" => $obj["flowTest"]
+                        ), $instructions);
+        $result = array();
+        if ($parent_instruction["action"] == 2)
+            $map["TestNodeConnection"]["id" . $obj["id"]] = $obj["id"];
+        else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
+        return $result;
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode) {

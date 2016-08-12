@@ -396,6 +396,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             scope: $scope,
             size: "lg",
             resolve: {
+                name: function () {
+                    return $scope.object.name;
+                },
                 saveNewPath: function () {
                     return $scope.saveNewPath;
                 }

@@ -213,15 +213,19 @@ class TestVariableService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
-        $instruction = self::getObjectImportInstruction(array(
+        $parent_instruction = self::getObjectImportInstruction(array(
                     "class_name" => "Test",
                     "id" => $obj["test"]
                         ), $instructions);
+        $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($instruction["action"] == 1 && $src_ent)
-            return $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
-        else
-            return $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
+        if ($parent_instruction["action"] == 1 && $src_ent)
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
+        else if ($parent_instruction["action"] == 2) {
+            $map["TestVariable"]["id" . $obj["id"]] = $obj["id"];
+        } else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
+        return $result;
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test, $parentVariable) {

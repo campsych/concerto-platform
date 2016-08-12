@@ -128,9 +128,8 @@ class TestWizardService extends AExportableSectionService {
         $pre_queue = array();
         if (!array_key_exists("TestWizard", $map))
             $map["TestWizard"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestWizard"])) {
-            return(array());
-        }
+        if (array_key_exists("id" . $obj["id"], $map["TestWizard"]))
+            return array();
 
         $test = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
@@ -146,10 +145,12 @@ class TestWizardService extends AExportableSectionService {
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $obj["name"]);
-        $result = null;
+        $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
+        else if ($instruction["action"] == 2)
+            $map["TestWizard"]["id" . $obj["id"]] = $obj["id"];
         else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue, $test);
 

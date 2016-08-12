@@ -36,7 +36,7 @@ class ContentImportCommand extends ContainerAwareCommand {
                 continue;
             }
             $output->writeln("importing " . $f->getFileName() . "...");
-            $instructions = $importService->getPreImportStatus($f->getRealpath());
+            $instructions = $importService->getPreImportStatusFromFile($f->getRealpath());
             $results = $importService->importFromFile($user, $f->getRealpath(), $instructions, false);
             $success = true;
             foreach ($results as $res) {

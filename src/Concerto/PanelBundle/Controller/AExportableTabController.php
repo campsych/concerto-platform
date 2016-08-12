@@ -26,7 +26,7 @@ abstract class AExportableTabController extends ASectionController {
     }
 
     public function preImportStatusAction() {
-        $status = $this->importService->getPreImportStatus(
+        $status = $this->importService->getPreImportStatusFromFile(
                 __DIR__ . DIRECTORY_SEPARATOR .
                 ".." . DIRECTORY_SEPARATOR .
                 ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
@@ -87,6 +87,8 @@ abstract class AExportableTabController extends ASectionController {
         );
         $errors = array();
         foreach ($result as $r) {
+            if (!array_key_exists("errors", $r))
+                continue;
             for ($i = 0; $i < count($r['errors']); $i++) {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
             }

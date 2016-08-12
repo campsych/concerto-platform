@@ -87,9 +87,8 @@ class TestWizardStepService extends ASectionService {
         $pre_queue = array();
         if (!array_key_exists("TestWizardStep", $map))
             $map["TestWizardStep"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestWizardStep"])) {
-            return(array());
-        }
+        if (array_key_exists("id" . $obj["id"], $map["TestWizardStep"]))
+            return array();
 
         $wizard = null;
         if (array_key_exists("TestWizard", $map)) {
@@ -101,7 +100,15 @@ class TestWizardStepService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
-        $result = $this->importNew($user, null, $obj, $map, $queue, $wizard);
+        $parent_instruction = self::getObjectImportInstruction(array(
+                    "class_name" => "TestWizard",
+                    "id" => $obj["wizard"]
+                        ), $instructions);
+        $result = array();
+        if ($parent_instruction["action"] == 2)
+            $map["TestWizardStep"]["id" . $obj["id"]] = $obj["id"];
+        else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $wizard);
 
         array_splice($queue, 1, 0, $obj["params"]);
 

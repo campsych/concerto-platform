@@ -147,15 +147,20 @@ class TestWizardParamService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
-        $instruction = self::getObjectImportInstruction(array(
+        $parent_instruction = self::getObjectImportInstruction(array(
                     "class_name" => "TestWizard",
                     "id" => $obj["wizard"]
                         ), $instructions);
+        $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($instruction["action"] == 1 && $src_ent)
-            return $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
+        if ($parent_instruction["action"] == 1 && $src_ent)
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
+        else if ($parent_instruction["action"] == 2)
+            $map["TestWizardParam"]["id" . $obj["id"]] = $obj["id"];
         else
-            return $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
+            $result = $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
+
+        return $result;
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $step, $variable, $wizard) {

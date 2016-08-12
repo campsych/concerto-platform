@@ -47,7 +47,7 @@ class ImportService {
             "ViewTemplate" => $this->viewTemplateService
         );
     }
-    
+
     public static function is_array_assoc($arr) {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
@@ -64,7 +64,7 @@ class ImportService {
         }
         return $data;
     }
-    
+
     private function getAllTopObjectsFromImportData($data, &$top_data) {
         foreach ($data as $obj) {
             if (array_key_exists("class_name", $obj) && in_array($obj["class_name"], array(
@@ -94,8 +94,7 @@ class ImportService {
         }
     }
 
-    public function getPreImportStatus($file) {
-        $data = $this->getImportFileContents($file, false);
+    public function getPreImportStatus($data) {
         $top_data = array();
         $this->getAllTopObjectsFromImportData($data, $top_data);
         $result = array();
@@ -120,6 +119,11 @@ class ImportService {
             array_push($result, $obj_status);
         }
         return $result;
+    }
+
+    public function getPreImportStatusFromFile($file) {
+        $data = $this->getImportFileContents($file, false);
+        return $this->getPreImportStatus($data);
     }
 
     public function reset() {
@@ -155,11 +159,18 @@ class ImportService {
     }
 
     public function copy($class_name, User $user, $object_id, $name) {
-
         $arr = array(json_decode(json_encode($this->serviceMap[$class_name]->entityToArray($this->serviceMap[$class_name]->get($object_id))), true));
+        $instructions = $this->getPreImportStatus($arr);
+        for ($i = 0; $i < count($instructions); $i++) {
+            if ($i == 0) {
+                $instructions[$i]["rename"] = $name;
+            } else {
+                $instructions[$i]["action"] = "2";
+            }
+        }
         $result = $this->import(
                 $user, //
-                $name, //
+                $instructions, //
                 $arr
         );
         return $result;

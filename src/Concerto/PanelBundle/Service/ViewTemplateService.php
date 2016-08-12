@@ -93,9 +93,8 @@ class ViewTemplateService extends AExportableSectionService {
         $pre_queue = array();
         if (!array_key_exists("ViewTemplate", $map))
             $map["ViewTemplate"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["ViewTemplate"])) {
-            return(array());
-        }
+        if (array_key_exists("id" . $obj["id"], $map["ViewTemplate"]))
+            return array();
 
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
@@ -103,11 +102,15 @@ class ViewTemplateService extends AExportableSectionService {
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $obj["name"]);
+        $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
-            return $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
+            $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
+        else if ($instruction["action"] == 2)
+            $map["ViewTemplate"]["id" . $obj["id"]] = $obj["id"];
         else
-            return $this->importNew($user, $new_name, $obj, $map, $queue);
+            $result = $this->importNew($user, $new_name, $obj, $map, $queue);
+        return $result;
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue) {

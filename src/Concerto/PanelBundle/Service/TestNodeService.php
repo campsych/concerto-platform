@@ -157,8 +157,18 @@ class TestNodeService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
-        $result = $this->importNew($user, null, $obj, $map, $queue, $flowTest, $sourceTest);
+        $parent_instruction = self::getObjectImportInstruction(array(
+                    "class_name" => "Test",
+                    "id" => $obj["flowTest"]
+                        ), $instructions);
+        $result = array();
+        if ($parent_instruction["action"] == 2)
+            $map["TestNodePort"]["id" . $obj["id"]] = $obj["id"];
+        else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $flowTest, $sourceTest);
+
         array_splice($queue, 1, 0, $obj["ports"]);
+
         return $result;
     }
 
@@ -187,4 +197,5 @@ class TestNodeService extends ASectionService {
             return $object;
         return null;
     }
+
 }
