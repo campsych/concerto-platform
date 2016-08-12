@@ -6,17 +6,9 @@
             {% block legend %}{{ 'import.dialog.title'|trans }}{% endblock %}
             {% block legend_tooltip %}{{ 'import.fieldset.legend.tooltip'|trans }}{% endblock %}
             {% block description %}
-                <uib-alert type="warning">{{ "import.dialog.description"|trans|raw }}</uib-alert>
+                <uib-alert type="warning">{{ "import.dialog.description_warning"|trans|raw }}</uib-alert>
                 {% endblock %}
                 {% block elements %}
-                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                        {% trans_default_domain "panel" %}
-                        {% block label %}{{ 'import.form.field.name'|trans }}{% endblock%}
-                        {% block tooltip %}{{ 'import.form.field.name.tooltip'|trans }}{% endblock%}
-                        {% block control %}
-                        <input type="text" style="width:100%;" ng-model="name" class='form-control' ng-model-options='{ updateOn: "blur" }' />
-                    {% endblock %}
-                {% endembed %}
 
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "panel" %}

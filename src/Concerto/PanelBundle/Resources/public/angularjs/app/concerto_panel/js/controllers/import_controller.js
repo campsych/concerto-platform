@@ -22,8 +22,8 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.colSafeContent = function (entity) {
         var safe = true;
         if (entity.action == 1) {
-            if (entity.revision == 0 || entity.starter_conent == 0 || entity.existing_object.revision == 0 || entity.existing_object.starter_content == 0)
-                safe = false;
+            //if (entity.revision == 0 || entity.starter_conent == 0 || entity.existing_object.revision == 0 || entity.existing_object.starter_content == 0)
+            safe = false;
         }
         var result = '<i class="glyphicon glyphicon-ok green"></i>';
         if (!safe)
@@ -166,7 +166,23 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     };
 
     $scope.save = function () {
-        $scope.persistImport();
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.IMPORT_DIALOG_TITLE;
+                },
+                content: function () {
+                    return Trans.DIALOG_MESSAGE_CONFIRM_UNSAFE_IMPORT;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $scope.persistImport();
+        });
     };
 
     $scope.cancel = function () {
