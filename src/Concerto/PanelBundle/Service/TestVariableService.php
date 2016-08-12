@@ -304,6 +304,8 @@ class TestVariableService extends ASectionService {
     }
 
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
             return $object;
         return null;

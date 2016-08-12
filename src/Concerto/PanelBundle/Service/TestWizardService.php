@@ -63,7 +63,7 @@ class TestWizardService extends AExportableSectionService {
             array_push($errors, "validate.protected.mod");
         }
 
-        if ($this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
+        if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
             $object->setOwner($owner);
             $object->setGroups($groups);

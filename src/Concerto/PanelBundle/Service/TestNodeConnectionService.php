@@ -211,6 +211,8 @@ class TestNodeConnectionService extends ASectionService {
     }
 
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getFlowTest()))
             return $object;
         return null;

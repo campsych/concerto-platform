@@ -183,6 +183,8 @@ class TestNodePortService extends ASectionService {
     }
 
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getNode()))
             return $object;
         return null;

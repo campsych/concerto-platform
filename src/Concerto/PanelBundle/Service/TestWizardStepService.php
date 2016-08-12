@@ -136,6 +136,8 @@ class TestWizardStepService extends ASectionService {
     }
 
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getWizard()))
             return $object;
         return null;
