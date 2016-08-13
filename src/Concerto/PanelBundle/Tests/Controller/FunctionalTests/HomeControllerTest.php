@@ -67,6 +67,7 @@ class HomeControllerTest extends AFunctionalTest {
                 "protected" => '0',
                 "archived" => '0',
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "type" => 0,

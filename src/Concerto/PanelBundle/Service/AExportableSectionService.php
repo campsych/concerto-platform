@@ -58,21 +58,20 @@ abstract class AExportableSectionService extends ASectionService {
     }
 
     protected function getNextValidName($name, $action, $old_name) {
-        if (!$this->doesNameExist($name) || ($action == 1 && $name == $old_name))
-            return $name;
-        $result = $name;
-        $index = strripos($name, "_");
-        if ($index !== -1) {
-            $prefix = substr($name, 0, $index);
-            $suffix = substr($name, $index + 1);
-            if (is_numeric($suffix)) {
-                $suffix += 1;
-                $result = $prefix . "_" . $suffix;
-                return $result;
+        while ($this->doesNameExist($name) && ($action != 1 || $name != $old_name)) {
+            $index = strripos($name, "_");
+            if ($index !== -1) {
+                $prefix = substr($name, 0, $index);
+                $suffix = substr($name, $index + 1);
+                if (is_numeric($suffix)) {
+                    $suffix += 1;
+                    $name = $prefix . "_" . $suffix;
+                    continue;
+                }
             }
+            $name = $name . "_1";
         }
-        $result = $name . "_1";
-        return $result;
+        return $name;
     }
 
     protected function doesNameExist($name) {

@@ -15,7 +15,7 @@ form:
     archived: Zarchiwizowane
     archived.tooltip: Czy kreator testu jest zarchiwizowany?
     test: Test
-    test.tooltip: Test przypisany do wizard\'a. Nie może być później zmieniony.
+    test.tooltip: "Test przypisany do wizard\\'a. Nie może być później zmieniony."
     owner: Właściciel
     owner.tooltip: Właściciel obiektu
     groups: Grupy

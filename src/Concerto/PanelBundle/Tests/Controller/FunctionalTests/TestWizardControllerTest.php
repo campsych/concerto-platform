@@ -102,6 +102,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "steps" => array(
@@ -200,6 +201,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
@@ -234,6 +236,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "steps" => array(
@@ -299,6 +302,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "steps" => array(
@@ -369,6 +373,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"]

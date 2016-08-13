@@ -17,6 +17,7 @@ class DataTableControllerTest extends AFunctionalTest {
         parent::setUp();
 
         $this->dropTable("main_table");
+        $this->dropTable("main_table_1");
         $this->dropTable("imported_table");
         $this->dropTable("new_table");
         $this->dropTable("edited_table");
@@ -85,6 +86,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
@@ -99,8 +101,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $crawler = $client->request(
                 "GET", "/admin/DataTable/form/add"
         );
-
-
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
     }
@@ -153,6 +153,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 'updatedOn' => $content[0]["updatedOn"],
@@ -167,12 +168,22 @@ class DataTableControllerTest extends AFunctionalTest {
                 ))), $content);
     }
 
-    public function testImportAction() {
+    public function testImportNewAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/import", array(
             "file" => "DataTable_1.concerto.json",
-            "name" => "imported_table"
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "DataTable",
+                    "id" => 8,
+                    "rename" => "imported_table",
+                    "action" => "0",
+                    "revision" => 0,
+                    "starter_content" => false,
+                    "existing_object" => null
+                )
+            ))
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -182,18 +193,29 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
     }
 
-    public function testImportNameAlreadyExists() {
+    public function testImportNewSameNameAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/import", array(
             "file" => "DataTable_1.concerto.json",
-            "name" => "main_table"
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "DataTable",
+                    "id" => 8,
+                    "rename" => "main_table",
+                    "action" => "0",
+                    "revision" => 0,
+                    "starter_content" => false,
+                    "existing_object" => self::$repository->find(1)
+                )
+            ))
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertCount(1, self::$repository->findAll());
+        $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 1, "errors" => array("DataTable#8: This name already exists in the system")), $decoded_response);
+        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertCount(1, self::$repository->findBy(array("name" => "main_table_1")));
     }
 
     public function testSaveActionNew() {
@@ -217,6 +239,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "",
@@ -249,6 +272,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "edited table description",
@@ -281,6 +305,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "edited table description",
@@ -313,6 +338,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "revision" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "table description",

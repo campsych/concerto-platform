@@ -380,7 +380,8 @@ class DataTableService extends AExportableSectionService {
             return array("pre_queue" => $pre_queue);
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
-        $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $obj["name"]);
+        $old_name = $instruction["existing_object"] ? $instruction["existing_object"]->getName() : null;
+        $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)

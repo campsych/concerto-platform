@@ -15,7 +15,7 @@ form:
     archived: Archived
     archived.tooltip: Is test wizard archived?
     test: Test
-    test.tooltip: Wizard\'s underlying test. Can not be changed later.
+    test.tooltip: "Wizard\\'s underlying test. Can not be changed later."
     owner: Owner
     owner.tooltip: Object owner
     groups: Groups
@@ -79,7 +79,7 @@ param:
             url: Passable through URL
             url.tooltip: Check if parameter value can be set through URL parameter
             order: Order
-            order.tooltip: Order index of parameter in it\'s wizard step
+            order.tooltip: "Order index of parameter in it\\'s wizard step"
             variable: Test variable
             variable.tooltip: Test parameter
             step: Wizard step

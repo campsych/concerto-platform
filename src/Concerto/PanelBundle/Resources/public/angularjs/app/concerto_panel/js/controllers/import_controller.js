@@ -30,6 +30,14 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
             result = '<i class="glyphicon glyphicon-remove red"></i>';
         return result;
     };
+    $scope.isImportSafe = function () {
+        for (var i = 0; i < $scope.preImportStatus.length; i++) {
+            var ins = $scope.preImportStatus[i];
+            if (ins.action != 0)
+                return false;
+        }
+        return true;
+    };
     $scope.preImportStatusOptions = {
         enableFiltering: false,
         enableGridMenu: true,
@@ -166,23 +174,27 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     };
 
     $scope.save = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.IMPORT_DIALOG_TITLE;
-                },
-                content: function () {
-                    return Trans.DIALOG_MESSAGE_CONFIRM_UNSAFE_IMPORT;
+        if (!$scope.isImportSafe()) {
+            var modalInstance = $uibModal.open({
+                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+                controller: ConfirmController,
+                size: "sm",
+                resolve: {
+                    title: function () {
+                        return Trans.IMPORT_DIALOG_TITLE;
+                    },
+                    content: function () {
+                        return Trans.DIALOG_MESSAGE_CONFIRM_UNSAFE_IMPORT;
+                    }
                 }
-            }
-        });
+            });
 
-        modalInstance.result.then(function (response) {
+            modalInstance.result.then(function (response) {
+                $scope.persistImport();
+            });
+        } else {
             $scope.persistImport();
-        });
+        }
     };
 
     $scope.cancel = function () {

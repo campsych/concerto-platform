@@ -88,7 +88,7 @@ save_new:
         message.copied: Object copied
     fieldset:
         legend.tooltip: >
-            Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+            "Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \\{\\{id\\}\\} or \\{\\{name\\}\\}."
 
 import:
     action:
@@ -105,7 +105,7 @@ import:
             file: File
             file.tooltip: Choose the file to be imported
             instructions: Instructions
-            instructions.tooltip: "Import instructions. When renaming you can insert some variables to new name such as: <b>\{\{name\}\}, \{\{id\}\}, \{\{user_username\}\}, \{\{user_id\}\}</b> for imported object name, imported object id, imported object owner user name and imported object owner id respectively."
+            instructions.tooltip: "Import instructions. When renaming you can insert some variables to new name such as: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b> for imported object name, imported object id, imported object owner user name and imported object owner id respectively."
 
 export:
     dialog:
