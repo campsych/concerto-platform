@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 25,
         "name": "consent",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -108,7 +108,7 @@
             "id": 12,
             "name": "consent",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -249,13 +249,13 @@
                 "class_name": "Test",
                 "id": 24,
                 "name": "source_consent",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function(paragraph, consents, response) {\n  content = paragraph\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])     \n      validationHighlight = if(!is.null(response) && !checked && consents[[i]]$required == \"1\") {\"validationHighlight\"} else {\"\"}\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><input id='consent\",i,\"' name='consent\",i,\"' type='checkbox' value='1' \",(if(checked) {\"checked\"}),\" \/><label for='consent\",i,\"'>\",consents[[i]]$consent,\"<\/label><\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(consents, response) {\n  alert = NULL\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      if(!checked && consents[[i]]$required == \"1\") {\n        alert = paste(alert, \"<div>\", consents[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_consent\"><button name=\"button\" class=\"consent_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nconsents = fromJSON(consents)\n\nwarning_msg = NULL\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, consents, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))  \n  warning_msg = getAlert(consents, response)\n  if(is.null(warning_msg)) { break }\n}",
-                "slug": "bc6ed31f2fcf752e710e2e0eaed004fe",
+                "slug": "77f76d93a9d0ed6142d09b61af69303e",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -349,42 +349,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:33:02",
+                "updatedOn": "2016-08-13 18:06:44",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "revision": 1
             },
             "testName": "source_consent",
-            "updatedOn": "2016-07-25 17:33:03",
+            "updatedOn": "2016-08-13 18:06:45",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "revision": 1
         },
-        "updatedOn": "2016-07-25 17:33:03",
+        "updatedOn": "2016-08-13 18:06:45",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "revision": 1
     }
 ]

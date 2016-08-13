@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 5,
         "name": "promote_var",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -60,17 +60,14 @@
         ],
         "sourceWizard": null,
         "sourceWizardObject": null,
-        "updatedOn": "2016-07-25 17:32:40",
+        "updatedOn": "2016-08-13 18:06:34",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "revision": 1
     }
 ]

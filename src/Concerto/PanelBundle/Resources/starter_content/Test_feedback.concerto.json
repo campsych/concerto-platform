@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 4,
         "name": "feedback",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -108,7 +108,7 @@
             "id": 2,
             "name": "feedback",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -276,13 +276,13 @@
                 "class_name": "Test",
                 "id": 3,
                 "name": "source_feedback",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feedback = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(t_bound$min_value <= score && t_bound$max_value > score) {\n            feedback = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n        \n      content = paste0(content, \"<div class='feedbackTraitLabel'>\",t_fb$label,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitDescription'>\",t_fb$description,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitFeedback'>\",feedback,\"<\/div>\")\n    }\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = paste('<div class=\"button_panel button_panel_feedback\"><button name=\"button\">',button_label,'<\/button><\/div>',sep=\"\")\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer\n)))",
-                "slug": "2bdf09daf431e32f348b61864ebdf138",
+                "slug": "e03bcaa82434666cecb78e0c163b105c",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -376,42 +376,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:32:39",
+                "updatedOn": "2016-08-13 18:06:34",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "revision": 1
             },
             "testName": "source_feedback",
-            "updatedOn": "2016-07-25 17:32:40",
+            "updatedOn": "2016-08-13 18:06:34",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "revision": 1
         },
-        "updatedOn": "2016-07-25 17:32:40",
+        "updatedOn": "2016-08-13 18:06:34",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "revision": 1
     }
 ]

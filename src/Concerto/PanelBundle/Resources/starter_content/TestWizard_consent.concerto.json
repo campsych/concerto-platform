@@ -1,0 +1,269 @@
+[
+    {
+        "class_name": "TestWizard",
+        "id": 12,
+        "name": "consent",
+        "description": "",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "steps": [
+            {
+                "class_name": "TestWizardStep",
+                "id": 26,
+                "title": "Presentation",
+                "description": "<p>Consent page properties<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 12,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 80,
+                        "label": "Paragraph",
+                        "description": "<p>Consent page text paragraph<\/p>\n",
+                        "hideCondition": "",
+                        "type": 2,
+                        "passableThroughUrl": "0",
+                        "value": "<p>Information about your test\/study goes here.<\/p>\n\n<p>Perhaps you have a list of things they are going to agree to, like this:<\/p>\n\n<ul>\n\t<li>I am at least 18 years old<\/li>\n\t<li>I agree to participate in this study<\/li>\n\t<li>I realise that I can leave the study at any time by closing the web browser<\/li>\n<\/ul>\n",
+                        "testVariable": 288,
+                        "name": "paragraph",
+                        "wizardStep": 26,
+                        "stepTitle": "Presentation",
+                        "order": 2,
+                        "wizard": 12,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 81,
+                        "label": "Button label",
+                        "description": "<p>Continue button label text<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "continue",
+                        "testVariable": 290,
+                        "name": "button_label",
+                        "wizardStep": 26,
+                        "stepTitle": "Presentation",
+                        "order": 3,
+                        "wizard": 12,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 82,
+                        "label": "Page Title",
+                        "description": "",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "DEMO TEST",
+                        "testVariable": 293,
+                        "name": "title",
+                        "wizardStep": 26,
+                        "stepTitle": "Presentation",
+                        "order": 1,
+                        "wizard": 12,
+                        "definition": {
+                            "placeholder": 0
+                        }
+                    }
+                ]
+            },
+            {
+                "class_name": "TestWizardStep",
+                "id": 27,
+                "title": "Consents",
+                "description": "<p>Declare&nbsp;consent fields<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 12,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 83,
+                        "label": "Consent fields",
+                        "description": "<p>Declare consent fields list<\/p>\n",
+                        "hideCondition": "",
+                        "type": 10,
+                        "passableThroughUrl": "0",
+                        "value": "[{\"consent\":\"I have read the above carefully and agree to participate in the study\",\"alert\":\"Please confirm that you agree to participate in the study\",\"required\":\"1\"}]",
+                        "testVariable": 289,
+                        "name": "consents",
+                        "wizardStep": 27,
+                        "stepTitle": "Consents",
+                        "order": 0,
+                        "wizard": 12,
+                        "definition": {
+                            "placeholder": "0",
+                            "element": {
+                                "type": 9,
+                                "definition": {
+                                    "placeholder": "0",
+                                    "fields": [
+                                        {
+                                            "type": "1",
+                                            "name": "consent",
+                                            "label": "consent content",
+                                            "definition": {
+                                                "placeholder": "0"
+                                            }
+                                        },
+                                        {
+                                            "type": "1",
+                                            "name": "alert",
+                                            "label": "consent alert",
+                                            "definition": {
+                                                "placeholder": "0"
+                                            },
+                                            "hideCondition": "parent.required == \"0\""
+                                        },
+                                        {
+                                            "type": "4",
+                                            "name": "required",
+                                            "label": "required",
+                                            "definition": {
+                                                "placeholder": "0"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ],
+        "test": 24,
+        "testObject": {
+            "class_name": "Test",
+            "id": 24,
+            "name": "source_consent",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function(paragraph, consents, response) {\n  content = paragraph\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])     \n      validationHighlight = if(!is.null(response) && !checked && consents[[i]]$required == \"1\") {\"validationHighlight\"} else {\"\"}\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><input id='consent\",i,\"' name='consent\",i,\"' type='checkbox' value='1' \",(if(checked) {\"checked\"}),\" \/><label for='consent\",i,\"'>\",consents[[i]]$consent,\"<\/label><\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(consents, response) {\n  alert = NULL\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      if(!checked && consents[[i]]$required == \"1\") {\n        alert = paste(alert, \"<div>\", consents[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_consent\"><button name=\"button\" class=\"consent_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nconsents = fromJSON(consents)\n\nwarning_msg = NULL\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, consents, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))  \n  warning_msg = getAlert(consents, response)\n  if(is.null(warning_msg)) { break }\n}",
+            "slug": "77f76d93a9d0ed6142d09b61af69303e",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 287,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 288,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 289,
+                    "name": "consents",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 290,
+                    "name": "button_label",
+                    "type": 0,
+                    "description": "<p>Label of continue button.<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": "continue",
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 291,
+                    "name": "response",
+                    "type": 1,
+                    "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response<\/span><\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 292,
+                    "name": "inserts",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 293,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 24,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 294,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 24,
+                    "parentVariable": null
+                }
+            ],
+            "logs": [],
+            "sourceWizard": null,
+            "sourceWizardObject": null,
+            "updatedOn": "2016-08-13 18:06:44",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "revision": 1
+        },
+        "testName": "source_consent",
+        "updatedOn": "2016-08-13 18:06:45",
+        "updatedByName": "",
+        "owner": 1,
+        "groups": "",
+        "starterContent": true,
+        "revision": 1
+    }
+]

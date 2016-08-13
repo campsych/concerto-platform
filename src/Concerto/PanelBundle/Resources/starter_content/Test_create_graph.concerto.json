@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 23,
         "name": "create_graph",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -174,7 +174,7 @@
             "id": 11,
             "name": "create_graph",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -454,13 +454,13 @@
                 "class_name": "Test",
                 "id": 22,
                 "name": "source_create_graph",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "library(ggplot2)\n\nif(is.character(data)) {\n  d = fromJSON(data)\n  data = NULL\n  if(length(d) > 0) {\n    for(i in 1:length(d)) {\n      data = rbind(data, as.list(d[[i]]))\n    }\n  }\n}\ndata = as.data.frame(data)\n\nx = as.character(data[[x_name]])\nif(x_numeric == \"1\") { \n  x = as.numeric(x) \n}\n\ny = as.character(data[[y_name]])\nif(y_numeric == \"1\") { \n  y = as.numeric(y) \n}\ndata = data.frame(x=x, y=y)\n\ncolors = fromJSON(bar_colors)\nif(length(colors) == 0){\n  colors = x\n}\n\ngraph = ggplot(data=data, aes(x=x, y=y)) + \ngeom_bar(colour=\"black\", fill=colors, width=.8, stat=\"identity\") + \nguides(fill=FALSE) +\nxlab(x_label) + ylab(y_label) +\nggtitle(title)\n\npath = concerto.file.getPublicPath(filename)\npng(path, width=as.numeric(width), height=as.numeric(height))\nprint(graph)\ndev.off()\nurl = concerto.file.getUrl(filename)\naddress = list(filename=filename, path=path, url=url)",
-                "slug": "d69fcf0254926125ba7a30deb6afc4d4",
+                "slug": "f7171597cd8ace0c14c478f831eb3b78",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -620,42 +620,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:32:58",
+                "updatedOn": "2016-08-13 18:06:43",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "revision": 1
             },
             "testName": "source_create_graph",
-            "updatedOn": "2016-07-25 17:32:59",
+            "updatedOn": "2016-08-13 18:06:43",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "revision": 1
         },
-        "updatedOn": "2016-07-25 17:33:01",
+        "updatedOn": "2016-08-13 18:06:44",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "revision": 1
     }
 ]

@@ -1,0 +1,906 @@
+[
+    {
+        "class_name": "TestWizard",
+        "id": 1,
+        "name": "start_session",
+        "description": "",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "steps": [
+            {
+                "class_name": "TestWizardStep",
+                "id": 1,
+                "title": "Session",
+                "description": "<p>Session data source<\/p>\n",
+                "orderNum": 1,
+                "colsNum": 0,
+                "wizard": 1,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 1,
+                        "label": "Session bank",
+                        "description": "<p>Session table definition:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default session table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own session table<\/li>\n<\/ul>\n",
+                        "hideCondition": "",
+                        "type": 9,
+                        "passableThroughUrl": "0",
+                        "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_user_id_login\":{\"table\":null},\"custom_test_id_column\":{}}",
+                        "testVariable": 9,
+                        "name": "session_bank",
+                        "wizardStep": 1,
+                        "stepTitle": "Session",
+                        "order": 0,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": "0",
+                            "fields": [
+                                {
+                                    "type": "3",
+                                    "name": "table_type",
+                                    "label": "Type",
+                                    "definition": {
+                                        "options": [
+                                            {
+                                                "value": "default",
+                                                "label": "default"
+                                            },
+                                            {
+                                                "value": "custom",
+                                                "label": "custom"
+                                            }
+                                        ]
+                                    },
+                                    "order": 0
+                                },
+                                {
+                                    "type": "6",
+                                    "name": "custom_table",
+                                    "label": "Table",
+                                    "hideCondition": "parent.table_type != \"custom\"",
+                                    "order": 1
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_user_id_login",
+                                    "label": "User Id column",
+                                    "hideCondition": "parent.table_type != \"custom\"",
+                                    "order": 3
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_test_id_column",
+                                    "label": "Test Id column",
+                                    "hideCondition": "parent.table_type != \"custom\"",
+                                    "order": 4
+                                },
+                                {
+                                    "type": 7,
+                                    "name": "custom_internal_id_column",
+                                    "label": "Internal Id column",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.table_type != \"custom\"",
+                                    "order": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "class_name": "TestWizardStep",
+                "id": 2,
+                "title": "Authorization",
+                "description": "<p>Authorization options<\/p>\n",
+                "orderNum": 2,
+                "colsNum": 0,
+                "wizard": 1,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 2,
+                        "label": "Paragraph",
+                        "description": "<p><span style=\"line-height: 20.8px;\">Authorization page paragraph<\/span><\/p>\n",
+                        "hideCondition": "!values.type",
+                        "type": 2,
+                        "passableThroughUrl": "0",
+                        "value": "<p>Please log in:<\/p>\n",
+                        "testVariable": 2,
+                        "name": "paragraph",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 3,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 3,
+                        "label": "Failed alert",
+                        "description": "<p>Authorization failed alert<\/p>\n",
+                        "hideCondition": "!values.type",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "Authorization failed!",
+                        "testVariable": 3,
+                        "name": "failed_alert",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 4,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 4,
+                        "label": "Button label",
+                        "description": "<p>Login button label<\/p>\n",
+                        "hideCondition": "!values.type",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "log in",
+                        "testVariable": 4,
+                        "name": "button_label",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 5,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 5,
+                        "label": "Type",
+                        "description": "<p>Authorization type<\/p>\n\n<ul>\n\t<li><strong>user table<\/strong>&nbsp;- predefined user bank that let&#39;s users log in using login\/password combination<\/li>\n<\/ul>\n",
+                        "hideCondition": "",
+                        "type": 3,
+                        "passableThroughUrl": "0",
+                        "value": "",
+                        "testVariable": 5,
+                        "name": "type",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 0,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": "0",
+                            "options": [
+                                {
+                                    "value": "table",
+                                    "label": "user table"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 6,
+                        "label": "User bank",
+                        "description": "<p style=\"line-height: 20.8px;\">User bank table type:<\/p>\n\n<ul style=\"line-height: 20.8px;\">\n\t<li><strong>default&nbsp;<\/strong>- uses default Concerto table; user needs to be inserted first<\/li>\n\t<li><strong>direct<\/strong>&nbsp;- can be defined directly in wizard form<\/li>\n\t<li><strong>custom<\/strong>&nbsp;- used to define your own table that you want to use as user bank<\/li>\n<\/ul>\n",
+                        "hideCondition": "!values.type",
+                        "type": 9,
+                        "passableThroughUrl": "0",
+                        "value": "{\"table_type\":\"default\",\"direct_table\":[],\"custom_table\":\"\",\"custom_login_column\":{},\"custom_password_column\":{},\"custom_encryption_column\":{},\"custom_test_id_column\":{}}",
+                        "testVariable": 7,
+                        "name": "user_bank",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 6,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": "0",
+                            "fields": [
+                                {
+                                    "type": "3",
+                                    "name": "table_type",
+                                    "label": "Table type",
+                                    "definition": {
+                                        "options": [
+                                            {
+                                                "value": "default",
+                                                "label": "default"
+                                            },
+                                            {
+                                                "value": "direct",
+                                                "label": "direct"
+                                            },
+                                            {
+                                                "value": "custom",
+                                                "label": "custom"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "10",
+                                    "name": "direct_table",
+                                    "label": "Users",
+                                    "definition": {
+                                        "element": {
+                                            "type": 9,
+                                            "definition": {
+                                                "fields": [
+                                                    {
+                                                        "type": "0",
+                                                        "name": "id",
+                                                        "label": "Id"
+                                                    },
+                                                    {
+                                                        "type": "0",
+                                                        "name": "login",
+                                                        "label": "Login"
+                                                    },
+                                                    {
+                                                        "type": "0",
+                                                        "name": "password",
+                                                        "label": "Password"
+                                                    },
+                                                    {
+                                                        "type": "3",
+                                                        "name": "encryption",
+                                                        "label": "Encryption",
+                                                        "definition": {
+                                                            "options": [
+                                                                {
+                                                                    "value": "plain",
+                                                                    "label": "plain"
+                                                                },
+                                                                {
+                                                                    "value": "md5",
+                                                                    "label": "md5"
+                                                                },
+                                                                {
+                                                                    "value": "sha1",
+                                                                    "label": "sha1"
+                                                                },
+                                                                {
+                                                                    "value": "sha256",
+                                                                    "label": "sha256"
+                                                                },
+                                                                {
+                                                                    "value": "sha512",
+                                                                    "label": "sha512"
+                                                                },
+                                                                {
+                                                                    "value": "xxhash32",
+                                                                    "label": "xxhash32"
+                                                                },
+                                                                {
+                                                                    "value": "xxhash64",
+                                                                    "label": "xxhash64"
+                                                                },
+                                                                {
+                                                                    "value": "murmur32",
+                                                                    "label": "murmur32"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": 0,
+                                                        "name": "email",
+                                                        "label": "Email",
+                                                        "definition": {
+                                                            "placeholder": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": 4,
+                                                        "name": "enabled",
+                                                        "label": "Enabled",
+                                                        "definition": {
+                                                            "placeholder": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "hideCondition": "parent.table_type != \"direct\""
+                                },
+                                {
+                                    "type": "6",
+                                    "name": "custom_table",
+                                    "label": "Custom user table",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_login_column",
+                                    "label": "Login column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_password_column",
+                                    "label": "Password column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_encryption_column",
+                                    "label": "Encryption column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_test_id_column",
+                                    "label": "Test Id column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": 7,
+                                    "name": "custom_email_column",
+                                    "label": "Email column",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": 7,
+                                    "name": "custom_enabled_column",
+                                    "label": "Enabled column",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 7,
+                        "label": "Public registration",
+                        "description": "",
+                        "hideCondition": "!values.type",
+                        "type": 9,
+                        "passableThroughUrl": "0",
+                        "value": "{\"enabled\":\"0\",\"layout\":\"default_layout\",\"header\":\"<p><strong>Welcome to demo test<\/strong><\/p>\\n\",\"paragraph\":\"<p>Please fill the form below to register.<\/p>\\n\",\"password_alert\":\"You need to enter your password!\",\"login_label\":\"Login\",\"login_alert\":\"You need to enter your login!\",\"password_label\":\"Password\",\"password_confirmation_label\":\"Password confirmation\",\"password_confirmation_match_alert\":\"Password and password confirmation must match!\",\"email_label\":\"Email\",\"email_alert\":\"You need to enter your email!\",\"form_button_label\":\"register\",\"registration_button_label\":\"registration\",\"password_confirmation_alert\":\"Password and password confirmation must match!\",\"login_exists_alert\":\"Login already exists!\",\"email_confirmation\":\"0\",\"ec_smtp\":{\"host\":\"aspmx.l.google.com\",\"port\":\"25\"},\"ec_page\":{\"layout\":\"default_layout\",\"header\":\"<p><strong>Email confirmation<\/strong><\/p>\\n\",\"paragraph\":\"<p>Email has been sent to specified address for confirmation. Please check your inbox.<\/p>\\n\",\"content\":\"<p>Email has bee sent to the address specified. Please check your inbox.<\/p>\\n\"},\"ec_email\":{\"sender\":\"no-reply@domain.com\",\"subject\":\"Email confirmation\",\"paragraph\":\"<p>Please follow link below to confirm your email address:<\/p>\\n\",\"url\":\"http:\/\/domain.com\/test\/slug\/start?ecuid={{ecuid}}\"},\"ec_successful_page\":{\"layout\":\"default_layout\",\"header\":\"<p>Email confirmation<\/p>\\n\",\"content\":\"<p>Email confirmation has been successfuly completed.<\/p>\\n\"},\"ec_request_page\":{\"layout\":\"default_layout\",\"header\":\"<p>Email confirmation<\/p>\\n\",\"content\":\"<p>Confirmation email has been sent to specified address. Please check your inbox.<\/p>\\n\"},\"info_test\":\"info\",\"form_test\":\"form\",\"title\":\"Registration\"}",
+                        "testVariable": 12,
+                        "name": "registration",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 7,
+                        "wizard": 1,
+                        "definition": {
+                            "fields": [
+                                {
+                                    "type": 4,
+                                    "name": "enabled",
+                                    "label": "Enabled",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "order": 0
+                                },
+                                {
+                                    "type": 2,
+                                    "name": "paragraph",
+                                    "label": "Paragraph",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 4
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "login_label",
+                                    "label": "Login label",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 6
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "login_alert",
+                                    "label": "No login alert",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 7
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "password_label",
+                                    "label": "Password label",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 9
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "password_alert",
+                                    "label": "No password alert",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 10
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "password_confirmation_label",
+                                    "label": "Password confirmation label",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 11
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "password_confirmation_alert",
+                                    "label": "No password confirmation match alert",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 12
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "email_label",
+                                    "label": "Email label",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 14
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "email_alert",
+                                    "label": "No email alert",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 16
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "form_button_label",
+                                    "label": "Register button label",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 16
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "registration_button_label",
+                                    "label": "Registration button label",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 5
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "login_exists_alert",
+                                    "label": "Login already exists alert",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 8
+                                },
+                                {
+                                    "type": 4,
+                                    "name": "email_confirmation",
+                                    "label": "Email confirmation",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 15
+                                },
+                                {
+                                    "type": 9,
+                                    "name": "ec_smtp",
+                                    "label": "SMTP settings",
+                                    "definition": {
+                                        "placeholder": 0,
+                                        "fields": [
+                                            {
+                                                "type": 0,
+                                                "name": "host",
+                                                "label": "SMTP host",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "port",
+                                                "label": "SMTP port",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\" || parent.email_confirmation == \"0\"",
+                                    "order": 17
+                                },
+                                {
+                                    "type": 9,
+                                    "name": "ec_request_page",
+                                    "label": "Email confirmation request page",
+                                    "definition": {
+                                        "placeholder": 0,
+                                        "fields": [
+                                            {
+                                                "type": 2,
+                                                "name": "content",
+                                                "label": "Content",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                },
+                                                "order": 3
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "title",
+                                                "label": "Title",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                },
+                                                "order": 2
+                                            }
+                                        ]
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\" || parent.email_confirmation == \"0\"",
+                                    "order": 16
+                                },
+                                {
+                                    "type": 9,
+                                    "name": "ec_email",
+                                    "label": "Email",
+                                    "definition": {
+                                        "placeholder": 0,
+                                        "fields": [
+                                            {
+                                                "type": 0,
+                                                "name": "sender",
+                                                "label": "Sender email address",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "subject",
+                                                "label": "Email subject",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            },
+                                            {
+                                                "type": 2,
+                                                "name": "paragraph",
+                                                "label": "Email paragraph",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "url",
+                                                "label": "Confirmation URL",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\" || parent.email_confirmation == \"0\"",
+                                    "order": 20
+                                },
+                                {
+                                    "type": 9,
+                                    "name": "ec_successful_page",
+                                    "label": "Email confirmation successful page",
+                                    "definition": {
+                                        "placeholder": 0,
+                                        "fields": [
+                                            {
+                                                "type": 2,
+                                                "name": "content",
+                                                "label": "Content",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                },
+                                                "order": 3
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "title",
+                                                "label": "Title",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                },
+                                                "order": 2
+                                            }
+                                        ]
+                                    },
+                                    "order": 19,
+                                    "hideCondition": "parent.enabled == \"0\" || parent.email_confirmation == \"0\""
+                                },
+                                {
+                                    "type": 0,
+                                    "name": "title",
+                                    "label": "Title",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "hideCondition": "parent.enabled == \"0\"",
+                                    "order": 3
+                                },
+                                {
+                                    "type": 8,
+                                    "name": "info_test",
+                                    "label": "Info page subtest",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "order": 1,
+                                    "hideCondition": "parent.enabled == \"0\""
+                                },
+                                {
+                                    "type": 8,
+                                    "name": "form_test",
+                                    "label": "Form page subtest",
+                                    "definition": {
+                                        "placeholder": 0
+                                    },
+                                    "order": 2,
+                                    "hideCondition": "parent.enabled == \"0\""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 8,
+                        "label": "Title",
+                        "description": "",
+                        "hideCondition": "!values.type",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "DEMO TEST",
+                        "testVariable": 14,
+                        "name": "title",
+                        "wizardStep": 2,
+                        "stepTitle": "Authorization",
+                        "order": 2,
+                        "wizard": 1,
+                        "definition": {
+                            "placeholder": 0
+                        }
+                    }
+                ]
+            }
+        ],
+        "test": 1,
+        "testObject": {
+            "class_name": "Test",
+            "id": 1,
+            "name": "source_start_session",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "library(digest)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n\n  if(!is.na(type) && type == \"table\") {\n    content = paste(content, \"<div class='formField'><label for='login'>login<\/label><br\/><input type='text' name='login' id='login' \/><\/div>\",sep=\"\")\n    content = paste(content, \"<div class='formField'><label for='password'>password<\/label><br\/><input type='password' name='password' id='password' \/><\/div>\",sep=\"\")\n  }\n\n  return(content)\n}\n\nauthorizeUser = function(response) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"direct\") {\n      users = ub$direct_table\n      if(length(users) > 0) {\n        for(i in 1:length(users)) {\n          user = users[[i]]\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE test_id = {{id}}\", list(id=concerto$mainTest$id))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = as.list(users[i,])\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{test_column}} = {{id}}\", list(table=ub$custom_table, test_column=ub$custom_test_id_column$column, id=concerto$mainTest$id))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = list(\n            id=users[i, \"id\"],\n            login=users[i, ub$custom_login_column$column],\n            password=users[i, ub$custom_password_column$column],\n            encryption=users[i, ub$custom_encryption_column$column],\n            email=users[i,ub$custom_email_column$column],\n            enabled=users[i, ub$custom_enabled_column$column]\n          )\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    }\n  }\n  return(NULL)\n}\n\ncreateSession = function(user) {\n  sb = fromJSON(session_bank)\n  user_id = NULL\n  if(!is.null(user)) { user_id = user$id }\n\n  if(sb$table_type == \"default\") {\n    concerto.table.query(\"INSERT INTO `default_session_table` SET `internal_id` = '{{internal_id}}', `test_id` = {{test_id}}, `user_id` = '{{user_id}}'\", list(internal_id=concerto$session$id, test_id=concerto$mainTest$id, user_id=user_id))\n  } \n  if(sb$table_type == \"custom\") {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{iternal_id_column}}` = '{{internal_id}}', `{{test_id_column}}` = {{test_id}}, `{{user_id_column}}` = '{{user_id}}'\", list(table=sb$custom_table, iternal_id_column=sb$custom_iternal_id_column$column, internal_id=concerto$session$id, test_id_column=sb$custom_test_id_column$column, test_id=concerto$mainTest$id, user_id_column=sb$custom_user_id_column$column, user_id=user_id, ))\n  }\n  return(list(id=concerto.table.lastInsertId(), test_id=concerto$mainTest$id, user_id=user_id))\n}\n\ndoesLoginExists = function(login) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE test_id = {{id}} AND login = '{{login}}'\", list(\n        id=concerto$mainTest$id,\n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{test_column}} = {{id}} AND {{login_column}} = '{{login}}'\", list(\n        table=ub$custom_table, \n        test_column=ub$custom_test_id_column$column, \n        id=concerto$mainTest$id,\n        login_column=ub$custom_login_column$column, \n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    }\n  }\n  return(FALSE)\n}\n\ncreateNewUser = function(login, password, email, enabled) {\n  ub = fromJSON(user_bank)\n  encryption = \"sha1\"\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"INSERT INTO default_user_table SET test_id={{id}}, login='{{login}}', password='{{password}}', encryption='{{encryption}}', email='{{email}}', enabled='{{enabled}}'\", list(\n        id=concerto$mainTest$id,\n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"INSERT INTO {{table}} SET {{test_column}}={{id}}, {{login_column}}='{{login}}', {{password_column}}='{{password}}', {{encryption_column}}='{{encryption}}', {{email_column}}='{{email}}', {{enabled_column}}='{{enabled}}'\", list(\n        table=ub$custom_table, \n        test_column=ub$custom_test_id_column$column, \n        id=concerto$mainTest$id,\n        login_column=ub$custom_login_column$column, \n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password_column=ub$custom_password_column$column, \n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption_column=ub$custom_encryption_column$column, \n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email_column=ub$custom_email_column$column, \n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled_column=ub$custom_enabled_column$column, \n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    }\n    return(concerto.table.lastInsertId())\n  }\n  return(NULL)\n}\n\nsendConfirmationMail = function(uid, email, smtp_host, smtp_port, sender, subject, paragraph, url){\n  library(mailR)\n\n  url = concerto.template.insertParams(url, params=list(ecuid=uid))\n  recipients = c(email)\n  body = paste0(paragraph, \"<p><a href='\",url,\"'>\",url,\"<\/a><\/p>\")\n\n  send.mail(\n    from = sender,\n    to = recipients,\n    subject = subject,\n    body = body,\n    smtp = list(host.name = smtp_host, port = smtp_port),\n    html = TRUE, \n    inline = TRUE,\n    authenticate = FALSE,\n    send = TRUE\n  )\n}\n\nenableUser = function(uid) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"UPDATE default_user_table SET enabled='{{enabled}}' WHERE test_id={{test_id}} AND id={{id}}\", list(\n        enabled=1,\n        test_id=concerto$mainTest$id,\n        id=uid\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"UPDATE {{table}} SET {{enabled_column}}='{{enabled}}' WHERE {{test_column}}={{test_id}} AND id={{id}}'\", list(\n        table=ub$custom_table, \n        enabled_column=ub$custom_enabled_column$column, \n        enabled=1,\n        test_column=ub$custom_test_id_column$column, \n        test_id=concerto$mainTest$id,\n        id=uid\n      ))\n    }\n  }\n}\n\nreg = fromJSON(registration)\n#email confirmation\nif(!is.na(ecuid) && !is.null(ecuid) && ecuid != \"\"){\n  enableUser(ecuid)\n  concerto.test.run(reg$info_test, params=list(\n    template=decoded_template_def$layout,\n    header=decoded_template_def$header,\n    title=reg$ec_successful_page$title,\n    content=reg$ec_successful_page$content,\n    footer=decoded_template_def$footer,\n    button_exists=\"0\"\n  ))\n}\n\nuser = NULL\nemail_confirmation = FALSE\nif(!is.na(type) && type==\"table\") {\n  buttons = paste0('<button name=\"login\" class=\"sessionLoginButton\">',button_label,'<\/button>')\n  if(reg$enabled == \"1\") {\n    buttons = paste0(buttons, '<button name=\"register\" class=\"sessionRegisterButton\">',reg$registration_button_label,'<\/button>')\n  }\n  warning_msg = NULL\n  response = NULL\n  while(T) {\n    content = getContent()\n    response = concerto.template.show(decoded_template_def$layout, params=list(\n      header=decoded_template_def$header, \n      title=title, \n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    ))  \n    if(response$buttonPressed == \"login\") {\n      user = authorizeUser(response)\n      if(is.null(user)) {\n        warning_msg = paste(\"<div>\",failed_alert,\"<\/div>\",sep=\"\")\n      } else {\n        break\n      }\n    }\n    if(response$buttonPressed == \"register\") {\n      reg_warning_msg = NULL\n      result = NULL\n      while(T) {\n        result = concerto.test.run(reg$form_test, params=list(\n          template=decoded_template_def$layout,\n          header=decoded_template_def$header,\n          title=reg$title, \n          paragraph=reg$paragraph,\n          footer=decoded_template_def$footer,\n          form=toJSON(\n            list(\n              list(name=\"login\", definition=list(type=\"singleline\"), label=reg$login_label, validation=\"login!=''\", alert=reg$login_alert),\n              list(name=\"password\", definition=list(type=\"password\"), label=reg$password_label, validation=\"password!=''\", alert=reg$password_alert),\n              list(name=\"password_confirmation\", definition=list(type=\"password\"), label=reg$password_confirmation_label, validation=\"password==password_confirmation\", alert=reg$password_confirmation_alert),\n              list(name=\"email\", definition=list(type=\"singleline\"), label=reg$email_label, validation=\"email!=''\", alert=reg$email_alert)\n            )\n          ),\n          warning_msg = reg_warning_msg,\n          button_label=reg$form_button_label\n        ));\n\n        if(!doesLoginExists(result$response$login)) {\n          break\n        } else {\n          reg_warning_msg = reg$login_exists_alert\n        }\n      }\n      email_confirmation = reg$email_confirmation == \"1\"\n      enabled = \"1\"\n      if(email_confirmation) { \n        enabled == \"0\" \n      }\n      uid = createNewUser(result$response$login, result$response$password, result$response$email, enabled)\n      if(email_confirmation) { \n        sendConfirmationMail(uid, result$response$email, reg$ec_smtp$host, reg$ec_smtp$port, reg$ec_email$sender, reg$ec_email$subject, reg$ec_email$paragraph, reg$ec_email$url)\n        concerto.test.run(reg$info_test, params=list(\n          template=decoded_template_def$layout,\n          header=decoded_template_def$header,\n          title=reg$ec_request_page$title,\n          content=reg$ec_request_page$content,\n          footer=decoded_template_def$footer,\n          button_exists=\"0\"\n        ))\n      }\n      user = authorizeUser(list(login=result$response$login, result$response$password))\n      break\n    }\n  }\n}\n\nsession = createSession(user)",
+            "slug": "1340d2cd1c7bfb4c3b0159e6738d65a6",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 1,
+                    "name": "success",
+                    "type": 2,
+                    "description": "<p>Authorization successful<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 2,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 3,
+                    "name": "failed_alert",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 4,
+                    "name": "button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 5,
+                    "name": "type",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 6,
+                    "name": "user",
+                    "type": 1,
+                    "description": "<p>Returned user object list:<\/p>\n\n<ul>\n\t<li><strong>user$id<\/strong>&nbsp;- user unique id<\/li>\n\t<li><strong>user$login&nbsp;<\/strong>- user login<\/li>\n<\/ul>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 7,
+                    "name": "user_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 8,
+                    "name": "user_bank",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 9,
+                    "name": "session_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 10,
+                    "name": "session",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 11,
+                    "name": "session_bank",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 12,
+                    "name": "registration",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 13,
+                    "name": "ecuid",
+                    "type": 0,
+                    "description": "<p>Email confirmation user id<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 14,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 15,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                }
+            ],
+            "logs": [],
+            "sourceWizard": null,
+            "sourceWizardObject": null,
+            "updatedOn": "2016-08-13 18:06:33",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "revision": 1
+        },
+        "testName": "source_start_session",
+        "updatedOn": "2016-08-13 18:06:33",
+        "updatedByName": "",
+        "owner": 1,
+        "groups": "",
+        "starterContent": true,
+        "revision": 1
+    }
+]

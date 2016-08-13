@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 19,
         "name": "form",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -119,7 +119,7 @@
             "id": 9,
             "name": "form",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -436,13 +436,13 @@
                 "class_name": "Test",
                 "id": 18,
                 "name": "source_form",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='text' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"password\") {\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='password' value='\",value,\"' \/>\",sep=\"\")\n      } else if(type == \"multiline\") {\n        control = paste(\"<textarea id='form\",i,\"' name='\",form[[i]]$name,\"'>\",value,\"<\/textarea>\",sep=\"\")\n      } else if(type == \"select\") {\n        control = paste(\"<select id='form\",i,\"' name='\",form[[i]]$name,\"'>\",sep=\"\")\n        options = \"\"\n        if(length(form[[i]]$definition$select_option) > 0) {\n          for(j in 1:length(form[[i]]$definition$select_option)) {\n            options = paste(options, \"<option value='\",form[[i]]$definition$select_options[[j]]$value,\"'>\",form[[i]]$definition$select_options[[j]]$label,\"<\/option>\",sep=\"\")\n          }\n        }\n        control = paste(control, options, \"<\/select>\",sep=\"\")\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\"){\n          checked = \"checked\"\n        }\n        control = paste(\"<input id='form\",i,\"' name='\",form[[i]]$name,\"' type='checkbox' \",checked,\" value='1'>\",sep=\"\")\n      } else if(type == \"slider\") {\n        control = \"\"\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"\n            <script>\n              var p_form\",i,\" = document.getElementById('form\",i,\"'),\n                res_form\",i,\" = document.getElementById('form\",i,\"number');\n\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";\n\n              p_form\",i,\".addEventListener('input', function() {\n                res_form\",i,\".innerHTML = \"\n          )\n          if (!is.null(form[[i]]$definition$prefix_text)) {\n              control = paste0(control, \n                \"'\", form[[i]]$definition$prefix_text,\"' + \"\n              )\n          }                     \n          control = paste0(control, \"\n\t\t\t    p_form\",i,\".value\"\n          )\n          if (!is.null(form[[i]]$definition$suffix_text)) {\n              control = paste0(control, \"\n\t\t\t    + '\",form[[i]]$definition$suffix_text,\"'\"\n              )\n\t\t  }\n          control = paste0(control, \";          \n              }, false); \n            <\/script>\n\t\t  \") \n        }\n        control = paste0(control, \"<table class='tableFormSlider'><tr><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft'>\",form[[i]]$definition$label_extreme_left,\"<\/td><td class='tdFormSlider'><input id='form\",i,\"' name='\",form[[i]]$name,\"' type='range' value='\",value,\"' min='\",form[[i]]$definition$min,\"' max='\",form[[i]]$definition$max,\"' step='\",form[[i]]$definition$step,\"' \/><\/td><td class='tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight'>\",form[[i]]$definition$label_extreme_right,\"<\/td><\/tr>\")\n        if (form[[i]]$definition$hide_number == 0) {\n          control = paste0(control, \"<tr><td>&nbsp;<\/td><td><div id='form\",i,\"number' class='tdFormSliderNumber'>&nbsp;<\/div><\/td><td>&nbsp;<\/td><\/tr>\") \n        }\n        control = paste0(control, \"<\/table>\")\n        \n      }\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        validationHighlight = \"validationHighlight\"\n      }\n      content = paste(content, \"<div class='formField \",validationHighlight,\"'><label for='form\",i,\"'>\",form[[i]]$label,\"<\/label><br\/>\",control,\"<\/div>\",sep=\"\")\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(form, response) {\n  alert = NULL\n  \n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n\n      validationHighlight = \"\"\n      if(!is.null(response) && !valid) {\n        alert = paste(alert, \"<div>\", form[[i]]$alert, \"<\/div>\", sep=\"\")\n      }\n    }\n  }\n  return(alert)\n}\n      \ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = paste('<div class=\"button_panel button_panel_form\"><button name=\"button\" class=\"form_button\">',button_label,'<\/button><\/div>',sep=\"\")\n\ncontent = paragraph\nform = fromJSON(form)\n        \nif(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n  warning_msg = NULL\n}\n\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, form, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))\n  warning_msg = getAlert(form, response)\n  if(is.null(warning_msg) || warning_msg == \"\") { break }\n}\n\nresponse$isTimeout <- NULL\nresponse$buttonPressed <- NULL\nresponse$timeTaken <- NULL",
-                "slug": "27a6d5a0d0104ea0f18f1deaa6f47fe7",
+                "slug": "8f694991c8a373c65f4c5da09e3f708f",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -547,42 +547,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:32:52",
+                "updatedOn": "2016-08-13 18:06:40",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "revision": 1
             },
             "testName": "source_form",
-            "updatedOn": "2016-07-25 17:32:52",
+            "updatedOn": "2016-08-13 18:06:40",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "revision": 1
         },
-        "updatedOn": "2016-07-25 17:32:53",
+        "updatedOn": "2016-08-13 18:06:40",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "revision": 1
     }
 ]

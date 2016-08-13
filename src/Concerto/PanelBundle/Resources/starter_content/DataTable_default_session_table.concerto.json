@@ -4,7 +4,7 @@
         "id": 2,
         "name": "default_session_table",
         "description": "",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "0",
         "archived": "0",
         "columns": [
@@ -29,13 +29,12 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-07-25 17:33:02",
+        "updatedOn": "2016-08-13 18:06:44",
         "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "data": [
-
-        ]
+        "revision": 1,
+        "data": []
     }
 ]

@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 7,
         "name": "if_statement",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -75,7 +75,7 @@
             "id": 3,
             "name": "if_statement",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -115,13 +115,13 @@
                 "class_name": "Test",
                 "id": 6,
                 "name": "source_if",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "condition = paste0(\"if(\",if_condition,\") { .branch = 'if_true' } else { .branch = 'if_false' }\" )\nprint(paste0(\"if condition: \",condition)) #for bug checking\n\neval(parse(text=condition))\nprint(paste0(\".branch: \", .branch)) #for bug checking",
-                "slug": "b4d7b71429d05b3fe2549a7bfb274cc6",
+                "slug": "a785df96a8fe221581dc83aa7edd9e98",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "<p>Node that evaluates a conditional statement and returns via the TRUE or FALSE branch. Data can also be made available to the node via the ifdata variable input.<\/p>\n",
@@ -182,42 +182,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:32:40",
+                "updatedOn": "2016-08-13 18:06:34",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "revision": 1
             },
             "testName": "source_if",
-            "updatedOn": "2016-07-25 17:32:40",
+            "updatedOn": "2016-08-13 18:06:34",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "revision": 1
         },
-        "updatedOn": "2016-07-25 17:32:41",
+        "updatedOn": "2016-08-13 18:06:34",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "revision": 1
     }
 ]
