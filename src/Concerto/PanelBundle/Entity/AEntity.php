@@ -148,4 +148,5 @@ abstract class AEntity {
         return $result;
     }
 
+    public abstract function getOwner();
 }

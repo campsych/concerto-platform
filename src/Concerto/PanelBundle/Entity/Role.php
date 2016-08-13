@@ -33,6 +33,10 @@ class Role extends AEntity implements RoleInterface {
         
         $this->users = new ArrayCollection();
     }
+    
+    public function getOwner() {
+        return null;
+    }
 
     /**
      * @see RoleInterface

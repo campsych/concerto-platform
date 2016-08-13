@@ -52,6 +52,10 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
         
         $this->message = "";
     }
+    
+    public function getOwner() {
+        return $this->getTest()->getOwner();
+    }
 
     /**
      * Set ip

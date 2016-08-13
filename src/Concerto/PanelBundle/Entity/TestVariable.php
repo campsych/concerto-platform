@@ -85,6 +85,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
         
         $this->description = "";
     }
+    
+    public function getOwner() {
+        return $this->getTest()->getOwner();
+    }
 
     /**
      * Set name

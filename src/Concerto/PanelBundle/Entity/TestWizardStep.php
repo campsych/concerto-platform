@@ -63,6 +63,10 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
         $this->colsNum = 0;
         $this->params = new ArrayCollection();
     }
+    
+    public function getOwner() {
+        return $this->getWizard()->getOwner();
+    }
 
     /**
      * Set title

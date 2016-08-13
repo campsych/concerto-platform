@@ -140,6 +140,10 @@ class TestSession extends AEntity {
         $this->timeLimit = 0;
         $this->finalize = 0;
     }
+    
+    public function getOwner() {
+        return $this->getTest()->getOwner();
+    }
 
     /**
      * Set test server node id

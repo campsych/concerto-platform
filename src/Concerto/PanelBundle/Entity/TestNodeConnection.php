@@ -61,6 +61,10 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
         $this->returnFunction = "";
     }
     
+    public function getOwner() {
+        return $this->getFlowTest()->getOwner();
+    }
+    
     /**
      * Get return function
      *

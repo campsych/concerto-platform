@@ -71,6 +71,10 @@ class TestNode extends AEntity implements \JsonSerializable {
         $this->posY = 0;
         $this->ports = new ArrayCollection();
     }
+    
+    public function getOwner() {
+        return $this->getFlowTest()->getOwner();
+    }
 
     /**
      * Get type
