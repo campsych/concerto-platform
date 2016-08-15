@@ -168,6 +168,7 @@ class TestWizardService extends AExportableSectionService {
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
+        $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("revision", $obj))
             $ent->setRevision($obj["revision"]);
         $ent_errors = $this->validator->validate($ent);
@@ -195,6 +196,7 @@ class TestWizardService extends AExportableSectionService {
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
+        $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("revision", $obj))
             $ent->setRevision($obj["revision"]);
         $ent_errors = $this->validator->validate($ent);
