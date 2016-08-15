@@ -8,14 +8,14 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.colNameContent = function (entity) {
         var result = entity.name;
         if (entity.revision != 0) {
-            result += " (r" + entity.revision + ")";
+            result += " (rev" + entity.revision + ")";
         }
         return result;
     };
     $scope.colExistsContent = function (entity) {
         var revision = "";
         if (entity.existing_object != null && entity.existing_object.revision != 0)
-            revision += " (r" + entity.existing_object.revision + ")";
+            revision += " (rev" + entity.existing_object.revision + ")";
         var result = entity.existing_object != null ? ('<i class="glyphicon glyphicon-ok green"></i>' + revision) : '<i class="glyphicon glyphicon-remove red"></i>';
         return result;
     };
