@@ -71,6 +71,7 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
                 case BaseController.RESULT_VALIDATION_FAILED:
                 {
                     $scope.object.validationErrors = data.errors;
+                    $(".modal").animate({scrollTop: 0}, "slow");
                     break;
                 }
             }

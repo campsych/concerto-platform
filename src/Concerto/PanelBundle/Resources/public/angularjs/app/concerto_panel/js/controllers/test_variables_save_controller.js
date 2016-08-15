@@ -53,6 +53,7 @@ function TestVariablesSaveController($scope, $uibModalInstance, $http, object) {
                 case BaseController.RESULT_VALIDATION_FAILED:
                 {
                     $scope.object.validationErrors = data.errors;
+                    $(".modal").animate({scrollTop: 0}, "slow");
                     break;
                 }
             }

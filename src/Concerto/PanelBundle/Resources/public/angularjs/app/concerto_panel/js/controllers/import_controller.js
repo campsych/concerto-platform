@@ -149,6 +149,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                         case BaseController.RESULT_VALIDATION_FAILED:
                         {
                             $scope.object.validationErrors = response.data.errors;
+                            $(".modal").animate({scrollTop: 0}, "slow");
                             break;
                         }
                     }
