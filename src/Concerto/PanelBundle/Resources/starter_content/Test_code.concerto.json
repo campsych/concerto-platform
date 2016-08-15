@@ -1,0 +1,62 @@
+[
+    {
+        "class_name": "Test",
+        "id": 33,
+        "name": "code",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "visibility": 2,
+        "type": 0,
+        "code": "result = eval(parse(text=code))",
+        "resumable": "0",
+        "outdated": "0",
+        "description": "",
+        "variables": [
+            {
+                "class_name": "TestVariable",
+                "id": 374,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 33,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 375,
+                "name": "code",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 33,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 376,
+                "name": "result",
+                "type": 1,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 33,
+                "parentVariable": null
+            }
+        ],
+        "sourceWizard": null,
+        "sourceWizardObject": null,
+        "updatedOn": "2016-08-15 17:52:52",
+        "updatedByName": "admin",
+        "nodes": [],
+        "nodesConnections": [],
+        "tags": "_concerto_core",
+        "owner": null,
+        "groups": "",
+        "starterContent": true,
+        "revision": 1
+    }
+]
