@@ -557,21 +557,31 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
-
             if (toState.name === $scope.tabStateName + "Form") {
                 $scope.tabSection = "form";
-                var obj = $scope.fetchObject(toParams.id);
-                if (!obj) {
-                    $scope.switchTab();
-                }
-            } else
+                $scope.delayedEdit(toParams.id);
+            } else{
+                $scope.tab.activeIndex = $scope.tabIndex;
                 $scope.tabSection = "list";
-
-            $scope.tab.activeIndex = $scope.tabIndex;
+            }
         } else {
             $scope.resetObject();
         }
     });
+
+    $scope.delayedEdit = function (id) {
+        if (!$scope.collectionService.collectionInitialized) {
+            $timeout(function () {
+                $scope.delayedEdit(id);
+            }, 100);
+            return;
+        }
+        var obj = $scope.fetchObject(id);
+        if (!obj) {
+            $scope.switchTab();
+        }
+        $scope.tab.activeIndex = $scope.tabIndex;
+    };
 }
 
 BaseController.RESULT_OK = 0;

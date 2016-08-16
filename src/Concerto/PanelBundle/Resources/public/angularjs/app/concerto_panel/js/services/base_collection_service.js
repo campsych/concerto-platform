@@ -1,5 +1,6 @@
 concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
     return {
+        collectionInitialized: false,
         collectionPath: "",
         collection: [],
         fetchObjectCollection: function (params) {
@@ -11,6 +12,7 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
                 params: params
             }).success(function (c) {
                 obj.collection = c;
+                obj.collectionInitialized = true;
             });
         },
         get: function (id) {
