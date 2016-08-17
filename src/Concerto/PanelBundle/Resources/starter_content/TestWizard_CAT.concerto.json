@@ -1064,7 +1064,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "revision": 1
+            "rev": 1
         },
         "testName": "source_CAT",
         "updatedOn": "2016-08-13 18:06:38",
@@ -1072,6 +1072,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]

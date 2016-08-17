@@ -893,7 +893,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "revision": 1
+            "rev": 1
         },
         "testName": "source_start_session",
         "updatedOn": "2016-08-13 18:06:33",
@@ -901,6 +901,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]

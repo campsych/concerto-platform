@@ -100,7 +100,7 @@ class ImportService {
         $result = array();
         foreach ($top_data as $imported_object) {
             $service = $this->serviceMap[$imported_object["class_name"]];
-            $new_revision = array_key_exists("revision", $imported_object) ? $imported_object["revision"] : 0;
+            $new_revision = array_key_exists("rev", $imported_object) ? $imported_object["rev"] : 0;
             $existing_entity = $service->repository->findOneBy(array("name" => $imported_object["name"]));
             if ($existing_entity !== null) {
                 $existing_entity = $service->get($existing_entity->getId());
@@ -112,7 +112,7 @@ class ImportService {
                 "class_name" => $imported_object["class_name"],
                 "action" => "0",
                 "rename" => $imported_object["name"],
-                "revision" => $new_revision,
+                "rev" => $new_revision,
                 "starter_content" => $imported_object["starterContent"],
                 "existing_object" => $existing_entity
             );

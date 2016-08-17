@@ -316,7 +316,7 @@
                 "owner": 1,
                 "groups": "",
                 "starterContent": false,
-                "revision": 1
+                "rev": 1
             },
             "testName": "source_info",
             "updatedOn": "2016-08-13 18:06:49",
@@ -324,7 +324,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "revision": 1
+            "rev": 1
         },
         "updatedOn": "2016-08-13 18:06:50",
         "updatedByName": "",
@@ -334,6 +334,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]

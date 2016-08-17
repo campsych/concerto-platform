@@ -250,8 +250,8 @@ class TestService extends AExportableSectionService {
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
-        if (array_key_exists("revision", $obj))
-            $ent->setRevision($obj["revision"]);
+        if (array_key_exists("rev", $obj))
+            $ent->setRevision($obj["rev"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -283,8 +283,8 @@ class TestService extends AExportableSectionService {
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
-        if (array_key_exists("revision", $obj))
-            $ent->setRevision($obj["revision"]);
+        if (array_key_exists("rev", $obj))
+            $ent->setRevision($obj["rev"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

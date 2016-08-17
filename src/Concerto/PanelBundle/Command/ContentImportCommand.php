@@ -48,7 +48,7 @@ class ContentImportCommand extends ContainerAwareCommand {
                     $instructions[$i]["action"] = "1";
             }
 
-            $results = $importService->importFromFile($user, $f->getRealpath(), $instructions, false);
+            $results = $importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false);
             $success = true;
             foreach ($results as $res) {
                 if ($res["errors"]) {

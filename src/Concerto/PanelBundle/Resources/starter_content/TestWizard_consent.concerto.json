@@ -256,7 +256,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "revision": 1
+            "rev": 1
         },
         "testName": "source_consent",
         "updatedOn": "2016-08-13 18:06:45",
@@ -264,6 +264,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]

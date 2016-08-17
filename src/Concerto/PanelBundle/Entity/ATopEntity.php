@@ -57,7 +57,7 @@ abstract class ATopEntity extends AEntity {
      * @var integer
      * @ORM\Column(type="integer")
      */
-    protected $revision;
+    protected $rev;
 
     public function __construct() {
         parent::__construct();
@@ -67,7 +67,7 @@ abstract class ATopEntity extends AEntity {
         $this->archived = false;
         $this->protected = false;
         $this->starterContent = false;
-        $this->revision = 0;
+        $this->rev = 0;
     }
 
     /**
@@ -249,7 +249,7 @@ abstract class ATopEntity extends AEntity {
      * @param integer $revision
      */
     public function setRevision($revision) {
-        $this->revision = $revision;
+        $this->rev = $revision;
 
         return $this;
     }
@@ -260,6 +260,6 @@ abstract class ATopEntity extends AEntity {
      * @return integer 
      */
     public function getRevision() {
-        return $this->revision;
+        return $this->rev;
     }
 }

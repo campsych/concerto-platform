@@ -199,7 +199,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "revision": 1
+            "rev": 1
         },
         "testName": "source_random_branch",
         "updatedOn": "2016-08-13 18:06:37",
@@ -207,6 +207,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]

@@ -242,7 +242,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent,
-            "revision" => $this->revision
+            "rev" => $this->rev
         );
     }
 

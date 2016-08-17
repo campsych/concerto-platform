@@ -7,22 +7,22 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.preImportStatus = [];
     $scope.colNameContent = function (entity) {
         var result = entity.name;
-        if (entity.revision != 0) {
-            result += " (rev" + entity.revision + ")";
+        if (entity.rev != 0) {
+            result += " (rev" + entity.rev + ")";
         }
         return result;
     };
     $scope.colExistsContent = function (entity) {
         var revision = "";
-        if (entity.existing_object != null && entity.existing_object.revision != 0)
-            revision += " (rev" + entity.existing_object.revision + ")";
+        if (entity.existing_object != null && entity.existing_object.rev != 0)
+            revision += " (rev" + entity.existing_object.rev + ")";
         var result = entity.existing_object != null ? ('<i class="glyphicon glyphicon-ok green"></i>' + revision) : '<i class="glyphicon glyphicon-remove red"></i>';
         return result;
     };
     $scope.colSafeContent = function (entity) {
         var safe = true;
         if (entity.action == 1) {
-            //if (entity.revision == 0 || entity.starter_conent == 0 || entity.existing_object.revision == 0 || entity.existing_object.starter_content == 0)
+            //if (entity.rev == 0 || entity.starter_conent == 0 || entity.existing_object.rev == 0 || entity.existing_object.starter_content == 0)
             safe = false;
         }
         var result = '<i class="glyphicon glyphicon-ok green"></i>';

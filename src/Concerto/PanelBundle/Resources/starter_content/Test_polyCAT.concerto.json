@@ -1302,7 +1302,7 @@
                 "owner": 1,
                 "groups": "",
                 "starterContent": false,
-                "revision": 1
+                "rev": 1
             },
             "testName": "source_polyCAT",
             "updatedOn": "2016-08-13 18:06:35",
@@ -1310,7 +1310,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "revision": 1
+            "rev": 1
         },
         "updatedOn": "2016-08-13 18:06:35",
         "updatedByName": "",
@@ -1320,6 +1320,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]

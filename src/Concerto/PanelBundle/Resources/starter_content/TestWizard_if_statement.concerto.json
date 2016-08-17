@@ -122,7 +122,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "revision": 1
+            "rev": 1
         },
         "testName": "source_if",
         "updatedOn": "2016-08-13 18:06:34",
@@ -130,6 +130,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "revision": 1
+        "rev": 1
     }
 ]
