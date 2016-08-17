@@ -41,6 +41,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.step = null;
     $scope.param = null;
     $scope.params = [];
+    
     $scope.getTypeName = function (type) {
         return TestWizardParam.getTypeName(type);
     };
@@ -250,6 +251,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteAllStepsPath.pf($scope.object.id), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.fetchObjectCollection();
                 $scope.testCollectionService.fetchObjectCollection();
             });
@@ -287,6 +289,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteStepPath.pf(ids), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.fetchObjectCollection();
                 $scope.testCollectionService.fetchObjectCollection();
             });
@@ -311,6 +314,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteAllParamsPath.pf($scope.object.id), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.fetchObjectCollection();
                 $scope.testCollectionService.fetchObjectCollection();
             });
@@ -348,6 +352,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteParamPath.pf(ids), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.fetchObjectCollection();
                 $scope.testCollectionService.fetchObjectCollection();
             });
@@ -369,6 +374,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         });
 
         modalInstance.result.then(function (result) {
+            $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
             $scope.testCollectionService.fetchObjectCollection();
         }, function () {
@@ -401,6 +407,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         });
 
         modalInstance.result.then(function (result) {
+            $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
             $scope.testCollectionService.fetchObjectCollection();
         }, function () {

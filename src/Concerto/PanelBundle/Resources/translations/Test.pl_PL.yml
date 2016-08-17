@@ -291,8 +291,3 @@ flow:
         zoom_out: Oddal
     tags:
         all: Wszystkie
-        
-alerts:
-    edit:
-        input: Proszę zapisać wszelkie zmiany dokonane w teście przed dodaniem/edycją/usunięciem jakiejkolwiek zmiennej wejścia aby zapobiec utracie niezapisanych zmian.
-        output: Proszę zapisać wszelkie zmiany dokonane w teście przed dodaniem/edycją/usunięciem jakiejkolwiek zmiennej wyjścia aby zapobiec utracie niezapisanych zmian.

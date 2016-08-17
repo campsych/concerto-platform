@@ -289,8 +289,3 @@ flow:
     tags:
         all: All
         
-alerts:
-    edit:
-        input: Please save any changes you made to test before adding/editing/removing any input variable to prevent loss of unsaved changes.
-        output: Please save any changes you made to test before adding/editing/removing any output variable to prevent loss of unsaved changes.
-        

@@ -33,6 +33,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         id: 0,
         validationErrors: []
     };
+    $scope.workingCopyObject = null;
 
     $scope.tabAccordion = {
         "form": {
@@ -40,6 +41,28 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             "disabled": false
         }
     };
+
+    $scope.setWorkingCopyObject = function () {
+        $scope.workingCopyObject = {
+            id: $scope.object.id,
+            name: $scope.object.name,
+            protected: $scope.object.protected,
+            archived: $scope.object.archived,
+            accessibility: $scope.object.accessibility,
+            owner: $scope.object.owner,
+            groups: $scope.object.groups
+        };
+    };
+
+    $scope.updateFromWorkingCopy = function () {
+        if ($scope.workingCopyObject == null || $scope.workingCopyObject.id != $scope.object.id)
+            return;
+
+        for (key in $scope.workingCopyObject) {
+            $scope.object[key] = $scope.workingCopyObject[key];
+        }
+        $scope.workingCopyObject = null;
+    }
 
     $scope.super.onObjectChanged = function (newObject, oldObject) {
     };
@@ -55,6 +78,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             }
 
             $scope.collectionData = newCollection;
+            $scope.updateFromWorkingCopy();
         }
     };
     $scope.onCollectionChanged = function (newCollection, oldCollection) {
@@ -560,7 +584,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             if (toState.name === $scope.tabStateName + "Form") {
                 $scope.tabSection = "form";
                 $scope.delayedEdit(toParams.id);
-            } else{
+            } else {
                 $scope.tab.activeIndex = $scope.tabIndex;
                 $scope.tabSection = "list";
             }

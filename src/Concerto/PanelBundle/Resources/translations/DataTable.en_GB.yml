@@ -96,8 +96,4 @@ io:
                 field.enclosure.tooltip: 'Single character used to enclose string fields. Default character is \\"'
                 file: File
                 file.tooltip: Choose CSV file to be imported
-            
-alerts:
-    edit:
-        columns: Please save any changes you made to data table before adding/editing/removing any column to prevent loss of unsaved changes.
         

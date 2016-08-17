@@ -192,8 +192,3 @@ preview:
     buttons:
         next: Następny krok
         previous: Poprzedni krok
-        
-alerts:
-    edit:
-        steps: Proszę zapisać wszelkie zmiany dokonane w kreatorze testu przed dodaniem/edycją/usunięciem jakiegokolwiek kroku aby zapobiec utracie niezapisanych zmian.
-        params: Proszę zapisać wszelkie zmiany dokonane w kreatorze testu przed dodaniem/edycją/usunięciem jakiegokolwiek parametru aby zapobiec utracie niezapisanych zmian.

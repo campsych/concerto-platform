@@ -3,9 +3,6 @@
 {% trans_default_domain "Test" %}
 
 {% block content %}
-    <uib-alert type="warning">
-        {{ "alerts.edit.input"|trans }}
-    </uib-alert>
     <div class="center">
         <div class="divButtonContainer center">
             <button ng-disabled="object.initProtected == '1'" class="btn btn-success btn-sm" ng-click="addVariable(0)">{{ 'variables.input.parameters.list.add'|trans }}</button>

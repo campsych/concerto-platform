@@ -373,6 +373,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteColumnPath.pf($scope.object.id, names), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.fetchObjectCollection();
             });
         }, function () {
@@ -401,6 +402,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             $scope.launchStructureDialog($scope.column);
         });
     };
+
     $scope.launchStructureDialog = function (column) {
         var modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "structure_dialog.html",
@@ -417,6 +419,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             size: "lg"
         });
         modalInstance.result.then(function (result) {
+            $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
         }, function () {
         });
@@ -433,10 +436,12 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }
         });
         modalInstance.result.then(function (response) {
+            $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
         }, function () {
         });
     };
+    
     $scope.onObjectChanged = function (newObject, oldObject) {
         $scope.super.onObjectChanged(newObject, oldObject);
         if ($scope.structureGridApi)
@@ -444,6 +449,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.dataFilterOptions.filters = {};
         $scope.dataFilterOptions.sorting = [];
     };
+    
     $scope.resetObject = function () {
         $scope.object = {
             id: 0,

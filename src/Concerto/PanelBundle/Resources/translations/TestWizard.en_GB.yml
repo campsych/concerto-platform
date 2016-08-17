@@ -192,8 +192,3 @@ preview:
     buttons:
         next: Next step
         previous: Previous step
-        
-alerts:
-    edit:
-        steps: Please save any changes you made to test wizard before adding/editing/removing any steps to prevent loss of unsaved changes.
-        params: Please save any changes you made to test wizard before adding/editing/removing any parameters to prevent loss of unsaved changes.

@@ -26,6 +26,23 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.formTitle = $scope.formTitleAddLabel;
     
     $scope.copiedNodes = [];
+    
+    $scope.setWorkingCopyObject = function () {
+        $scope.workingCopyObject = {
+            id: $scope.object.id,
+            name: $scope.object.name,
+            protected: $scope.object.protected,
+            archived: $scope.object.archived,
+            accessibility: $scope.object.accessibility,
+            owner: $scope.object.owner,
+            groups: $scope.object.groups,
+            slug: $scope.object.slug,
+            visibility: $scope.object.visibility,
+            resumable: $scope.object.resumable,
+            type: $scope.object.type,
+            code: $scope.object.code
+        };
+    };
 
     $scope.getWizardCellTemplate = function (col) {
         if (col !== null) {
@@ -649,6 +666,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteVariablePath.pf(ids), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.collectionService.fetchObjectCollection();
                 $scope.testWizardCollectionService.fetchObjectCollection();
             });
@@ -671,6 +689,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                     break;
                 }
             }
+            $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
             var modalInstance = $uibModal.open({
                 templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
@@ -746,6 +765,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         });
 
         modalInstance.result.then(function (result) {
+            $scope.setWorkingCopyObject();
             $scope.collectionService.fetchObjectCollection();
             $scope.testWizardCollectionService.fetchObjectCollection();
         }, function () {
