@@ -195,9 +195,7 @@ class StartProcessCommand extends Command {
                     return false;
                 }
             case self::RESPONSE_KEEPALIVE_CHECKIN: {
-                    $this->testServer = $msg->testServer;
                     $this->lastKeepAliveTime = time();
-                    $this->respondToTestServer($message);
                     return false;
                 }
         }

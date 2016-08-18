@@ -10,7 +10,7 @@ concerto.server.listen = function(){
   close(con)
 
   connection <- fromJSON(commandArgs(TRUE)[1])
-  concerto$connection <<- concerto$connection <- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
+  concerto$connection <<- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
   rm(connection)
  
   if(response$code == RESPONSE_SERIALIZE){
