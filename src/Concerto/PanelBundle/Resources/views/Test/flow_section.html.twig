@@ -9,7 +9,7 @@
         </div>
     </div>
     <div id="flowContainerScroll" oncontextmenu="return false;">
-        <div id="flowContainer" context-menu="onFlowCtxOpened()" data-target="menu-flow" tabindex="0" context-menu-disabled="disableContextMenu">
+        <div id="flowContainer" context-menu="onFlowCtxOpened()" data-target="menu-flow" tabindex="0" context-menu-disabled="disableContextMenu" ng-class="{'cursor-resize':rectangleSelectionActive, 'cursor-move': movingActive}">
             <div id="selection-rectangle" hidden></div>
         </div>
     </div>

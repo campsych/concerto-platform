@@ -15,6 +15,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.mouseDown = false;
                 scope.rightClickEvent = null;
                 scope.selectionRectangle = $("#selection-rectangle");
+                scope.rectangleSelectionActive = false;
+                scope.movingActive = false;
                 scope.selectionRectanglePoints = {x1: 0, y1: 0, x2: 0, y2: 0, sx: 0, sy: 0, ex: 0, ey: 0};
                 scope.selectionDisabled = false;
 
@@ -63,9 +65,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 scope.selectionRectanglePoints.y2 = scope.selectionRectanglePoints.y1;
                                 scope.updateSelectionRectangle();
                                 scope.selectionRectangle.show();
+                                scope.rectangleSelectionActive = true;
                             }
                         }
                         if (e.type == "mouseup") {
+                            scope.movingActive = false;
                             if (scope.selectionDisabled) {
                                 scope.selectionDisabled = false;
                                 return;
@@ -74,6 +78,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             if (e.button === 2) {
                                 scope.rectangleContainedNodeIds = [];
                                 scope.selectionRectangle.hide();
+                                scope.rectangleSelectionActive = false;
 
                                 var containedNodes = scope.getRectangleContainedNodeIds();
                                 if (!scope.cntrlIsPressed && containedNodes.length > 0)
@@ -81,8 +86,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 for (var i = 0; i < containedNodes.length; i++) {
                                     scope.addNodeToSelection(containedNodes[i]);
                                 }
-                                scope.$apply();
                             }
+                            scope.$apply();
                         }
 
                         if (e.type == "mousemove" && scope.mouseDown == true && e.button === 2) {
@@ -97,11 +102,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
 
                         if (e.type == "mousemove" && scope.mouseDown == true && e.button === 0) {
+                            scope.movingActive = true;
                             position = [e.clientX, e.clientY];
                             difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
                             $(this).scrollLeft($(this).scrollLeft() - difference[0]);
                             $(this).scrollTop($(this).scrollTop() - difference[1]);
                             lastPosition = [e.clientX, e.clientY];
+                            scope.$apply();
                         }
                     });
                 };
@@ -458,7 +465,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     jsPlumb.draggable(elem, {
                         containment: true,
                         drag: function (event, ui) {
+                            scope.movingActive = true;
                             scope.selectionDisabled = true;
+                            scope.$apply();
                             if (scope.selectedNodeIds.indexOf(node.id) === -1)
                                 return;
                             var offset = {
@@ -487,6 +496,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                         },
                         stop: function (event, ui) {
+                            scope.movingActive = false;
+                            scope.$apply();
                             if (scope.selectedNodeIds.indexOf(node.id) === -1) {
                                 var x = elem.position().left / scope.flowScale;
                                 var y = elem.position().top / scope.flowScale;
