@@ -29,15 +29,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     scope.selectionRectangle.css("top", scope.selectionRectanglePoints.sy + 'px');
                     scope.selectionRectangle.css("width", scope.selectionRectanglePoints.ex - scope.selectionRectanglePoints.sx + 'px');
                     scope.selectionRectangle.css("height", scope.selectionRectanglePoints.ey - scope.selectionRectanglePoints.sy + 'px');
-                    
-                    scope.rectangleContainedNodeIds = scope.getRectangleContainedNodeIds();
-                    scope.$apply();
                 };
 
                 $.fn.flow = function () {
                     var lastPosition = null;
                     var position = null;
-                    var difference = null;
 
                     $($(this).selector).on("keydown", function (e) {
                         if (e.which == "17")
@@ -64,8 +60,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 scope.selectionRectanglePoints.x2 = scope.selectionRectanglePoints.x1;
                                 scope.selectionRectanglePoints.y2 = scope.selectionRectanglePoints.y1;
                                 scope.updateSelectionRectangle();
-                                scope.selectionRectangle.show();
-                                scope.rectangleSelectionActive = true;
                             }
                         }
                         if (e.type == "mouseup") {
@@ -98,13 +92,17 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             var dist = Math.sqrt(difference[0] * difference[0] + difference[1] * difference[1]);
                             if (dist > 2) {
                                 scope.disableContextMenu = true;
+                                scope.selectionRectangle.show();
+                                scope.rectangleSelectionActive = true;
+                                scope.rectangleContainedNodeIds = scope.getRectangleContainedNodeIds();
+                                scope.$apply();
                             }
                         }
 
                         if (e.type == "mousemove" && scope.mouseDown == true && e.button === 0) {
                             scope.movingActive = true;
                             position = [e.clientX, e.clientY];
-                            difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
+                            var difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
                             $(this).scrollLeft($(this).scrollLeft() - difference[0]);
                             $(this).scrollTop($(this).scrollTop() - difference[1]);
                             lastPosition = [e.clientX, e.clientY];
@@ -197,10 +195,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                     return name;
                 };
-                
-                scope.clearNodeSelection = function(){
+
+                scope.clearNodeSelection = function () {
                     scope.selectedNodeIds = [];
-                    for(var i=0;i<scope.object.nodes.length;i++){
+                    for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
                         node.selected = false;
                     }
