@@ -56,7 +56,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             lastPosition = [e.clientX, e.clientY];
                             scope.disableContextMenu = false;
 
-                            if (e.button === 0) {
+                            if (e.button === 2) {
                                 scope.selectionRectanglePoints.x1 = (e.pageX - $("#flowContainer").offset().left) / scope.flowScale;
                                 scope.selectionRectanglePoints.y1 = (e.pageY - $("#flowContainer").offset().top) / scope.flowScale;
                                 scope.selectionRectanglePoints.x2 = scope.selectionRectanglePoints.x1;
@@ -71,7 +71,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 return;
                             }
                             scope.mouseDown = false;
-                            if (e.button === 0) {
+                            if (e.button === 2) {
                                 scope.rectangleContainedNodeIds = [];
                                 scope.selectionRectangle.hide();
 
@@ -85,22 +85,23 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                         }
 
-                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 0) {
+                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 2) {
                             scope.selectionRectanglePoints.x2 = (e.pageX - $("#flowContainer").offset().left) / scope.flowScale;
                             scope.selectionRectanglePoints.y2 = (e.pageY - $("#flowContainer").offset().top) / scope.flowScale;
                             scope.updateSelectionRectangle();
+                            var difference = [scope.selectionRectanglePoints.x2 - scope.selectionRectanglePoints.x1, scope.selectionRectanglePoints.y2 - scope.selectionRectanglePoints.y1];
+                            var dist = Math.sqrt(difference[0] * difference[0] + difference[1] * difference[1]);
+                            if (dist > 2) {
+                                scope.disableContextMenu = true;
+                            }
                         }
 
-                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 2) {
+                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 0) {
                             position = [e.clientX, e.clientY];
                             difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
                             $(this).scrollLeft($(this).scrollLeft() - difference[0]);
                             $(this).scrollTop($(this).scrollTop() - difference[1]);
                             lastPosition = [e.clientX, e.clientY];
-                            var dist = Math.sqrt(difference[0] * difference[0] + difference[1] * difference[1]);
-                            if (dist > 2) {
-                                scope.disableContextMenu = true;
-                            }
                         }
                     });
                 };
