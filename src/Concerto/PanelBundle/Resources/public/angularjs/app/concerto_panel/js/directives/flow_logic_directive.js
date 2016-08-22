@@ -9,6 +9,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.nodeContext = null;
                 scope.currentMouseEvent = null;
                 scope.selectedNodeIds = [];
+                scope.rectangleContainedNodeIds = [];
                 scope.disableContextMenu = false;
                 scope.cntrlIsPressed = false;
                 scope.mouseDown = false;
@@ -26,6 +27,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     scope.selectionRectangle.css("top", scope.selectionRectanglePoints.sy + 'px');
                     scope.selectionRectangle.css("width", scope.selectionRectanglePoints.ex - scope.selectionRectanglePoints.sx + 'px');
                     scope.selectionRectangle.css("height", scope.selectionRectanglePoints.ey - scope.selectionRectanglePoints.sy + 'px');
+                    
+                    scope.rectangleContainedNodeIds = scope.getRectangleContainedNodeIds();
+                    scope.$apply();
                 };
 
                 $.fn.flow = function () {
@@ -68,20 +72,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                             scope.mouseDown = false;
                             if (e.button === 0) {
+                                scope.rectangleContainedNodeIds = [];
                                 scope.selectionRectangle.hide();
 
-                                var containedNodes = [];
-                                for (var i = 0; i < scope.object.nodes.length; i++) {
-                                    var node = scope.object.nodes[i];
-                                    var sx = scope.selectionRectanglePoints.sx;
-                                    var ex = scope.selectionRectanglePoints.ex;
-                                    var sy = scope.selectionRectanglePoints.sy;
-                                    var ey = scope.selectionRectanglePoints.ey;
-                                    if (node.posX >= sx && node.posX <= ex && node.posY >= sy && node.posY <= ey && node.type === 0)
-                                        containedNodes.push(node.id);
-                                }
+                                var containedNodes = scope.getRectangleContainedNodeIds();
                                 if (!scope.cntrlIsPressed && containedNodes.length > 0)
-                                    scope.selectedNodeIds = [];
+                                    scope.clearNodeSelection();
                                 for (var i = 0; i < containedNodes.length; i++) {
                                     scope.addNodeToSelection(containedNodes[i]);
                                 }
@@ -107,6 +103,20 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                         }
                     });
+                };
+
+                scope.getRectangleContainedNodeIds = function () {
+                    var result = [];
+                    for (var i = 0; i < scope.object.nodes.length; i++) {
+                        var node = scope.object.nodes[i];
+                        var sx = scope.selectionRectanglePoints.sx;
+                        var ex = scope.selectionRectanglePoints.ex;
+                        var sy = scope.selectionRectanglePoints.sy;
+                        var ey = scope.selectionRectanglePoints.ey;
+                        if (node.posX >= sx && node.posX <= ex && node.posY >= sy && node.posY <= ey && node.type === 0)
+                            result.push(node.id);
+                    }
+                    return result;
                 };
 
                 scope.resetView = function () {
@@ -162,7 +172,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.onFlowCtxOpened = function () {
-                    scope.selectedNodeIds = [];
+                    scope.clearNodeSelection();
                 };
 
                 scope.onNodeCtxOpened = function (nodeId) {
@@ -179,14 +189,24 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                     return name;
                 };
+                
+                scope.clearNodeSelection = function(){
+                    scope.selectedNodeIds = [];
+                    for(var i=0;i<scope.object.nodes.length;i++){
+                        var node = scope.object.nodes[i];
+                        node.selected = false;
+                    }
+                };
 
                 scope.toggleNodeSelection = function (id, ignoreCtrl) {
                     if (scope.cntrlIsPressed || ignoreCtrl) {
                         var index = scope.selectedNodeIds.indexOf(id);
                         if (index === -1) {
                             scope.selectedNodeIds.push(id);
+                            scope.collectionService.getNode(id).selected = true;
                         } else {
                             scope.selectedNodeIds.splice(index, 1);
+                            scope.collectionService.getNode(id).selected = false;
                         }
                     }
                     $('#flowContainer').focus();
@@ -196,6 +216,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var index = scope.selectedNodeIds.indexOf(id);
                     if (index === -1) {
                         scope.selectedNodeIds.push(id);
+                        scope.collectionService.getNode(id).selected = true;
                     }
                     $('#flowContainer').focus();
                 };
@@ -255,9 +276,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     }
 
-                    var elemHtml = "<div context-menu='onNodeCtxOpened(" + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
+                    var elemHtml = "<div context-menu='onNodeCtxOpened(" + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
+                    var selectionCheckbox = "";
                     if (node.type === 1 || node.type === 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
+                    } else {
+                        selectionCheckbox = "<div class='node-selection-checkbox'><input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' /></div>";
                     }
                     var collapseHtml = "";
                     if (scope.isNodeCollapsable(node)) {
@@ -268,7 +292,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 "</div>";
                     }
                     elemHtml +=
-                            "<div class='nodeHeader' tooltip-append-to-body='true' uib-tooltip-html='\"" + fullName + "\"'>" + tooltip + name + "</div>" +
+                            "<div class='nodeHeader' tooltip-append-to-body='true' uib-tooltip-html='\"" + fullName + "\"'>" + selectionCheckbox + tooltip + name + "</div>" +
                             "<div class='nodeFooter'>" +
                             collapseHtml +
                             "</div>";
@@ -961,7 +985,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.refreshFlow = function () {
                     scope.refreshing = true;
-                    scope.selectedNodeIds = [];
+                    scope.clearNodeSelection();
                     jsPlumb.unbind('beforeDrop');
                     jsPlumb.unbind('connection');
                     jsPlumb.unbind('connectionMoved');

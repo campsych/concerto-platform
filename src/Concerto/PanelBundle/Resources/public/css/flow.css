@@ -56,6 +56,17 @@
     background-color: #DFEFF5;
 }
 
+.node-selected-candidate {
+    border: 1px solid orange;
+    background-color: #DFEFF5;
+}
+
+.node-selection-checkbox {
+    float: right;
+    position: relative;
+    right: -25px;
+}
+
 .nodeHeader {
     padding-left: 5px;
     padding-right: 5px;
