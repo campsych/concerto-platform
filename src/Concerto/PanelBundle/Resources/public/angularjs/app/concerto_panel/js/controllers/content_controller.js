@@ -17,4 +17,4 @@ function ContentController($scope, $state, $location) {
     };
 }
 
-concertoPanel.controller('ContentController', ["$scope", "$state", "$location", ContentController]);
+concertoPanel.controller('ContentController', ["$scope", "$state", "$location", "RDocumentation", ContentController]);

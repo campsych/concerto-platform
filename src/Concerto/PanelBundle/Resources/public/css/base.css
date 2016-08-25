@@ -105,11 +105,10 @@ table.listPanel {
 }
 
 /** R documentation box**/
-#codemirrorRDocsWindow {
+.codemirrorRDocsWindow {
     background-color: #ffffff;
     border: 1px solid;
-    bottom: 50px;
-    height: 50%;
+    height: 500px;
     overflow: scroll;
     padding: 10px;
     position: fixed;

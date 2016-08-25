@@ -26,6 +26,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_TYPE_GROUP;
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_TYPE_LIST;
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_TYPE_R;
             }
             return type;
         };
@@ -59,6 +61,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_GROUP.pf(param.label);
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_LIST.pf(param.label);
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_R.pf(param.label);
             }
             return "";
         };
@@ -110,6 +114,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_GROUP.pf(this.getDefinerSummary(param));
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_LIST.pf(output.length);
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_R.pf(output);
             }
             return "";
         };
@@ -236,7 +242,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
         };
 
         this.objectifyListElements = function (param) {
-            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8];
+            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
             if (param.type != 10)
                 return param.output;
             if (elemTypes.indexOf(param.definition.element.type) != -1) {
@@ -252,7 +258,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
         };
 
         this.deobjectifyListElements = function (param) {
-            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8];
+            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
             if (param.type != 10)
                 return param.output;
             if (elemTypes.indexOf(param.definition.element.type) != -1) {

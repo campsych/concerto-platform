@@ -1,4 +1,4 @@
-angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$templateCache", "$uibModal", "$filter", "uiGridConstants", "GridService", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", "TestWizardParam", function ($compile, $templateCache, $uibModal, $filter, uiGridConstants, GridService, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService, TestWizardParam) {
+angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$templateCache", "$uibModal", "$filter", "uiGridConstants", "GridService", "RDocumentation", "$http", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", "TestWizardParam", function ($compile, $templateCache, $uibModal, $filter, uiGridConstants, GridService, RDocumentation, $http, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService, TestWizardParam) {
         return {
             restrict: 'E',
             scope: {
@@ -9,15 +9,47 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 wizardObject: "="
             },
             link: function (scope, element, attrs, controllers) {
+                scope.RDocumentation = RDocumentation;
                 scope.testWizardParamService = TestWizardParam;
                 scope.gridService = GridService;
                 scope.dataTableCollectionService = DataTableCollectionService;
                 scope.testCollectionService = TestCollectionService;
                 scope.viewTemplateCollectionService = ViewTemplateCollectionService;
                 scope.htmlEditorOptions = Defaults.ckeditorTestContentOptions;
+                scope.codeEditorOptions = {
+                    lineWrapping: true,
+                    lineNumbers: true,
+                    mode: 'r',
+                    viewportMargin: Infinity,
+                    hintOptions: {
+                        completeSingle: false,
+                        wizardService: RDocumentation
+                    },
+                    extraKeys: {
+                        "F11": function (cm) {
+                            cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                        },
+                        "Esc": function (cm) {
+                            if (cm.getOption("fullScreen"))
+                                cm.setOption("fullScreen", false);
+                        },
+                        "Ctrl-Space": "autocomplete"
+                    }
+                };
+                if (RDocumentation.functionIndex === null) {
+                    $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').success(function (data) {
+                        if (data !== null) {
+                            RDocumentation.functionIndex = data;
+                            scope.codeEditorOptions.hintOptions.functionIndex = data;
+                        }
+                    });
+                } else {
+                    scope.codeEditorOptions.hintOptions.functionIndex = RDocumentation.functionIndex;
+                }
+
                 scope.mode = "dialog";
                 scope.wizardMode = "prod";
-                scope.complexSetters = [1, 2, 7, 9, 10];
+                scope.complexSetters = [1, 2, 7, 9, 10, 11];
                 scope.isSetterComplex = false;
                 scope.title = "";
                 scope.summary = "";
@@ -65,7 +97,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                                 for (var j = 0; j < scope.listOptions.columnDefs.length; j++) {
                                     var col = scope.listOptions.columnDefs[j];
                                     if (col.name === key) {
-                                        if(col.type == 4){
+                                        if (col.type == 4) {
                                             newObjects[i][key] = newObjects[i][key].toString();
                                         }
                                         if (col.type == 9 || col.type == 10) {

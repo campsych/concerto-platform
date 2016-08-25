@@ -89,9 +89,10 @@ param:
             definition.icon.tooltip: Set parameter definition
             type: Type
             type.tooltip: Test wizard param type
-            type.single_line_text: single line text
-            type.multi_line_text: multi line text
+            type.single_line_text: Single line text
+            type.multi_line_text: Multi line text
             type.html: HTML
+            type.r: R code
             type.select: Drop-down list
             type.view: View template
             type.test: Test
@@ -169,12 +170,14 @@ param:
             group.tooltip: Set values of current parameter group fields
             list: "{0} - list elements"
             list.tooltip: Set current parameter list elements
+            r: "{0} - R code"
         summaries:
             textarea: "{0}"
             html: "{0}"
             column: "Table: {0}, Column: {1}"
             group: "{0}"
             list: "Elements count: {0}"
+            r: "{0}"
         column.table: Data table
         column.table.tooltip: Choose data table from which you will later select column
         column: Column

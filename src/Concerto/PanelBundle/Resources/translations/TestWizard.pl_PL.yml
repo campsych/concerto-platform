@@ -92,6 +92,7 @@ param:
             type.single_line_text: tekst w pojedyńczej linii
             type.multi_line_text: tekst w wielu liniach
             type.html: HTML
+            type.r: Kod R
             type.select: Rozwijana lista
             type.view: Szablon widoku
             type.test: Test
@@ -169,12 +170,14 @@ param:
             group.tooltip: Ustaw wartości pól grupy obecnego parametru
             list: elementy listy
             list.tooltip: Ustaw elementy listy obecnego parametru
+            r: "{0} - kod R"
         summaries:
             textarea: "{0}"
             html: "{0}"
             column: "Tabela: {0}, Kolumna: {1}"
             group: "{0}"
             list: "Ilość elementów: {0}"
+            r: "{0}"
         column.table: Tabela danych
         column.table.tooltip: Wybierz tabelę danych z której później będzie można wybrać kolumnę
         column: Kolumna

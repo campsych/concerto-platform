@@ -25,7 +25,8 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
         {id: 7, label: TestWizardParam.getTypeName(7), definer: false},
         {id: 8, label: TestWizardParam.getTypeName(8), definer: false},
         {id: 9, label: TestWizardParam.getTypeName(9), definer: true},
-        {id: 10, label: TestWizardParam.getTypeName(10), definer: true}
+        {id: 10, label: TestWizardParam.getTypeName(10), definer: true},
+        {id: 11, label: TestWizardParam.getTypeName(11), definer: false}
     ];
     $scope.editorOptions = Defaults.ckeditorPanelContentOptions;
 

@@ -126,8 +126,8 @@
     {% endblock %}
 
     {% block sections %}
-        <div ng-if="rDocumentationHtml && rDocumentationActive" id="codemirrorRDocsWindow">
-            <div ng-bind-html="rDocumentationHtml"></div>
+        <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
+            <div ng-bind-html="RDocumentation.html"></div>
         </div>
 
         <uib-accordion-group is-open="tabAccordion.input.open" ng-if="object.type != 1">
