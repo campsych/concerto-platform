@@ -81,6 +81,11 @@
     font-weight: bold;
     border-bottom: solid grey 1px;
 }
+
+.nodeHeader a {
+    cursor: pointer;
+}
+
 .nodeFooter {
     position: absolute;
     bottom: 0px;

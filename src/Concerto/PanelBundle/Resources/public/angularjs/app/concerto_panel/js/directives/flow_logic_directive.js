@@ -278,7 +278,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         name = scope.truncateNodeName(fullName);
                         var test = scope.collectionService.get(node.sourceTest);
                         if (test.sourceWizard) {
-                            name = "<a href='#' ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + name + "</a>";
+                            name = "<a ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + name + "</a>";
                         }
                     }
 
