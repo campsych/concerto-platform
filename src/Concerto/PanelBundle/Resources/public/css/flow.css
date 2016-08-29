@@ -72,7 +72,7 @@
 .node-selection-checkbox {
     float: right;
     position: relative;
-    right: -25px;
+    right: 0;
 }
 
 .nodeHeader {
