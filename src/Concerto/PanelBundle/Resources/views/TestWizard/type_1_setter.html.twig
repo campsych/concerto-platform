@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.setter.titles.textarea.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <textarea ng-model="output" ng-trim="false" ng-change="onPrimitiveValueChange(output)" class='form-control' ng-model-options='{ updateOn: "blur" }' style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"></textarea>
+                    <textarea ng-model="output" ng-trim="false" ng-change="onPrimitiveValueChange(output)" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="wizardObject.initProtected == '1'"></textarea>
                 {% endblock %}
             {% endembed %}    
         {% endblock %}

@@ -257,13 +257,13 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 };
                 scope.addElement = function () {
                     if (scope.param.definition.element.type == 4) {
-                        scope.output.push({value: "0"});
+                        scope.output.push({value: null});
                     } else if (scope.param.definition.element.type == 7 || scope.param.definition.element.type == 9) {
                         scope.output.push({});
                     } else if (scope.param.definition.element.type == 10) {
                         scope.output.push([]);
                     } else {
-                        scope.output.push({value: ""});
+                        scope.output.push({value: null});
                     }
                 };
                 scope.removeElement = function (index) {
@@ -289,11 +289,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         return;
                     if (newValue === null || newValue === undefined)
                         return;
-                    if (newValue == 4) {
-                        if (scope.output === null || scope.output === undefined || typeof scope.output === 'object' || newValue != oldValue) {
-                            scope.output = "0";
-                        }
-                    } else if (newValue == 7 || newValue == 9) {
+                    if (newValue == 7 || newValue == 9) {
                         if (scope.output === null || scope.output === undefined || typeof scope.output !== 'object' || scope.output.constructor === Array || newValue != oldValue) {
                             scope.output = {};
                         }
@@ -303,7 +299,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }
                     } else {
                         if (scope.output === null || scope.output === undefined || typeof scope.output === 'object' || newValue != oldValue) {
-                            scope.output = "";
+                            scope.output = null;
                         }
                     }
 
@@ -331,7 +327,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     scope.updateSummary();
                 });
                 scope.$watch("param.definition.defvalue", function (newValue, oldValue) {
-                    if (scope.wizardMode == "dev" && newValue != null) {
+                    if (scope.output === null || (scope.wizardMode == "dev" && newValue != null && !scope.underList)) {
                         scope.output = newValue;
                     }
                 });

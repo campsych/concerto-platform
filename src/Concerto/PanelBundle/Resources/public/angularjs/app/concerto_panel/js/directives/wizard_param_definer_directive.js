@@ -1,4 +1,4 @@
-angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", function ($compile, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService) {
+angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", "RDocumentation", function ($compile, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService, RDocumentation) {
         return {
             restrict: 'E',
             scope: {
@@ -9,6 +9,36 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                 scope.htmlEditorOptions = Defaults.ckeditorPanelContentOptions;
                 scope.testWizardParamService = TestWizardParam;
                 scope.gridService = GridService;
+                scope.codeEditorOptions = {
+                    lineWrapping: true,
+                    lineNumbers: true,
+                    mode: 'r',
+                    viewportMargin: Infinity,
+                    hintOptions: {
+                        completeSingle: false,
+                        wizardService: RDocumentation
+                    },
+                    extraKeys: {
+                        "F11": function (cm) {
+                            cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                        },
+                        "Esc": function (cm) {
+                            if (cm.getOption("fullScreen"))
+                                cm.setOption("fullScreen", false);
+                        },
+                        "Ctrl-Space": "autocomplete"
+                    }
+                };
+                if (RDocumentation.functionIndex === null) {
+                    $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').success(function (data) {
+                        if (data !== null) {
+                            RDocumentation.functionIndex = data;
+                            scope.codeEditorOptions.hintOptions.functionIndex = data;
+                        }
+                    });
+                } else {
+                    scope.codeEditorOptions.hintOptions.functionIndex = RDocumentation.functionIndex;
+                }
 
                 scope.hasCustomDefiner = function () {
                     if (!scope.param)

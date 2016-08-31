@@ -137,11 +137,29 @@ param:
             list: "{0} - zdefiniuj typ elementu listy"
             list.tooltip: Ustaw type elementu listy obecnego parametru
             single_line: "{0} - ustaw domyślną wartość"
-            single_line.tooltip: "Domyślna wartość parametru"
+            single_line.tooltip: Domyślna wartość parametru
+            multi_line: "{0} - ustaw domyślną wartość"
+            multi_line.tooltip: Domyślna wartość parametru
+            html: "{0} - ustaw domyślną wartość"
+            html.tooltip: Domyślna wartość parametru
+            checkbox: "{0} - ustaw domyślną wartość"
+            checkbox.tooltip: Domyślna wartość parametru
+            test: "{0} - ustaw domyślną wartość"
+            test.tooltip: Domyślna wartość parametru
+            table: "{0} - ustaw domyślną wartość"
+            table.tooltip: Domyślna wartość parametru
+            template: "{0} - ustaw domyślną wartość"
+            template.tooltip: Domyślna wartość parametru
+            r_code: "{0} - ustaw domyślną wartość"
+            r_code.tooltip: Domyślna wartość parametru
         summaries:
             select: "Ilość opcji: {0}"
             group: "Ilość pól: {0}"
             list: "Typ elementów: {0}"
+        select.options: Opcje
+        select.options.tooltip: Zdefiniuj możliwe opcje wyboru
+        select.default: Domyślnie
+        select.default.tooltip: Wybierz domyślną wartość
         select.option.add: Dodaj nową opcję
         select.option.remove.selected: Usuń wybrane opcje
         select.option.remove.all: Usuń wszystkie opcje

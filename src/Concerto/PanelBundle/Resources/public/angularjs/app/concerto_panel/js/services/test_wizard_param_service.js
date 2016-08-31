@@ -39,12 +39,26 @@ concertoPanel.service('TestWizardParam', ["$filter",
             switch (parseInt(param.type)) {
                 case 0:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SINGLE_LINE.pf(info);
+                case 1:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_MULTI_LINE.pf(info);
+                case 2:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_HTML.pf(info);
                 case 3:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SELECT.pf(info);
+                case 4:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_CHECKBOX.pf(info);
+                case 5:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_TEMPLATE.pf(info);
+                case 6:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_TABLE.pf(info);
+                case 8:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_TEST.pf(info);
                 case 9:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_GROUP.pf(info);
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_LIST.pf(info);
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_R_CODE.pf(info);
             }
             return "";
         };
@@ -217,14 +231,10 @@ concertoPanel.service('TestWizardParam', ["$filter",
             }
 
             if (setDefault) {
-                if (param.type == 4) {
-                    param.output = "0";
-                } else if (param.type == 7 || param.type == 9) {
+                if (param.type == 7 || param.type == 9) {
                     param.output = {};
                 } else if (param.type == 10) {
                     param.output = [];
-                } else {
-                    param.output = "";
                 }
             }
         };

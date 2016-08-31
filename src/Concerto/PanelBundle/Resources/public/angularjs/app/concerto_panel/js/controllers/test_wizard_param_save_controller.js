@@ -112,14 +112,12 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
 
         //output
         if (newValue != oldValue) {
-            if (newValue == 4) {
-                $scope.object.output = "0";
-            } else if (newValue == 7 || newValue == 9) {
+            if (newValue == 7 || newValue == 9) {
                 $scope.object.output = {};
             } else if (newValue == 10) {
                 $scope.object.output = [];
             } else {
-                $scope.object.output = "";
+                $scope.object.output = null;
             }
 
             //definition

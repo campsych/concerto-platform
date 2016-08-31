@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.definer.titles.single_line.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <input ng-model="param.definition.defvalue" class='form-control' />
+                    <input ng-model="param.definition.defvalue" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="wizardObject.initProtected == '1'" ng-trim="false" />
                 {% endblock %}
             {% endembed %} 
         {% endblock %}

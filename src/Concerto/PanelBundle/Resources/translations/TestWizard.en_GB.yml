@@ -137,11 +137,29 @@ param:
             list: "{0} - define list element type"
             list.tooltip: Set current parameter list element type
             single_line: "{0} - set default value"
-            single_line.tooltip: "Parameter default value"
+            single_line.tooltip: Parameter default value
+            multi_line: "{0} - set default value"
+            multi_line.tooltip: Parameter default value
+            html: "{0} - set default value"
+            html.tooltip: Parameter default value
+            checkbox: "{0} - set default value"
+            checkbox.tooltip: Parameter default value
+            test: "{0} - set default value"
+            test.tooltip: Parameter default value
+            table: "{0} - set default value"
+            table.tooltip: Parameter default value
+            template: "{0} - set default value"
+            template.tooltip: Parameter default value
+            r_code: "{0} - set default value"
+            r_code.tooltip: Parameter default value
         summaries:
             select: "Options count: {0}"
             group: "Fields count: {0}"
             list: "Elements type: {0}"
+        select.options: Options
+        select.options.tooltip: Define possible select options
+        select.default: Default
+        select.default.tooltip: Choose default value
         select.option.add: Add new option
         select.option.remove.selected: Remove selected options
         select.option.remove.all: Remove all options
