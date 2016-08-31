@@ -136,6 +136,8 @@ param:
             group.tooltip: Ustaw pola grupy obecnego parameteru
             list: "{0} - zdefiniuj typ elementu listy"
             list.tooltip: Ustaw type elementu listy obecnego parametru
+            single_line: "{0} - ustaw domyślną wartość"
+            single_line.tooltip: "Domyślna wartość parametru"
         summaries:
             select: "Ilość opcji: {0}"
             group: "Ilość pól: {0}"

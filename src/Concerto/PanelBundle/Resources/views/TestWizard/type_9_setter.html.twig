@@ -13,7 +13,7 @@
                                 {%verbatim%}#{{$index + 1}}{%endverbatim%}
                             <i ng-if="$index < param.definition.fields.length - 1" style="margin: 2px;" class="glyphicon glyphicon-arrow-down clickable" uib-tooltip="{{ 'param.definer.group.field.move_down.tooltip'|trans }}" tooltip-append-to-body="true" ng-click="moveFieldUp($index)"></i>
                         </div>
-                    <wizard-param-setter param="field" output="output[field.name]" mode="outer" values="values" parent="output" wizard-object="wizardObject" wizard-mode="{%verbatim%}{{wizardMode}}{%endverbatim%}"></wizard-param-setter>
+                    <wizard-param-setter param="field" output="output[field.name]" mode="outer" values="values" parent="output" under-list="underList" wizard-object="wizardObject" wizard-mode="{%verbatim%}{{wizardMode}}{%endverbatim%}"></wizard-param-setter>
                  </div>
                 {% endblock %}
             {% endembed %}    

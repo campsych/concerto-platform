@@ -6,7 +6,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 output: "=",
                 values: "=",
                 parent: "=",
-                wizardObject: "="
+                wizardObject: "=",
+                underList: "="
             },
             link: function (scope, element, attrs, controllers) {
                 scope.RDocumentation = RDocumentation;
@@ -62,9 +63,13 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
 
                 scope.onPrimitiveValueChange = function (value) {
                     scope.output = value;
+                    if (scope.wizardMode == "dev" && value != null && !scope.underList) {
+                        scope.param.definition.defvalue = value;
+                    }
                     if (scope.parent === null)
                         scope.values[scope.param.name] = value;
                 };
+
                 scope.updateSeterComplexity = function () {
                     scope.isSetterComplex = scope.complexSetters.indexOf(parseInt(scope.param.type)) !== -1;
                 };
@@ -153,7 +158,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }];
                 };
                 scope.getParamSetterCellTemplate = function (param, parent, output) {
-                    var cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject"></wizard-param-setter>';
+                    var cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" under-list="true" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject"></wizard-param-setter>';
                     return cell;
                 };
                 scope.initializeListColumnDefs = function () {
@@ -324,6 +329,11 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 });
                 scope.$watchCollection('output', function () {
                     scope.updateSummary();
+                });
+                scope.$watch("param.definition.defvalue", function (newValue, oldValue) {
+                    if (scope.wizardMode == "dev" && newValue != null) {
+                        scope.output = newValue;
+                    }
                 });
             }
         };

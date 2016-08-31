@@ -15,18 +15,18 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
 
     //ids must be the same as indices
     $scope.types = [
-        {id: 0, label: TestWizardParam.getTypeName(0), definer: false},
-        {id: 1, label: TestWizardParam.getTypeName(1), definer: false},
-        {id: 2, label: TestWizardParam.getTypeName(2), definer: false},
+        {id: 0, label: TestWizardParam.getTypeName(0), definer: true},
+        {id: 1, label: TestWizardParam.getTypeName(1), definer: true},
+        {id: 2, label: TestWizardParam.getTypeName(2), definer: true},
         {id: 3, label: TestWizardParam.getTypeName(3), definer: true},
-        {id: 4, label: TestWizardParam.getTypeName(4), definer: false},
-        {id: 5, label: TestWizardParam.getTypeName(5), definer: false},
-        {id: 6, label: TestWizardParam.getTypeName(6), definer: false},
+        {id: 4, label: TestWizardParam.getTypeName(4), definer: true},
+        {id: 5, label: TestWizardParam.getTypeName(5), definer: true},
+        {id: 6, label: TestWizardParam.getTypeName(6), definer: true},
         {id: 7, label: TestWizardParam.getTypeName(7), definer: false},
-        {id: 8, label: TestWizardParam.getTypeName(8), definer: false},
+        {id: 8, label: TestWizardParam.getTypeName(8), definer: true},
         {id: 9, label: TestWizardParam.getTypeName(9), definer: true},
         {id: 10, label: TestWizardParam.getTypeName(10), definer: true},
-        {id: 11, label: TestWizardParam.getTypeName(11), definer: false}
+        {id: 11, label: TestWizardParam.getTypeName(11), definer: true}
     ];
     $scope.editorOptions = Defaults.ckeditorPanelContentOptions;
 

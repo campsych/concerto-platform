@@ -37,6 +37,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 return "";
             var info = param.label ? param.label : this.getTypeName(param.type);
             switch (parseInt(param.type)) {
+                case 0:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SINGLE_LINE.pf(info);
                 case 3:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SELECT.pf(info);
                 case 9:

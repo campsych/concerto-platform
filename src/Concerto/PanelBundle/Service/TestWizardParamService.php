@@ -82,11 +82,12 @@ class TestWizardParamService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update($id, $value, $order) {
+    public function update($id, $value, $order, $definition) {
         $object = $this->get($id);
         if ($object) {
             $object->setValue($value);
             $object->setOrder($order);
+            $object->setDefinition($definition);
             $this->repository->save($object);
         }
     }

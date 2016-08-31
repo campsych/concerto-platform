@@ -136,6 +136,8 @@ param:
             group.tooltip: Set current parameter group fields
             list: "{0} - define list element type"
             list.tooltip: Set current parameter list element type
+            single_line: "{0} - set default value"
+            single_line.tooltip: "Parameter default value"
         summaries:
             select: "Options count: {0}"
             group: "Fields count: {0}"

@@ -96,7 +96,7 @@ class TestWizardService extends AExportableSectionService {
                 continue;
             }
             foreach ($step["params"] as $param) {
-                $this->testWizardParamService->update($param["id"], $param["value"], $param["order"]);
+                $this->testWizardParamService->update($param["id"], $param["value"], $param["order"], $param["definition"]);
             }
         }
     }
