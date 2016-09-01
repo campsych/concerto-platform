@@ -1,0 +1,102 @@
+breadcrumb:
+    list: Tüm Tablolar
+
+form:
+  title:
+    add: Yeni bir veri tablosu oluşturuluyor
+    edit: 'Veri Tablosu #{0} düzenleniyor'
+  field:
+    name: Adı
+    name.tooltip: Veri tablosu adı
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Veri tablosunun erişilebilirlik düzeyi
+    protected: Korumalı
+    protected.tooltip: Veri tablosu korumalı mı?
+    archived: Arşivlendi
+    archived.tooltip: Veri tablosu arşivlenmiş mi?
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Bu nesnenin bağlı olduğu Virgülle ayrılmış grup listesi
+  button:
+      import.csv: CSV Yükle
+
+list: 
+  field:
+    name: Adı
+    
+structure:
+  fieldset:
+    legend: Veri tablosu yapısı
+    legend.tooltip: Veri tablosu yapısı tanımı
+    
+  form:
+    field:
+      name: Adı
+      name.tooltip: Sütün adı
+      type: Türü
+      type.tooltip: Sütun türü
+      
+  list:
+    field:
+      name: Adı
+      type: Türü
+    edit: Düzenle
+    add: Sutün ekle
+    delete: Sil
+    delete.checked: Seçilileri sil
+    
+  dialog:
+    title:
+      add: Yeni veri tablosu sutünu ekleniyor
+      delete: Veri tablosu sutünu siliniyor
+      edit: Veri tablosu sutünu düzenleniyor
+    message:
+      confirm.delete: Seçili veri tablosu sutünlarını silmek istediğinizden emin misiniz?
+      
+data:
+    dialog:
+        title:
+            delete: Satır kaldırılıyor
+        message:
+            confirm.delete: Seçili satırları kaldırmak istediğinizden emin misiniz?
+    fieldset:
+        legend: Veri tablosu
+        legend.tooltip: Veri tablosu
+    list:
+        add: Satır ekle
+        delete.checked: Seçimi sil
+        delete.all: Tümünü sil
+        delete: Sil
+        
+    cell:
+        text:
+            fieldset:
+                legend: Metin hücresi içeriği
+                legend.tooltip: Metin hücresi içeriğini düzenle
+        
+io:
+    dialog:
+        title: 
+            import: CSV dosyasından tabloya yükleniyor 
+        message: 
+            imported: Tablo yüklendi.
+            error: Yükleme başarısız.
+        fieldset:
+            legend:
+              import.tooltip: CSV dosya özelliklerini tanımlayınız.
+            field:
+                header: Başlık satırı
+                header.import.tooltip: Seçilirse ilk satırı başlık satırı olarak kullanacaktır.
+                restructure: Yeniden oluştur
+                restructure.tooltip: Tüm tablo yapısını yeniden oluşturup eskisiyle değiştirecektir. Eğer kontrol edilmezse işaretlenen veriler varolan tabloya eklenecektir ve başlık satırı seçiliyse ilk satırı başlıklar olarak ekleyecektir. Aksi takdirde  veriyi sütunlara CSV'de tanımladığı şekilde yerleştirecektir.
+                field.delimiter: Alan ayracı
+                field.delimiter.tooltip: Bir satırdaki alanları ayırmakta kullanılır. Varsayılan olarak ,
+                field.enclosure: Alan kapatıcısı
+                field.enclosure.tooltip: Alanları kapatmak kullanılır. Varsayılan karakter "
+                file: Dosya
+                file.tooltip: Yükenecek CSV dosyasını seçiniz
+            
+alerts:
+    edit:
+        columns: Lütfen Veri tablosunda ekleme/düzenleme/çıkarma işlemlerinden önce yaptığınız değişiklikleri kaydedin.
