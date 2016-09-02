@@ -1,1 +1,145 @@
+header:
+  logged.user: 'Logged user: {0}'
+  logout: Logout
 
+tab:
+  wizards: Test wizards
+  wizards.tooltip: This is test wizards tab
+  tests: Tests
+  tests.tooltip: This is a test tab
+  templates: Templates
+  templates.tooltip: This is a view template tab
+  tables: Data Tables
+  tables.tooltip: This is a data table tab
+  files: Files
+  files.tooltip: File manager tab
+  users: Users
+  users.tooltip: This is a user tab
+
+list:
+  accessibility:
+      public: public
+      group: group
+      private: private
+  field:
+    id: Id
+    info: Info
+    updated.on: Last update on
+    updated.by: Last update by
+    protected: Protected
+  edit: Edit
+  delete: Delete
+  export: Export
+  button:
+    refresh: Refresh
+    delete.checked: Delete selected
+    export.checked: Export selected
+    add: Add new
+    import: Import
+    download: Download
+    upload: Upload CSV
+
+form:
+  validation.failed: Validation failed
+  button:
+    save.new: Copy
+    delete: Delete
+    export: Export
+    save: Save
+    cancel: Cancel
+    yes: Yes
+    no: No
+    change: Change
+    ok: Ok
+    apply: Apply
+    upload: Upload
+
+dialog:
+  title:
+    save: Saving object
+    delete: Deleting object
+    csv: CSV
+  message:
+    failed: Operation failed. Validate your data and try again.
+    saved: Object has been saved
+    confirm.delete: Are you sure you want to delete selected object(s)?
+    leaving: Are you sure you want to continue? All unsaved changes will be lost.
+
+please.wait: Please wait...
+none.choosen: None choosen
+none: None
+
+description:
+    tooltip: Change description
+    fieldset:
+        legend: Description
+        legend.tooltip: Object description
+        
+save_new:
+    dialog:
+        title: Name of the new object
+        title_main: Copying object
+        message.copied: Object copied
+    fieldset:
+        legend.tooltip: >
+            Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+import:
+    dialog:
+        title: Importing object
+        description: "When there is a probability that the name of imported object or child object will be the same as already existing one, you need to use in \"Name\" field below variables \"id\" or \"name\" to make imported files names unique. Check \"Name\" field tooltip for more info."
+        message.imported: Object imported
+    fieldset:
+        legend.tooltip: Import new object from the file which was previously exported
+    form:
+        field:
+            name: Name
+            name.tooltip: >
+                Enter the name you want to set for imported object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+            file: File
+            file.tooltip: Choose the file to be imported
+
+export:
+    dialog:
+        title: Data export
+        error:
+            empty.content: Please select at least one entry in the table below in order to export it.
+        format:
+            info: Please select a format for exported file. Compressed format requires less disk space and bandwith, but can't be easily opened. Text format is easier to view or edit, but generates bigger files.
+            compressed: compressed
+            plaintext: text
+     
+download_list:
+    dialog:
+        title: Downloading grid
+        tooltip: Select grid options
+        field:
+            format: Format
+            format.tooltip: Downloaded file format
+            format.csv: CSV
+            format.pdf: PDF
+            cols: Columns
+            cols.tooltip: Columns to show
+            cols.all: All
+            cols.visible: Visible
+            rows: Rows
+            rows.tooltip: Rows to show
+            rows.all: All
+            rows.visible: Visible
+            rows.selected: Selected
+            
+upload_list:
+    dialog:
+        title: Uploading grid CSV
+        tooltip: Select grid CSV file
+        description: New data will be appended to currently existing data.
+        fields:
+            file: File
+            file.tooltip: Choose file you wish to upload
+    
+code:
+    F11: full-screen mode
+    shift.tab: format selected code
+    ctrl.space: autocomplete
+    documentation:
+        error.info: Unable to load autocompletion data!
+        error.solve: Solve
