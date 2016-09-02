@@ -1,113 +1,113 @@
 breadcrumb:
-    list: All tests
+    list: Tüm Testler
 
 form:
   title:
-    add: Creating new test
-    edit: 'Editing test #{0}'
+    add: Yeni test oluşturuluyor
+    edit: 'Test #{0} düzenleniyor'
   field:
-    name: Name
-    name.tooltip: Test name
-    accessibility: Accessibility
-    accessibility.tooltip: Accessibility level of test
-    protected: Protected
-    protected.tooltip: Is test protected?
-    archived: Archived
-    archived.tooltip: Is test archived?
-    slug: Url name
-    slug.tooltip: Url name (also called "slug") is a customizable part of URL under which the test will be available; it can be used to make test URLs more descriptive
-    visibility: Visibility
-    visibility.tooltip: Test visibility
-    visibility.subtest: Subtest
-    visibility.regular: Regular
-    visibility.featured: Featured
-    type: Type
-    type.tooltip: Test type
-    type.code: code
-    type.wizard: wizard
-    type.flow: flowchart
-    resumable: Resumable
-    resumable.tooltip: Is session resume dialog allowed?
-    wizard: Wizard
-    wizard.tooltip: Select a test wizard that this test will be created from
+    name: Adı
+    name.tooltip: Testin Adı
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Testin erişilebilirlik düzeyi
+    protected: Korumalı
+    protected.tooltip: Test korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Test arşivlenmiş mi?
+    slug: Url adı
+    slug.tooltip: Url adı ("slug" olarak da adlandırılır) URL özelleştirilebilir kısmına verilen addır.; URL'leri daha tanımlayıcı hale getirmek için kullanılır.
+    visibility: Görünürlük
+    visibility.tooltip: Test görünürlüğü
+    visibility.subtest: Alttest
+    visibility.regular: Normal
+    visibility.featured: Önplanda
+    type: Tür
+    type.tooltip: Test türü
+    type.code: kodu
+    type.wizard: sihirbaz
+    type.flow: akış şeması
+    resumable: Devam edilebilir
+    resumable.tooltip: Test uygulamasına devam bildirim kutucuğu açık mı?
+    wizard: Sihirbaz
+    wizard.tooltip: Testin oluşturulacağı ön tanımlı bir sihirbaz seçin
     wizard.none: <none selected>
-    owner: Owner
-    owner.tooltip: Object owner
-    groups: Groups
-    groups.tooltip: Comma separated list of groups that object is assigned to
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Nesneni atandığı virgülle ayrılmış tablo
   button:
-      run: Run test
-      debug: Debug test
-      update: Update all dependent tests
+      run: Başlat
+      debug: Hata Ayıkla
+      update: Güncelle
   dialog:
       title:
-          update: Updating dependent tests
+          update: Bağlı testler güncelleniyor
       message:
-          update.successful: Updating finished.
+          update.successful: Güncelleme tamamlandı.
     
 list: 
   field:
-    name: Name
-    wizard: Wizard
-    wizard.source: Source test
+    name: Adı
+    wizard: Sihirbaz
+    wizard.source: Kaynak test
   tooltips:
-    outdated: There is a new version of source test available. Please resave test to update.
-    uptodate: Using latest version of source test.
+    outdated: Kaynak test için yeni bir sürüm mevcut. Lütfen güncellemek için yeniden kaydedin.
+    uptodate: Testin son versiyonu kullanılıyor.
     
 variables:
     form:
         field:
-            name: Name
-            name.tooltip: Unique name of variable
-            description: Description
-            description.tooltip: Variable description
+            name: Adı
+            name.tooltip: Değişkenin eşsiz ismi
+            description: Tanım
+            description.tooltip: Değişken tanımı
             url: URL
-            url.tooltip: Is parameter passable through URL?
-            value: Default value
-            value.tooltip: Variable default value
+            url.tooltip: Parametre URL'den geçebilir mi?
+            value: Varsayılan değer
+            value.tooltip: Varsayılan değişken değeri
     dialog:
-        tooltip: Define test variable
+        tooltip: Test değişkenini tanımla
     
     input:
         fieldset:
-            legend: Test input
-            legend.tooltip: Test input variables.
+            legend: Test girdileri
+            legend.tooltip: Test girdisi değişkenleri.
         parameters:
             list:
-                add: Add input parameter
-                delete.checked: Remove checked parameters
-                edit: Edit
-                delete: Delete
+                add: Girdi parametresi ekle
+                delete.checked: İşaretli parametreleri kaldır
+                edit: Düzenle
+                delete: Sil
                 field:
-                    info: Info
-                    name: Name
+                    info: Bilgi
+                    name: Adı
                     url: URL
-                    url.yes: Yes
-                    url.no: No
-                    value: Default value
+                    url.yes: Hayır
+                    url.no: Evet
+                    value: Varsayılan
             dialog:
                 title:
-                    add: Adding new input parameter
-                    edit: Editing input parameter
-                    delete: Removing input parameter
+                    add: Yeni girdi parametresi ekleniyor
+                    edit: Girdi parametresi düzenleniyor
+                    delete: Girdi parametresi siliniyor
                 message:
-                    delete.confirm: Are you sure you want to delete selected input parameters?
+                    delete.confirm: Seçili girdi parametrelerini silmek istediğinizden emin misiniz?
     output:
         fieldset:
-            legend: Test output
-            legend.tooltip: Test output variables.
+            legend: Test çıktısı
+            legend.tooltip: Test çıktısı değişkenleri.
         returns:
-            legend: Return variables
-            legend.tooltip: Define test return variables
+            legend: Dönüş değişkenleri
+            legend.tooltip: Dönüş değişkenlerini tanımla
             list:
-                add: Add return variable
-                delete.checked: Remove checked returns
-                edit: Edit
-                delete: Delete
+                add: Dönüş değişkeni ekle
+                delete.checked: Seçilen dönüş değişkenini sil
+                edit: Düzenle
+                delete: Sil
                 field:
-                    info: Info
-                    name: Name
-                    value: Default value
+                    info: Bilgi
+                    name: Adı
+                    value: Varsayılan
             dialog:
                 title:
                     add: Adding new return variable
