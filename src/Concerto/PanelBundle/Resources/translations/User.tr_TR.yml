@@ -1,43 +1,43 @@
 breadcrumb:
-    list: All users
+    list: Tüm Kullanıcılar 
 
 form:
   title:
-    add: Creating new user
-    edit: 'Editing user #{0}'
+    add: Yeni kullanıcı oluştur
+    edit: '#{0} kullanıcısı düzenleniyor'
   field:
-    login: Login
-    login.tooltip: Enter a unique login
-    password: Password
-    password.tooltip: Enter your password
-    passwordConfirmation: Pass. conf.
-    passwordConfirmation.tooltip: Repeat your password here
-    email: Email
-    email.tooltip: Enter your email
-    accessibility: Accessibility
-    accessibility.tooltip: Accessibility level of user
-    protected: Protected
-    protected.tooltip: Is user protected?
-    archived: Archived
-    archived.tooltip: Is user archived?
-    role_super_admin: Super admin
-    role_super_admin.tooltip: Grants user rights to user section and every other section
-    role_test: Test access
-    role_test.tooltip: Grants user access to tests section
-    role_template: View template access
-    role_template.tooltip: Grants user access to view templates section
-    role_table: Data table access
-    role_table.tooltip: Grants user access to data tables section
-    role_file: Files access
-    role_file.tooltip: Grants user access to files section
-    role_wizard: Test wizard access
-    role_wizard.tooltip: Grants user access to test wizards section
-    owner: Owner
-    owner.tooltip: Object owner
-    groups: Groups
-    groups.tooltip: Comma separated list of groups that object is assigned to
+    login: Kullanıcı adı
+    login.tooltip: Size özel kullanıcı adınız
+    password: Parola
+    password.tooltip: Parolanızı giriniz
+    passwordConfirmation: Parola onay
+    passwordConfirmation.tooltip: Parolanızı tekrar giriniz
+    email: E-posta
+    email.tooltip: E-posta adresinizi girin
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Kullanıcının erişilebilirlik düzeyi
+    protected: Korumalı
+    protected.tooltip: Kullanıcı korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Kullanıcı arşivlenmiş mi?
+    role_super_admin: Süper Yönetici
+    role_super_admin.tooltip: Kullanıcı hakları ve tüm diğer bölüme erişim
+    role_test: Test erişimi
+    role_test.tooltip: Kullanıcıya test erişimini açar
+    role_template: Şablon erişimini göster
+    role_template.tooltip: Kulllanıcının şablonlara erişimini sağlar
+    role_table: Veri tablosu erişimi
+    role_table.tooltip: Kullanıcının veri tablolarına erişimini sağlar
+    role_file: Dosya erişimi
+    role_file.tooltip: Kullanıcının dosyalara erişimini sağlar.
+    role_wizard: Test Sihirbazı erişimi
+    role_wizard.tooltip: Kullanıcının Test sihirbazına erişimini sağlar
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Nesnenin sahip olduğu virgülle ayrılmış tablolar
     
 list:
   field:
-    username: Login
-    email: Email
+    username: Kullanıcı adı
+    email: E-Posta
