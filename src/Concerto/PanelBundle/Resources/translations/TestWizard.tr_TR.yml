@@ -1,1 +1,199 @@
+breadcrumb:
+    list: All wizards
 
+form:
+  title:
+    add: Creating new test wizard
+    edit: 'Editing test wizard #{0}'
+  field:
+    name: Name
+    name.tooltip: Test name
+    accessibility: Accessibility
+    accessibility.tooltip: Accessibility level of test wizard
+    protected: Protected
+    protected.tooltip: Is test wizard protected?
+    archived: Archived
+    archived.tooltip: Is test wizard archived?
+    test: Test
+    test.tooltip: Wizard\'s underlying test. Can not be changed later.
+    owner: Owner
+    owner.tooltip: Object owner
+    groups: Groups
+    groups.tooltip: Comma separated list of groups that object is assigned to
+    
+list: 
+  field:
+    name: Name
+    test: Test
+    
+step:
+    fieldset:
+        legend: Test wizard steps
+        legend.tooltip: Declare test wizards steps.
+    form:
+        fieldset:
+            legend.tooltip: Enter test wizard step properties
+        field:
+            title: Title
+            title.tooltip: Test wizard step title
+            description: Description
+            description.tooltip: Test wizard step description
+            order: Order
+            order.tooltip: Test wizard step order
+    list:
+        button: 
+            add: Add new step
+            delete.all: Delete all steps
+            delete.checked: Delete selected steps
+            delete: Delete
+            edit: Edit
+        field:
+            id: Id
+            info: Info
+            title: Title
+            order: Order
+    dialog:
+        title:
+            add: Adding new test wizard step
+            edit: Editing test wizard step
+            delete: Removing test wizard step
+            clear: Clearing test wizard steps
+        message:
+            delete.confirm: Are you sure you want to delete selected test wizard step?
+            clear.confirm: Are you sure you want to clear all test wizard steps?
+            
+param:
+    move_up.tooltip: Move parameter up
+    move_down.tooltip: Move parameter down
+    fieldset:
+        legend: Test wizard params
+        legend.tooltip: Declare test wizards params
+    form:
+        fieldset:
+            legend.tooltip: Enter test wizard params properties
+        field:
+            label: Label
+            label.tooltip: Test wizard param label
+            description: Description
+            description.tooltip: Test wizard param description
+            url: Passable through URL
+            url.tooltip: Check if parameter value can be set through URL parameter
+            order: Order
+            order.tooltip: Order index of parameter in it\'s wizard step
+            variable: Test variable
+            variable.tooltip: Test parameter
+            step: Wizard step
+            step.tooltip: Select test wizard step for this parameter
+            definition: Definition
+            definition.tooltip: Parameters definition
+            definition.icon.tooltip: Set parameter definition
+            type: Type
+            type.tooltip: Test wizard param type
+            type.single_line_text: single line text
+            type.multi_line_text: multi line text
+            type.html: HTML
+            type.select: Drop-down list
+            type.view: View template
+            type.test: Test
+            type.table: Data table
+            type.column: Data table column
+            type.checkbox: Checkbox
+            type.group: Group
+            type.list: List
+            hide_condition: Hide condition
+            hide_condition.tooltip: 'Hide condition. Uses javascript syntax. Current parameters values collection object is called <strong>values</strong>. To access current parameter parent scope use <strong>parent</strong>. Example: <strong>values.param1.subparam3 != "1"</strong>'
+            setter.icon.tooltip: Launch setter dialog
+    list:
+        button: 
+            add: Add new param
+            delete.all: Delete all params
+            delete.checked: Delete selected params
+            delete: Delete
+            edit: Edit
+        field:
+            id: Id
+            info: Info
+            label: Title
+            step: Step
+            variable: Test param
+            type: Type
+            order: Order
+    dialog:
+        title:
+            add: Adding new test wizard param
+            edit: Editing test wizard param
+            delete: Removing test wizard param
+            clear: Clearing test wizard params
+        message:
+            delete.confirm: Are you sure you want to delete selected test wizard param?
+            clear.confirm: Are you sure you want to clear all test wizard params?
+    definer:
+        titles:
+            select: "{0} - define possible select options"
+            select.tooltip: Set current parameter select options
+            group: "{0} - define group fields"
+            group.tooltip: Set current parameter group fields
+            list: "{0} - define list element type"
+            list.tooltip: Set current parameter list element type
+        summaries:
+            select: "Options count: {0}"
+            group: "Fields count: {0}"
+            list: "Elements type: {0}"
+        select.option.add: Add new option
+        select.option.remove.selected: Remove selected options
+        select.option.remove.all: Remove all options
+        select.list.field.order: Order
+        select.list.field.label: Label
+        select.list.field.value: Value
+        select.list.button.delete: Delete
+        group.field.add: Add new field
+        group.field.remove.selected: Remove selected fields
+        group.field.remove.all: Remove all fields
+        group.field.move_up.tooltip: Move field up
+        group.field.move_down.tooltip: Move field down
+        group.list.field.name: Name
+        group.list.field.label: Label
+        group.list.field.type: Type
+        group.list.field.hide_condition: Hide condition
+        group.list.field.definition: Definition
+        group.list.field.order: Order
+    setter:
+        titles:
+            textarea: "{0} - multiline text"
+            textarea.tooltip: Set current parameter text value
+            html: "{0} - HTML"
+            html.tooltip: Set current parameter HTML
+            column: "{0} - data table column"
+            column.tooltip: Set current parameter data table column
+            group: "{0} - group fields"
+            group.tooltip: Set values of current parameter group fields
+            list: "{0} - list elements"
+            list.tooltip: Set current parameter list elements
+        summaries:
+            textarea: "{0}"
+            html: "{0}"
+            column: "Table: {0}, Column: {1}"
+            group: "{0}"
+            list: "Elements count: {0}"
+        column.table: Data table
+        column.table.tooltip: Choose data table from which you will later select column
+        column: Column
+        column.tooltip: Choose data table column
+        list.element.add: Add new element
+        list.element.remove.selected: Remove selected elements
+        list.element.remove.all: Remove all elements
+        list.element.remove: Delete
+        list.column.element: Element
+            
+preview:
+    fieldset:
+        legend: Test wizard preview
+        legend.tooltip: Preview of test wizard. You can rearrange params in each step.
+    buttons:
+        next: Next step
+        previous: Previous step
+        
+alerts:
+    edit:
+        steps: Please save any changes you made to test wizard before adding/editing/removing any steps to prevent loss of unsaved changes.
+        params: Please save any changes you made to test wizard before adding/editing/removing any parameters to prevent loss of unsaved changes.
