@@ -1,34 +1,34 @@
 breadcrumb:
-    list: All templates
+    list: Tüm şablonlar
 
 form:
   title:
-    add: Creating new view template
-    edit: 'Editing view template #{0}'
+    add: Yeni görüntü şablonu oluşturma
+    edit: '#{0} Şablonu düzenleniyor'
   field:
-    name: Name
-    name.tooltip: View template name
-    accessibility: Accessibility
-    accessibility.tooltip: Accessibility level of view template
-    protected: Protected
-    protected.tooltip: Is view template protected?
-    archived: Archived
-    archived.tooltip: Is view template archived?
-    owner: Owner
-    owner.tooltip: Object owner
-    groups: Groups
-    groups.tooltip: Comma separated list of groups that object is assigned to
+    name: Adı
+    name.tooltip: Şablon adını görüntüle
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Şablonun erişilebilirlik ayarları
+    protected: Korumalı
+    protected.tooltip: Şablon korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Görüntü Şablon arşivlenmiş mi?
+    owner: Sahip
+    owner.tooltip: Nesene sahibi
+    groups: Gruplar
+    groups.tooltip: Nesnenin bağlo olduğu virgülle ayrılmış grup listesi
 
 list: 
   field:
-    name: Name
+    name: Adı
           
 source:
     fieldset:
-        legend: View template source
-        legend.tooltip: HTML head tag and HTML body source code of the view template
+        legend: Şablon kaynağını görüntüle
+        legend.tooltip: HTML head etiketi ve  HTML body kaynak kodu
     field:
-        head: Head tag
-        head.tooltip: HTML head tag of view template
+        head: Başlık etiketi
+        head.tooltip: Görüntü şablonunun başlık etiketi
         html: HTML body
-        html.tooltip: HTML body source code of view template
+        html.tooltip:  görüntü şablonununa ait HTML body
