@@ -1,1 +1,103 @@
+breadcrumb:
+    list: All tables
 
+form:
+  title:
+    add: Creating new data table
+    edit: 'Editing data table #{0}'
+  field:
+    name: Name
+    name.tooltip: Data table name
+    accessibility: Accessibility
+    accessibility.tooltip: Accessibility level of data table
+    protected: Protected
+    protected.tooltip: Is data table protected?
+    archived: Archived
+    archived.tooltip: Is data table archived?
+    owner: Owner
+    owner.tooltip: Object owner
+    groups: Groups
+    groups.tooltip: Comma separated list of groups that object is assigned to
+  button:
+      import.csv: Upload CSV
+
+list: 
+  field:
+    name: Name
+    
+structure:
+  fieldset:
+    legend: Data table structure
+    legend.tooltip: Data table structure definition
+    
+  form:
+    field:
+      name: Name
+      name.tooltip: Column name
+      type: Type
+      type.tooltip: Column type
+      
+  list:
+    field:
+      name: Name
+      type: Type
+    edit: Edit
+    add: Add column
+    delete: Delete
+    delete.checked: Delete checked
+    
+  dialog:
+    title:
+      add: Adding new data table column
+      delete: Deleting data table column
+      edit: Editing data table column
+    message:
+      confirm.delete: Are you sure you want to delete selected data table columns?
+      
+data:
+    dialog:
+        title:
+            delete: Removing row
+        message:
+            confirm.delete: Are you sure you want to remove selected rows?
+    fieldset:
+        legend: Table data
+        legend.tooltip: Table data
+    list:
+        add: Add row
+        delete.checked: Delete checked
+        delete.all: Delete all
+        delete: Delete
+        
+    cell:
+        text:
+            fieldset:
+                legend: Text cell contents
+                legend.tooltip: Edit text cell contents
+        
+io:
+    dialog:
+        title: 
+            import: Uploading table from CSV file
+        message: 
+            imported: Table imported.
+            error: Import failed.
+        fieldset:
+            legend:
+              import.tooltip: Declare CSV file properties.
+            field:
+                header: Header row
+                header.import.tooltip: If checked it will use header row of CSV file as a set of column names
+                restructure: Restructure
+                restructure.tooltip: Recreates the full table structure and replaces already existing data. If it\'s not checked data will be appended to current structure and if also header row is checked it will use first row of CSV for column mapping, otherwise it will insert the data for columns in order as they are defined in CSV.
+                field.delimiter: Field delimiter
+                field.delimiter.tooltip: Single character used to separate fields in a row. Default character is ,
+                field.enclosure: Field enclosure
+                field.enclosure.tooltip: Single character used to enclose string fields. Default character is \"
+                file: File
+                file.tooltip: Choose CSV file to be imported
+            
+alerts:
+    edit:
+        columns: Please save any changes you made to data table before adding/editing/removing any column to prevent loss of unsaved changes.
+        
