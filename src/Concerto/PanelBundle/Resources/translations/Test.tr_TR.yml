@@ -110,148 +110,148 @@ variables:
                     value: Varsayılan
             dialog:
                 title:
-                    add: Adding new return variable
-                    edit: Editing return variable
-                    delete: Removing return variable
+                    add: Dönüş değişkeni ekleniyor
+                    edit: Dönüş değişkeni düzenleniyor
+                    delete: Dönüş değişkeni siliniyor
                 message:
-                    delete.confirm: Are you sure you want to delete selected return variables?
+                    delete.confirm: Seçili dönüş değişkenlerini silmek istediğinizden emin misiniz?
         branches:
-            legend: Branching
-            legend.tooltip: Define test branching
+            legend: Ağaç yapı
+            legend.tooltip: Ağaç yapıyı tanımlar
             list:
-                add: Add branch
-                delete.checked: Remove checked branches
-                edit: Edit
-                delete: Delete
+                add: Dal ekle
+                delete.checked: Seçili dalları sil
+                edit: Düzenle
+                delete: Sil
                 field:
-                    info: Info
-                    name: Name
-                    value: Default value
+                    info: Bilgi
+                    name: Adı
+                    value: Varsayılan
             dialog:
                 title:
-                    add: Adding new branch
-                    edit: Editing branch
-                    delete: Removing branch
+                    add: Yeni dal ekleniyor
+                    edit: Dal düzenleniyor
+                    delete: Dal kaldırılıyor
                 message:
-                    delete.confirm: Are you sure you want to delete selected branch?
+                    delete.confirm: Seçili dalları kaldırmak istediğinizden emin misiniz?
     
 log:
     dialog:
         title:
-            delete: Removing log
-            clear: Clearing logs
+            delete: Loglar siliniyor
+            clear: Loglar temizleniyor
         message:
-            delete.confirm: Are you sure you want to remove selected logs?
-            clear.confirm: Are you sure you want to clear all logs?
+            delete.confirm: Seçili logları silmek istediğinizden emin misiniz?
+            clear.confirm: Tüm logları silmek istediğinizden emin misiniz?
     fieldset:
-        legend: Error logs
-        legend.tooltip: Test error logs
+        legend: Hata logları
+        legend.tooltip: Test hataları log kayıtları
     list:
         button: 
-            delete.all: Delete all
-            delete.checked: Delete checked
-            delete: Delete
-            refresh: Refresh
+            delete.all: Tümünü sil
+            delete.checked: Seçilileri sil
+            delete: Sil
+            refresh: Yinele
         field:
-            date: Date
-            type: Type
+            date: Tarih
+            type: Tür
             type.R: R
             type.javascript: Javascript
-            message: Message
-            browser: Browser
+            message: Mesaj
+            browser: Tarayıcı
             ip: IP
             
 logic:
     convert:
-        title: test conversion to R code
-        confirmation: Are you sure you want to convert this test to R code. This operation cannot be reverted.
+        title: R koduna test dönüşümü
+        confirmation: Bu testi R koduna dönüştürmek istediğinizden emin misiniz. Bu işlem geri çevirilemez.
         buttons:
-            convert: Convert to R code
+            convert: R koduna dönüştür
     code:
         fieldset:
-            legend: Test logic
-            legend.tooltip: Test logic code
+            legend: Test Logic
+            legend.tooltip: Test logic kodu
             
 completion:
     wizard:
         default:
-            autoformat: Autoformat
-            insertcomments: Insert comments
+            autoformat: Otoformat
+            insertcomments: Yorum ekle 
         
         sql:
             selection:
                 empty:
-                    column: -- choose column --
-                    table: -- choose table --
+                    column: -- Sütun seç --
+                    table: -- Tablo seç --
             options:
-                wizard: wizard
-                code: SQL code
+                wizard: sihirbaz
+                code: SQL kodu
             parameters: 
-                label: parameters
-                tooltip: Define SQL code parameters.
+                label: parametreler
+                tooltip: SQL kodu parametrelerini tanımlayınız.
             fetchcount: 
                 label: fechCount
-                tooltip: Number of response records to return. Use -1 for all and 0 for none.
+                tooltip: Kaydı yapılacak dönüş sayısı. Hepsi için -1 hiçbiri için 0 kullanın.
             table:
-                label: choose table
-                tooltip: Choose the table you want to perform an action on.
+                label: tablo seç
+                tooltip: Eylemi gerçekleştirmek istediğiniz tabloyu seçiniz.
             type:
-                label: query type
-                tooltip: Choose query type.
+                label: sorgu türü
+                tooltip: Sorgu türünü seçin.
             update:
-                label: set
-                tooltip: Set record values.
-                empty: Set clause is empty. No changes will be made in updated rows. 
+                label: ayarla
+                tooltip: Kayıt değerlerini ayarla.
+                empty: Kayıt değerleri boş. Güncellenen satırlarda hiçbir değişiklik yapılmayacak. 
             select:
-                label: select
-                tooltip: Choose columns that you want to select.
+                label: seç
+                tooltip: Seçmek istediğiniz sütunları seçin.
             where:
-                label: where
-                tooltip: Declare conditional statement.
-                empty:  WHERE clause is empty. No filters will be applied.
+                label: nereye
+                tooltip: Koşul cümlenizi girin.
+                empty:  NEREYE koşulu boş. Hiçbir filtre uygulanmayacak.
                 logic:
-                    or: OR
-                    and: AND
+                    or: VEYA
+                    and: VE
                 operators:
-                    equal: equal
-                    notequal: not equal
-                    greater: greater than
-                    equalgreater: equal or greater than
-                    lesser: lesser than
-                    equallesser: equal or lesser than
-                    like: like
-                    notlike: not like
+                    equal: eşittir
+                    notequal: eşit değildir
+                    greater: büyüktür
+                    equalgreater: eşittir ya da büyüktür
+                    lesser: küçüktür
+                    equallesser: eşittir ya da küçüktür
+                    like: benzer
+                    notlike: benzer değil
             order:
-                label: order by
-                tooltip: Chose sorting.
-                empty:  ORDER BY clause is empty. No sorting will be applied.
+                label: Sırala
+                tooltip: Sırlamayı seç.
+                empty:  SIRALA koşulu boş. Sıralama uygulanmayacak.
                 directions:
-                    ascending: ascending
-                    descending: descending
+                    ascending: artan
+                    descending: azalan
             insert:
-                label: insert
-                tooltip: Set values to insert.
-                empty:  Insert clause is empty. Record will be added with default values. 
+                label: ekle
+                tooltip: eklenecek değerleri girin
+                empty:  Ekleme değeri boş.  Kayıt varsayılan değerlerle eklenecek. 
     documentation:
         help:
-            title: R autocompletion documentation - generation instructions
-            intro: Before using R-autocompletion feature in Concerto, you need to make sure that R documentation based on R configuration in your system has been generated.
+            title: R otomatik tamamlama dokümantasyonu - üretme talimatları
+            intro: R otomatik tamamlama özelliklerini Concerto'da kullanmadan önce, bilgisayarınızdaki R konfigürasyonuna uygun R dokümantasyonunun oluşturulduğundan emin olun.
             info:
                 directory: >
-                    In order to generate this documentation, you need to open a console application (on Windows systems - `cmd`, on Linux `xterm`, `konsole` or `gnome-terminal`) and, inside it navigate into your Concerto installation directory:
-                console: From that location, you will be able to use Symfony console. You will need to exacute `concerto:r:cache` operation with it
-                console.more: click here for more information about Symfony console
-                output: Running this command will display all R functions which were found in your system, and will prepare needed documentation files. Reload or reopen Concerto page in order to start using it when editing R sources.
+                    Bu dokümantasyonu oluşturmak için, konsol aplikasyonu açmalı (Windows'da  - `cmd`, Linux'da `xterm`, `konsole` ya da `gnome-terminal`) ve içinde Concertonun yüklü olduğu klasör dizinini açmalısınız.
+                console: Bu dizinden, Symfony konsolunu kullanabilirsiniz. Çalıştırmak için `concerto:r:cache`komutunu kullanın 
+                console.more: Symfony konsolu hakkkında daha fazla bilgi için buraya tıklayın
+                output: Bu komutu çalıştırarak sistemde kullanabileceğiniz tüm R kodlarının dökümünü alabilir ve gerekli dokümantasyonu oluşturabilirsiniz. R kaynaklarını kullanmak için Concerto'yu  yeniden başlatmalı ya da yeniden açmalısınız.
 
 flow:
     fieldset:
-        legend: Test flow
-        legend.tooltip: Test flow
-        return_function.tooltip: Return function.
+        legend: Test akışı
+        legend.tooltip: Test akışı
+        return_function.tooltip: Dönüş fonksiyonu.
     nodes:
         names:
-            test_start: test start
-            test_end: test end
+            test_start: test başlangıç
+            test_end: test sonu
         descriptions:
             test_start: This is a test entry node. Test flow execution starts from here. It returns test input parameters.
             test_end: This is a test node where you can set the values of test return variables.
