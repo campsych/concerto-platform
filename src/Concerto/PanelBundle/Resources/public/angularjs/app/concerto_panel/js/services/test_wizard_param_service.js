@@ -193,6 +193,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     param.value = angular.toJson(param.output);
                 } else
                     param.value = param.output;
+                if (param.value === null)
+                    throw "null param value (" + param.label + ")";
             } catch (err) {
                 switch (parseInt(param.type)) {
                     case 4:

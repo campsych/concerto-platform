@@ -272,19 +272,35 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                         return;
 
                     if (newValue != oldValue) {
-                        if (newValue == 9) {
-                            scope.param.definition = {fields: [], placeholder: 0};
-                        } else if (newValue == 10) {
-                            scope.param.definition = {
-                                element: {
-                                    type: 0,
-                                    definition: {placeholder: 0}
-                                }
-                            };
-                        } else if (scope.param.value == 4) {
-                            scope.param.definition = {options: [], placeholder: 0};
-                        } else {
-                            scope.param.definition = {placeholder: 0};
+                        switch (newValue) {
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 5:
+                            case 6:
+                            case 8:
+                                scope.param.definition = {placeholder: 0, defvalue: ""};
+                                break;
+                            case 3:
+                                scope.param.definition = {options: [], placeholder: 0, defvalue: ""};
+                                break;
+                            case 4:
+                                scope.param.definition = {placeholder: 0, defvalue: "0"};
+                                break;
+                            case 9:
+                                scope.param.definition = {fields: [], placeholder: 0};
+                                break;
+                            case 10:
+                                scope.param.definition = {
+                                    element: {
+                                        type: 0,
+                                        definition: {placeholder: 0}
+                                    }
+                                };
+                                break;
+                            default:
+                                scope.param.definition = {placeholder: 0};
+                                break;
                         }
                     }
 
