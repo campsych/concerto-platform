@@ -1,1 +1,34 @@
+breadcrumb:
+    list: All templates
 
+form:
+  title:
+    add: Creating new view template
+    edit: 'Editing view template #{0}'
+  field:
+    name: Name
+    name.tooltip: View template name
+    accessibility: Accessibility
+    accessibility.tooltip: Accessibility level of view template
+    protected: Protected
+    protected.tooltip: Is view template protected?
+    archived: Archived
+    archived.tooltip: Is view template archived?
+    owner: Owner
+    owner.tooltip: Object owner
+    groups: Groups
+    groups.tooltip: Comma separated list of groups that object is assigned to
+
+list: 
+  field:
+    name: Name
+          
+source:
+    fieldset:
+        legend: View template source
+        legend.tooltip: HTML head tag and HTML body source code of the view template
+    field:
+        head: Head tag
+        head.tooltip: HTML head tag of view template
+        html: HTML body
+        html.tooltip: HTML body source code of view template
