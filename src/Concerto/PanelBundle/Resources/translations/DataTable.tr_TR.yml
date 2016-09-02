@@ -1,103 +1,102 @@
 breadcrumb:
-    list: All tables
+    list: Tüm Tablolar
 
 form:
   title:
-    add: Creating new data table
-    edit: 'Editing data table #{0}'
+    add: Yeni bir veri tablosu oluşturuluyor
+    edit: 'Veri Tablosu #{0} düzenleniyor'
   field:
-    name: Name
-    name.tooltip: Data table name
-    accessibility: Accessibility
-    accessibility.tooltip: Accessibility level of data table
-    protected: Protected
-    protected.tooltip: Is data table protected?
-    archived: Archived
-    archived.tooltip: Is data table archived?
-    owner: Owner
-    owner.tooltip: Object owner
-    groups: Groups
-    groups.tooltip: Comma separated list of groups that object is assigned to
+    name: Adı
+    name.tooltip: Veri tablosu adı
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Veri tablosunun erişilebilirlik düzeyi
+    protected: Korumalı
+    protected.tooltip: Veri tablosu korumalı mı?
+    archived: Arşivlendi
+    archived.tooltip: Veri tablosu arşivlenmiş mi?
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Bu nesnenin bağlı olduğu Virgülle ayrılmış grup listesi
   button:
-      import.csv: Upload CSV
+      import.csv: CSV Yükle
 
 list: 
   field:
-    name: Name
+    name: Adı
     
 structure:
   fieldset:
-    legend: Data table structure
-    legend.tooltip: Data table structure definition
+    legend: Veri tablosu yapısı
+    legend.tooltip: Veri tablosu yapısı tanımı
     
   form:
     field:
-      name: Name
-      name.tooltip: Column name
-      type: Type
-      type.tooltip: Column type
+      name: Adı
+      name.tooltip: Sütün adı
+      type: Türü
+      type.tooltip: Sütun türü
       
   list:
     field:
-      name: Name
-      type: Type
-    edit: Edit
-    add: Add column
-    delete: Delete
-    delete.checked: Delete checked
+      name: Adı
+      type: Türü
+    edit: Düzenle
+    add: Sutün ekle
+    delete: Sil
+    delete.checked: Seçilileri sil
     
   dialog:
     title:
-      add: Adding new data table column
-      delete: Deleting data table column
-      edit: Editing data table column
+      add: Yeni veri tablosu sutünu ekleniyor
+      delete: Veri tablosu sutünu siliniyor
+      edit: Veri tablosu sutünu düzenleniyor
     message:
-      confirm.delete: Are you sure you want to delete selected data table columns?
+      confirm.delete: Seçili veri tablosu sutünlarını silmek istediğinizden emin misiniz?
       
 data:
     dialog:
         title:
-            delete: Removing row
+            delete: Satır kaldırılıyor
         message:
-            confirm.delete: Are you sure you want to remove selected rows?
+            confirm.delete: Seçili satırları kaldırmak istediğinizden emin misiniz?
     fieldset:
-        legend: Table data
-        legend.tooltip: Table data
+        legend: Veri tablosu
+        legend.tooltip: Veri tablosu
     list:
-        add: Add row
-        delete.checked: Delete checked
-        delete.all: Delete all
-        delete: Delete
+        add: Satır ekle
+        delete.checked: Seçimi sil
+        delete.all: Tümünü sil
+        delete: Sil
         
     cell:
         text:
             fieldset:
-                legend: Text cell contents
-                legend.tooltip: Edit text cell contents
+                legend: Metin hücresi içeriği
+                legend.tooltip: Metin hücresi içeriğini düzenle
         
 io:
     dialog:
         title: 
-            import: Uploading table from CSV file
+            import: CSV dosyasından tabloya yükleniyor 
         message: 
-            imported: Table imported.
-            error: Import failed.
+            imported: Tablo yüklendi.
+            error: Yükleme başarısız.
         fieldset:
             legend:
-              import.tooltip: Declare CSV file properties.
+              import.tooltip: CSV dosya özelliklerini tanımlayınız.
             field:
-                header: Header row
-                header.import.tooltip: If checked it will use header row of CSV file as a set of column names
-                restructure: Restructure
-                restructure.tooltip: Recreates the full table structure and replaces already existing data. If it\'s not checked data will be appended to current structure and if also header row is checked it will use first row of CSV for column mapping, otherwise it will insert the data for columns in order as they are defined in CSV.
-                field.delimiter: Field delimiter
-                field.delimiter.tooltip: Single character used to separate fields in a row. Default character is ,
-                field.enclosure: Field enclosure
-                field.enclosure.tooltip: Single character used to enclose string fields. Default character is \"
-                file: File
-                file.tooltip: Choose CSV file to be imported
+                header: Başlık satırı
+                header.import.tooltip: Seçilirse ilk satırı başlık satırı olarak kullanacaktır.
+                restructure: Yeniden oluştur
+                restructure.tooltip: Tüm tablo yapısını yeniden oluşturup eskisiyle değiştirecektir. Eğer kontrol edilmezse işaretlenen veriler varolan tabloya eklenecektir ve başlık satırı seçiliyse ilk satırı başlıklar olarak ekleyecektir. Aksi takdirde  veriyi sütunlara CSV'de tanımladığı şekilde yerleştirecektir.
+                field.delimiter: Alan ayracı
+                field.delimiter.tooltip: Bir satırdaki alanları ayırmakta kullanılır. Varsayılan olarak ,
+                field.enclosure: Alan kapatıcısı
+                field.enclosure.tooltip: Alanları kapatmak kullanılır. Varsayılan karakter "
+                file: Dosya
+                file.tooltip: Yükenecek CSV dosyasını seçiniz
             
 alerts:
     edit:
-        columns: Please save any changes you made to data table before adding/editing/removing any column to prevent loss of unsaved changes.
-        
+        columns: Lütfen Veri tablosunda ekleme/düzenleme/çıkarma işlemlerinden önce yaptığınız değişiklikleri kaydedin.
