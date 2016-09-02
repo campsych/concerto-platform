@@ -1,1 +1,43 @@
+breadcrumb:
+    list: All users
 
+form:
+  title:
+    add: Creating new user
+    edit: 'Editing user #{0}'
+  field:
+    login: Login
+    login.tooltip: Enter a unique login
+    password: Password
+    password.tooltip: Enter your password
+    passwordConfirmation: Pass. conf.
+    passwordConfirmation.tooltip: Repeat your password here
+    email: Email
+    email.tooltip: Enter your email
+    accessibility: Accessibility
+    accessibility.tooltip: Accessibility level of user
+    protected: Protected
+    protected.tooltip: Is user protected?
+    archived: Archived
+    archived.tooltip: Is user archived?
+    role_super_admin: Super admin
+    role_super_admin.tooltip: Grants user rights to user section and every other section
+    role_test: Test access
+    role_test.tooltip: Grants user access to tests section
+    role_template: View template access
+    role_template.tooltip: Grants user access to view templates section
+    role_table: Data table access
+    role_table.tooltip: Grants user access to data tables section
+    role_file: Files access
+    role_file.tooltip: Grants user access to files section
+    role_wizard: Test wizard access
+    role_wizard.tooltip: Grants user access to test wizards section
+    owner: Owner
+    owner.tooltip: Object owner
+    groups: Groups
+    groups.tooltip: Comma separated list of groups that object is assigned to
+    
+list:
+  field:
+    username: Login
+    email: Email
