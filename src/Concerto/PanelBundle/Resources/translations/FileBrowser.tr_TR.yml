@@ -1,22 +1,22 @@
 breadcrumb:
-    manager: File manager
+    manager: Dosya yöneticisi
 
 uploader:
     library:
-        title: Files library
-        empty: Files library is currently empty.
+        title: Dosya kitaplığı
+        empty: Dosya kitaplığı boş
         buttons:
-            use: Use
-            remove: Remove
-            open: Open
+            use: Kullan
+            remove: Kaldır
+            open: Aç
     queue:
-        title: Upload queue
-        droparea: Drag & drop your files here
-        progress: Total progress
+        title: Yükleme sırası
+        droparea: Dosyalarınızı sürükleyip/bırakın
+        progress: Toplam ilerleme
         buttons:
-            upload: Upload
-            cancel: Cancel
-            remove: Remove
-            uploadall: Upload all
-            cancelall: Cancel all
-            removeall: Remove all
+            upload: Yükle
+            cancel: İptal
+            remove: Kaldır
+            uploadall: Tümünü Yükle
+            cancelall: Tümünü İptal
+            removeall: Tümünü Kaldır
