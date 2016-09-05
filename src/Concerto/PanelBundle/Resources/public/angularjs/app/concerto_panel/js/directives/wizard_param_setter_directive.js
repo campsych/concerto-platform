@@ -117,12 +117,12 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         scope.output = scope.output.concat(newObjects);
                     },
                     exporterFieldCallback: function (grid, row, col, value) {
-                        if (value.constructor == Array) {
+                        if (value !== undefined && value.constructor == Array) {
                             value = angular.toJson(value);
                         }
                         return value;
                     },
-                    enableCellEditOnFocus: true
+                    enableCellEditOnFocus: false
                 };
                 scope.$watch("output.length", function (newValue) {
                     scope.listOptions.enableFiltering = newValue > 0;
@@ -138,8 +138,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         for (var i = 0; i < obj.definition.fields.length; i++) {
                             var field = obj.definition.fields[i];
                             var param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
-                            var parent = "grid.appScope.output[grid.renderContainers.body.visibleRowCache.indexOf(row)]";
-                            var output = "grid.appScope.output[grid.renderContainers.body.visibleRowCache.indexOf(row)][grid.appScope.param.definition.element.definition.fields[" + i + "].name]";
+                            var parent = "row.entity";
+                            var output = "row.entity['" + field.name + "']";
                             var add = scope.getColumnDefs(field, param, parent, output, true);
                             for (var j = 0; j < add.length; j++) {
                                 fields.push(add[j]);
@@ -166,7 +166,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     var defs = [];
                     var param = "grid.appScope.param.definition.element";
                     var parent = "grid.appScope.output";
-                    var output = "grid.appScope.output[grid.renderContainers.body.visibleRowCache.indexOf(row)].value";
+                    var output = "row.entity.value";
                     var cd = scope.getColumnDefs(scope.param.definition.element, param, parent, output, false);
                     for (var i = 0; i < cd.length; i++) {
                         defs.push(cd[i]);
@@ -181,7 +181,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         enableCellEdit: false,
                         cellTemplate:
                                 "<div class='ui-grid-cell-contents' align='center'>" +
-                                '<button class="btn btn-danger btn-xs" ng-click="grid.appScope.removeElement(grid.renderContainers.body.visibleRowCache.indexOf(row));">' + Trans.TEST_WIZARD_PARAM_LIST_ELEMENT_DELETE + '</button>' +
+                                '<button class="btn btn-danger btn-xs" ng-click="grid.appScope.removeElement(grid.appScope.output.indexOf(row.entity));">' + Trans.TEST_WIZARD_PARAM_LIST_ELEMENT_DELETE + '</button>' +
                                 "</div>",
                         width: 100
                     });
@@ -272,10 +272,9 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 };
                 scope.removeSelectedElements = function () {
                     var selectedRows = scope.listGridApi.selection.getSelectedRows();
-                    var rows = scope.listGridApi.grid.rows;
                     for (var i = 0; i < selectedRows.length; i++) {
-                        for (var j = 0; j < rows.length; j++) {
-                            if (rows[j].entity.$$hashKey === selectedRows[i].$$hashKey) {
+                        for (var j = 0; j < scope.output.length; j++) {
+                            if (scope.output[j] == selectedRows[i]) {
                                 scope.removeElement(j);
                                 break;
                             }
