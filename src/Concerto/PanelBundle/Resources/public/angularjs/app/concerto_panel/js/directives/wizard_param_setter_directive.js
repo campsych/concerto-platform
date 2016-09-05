@@ -81,6 +81,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     scope.summary = scope.testWizardParamService.getSetterSummary(scope.param, scope.output);
                 };
                 scope.listOptions = {
+                    //grid virtialization <-> setter directive workaround
+                    virtualizationThreshold: 64000,
                     enableFiltering: true,
                     enableGridMenu: true,
                     exporterMenuCsv: false,
@@ -138,8 +140,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         for (var i = 0; i < obj.definition.fields.length; i++) {
                             var field = obj.definition.fields[i];
                             var param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
-                            var parent = "row.entity";
-                            var output = "row.entity['" + field.name + "']";
+                            var parent = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
+                            var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]." + field.name;
                             var add = scope.getColumnDefs(field, param, parent, output, true);
                             for (var j = 0; j < add.length; j++) {
                                 fields.push(add[j]);
@@ -166,7 +168,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     var defs = [];
                     var param = "grid.appScope.param.definition.element";
                     var parent = "grid.appScope.output";
-                    var output = "row.entity.value";
+                    var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
                     var cd = scope.getColumnDefs(scope.param.definition.element, param, parent, output, false);
                     for (var i = 0; i < cd.length; i++) {
                         defs.push(cd[i]);
