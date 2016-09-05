@@ -1,45 +1,45 @@
 breadcrumb:
-    list: All wizards
+    list: Tüm Sihirbazlar
 
 form:
   title:
-    add: Creating new test wizard
-    edit: 'Editing test wizard #{0}'
+    add: Yeni test sihirbazı yaratılıyor
+    edit: 'Test Sihirbazı #{0} düzenleniyor'
   field:
-    name: Name
-    name.tooltip: Test name
-    accessibility: Accessibility
-    accessibility.tooltip: Accessibility level of test wizard
-    protected: Protected
-    protected.tooltip: Is test wizard protected?
-    archived: Archived
-    archived.tooltip: Is test wizard archived?
+    name: Adı
+    name.tooltip: Test adı
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Test sihirbazının erişilebilirlik düzeyi 
+    protected: Korumalı
+    protected.tooltip: Test sihirbazı korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Test sihirbazı arşivlenmiş mi?
     test: Test
-    test.tooltip: Wizard\'s underlying test. Can not be changed later.
-    owner: Owner
-    owner.tooltip: Object owner
-    groups: Groups
-    groups.tooltip: Comma separated list of groups that object is assigned to
+    test.tooltip: Sihirbaz bir test için kullanılıyor. Daha sonra değiştirilemez.
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Nesnenin atandığı virgülle ayrılmış grup listesi
     
 list: 
   field:
-    name: Name
+    name: Adı
     test: Test
     
 step:
     fieldset:
-        legend: Test wizard steps
-        legend.tooltip: Declare test wizards steps.
+        legend: Test sihirbazı adımları
+        legend.tooltip: Test sihirbazı adımlarını oluşturun.
     form:
         fieldset:
-            legend.tooltip: Enter test wizard step properties
+            legend.tooltip: Test sihirbazı adımlarını giriniz
         field:
-            title: Title
-            title.tooltip: Test wizard step title
-            description: Description
-            description.tooltip: Test wizard step description
-            order: Order
-            order.tooltip: Test wizard step order
+            title: Başlık
+            title.tooltip: Test sihirbazı adımı başlığı
+            description: Tanım
+            description.tooltip: Test sihirbazı adımı tanımı
+            order: Sıra
+            order.tooltip: Test sihirbazı sırası tanımı
     list:
         button: 
             add: Add new step
