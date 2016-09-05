@@ -17,6 +17,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.testCollectionService = TestCollectionService;
                 scope.viewTemplateCollectionService = ViewTemplateCollectionService;
                 scope.htmlEditorOptions = Defaults.ckeditorTestContentOptions;
+
                 scope.codeEditorOptions = {
                     lineWrapping: true,
                     lineNumbers: true,
@@ -290,7 +291,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     if (newValue === null || newValue === undefined)
                         return;
 
-                    switch (newValue) {
+                    switch (parseInt(newValue)) {
                         case 7:
                         case 9:
                             if (scope.output === null || scope.output === undefined || typeof scope.output !== 'object' || scope.output.constructor === Array || newValue != oldValue) {
@@ -303,7 +304,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                             }
                             break;
                         default:
-                            if (scope.output === null || scope.output === undefined || typeof scope.output === 'object' || newValue != oldValue) {
+                            if (scope.output === undefined || typeof scope.output === 'object' || newValue != oldValue) {
                                 scope.output = null;
                             }
                             break;
@@ -318,7 +319,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     element.html($templateCache.get("type_" + newValue + "_setter.html"));
                     $compile(element.contents())(scope);
                 });
-                
+
                 scope.$watch('param.definition.element.type', function (newValue, oldValue) {
                     if (newValue === null || newValue === undefined)
                         return;
@@ -330,7 +331,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }
                     }
                 });
-                scope.$watchCollection('output', function () {
+                scope.$watchCollection('output', function (newValue) {
                     scope.updateSummary();
                 });
                 scope.$watch("param.definition.defvalue", function (newValue, oldValue) {

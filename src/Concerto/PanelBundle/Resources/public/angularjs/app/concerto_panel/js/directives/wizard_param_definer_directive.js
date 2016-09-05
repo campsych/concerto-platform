@@ -272,7 +272,7 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                         return;
 
                     if (newValue != oldValue) {
-                        switch (newValue) {
+                        switch (parseInt(newValue)) {
                             case 0:
                             case 1:
                             case 2:
