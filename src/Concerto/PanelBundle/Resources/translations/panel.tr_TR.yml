@@ -1,88 +1,88 @@
 header:
-  logged.user: 'Logged user: {0}'
-  logout: Logout
+  logged.user: 'Aktif Kullanıcı: {0}'
+  logout: Çıkış
 
 tab:
-  wizards: Test wizards
-  wizards.tooltip: This is test wizards tab
-  tests: Tests
-  tests.tooltip: This is a test tab
-  templates: Templates
-  templates.tooltip: This is a view template tab
-  tables: Data Tables
-  tables.tooltip: This is a data table tab
-  files: Files
-  files.tooltip: File manager tab
-  users: Users
-  users.tooltip: This is a user tab
+  wizards: Test sihirbazı
+  wizards.tooltip: Test sihirbazı sekmesi
+  tests: Testler
+  tests.tooltip: Test sekmesi
+  templates: Şablonlar
+  templates.tooltip: Şablon görüntüleme sekmesi
+  tables: Veri Tabloları
+  tables.tooltip: Veri tabloları sekmesi
+  files: Dosyalar
+  files.tooltip: Dosya yöneticisi sekmesi
+  users: Kullanıcılar
+  users.tooltip:Kullanıcı sekmesi
 
 list:
   accessibility:
-      public: public
-      group: group
-      private: private
+      public: Herkes
+      group: grup
+      private: özel
   field:
     id: Id
-    info: Info
-    updated.on: Last update on
-    updated.by: Last update by
-    protected: Protected
-  edit: Edit
-  delete: Delete
-  export: Export
+    info: Bilgi
+    updated.on: Son güncelleme
+    updated.by: Son güncelleme
+    protected: Korumalı
+  edit: Düzenle
+  delete: Sil
+  export: Dışa aktar
   button:
-    refresh: Refresh
-    delete.checked: Delete selected
-    export.checked: Export selected
-    add: Add new
-    import: Import
-    download: Download
-    upload: Upload CSV
+    refresh: Yinele
+    delete.checked: Seçilenleri sil
+    export.checked: Seçilenleri dışarı aktar
+    add: Yeni ekle
+    import: İçe aktar
+    download: İndir
+    upload: CSV yükle
 
 form:
-  validation.failed: Validation failed
+  validation.failed: Doğrulama başarısız
   button:
-    save.new: Copy
-    delete: Delete
-    export: Export
-    save: Save
-    cancel: Cancel
-    yes: Yes
-    no: No
-    change: Change
-    ok: Ok
-    apply: Apply
-    upload: Upload
+    save.new: Kopyala
+    delete: Sil
+    export: Dışa Aktar
+    save: Kaydet
+    cancel: İptal
+    yes: Evet
+    no: Hayır
+    change: Değiştir
+    ok: Tamam
+    apply: Uygula
+    upload: Yükle
 
 dialog:
   title:
-    save: Saving object
-    delete: Deleting object
+    save: Nesne kaydediliyor
+    delete: Nesne siliniyor
     csv: CSV
   message:
-    failed: Operation failed. Validate your data and try again.
-    saved: Object has been saved
-    confirm.delete: Are you sure you want to delete selected object(s)?
-    leaving: Are you sure you want to continue? All unsaved changes will be lost.
+    failed: Çalıştırılamadı. Verinizi doğrulayın ve tekrar deneyin.
+    saved: Nesne kaydedildi
+    confirm.delete: Seçili nesne(leri) silmek istediğinizden emin misiniz?
+    leaving: Devam etmek istediğinizden emin misiniz? Kaydetmediğiniz veriler kaybolabilir.
 
-please.wait: Please wait...
-none.choosen: None choosen
-none: None
+please.wait: Lütfen Bekleyin...
+none.choosen: Hiçbiri seçilmedi
+none: Hiçbiri
 
 description:
-    tooltip: Change description
+    tooltip: Tanımı değiştir
     fieldset:
-        legend: Description
-        legend.tooltip: Object description
+        legend: Tanım
+        legend.tooltip: Nesne tanımı
         
 save_new:
     dialog:
-        title: Name of the new object
-        title_main: Copying object
-        message.copied: Object copied
+        title: Yeni nesnenin ismi
+        title_main: Nesne kopyalanıyor
+        message.copied: Nesne kopyalandı
     fieldset:
         legend.tooltip: >
-            Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+            Kopyalanan nesne için isim giriniz. Orjinal adını korumak için boş bırakın. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
 import:
     dialog:
         title: Importing object
