@@ -340,6 +340,39 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         scope.output = newValue;
                     }
                 });
+
+                if ((scope.output === undefined || scope.output == null) && scope.param.definition != undefined) {
+                    switch (parseInt(scope.param.type)) {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 8:
+                        case 11:
+                            scope.output = scope.param.definition.defvalue;
+                            break;
+                    }
+                }
+                if (scope.output === undefined || scope.output === null) {
+                    switch (parseInt(scope.param.type)) {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 5:
+                        case 6:
+                        case 8:
+                        case 11:
+                            scope.output = "";
+                            break;
+                        case 4:
+                            scope.output = "0";
+                            break;
+                    }
+                }
             }
         };
     }]);
