@@ -170,7 +170,7 @@ class ImportService {
         }
         $result = $this->import(
                 $user, //
-                $instructions, //
+                json_decode(json_encode($instructions), true), //
                 $arr
         );
         return $result;
