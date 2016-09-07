@@ -13,7 +13,7 @@ CKEDITOR.plugins.add('cmsource', {
         );
 
         var handleResize = function () {
-            if (_codemirror_instance)
+            if (_codemirror_instance && !_codemirror_instance.getOption("fullScreen"))
                 _codemirror_instance.setSize(_editor_wrapper_box.$.clientWidth - 5, _editor_wrapper_box.$.clientHeight);
         };
 
