@@ -96,7 +96,3 @@ io:
                 field.enclosure.tooltip: Alanları kapatmak kullanılır. Varsayılan karakter "
                 file: Dosya
                 file.tooltip: Yükenecek CSV dosyasını seçiniz
-            
-alerts:
-    edit:
-        columns: Lütfen Veri tablosunda ekleme/düzenleme/çıkarma işlemlerinden önce yaptığınız değişiklikleri kaydedin.

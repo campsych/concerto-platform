@@ -86,15 +86,11 @@ save_new:
 import:
     dialog:
         title: Nesne içe aktarılıyor
-        description: "İçeri aktarılan nesnenin isminin ya da alt dizindeki nesnenin isminin var olan biriyle aynı olması durumunda nesneleri eşsiz hale getirmek için \"Name\" alanını \"id\" ya da \"name\" değişkenlerinin altında kullanmanız gerekir. Daha fazla bilgi için\"Name\" alanı ekbilgisini kontrol edin."
         message.imported: Nesne içe aktarıldı
     fieldset:
         legend.tooltip: Daha önce dışa aktarılmış dosyadan yeni nesneler içe aktarın.
     form:
         field:
-            name: Adı
-            name.tooltip: >
-                İçeri aktarılan nesne için belirlemek istediğiniz adı girin. Orjinal adı korumak isterseniz boş bırakın. Orjinal nesne id'si ve adını \{\{id\}\} ya da \{\{name\}\} kullanarak oluşturabilirsiniz.
             file: Dosya
             file.tooltip: İçeri aktarılacak dosyayı seçin
 

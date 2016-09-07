@@ -288,8 +288,3 @@ flow:
         zoom_out: Uzaklaştır
     tags:
         all: Tümü
-        
-alerts:
-    edit:
-        input: Lütfen yaptığınız değişiklikleri girdi değişkenlerini ekleme/düzenleme/silmeden önce kaydedilmemiş değişikliklerin kaybını engellemek için kaydedin.
-        output: Lütfen yaptığınız değişiklikleri çıktı değişkenlerini ekleme/düzenleme/silmeden önce kaydedilmemiş değişikliklerin kaybını engellemek için kaydedin.

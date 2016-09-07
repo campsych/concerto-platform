@@ -192,8 +192,3 @@ preview:
     buttons:
         next: Sonraki Adım
         previous: Önceki Adım
-        
-alerts:
-    edit:
-        steps: Veri kaybına uğramamak için test sihirbazında yaptığınız tüm değişikliklikleri bir adım ekleme/düzenleme/silme yapmadan önce lütfen kaydediniz.
-        params: Veri kaybına uğramamak için test sihirbazında yaptığınız tüm değişikliklikleri bir parametre ekleme/düzenleme/silme yapmadan önce lütfen kaydediniz.
