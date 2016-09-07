@@ -42,158 +42,158 @@ step:
             order.tooltip: Test sihirbazı sırası tanımı
     list:
         button: 
-            add: Add new step
-            delete.all: Delete all steps
-            delete.checked: Delete selected steps
-            delete: Delete
-            edit: Edit
+            add: Yeni adım ekle
+            delete.all: Tüm adımları sil
+            delete.checked: Seçilen adımları sil
+            delete: Sil
+            edit: Düzenle
         field:
             id: Id
-            info: Info
-            title: Title
-            order: Order
+            info: Bilgi
+            title: Başlık
+            order: Sıra
     dialog:
         title:
-            add: Adding new test wizard step
-            edit: Editing test wizard step
-            delete: Removing test wizard step
-            clear: Clearing test wizard steps
+            add: Yeni test sihirbazı adımı ekleniyor
+            edit: Test sihirbazı adımı düzenleniyor
+            delete: Test sihirbazı adımı siliniyor
+            clear: Test sihirbazı adımları temizleniyor
         message:
-            delete.confirm: Are you sure you want to delete selected test wizard step?
-            clear.confirm: Are you sure you want to clear all test wizard steps?
+            delete.confirm: Seçili sihirbaz adımlarını silmek istediğinizden emin misiniz?
+            clear.confirm: Seçili sihirbaz adımlarını temizlemek istediğinizden emin misiniz?
             
 param:
-    move_up.tooltip: Move parameter up
-    move_down.tooltip: Move parameter down
+    move_up.tooltip: Parametreyi yukarı taşı
+    move_down.tooltip: Parametreyi aşağı taşı
     fieldset:
-        legend: Test wizard params
-        legend.tooltip: Declare test wizards params
+        legend: Test sihirbazı parametreleri
+        legend.tooltip: Sihirbaz parametrelerini tanımlayınız
     form:
         fieldset:
-            legend.tooltip: Enter test wizard params properties
+            legend.tooltip: Test sihirbazı parametre özelliklerini tanımlayınız
         field:
-            label: Label
-            label.tooltip: Test wizard param label
-            description: Description
-            description.tooltip: Test wizard param description
-            url: Passable through URL
-            url.tooltip: Check if parameter value can be set through URL parameter
-            order: Order
-            order.tooltip: Order index of parameter in it\'s wizard step
-            variable: Test variable
-            variable.tooltip: Test parameter
-            step: Wizard step
+            label: Etiket
+            label.tooltip: Test sihirbazı parametre etiketi
+            description: Tanım
+            description.tooltip: Test sihirbazı parametre tanımı
+            url: URL'den geçebilir
+            url.tooltip: Parametre değerinin URL üzerinde tanımlanabilmesini sağlar
+            order: Sıra
+            order.tooltip: Parametre indeksinin sihirbaz adımlarındaki sırası
+            variable: Test değişkeni
+            variable.tooltip: Test parametresi
+            step: Wizard adım
             step.tooltip: Select test wizard step for this parameter
-            definition: Definition
-            definition.tooltip: Parameters definition
-            definition.icon.tooltip: Set parameter definition
-            type: Type
-            type.tooltip: Test wizard param type
-            type.single_line_text: single line text
-            type.multi_line_text: multi line text
+            definition: Tanım
+            definition.tooltip: Parameters tanımı
+            definition.icon.tooltip: Parametre tanımını ayarlar
+            type: Tip
+            type.tooltip: Test sihirbazı parametre tipi
+            type.single_line_text: Tek satır metin
+            type.multi_line_text: Çok satırlı metin
             type.html: HTML
-            type.select: Drop-down list
-            type.view: View template
+            type.select: Aşağı açılır liste
+            type.view: Şablonu göster
             type.test: Test
-            type.table: Data table
-            type.column: Data table column
-            type.checkbox: Checkbox
-            type.group: Group
-            type.list: List
-            hide_condition: Hide condition
-            hide_condition.tooltip: 'Hide condition. Uses javascript syntax. Current parameters values collection object is called <strong>values</strong>. To access current parameter parent scope use <strong>parent</strong>. Example: <strong>values.param1.subparam3 != "1"</strong>'
-            setter.icon.tooltip: Launch setter dialog
+            type.table: Data tablosu
+            type.column: Data tablosu sütunu
+            type.checkbox: Onay kutucuğu
+            type.group: Grup
+            type.list: Liste
+            hide_condition: Koşulu sakla
+            hide_condition.tooltip: 'Koşulu sakla özelliği javascript syntax kullanır. Nesnenin şu anki parametre değer toplamı bu şekildedir <strong>values</strong>. Seçili parametrenin ana kapsamına erişmek için <strong>parent</strong> kullanın. Örnek: <strong>values.param1.subparam3 != "1"</strong>'
+            setter.icon.tooltip: Bilgi diyalog kutusunu aç
     list:
         button: 
-            add: Add new param
-            delete.all: Delete all params
-            delete.checked: Delete selected params
-            delete: Delete
-            edit: Edit
+            add: Yeni parametre ekle
+            delete.all: Tüm parametreleri sil
+            delete.checked: Seçili parametreleri sil
+            delete: Sil
+            edit: Düzenle
         field:
             id: Id
-            info: Info
-            label: Title
-            step: Step
-            variable: Test param
-            type: Type
-            order: Order
+            info: Bilgi
+            label: Başlık
+            step: Adım
+            variable: Test parametresi
+            type: Tip
+            order: Sıra
     dialog:
         title:
-            add: Adding new test wizard param
-            edit: Editing test wizard param
-            delete: Removing test wizard param
-            clear: Clearing test wizard params
+            add: Yeni test sihirbazı parametresi ekleniyor
+            edit: Test sihirbazı parametresi düzenleniyor
+            delete: Test sihirbazı parametresi siliniyor
+            clear: Test sihirbazı parametresi temizleniyor
         message:
-            delete.confirm: Are you sure you want to delete selected test wizard param?
-            clear.confirm: Are you sure you want to clear all test wizard params?
+            delete.confirm: Seçili test sihirbazı parametresini silmek istediğinizden emin misiniz?
+            clear.confirm: Tüm test sihirbazı parametrelerini temizlemek istediğinizden emin misiniz?
     definer:
         titles:
-            select: "{0} - define possible select options"
-            select.tooltip: Set current parameter select options
-            group: "{0} - define group fields"
-            group.tooltip: Set current parameter group fields
-            list: "{0} - define list element type"
-            list.tooltip: Set current parameter list element type
+            select: "{0} - kullanılabileek seçim parametresi sayısını tanımla"
+            select.tooltip: Parametre seçim seçeneklerini tanımlayınız
+            group: "{0} - grup alanlarını tanımla"
+            group.tooltip: Parametre grup alanlarını tanımlayınız
+            list: "{0} - liste öğe türlerini tanımla"
+            list.tooltip: Parametre liste öğe türlerini tanımlayınız
         summaries:
-            select: "Options count: {0}"
-            group: "Fields count: {0}"
-            list: "Elements type: {0}"
-        select.option.add: Add new option
-        select.option.remove.selected: Remove selected options
-        select.option.remove.all: Remove all options
-        select.list.field.order: Order
-        select.list.field.label: Label
-        select.list.field.value: Value
-        select.list.button.delete: Delete
-        group.field.add: Add new field
-        group.field.remove.selected: Remove selected fields
-        group.field.remove.all: Remove all fields
-        group.field.move_up.tooltip: Move field up
-        group.field.move_down.tooltip: Move field down
-        group.list.field.name: Name
-        group.list.field.label: Label
-        group.list.field.type: Type
-        group.list.field.hide_condition: Hide condition
-        group.list.field.definition: Definition
-        group.list.field.order: Order
+            select: "Seçenek sayısı: {0}"
+            group: "Alan sayısı: {0}"
+            list: "Öğre türü: {0}"
+        select.option.add: Yeni seçenek ekle
+        select.option.remove.selected: Seçili seçenekleri sil
+        select.option.remove.all: Tüm seçenekleri kaldır
+        select.list.field.order: Sıra
+        select.list.field.label: Etiket
+        select.list.field.value: Değer
+        select.list.button.delete: Sil
+        group.field.add: Yeni alan ekle
+        group.field.remove.selected: Seçili alanları sil
+        group.field.remove.all: Tüm alanları sil
+        group.field.move_up.tooltip: Alanı yukarı taşı
+        group.field.move_down.tooltip: Alanı aşağı taşı
+        group.list.field.name: Adı
+        group.list.field.label: Etiket
+        group.list.field.type: Tür
+        group.list.field.hide_condition: Koşulu sakla
+        group.list.field.definition: Tanım
+        group.list.field.order: Sıra
     setter:
         titles:
-            textarea: "{0} - multiline text"
-            textarea.tooltip: Set current parameter text value
+            textarea: "{0} - çok satırlı metin"
+            textarea.tooltip: Metin değeri parametresini ayarlayın
             html: "{0} - HTML"
-            html.tooltip: Set current parameter HTML
-            column: "{0} - data table column"
-            column.tooltip: Set current parameter data table column
-            group: "{0} - group fields"
-            group.tooltip: Set values of current parameter group fields
-            list: "{0} - list elements"
-            list.tooltip: Set current parameter list elements
+            html.tooltip: HTML parametresini ayarlayın
+            column: "{0} - Veri tablosu sütunu"
+            column.tooltip: Veri tablosu sütunu parametresini ayarlayın
+            group: "{0} - grup alanları"
+            group.tooltip: Grup alanları parametresini ayarlayın
+            list: "{0} - öğe listesi"
+            list.tooltip: Öğe listesi parametresini ayarlayın
         summaries:
             textarea: "{0}"
             html: "{0}"
-            column: "Table: {0}, Column: {1}"
+            column: "Tablo: {0}, Sütun: {1}"
             group: "{0}"
-            list: "Elements count: {0}"
-        column.table: Data table
-        column.table.tooltip: Choose data table from which you will later select column
-        column: Column
-        column.tooltip: Choose data table column
-        list.element.add: Add new element
-        list.element.remove.selected: Remove selected elements
-        list.element.remove.all: Remove all elements
-        list.element.remove: Delete
-        list.column.element: Element
+            list: "Öğe sayısı: {0}"
+        column.table: Veri tablosu
+        column.table.tooltip: Daha sonra sütunu seçeceğiniz veri tablosunu belirleyin
+        column: Sütun
+        column.tooltip: Veri tablosu sütununu seçin
+        list.element.add: Yeni öğe ekle
+        list.element.remove.selected: Seçili öğeleri kaldır
+        list.element.remove.all: Tüm öğeleri kaldır
+        list.element.remove: Sil
+        list.column.element: Öğe
             
 preview:
     fieldset:
-        legend: Test wizard preview
-        legend.tooltip: Preview of test wizard. You can rearrange params in each step.
+        legend: Test sihirbazı ön izleme
+        legend.tooltip: Test sihirbazının ön izlemesi. Her adımdaki parametreleri yeniden sıralayabilirsiniz.
     buttons:
-        next: Next step
-        previous: Previous step
+        next: Sonraki Adım
+        previous: Önceki Adım
         
 alerts:
     edit:
-        steps: Please save any changes you made to test wizard before adding/editing/removing any steps to prevent loss of unsaved changes.
-        params: Please save any changes you made to test wizard before adding/editing/removing any parameters to prevent loss of unsaved changes.
+        steps: Veri kaybına uğramamak için test sihirbazında yaptığınız tüm değişikliklikleri bir adım ekleme/düzenleme/silme yapmadan önce lütfen kaydediniz.
+        params: Veri kaybına uğramamak için test sihirbazında yaptığınız tüm değişikliklikleri bir parametre ekleme/düzenleme/silme yapmadan önce lütfen kaydediniz.
