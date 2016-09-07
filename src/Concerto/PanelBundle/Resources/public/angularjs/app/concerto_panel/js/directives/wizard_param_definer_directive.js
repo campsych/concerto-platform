@@ -1,4 +1,4 @@
-angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", function ($compile, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService) {
+angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", "RDocumentation", function ($compile, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService, RDocumentation) {
         return {
             restrict: 'E',
             scope: {
@@ -9,6 +9,36 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                 scope.htmlEditorOptions = Defaults.ckeditorPanelContentOptions;
                 scope.testWizardParamService = TestWizardParam;
                 scope.gridService = GridService;
+                scope.codeEditorOptions = {
+                    lineWrapping: true,
+                    lineNumbers: true,
+                    mode: 'r',
+                    viewportMargin: Infinity,
+                    hintOptions: {
+                        completeSingle: false,
+                        wizardService: RDocumentation
+                    },
+                    extraKeys: {
+                        "F11": function (cm) {
+                            cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                        },
+                        "Esc": function (cm) {
+                            if (cm.getOption("fullScreen"))
+                                cm.setOption("fullScreen", false);
+                        },
+                        "Ctrl-Space": "autocomplete"
+                    }
+                };
+                if (RDocumentation.functionIndex === null) {
+                    $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').success(function (data) {
+                        if (data !== null) {
+                            RDocumentation.functionIndex = data;
+                            scope.codeEditorOptions.hintOptions.functionIndex = data;
+                        }
+                    });
+                } else {
+                    scope.codeEditorOptions.hintOptions.functionIndex = RDocumentation.functionIndex;
+                }
 
                 scope.hasCustomDefiner = function () {
                     if (!scope.param)
@@ -242,19 +272,35 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                         return;
 
                     if (newValue != oldValue) {
-                        if (newValue == 9) {
-                            scope.param.definition = {fields: [], placeholder: 0};
-                        } else if (newValue == 10) {
-                            scope.param.definition = {
-                                element: {
-                                    type: 0,
-                                    definition: {placeholder: 0}
-                                }
-                            };
-                        } else if (scope.param.value == 4) {
-                            scope.param.definition = {options: [], placeholder: 0};
-                        } else {
-                            scope.param.definition = {placeholder: 0};
+                        switch (parseInt(newValue)) {
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 5:
+                            case 6:
+                            case 8:
+                                scope.param.definition = {placeholder: 0, defvalue: ""};
+                                break;
+                            case 3:
+                                scope.param.definition = {options: [], placeholder: 0, defvalue: ""};
+                                break;
+                            case 4:
+                                scope.param.definition = {placeholder: 0, defvalue: "0"};
+                                break;
+                            case 9:
+                                scope.param.definition = {fields: [], placeholder: 0};
+                                break;
+                            case 10:
+                                scope.param.definition = {
+                                    element: {
+                                        type: 0,
+                                        definition: {placeholder: 0}
+                                    }
+                                };
+                                break;
+                            default:
+                                scope.param.definition = {placeholder: 0};
+                                break;
                         }
                     }
 

@@ -39,6 +39,10 @@ Test_import:
     defaults: { _controller: concerto_panel.Test_controller:importAction }
     methods:  [POST]
     
+Test_pre_import_status:
+    path: /Test/import/status
+    defaults: { _controller: concerto_panel.Test_controller:preImportStatusAction }
+    
 Test_add_node:
     path: /Test/{object_id}/node/add
     defaults: { _controller: concerto_panel.Test_controller:addNodeAction }

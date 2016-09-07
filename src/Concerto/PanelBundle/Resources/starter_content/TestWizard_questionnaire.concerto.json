@@ -1,0 +1,733 @@
+[
+    {
+        "class_name": "TestWizard",
+        "id": 11,
+        "name": "questionnaire",
+        "description": "",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "steps": [
+            {
+                "class_name": "TestWizardStep",
+                "id": 48,
+                "title": "Presentation",
+                "description": "<p>Questionnaire page presentation<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 11,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 150,
+                        "label": "Paragraph",
+                        "description": "<p>Item page pargraph<\/p>\n",
+                        "hideCondition": "",
+                        "type": 2,
+                        "passableThroughUrl": "0",
+                        "value": "<p>Please answer the questions below:<\/p>\n",
+                        "testVariable": 236,
+                        "name": "paragraph",
+                        "wizardStep": 48,
+                        "stepTitle": "Presentation",
+                        "order": 2,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 151,
+                        "label": "Title",
+                        "description": "",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "DEMO TEST",
+                        "testVariable": 252,
+                        "name": "title",
+                        "wizardStep": 48,
+                        "stepTitle": "Presentation",
+                        "order": 1,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": 0
+                        }
+                    }
+                ]
+            },
+            {
+                "class_name": "TestWizardStep",
+                "id": 49,
+                "title": "Items and navigation",
+                "description": "<p>Items declaration<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 11,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 152,
+                        "label": "Items order",
+                        "description": "<p>Items order:<\/p>\n\n<ul>\n\t<li><strong>manual<\/strong>&nbsp;- will be set from&nbsp;<strong>order<\/strong>&nbsp;field of each item<\/li>\n\t<li><strong>random<\/strong>&nbsp;- every questionnaire run will have shuffled questions order<\/li>\n<\/ul>\n",
+                        "hideCondition": "",
+                        "type": 3,
+                        "passableThroughUrl": "0",
+                        "value": "random",
+                        "testVariable": 238,
+                        "name": "order",
+                        "wizardStep": 49,
+                        "stepTitle": "Items and navigation",
+                        "order": 1,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0",
+                            "options": [
+                                {
+                                    "value": "manual",
+                                    "label": "manual"
+                                },
+                                {
+                                    "value": "random",
+                                    "label": "random"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 153,
+                        "label": "Item bank",
+                        "description": "",
+                        "hideCondition": "",
+                        "type": 9,
+                        "passableThroughUrl": "0",
+                        "value": "{\"table_type\":\"direct\",\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>Example question 1<\/p>\\n\",\"order\":\"1\",\"trait\":\"first_trait\",\"reversed_score\":\"0\"},{\"id\":\"2\",\"question\":\"<p>Example question 2 (reverse scored)<\/p>\\n\",\"order\":\"2\",\"trait\":\"first_trait\",\"reversed_score\":\"1\"},{\"id\":\"3\",\"question\":\"<p>Example question 3<\/p>\\n\",\"order\":\"3\",\"trait\":\"second_trait\",\"reversed_score\":\"0\"},{\"id\":\"4\",\"question\":\"<p>Example question 4 (reverse scored)<\/p>\\n\",\"order\":\"4\",\"trait\":\"second_trait\",\"reversed_score\":\"1\"}],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_trait_column\":{},\"custom_reversed_score_column\":{},\"custom_test_id_column\":{}}",
+                        "testVariable": 239,
+                        "name": "item_bank",
+                        "wizardStep": 49,
+                        "stepTitle": "Items and navigation",
+                        "order": 0,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0",
+                            "fields": [
+                                {
+                                    "type": "3",
+                                    "name": "table_type",
+                                    "label": "Type",
+                                    "definition": {
+                                        "options": [
+                                            {
+                                                "value": "direct",
+                                                "label": "direct"
+                                            },
+                                            {
+                                                "value": "custom",
+                                                "label": "custom"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "10",
+                                    "name": "direct_table",
+                                    "label": "Items",
+                                    "definition": {
+                                        "element": {
+                                            "type": 9,
+                                            "definition": {
+                                                "fields": [
+                                                    {
+                                                        "type": "0",
+                                                        "name": "id",
+                                                        "label": "Id"
+                                                    },
+                                                    {
+                                                        "type": "2",
+                                                        "name": "question",
+                                                        "label": "Question"
+                                                    },
+                                                    {
+                                                        "type": "0",
+                                                        "name": "order",
+                                                        "label": "Order",
+                                                        "hideCondition": ""
+                                                    },
+                                                    {
+                                                        "type": "0",
+                                                        "name": "trait",
+                                                        "label": "Trait"
+                                                    },
+                                                    {
+                                                        "type": "4",
+                                                        "name": "reversed_score",
+                                                        "label": "Reversed score"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "hideCondition": "parent.table_type != \"direct\""
+                                },
+                                {
+                                    "type": "6",
+                                    "name": "custom_table",
+                                    "label": "Table",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_question_column",
+                                    "label": "Question column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_order_column",
+                                    "label": "Order column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_trait_column",
+                                    "label": "Trait column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_reversed_score_column",
+                                    "label": "Reversed score column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_test_id_column",
+                                    "label": "Test Id column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 154,
+                        "label": "Max items per page",
+                        "description": "<p>Maximum items that can be displayed on a single page<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "10",
+                        "testVariable": 240,
+                        "name": "items_per_page",
+                        "wizardStep": 49,
+                        "stepTitle": "Items and navigation",
+                        "order": 2,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 155,
+                        "label": "Next button label",
+                        "description": "<p>Label of button used to submit responses and progress forward<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "next",
+                        "testVariable": 237,
+                        "name": "next_button_label",
+                        "wizardStep": 49,
+                        "stepTitle": "Items and navigation",
+                        "order": 3,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 156,
+                        "label": "Go back",
+                        "description": "<p>Check to allow participants to go back and change already given responses<\/p>\n",
+                        "hideCondition": "",
+                        "type": 4,
+                        "passableThroughUrl": "0",
+                        "value": "1",
+                        "testVariable": 244,
+                        "name": "can_go_back",
+                        "wizardStep": 49,
+                        "stepTitle": "Items and navigation",
+                        "order": 4,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 157,
+                        "label": "Previous button label",
+                        "description": "<p>Label of button used to go back to page of items already answered<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "previous",
+                        "testVariable": 245,
+                        "name": "previous_button_label",
+                        "wizardStep": 49,
+                        "stepTitle": "Items and navigation",
+                        "order": 5,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    }
+                ]
+            },
+            {
+                "class_name": "TestWizardStep",
+                "id": 50,
+                "title": "Responses",
+                "description": "<p>Responses options<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 11,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 158,
+                        "label": "Response options",
+                        "description": "<p>Set of possible response options<\/p>\n",
+                        "hideCondition": "",
+                        "type": 10,
+                        "passableThroughUrl": "0",
+                        "value": "[{\"label\":\"Strongly disagree\",\"value\":\"strongly_disagree\",\"score\":\"1\"},{\"label\":\"Disagree\",\"value\":\"disagree\",\"score\":\"2\"},{\"label\":\"Neither agree nor disagree\",\"value\":\"neutral\",\"score\":\"3\"},{\"label\":\"Agree\",\"value\":\"agree\",\"score\":\"4\"},{\"label\":\"Strongly agree\",\"value\":\"strongly_agree\",\"score\":\"5\"}]",
+                        "testVariable": 241,
+                        "name": "response_options",
+                        "wizardStep": 50,
+                        "stepTitle": "Responses",
+                        "order": 1,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0",
+                            "element": {
+                                "type": 9,
+                                "definition": {
+                                    "fields": [
+                                        {
+                                            "type": "0",
+                                            "name": "label",
+                                            "label": "Label"
+                                        },
+                                        {
+                                            "type": "0",
+                                            "name": "value",
+                                            "label": "Value"
+                                        },
+                                        {
+                                            "type": "0",
+                                            "name": "score",
+                                            "label": "Score"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 159,
+                        "label": "Responses required",
+                        "description": "<p>Check if all responses must be given<\/p>\n",
+                        "hideCondition": "",
+                        "type": 4,
+                        "passableThroughUrl": "0",
+                        "value": "1",
+                        "testVariable": 242,
+                        "name": "response_required",
+                        "wizardStep": 50,
+                        "stepTitle": "Responses",
+                        "order": 2,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 160,
+                        "label": "Unanswered item alert",
+                        "description": "<p>Alert that will be shown when an item is left unanswered<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "All questions need to be answered!",
+                        "testVariable": 243,
+                        "name": "no_response_alert",
+                        "wizardStep": 50,
+                        "stepTitle": "Responses",
+                        "order": 3,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 161,
+                        "label": "Time limit (seconds)",
+                        "description": "<p>Time limit in seconds. Use <b>0&nbsp;<\/b>for unlimited time.<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "0",
+                        "testVariable": 246,
+                        "name": "time_limit",
+                        "wizardStep": 50,
+                        "stepTitle": "Responses",
+                        "order": 4,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 162,
+                        "label": "Response bank",
+                        "description": "<p>Response bank definition.<\/p>\n",
+                        "hideCondition": "",
+                        "type": 9,
+                        "passableThroughUrl": "0",
+                        "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_question_id_column\":{},\"custom_value_column\":{},\"custom_score_column\":{},\"custom_trait_column\":{}}",
+                        "testVariable": 247,
+                        "name": "response_bank",
+                        "wizardStep": 50,
+                        "stepTitle": "Responses",
+                        "order": 0,
+                        "wizard": 11,
+                        "definition": {
+                            "placeholder": "0",
+                            "fields": [
+                                {
+                                    "type": "3",
+                                    "name": "table_type",
+                                    "label": "Table type",
+                                    "definition": {
+                                        "options": [
+                                            {
+                                                "value": "default",
+                                                "label": "default"
+                                            },
+                                            {
+                                                "value": "custom",
+                                                "label": "custom"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "6",
+                                    "name": "custom_table",
+                                    "label": "Table",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_session_internal_id_column",
+                                    "label": "Session internal Id column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_question_id_column",
+                                    "label": "Question Id column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_value_column",
+                                    "label": "Value column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_score_column",
+                                    "label": "Score column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_trait_column",
+                                    "label": "Trait column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "test": 22,
+        "testObject": {
+            "class_name": "Test",
+            "id": 22,
+            "name": "source_questionnaire",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table\n    question_column = ib$custom_question_column$column\n    order_column = ib$custom_order_column$column\n    trait_column = ib$custom_trait_column$column\n    reversed_score_column = ib$custom_reversed_score_column$column\n    test_id_column = ib$custom_test_id_column$column\n\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{trait_column}}` AS `trait`, `{{reversed_score_column}}` AS `reversed_score` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}} ORDER BY `{{order_column}}` ASC\", list(\n      question_column=question_column,\n      order_column=order_column,\n      trait_column=trait_column,\n      reversed_score_column=reversed_score_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] > 0 && order == \"random\") {\n    questions = questions[sample(1:dim(questions)[1]),]\n  }\n  questions = data.frame(questions,stringsAsFactors=F)\n  return(questions)\n}\n\ngetContent = function(questions, current_page, response_set, not_valid, all_responses) {\n  content = paragraph\n  content = paste0(content, \"<table class='questionnaireResponseTable'>\")\n  content = paste0(content, \"<tr>\")\n  content = paste0(content, \"<th class='questionnaireHeaderCell'><\/th>\")\n  if(dim(response_set)[1] > 0) {\n    for(i in 1:dim(response_set)[1]) {\n      response = response_set[i,]\n      content = paste0(content, \"<th class='questionnaireHeaderCell'>\",response$label,\"<\/th>\")\n    }\n  }\n  content = paste0(content, \"<\/tr>\")\n  for(i in ((current_page-1)*as.numeric(items_per_page)+1):(current_page*as.numeric(items_per_page))) {\n    if(i > dim(questions)[1]) { break }\n    question = questions[i,]\n    validationHighlight = \"\"\n    if(question$id %in% not_valid) {\n      validationHighlight = \"validationHighlight\"\n    }\n\n    content = paste0(content, \"<tr class='\",validationHighlight,\"'>\")\n    content = paste0(content, \"<td class='questionnaireQuestionCell'>\",question$question,\"<\/td>\")\n    if(dim(response_set)[1] > 0) {\n      for(i in 1:dim(response_set)[1]) {\n        response = response_set[i,]\n        checked = \"\"\n        if(!is.null(all_responses[[paste0(\"q\",question$id)]]) && all_responses[[paste0(\"q\",question$id)]] == response$value) { checked = \"checked\" }\n        content = paste0(content, \"<td class='questionnaireResponseCell'><label for='input_response_\",question$id,\"_\",response$value,\"' class='questionnaire_label'><input type='radio' id='input_response_\",question$id,\"_\",response$value,\"' name='q\",question$id,\"' value='\",response$value,\"' \",checked,\" \/><\/label><\/td>\")\n      }\n    }\n    content = paste0(content, \"<\/tr>\")\n  }\n  content = paste0(content, \"<\/table>\")\n\n  return(content)\n}\n\naddAnswers = function(answers, response, response_set, questions, rb, all_responses, scores) {\n  max_score = max(as.numeric(response_set[,\"score\"]))\n  min_score = min(as.numeric(response_set[,\"score\"]))\n\n  for(var in ls(response)) {\n    if(var == \"buttonPressed\" || var == \"timeTaken\" || var == \"isTimeout\") { next }\n\n    question_id = substr(var, 2, nchar(var))\n    value = response[[var]]\n    score = NULL\n    for(i in 1:dim(questions)[1]) {\n      question = questions[i,]\n      if(question$id == question_id) {\n        trait = toString(question$trait)\n        if(is.null(scores[[trait]])) {\n          scores[[trait]] = 0\n        }\n        for(j in 1:dim(response_set)[1]) {\n          r = response_set[j,]\n          if(r$value == value) {\n            score = as.numeric(r$score)\n            if(question$reversed_score == \"1\") {\n              score = max_score - score + min_score\n            }\n            scores[[trait]] = scores[[trait]] + score\n            break\n          }\n        }\n        break\n      }\n    }\n    saveResponse(rb, question_id, value, score, trait)\n  }\n  return(scores)\n}\n\nremoveAnswers = function(questions, current_page, response_set, all_responses, scores) {\n  max_score = max(as.numeric(response_set[,\"score\"]))\n  min_score = min(as.numeric(response_set[,\"score\"]))\n\n  for(i in ((current_page-1)*as.numeric(items_per_page)+1):(current_page*as.numeric(items_per_page))) {\n    if(i > dim(questions)[1]) { break }\n    question = questions[i,]\n    trait = toString(question$trait)\n    if(is.null(scores[[trait]])) {\n      scores[[trait]] = 0\n    }\n\n    if(dim(response_set)[1] > 0) {\n      for(i in 1:dim(response_set)[1]) {\n        response = response_set[i,]\n        if(!is.null(all_responses[[paste0(\"q\",question$id)]]) && all_responses[[paste0(\"q\",question$id)]] == response$value) { \n          score = as.numeric(response$score)\n          if(question$reversed_score == \"1\") {\n            score = max_score - score + min_score\n          }\n          scores[[trait]] = scores[[trait]] - score\n        }\n      }\n    }\n  }\n  return(scores)\n}\n\nsaveResponse = function(rb, question_id, value, score, trait) {\n  table = \"default_questionnaire_response_table\"\n  session_internal_id_column = \"session_internal_id\"\n  question_id_column = \"question_id\"\n  value_column = \"value\"\n  score_column = \"score\"\n  trait_column = \"trait\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    session_internal_id_column = rb$custom_session_internal_id_column$column\n    question_id_column = rb$custom_question_id_column$column\n    value_column = rb$custom_value_column$column\n    score_column = rb$custom_score_column$column\n    trait_column = rb$custom_trait_column$column\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  exists = FALSE\n  record = concerto.table.query(\"SELECT * FROM `{{table}}` WHERE `{{session_internal_id_column}}`={{session_internal_id}} AND `{{question_id_column}}`={{question_id}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    question_id_column=question_id_column,\n    question_id=question_id\n  ))\n  if(dim(record)[1] > 0) { exists = TRUE }\n\n  if(exists) {\n    concerto.table.query(\"UPDATE `{{table}}` SET `{{value_column}}`='{{value}}', `{{score_column}}`={{score}}, `{{trait_column}}`='{{trait}}' WHERE `{{session_internal_id_column}}`={{session_internal_id}} AND `{{question_id_column}}`={{question_id}}\", list(\n      table=table,\n      session_internal_id_column=session_internal_id_column,\n      session_internal_id=session_internal_id,\n      question_id_column=question_id_column,\n      question_id=question_id,\n      value_column=value_column,\n      value=value,\n      score_column=score_column,\n      score=score,\n      trait_column=trait_column,\n      trait=trait\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{session_internal_id_column}}`={{session_internal_id}}, `{{question_id_column}}`={{question_id}}, `{{value_column}}`='{{value}}', `{{score_column}}`={{score}}, `{{trait_column}}`='{{trait}}'\", list(\n      table=table,\n      session_internal_id_column=session_internal_id_column,\n      session_internal_id=session_internal_id,\n      question_id_column=question_id_column,\n      question_id=question_id,\n      value_column=value_column,\n      value=value,\n      score_column=score_column,\n      score=score,\n      trait_column=trait_column,\n      trait=trait\n    ))\n  }\n}\n\ngetNotValid = function(response, current_page, questions) {\n  not_valid = c()\n  for(i in ((current_page-1)*as.numeric(items_per_page)+1):(current_page*as.numeric(items_per_page))) {\n    if(i > dim(questions)[1]) { break }\n    question = questions[i,]\n    if(response_required == \"1\" && is.null(response[[paste0(\"q\",question$id)]])) {\n      not_valid = c(not_valid, question$id)\n    }\n  }\n  return(not_valid)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nrb = fromJSON(response_bank)                \nrs = fromJSON(response_options)\nresponse_set = NULL\nif(length(rs) > 0) {\n  for(i in 1:length(rs)) {\n    response_set = rbind(response_set, rs[[i]])\n  }\n}\ncurrent_page = 1\nquestions = getQuestions()\npage_count = ceiling(dim(questions)[1] \/ as.numeric(items_per_page))\nwarning_msg = NULL\nresponse = NULL\n\nanswers = list()\nnot_valid = c()\ntimer_set = FALSE\ntime_limit = as.numeric(time_limit)\nif(time_limit > 0) { timer_set = TRUE }\nall_responses = list()\nscores = list()\nwhile(T) {\n  buttons = \"<div class='button_panel button_panel_questionnaire'>\"\n  if(current_page > 1 && can_go_back == \"1\") {\n    buttons = paste0(buttons, \"<button name='previous' class='questionnaire_button'>\",previous_button_label,\"<\/button>\")\n  }\n  if(page_count > 1) {\n    buttons = paste0(buttons, \"<div id='page_number'>page \", current_page, \" of \", page_count,\"<\/div>\")\n  }\n  if(current_page <= page_count) {\n    buttons = paste0(buttons, \"<button name='next' class='questionnaire_button'>\",next_button_label,\"<\/button>\")\n  }\n  buttons = paste0(buttons,'<\/div>')\n  content = getContent(questions, current_page, response_set, not_valid, all_responses)\n  scores = removeAnswers(questions, current_page, response_set, all_responses, scores)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )), timeLimit=time_limit)\n  warning_msg = NULL\n\n  if(timer_set) {\n    time_limit = time_limit - as.numeric(response$timeTaken)\n    if(response$isTimeout == \"1\") {\n      .branch = \"out_of_time\"\n      break\n    }\n  }\n  if(response$buttonPressed == \"next\") {\n    for(var in ls(response)) {\n      if(var == \"buttonPressed\" || var == \"timeTaken\" || var == \"isTimeout\") { next }\n      all_responses[[var]] = response[[var]]\n    }\n\n    not_valid = getNotValid(response, current_page, questions)\n    scores = addAnswers(answers, response, response_set, questions, rb, all_responses, scores)\n    if(length(not_valid) == 0) {\n      current_page = current_page + 1\n    } else {\n      warning_msg = no_response_alert\n    }\n    if(current_page > page_count) { break }\n  } \n  if(response$buttonPressed == \"previous\") {\n    current_page = current_page - 1\n    not_valid = c()\n  }\n}\nrm(questions)",
+            "slug": "13574646b9cf61af34cc52dd3250c993",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 235,
+                    "name": "answered",
+                    "type": 2,
+                    "description": "<p>Passed all pages of questions successfuly<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 236,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 237,
+                    "name": "next_button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 238,
+                    "name": "order",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 239,
+                    "name": "item_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 240,
+                    "name": "items_per_page",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 241,
+                    "name": "response_options",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 242,
+                    "name": "response_required",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 243,
+                    "name": "no_response_alert",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 244,
+                    "name": "can_go_back",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 245,
+                    "name": "previous_button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 246,
+                    "name": "time_limit",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 247,
+                    "name": "response_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 248,
+                    "name": "session",
+                    "type": 0,
+                    "description": "<p>Session R list object<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 249,
+                    "name": "out_of_time",
+                    "type": 2,
+                    "description": "<p>Run out of time<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 250,
+                    "name": "inserts",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 251,
+                    "name": "scores",
+                    "type": 1,
+                    "description": "<p>R list of scores where each element is named after trait. For trait&nbsp;<strong>A<\/strong>,&nbsp;<strong>B<\/strong>&nbsp;will output:<\/p>\n\n<ul>\n\t<li><strong>scores$A<\/strong><\/li>\n\t<li><strong>scores$B<\/strong><\/li>\n<\/ul>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 252,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 253,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 254,
+                    "name": ".branch",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 22,
+                    "parentVariable": null
+                }
+            ],
+            "logs": [],
+            "sourceWizard": null,
+            "sourceWizardObject": null,
+            "updatedOn": "2016-09-06 20:49:11",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "rev": 2
+        },
+        "testName": "source_questionnaire",
+        "updatedOn": "2016-09-06 20:49:12",
+        "updatedByName": "",
+        "owner": 1,
+        "groups": "",
+        "starterContent": true,
+        "rev": 2
+    }
+]

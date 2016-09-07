@@ -1,0 +1,18 @@
+<script type="text/ng-template" id="type_11_setter.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block setter %}
+            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.setter.titles.html.tooltip'|trans }}{% endblock %}
+                {% block control %}
+                    <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
+                        <div ng-bind-html="RDocumentation.html"></div>
+                    </div>
+                    <ui-codemirror ng-model="output" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-disabled="wizardObject.initProtected == '1'" ng-change="onPrimitiveValueChange(output)"></ui-codemirror>
+                {% endblock %}
+            {% endembed %}    
+        {% endblock %}
+    {% endembed %}
+</script>

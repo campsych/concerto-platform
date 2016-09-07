@@ -42,16 +42,16 @@ class ObjectVoter extends AbstractVoter {
                 if ($user->hasRoleName(User::ROLE_SUPER_ADMIN)) {
                     return true;
                 }
+                 //public
+                if ($obj->getAccessibility() == ATopEntity::ACCESS_PUBLIC) {
+                    return true;
+                }
                 //owner
                 if ($obj->getOwner() && $user->getId() == $obj->getOwner()->getId()) {
                     return true;
                 }
                 //group
                 if ($obj->getAccessibility() == ATopEntity::ACCESS_GROUP && $obj->hasAnyFromGroup($user->getGroupsArray())) {
-                    return true;
-                }
-                //public
-                if ($obj->getAccessibility() == ATopEntity::ACCESS_PUBLIC) {
                     return true;
                 }
                 break;

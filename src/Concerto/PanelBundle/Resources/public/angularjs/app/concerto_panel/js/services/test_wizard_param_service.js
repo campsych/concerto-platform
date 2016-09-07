@@ -26,6 +26,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_TYPE_GROUP;
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_TYPE_LIST;
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_TYPE_R;
             }
             return type;
         };
@@ -35,12 +37,28 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 return "";
             var info = param.label ? param.label : this.getTypeName(param.type);
             switch (parseInt(param.type)) {
+                case 0:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SINGLE_LINE.pf(info);
+                case 1:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_MULTI_LINE.pf(info);
+                case 2:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_HTML.pf(info);
                 case 3:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_SELECT.pf(info);
+                case 4:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_CHECKBOX.pf(info);
+                case 5:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_TEMPLATE.pf(info);
+                case 6:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_TABLE.pf(info);
+                case 8:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_TEST.pf(info);
                 case 9:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_GROUP.pf(info);
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_LIST.pf(info);
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_R_CODE.pf(info);
             }
             return "";
         };
@@ -59,6 +77,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_GROUP.pf(param.label);
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_LIST.pf(param.label);
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_R.pf(param.label);
             }
             return "";
         };
@@ -110,6 +130,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_GROUP.pf(this.getDefinerSummary(param));
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_LIST.pf(output.length);
+                case 11:
+                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_R.pf(output);
             }
             return "";
         };
@@ -171,6 +193,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     param.value = angular.toJson(param.output);
                 } else
                     param.value = param.output;
+                if (param.value === null)
+                    throw "null param value (" + param.label + ")";
             } catch (err) {
                 switch (parseInt(param.type)) {
                     case 4:
@@ -209,14 +233,10 @@ concertoPanel.service('TestWizardParam', ["$filter",
             }
 
             if (setDefault) {
-                if (param.type == 4) {
-                    param.output = "0";
-                } else if (param.type == 7 || param.type == 9) {
+                if (param.type == 7 || param.type == 9) {
                     param.output = {};
                 } else if (param.type == 10) {
                     param.output = [];
-                } else {
-                    param.output = "";
                 }
             }
         };
@@ -236,7 +256,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
         };
 
         this.objectifyListElements = function (param) {
-            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8];
+            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
             if (param.type != 10)
                 return param.output;
             if (elemTypes.indexOf(param.definition.element.type) != -1) {
@@ -252,7 +272,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
         };
 
         this.deobjectifyListElements = function (param) {
-            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8];
+            var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
             if (param.type != 10)
                 return param.output;
             if (elemTypes.indexOf(param.definition.element.type) != -1) {

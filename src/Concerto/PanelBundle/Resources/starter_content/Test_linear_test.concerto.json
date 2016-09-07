@@ -1,9 +1,9 @@
 [
     {
         "class_name": "Test",
-        "id": 27,
+        "id": 29,
         "name": "linear_test",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -15,255 +15,255 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 326,
+                "id": 342,
                 "name": "answered",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 303
             },
             {
                 "class_name": "TestVariable",
-                "id": 327,
+                "id": 343,
                 "name": "paragraph",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer question below:<\/p>\n",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 304
             },
             {
                 "class_name": "TestVariable",
-                "id": 328,
+                "id": 344,
                 "name": "next_button_label",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "next",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 305
             },
             {
                 "class_name": "TestVariable",
-                "id": 329,
+                "id": 345,
                 "name": "previous_button_label",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "previous",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 306
             },
             {
                 "class_name": "TestVariable",
-                "id": 330,
+                "id": 346,
                 "name": "item_bank",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"direct\",\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>If you have a nose bleed, what should you do?<\/p>\\n\",\"order\":\"1\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"tilt_back\",\"label\":\"Tilt your head back\",\"points\":\"0\"},{\"value\":\"tilt_forwards\",\"label\":\"Tilt your head forwards\",\"points\":\"0.5\"},{\"value\":\"tilt_forwards_pinch\",\"label\":\"Tilt your head forwards and pinch your nose\",\"points\":\"1\"}]},\"trait\":\"first_aid\"},{\"id\":\"2\",\"question\":\"<p>In first aid,&nbsp;ABC stands for what?<\/p>\\n\",\"order\":\"2\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"airway_breathing_circulation\",\"label\":\"Airway, breathing, circulation\",\"points\":\"1\"},{\"value\":\"alcoholic_beverage_control\",\"label\":\"Alcoholic Beverage Control\",\"points\":\"0\"}]},\"trait\":\"first_aid\"},{\"id\":\"3\",\"question\":\"<p>In CPR, how many chest compressions per minute should be performed?<\/p>\\n\",\"order\":\"3\",\"response_options\":{\"response_type\":\"open_text\",\"correct_answer\":\"100\",\"response_options\":[]},\"trait\":\"first_aid\"}],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_response_options\":{},\"custom_correct_column\":{},\"custom_trait_column\":{},\"custom_test_id_column\":{}}",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 307
             },
             {
                 "class_name": "TestVariable",
-                "id": 331,
+                "id": 347,
                 "name": "response_bank",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_trait_column\":{},\"custom_correct_column\":{},\"custom_session_id_column\":{},\"custom_time_taken_column\":{}}",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 308
             },
             {
                 "class_name": "TestVariable",
-                "id": 332,
+                "id": 348,
                 "name": "stopping_time",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"time_limit\":\"\",\"type\":null}",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 309
             },
             {
                 "class_name": "TestVariable",
-                "id": 333,
+                "id": 349,
                 "name": "stopping_item_count",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"count\":\"\"}",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 310
             },
             {
                 "class_name": "TestVariable",
-                "id": 334,
+                "id": 350,
                 "name": "randomized_response_options",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 311
             },
             {
                 "class_name": "TestVariable",
-                "id": 335,
+                "id": 351,
                 "name": "order",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "random",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 312
             },
             {
                 "class_name": "TestVariable",
-                "id": 336,
+                "id": 352,
                 "name": "session",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 313
             },
             {
                 "class_name": "TestVariable",
-                "id": 337,
+                "id": 353,
                 "name": "inserts",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 314
             },
             {
                 "class_name": "TestVariable",
-                "id": 338,
+                "id": 354,
                 "name": "response_required",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 315
             },
             {
                 "class_name": "TestVariable",
-                "id": 339,
+                "id": 355,
                 "name": "no_response_alert",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 316
             },
             {
                 "class_name": "TestVariable",
-                "id": 340,
+                "id": 356,
                 "name": "scores",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 317
             },
             {
                 "class_name": "TestVariable",
-                "id": 341,
+                "id": 357,
                 "name": "can_go_back",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 318
             },
             {
                 "class_name": "TestVariable",
-                "id": 342,
+                "id": 358,
                 "name": "item_debug",
                 "type": 0,
                 "description": "<p><span style=\"line-height: 20.8px;\">1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/span><\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 319
             },
             {
                 "class_name": "TestVariable",
-                "id": 343,
+                "id": 359,
                 "name": "out_of_time",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 320
             },
             {
                 "class_name": "TestVariable",
-                "id": 344,
+                "id": 360,
                 "name": "title",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 321
             },
             {
                 "class_name": "TestVariable",
-                "id": 345,
+                "id": 361,
                 "name": "template_def",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 322
             },
             {
                 "class_name": "TestVariable",
-                "id": 346,
+                "id": 362,
                 "name": "responses_layout",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "vertical",
-                "test": 27,
+                "test": 29,
                 "parentVariable": 323
             },
             {
                 "class_name": "TestVariable",
-                "id": 347,
+                "id": 363,
                 "name": "response_width",
                 "type": 0,
                 "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 324
             },
             {
                 "class_name": "TestVariable",
-                "id": 348,
+                "id": 364,
                 "name": ".branch",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 27,
+                "test": 29,
                 "parentVariable": 325
             }
         ],
@@ -273,13 +273,13 @@
             "id": 13,
             "name": "linear_test",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 28,
+                    "id": 43,
                     "title": "Presentation",
                     "description": "<p>Linear test presentation<\/p>\n",
                     "orderNum": 0,
@@ -288,7 +288,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 84,
+                            "id": 131,
                             "label": "Paragraph",
                             "description": "",
                             "hideCondition": "",
@@ -297,7 +297,7 @@
                             "value": "<p>Please answer question below:<\/p>\n",
                             "testVariable": 304,
                             "name": "paragraph",
-                            "wizardStep": 28,
+                            "wizardStep": 43,
                             "stepTitle": "Presentation",
                             "order": 2,
                             "wizard": 13,
@@ -307,7 +307,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 85,
+                            "id": 132,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
@@ -316,7 +316,7 @@
                             "value": "DEMO TEST",
                             "testVariable": 321,
                             "name": "title",
-                            "wizardStep": 28,
+                            "wizardStep": 43,
                             "stepTitle": "Presentation",
                             "order": 1,
                             "wizard": 13,
@@ -326,7 +326,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 86,
+                            "id": 133,
                             "label": "Responses layout",
                             "description": "",
                             "hideCondition": "",
@@ -335,7 +335,7 @@
                             "value": "vertical",
                             "testVariable": 323,
                             "name": "responses_layout",
-                            "wizardStep": 28,
+                            "wizardStep": 43,
                             "stepTitle": "Presentation",
                             "order": 3,
                             "wizard": 13,
@@ -357,7 +357,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 87,
+                            "id": 134,
                             "label": "Response width",
                             "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                             "hideCondition": "",
@@ -366,7 +366,7 @@
                             "value": "",
                             "testVariable": 324,
                             "name": "response_width",
-                            "wizardStep": 28,
+                            "wizardStep": 43,
                             "stepTitle": "Presentation",
                             "order": 4,
                             "wizard": 13,
@@ -378,7 +378,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 29,
+                    "id": 44,
                     "title": "Items and navigation",
                     "description": "<p>Item bank definition<\/p>\n",
                     "orderNum": 1,
@@ -387,7 +387,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 88,
+                            "id": 135,
                             "label": "Order",
                             "description": "",
                             "hideCondition": "",
@@ -396,7 +396,7 @@
                             "value": "random",
                             "testVariable": 312,
                             "name": "order",
-                            "wizardStep": 29,
+                            "wizardStep": 44,
                             "stepTitle": "Items and navigation",
                             "order": 1,
                             "wizard": 13,
@@ -416,7 +416,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 89,
+                            "id": 136,
                             "label": "Item bank",
                             "description": "",
                             "hideCondition": "",
@@ -425,7 +425,7 @@
                             "value": "{\"table_type\":\"direct\",\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>If you have a nose bleed, what should you do?<\/p>\\n\",\"order\":\"1\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"tilt_back\",\"label\":\"Tilt your head back\",\"points\":\"0\"},{\"value\":\"tilt_forwards\",\"label\":\"Tilt your head forwards\",\"points\":\"0.5\"},{\"value\":\"tilt_forwards_pinch\",\"label\":\"Tilt your head forwards and pinch your nose\",\"points\":\"1\"}]},\"trait\":\"first_aid\"},{\"id\":\"2\",\"question\":\"<p>In first aid,&nbsp;ABC stands for what?<\/p>\\n\",\"order\":\"2\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"airway_breathing_circulation\",\"label\":\"Airway, breathing, circulation\",\"points\":\"1\"},{\"value\":\"alcoholic_beverage_control\",\"label\":\"Alcoholic Beverage Control\",\"points\":\"0\"}]},\"trait\":\"first_aid\"},{\"id\":\"3\",\"question\":\"<p>In CPR, how many chest compressions per minute should be performed?<\/p>\\n\",\"order\":\"3\",\"response_options\":{\"response_type\":\"open_text\",\"correct_answer\":\"100\",\"response_options\":[]},\"trait\":\"first_aid\"}],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_response_options\":{},\"custom_correct_column\":{},\"custom_trait_column\":{},\"custom_test_id_column\":{}}",
                             "testVariable": 307,
                             "name": "item_bank",
-                            "wizardStep": 29,
+                            "wizardStep": 44,
                             "stepTitle": "Items and navigation",
                             "order": 0,
                             "wizard": 13,
@@ -465,9 +465,7 @@
                                                             "type": "0",
                                                             "name": "id",
                                                             "label": "Id",
-                                                            "definition": [
-
-                                                            ]
+                                                            "definition": []
                                                         },
                                                         {
                                                             "type": "2",
@@ -679,9 +677,7 @@
                                                             "type": "0",
                                                             "name": "trait",
                                                             "label": "Trait",
-                                                            "definition": [
-
-                                                            ]
+                                                            "definition": []
                                                         }
                                                     ]
                                                 }
@@ -829,7 +825,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 90,
+                            "id": 137,
                             "label": "Randomize response options",
                             "description": "",
                             "hideCondition": "",
@@ -838,7 +834,7 @@
                             "value": "1",
                             "testVariable": 311,
                             "name": "randomized_response_options",
-                            "wizardStep": 29,
+                            "wizardStep": 44,
                             "stepTitle": "Items and navigation",
                             "order": 2,
                             "wizard": 13,
@@ -848,7 +844,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 91,
+                            "id": 138,
                             "label": "Can go back?",
                             "description": "",
                             "hideCondition": "",
@@ -857,7 +853,7 @@
                             "value": "1",
                             "testVariable": 318,
                             "name": "can_go_back",
-                            "wizardStep": 29,
+                            "wizardStep": 44,
                             "stepTitle": "Items and navigation",
                             "order": 3,
                             "wizard": 13,
@@ -867,7 +863,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 92,
+                            "id": 139,
                             "label": "Next button label",
                             "description": "",
                             "hideCondition": "",
@@ -876,7 +872,7 @@
                             "value": "next",
                             "testVariable": 305,
                             "name": "next_button_label",
-                            "wizardStep": 29,
+                            "wizardStep": 44,
                             "stepTitle": "Items and navigation",
                             "order": 4,
                             "wizard": 13,
@@ -886,7 +882,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 93,
+                            "id": 140,
                             "label": "Previous button label",
                             "description": "",
                             "hideCondition": "",
@@ -895,7 +891,7 @@
                             "value": "previous",
                             "testVariable": 306,
                             "name": "previous_button_label",
-                            "wizardStep": 29,
+                            "wizardStep": 44,
                             "stepTitle": "Items and navigation",
                             "order": 5,
                             "wizard": 13,
@@ -907,7 +903,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 30,
+                    "id": 45,
                     "title": "Stopping rules",
                     "description": "",
                     "orderNum": 2,
@@ -916,7 +912,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 94,
+                            "id": 141,
                             "label": "Time-based stopping rule",
                             "description": "",
                             "hideCondition": "",
@@ -925,7 +921,7 @@
                             "value": "{\"enabled\":\"0\",\"time_limit\":\"\",\"type\":null}",
                             "testVariable": 309,
                             "name": "stopping_time",
-                            "wizardStep": 30,
+                            "wizardStep": 45,
                             "stepTitle": "Stopping rules",
                             "order": 1,
                             "wizard": 13,
@@ -966,7 +962,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 95,
+                            "id": 142,
                             "label": "Item count-based stopping rule",
                             "description": "",
                             "hideCondition": "",
@@ -975,7 +971,7 @@
                             "value": "{\"enabled\":\"0\",\"count\":\"\"}",
                             "testVariable": 310,
                             "name": "stopping_item_count",
-                            "wizardStep": 30,
+                            "wizardStep": 45,
                             "stepTitle": "Stopping rules",
                             "order": 0,
                             "wizard": 13,
@@ -1003,7 +999,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 31,
+                    "id": 46,
                     "title": "Response bank",
                     "description": "",
                     "orderNum": 3,
@@ -1012,7 +1008,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 96,
+                            "id": 143,
                             "label": "Response bank",
                             "description": "",
                             "hideCondition": "",
@@ -1021,7 +1017,7 @@
                             "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_trait_column\":{},\"custom_correct_column\":{},\"custom_session_id_column\":{},\"custom_time_taken_column\":{}}",
                             "testVariable": 308,
                             "name": "response_bank",
-                            "wizardStep": 31,
+                            "wizardStep": 46,
                             "stepTitle": "Response bank",
                             "order": 0,
                             "wizard": 13,
@@ -1114,7 +1110,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 97,
+                            "id": 144,
                             "label": "Response required",
                             "description": "",
                             "hideCondition": "",
@@ -1123,7 +1119,7 @@
                             "value": "0",
                             "testVariable": 315,
                             "name": "response_required",
-                            "wizardStep": 31,
+                            "wizardStep": 46,
                             "stepTitle": "Response bank",
                             "order": 1,
                             "wizard": 13,
@@ -1133,7 +1129,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 98,
+                            "id": 145,
                             "label": "No response alert",
                             "description": "",
                             "hideCondition": "",
@@ -1142,7 +1138,7 @@
                             "value": "",
                             "testVariable": 316,
                             "name": "no_response_alert",
-                            "wizardStep": 31,
+                            "wizardStep": 46,
                             "stepTitle": "Response bank",
                             "order": 2,
                             "wizard": 13,
@@ -1158,13 +1154,13 @@
                 "class_name": "Test",
                 "id": 26,
                 "name": "source_linear_test",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  print(ib)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table\n    question_column = ib$custom_question_column$column\n    response_options_column = ib$custom_response_options_column$column\n    trait_column = ib$custom_trait_column$column\n    order_column = ib$custom_order_column$column\n    test_id_column = ib$custom_test_id_column$column\n\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{trait_column}}` AS `trait` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}} ORDER BY `{{order_column}}` ASC\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      trait_column=trait_column,\n      order_column=order_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        print(\"ib$direct_table[[i]] = \")\n        print(ib$direct_table[[i]])\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] > 0 && order == \"random\") {\n    questions = questions[sample(1:dim(questions)[1]),]\n  }\n  \n  print(questions)\n\n  return(questions)\n}\n\ngetContent = function(question, current_item, answers) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, question$question)\n  content = paste0(content, getResponseOptions(question, current_item, answers))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question, current_item, answers) {\n  content = \"\"\n  options = NULL\n  print(\"getResponseOptions()\")\n  print(question)\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n\n  if(o$response_type == \"multiple_choice\") {\n    #response options\n    for(i in 1:length(o$response_options)) {\n      options = rbind(options, as.list(o$response_options[[i]]))\n    }\n\n    if(randomized_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      checked = \"\"\n      if(!is.null(answers[current_item]) && !is.na(answers[current_item]) && answers[current_item] == option$value) { checked = \"checked\" }\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \",checked,\" \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n  } else if (o$response_type == \"open_text\") {\n    #open question\n    value = \"\"\n    if(!is.null(answers[current_item]) && !is.na(answers[current_item])) { value = answers[current_item] }\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' value='\",value,\"' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, answers, questions, current_item, next_item) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n\n  if((sr_count$enabled == \"1\" && current_item >= as.numeric(sr_count$count)) || next_item > dim(questions)[1]) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, correct, scores, correctness, current_item) {\n  if(is.null(response$response)) { return(scores) }\n\n  table = \"default_linear_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_internal_id_column = \"session_internal_id\"\n  correct_column = \"correct\"\n  trait_column = \"trait\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    item_id_column = rb$custom_item_id_column$column\n    response_column = rb$custom_response_column$column\n    time_taken_column = rb$custom_time_taken_column$column\n    session_internal_id_column = rb$custom_session_internal_id_column$column\n    correct_column = rb$custom_correct_column$column\n    trait_column = rb$custom_trait_column$column\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  r = concerto.table.query(\"SELECT `id` FROM `{{table}}` WHERE `{{item_id_column}}`={{item_id}} AND `{{session_internal_id_column}}`={{session_internal_id}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    item_id_column=item_id_column,\n    item_id=question$id\n  ))\n  if(dim(r)[1] > 0) { \n    rid = r[1,\"id\"]\n    concerto.table.query(\"UPDATE `{{table}}` SET `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{correct_column}}`={{correct}} WHERE `id`={{id}}\", list(\n      table=table,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait,\n      id=rid\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_internal_id_column}}`={{session_internal_id}}, `{{correct_column}}`={{correct}}, `{{trait_column}}`='{{trait}}'\", list(\n      table=table,\n      session_internal_id_column=session_internal_id_column,\n      session_internal_id=session_internal_id,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait\n    ))\n  }\n\n  if(is.null(scores[[question$trait]])) {\n    scores[[question$trait]] = 0\n  }\n\n  if(!is.null(correctness[current_item]) && !is.na(correctness[current_item])) { \n    prev_correct = correctness[current_item] \n    scores[[question$trait]] = scores[[question$trait]] - prev_correct\n  }\n\n  scores[[question$trait]] = scores[[question$trait]] + correct\n  return(scores)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\n#calculate score based on response (e.g. correct\/incorrect, or differing number of points depending on choice)\ncalculateScore = function(response, question) { \n  print(\"calculateScore()\")\n  if (is.character(question$response_options)) {\n  \to = fromJSON(question$response_options)\n  }\n\n  if (o$response_type == \"open_text\") {\n    print(\"open text item\")\n    if(response$response == o$correct_answer) { #open text response just needs to match database correct answer\n      print(\"correct\")\n      return(1)\n    } else {\n      print(\"incorrect\")\n      return(0)\n    }\n  } else if (o$response_type == \"multiple_choice\") { #make it go through all the responses, see which one they matched with, and then give them points for the match.\n    print(\"multiple choice item\")\n    \n    options = NULL #turn response options into a nice table rather than a list.\n    for(i in 1:length(o$response_options)) {\n      options = rbind(options, as.list(o$response_options[[i]]))\n    }\n    \n    for(i in 1:dim(options)[1]) {  \n      if (options[i,]$value == response$response) { #user chose this response option\n        print(\"response led to this many points:\")\n        print(options[i,]$points)\n        return(as.numeric(options[i,]$points)) #so they get this many points\n      }\n    }\n    print(\"Warning: User's response did not match any of the options in the item bank. They have been given 0 points for this response.\")\n    return(0) #no match, so no points\n  } \n  return(F)\n}\n\nquestions = getQuestions()\nrb = fromJSON(response_bank)\nanswers = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { \n  time_limit = as.numeric(sr_time$time_limit) \n}\nif(time_limit > 0) { timer_set = TRUE }\nscores = list()\ncorrectness = NULL\nmax_items = dim(questions)[1]\nsr_item_count = fromJSON(stopping_item_count)\nif(sr_item_count$enabled == \"1\") { max_items = min(max_items, as.numeric(sr_item_count$count)) }\n\ncurrent_item = 1\nwhile(T) {\n  buttons = \"<div class='button_panel button_panel_linear'>\"\n  if(current_item > 1 && can_go_back == \"1\" && item_debug == \"0\") {\n    buttons = paste0(buttons, \"<button name='previous' class='linear_test_button'>\",previous_button_label,\"<\/button>\")\n  }\n  if(dim(questions)[1] > 1 && item_debug == \"0\") {\n    buttons = paste0(buttons, current_item,\"\/\",max_items)\n  }\n  if(current_item <= dim(questions)[1] || item_debug == \"1\") {\n    buttons = paste0(buttons, \"<button name='next' class='linear_test_button'>\",next_button_label,\"<\/button>\")\n  }\n  buttons = paste0(buttons,'<\/div>')\n\n  question = questions[current_item,]\n  content = getContent(question, current_item, answers)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n\n    if(!is.null(response$response) || response$isTimeout == \"1\") {\n      correct = 0\n      if(is.null(response$response)) { response$response = \"\" }\n      correct = calculateScore(response, question)\n      \n      scores = saveResponse(response, question, rb, correct, scores, correctness, current_item)\n      if(length(answers) < current_item) {\n        answers = c(answers, response$response)\n        correctness = c(correctness, correct)\n      } else {\n        answers[current_item] = response$response\n        correctness[current_item] = correct\n      }\n    }\n\n    prev_item = current_item\n    if(response$buttonPressed == \"next\" || response$isTimeout == \"1\") {\n      if(response_required == \"0\" || (!is.null(response$response) && response$response != \"\") || response$isTimeout == \"1\") {\n        current_item = current_item + 1\n        if(timer_set && sr_time$type == \"item\"){\n          time_limit = as.numeric(sr_time$time_limit) \n        }\n      } else {\n        warning_msg = no_response_alert\n      }\n    }\n    if(response$buttonPressed == \"previous\") {\n      current_item = current_item - 1\n      if(timer_set && sr_time$type == \"item\"){\n        time_limit = as.numeric(sr_time$time_limit) \n      }\n    }\n\n    if(shouldStop(response, answers, questions, prev_item, current_item)) {\n      if(response$isTimeout == \"1\") {\n        .branch = \"out_of_time\"\n      }\n      break\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nrm(questions)",
-                "slug": "71c62c26822e1c0a864ed517be8a9e38",
+                "slug": "adfa0de07c332734ab307e2203e19c60",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -1423,42 +1419,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:33:04",
+                "updatedOn": "2016-09-06 20:49:16",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "rev": 2
             },
             "testName": "source_linear_test",
-            "updatedOn": "2016-07-25 17:33:07",
+            "updatedOn": "2016-09-06 20:49:17",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "rev": 2
         },
-        "updatedOn": "2016-07-25 17:33:09",
+        "updatedOn": "2016-09-06 20:49:22",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "rev": 2
     }
 ]

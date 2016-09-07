@@ -183,22 +183,10 @@ class TestSessionService {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             $test_server_node = $this->getTestServerNode();
             if ($session !== null) {
-                if (($client_sock = $this->createListenerSocket($test_server_node["ip"])) === false) {
-                    return false;
-                }
-                socket_getsockname($client_sock, $test_server_node_ip, $test_server_node_port);
-
                 $r_server_node_port = $session->getRServerNodePort();
 
-                $session->setTestServerNodePort($test_server_node_port);
-                $session->setClientIp($client_ip);
-                $session->setUpdated();
-                $this->testSessionRepository->save($session);
-                $this->testSessionRepository->clear();
-
                 if ($session->getStatus() !== self::STATUS_SERIALIZED) {
-                    $this->keepAliveRServer($r_server_node, $r_server_node_port, $test_server_node, $test_server_node_port, $client_ip);
-                    $response = $this->startListener($client_sock);
+                    $this->keepAliveRServer($r_server_node, $r_server_node_port, $test_server_node, $client_ip);
                 }
                 return $this->prepareResponse($session_hash, json_encode(array(
                             "source" => self::SOURCE_TEST_SERVER,
@@ -340,8 +328,8 @@ class TestSessionService {
         socket_close($sock);
     }
 
-    private function keepAliveRServer($r_server_node, $r_server_node_port, $test_server_node, $test_server_node_port, $client_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($r_server_node) . ", $r_server_node_port, " . json_encode($test_server_node) . ", $test_server_node_port, $client_ip");
+    private function keepAliveRServer($r_server_node, $r_server_node_port, $test_server_node, $client_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($r_server_node) . ", $r_server_node_port, " . json_encode($test_server_node) . ", $client_ip");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
@@ -351,7 +339,7 @@ class TestSessionService {
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_TEST_SERVER,
                     "code" => self::RESPONSE_KEEPALIVE_CHECKIN,
-                    "testServer" => array("ip" => $test_server_node["ip"], "port" => $test_server_node_port, "client_ip" => $client_ip)
+                    "testServer" => array("ip" => $test_server_node["ip"], "client_ip" => $client_ip)
                 )) . "\n");
         socket_close($sock);
     }

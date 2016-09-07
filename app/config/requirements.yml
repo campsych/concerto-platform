@@ -9,7 +9,7 @@ parameters:
                     # minimal required version, if it's skipped version won't be checked
                     min: "3.0"
                     # parser regexp, if skipped it'll look for the first string looking like a version
-                    parser: "^R version ([\d\.]+) \(.*$"
+                    parser: "^R version ([\\d\\.]+) \\(.*$"
                     # parameters to pass to the executable when checking for version, if it's skipped, default "--version" will be passed
                     flag: "--version"
                 # link to documentation related to installation
@@ -19,7 +19,7 @@ parameters:
                 command: php
                 version:
                     min: "5.4.0"
-                    parser: "^PHP ([\d\.]+)([\-\w\d\.]*) \(cli\).*$"
+                    parser: "^PHP ([\\d\\.]+)([\\-\\w\\d\\.]*) \\(cli\\).*$"
                 link: "http://php.net/manual/en/install.php"
             
             bower:

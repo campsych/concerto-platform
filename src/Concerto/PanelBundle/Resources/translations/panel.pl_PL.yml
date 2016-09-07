@@ -27,6 +27,11 @@ list:
     updated.on: Ost. akt. w
     updated.by: Ost. akt. przez
     protected: Chronione
+    type: Typ
+    exists: Istnieje
+    action: Akcja
+    rename: Zm. nazwy
+    safe: Bezpieczne
   edit: Edytuj
   delete: Usuń
   export: Eksportuj
@@ -63,6 +68,7 @@ dialog:
     failed: Operacja nie powiodła się. Sprawdź dane i spróbuj jeszcze raz.
     saved: Obiekt został zapisany
     confirm.delete: Jesteś pewien, że chcesz usunąć wybrane obiekt(y)?
+    confirm.unsafe_import: Są zaplanowane niebezpieczne operacje importu, które mogą prowadzić do utraty danych. Jest mocno zalecany by zrobić kopię danych przed kontynuowaniem. Czy chcesz kontynuować?
     leaving: Jesteś pewien, że chcesz kontynuować? Wszystkie niezapisane zmiany zostaną utracone.
    
 please.wait: Proszę czekać...
@@ -82,22 +88,24 @@ save_new:
         message.copied: Obiekt skopiowany
     fieldset:
         legend.tooltip: >
-            Wprowadź nazwę dla skopiowanego obiektu. Zostaw puste pole dla by zachować orginalną. Możesz umieścić orginalną nazwę lub id poprzez: \{\{id\}\} lub \{\{name\}\}.
+            "Wprowadź nazwę dla skopiowanego obiektu. Zostaw puste pole dla by zachować orginalną. Możesz umieścić orginalną nazwę lub id poprzez: \\{\\{id\\}\\} lub \\{\\{name\\}\\}."
         
 import:
+    action:
+        new: Nowy
+        convert: Skonwertuj
     dialog: 
         title: Importowanie obiektu
-        description: "Gdy istnieje prawdopodobieństwo, że nazwa importowanych obiektów lub obiektów-dzieci będzie taka sama jak już istniejących, musisz użyć w polu \"Nazwa\" poniżej zmienne \"id\" lub \"name\" aby nazwy importowanych plików były unikatowe. Sprawdź podpowiedź przy polu \"Nazwa\" aby uzyskać więcej informacji."
+        description_warning: Konwersja obecnego obiektu na importowany jest uznawana wciąż za ekperymentalną i może prowadzić do utraty danych. Różnice pomiędzy wersją obecną i importowaną mogą również prowadzić do nieuniknionej utraty danych. Bardzo mocno zaleca się zrobienie kopii zapasowej bazy danych przed kontynuowaniem.
         message.imported: Obiekt zaimportowany
     fieldset:
         legend.tooltip: Zaimportuj obiekt z wcześniej wyeksportowanego pliku
     form:
         field:
-            name: Nazwa
-            name.tooltip: >
-                Wpisz nazwę jaką chcesz nadać zaimportowanym obiektom. Pozostaw puste aby użyć orginalnych nazw. Można wstawić orginalne id lub nazwe przez: \{\{id\}\} lub \{\{name\}\}. 
             file: Plik
             file.tooltip: Wybierz plik do zaimportowania
+            instructions: Instrukcje
+            instructions.tooltip: "Instrukcje importu. Gdy się zmienia nazwy można umieścić pewne zmienne w nowej nazwie, takie jak: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b> dla kolejno: nazwy importowanego obiektu, id importowanego obiektu, nazwy własciciela importowanego obiektu i id właściciela importowanego obiektu."
             
 export:
     dialog:

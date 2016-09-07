@@ -1,5 +1,5 @@
 app:
-    resource: @ConcertoAPIBundle/Controller/
+    resource: "@ConcertoAPIBundle/Controller/"
     type:     annotation
     
 fos_oauth_server_token:

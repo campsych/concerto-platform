@@ -123,9 +123,11 @@ class TestNodePortService extends ASectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["id"], $map["TestNodePort"])) {
+        if (!array_key_exists("TestNodePort", $map))
+            $map["TestNodePort"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestNodePort"])) {
             return(array());
         }
 
@@ -150,10 +152,24 @@ class TestNodePortService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
+        $parent_instruction = self::getObjectImportInstruction(array(
+                    "class_name" => "Test",
+                    "id" => $node->getFlowTest()->getId()
+                        ), $instructions);
+        $result = array();
+        if ($parent_instruction["action"] == 2)
+            $map["TestNodePort"]["id" . $obj["id"]] = $obj["id"];
+        else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $node, $variable);
+        return $result;
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $node, $variable) {
         $ent = new TestNodePort();
         $ent->setNode($node);
         $ent->setValue($obj["value"]);
         $ent->setVariable($variable);
+        $ent->setDefaultValue($obj["defaultValue"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -163,16 +179,13 @@ class TestNodePortService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-
-        if (!array_key_exists("TestNodePort", $map)) {
-            $map["TestNodePort"] = array();
-        }
         $map["TestNodePort"]["id" . $obj["id"]] = $ent->getId();
-
         return array("errors" => null, "entity" => $ent);
     }
 
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getNode()))
             return $object;
         return null;

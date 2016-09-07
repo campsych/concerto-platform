@@ -25,6 +25,21 @@ abstract class AExportableTabController extends ASectionController {
         $this->importService = $importService;
     }
 
+    public function preImportStatusAction() {
+        $status = $this->importService->getPreImportStatusFromFile(
+                __DIR__ . DIRECTORY_SEPARATOR .
+                ".." . DIRECTORY_SEPARATOR .
+                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
+                "Resources" . DIRECTORY_SEPARATOR .
+                "public" . DIRECTORY_SEPARATOR .
+                "files" . DIRECTORY_SEPARATOR .
+                $this->request->get("file"), //
+                $this->request->get("name"));
+        $response = new Response(json_encode(array("result" => 0, "status" => $status)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
     public function importAction() {
         $result = $this->importService->importFromFile(
                 $this->securityTokenStorage->getToken()->getUser(), //
@@ -35,7 +50,7 @@ abstract class AExportableTabController extends ASectionController {
                 "public" . DIRECTORY_SEPARATOR .
                 "files" . DIRECTORY_SEPARATOR .
                 $this->request->get("file"), //
-                $this->request->get("name"), //
+                json_decode($this->request->get("instructions"), true), //
                 false);
         $errors = array();
         foreach ($result as $r) {
@@ -64,9 +79,16 @@ abstract class AExportableTabController extends ASectionController {
     }
 
     public function copyAction($object_id) {
-        $result = $this->importService->copy($this->entityName, $this->securityTokenStorage->getToken()->getUser(), $object_id, $this->request->get("name"));
+        $result = $this->importService->copy(
+                $this->entityName, //
+                $this->securityTokenStorage->getToken()->getUser(), //
+                $object_id, //
+                $this->request->get("name")
+        );
         $errors = array();
         foreach ($result as $r) {
+            if (!array_key_exists("errors", $r))
+                continue;
             for ($i = 0; $i < count($r['errors']); $i++) {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
             }

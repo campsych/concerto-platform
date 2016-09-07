@@ -27,6 +27,11 @@ list:
     updated.on: Last update on
     updated.by: Last update by
     protected: Protected
+    type: Type
+    exists: Exists
+    action: Action
+    rename: Rename
+    safe: Safe
   edit: Edit
   delete: Delete
   export: Export
@@ -63,6 +68,7 @@ dialog:
     failed: Operation failed. Validate your data and try again.
     saved: Object has been saved
     confirm.delete: Are you sure you want to delete selected object(s)?
+    confirm.unsafe_import: There are unsafe imports planned which might lead to data loss. It is strongly recommended to back up your database before continuing. Do you want to continue?
     leaving: Are you sure you want to continue? All unsaved changes will be lost.
 
 please.wait: Please wait...
@@ -82,22 +88,24 @@ save_new:
         message.copied: Object copied
     fieldset:
         legend.tooltip: >
-            Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+            "Enter the name you want to set for copied object. Leave blank to set the original name. You can insert original object id or name by using: \\{\\{id\\}\\} or \\{\\{name\\}\\}."
 
 import:
+    action:
+        new: New
+        convert: Convert
     dialog:
         title: Importing object
-        description: "When there is a probability that the name of imported object or child object will be the same as already existing one, you need to use in \"Name\" field below variables \"id\" or \"name\" to make imported files names unique. Check \"Name\" field tooltip for more info."
+        description_warning: Converting current objects on import with new ones is still experimental and might lead to loss of data. There also might be a situation when differences between current object version and imported one will lead to unavoidable data loss. It is strongly recommended to backup your database before continuing.
         message.imported: Object imported
     fieldset:
         legend.tooltip: Import new object from the file which was previously exported
     form:
         field:
-            name: Name
-            name.tooltip: >
-                Enter the name you want to set for imported object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
             file: File
             file.tooltip: Choose the file to be imported
+            instructions: Instructions
+            instructions.tooltip: "Import instructions. When renaming you can insert some variables to new name such as: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b> for imported object name, imported object id, imported object owner user name and imported object owner id respectively."
 
 export:
     dialog:

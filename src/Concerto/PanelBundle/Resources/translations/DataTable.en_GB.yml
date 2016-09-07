@@ -89,15 +89,11 @@ io:
                 header: Header row
                 header.import.tooltip: If checked it will use header row of CSV file as a set of column names
                 restructure: Restructure
-                restructure.tooltip: Recreates the full table structure and replaces already existing data. If it\'s not checked data will be appended to current structure and if also header row is checked it will use first row of CSV for column mapping, otherwise it will insert the data for columns in order as they are defined in CSV.
+                restructure.tooltip: "Recreates the full table structure and replaces already existing data. If it\\'s not checked data will be appended to current structure and if also header row is checked it will use first row of CSV for column mapping, otherwise it will insert the data for columns in order as they are defined in CSV."
                 field.delimiter: Field delimiter
                 field.delimiter.tooltip: Single character used to separate fields in a row. Default character is ,
                 field.enclosure: Field enclosure
-                field.enclosure.tooltip: Single character used to enclose string fields. Default character is \"
+                field.enclosure.tooltip: 'Single character used to enclose string fields. Default character is \\"'
                 file: File
                 file.tooltip: Choose CSV file to be imported
-            
-alerts:
-    edit:
-        columns: Please save any changes you made to data table before adding/editing/removing any column to prevent loss of unsaved changes.
         

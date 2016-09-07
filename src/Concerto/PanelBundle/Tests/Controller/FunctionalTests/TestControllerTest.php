@@ -73,6 +73,7 @@ class TestControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -136,6 +137,7 @@ class TestControllerTest extends AFunctionalTest {
                 'class_name' => 'Test',
                 'id' => 1,
                 "starterContent" => false,
+                "rev" => 0,
                 'name' => 'test',
                 'description' => 'description',
                 'visibility' => 1,
@@ -171,12 +173,22 @@ class TestControllerTest extends AFunctionalTest {
             )), $content);
     }
 
-    public function testPlaintextImportAction() {
+    public function testImportNewAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/import", array(
             "file" => "Test_1.concerto.json",
-            "name" => "imported_test"
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "Test",
+                    "id" => 1,
+                    "rename" => "imported_test",
+                    "action" => "0",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => null
+                )
+            ))
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -186,18 +198,29 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
     }
 
-    public function testImportNameAlreadyExists() {
+    public function testImportNewSameNameAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/import", array(
             "file" => "Test_1.concerto.json",
-            "name" => "test"
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "Test",
+                    "id" => 1,
+                    "rename" => "test",
+                    "action" => "0",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => self::$repository->find(1)
+                )
+            ))
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertCount(1, self::$repository->findAll());
+        $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 1, "errors" => array("Test#1: This name already exists in the system")), $decoded_response);
+        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertCount(1, self::$repository->findBy(array("name" => "test_1")));
     }
 
     public function testSaveActionNew() {
@@ -236,6 +259,7 @@ class TestControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -297,6 +321,7 @@ class TestControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -356,6 +381,7 @@ class TestControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -414,6 +440,7 @@ class TestControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),

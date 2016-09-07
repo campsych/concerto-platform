@@ -4,7 +4,7 @@
 {% block content %}
     <wizard class="testWizard" edit-mode="true" steps-collection="object.steps" hide-indicators="object.steps.length<=1">
         <div ng-controller="TestWizardCarouselStepController" ng-repeat="step in object.steps">
-            <wz-step title="{%verbatim%}{{step.title}}{%endverbatim%}" step-uid="{%verbatim%}{{step.id}}{%endverbatim%}">
+            <wz-step wz-title="{%verbatim%}{{step.title}}{%endverbatim%}" step-uid="{%verbatim%}{{step.id}}{%endverbatim%}">
                 <div class="center wizard-step-buttons-top" ng-if="$index > 0 || $index < object.steps.length-1">
                     <button class="btn btn-warning" wz-previous ng-if="$index > 0">{{ "preview.buttons.previous"|trans }}</button>
                     <button class="btn btn-primary" wz-next ng-if="$index < object.steps.length-1">{{ "preview.buttons.next"|trans }}</button>
@@ -21,7 +21,7 @@
                             <i ng-if="$index < step.params.length - 1" style="margin: 2px;" class="glyphicon glyphicon-arrow-down clickable" uib-tooltip="{{ 'param.move_down.tooltip'|trans }}" tooltip-append-to-body="true" ng-click="moveParamUp($index)"></i>
                         </div>
                     {% endif %}
-                    <wizard-param-setter param="param" parent="null" output="param.output" mode="outer" wizard-mode="{{wizard_mode}}" values="values" wizard-object="object"></wizard-param-setter>
+                    <wizard-param-setter param="param" parent="null" output="param.output" mode="outer" wizard-mode="{{wizard_mode}}" values="values" wizard-object="object" under-list="false"></wizard-param-setter>
                 </div>
                 <div class="center wizard-step-buttons-bottom" ng-if="($index > 0 || $index < object.steps.length-1) && step.params.length > 0">
                     <button class="btn btn-warning" wz-previous ng-if="$index > 0">{{ "preview.buttons.previous"|trans }}</button>

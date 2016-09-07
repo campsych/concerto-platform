@@ -6,6 +6,10 @@ namespace Concerto\PanelBundle\Repository;
  * TestRepository
  */
 class TestRepository extends AEntityRepository {
+    
+    public function findOneByName($name) {
+        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->findOneBy(array("name" => $name));
+    }
 
     public function findByVisibility($visibility) {
         return $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->findBy(array("visibility" => $visibility));

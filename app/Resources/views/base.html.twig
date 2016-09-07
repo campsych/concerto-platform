@@ -3,19 +3,19 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Concerto Platform{% endblock %}</title>
-    {% block stylesheetsInclude %}{% endblock %}
-{% block stylesheets %}{% endblock %}
-{% block javascriptsInclude %}{% endblock %}
-<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-</head>
+        {% block stylesheetsInclude %}{% endblock %}
+        {% block stylesheets %}{% endblock %}
+        {% block javascriptsInclude %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
 
-{% if angular_app is not defined %}
-    {% set angular_app = "concertoPanel" %}
-{% endif %}
-<body ng-app="{{angular_app}}" ng-cloak>
-    {% if controller is defined %}<div ng-controller="{{controller}}">{% endif %}
-    {% block body %}{% endblock %}
-    {% if controller is defined %}</div>{% endif %}
-{% block javascripts %}{% endblock %}
-</body>
+    {% if angular_app is not defined %}
+        {% set angular_app = "concertoPanel" %}
+    {% endif %}
+    <body ng-app="{{angular_app}}" ng-cloak>
+        {% if controller is defined %}<div ng-controller="{{controller}}">{% endif %}
+        {% block body %}{% endblock %}
+        {% if controller is defined %}</div>{% endif %}
+    {% block javascripts %}{% endblock %}
+    </body>
 </html>

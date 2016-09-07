@@ -1,4 +1,4 @@
-function ContentController($scope, $state) {
+function ContentController($scope, $state, $location) {
     $scope.tab = {
         activeIndex: -1
     };
@@ -8,11 +8,13 @@ function ContentController($scope, $state) {
     };
 
     $scope.setFirstActiveTab = function (index, tab) {
-        if ($scope.tab.activeIndex === -1){
+        if(location.hash) return;
+        if ($scope.tab.activeIndex === -1) {
+
             $scope.tab.activeIndex = index;
             $scope.setTab(tab);
         }
     };
 }
 
-concertoPanel.controller('ContentController', ["$scope", "$state", ContentController]);
+concertoPanel.controller('ContentController', ["$scope", "$state", "$location", "RDocumentation", ContentController]);

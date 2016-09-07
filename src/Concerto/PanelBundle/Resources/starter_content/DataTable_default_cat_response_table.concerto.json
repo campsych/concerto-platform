@@ -4,7 +4,7 @@
         "id": 5,
         "name": "default_cat_response_table",
         "description": "",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "0",
         "archived": "0",
         "columns": [
@@ -49,13 +49,12 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-07-25 17:33:15",
+        "updatedOn": "2016-08-13 18:06:51",
         "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "data": [
-
-        ]
+        "rev": 1,
+        "data": []
     }
 ]

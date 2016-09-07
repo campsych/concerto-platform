@@ -10,6 +10,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.fetchVariableObjectPath = Paths.TEST_VARIABLE_FETCH_OBJECT;
     $scope.savePath = Paths.TEST_SAVE;
     $scope.importPath = Paths.TEST_IMPORT;
+    $scope.preImportStatusPath = Paths.TEST_PRE_IMPORT_STATUS;
     $scope.saveNewPath = Paths.TEST_SAVE_NEW;
     $scope.exportPath = Paths.TEST_EXPORT;
     $scope.logsCollectionPath = Paths.TEST_LOG_COLLECTION;
@@ -23,8 +24,26 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.formTitleAddLabel = Trans.TEST_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.TEST_FORM_TITLE_EDIT;
     $scope.formTitle = $scope.formTitleAddLabel;
-    
+
+    $scope.RDocumentation = RDocumentation;
     $scope.copiedNodes = [];
+
+    $scope.setWorkingCopyObject = function () {
+        $scope.workingCopyObject = {
+            id: $scope.object.id,
+            name: $scope.object.name,
+            protected: $scope.object.protected,
+            archived: $scope.object.archived,
+            accessibility: $scope.object.accessibility,
+            owner: $scope.object.owner,
+            groups: $scope.object.groups,
+            slug: $scope.object.slug,
+            visibility: $scope.object.visibility,
+            resumable: $scope.object.resumable,
+            type: $scope.object.type,
+            code: $scope.object.code
+        };
+    };
 
     $scope.getWizardCellTemplate = function (col) {
         if (col !== null) {
@@ -89,10 +108,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.additionalListButtons = [
         '<button ng-show="row.entity.visibility!=2" class="btn btn-primary btn-xs" ng-click="grid.appScope.startTest(row.entity.slug);">' + Trans.TEST_BUTTON_RUN + '</button>'
     ];
-
-    $scope.rCacheDirectory = Paths.R_CACHE_DIRECTORY;
-    $scope.rDocumentationHtml = false;
-
     $scope.testWizardCollectionService = TestWizardCollectionService;
 
     $scope.params = [];
@@ -103,18 +118,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
     $scope.tabAccordion.logic = {
         open: true
-    };
-
-    // Each mapping (incl default one) must have a controller and matching dialog template
-    $scope.autocompletionWizardMapping = {
-        'concerto.table.query': {
-            template: 'concerto_table_query_wizard_dialog.html',
-            controller: ConcertoTableQueryWizardController
-        },
-        '#default': {
-            template: 'default_r_completion_wizard_dialog.html',
-            controller: DefaultRCompletionWizardController
-        }
     };
 
     $scope.visibilities = [
@@ -373,40 +376,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         });
     };
 
-    $scope.launchWizard = function (widget, replacement, completion, data) {
-        var funct_name = RDocumentation.sanitizeFunctionName(replacement);
-        var handler = ($scope.autocompletionWizardMapping[ funct_name ]) ? $scope.autocompletionWizardMapping[ funct_name ] :
-                $scope.autocompletionWizardMapping[ '#default' ];
-
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + handler.template,
-            controller: handler.controller, //             
-//             
-//             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "default_r_completion_wizard_dialog.html",
-//             controller: DefaultRCompletionWizardController,
-            scope: $scope,
-            resolve: {
-                completionWidget: function () {
-                    return widget;
-                },
-                selection: function () {
-                    return replacement;
-                },
-                completionContext: function () {
-                    return completion;
-                },
-                completionData: function () {
-                    return data;
-                }
-            },
-            size: "prc-lg"
-        });
-    };
-
-
-
-//     RDocumentation.setup( $http, $sce, $scope );
-    $scope.rDocumentationActive = false;
     $scope.codeOptions = {
         lineWrapping: true,
         lineNumbers: true,
@@ -414,21 +383,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         viewportMargin: Infinity,
         hintOptions: {
             completeSingle: false,
-            selectCallback: function (selected) {
-                $scope.rDocumentationActive = true;
-
-                RDocumentation.select(selected, function (value) {
-                    $scope.rDocumentationHtml = value;
-                }
-                );
-            },
-            wizardCallback: $scope.launchWizard,
-            closeCallback: function () {
-                $scope.rDocumentationActive = false;
-                $scope.rDocumentationHtml = false;
-                $scope.$apply();
-            },
-            functionIndex: []
+            wizardService: RDocumentation
         },
         extraKeys: {
             "F11": function (cm) {
@@ -441,13 +396,16 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             "Ctrl-Space": "autocomplete"
         }
     };
-
-    $http.get($scope.rCacheDirectory + 'functionIndex.json').success(function (data) {
-        if (data !== null) {
-            $scope.codeOptions.hintOptions.functionIndex = data;
-        }
-    });
-
+    if (RDocumentation.functionIndex === null) {
+        $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').success(function (data) {
+            if (data !== null) {
+                RDocumentation.functionIndex = data;
+                $scope.codeOptions.hintOptions.functionIndex = data;
+            }
+        });
+    } else {
+        $scope.codeOptions.hintOptions.functionIndex = RDocumentation.functionIndex;
+    }
 
     $scope.fetchVariable = function (id, callback) {
         $http.get($scope.fetchVariableObjectPath.pf(id)).success(function (object) {
@@ -648,6 +606,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         modalInstance.result.then(function (response) {
             $http.post($scope.deleteVariablePath.pf(ids), {
             }).success(function (data) {
+                $scope.setWorkingCopyObject();
                 $scope.collectionService.fetchObjectCollection();
                 $scope.testWizardCollectionService.fetchObjectCollection();
             });
@@ -670,6 +629,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                     break;
                 }
             }
+            $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
             var modalInstance = $uibModal.open({
                 templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
@@ -745,6 +705,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         });
 
         modalInstance.result.then(function (result) {
+            $scope.setWorkingCopyObject();
             $scope.collectionService.fetchObjectCollection();
             $scope.testWizardCollectionService.fetchObjectCollection();
         }, function () {

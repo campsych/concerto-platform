@@ -33,3 +33,7 @@ TestWizard_import:
     path: /TestWizard/import
     defaults: { _controller: concerto_panel.TestWizard_controller:importAction }
     methods:  [POST]
+    
+TestWizard_pre_import_status:
+    path: /TestWizard/import/status
+    defaults: { _controller: concerto_panel.TestWizard_controller:preImportStatusAction }

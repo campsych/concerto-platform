@@ -1,43 +1,71 @@
 'use strict';
 
-concertoPanel.service('RDocumentation', ['$http', '$sce', '$timeout',
-    function ($http, $sce, $timeout) {
+concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibModal) {
+    return {
+        loaded_html: false,
+        loaded_name: false,
+        current_timeout: false,
+        active: false,
+        html: false,
+        rCacheDirectory: Paths.R_CACHE_DIRECTORY,
+        functionIndex: null,
+        autocompletionWizardMapping: {
+            'concerto.table.query': {
+                template: 'concerto_table_query_wizard_dialog.html',
+                controller: ConcertoTableQueryWizardController
+            },
+            '#default': {
+                template: 'default_r_completion_wizard_dialog.html',
+                controller: DefaultRCompletionWizardController
+            }
+        },
+        launchWizard: function (widget, replacement, completion, data) {
+            var funct_name = this.sanitizeFunctionName(replacement);
+            var handler = (this.autocompletionWizardMapping[ funct_name ]) ? this.autocompletionWizardMapping[ funct_name ] :
+                    this.autocompletionWizardMapping[ '#default' ];
 
-        var loaded_html = false;
-        var loaded_name = false;
-
-        var current_timeout = false;
-
-        var extractHtmlBody = function (data) {
+            $uibModal.open({
+                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + handler.template,
+                controller: handler.controller,
+                resolve: {
+                    completionWidget: function () {
+                        return widget;
+                    },
+                    selection: function () {
+                        return replacement;
+                    },
+                    completionContext: function () {
+                        return completion;
+                    },
+                    completionData: function () {
+                        return data;
+                    }
+                },
+                size: "prc-lg"
+            });
+        },
+        extractHtmlBody: function (data) {
             var html = data.replace(/[\s\S]+(<body)/, "<div");
             return html.replace(/(<\/body>)[\s\S]+/, "</div>");
-        }
-
-        var extractHtmlDoc = function (data) {
-            return $sce.trustAsHtml(extractHtmlBody(data));
-        }
-
-        var sanitizeName = function (name) {
+        },
+        extractHtmlDoc: function (data) {
+            return $sce.trustAsHtml(this.extractHtmlBody(data));
+        },
+        sanitizeName: function (name) {
             if (name.substr(name.length - 2) == '()')
                 name = name.substr(0, name.length - 2);
             return name;
-        }
-
-        var getBodyAsHtmlElement = function () {
-
-            var body_html = /*'<div>' + */ extractHtmlBody(loaded_html)/* + '</div>'*/;
+        },
+        getBodyAsHtmlElement: function () {
+            var body_html = /*'<div>' + */ this.extractHtmlBody(this.loaded_html)/* + '</div>'*/;
             var res = angular.element(body_html);
-//             console.log( res );
             return res;
-
-        }
-
-        var getServicePath = function (name) {
+        },
+        getServicePath: function (name) {
             return Paths.R_CACHE_DIRECTORY + "/html/" + name + ".html";
-        }
-
-        var extractArgumentsFromMetadata = function ( ) {
-            var elem = getBodyAsHtmlElement();
+        },
+        extractArgumentsFromMetadata: function ( ) {
+            var elem = this.getBodyAsHtmlElement();
             var res = new Array();
 
             var args = angular.fromJson(elem.attr('args'));
@@ -49,18 +77,17 @@ concertoPanel.service('RDocumentation', ['$http', '$sce', '$timeout',
                 res.push(row);
             }
             return res;
-        }
-
-        var extractArgumentsFromSample = function ( ) {
-            var sample = getBodyAsHtmlElement().find('pre').first().text();
+        },
+        extractArgumentsFromSample: function ( ) {
+            var sample = this.getBodyAsHtmlElement().find('pre').first().text();
             sample = sample.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, ""); // remove whitespace
             // find correct definition
-            var matches = sample.match(new RegExp(loaded_name + '\\([^\(\)]*?(\\([^\(\)]*?\\))*?[^\(\)]*?\\)', 'g'));
+            var matches = sample.match(new RegExp(this.loaded_name + '\\([^\(\)]*?(\\([^\(\)]*?\\))*?[^\(\)]*?\\)', 'g'));
             if (!matches[ 0 ])
                 return false;
 
             // first cut the function name and opening parenthetical
-            var definition = matches[ 0 ].substr(loaded_name.length + 1);
+            var definition = matches[ 0 ].substr(this.loaded_name.length + 1);
             var function_arguments = new Array();
 
             // simply prevent from hanging if someone put rubbish/incorrect syntax in R documentation.
@@ -102,12 +129,11 @@ concertoPanel.service('RDocumentation', ['$http', '$sce', '$timeout',
             }
 
             return function_arguments;
-        }
-
-        var extractArgumentsFromTable = function (data) {
+        },
+        extractArgumentsFromTable: function (data) {
             var arguments_map = new Object();
 
-            var tables = getBodyAsHtmlElement().find('table');
+            var tables = this.getBodyAsHtmlElement().find('table');
 
             var table;
             // manually roll to the argblock table, as angular's jqlite may not support selectors...
@@ -139,72 +165,63 @@ concertoPanel.service('RDocumentation', ['$http', '$sce', '$timeout',
 
             }
             return arguments_map;
-        }
-
-        this.select = function (selected, load_callback) {
-            var local_selected_copy = sanitizeName(selected);
+        },
+        select: function (selected, load_callback) {
+            var local_selected_copy = this.sanitizeName(selected);
 
             // if currently cached version matches what we need, we just return it
-            if (loaded_name == local_selected_copy) {
+            var obj = this;
+            if (this.loaded_name == local_selected_copy) {
                 $timeout(function () {
-                    load_callback(extractHtmlDoc(loaded_html));
+                    load_callback(obj.extractHtmlDoc(obj.loaded_html));
                 }, 1);
                 return;
             }
 
-            loaded_name = local_selected_copy;
+            this.loaded_name = local_selected_copy;
 
-            if (current_timeout) {
-                $timeout.cancel(current_timeout);
-                current_timeout = false;
+            if (this.current_timeout) {
+                $timeout.cancel(this.current_timeout);
+                this.current_timeout = false;
             }
 
-            current_timeout = $timeout(function () {
-                $http.get(getServicePath(local_selected_copy)).success(function (data) {
+            var obj = this;
+            this.current_timeout = $timeout(function () {
+                $http.get(obj.getServicePath(local_selected_copy)).success(function (data) {
                     if (data !== null) {
-                        load_callback(extractHtmlDoc(data));
+                        load_callback(obj.extractHtmlDoc(data));
                         // we make sure that the name didn't change while loading the HTML
-                        if (local_selected_copy == loaded_name)
-                            loaded_html = data;
+                        if (local_selected_copy == obj.loaded_name)
+                            obj.loaded_html = data;
                     }
                 });
-            },
-                    50
-                    );
-        };
-
-        this.reset = function () {
-            loaded_html = false;
-        }
-
-        this.apply = function (widget, replacement, completion, data) {
+            }, 50);
+        },
+        reset: function () {
+            this.loaded_html = false;
+        },
+        apply: function (widget, replacement, completion, data) {
             widget.cm.replaceRange(replacement, completion.from || data.from,
                     completion.to || data.to, "complete");
             widget.cm.execCommand('goCharLeft');
             widget.close();
-        }
-
-        this.sanitizeFunctionName = function (function_name) {
-            return sanitizeName(function_name);
-        }
-
-        this.getFunctionName = function () {
-            return sanitizeName(loaded_name).trim();
-        }
-
-        this.getTitle = function () {
-            return getBodyAsHtmlElement().find('h2').first().text();
-        }
-
-
-        this.getComment = function () {
-            return getBodyAsHtmlElement().find('p').first().text().replace(/(\r\n|\n|\r)/gm, " ").trim();
-        }
-
-        this.getArguments = function () {
-            var html = getBodyAsHtmlElement();
-            var args_list = extractArgumentsFromMetadata(html);
-            var args_doc = extractArgumentsFromTable(html);
+        },
+        sanitizeFunctionName: function (function_name) {
+            return this.sanitizeName(function_name);
+        },
+        getFunctionName: function () {
+            return this.sanitizeName(this.loaded_name).trim();
+        },
+        getTitle: function () {
+            return this.getBodyAsHtmlElement().find('h2').first().text();
+        },
+        getComment: function () {
+            return this.getBodyAsHtmlElement().find('p').first().text().replace(/(\r\n|\n|\r)/gm, " ").trim();
+        },
+        getArguments: function () {
+            var html = this.getBodyAsHtmlElement();
+            var args_list = this.extractArgumentsFromMetadata(html);
+            var args_doc = this.extractArgumentsFromTable(html);
 
             for (var itr = 0; itr < args_list.length; itr++) {
                 if (args_list[ itr ].default)
@@ -219,6 +236,5 @@ concertoPanel.service('RDocumentation', ['$http', '$sce', '$timeout',
             }
             return args_list;
         }
-
     }
-]);
+});

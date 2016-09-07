@@ -42,7 +42,7 @@
                 {% block label %}{{ 'param.form.field.type'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'param.form.field.type.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                    <select ng-model="object.type" style="width:100%;" ng-options="type.id as type.label for type in types" class='form-control'>
+                    <select ng-model="object.type" style="width:100%;" ng-options="type.id as type.label for type in types | orderBy:'label'" class='form-control'>
                     </select>
                 {% endblock %}
             {% endembed %}

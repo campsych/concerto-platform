@@ -28,24 +28,24 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="text", nullable=true)
      */
     private $value;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="sourcePort", cascade={"remove"})
      */
     private $sourceForConnections;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="destinationPort", cascade={"remove"})
      */
     private $destinationForConnections;
-    
+
     /**
      *
      * @var boolean
      * @ORM\Column(type="boolean")
      */
     private $string;
-    
+
     /**
      *
      * @var boolean
@@ -58,9 +58,13 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      */
     public function __construct() {
         parent::__construct();
-        
+
         $this->string = true;
         $this->defaultValue = true;
+    }
+
+    public function getOwner() {
+        return $this->getNode()->getFlowTest()->getOwner();
     }
 
     /**
@@ -125,7 +129,7 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     public function getVariable() {
         return $this->variable;
     }
-    
+
     /**
      * Add source for connection
      *
@@ -155,7 +159,7 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     public function getSourceForConnections() {
         return $this->sourceForConnections;
     }
-    
+
     /**
      * Add destination for connection
      *
@@ -185,7 +189,7 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     public function getDestinationForConnections() {
         return $this->destinationForConnections;
     }
-    
+
     /**
      * Returns if a port value should be treated as string.
      * 
@@ -203,7 +207,7 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     public function setString($string) {
         $this->string = $string;
     }
-    
+
     /**
      * Returns true if port has default value.
      * 

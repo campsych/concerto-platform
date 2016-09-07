@@ -94,10 +94,6 @@ io:
                 field.delimiter: Oddzielenie pól
                 field.delimiter.tooltip: Pojedyńczy znak używany do oddzielenia pól. Domyślnie jest to ,
                 field.enclosure: Zamknięcie pól
-                field.enclosure.tooltip: Pojedyńczy znak używany do otwarcia i zamknięcia pól. Domyślnie jest to \"
+                field.enclosure.tooltip: 'Pojedyńczy znak używany do otwarcia i zamknięcia pól. Domyślnie jest to \\"'
                 file: Plik
                 file.tooltip: Wybierz plik CSV do zaimportowania
-                
-alerts:
-    edit:
-        columns: Proszę zapisać wszelkie zmiany dokonane w tabeli przed dodaniem/edycją/usunięciem jakiejkolwiek kolumny aby zapobiec utracie niezapisanych zmian.

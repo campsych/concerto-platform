@@ -15,7 +15,7 @@ form:
     archived: Zarchiwizowane
     archived.tooltip: Czy kreator testu jest zarchiwizowany?
     test: Test
-    test.tooltip: Test przypisany do wizard\'a. Nie może być później zmieniony.
+    test.tooltip: "Test przypisany do wizard\\'a. Nie może być później zmieniony."
     owner: Właściciel
     owner.tooltip: Właściciel obiektu
     groups: Grupy
@@ -92,6 +92,7 @@ param:
             type.single_line_text: tekst w pojedyńczej linii
             type.multi_line_text: tekst w wielu liniach
             type.html: HTML
+            type.r: Kod R
             type.select: Rozwijana lista
             type.view: Szablon widoku
             type.test: Test
@@ -135,10 +136,30 @@ param:
             group.tooltip: Ustaw pola grupy obecnego parameteru
             list: "{0} - zdefiniuj typ elementu listy"
             list.tooltip: Ustaw type elementu listy obecnego parametru
+            single_line: "{0} - ustaw domyślną wartość"
+            single_line.tooltip: Domyślna wartość parametru
+            multi_line: "{0} - ustaw domyślną wartość"
+            multi_line.tooltip: Domyślna wartość parametru
+            html: "{0} - ustaw domyślną wartość"
+            html.tooltip: Domyślna wartość parametru
+            checkbox: "{0} - ustaw domyślną wartość"
+            checkbox.tooltip: Domyślna wartość parametru
+            test: "{0} - ustaw domyślną wartość"
+            test.tooltip: Domyślna wartość parametru
+            table: "{0} - ustaw domyślną wartość"
+            table.tooltip: Domyślna wartość parametru
+            template: "{0} - ustaw domyślną wartość"
+            template.tooltip: Domyślna wartość parametru
+            r_code: "{0} - ustaw domyślną wartość"
+            r_code.tooltip: Domyślna wartość parametru
         summaries:
             select: "Ilość opcji: {0}"
             group: "Ilość pól: {0}"
             list: "Typ elementów: {0}"
+        select.options: Opcje
+        select.options.tooltip: Zdefiniuj możliwe opcje wyboru
+        select.default: Domyślnie
+        select.default.tooltip: Wybierz domyślną wartość
         select.option.add: Dodaj nową opcję
         select.option.remove.selected: Usuń wybrane opcje
         select.option.remove.all: Usuń wszystkie opcje
@@ -169,12 +190,14 @@ param:
             group.tooltip: Ustaw wartości pól grupy obecnego parametru
             list: elementy listy
             list.tooltip: Ustaw elementy listy obecnego parametru
+            r: "{0} - kod R"
         summaries:
             textarea: "{0}"
             html: "{0}"
             column: "Tabela: {0}, Kolumna: {1}"
             group: "{0}"
             list: "Ilość elementów: {0}"
+            r: "{0}"
         column.table: Tabela danych
         column.table.tooltip: Wybierz tabelę danych z której później będzie można wybrać kolumnę
         column: Kolumna
@@ -192,8 +215,3 @@ preview:
     buttons:
         next: Następny krok
         previous: Poprzedni krok
-        
-alerts:
-    edit:
-        steps: Proszę zapisać wszelkie zmiany dokonane w kreatorze testu przed dodaniem/edycją/usunięciem jakiegokolwiek kroku aby zapobiec utracie niezapisanych zmian.
-        params: Proszę zapisać wszelkie zmiany dokonane w kreatorze testu przed dodaniem/edycją/usunięciem jakiegokolwiek parametru aby zapobiec utracie niezapisanych zmian.

@@ -3,7 +3,7 @@
         "class_name": "Test",
         "id": 11,
         "name": "create_template_definition",
-        "accessibility": 0,
+        "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
@@ -86,7 +86,7 @@
             "id": 5,
             "name": "create_template_definition",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -183,13 +183,13 @@
                 "class_name": "Test",
                 "id": 10,
                 "name": "source_create_template_definition",
-                "accessibility": 0,
+                "accessibility": 2,
                 "protected": "1",
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
                 "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))\nif(set_as_default == \"1\") {\n  concerto.var.set(\"template_def\", template_def)\n}",
-                "slug": "366845f85eb423131f54dab60fd87613",
+                "slug": "1739a879cf3bfdc4ade92d5efe595692",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -261,42 +261,35 @@
                         "parentVariable": null
                     }
                 ],
-                "logs": [
-
-                ],
+                "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-07-25 17:32:44",
+                "updatedOn": "2016-08-13 18:06:36",
                 "updatedByName": "",
-                "nodes": [
-
-                ],
-                "nodesConnections": [
-
-                ],
+                "nodes": [],
+                "nodesConnections": [],
                 "tags": "",
                 "owner": 1,
                 "groups": "",
-                "starterContent": false
+                "starterContent": false,
+                "rev": 1
             },
             "testName": "source_create_template_definition",
-            "updatedOn": "2016-07-25 17:32:45",
+            "updatedOn": "2016-08-13 18:06:36",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false
+            "starterContent": true,
+            "rev": 1
         },
-        "updatedOn": "2016-07-25 17:32:45",
+        "updatedOn": "2016-08-13 18:06:36",
         "updatedByName": "",
-        "nodes": [
-
-        ],
-        "nodesConnections": [
-
-        ],
+        "nodes": [],
+        "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
-        "starterContent": true
+        "starterContent": true,
+        "rev": 1
     }
 ]

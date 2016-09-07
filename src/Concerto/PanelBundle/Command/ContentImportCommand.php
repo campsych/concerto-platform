@@ -7,18 +7,23 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Concerto\PanelBundle\Service\ASectionService;
 use Symfony\Component\Finder\Finder;
 use Concerto\PanelBundle\Entity\User;
+use Concerto\PanelBundle\Security\ObjectVoter;
+use Concerto\PanelBundle\Security\UserVoter;
 
 class ContentImportCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this->setName("concerto:content:import")->setDescription("Imports starter content");
-        $this->addArgument("name", InputArgument::OPTIONAL, "Naming rules for imported content", "");
+        $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
     }
 
     protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user) {
         $output->writeln("importing starter content...");
+
+        $convert = $input->getOption("convert");
 
         $files_dir = __DIR__ . DIRECTORY_SEPARATOR .
                 ".." . DIRECTORY_SEPARATOR .
@@ -31,12 +36,19 @@ class ContentImportCommand extends ContainerAwareCommand {
 
         foreach ($finder as $f) {
             $importService->reset();
-            if (!$this->preImport($input, $output, $f)) {
+            if (!$convert && $this->alreadyExistAny($f)) {
                 $output->writeln("skipping objects in " . $f->getFileName());
                 continue;
             }
             $output->writeln("importing " . $f->getFileName() . "...");
-            $results = $importService->importFromFile($user, $f->getRealpath(), $input->getArgument("name"), false);
+
+            $instructions = $importService->getPreImportStatusFromFile($f->getRealpath());
+            for ($i = 0; $i < count($instructions); $i++) {
+                if ($convert)
+                    $instructions[$i]["action"] = "1";
+            }
+
+            $results = $importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false);
             $success = true;
             foreach ($results as $res) {
                 if ($res["errors"]) {
@@ -57,7 +69,7 @@ class ContentImportCommand extends ContainerAwareCommand {
         $output->writeln("starter content importing finished");
     }
 
-    protected function preImport(InputInterface $input, OutputInterface $output, $file) {
+    protected function alreadyExistAny($file) {
         $content = $file->getContents();
         $array = json_decode($content, true);
         if (count($array) == 0) {
@@ -67,13 +79,14 @@ class ContentImportCommand extends ContainerAwareCommand {
         foreach ($array as $obj) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $obj["class_name"]);
             if ($repo->findOneBy(array("name" => $obj["name"]))) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        ASectionService::$securityOn = false;
         $em = $this->getContainer()->get("doctrine")->getManager();
 
         $userRepo = $em->getRepository("ConcertoPanelBundle:User");

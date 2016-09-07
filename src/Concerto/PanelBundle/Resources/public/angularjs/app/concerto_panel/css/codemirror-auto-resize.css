@@ -7,3 +7,5 @@
     overflow-y: hidden;
     overflow-x: auto;
 }
+
+.CodeMirror-wrap pre {  word-break: break-all; }

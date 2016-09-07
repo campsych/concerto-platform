@@ -7,6 +7,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.fetchObjectPath = "";
     $scope.savePath = "";
     $scope.importPath = "";
+    $scope.preImportStatusPath = "";
     $scope.saveNewPath = "";
     $scope.exportPath = "";
 
@@ -32,6 +33,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         id: 0,
         validationErrors: []
     };
+    $scope.workingCopyObject = null;
 
     $scope.tabAccordion = {
         "form": {
@@ -39,6 +41,28 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             "disabled": false
         }
     };
+
+    $scope.setWorkingCopyObject = function () {
+        $scope.workingCopyObject = {
+            id: $scope.object.id,
+            name: $scope.object.name,
+            protected: $scope.object.protected,
+            archived: $scope.object.archived,
+            accessibility: $scope.object.accessibility,
+            owner: $scope.object.owner,
+            groups: $scope.object.groups
+        };
+    };
+
+    $scope.updateFromWorkingCopy = function () {
+        if ($scope.workingCopyObject == null || $scope.workingCopyObject.id != $scope.object.id)
+            return;
+
+        for (key in $scope.workingCopyObject) {
+            $scope.object[key] = $scope.workingCopyObject[key];
+        }
+        $scope.workingCopyObject = null;
+    }
 
     $scope.super.onObjectChanged = function (newObject, oldObject) {
     };
@@ -54,6 +78,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             }
 
             $scope.collectionData = newCollection;
+            $scope.updateFromWorkingCopy();
         }
     };
     $scope.onCollectionChanged = function (newCollection, oldCollection) {
@@ -327,6 +352,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                         case BaseController.RESULT_VALIDATION_FAILED:
                         {
                             $scope.object.validationErrors = response.data.errors;
+                            $(".modal").animate({scrollTop: 0}, "slow");
                             break;
                         }
                     }
@@ -363,10 +389,13 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "import_dialog.html",
             controller: ImportController,
             scope: $scope,
-            size: "lg",
+            size: "prc-lg",
             resolve: {
                 importPath: function () {
                     return $scope.importPath;
+                },
+                preImportStatusPath: function () {
+                    return $scope.preImportStatusPath;
                 }
             }
         });
@@ -392,6 +421,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             scope: $scope,
             size: "lg",
             resolve: {
+                name: function () {
+                    return $scope.object.name;
+                },
                 saveNewPath: function () {
                     return $scope.saveNewPath;
                 }
@@ -549,21 +581,31 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
-
             if (toState.name === $scope.tabStateName + "Form") {
                 $scope.tabSection = "form";
-                var obj = $scope.fetchObject(toParams.id);
-                if (!obj) {
-                    $scope.switchTab();
-                }
-            } else
+                $scope.delayedEdit(toParams.id);
+            } else {
+                $scope.tab.activeIndex = $scope.tabIndex;
                 $scope.tabSection = "list";
-
-            $scope.tab.activeIndex = $scope.tabIndex;
+            }
         } else {
             $scope.resetObject();
         }
     });
+
+    $scope.delayedEdit = function (id) {
+        if (!$scope.collectionService.collectionInitialized) {
+            $timeout(function () {
+                $scope.delayedEdit(id);
+            }, 100);
+            return;
+        }
+        var obj = $scope.fetchObject(id);
+        if (!obj) {
+            $scope.switchTab();
+        }
+        $scope.tab.activeIndex = $scope.tabIndex;
+    };
 }
 
 BaseController.RESULT_OK = 0;

@@ -1,16 +1,15 @@
-function SaveNewController($scope, $uibModalInstance, $http, $uibModal, saveNewPath) {
+function SaveNewController($scope, $uibModalInstance, $http, $uibModal, name, saveNewPath) {
 
     $scope.saveNewPath = saveNewPath;
     $scope.object.validationErrors = [];
+    $scope.name = name;
 
     $scope.persistNew = function () {
         $scope.object.validationErrors = [];
 
-        var obj = {
+        $http.post($scope.saveNewPath.pf($scope.object.id), {
             "name": $scope.name
-        };
-
-        $http.post($scope.saveNewPath.pf($scope.object.id), obj).then(
+        }).then(
                 function successCallback(response) {
                     switch (response.data.result) {
                         case BaseController.RESULT_OK:

@@ -187,9 +187,11 @@ class TestVariableService extends ASectionService {
             $this->repository->deleteByTestAndType($test_id, $type);
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["id"], $map["TestVariable"])) {
+        if (!array_key_exists("TestVariable", $map))
+            $map["TestVariable"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestVariable"])) {
             return(array());
         }
 
@@ -211,6 +213,22 @@ class TestVariableService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
+        $parent_instruction = self::getObjectImportInstruction(array(
+                    "class_name" => "Test",
+                    "id" => $obj["test"]
+                        ), $instructions);
+        $result = array();
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 1 && $src_ent)
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
+        else if ($parent_instruction["action"] == 2) {
+            $map["TestVariable"]["id" . $obj["id"]] = $obj["id"];
+        } else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
+        return $result;
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test, $parentVariable) {
         $ent = new TestVariable();
         $ent->setName($obj["name"]);
         $ent->setDescription($obj["description"]);
@@ -229,13 +247,55 @@ class TestVariableService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
+        $map["TestVariable"]["id" . $obj["id"]] = $ent->getId();
+        $this->onObjectSaved($user, $ent, true);
+        return array("errors" => null, "entity" => $ent);
+    }
 
-        if (!array_key_exists("TestVariable", $map)) {
-            $map["TestVariable"] = array();
+    protected function findConversionSource($obj, $map) {
+        $test = $map["Test"]["id" . $obj["test"]];
+        $type = $obj["type"];
+        $name = $obj["name"];
+
+        $ent = $this->repository->findOneBy(array(
+            "test" => $test,
+            "type" => $type,
+            "name" => $name
+        ));
+        if ($ent == null)
+            return null;
+        return $this->get($ent->getId());
+    }
+
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test, $parentVariable) {
+        $ent = $this->findConversionSource($obj, $map);
+        $ent->setName($obj["name"]);
+        $ent->setDescription($obj["description"]);
+        $ent->setTest($test);
+        $ent->setType($obj["type"]);
+        $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
+        $ent->setValue($obj['value']);
+        $ent->setParentVariable($parentVariable);
+
+        $ent_errors = $this->validator->validate($ent);
+        $ent_errors_msg = array();
+        foreach ($ent_errors as $err) {
+            array_push($ent_errors_msg, $err->getMessage());
         }
+        if (count($ent_errors_msg) > 0) {
+            return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
+        }
+        $this->repository->save($ent);
         $map["TestVariable"]["id" . $obj["id"]] = $ent->getId();
 
+        $this->onObjectSaved($user, $ent, false);
+        $this->onConverted($ent, $src_ent);
+
         return array("errors" => null, "entity" => $ent);
+    }
+
+    protected function onConverted($new_ent, $old_ent) {
+        //TODO 
     }
 
     public function entityToArray(TestVariable $ent) {
@@ -244,6 +304,8 @@ class TestVariableService extends ASectionService {
     }
 
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
             return $object;
         return null;

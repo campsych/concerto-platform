@@ -20,6 +20,14 @@
                                     not supported by any browser */
 }
 
+.cursor-move {
+    cursor: move;
+}
+
+.cursor-resize {
+    cursor: nwse-resize;
+}
+
 #selection-rectangle {
     border: 1px dotted #000;
     position: absolute;
@@ -56,12 +64,28 @@
     background-color: #DFEFF5;
 }
 
+.node-selected-candidate {
+    border: 1px solid orange;
+    background-color: #DFEFF5;
+}
+
+.node-selection-checkbox {
+    float: right;
+    position: relative;
+    right: 0;
+}
+
 .nodeHeader {
     padding-left: 5px;
     padding-right: 5px;
     font-weight: bold;
     border-bottom: solid grey 1px;
 }
+
+.nodeHeader a {
+    cursor: pointer;
+}
+
 .nodeFooter {
     position: absolute;
     bottom: 0px;

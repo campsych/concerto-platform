@@ -101,6 +101,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         $this->hideCondition = "";
         $this->order = 0;
     }
+    
+    public function getOwner() {
+        return $this->getWizard()->getOwner();
+    }
 
     /**
      * Set label

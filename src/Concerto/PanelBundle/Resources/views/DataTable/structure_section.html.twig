@@ -2,9 +2,6 @@
 {% trans_default_domain "DataTable" %}
 
 {% block content %}
-    <uib-alert type="warning">
-        {{ "alerts.edit.columns"|trans }}
-    </uib-alert>
     <div class="center">
         <button ng-disabled="object.initProtected == '1'" class="btn btn-success btn-sm" ng-click="addStructure()">{{ 'structure.list.add'|trans }}</button>
         <button ng-disabled="object.initProtected == '1'" class="btn btn-danger btn-sm" ng-click="deleteSelectedStructure()">{{ 'structure.list.delete.checked'|trans }}</button>

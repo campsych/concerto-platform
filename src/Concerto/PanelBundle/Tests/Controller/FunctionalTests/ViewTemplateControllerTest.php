@@ -49,6 +49,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -98,6 +99,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 'class_name' => 'ViewTemplate',
                 'id' => 1,
                 "starterContent" => false,
+                "rev" => 0,
                 'name' => 'view',
                 'description' => 'description',
                 'head' => '<link />',
@@ -107,6 +109,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "updatedByName" => "admin"
@@ -118,12 +121,22 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, $content);
     }
 
-    public function testPlaintextImportAction() {
+    public function testImportNewAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/ViewTemplate/import", array(
             "file" => "ViewTemplate_8.concerto.json",
-            "name" => "imported_test"
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "ViewTemplate",
+                    "id" => 8,
+                    "rename" => "some_template",
+                    "action" => "0",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => null
+                )
+            ))
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -132,18 +145,29 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testImportNameAlreadyExists() {
+    public function testImportNewSameNameAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/ViewTemplate/import", array(
             "file" => "ViewTemplate_8.concerto.json",
-            "name" => "view"
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "ViewTemplate",
+                    "id" => 8,
+                    "rename" => "view",
+                    "action" => "0",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => self::$repository->find(1)
+                )
+            ))
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+        $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 1, "errors" => array("ViewTemplate#8: This name already exists in the system")), $decoded_response);
-        $this->assertCount(1, self::$repository->findAll());
+        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertCount(1, self::$repository->findBy(array("name" => "view_1")));
     }
 
     public function testSaveActionNew() {
@@ -171,6 +195,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -206,6 +231,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -241,6 +267,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -273,6 +300,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
+                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC

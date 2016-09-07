@@ -32,3 +32,7 @@ ViewTemplate_import:
     path: /ViewTemplate/import
     defaults: { _controller: concerto_panel.ViewTemplate_controller:importAction }
     methods:  [POST]
+    
+ViewTemplate_pre_import_status:
+    path: /ViewTemplate/import/status
+    defaults: { _controller: concerto_panel.ViewTemplate_controller:preImportStatusAction }

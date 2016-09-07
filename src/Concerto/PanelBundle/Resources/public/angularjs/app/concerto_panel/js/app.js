@@ -4,9 +4,7 @@ var concertoPanel = angular.module('concertoPanel', ['ngAnimate', 'ui.bootstrap'
 concertoPanel.config(function ($interpolateProvider) {
     //$interpolateProvider.startSymbol('//');
     //$interpolateProvider.endSymbol('//');
-});
-
-concertoPanel.config(function (blockUIConfig) {
+}).config(function (blockUIConfig) {
 
     blockUIConfig.requestFilter = function (config) {
 
@@ -16,9 +14,7 @@ concertoPanel.config(function (blockUIConfig) {
     };
     blockUIConfig.message = Trans.PLEASE_WAIT;
     blockUIConfig.delay = 1000;
-});
-
-concertoPanel.config(function ($httpProvider) {
+}).config(function ($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     var param = function (obj) {
         var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
@@ -58,8 +54,8 @@ concertoPanel.config(function ($httpProvider) {
     $breadcrumbProvider.setOptions({
         templateUrl: Paths.BREADCRUMBS_TEMPLATE
     });
-}).config(function ($stateProvider, $urlRouterProvider) {
-    //$urlRouterProvider.otherwise('/tests');
+}).config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    $urlRouterProvider.otherwise('/tests');
 
     $stateProvider
             .state('tests', {
@@ -185,6 +181,9 @@ concertoPanel.config(function ($uibTooltipProvider) {
         "appendToBody": true
     });
 });
+
+//fix for initial state on page load
+concertoPanel.run(['$state', function ($state) {}]);
 
 jsPlumb.importDefaults({
     Connector: "Straight"

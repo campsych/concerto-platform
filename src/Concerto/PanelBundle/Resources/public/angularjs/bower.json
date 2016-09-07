@@ -26,7 +26,7 @@
         "jquery-ui": "1.11.x",
         "angular-ui-grid": "3.1.x",
         "jquery.migrate": "1.2.x",
-        "angular-wizard-concerto": "*",
+        "angular-wizard-concerto": "0.6.1-concerto",
         "angular-ui-sortable": "*",
         "angular-breadcrumb": "0.4.x",
         "angular-ui-router": "0.2.*",

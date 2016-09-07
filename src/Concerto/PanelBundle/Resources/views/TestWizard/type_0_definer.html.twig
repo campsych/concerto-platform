@@ -2,7 +2,14 @@
     {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
         {% trans_default_domain "TestWizard" %}
         {% block definition %}
-            
+            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.definer.titles.single_line.tooltip'|trans }}{% endblock %}
+                {% block control %}
+                    <input ng-model="param.definition.defvalue" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="wizardObject.initProtected == '1'" ng-trim="false" />
+                {% endblock %}
+            {% endembed %} 
         {% endblock %}
     {% endembed %}
 </script>

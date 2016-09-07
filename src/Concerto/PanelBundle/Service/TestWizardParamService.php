@@ -82,11 +82,12 @@ class TestWizardParamService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update($id, $value, $order) {
+    public function update($id, $value, $order, $definition) {
         $object = $this->get($id);
         if ($object) {
             $object->setValue($value);
             $object->setOrder($order);
+            $object->setDefinition($definition);
             $this->repository->save($object);
         }
     }
@@ -117,9 +118,11 @@ class TestWizardParamService extends ASectionService {
         return $e;
     }
 
-    public function importFromArray(User $user, $newName, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
-        if (array_key_exists("TestWizardParam", $map) && array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
+        if (!array_key_exists("TestWizardParam", $map))
+            $map["TestWizardParam"] = array();
+        if (array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
             return(array());
         }
 
@@ -145,6 +148,23 @@ class TestWizardParamService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
+        $parent_instruction = self::getObjectImportInstruction(array(
+                    "class_name" => "TestWizard",
+                    "id" => $obj["wizard"]
+                        ), $instructions);
+        $result = array();
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 1 && $src_ent)
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
+        else if ($parent_instruction["action"] == 2)
+            $map["TestWizardParam"]["id" . $obj["id"]] = $obj["id"];
+        else
+            $result = $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
+
+        return $result;
+    }
+
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $step, $variable, $wizard) {
         $ent = new TestWizardParam();
         $ent->setDescription($obj["description"]);
         $ent->setLabel($obj["label"]);
@@ -166,16 +186,59 @@ class TestWizardParamService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-
-        if (!array_key_exists("TestWizardParam", $map)) {
-            $map["TestWizardParam"] = array();
-        }
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
+        return array("errors" => null, "entity" => $ent);
+    }
+
+    protected function findConversionSource($obj, $map) {
+        $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
+        $variable = $map["TestVariable"]["id" . $obj["testVariable"]];
+
+        $ent = $this->repository->findOneBy(array(
+            "wizard" => $wizard,
+            "variable" => $variable
+        ));
+        if ($ent == null)
+            return null;
+        return $this->get($ent->getId());
+    }
+
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $step, $variable, $wizard) {
+        $ent = $this->findConversionSource($obj, $map);
+        $ent->setDescription($obj["description"]);
+        $ent->setLabel($obj["label"]);
+        $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
+        $ent->setStep($step);
+        $ent->setOrder($obj["order"]);
+        $ent->setType($obj["type"]);
+        $ent->setValue($obj["value"]);
+        $ent->setVariable($variable);
+        $ent->setWizard($wizard);
+        $ent->setDefinition($obj["definition"]);
+        $ent->setHideCondition($obj["hideCondition"]);
+        $ent_errors = $this->validator->validate($ent);
+        $ent_errors_msg = array();
+        foreach ($ent_errors as $err) {
+            array_push($ent_errors_msg, $err->getMessage());
+        }
+        if (count($ent_errors_msg) > 0) {
+            return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
+        }
+        $this->repository->save($ent);
+        $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
+
+        $this->onConverted($ent, $src_ent);
 
         return array("errors" => null, "entity" => $ent);
     }
 
+    protected function onConverted($new_ent, $old_ent) {
+        //TODO 
+    }
+
     public function authorizeObject($object) {
+        if (!self::$securityOn)
+            return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getWizard()))
             return $object;
         return null;

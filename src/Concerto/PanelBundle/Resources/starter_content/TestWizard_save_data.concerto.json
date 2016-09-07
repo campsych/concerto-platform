@@ -1,0 +1,178 @@
+[
+    {
+        "class_name": "TestWizard",
+        "id": 7,
+        "name": "save_data",
+        "description": "",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "steps": [
+            {
+                "class_name": "TestWizardStep",
+                "id": 13,
+                "title": "Data bank",
+                "description": "<p>Session data bank definition<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 7,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 34,
+                        "label": "Data bank",
+                        "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
+                        "hideCondition": "",
+                        "type": 9,
+                        "passableThroughUrl": "0",
+                        "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
+                        "testVariable": 144,
+                        "name": "data_bank",
+                        "wizardStep": 13,
+                        "stepTitle": "Data bank",
+                        "order": 0,
+                        "wizard": 7,
+                        "definition": {
+                            "placeholder": "0",
+                            "fields": [
+                                {
+                                    "type": "3",
+                                    "name": "table_type",
+                                    "label": "Table type",
+                                    "definition": {
+                                        "options": [
+                                            {
+                                                "value": "default",
+                                                "label": "default"
+                                            },
+                                            {
+                                                "value": "custom",
+                                                "label": "custom"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "6",
+                                    "name": "custom_table",
+                                    "label": "Table",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_session_internal_id_column",
+                                    "label": "Session internal Id column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_name_column",
+                                    "label": "Name column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                },
+                                {
+                                    "type": "7",
+                                    "name": "custom_value_column",
+                                    "label": "Value column",
+                                    "hideCondition": "parent.table_type != \"custom\""
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "test": 14,
+        "testObject": {
+            "class_name": "Test",
+            "id": 14,
+            "name": "source_save_data",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_internal_id_column = \"session_internal_id\"\nname_column = \"name\"\nvalue_column = \"value\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table\n  session_internal_id_column = db$custom_session_internal_id_column$column\n  name_column = db$custom_name_column$column\n  value_column = db$custom_value_column$column\n}\n\nsession_internal_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_internal_id = session$internal_id\n} else {\n  session_internal_id = concerto$session$id\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_internal_id_column}} = {{session_internal_id}} AND {{name_column}} = '{{name}}'\", list(\n    table=table, \n    session_internal_id_column=session_internal_id_column, \n    session_internal_id=session_internal_id, \n    name_column=name_column, \n    name=name\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_internal_id_column}} = {{session_internal_id}} AND {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_internal_id_column=session_internal_id_column, \n      session_internal_id=session_internal_id, \n      name_column=name_column, \n      name=name\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_internal_id_column}} = {{session_internal_id}}, {{name_column}} = '{{name}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_internal_id_column=session_internal_id_column, \n      session_internal_id=session_internal_id, \n      name_column=name_column, \n      name=name\n    ))\n  }\n}",
+            "slug": "f57fca41db278525f49284093eb37d98",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 143,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 14,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 144,
+                    "name": "data_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 14,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 145,
+                    "name": "new_data",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 14,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 146,
+                    "name": "session",
+                    "type": 0,
+                    "description": "<p>Current session R list object<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 14,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 147,
+                    "name": "data_bank",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 14,
+                    "parentVariable": null
+                }
+            ],
+            "logs": [],
+            "sourceWizard": null,
+            "sourceWizardObject": null,
+            "updatedOn": "2016-08-13 18:06:37",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "rev": 1
+        },
+        "testName": "source_save_data",
+        "updatedOn": "2016-08-13 18:06:37",
+        "updatedByName": "",
+        "owner": 1,
+        "groups": "",
+        "starterContent": true,
+        "rev": 1
+    }
+]
