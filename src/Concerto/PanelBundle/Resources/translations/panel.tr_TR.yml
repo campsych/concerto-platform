@@ -85,61 +85,61 @@ save_new:
             Kopyalanan nesne için isim giriniz. Orjinal adını korumak için boş bırakın. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
 import:
     dialog:
-        title: Importing object
-        description: "When there is a probability that the name of imported object or child object will be the same as already existing one, you need to use in \"Name\" field below variables \"id\" or \"name\" to make imported files names unique. Check \"Name\" field tooltip for more info."
-        message.imported: Object imported
+        title: Nesne içe aktarılıyor
+        description: "İçeri aktarılan nesnenin isminin ya da alt dizindeki nesnenin isminin var olan biriyle aynı olması durumunda nesneleri eşsiz hale getirmek için \"Name\" alanını \"id\" ya da \"name\" değişkenlerinin altında kullanmanız gerekir. Daha fazla bilgi için\"Name\" alanı ekbilgisini kontrol edin."
+        message.imported: Nesne içe aktarıldı
     fieldset:
-        legend.tooltip: Import new object from the file which was previously exported
+        legend.tooltip: Daha önce dışa aktarılmış dosyadan yeni nesneler içe aktarın.
     form:
         field:
-            name: Name
+            name: Adı
             name.tooltip: >
-                Enter the name you want to set for imported object. Leave blank to set the original name. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
-            file: File
-            file.tooltip: Choose the file to be imported
+                İçeri aktarılan nesne için belirlemek istediğiniz adı girin. Orjinal adı korumak isterseniz boş bırakın. Orjinal nesne id'si ve adını \{\{id\}\} ya da \{\{name\}\} kullanarak oluşturabilirsiniz.
+            file: Dosya
+            file.tooltip: İçeri aktarılacak dosyayı seçin
 
 export:
     dialog:
-        title: Data export
+        title: Veri dışarı aktar
         error:
-            empty.content: Please select at least one entry in the table below in order to export it.
+            empty.content: Lütfen, dışarı aktarmak için aşağıdaki tablodan en az bir girdiyi işaretleyin.
         format:
-            info: Please select a format for exported file. Compressed format requires less disk space and bandwith, but can't be easily opened. Text format is easier to view or edit, but generates bigger files.
-            compressed: compressed
-            plaintext: text
+            info: Lüfen dışa aktarılacak dosya biçmini seçin. Sıkıştırılmış format daha az disk alanı ve bant genişliğine ihtiyaç duyar, fakat kolayca açılamaz. Metin formatını düzenlemek ve görüntülemek kolaydır ancak daha büyük dosyalar oluşturur.
+            compressed: sıkıştırılmış
+            plaintext: metin
      
 download_list:
     dialog:
-        title: Downloading grid
-        tooltip: Select grid options
+        title: Izgara indiriliyor
+        tooltip: Izgara seçeneklerini belirleyin
         field:
-            format: Format
-            format.tooltip: Downloaded file format
+            format: Biçim
+            format.tooltip: İndirilen dosya biçmi
             format.csv: CSV
             format.pdf: PDF
-            cols: Columns
-            cols.tooltip: Columns to show
-            cols.all: All
-            cols.visible: Visible
-            rows: Rows
-            rows.tooltip: Rows to show
-            rows.all: All
-            rows.visible: Visible
-            rows.selected: Selected
+            cols: Sütun
+            cols.tooltip: Gösterilecek sütunlar
+            cols.all: Tümü
+            cols.visible: Görünür
+            rows: Satırlar
+            rows.tooltip: Gösterilecek satırlar
+            rows.all: Tümü
+            rows.visible: Görünür
+            rows.selected: Seçili
             
 upload_list:
     dialog:
-        title: Uploading grid CSV
-        tooltip: Select grid CSV file
-        description: New data will be appended to currently existing data.
+        title: CSV ızgarası içe aktarılıyor
+        tooltip: Izgara CSV dosyasını seçin
+        description: Yeni data var olan dataya eklenecek
         fields:
-            file: File
-            file.tooltip: Choose file you wish to upload
+            file: Dosya
+            file.tooltip: Yüklemek istediğiniz dosyaları seçin
     
 code:
-    F11: full-screen mode
-    shift.tab: format selected code
-    ctrl.space: autocomplete
+    F11: tam-ekran modu
+    shift.tab: seçilen kodu biçimlendir
+    ctrl.space: oto-tamamla
     documentation:
-        error.info: Unable to load autocompletion data!
-        error.solve: Solve
+        error.info: Oto-tamamlama verisi yüklenemedi!
+        error.solve: Çöz
