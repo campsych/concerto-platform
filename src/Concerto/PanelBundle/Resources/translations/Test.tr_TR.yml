@@ -253,43 +253,43 @@ flow:
             test_start: test başlangıç
             test_end: test sonu
         descriptions:
-            test_start: This is a test entry node. Test flow execution starts from here. It returns test input parameters.
-            test_end: This is a test node where you can set the values of test return variables.
+            test_start: Bu teste giriş bağıdır.Test akış şeması bu kısımla baişar. Test giriş parametrelerini sağlar.
+            test_end: Bu kısım test dönüş değişkenlerini ayarlayabileceğiniz sonuç test sonu bağıdır.
         dialog:
             delete:
-                title: Removing node
-                message: Are you sure you want to remove this node?
+                title: Bağ kaldırılıyor
+                message: bu bağı kaldırmak istediğinizden emin misiniz?
             selection_delete:
-                title: Removing selected nodes
-                message: Are you sure you want to remove selected nodes?
+                title: Seçilen bağlar kaldırılıyor
+                message: Seçili bağları kaldırmak istediğinizden emin misiniz?
     ports:
         names:
-            in: in
+            in: içeri
         descriptions:
-            in: Node entry point.
+            in: Bağ giriş noktası.
         dialog:
             fields:
-                string: As string?
-                string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
-                value: Value
-                value.tooltip: Variable value in this port
+                string: Dizi olarak?
+                string.tooltip: Eğer seçilirse port değeri bir dizi olarak kabul edilir, seçilmediğinde R kodu olarak kabul edilir.
+                value: Değer
+                value.tooltip: Bu porttaki değişken değer
     buttons:
-        reset_view: Reset view 
-        toggle_selection: toggle node selection
-        copy_node: copy node
-        copy_selected_nodes: copy selected nodes
-        paste_nodes: paste nodes
-        remove_node: remove node
-        remove_selected_nodes: remove selected nodes
-        clear_selection: clear selection
-        reset_to_default: Reset to default
-        toggle_collapse: Collapse/Expand unconnected ports
-        zoom_in: Zoom in
-        zoom_out: Zoom out
+        reset_view: Görünümü sıfırla 
+        toggle_selection: bağ seçimi geçişi
+        copy_node: copy bağ
+        copy_selected_nodes: seçilan bağları kopyala
+        paste_nodes: bağ yapıştır
+        remove_node: bağ kaldır
+        remove_selected_nodes: seçili bağları kaldır
+        clear_selection: seçimi temizle
+        reset_to_default: Varsayılana sıfırla
+        toggle_collapse: Bağlı olmayan portları göster/gizle
+        zoom_in: Yaklaştır
+        zoom_out: Uzaklaştır
     tags:
-        all: All
+        all: Tümü
         
 alerts:
     edit:
-        input: Please save any changes you made to test before adding/editing/removing any input variable to prevent loss of unsaved changes.
-        output: Please save any changes you made to test before adding/editing/removing any output variable to prevent loss of unsaved changes.
+        input: Lütfen yaptığınız değişiklikleri girdi değişkenlerini ekleme/düzenleme/silmeden önce kaydedilmemiş değişikliklerin kaybını engellemek için kaydedin.
+        output: Lütfen yaptığınız değişiklikleri çıktı değişkenlerini ekleme/düzenleme/silmeden önce kaydedilmemiş değişikliklerin kaybını engellemek için kaydedin.
