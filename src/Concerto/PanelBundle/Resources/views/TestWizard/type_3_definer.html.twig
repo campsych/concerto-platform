@@ -5,13 +5,13 @@
             {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
             {% trans_default_domain "TestWizard" %}
             {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
-            {% block legend_tooltip %}{{ 'param.definers.titles.select.tooltip'|trans }}{% endblock %}
+            {% block legend_tooltip %}{{ 'param.definer.titles.select.tooltip'|trans }}{% endblock %}
                     
             {% block elements %}
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "TestWizard" %}
-                    {% block label %}{{ 'param.definers.select.options'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'param.definers.select.options.tooltip'|trans }}{% endblock%}
+                    {% block label %}{{ 'param.definer.select.options'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'param.definer.select.options.tooltip'|trans }}{% endblock%}
                     {% block control %}
                         <div class="center">
                             <button class="btn btn-success btn-sm" ng-click="addOption()">{{ 'param.definer.select.option.add'|trans }}</button>
@@ -26,8 +26,8 @@
                     
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "TestWizard" %}
-                    {% block label %}{{ 'param.definers.select.default'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'param.definers.select.default.tooltip'|trans }}{% endblock%}
+                    {% block label %}{{ 'param.definer.select.default'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'param.definer.select.default.tooltip'|trans }}{% endblock%}
                     {% block control %}
                         <select ng-model="param.definition.defvalue" ng-disabled="wizardObject.initProtected == '1'" class='form-control'
                                 ng-options="opt.value as opt.label for opt in param.definition.options | orderBy:'order'">
