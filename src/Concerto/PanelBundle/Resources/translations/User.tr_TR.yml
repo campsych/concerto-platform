@@ -1,0 +1,43 @@
+breadcrumb:
+    list: Tüm Kullanıcılar 
+
+form:
+  title:
+    add: Yeni kullanıcı oluştur
+    edit: '#{0} kullanıcısı düzenleniyor'
+  field:
+    login: Kullanıcı adı
+    login.tooltip: Size özel kullanıcı adınız
+    password: Parola
+    password.tooltip: Parolanızı giriniz
+    passwordConfirmation: Parola onay
+    passwordConfirmation.tooltip: Parolanızı tekrar giriniz
+    email: E-posta
+    email.tooltip: E-posta adresinizi girin
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Kullanıcının erişilebilirlik düzeyi
+    protected: Korumalı
+    protected.tooltip: Kullanıcı korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Kullanıcı arşivlenmiş mi?
+    role_super_admin: Süper Yönetici
+    role_super_admin.tooltip: Kullanıcı hakları ve tüm diğer bölüme erişim
+    role_test: Test erişimi
+    role_test.tooltip: Kullanıcıya test erişimini açar
+    role_template: Şablon erişimini göster
+    role_template.tooltip: Kulllanıcının şablonlara erişimini sağlar
+    role_table: Veri tablosu erişimi
+    role_table.tooltip: Kullanıcının veri tablolarına erişimini sağlar
+    role_file: Dosya erişimi
+    role_file.tooltip: Kullanıcının dosyalara erişimini sağlar.
+    role_wizard: Test Sihirbazı erişimi
+    role_wizard.tooltip: Kullanıcının Test sihirbazına erişimini sağlar
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Nesnenin sahip olduğu virgülle ayrılmış tablolar
+    
+list:
+  field:
+    username: Kullanıcı adı
+    email: E-Posta

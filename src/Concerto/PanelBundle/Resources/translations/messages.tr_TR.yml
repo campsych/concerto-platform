@@ -1,0 +1,71 @@
+validate:
+    protected.mod: Korumalı bir nesneyi düzenlemeye çalışılıyor
+    
+    user:
+      username.unique: Bu kullanıcı sistemde zaten kayıtlı durumda
+      username.min: Kullanıcı adı en az 3 karakter olmalı
+      username.max: Kullanıcı adı en fazla 25 karakter olmalı
+      username.blank: Kullanıcı adı kısmı boş bırakılamaz
+      password.min: Parola kısmı en az 4 karakter olmalı
+      password.max: Parola kısmı en fazla 40 karakter olmalı
+      password.match: Parola doğrulaması ilk kısımla eşleşmiyor
+      password.blank: Parola kısmı boş bırakılamaz
+      email: Bu doğru bir e-posta adresi değil
+      email.unique: Bu e-posta sistemde zaten kayıtlı
+      email.max: E-posta alanı en fazla 60 karakter olabilir
+      email.blank: E-posta alanı boş bırakılamaz
+      
+    table:
+      name.unique: Bu ad sistemde zaten kayıtlı
+      name.min: Ad kısmı en az 1 karakter olmalı
+      name.max: Ad kısmı en fazla 64 karakter olmalı
+      name.blank: Ad kısmı boş bırakılamaz
+      name.incorrect: Geçersiz ad
+      column.name.unique: Bu sütun tabloda zaten mevcut
+      column.name.blank: Adı kısmı boş bırakılmaz
+      column.name.incorrect: Geçersiz ad
+      
+    template:
+      name.unique: Bu ad zaten sistem de bulunuyor
+      name.min: Ad kısmı en az 1 karakter içermelidir
+      name.max: Ad kısmı en fazla 64 karakter içermelidir
+      name.blank: Ad kısmı boş bırakılamaz
+      
+    test:
+      name.unique: Bu ad zaten sistemde bulunuyor
+      name.min: Ad kısmı en az 1 karakter içermelidir
+      name.max: Ad kısmı en fazla 64 karakter içermelidir
+      name.blank: Ad kısmı boş bırakılamaz
+      wizard.source: Sihirbaz test türü için kaynak sihirbaz seçilmelidir
+      
+      variables:
+        unique: Bu isimde bir değişken teste zaten eklenmiş
+        name.min: Ad kısmı en az 1 karakter içermelidir
+        name.max: Ad kısmı en fazla 64 karakter içermelidir
+        name.blank: Ad kısmı boş bırakılamaz
+        name.incorrect: Geçersiz ad
+          
+      wizards:
+        name.unique: Bu ad zaten sistemde kayıtlı
+        name.min: Ad kısmı en az 1 karakter içermelidir
+        name.max: Ad kısmı en fazla 64 karakter içermelidir
+        name.blank: Ad kısmı boş bırakılamaz
+        test.null: Testin seçilmesi zorunludur
+        
+        params:
+            label.min: Etiket alanı en az 1 karakter içermelidir
+            label.max: Etiket alanı en fazla 64 karakter içermelidir
+            label.blank: Etiket alanı boş bırakılamaz
+            variable.null: Test değişkeni seçilmelidir
+            variable.unique: Belirli test parameterelerine sadece bir test sihirbazı ilişkilendirilebilir
+            step.null: Test sihirbazı adımları seçilmelidir
+        
+        steps:
+            title.min: Başlık alanı en az 1 karakter içermelidir
+            title.max: Başlık alanı en fazla 64 karakter içermelidir
+            title.blank: Başlık alanı boş bırakılamaz
+            
+errors:
+    title: Sistem hataları
+    table:
+        column.conversion: Seçili dönüştürme, yapılandırılmış veri tabanıyla uyumlu değildir

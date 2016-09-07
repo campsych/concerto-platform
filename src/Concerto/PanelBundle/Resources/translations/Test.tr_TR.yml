@@ -1,0 +1,295 @@
+breadcrumb:
+    list: Tüm Testler
+
+form:
+  title:
+    add: Yeni test oluşturuluyor
+    edit: 'Test #{0} düzenleniyor'
+  field:
+    name: Adı
+    name.tooltip: Testin Adı
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Testin erişilebilirlik düzeyi
+    protected: Korumalı
+    protected.tooltip: Test korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Test arşivlenmiş mi?
+    slug: Url adı
+    slug.tooltip: Url adı ("slug" olarak da adlandırılır) URL özelleştirilebilir kısmına verilen addır.; URL'leri daha tanımlayıcı hale getirmek için kullanılır.
+    visibility: Görünürlük
+    visibility.tooltip: Test görünürlüğü
+    visibility.subtest: Alttest
+    visibility.regular: Normal
+    visibility.featured: Önplanda
+    type: Tür
+    type.tooltip: Test türü
+    type.code: kodu
+    type.wizard: sihirbaz
+    type.flow: akış şeması
+    resumable: Devam edilebilir
+    resumable.tooltip: Test uygulamasına devam bildirim kutucuğu açık mı?
+    wizard: Sihirbaz
+    wizard.tooltip: Testin oluşturulacağı ön tanımlı bir sihirbaz seçin
+    wizard.none: <none selected>
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Nesneni atandığı virgülle ayrılmış tablo
+  button:
+      run: Başlat
+      debug: Hata Ayıkla
+      update: Güncelle
+  dialog:
+      title:
+          update: Bağlı testler güncelleniyor
+      message:
+          update.successful: Güncelleme tamamlandı.
+    
+list: 
+  field:
+    name: Adı
+    wizard: Sihirbaz
+    wizard.source: Kaynak test
+  tooltips:
+    outdated: Kaynak test için yeni bir sürüm mevcut. Lütfen güncellemek için yeniden kaydedin.
+    uptodate: Testin son versiyonu kullanılıyor.
+    
+variables:
+    form:
+        field:
+            name: Adı
+            name.tooltip: Değişkenin eşsiz ismi
+            description: Tanım
+            description.tooltip: Değişken tanımı
+            url: URL
+            url.tooltip: Parametre URL'den geçebilir mi?
+            value: Varsayılan değer
+            value.tooltip: Varsayılan değişken değeri
+    dialog:
+        tooltip: Test değişkenini tanımla
+    
+    input:
+        fieldset:
+            legend: Test girdileri
+            legend.tooltip: Test girdisi değişkenleri.
+        parameters:
+            list:
+                add: Girdi parametresi ekle
+                delete.checked: İşaretli parametreleri kaldır
+                edit: Düzenle
+                delete: Sil
+                field:
+                    info: Bilgi
+                    name: Adı
+                    url: URL
+                    url.yes: Hayır
+                    url.no: Evet
+                    value: Varsayılan
+            dialog:
+                title:
+                    add: Yeni girdi parametresi ekleniyor
+                    edit: Girdi parametresi düzenleniyor
+                    delete: Girdi parametresi siliniyor
+                message:
+                    delete.confirm: Seçili girdi parametrelerini silmek istediğinizden emin misiniz?
+    output:
+        fieldset:
+            legend: Test çıktısı
+            legend.tooltip: Test çıktısı değişkenleri.
+        returns:
+            legend: Dönüş değişkenleri
+            legend.tooltip: Dönüş değişkenlerini tanımla
+            list:
+                add: Dönüş değişkeni ekle
+                delete.checked: Seçilen dönüş değişkenini sil
+                edit: Düzenle
+                delete: Sil
+                field:
+                    info: Bilgi
+                    name: Adı
+                    value: Varsayılan
+            dialog:
+                title:
+                    add: Dönüş değişkeni ekleniyor
+                    edit: Dönüş değişkeni düzenleniyor
+                    delete: Dönüş değişkeni siliniyor
+                message:
+                    delete.confirm: Seçili dönüş değişkenlerini silmek istediğinizden emin misiniz?
+        branches:
+            legend: Ağaç yapı
+            legend.tooltip: Ağaç yapıyı tanımlar
+            list:
+                add: Dal ekle
+                delete.checked: Seçili dalları sil
+                edit: Düzenle
+                delete: Sil
+                field:
+                    info: Bilgi
+                    name: Adı
+                    value: Varsayılan
+            dialog:
+                title:
+                    add: Yeni dal ekleniyor
+                    edit: Dal düzenleniyor
+                    delete: Dal kaldırılıyor
+                message:
+                    delete.confirm: Seçili dalları kaldırmak istediğinizden emin misiniz?
+    
+log:
+    dialog:
+        title:
+            delete: Loglar siliniyor
+            clear: Loglar temizleniyor
+        message:
+            delete.confirm: Seçili logları silmek istediğinizden emin misiniz?
+            clear.confirm: Tüm logları silmek istediğinizden emin misiniz?
+    fieldset:
+        legend: Hata logları
+        legend.tooltip: Test hataları log kayıtları
+    list:
+        button: 
+            delete.all: Tümünü sil
+            delete.checked: Seçilileri sil
+            delete: Sil
+            refresh: Yinele
+        field:
+            date: Tarih
+            type: Tür
+            type.R: R
+            type.javascript: Javascript
+            message: Mesaj
+            browser: Tarayıcı
+            ip: IP
+            
+logic:
+    convert:
+        title: R koduna test dönüşümü
+        confirmation: Bu testi R koduna dönüştürmek istediğinizden emin misiniz. Bu işlem geri çevirilemez.
+        buttons:
+            convert: R koduna dönüştür
+    code:
+        fieldset:
+            legend: Test Logic
+            legend.tooltip: Test logic kodu
+            
+completion:
+    wizard:
+        default:
+            autoformat: Otoformat
+            insertcomments: Yorum ekle 
+        
+        sql:
+            selection:
+                empty:
+                    column: -- Sütun seç --
+                    table: -- Tablo seç --
+            options:
+                wizard: sihirbaz
+                code: SQL kodu
+            parameters: 
+                label: parametreler
+                tooltip: SQL kodu parametrelerini tanımlayınız.
+            fetchcount: 
+                label: fechCount
+                tooltip: Kaydı yapılacak dönüş sayısı. Hepsi için -1 hiçbiri için 0 kullanın.
+            table:
+                label: tablo seç
+                tooltip: Eylemi gerçekleştirmek istediğiniz tabloyu seçiniz.
+            type:
+                label: sorgu türü
+                tooltip: Sorgu türünü seçin.
+            update:
+                label: ayarla
+                tooltip: Kayıt değerlerini ayarla.
+                empty: Kayıt değerleri boş. Güncellenen satırlarda hiçbir değişiklik yapılmayacak. 
+            select:
+                label: seç
+                tooltip: Seçmek istediğiniz sütunları seçin.
+            where:
+                label: nereye
+                tooltip: Koşul cümlenizi girin.
+                empty:  NEREYE koşulu boş. Hiçbir filtre uygulanmayacak.
+                logic:
+                    or: VEYA
+                    and: VE
+                operators:
+                    equal: eşittir
+                    notequal: eşit değildir
+                    greater: büyüktür
+                    equalgreater: eşittir ya da büyüktür
+                    lesser: küçüktür
+                    equallesser: eşittir ya da küçüktür
+                    like: benzer
+                    notlike: benzer değil
+            order:
+                label: Sırala
+                tooltip: Sırlamayı seç.
+                empty:  SIRALA koşulu boş. Sıralama uygulanmayacak.
+                directions:
+                    ascending: artan
+                    descending: azalan
+            insert:
+                label: ekle
+                tooltip: eklenecek değerleri girin
+                empty:  Ekleme değeri boş.  Kayıt varsayılan değerlerle eklenecek. 
+    documentation:
+        help:
+            title: R otomatik tamamlama dokümantasyonu - üretme talimatları
+            intro: R otomatik tamamlama özelliklerini Concerto'da kullanmadan önce, bilgisayarınızdaki R konfigürasyonuna uygun R dokümantasyonunun oluşturulduğundan emin olun.
+            info:
+                directory: >
+                    Bu dokümantasyonu oluşturmak için, konsol aplikasyonu açmalı (Windows'da  - `cmd`, Linux'da `xterm`, `konsole` ya da `gnome-terminal`) ve içinde Concertonun yüklü olduğu klasör dizinini açmalısınız.
+                console: Bu dizinden, Symfony konsolunu kullanabilirsiniz. Çalıştırmak için `concerto:r:cache`komutunu kullanın 
+                console.more: Symfony konsolu hakkkında daha fazla bilgi için buraya tıklayın
+                output: Bu komutu çalıştırarak sistemde kullanabileceğiniz tüm R kodlarının dökümünü alabilir ve gerekli dokümantasyonu oluşturabilirsiniz. R kaynaklarını kullanmak için Concerto'yu  yeniden başlatmalı ya da yeniden açmalısınız.
+
+flow:
+    fieldset:
+        legend: Test akışı
+        legend.tooltip: Test akışı
+        return_function.tooltip: Dönüş fonksiyonu.
+    nodes:
+        names:
+            test_start: test başlangıç
+            test_end: test sonu
+        descriptions:
+            test_start: Bu teste giriş bağıdır.Test akış şeması bu kısımla baişar. Test giriş parametrelerini sağlar.
+            test_end: Bu kısım test dönüş değişkenlerini ayarlayabileceğiniz sonuç test sonu bağıdır.
+        dialog:
+            delete:
+                title: Bağ kaldırılıyor
+                message: bu bağı kaldırmak istediğinizden emin misiniz?
+            selection_delete:
+                title: Seçilen bağlar kaldırılıyor
+                message: Seçili bağları kaldırmak istediğinizden emin misiniz?
+    ports:
+        names:
+            in: içeri
+        descriptions:
+            in: Bağ giriş noktası.
+        dialog:
+            fields:
+                string: Dizi olarak?
+                string.tooltip: Eğer seçilirse port değeri bir dizi olarak kabul edilir, seçilmediğinde R kodu olarak kabul edilir.
+                value: Değer
+                value.tooltip: Bu porttaki değişken değer
+    buttons:
+        reset_view: Görünümü sıfırla 
+        toggle_selection: bağ seçimi geçişi
+        copy_node: copy bağ
+        copy_selected_nodes: seçilan bağları kopyala
+        paste_nodes: bağ yapıştır
+        remove_node: bağ kaldır
+        remove_selected_nodes: seçili bağları kaldır
+        clear_selection: seçimi temizle
+        reset_to_default: Varsayılana sıfırla
+        toggle_collapse: Bağlı olmayan portları göster/gizle
+        zoom_in: Yaklaştır
+        zoom_out: Uzaklaştır
+    tags:
+        all: Tümü
+        
+alerts:
+    edit:
+        input: Lütfen yaptığınız değişiklikleri girdi değişkenlerini ekleme/düzenleme/silmeden önce kaydedilmemiş değişikliklerin kaybını engellemek için kaydedin.
+        output: Lütfen yaptığınız değişiklikleri çıktı değişkenlerini ekleme/düzenleme/silmeden önce kaydedilmemiş değişikliklerin kaybını engellemek için kaydedin.

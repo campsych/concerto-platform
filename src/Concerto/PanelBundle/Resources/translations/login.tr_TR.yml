@@ -1,0 +1,12 @@
+form:
+  legend: Lütfen giriş bilgilerinizi giriniz
+  legend.tooltip: Kullanıcı adı ve parolanızı giriniz
+  field:
+    login: Giriş
+    login.tooltip: Lütfen kullanıcı adınızı giriniz
+    password: Şifre
+    password.tooltip: Lütfen parolanızı giriniz
+  button.login: Giriş
+
+'Bad credentials.': Yanlış kullanıcı adı ya da şifre!
+'User account is disabled.': Kullanıcı etkin değil!

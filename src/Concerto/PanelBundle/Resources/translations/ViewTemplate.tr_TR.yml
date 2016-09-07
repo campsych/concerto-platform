@@ -1,0 +1,34 @@
+breadcrumb:
+    list: Tüm şablonlar
+
+form:
+  title:
+    add: Yeni görüntü şablonu oluşturma
+    edit: '#{0} Şablonu düzenleniyor'
+  field:
+    name: Adı
+    name.tooltip: Şablon adını görüntüle
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Şablonun erişilebilirlik ayarları
+    protected: Korumalı
+    protected.tooltip: Şablon korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Görüntü Şablon arşivlenmiş mi?
+    owner: Sahip
+    owner.tooltip: Nesene sahibi
+    groups: Gruplar
+    groups.tooltip: Nesnenin bağlo olduğu virgülle ayrılmış grup listesi
+
+list: 
+  field:
+    name: Adı
+          
+source:
+    fieldset:
+        legend: Şablon kaynağını görüntüle
+        legend.tooltip: HTML head etiketi ve  HTML body kaynak kodu
+    field:
+        head: Başlık etiketi
+        head.tooltip: Görüntü şablonunun başlık etiketi
+        html: HTML body
+        html.tooltip:  görüntü şablonununa ait HTML body
