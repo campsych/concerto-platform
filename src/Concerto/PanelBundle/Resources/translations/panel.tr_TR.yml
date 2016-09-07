@@ -14,7 +14,7 @@ tab:
   files: Dosyalar
   files.tooltip: Dosya yöneticisi sekmesi
   users: Kullanıcılar
-  users.tooltip:Kullanıcı sekmesi
+  users.tooltip: Kullanıcı sekmesi
 
 list:
   accessibility:
