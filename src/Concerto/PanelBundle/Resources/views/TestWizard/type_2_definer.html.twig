@@ -5,7 +5,7 @@
             {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
                 {% trans_default_domain "TestWizard" %}
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
-                {% block legend_tooltip %}{{ 'param.definer.titles.html_line.tooltip'|trans }}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.definer.titles.html.tooltip'|trans }}{% endblock %}
                 {% block control %}
                     <textarea ckeditor="htmlEditorOptions" ng-model="param.definition.defvalue" class='form-control' ng-disabled="wizardObject.initProtected == '1'"></textarea>
                 {% endblock %}
