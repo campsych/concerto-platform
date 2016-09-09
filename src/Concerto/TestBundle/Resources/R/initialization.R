@@ -1,6 +1,7 @@
 require(concerto5)
 
 options(encoding='UTF-8')
+Sys.setlocale("LC_ALL","en_US.utf8")
 
 SOURCE_CLIENT = 0
 SOURCE_PROCESS = 1
