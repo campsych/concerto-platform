@@ -13,12 +13,14 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.disableContextMenu = false;
                 scope.cntrlIsPressed = false;
                 scope.mouseDown = false;
+                scope.mouseButtonDown = 0;
                 scope.rightClickEvent = null;
                 scope.selectionRectangle = $("#selection-rectangle");
                 scope.rectangleSelectionActive = false;
                 scope.movingActive = false;
                 scope.selectionRectanglePoints = {x1: 0, y1: 0, x2: 0, y2: 0, sx: 0, sy: 0, ex: 0, ey: 0};
                 scope.selectionDisabled = false;
+                scope.maximized = false;
 
                 scope.updateSelectionRectangle = function () {
                     scope.selectionRectanglePoints.sx = Math.min(scope.selectionRectanglePoints.x1, scope.selectionRectanglePoints.x2);
@@ -50,6 +52,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.rightClickEvent = e;
 
                         if (e.type == "mousedown") {
+                            scope.mouseButtonDown = e.button;
                             scope.mouseDown = true;
                             lastPosition = [e.clientX, e.clientY];
                             scope.disableContextMenu = false;
@@ -84,7 +87,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.$apply();
                         }
 
-                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 2) {
+                        if (e.type == "mousemove" && scope.mouseDown == true && scope.mouseButtonDown === 2) {
                             scope.selectionRectanglePoints.x2 = (e.pageX - $("#flowContainer").offset().left) / scope.flowScale;
                             scope.selectionRectanglePoints.y2 = (e.pageY - $("#flowContainer").offset().top) / scope.flowScale;
                             scope.updateSelectionRectangle();
@@ -99,7 +102,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                         }
 
-                        if (e.type == "mousemove" && scope.mouseDown == true && e.button === 0) {
+                        if (e.type == "mousemove" && scope.mouseDown == true && scope.mouseButtonDown === 0) {
                             scope.movingActive = true;
                             position = [e.clientX, e.clientY];
                             var difference = [(position[0] - lastPosition[0]), (position[1] - lastPosition[1])];
@@ -109,6 +112,15 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.$apply();
                         }
                     });
+                };
+
+                scope.toggleMaximize = function () {
+                    scope.maximized = !scope.maximized;
+                    if (scope.maximized) {
+                        $("body").addClass("modal-open");
+                    } else {
+                        $("body").removeClass("modal-open");
+                    }
                 };
 
                 scope.getRectangleContainedNodeIds = function () {
@@ -138,7 +150,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     if (scope.refreshing)
                         return;
                     var maxZoom = 1;
-                    var minZoom = 0.1;
+                    var minZoom = 0.25;
                     var zoomSteps = 25;
                     var zoom = value > 0 ? scope.flowScale + (maxZoom - minZoom) / zoomSteps : scope.flowScale - (maxZoom - minZoom) / zoomSteps;
                     zoom = Math.max(minZoom, zoom);
@@ -148,7 +160,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     instance = instance || jsPlumb;
                     el = el || instance.getContainer();
                     var p = ["webkit", "moz", "ms", "o"],
-                            s = "scale(" + zoom + ")",
+                            s = "scale(" + zoom + ", " + zoom + ")",
                             oString = (transformOrigin[0] * 100) + "% " + (transformOrigin[1] * 100) + "%";
                     for (var i = 0; i < p.length; i++) {
                         el.style[p[i] + "Transform"] = s;
@@ -157,10 +169,17 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                     el.style["transform"] = s;
                     el.style["transformOrigin"] = oString;
+
+                    var cw = $("#flowContainerWrapper");
+                    cw.css("width", (zoom * 30000) + "px");
+                    cw.css("height", (zoom * 30000) + "px");
+
                     instance.setZoom(zoom);
 
                     $("#flowContainerScroll").scrollLeft($("#flowContainerScroll")[0].scrollLeft * (zoom / scope.flowScale));
                     $("#flowContainerScroll").scrollTop($("#flowContainerScroll")[0].scrollTop * (zoom / scope.flowScale));
+
+
                     scope.flowScale = zoom;
                 };
 
@@ -1106,6 +1125,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.$watch("object.id", function () {
                     scope.initialized = false;
+                });
+
+                scope.$on('$locationChangeStart', function (event, toUrl, fromUrl) {
+                    if (scope.maximized)
+                        scope.toggleMaximize();
                 });
             }
         };

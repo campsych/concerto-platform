@@ -579,6 +579,14 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.onCollectionChanged(newCollection, oldCollection);
     });
 
+    $scope.$on('$locationChangeStart', function (event, toUrl, fromUrl) {
+        //required to disable maximization styles of CKEditor
+        if (CKEDITOR.instances.editor1 !== undefined && CKEDITOR.instances.editor1.getCommand("maximize") !== undefined)
+            if (CKEDITOR.instances.editor1.getCommand("maximize").state == 1) {
+                CKEDITOR.instances.editor1.execCommand("maximize");
+            }
+    });
+
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
             if (toState.name === $scope.tabStateName + "Form") {
@@ -587,6 +595,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             } else {
                 $scope.tab.activeIndex = $scope.tabIndex;
                 $scope.tabSection = "list";
+                $scope.resetObject();
             }
         } else {
             $scope.resetObject();

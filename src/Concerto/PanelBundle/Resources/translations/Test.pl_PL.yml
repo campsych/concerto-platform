@@ -289,5 +289,6 @@ flow:
         toggle_collapse: Zsuń/Wysuń niepołączone porty
         zoom_in: Przybliż
         zoom_out: Oddal
+        maximize: Przełącz pełno-ekranowy widok
     tags:
         all: Wszystkie
