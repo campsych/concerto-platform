@@ -286,6 +286,7 @@ flow:
         toggle_collapse: Collapse/Expand unconnected ports
         zoom_in: Zoom in
         zoom_out: Zoom out
+        maximize: Toggle full-screen view
     tags:
         all: All
         

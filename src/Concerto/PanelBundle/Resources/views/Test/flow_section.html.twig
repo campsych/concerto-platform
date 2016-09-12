@@ -1,16 +1,19 @@
 {% trans_default_domain "Test" %}
 
-<div flow-logic>
+<div id="flow" flow-logic ng-class="{'flow-maximized':maximized}">
     <div id="flow-menu-wrapper">
         <div id="flow-menu" class="panel panel-default">
+            <i class='glyphicon glyphicon-fullscreen' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.maximize"|trans }}"' style="cursor: pointer;" ng-click="toggleMaximize();"></i><br/>
             <i class='glyphicon glyphicon-screenshot' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.reset_view"|trans }}"' style="cursor: pointer;" ng-click="resetView();"></i><br/>
             <i class='glyphicon glyphicon-plus' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.zoom_in"|trans }}"' style="cursor: pointer;" ng-click="setZoom(1);"></i><br/>
             <i class='glyphicon glyphicon-minus' tooltip-append-to-body='true' uib-tooltip-html='"{{ "flow.buttons.zoom_out"|trans }}"' style="cursor: pointer;" ng-click="setZoom(-1);"></i>
         </div>
     </div>
     <div id="flowContainerScroll" oncontextmenu="return false;">
-        <div id="flowContainer" context-menu="onFlowCtxOpened()" data-target="menu-flow" tabindex="0" context-menu-disabled="disableContextMenu" ng-class="{'cursor-resize':rectangleSelectionActive, 'cursor-move': movingActive}">
-            <div id="selection-rectangle" hidden></div>
+        <div id="flowContainerWrapper">
+            <div id="flowContainer" context-menu="onFlowCtxOpened()" data-target="menu-flow" tabindex="0" context-menu-disabled="disableContextMenu" ng-class="{'cursor-resize':rectangleSelectionActive, 'cursor-move': movingActive}">
+                <div id="selection-rectangle" hidden></div>
+            </div>
         </div>
     </div>
 
@@ -63,7 +66,7 @@
 
                 </uib-accordion-group>
             </uib-accordion>
-                    
+
             <li class="ctx-element ctx-action" ng-class="{'ctx-action-active':copiedNodes.length > 0, 'ctx-action-inactive':copiedNodes.length === 0}" ng-click="pasteNodes()">{{ "flow.buttons.paste_nodes"|trans }}</li>
         </ul>
     </div>
