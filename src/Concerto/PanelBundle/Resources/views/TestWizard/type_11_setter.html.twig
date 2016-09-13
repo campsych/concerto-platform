@@ -5,7 +5,7 @@
             {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
                 {% trans_default_domain "TestWizard" %}
                 {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
-                {% block legend_tooltip %}{{ 'param.setter.titles.html.tooltip'|trans }}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.setter.titles.r.tooltip'|trans }}{% endblock %}
                 {% block control %}
                     <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
                         <div ng-bind-html="RDocumentation.html"></div>

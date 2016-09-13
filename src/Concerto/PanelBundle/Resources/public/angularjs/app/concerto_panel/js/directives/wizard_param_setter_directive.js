@@ -51,7 +51,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
 
                 scope.mode = "dialog";
                 scope.wizardMode = "prod";
-                scope.complexSetters = [1, 2, 7, 9, 10, 11];
+                scope.complexSetters = [1, 2, 7, 9, 10, 11, 12];
                 scope.isSetterComplex = false;
                 scope.title = "";
                 scope.summary = "";
@@ -295,6 +295,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     switch (parseInt(newValue)) {
                         case 7:
                         case 9:
+                        case 12:
                             if (scope.output === null || scope.output === undefined || typeof scope.output !== 'object' || scope.output.constructor === Array || newValue != oldValue) {
                                 scope.output = {};
                             }
@@ -321,6 +322,20 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     $compile(element.contents())(scope);
                 });
 
+                scope.onColumnMapTableChange = function () {
+                    var tabCols = scope.dataTableCollectionService.getBy('name', scope.output.table).columns;
+                    for (var i = 0; i < scope.param.definition.cols.length; i++) {
+                        var colDef = scope.param.definition.cols[i];
+                        for (var j = 0; j < tabCols.length; j++) {
+                            var colTab = tabCols[j];
+                            if (colDef.name == colTab.name) {
+                                scope.output.columns[colDef.name] = colTab.name;
+                                break;
+                            }
+                        }
+                    }
+                };
+
                 scope.$watch('param.definition.element.type', function (newValue, oldValue) {
                     if (newValue === null || newValue === undefined)
                         return;
@@ -332,9 +347,9 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         }
                     }
                 });
-                scope.$watchCollection('output', function (newValue) {
+                scope.$watch('output', function (newValue) {
                     scope.updateSummary();
-                });
+                }, true);
                 scope.$watch("param.definition.defvalue", function (newValue, oldValue) {
                     if (scope.output === null || (scope.wizardMode == "dev" && newValue != null && newValue != undefined && !scope.underList)) {
                         scope.output = newValue;

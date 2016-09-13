@@ -1,0 +1,39 @@
+<script type="text/ng-template" id="type_12_setter.html">
+    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+        {% trans_default_domain "TestWizard" %}
+        {% block setter %}
+            
+            {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+                {% trans_default_domain "TestWizard" %}
+                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
+                {% block legend_tooltip %}{{ 'param.setter.titles.column_map.tooltip'|trans }}{% endblock %}
+                {% block elements %}
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "TestWizard" %}
+                        {% block label %}{{ 'param.setter.column_map.table'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'param.setter.column_map.table.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                            <select ng-model="output.table" ng-change="onColumnMapTableChange()" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
+                            ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
+                                <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                            </select>
+                        {% endblock %}
+                    {% endembed %}
+                        
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "TestWizard" %}
+                        {% block row %}<tr class="formRowV" ng-repeat="col in param.definition.cols">{% endblock%}
+                        {% block label %}{%verbatim%}{{col.label}}{%endverbatim%}{% endblock%}
+                        {% block tooltip %}{%verbatim%}{{col.tooltip}}{%endverbatim%}{% endblock%}
+                        {% block control %}
+                            <select ng-model="output.columns[col.name]" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
+                            ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'" class='form-control'>
+                                <option value="">{{"none.choosen"|trans({},"panel")}}</option>
+                            </select>
+                        {% endblock %}
+                    {% endembed %}
+                {% endblock %}
+            {% endembed %} 
+        {% endblock %}
+    {% endembed %} 
+</script>

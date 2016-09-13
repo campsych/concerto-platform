@@ -26,7 +26,8 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
         {id: 8, label: TestWizardParam.getTypeName(8), definer: true},
         {id: 9, label: TestWizardParam.getTypeName(9), definer: true},
         {id: 10, label: TestWizardParam.getTypeName(10), definer: true},
-        {id: 11, label: TestWizardParam.getTypeName(11), definer: true}
+        {id: 11, label: TestWizardParam.getTypeName(11), definer: true},
+        {id: 12, label: TestWizardParam.getTypeName(12), definer: true}
     ];
     $scope.editorOptions = Defaults.ckeditorPanelContentOptions;
 
@@ -112,7 +113,7 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
 
         //output
         if (newValue != oldValue) {
-            if (newValue == 7 || newValue == 9) {
+            if (newValue == 7 || newValue == 9 || newValue == 12) {
                 $scope.object.output = {};
             } else if (newValue == 10) {
                 $scope.object.output = [];

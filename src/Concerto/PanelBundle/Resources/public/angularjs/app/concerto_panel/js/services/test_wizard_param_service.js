@@ -28,6 +28,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_TYPE_LIST;
                 case 11:
                     return Trans.TEST_WIZARD_PARAM_TYPE_R;
+                case 12:
+                    return Trans.TEST_WIZARD_PARAM_TYPE_COLUMN_MAP;
             }
             return type;
         };
@@ -59,6 +61,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_LIST.pf(info);
                 case 11:
                     return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_R_CODE.pf(info);
+                case 12:
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_TITLES_COLUMN_MAP.pf(info);
             }
             return "";
         };
@@ -79,6 +83,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_LIST.pf(param.label);
                 case 11:
                     return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_R.pf(param.label);
+                case 12:
+                    return Trans.TEST_WIZARD_PARAM_SETTER_TITLES_COLUMN_MAP.pf(param.label);
             }
             return "";
         };
@@ -112,6 +118,17 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 case 10:
                     var info = this.getTypeName(param.definition.element.type);
                     return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_LIST.pf(info);
+                case 12:
+                    if (!param.definition.cols)
+                        return "";
+                    var info = param.definition.cols.length + " - [";
+                    for (var i = 0; i < param.definition.cols.length; i++) {
+                        if (i > 0)
+                            info += ",";
+                        info += param.definition.cols[i].name;
+                    }
+                    info += "]";
+                    return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_COLUMN_MAP.pf(info);
             }
             return "";
         };
@@ -132,6 +149,21 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_LIST.pf(output.length);
                 case 11:
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_R.pf(output);
+                case 12:
+                    if (!param.definition.cols)
+                        return "";
+                    var info = param.definition.cols.length + " - [";
+                    for (var i = 0; i < param.definition.cols.length; i++) {
+                        if (i > 0)
+                            info += ",";
+                        var map = output.columns[param.definition.cols[i].name];
+                        var dst = "?";
+                        if (map !== null && map != undefined)
+                            dst = map;
+                        info += param.definition.cols[i].name + "->" + dst;
+                    }
+                    info += "]";
+                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_COLUMN_MAP.pf(info);
             }
             return "";
         };
@@ -187,7 +219,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
 
         this.serializeParamValue = function (param) {
             try {
-                if (param.type == 7 || param.type == 9 || param.type == 10) {
+                if (param.type == 7 || param.type == 9 || param.type == 10 || param.type == 12) {
                     if (param.type == 10)
                         param.output = this.deobjectifyListElements(param);
                     param.value = angular.toJson(param.output);
@@ -202,6 +234,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
                         break;
                     case 7:
                     case 9:
+                    case 12:
                         param.value = "{}";
                         break;
                     case 10:
@@ -221,7 +254,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 setDefault = true;
             } else {
                 try {
-                    if (param.type == 7 || param.type == 9 || param.type == 10) {
+                    if (param.type == 7 || param.type == 9 || param.type == 10 || param.type == 12) {
                         param.output = angular.fromJson(param.value);
                         if (param.type == 10)
                             param.output = this.objectifyListElements(param);
@@ -233,7 +266,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
             }
 
             if (setDefault) {
-                if (param.type == 7 || param.type == 9) {
+                if (param.type == 7 || param.type == 9 || param.type == 12) {
                     param.output = {};
                 } else if (param.type == 10) {
                     param.output = [];
