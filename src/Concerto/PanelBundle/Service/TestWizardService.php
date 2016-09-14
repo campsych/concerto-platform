@@ -81,13 +81,13 @@ class TestWizardService extends AExportableSectionService {
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object);
-        $this->updateParamValues($serializedSteps);
+        $this->updateParamValues($user, $serializedSteps);
         $this->repository->refresh($object);
         $object = $this->get($object->getId());
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function updateParamValues($serializedSteps) {
+    public function updateParamValues(User $user, $serializedSteps) {
         if (!$serializedSteps)
             return;
         $steps = json_decode($serializedSteps, true);
@@ -96,7 +96,12 @@ class TestWizardService extends AExportableSectionService {
                 continue;
             }
             foreach ($step["params"] as $param) {
-                $this->testWizardParamService->update($param["id"], $param["value"], $param["order"], $param["definition"]);
+                $obj = $this->testWizardParamService->get($param['id']);
+                $old_obj = clone $obj;
+                $obj->setValue($param["value"]);
+                $obj->setOrder($param["order"]);
+                $obj->setDefinition($param["definition"]);
+                $this->testWizardParamService->update($user, $obj, $old_obj);
             }
         }
     }
@@ -199,7 +204,7 @@ class TestWizardService extends AExportableSectionService {
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
             $ent->setRevision($obj["rev"]);
-        else 
+        else
             $ent->setRevision(0);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

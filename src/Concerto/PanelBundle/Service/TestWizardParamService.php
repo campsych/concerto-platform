@@ -6,7 +6,7 @@ use Concerto\PanelBundle\Repository\TestWizardParamRepository;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Repository\TestVariableRepository;
+use Concerto\PanelBundle\Service\TestVariableService;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
@@ -15,15 +15,15 @@ use Concerto\PanelBundle\Security\ObjectVoter;
 class TestWizardParamService extends ASectionService {
 
     private $validator;
-    private $testVariableRepository;
+    private $testVariableService;
     private $testWizardRepository;
     private $testWizardStepRepository;
 
-    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableRepository $testVariableRepository, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker) {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
-        $this->testVariableRepository = $testVariableRepository;
+        $this->testVariableService = $testVariableService;
         $this->testWizardRepository = $testWizardRepository;
         $this->testWizardStepRepository = $testWizardStepRepository;
     }
@@ -47,8 +47,11 @@ class TestWizardParamService extends ASectionService {
     public function save(User $user, $object_id, $variable, $label, $type, $serializedDefinition, $hideCondition, $description, $passableThroughUrl, $value, $wizardStep, $order, $wizard) {
         $errors = array();
         $object = $this->get($object_id);
+        $old_obj = null;
         if ($object === null) {
             $object = new TestWizardParam();
+        } else {
+            $old_obj = clone $object;
         }
         $object->setUpdated();
         if ($variable != null) {
@@ -78,18 +81,14 @@ class TestWizardParamService extends ASectionService {
         $this->repository->save($object);
         $this->repository->refresh($object);
         $object = $this->get($object->getId());
+        $this->onObjectSaved($user, $object, $old_obj);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update($id, $value, $order, $definition) {
-        $object = $this->get($id);
-        if ($object) {
-            $object->setValue($value);
-            $object->setOrder($order);
-            $object->setDefinition($definition);
-            $this->repository->save($object);
-        }
+    public function update(User $user, $object, $oldObj) {
+        $this->repository->save($object);
+        $this->onObjectSaved($user, $object, $oldObj);
     }
 
     public function delete($object_ids, $secure = true) {
@@ -129,7 +128,7 @@ class TestWizardParamService extends ASectionService {
         $variable = null;
         if (array_key_exists("TestVariable", $map)) {
             $variable_id = $map["TestVariable"]["id" . $obj["testVariable"]];
-            $variable = $this->testVariableRepository->find($variable_id);
+            $variable = $this->testVariableService->get($variable_id);
         }
 
         $wizard = null;
@@ -186,6 +185,8 @@ class TestWizardParamService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
+        $this->onObjectSaved($user, $ent, null);
+
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
         return array("errors" => null, "entity" => $ent);
     }
@@ -227,13 +228,33 @@ class TestWizardParamService extends ASectionService {
         $this->repository->save($ent);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
 
+        $this->onObjectSaved($user, $ent, $src_ent);
         $this->onConverted($ent, $src_ent);
 
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($new_ent, $old_ent) {
+    private function onConverted($new_ent, $old_ent) {
         //TODO 
+    }
+
+    private function onObjectSaved(User $user, TestWizardParam $newObj, $oldObj) {
+        if ($oldObj === null)
+            return;
+        $tests = $newObj->getWizard()->getResultingTests();
+        foreach ($tests as $test) {
+            $vars = $test->getVariables();
+            foreach ($vars as $var) {
+                $pvar = $var->getParentVariable();
+                if ($newObj->getVariable()->getId() == $pvar->getId()) {
+                    if ($oldObj->getValue() == $var->getValue()) {
+                        $var->setValue($newObj->getValue());
+                        $this->testVariableService->update($user, $var);
+                    }
+                    continue;
+                }
+            }
+        }
     }
 
     public function authorizeObject($object) {

@@ -134,29 +134,21 @@ class TestVariableService extends ASectionService {
         $name = $parentVariable->getName();
         $url = $parentVariable->isPassableThroughUrl();
         $type = $parentVariable->getType();
-        $value = $parentVariable->getValue();
 
         foreach ($parentVariable->getTest()->getWizards() as $wizard) {
-            foreach ($wizard->getParams() as $param) {
-                if ($param->getVariable()->getId() === $parentVariable->getId()) {
-                    $description = $param->getDescription();
-                    $url = $param->isPassableThroughUrl();
-                    $value = $param->getValue();
-                    break;
-                }
-            }
-
             foreach ($wizard->getResultingTests() as $test) {
                 $found = false;
                 foreach ($test->getVariables() as $variable) {
                     if ($variable->getParentVariable() && $variable->getParentVariable()->getId() == $parentVariable->getId()) {
                         $found = true;
-                        $this->save($user, $variable->getId(), $name, $type, $description, $url, $value, $test, $parentVariable);
+                        $variable->setName($name);
+                        $variable->setPassableThroughUrl($url);
+                        $this->update($user, $variable);
                         break;
                     }
                 }
                 if (!$found) {
-                    $this->save($user, 0, $name, $type, $description, $url, $value, $test, $parentVariable);
+                    $this->save($user, 0, $name, $type, $description, $url, null, $test, $parentVariable);
                 }
             }
         }
@@ -309,6 +301,11 @@ class TestVariableService extends ASectionService {
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
             return $object;
         return null;
+    }
+
+    public function update(User $user, $obj) {
+        $this->repository->save($obj);
+        $this->onObjectSaved($user, $obj, false);
     }
 
 }

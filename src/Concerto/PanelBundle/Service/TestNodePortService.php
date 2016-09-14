@@ -84,6 +84,10 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
+    public function update($object) {
+        $this->repository->save($object);
+    }
+
     public function onTestVariableSaved(User $user, TestVariable $variable, $is_new) {
         $nodes = $variable->getTest()->getSourceForNodes();
         foreach ($nodes as $node) {
@@ -94,6 +98,7 @@ class TestNodePortService extends ASectionService {
                     $found = true;
                     if ($port->hasDefaultValue()) {
                         $port->setValue($variable->getValue());
+                        $this->update($port);
                     }
                     break;
                 }
