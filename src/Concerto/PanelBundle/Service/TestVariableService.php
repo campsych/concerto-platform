@@ -260,7 +260,8 @@ class TestVariableService extends ASectionService {
     }
 
     protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test, $parentVariable) {
-        $ent = $this->findConversionSource($obj, $map);
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
         $ent->setName($obj["name"]);
         $ent->setDescription($obj["description"]);
         $ent->setTest($test);
@@ -281,7 +282,7 @@ class TestVariableService extends ASectionService {
         $map["TestVariable"]["id" . $obj["id"]] = $ent->getId();
 
         $this->onObjectSaved($user, $ent, false);
-        $this->onConverted($ent, $src_ent);
+        $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }

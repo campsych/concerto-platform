@@ -205,7 +205,8 @@ class TestWizardParamService extends ASectionService {
     }
 
     protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $step, $variable, $wizard) {
-        $ent = $this->findConversionSource($obj, $map);
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
         $ent->setDescription($obj["description"]);
         $ent->setLabel($obj["label"]);
         $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
@@ -228,8 +229,8 @@ class TestWizardParamService extends ASectionService {
         $this->repository->save($ent);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
 
-        $this->onObjectSaved($user, $ent, $src_ent);
-        $this->onConverted($ent, $src_ent);
+        $this->onObjectSaved($user, $ent, $old_ent);
+        $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }

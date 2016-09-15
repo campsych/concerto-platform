@@ -103,7 +103,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestWizard_metadata"]
   concerto_panel.TestWizard_service:
     class: Concerto\PanelBundle\Service\TestWizardService
-    arguments: ["@concerto_panel.TestWizard_repository","@validator","@concerto_panel.Test_service","@concerto_panel.TestWizardStep_service","@concerto_panel.TestWizardParam_service", "@security.authorization_checker"] 
+    arguments: ["@concerto_panel.TestWizard_repository","@validator","@concerto_panel.Test_service","@concerto_panel.TestVariable_service","@concerto_panel.TestNodePort_service","@concerto_panel.TestWizardStep_service","@concerto_panel.TestWizardParam_service","@security.authorization_checker","@concerto_panel.TestWizardUpdate_service"] 
     
 #   TestWizardStep
   concerto_panel.TestWizardStep_metadata:
@@ -272,6 +272,10 @@ services:
     class: Concerto\PanelBundle\Controller\DialogController
     arguments: ["@templating","@concerto_panel.panel_service","@request","%kernel.root_dir%"]
     scope: request
+    
+#starter content update services
+  concerto_panel.TestWizardUpdate_service:
+    class: Concerto\PanelBundle\StarterContentUpdateService\TestWizardUpdateService
     
 #security
 

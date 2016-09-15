@@ -4,25 +4,34 @@ namespace Concerto\PanelBundle\Service;
 
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\TestWizard;
+use Concerto\PanelBundle\Service\TestVariableService;
+use Concerto\PanelBundle\Service\TestNodePortService;
 use Concerto\PanelBundle\Service\TestWizardParamService;
 use Concerto\PanelBundle\Service\TestWizardStepService;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\AEntity;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\StarterContentUpdateService\TestWizardUpdateService;
 
 class TestWizardService extends AExportableSectionService {
 
     private $testService;
+    public $testVariableService;
+    public $testNodePortService;
     private $testWizardParamService;
     private $testWizardStepService;
+    private $testWizardUpdateService;
 
-    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker, TestWizardUpdateService $testWizardUpdateService) {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->testService = $testService;
+        $this->testVariableService = $testVariableService;
+        $this->testNodePortService = $testNodePortService;
         $this->testWizardStepService = $stepService;
         $this->testWizardParamService = $paramService;
+        $this->testWizardUpdateService = $testWizardUpdateService;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
@@ -194,7 +203,8 @@ class TestWizardService extends AExportableSectionService {
     }
 
     protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test) {
-        $ent = $this->findConversionSource($obj, $map);
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
         $ent->setName($new_name);
         $ent->setTest($test);
         $ent->setDescription($obj["description"]);
@@ -217,13 +227,14 @@ class TestWizardService extends AExportableSectionService {
         $this->repository->save($ent);
         $map["TestWizard"]["id" . $obj["id"]] = $ent->getId();
 
-        $this->onConverted($ent, $src_ent);
+        $this->onConverted($user, $ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($new_ent, $old_ent) {
+    protected function onConverted($user, $new_ent, $old_ent) {
         $this->testWizardStepService->clear($old_ent->getId());
+        $this->testWizardUpdateService->update($user, $this, $new_ent, $old_ent);
     }
 
 }

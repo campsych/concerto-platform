@@ -270,7 +270,8 @@ class TestService extends AExportableSectionService {
     }
 
     protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $wizard) {
-        $ent = $this->findConversionSource($obj, $map);
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setVisibility($obj["visibility"]);
@@ -299,7 +300,7 @@ class TestService extends AExportableSectionService {
         $map["Test"]["id" . $obj["id"]] = $ent->getId();
 
         $this->onObjectSaved($ent, false, $user, null, false);
-        $this->onConverted($ent, $src_ent);
+        $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }

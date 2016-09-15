@@ -426,7 +426,8 @@ class DataTableService extends AExportableSectionService {
     }
 
     protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue) {
-        $ent = $this->findConversionSource($obj, $map);
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
@@ -445,8 +446,8 @@ class DataTableService extends AExportableSectionService {
         if (count($ent_errors_msg) > 0)
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
 
-        if ($src_ent->getName() != $new_name) {
-            $db_errors = $this->dbStructureService->renameTable($src_ent->getName(), $new_name);
+        if ($old_ent->getName() != $new_name) {
+            $db_errors = $this->dbStructureService->renameTable($old_ent->getName(), $new_name);
             if (count($db_errors) > 0)
                 return array("errors" => $db_errors, "entity" => null, "source" => $obj);
 
@@ -474,7 +475,7 @@ class DataTableService extends AExportableSectionService {
         $this->repository->save($ent);
         $map["DataTable"]["id" . $obj["id"]] = $ent->getId();
 
-        $this->onConverted($ent, $src_ent);
+        $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }

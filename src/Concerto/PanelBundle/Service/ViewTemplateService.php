@@ -145,7 +145,8 @@ class ViewTemplateService extends AExportableSectionService {
     }
 
     protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue) {
-        $ent = $this->findConversionSource($obj, $map);
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setHead($obj["head"]);
@@ -169,7 +170,7 @@ class ViewTemplateService extends AExportableSectionService {
         $this->repository->save($ent);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent->getId();
 
-        $this->onConverted($ent, $src_ent);
+        $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }
