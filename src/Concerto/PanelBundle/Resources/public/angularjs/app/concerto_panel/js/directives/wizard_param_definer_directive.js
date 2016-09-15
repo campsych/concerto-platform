@@ -1,4 +1,4 @@
-angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", "RDocumentation", function ($compile, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService, RDocumentation) {
+angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$filter", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", "RDocumentation", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", function ($compile, $filter, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService, RDocumentation, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService) {
         return {
             restrict: 'E',
             scope: {
@@ -6,6 +6,10 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                 typesCollection: "=types"
             },
             link: function (scope, element, attrs, controllers) {
+                scope.sortedTypesCollection = $filter('orderBy')(scope.typesCollection, "label");
+                scope.dataTableCollectionService = DataTableCollectionService;
+                scope.testCollectionService = TestCollectionService;
+                scope.viewTemplateCollectionService = ViewTemplateCollectionService;
                 scope.htmlEditorOptions = Defaults.ckeditorPanelContentOptions;
                 scope.testWizardParamService = TestWizardParam;
                 scope.gridService = GridService;
@@ -201,7 +205,7 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$t
                             displayName: Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_TYPE,
                             field: "type",
                             editableCellTemplate: 'ui-grid/dropdownEditor',
-                            editDropdownOptionsArray: scope.typesCollection,
+                            editDropdownOptionsArray: scope.sortedTypesCollection,
                             editDropdownIdLabel: "id",
                             editDropdownValueLabel: "label",
                             cellTemplate:

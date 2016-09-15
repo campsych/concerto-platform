@@ -329,6 +329,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         for (var j = 0; j < tabCols.length; j++) {
                             var colTab = tabCols[j];
                             if (colDef.name == colTab.name) {
+                                if (scope.output.columns === undefined)
+                                    scope.output.columns = {};
                                 scope.output.columns[colDef.name] = colTab.name;
                                 break;
                             }

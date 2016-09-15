@@ -156,10 +156,12 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     for (var i = 0; i < param.definition.cols.length; i++) {
                         if (i > 0)
                             info += ",";
-                        var map = output.columns[param.definition.cols[i].name];
                         var dst = "?";
-                        if (map !== null && map != undefined)
-                            dst = map;
+                        if (output.columns != null && output.columns != undefined) {
+                            var map = output.columns[param.definition.cols[i].name];
+                            if (map !== null && map != undefined)
+                                dst = map;
+                        }
                         info += param.definition.cols[i].name + "->" + dst;
                     }
                     info += "]";
