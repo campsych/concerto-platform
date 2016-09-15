@@ -8,7 +8,7 @@
         "archived": "0",
         "visibility": 2,
         "type": 1,
-        "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table\n    question_column = ib$custom_question_column$column\n    response_options_column = ib$custom_response_options_column$column\n    a_column = ib$custom_a_column$column\n    b_column = ib$custom_b_column$column\n    c_column = ib$custom_c_column$column\n    d_column = ib$custom_d_column$column\n    correct_column = ib$custom_correct_column$column\n    test_id_column = ib$custom_test_id_column$column\n    cb_group_column = ib$custom_cb_group_column$column\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{a_column}}` AS `a`, `{{b_column}}` AS `b`, `{{c_column}}` AS `c`, `{{d_column}}` AS `d`, `{{correct_column}}` AS `correct`, `{{cb_group_column}}` AS `cb_group` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}}\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, \"<div class='cat_question'>\", question$question, \"<\/div>\")\n  content = paste0(content, getResponseOptions(question))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question) {\n  content = \"\"\n  options = NULL\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  if(length(o) > 0) {\n    #response options\n    for(i in 1:length(o)) {\n      options = rbind(options, as.list(o[[i]]))\n    }\n\n    if(randomize_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n\n  } else {\n    #open question\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_internal_id_column = \"session_internal_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    item_id_column = rb$custom_item_id_column$column\n    response_column = rb$custom_response_column$column\n    time_taken_column = rb$custom_time_taken_column$column\n    session_internal_id_column = rb$custom_session_internal_id_column$column\n    correct_column = rb$custom_correct_column$column\n    theta_column = rb$custom_theta_column$column\n    sem_column = rb$custom_sem_column$column\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_internal_id_column}}`={{session_internal_id}}, `{{correct_column}}`={{correct}}, `{{theta_column}}`={{theta}}, `{{sem_column}}`={{sem}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\nquestions = getQuestions()\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\ntheta = 0\nsem = 1\nout = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = paste0(\"<div class='button_panel button_panel_cat'><button name='next' class='cat_button'>\",button_label,\"<\/button><\/div>\")\ncorrectness = c()\n\ncurrent_item = 1\nif(item_debug == \"0\") { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)",
+        "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    a_column = ib$custom_table$columns$a\n    b_column = ib$custom_table$columns$b\n    c_column = ib$custom_table$columns$c\n    d_column = ib$custom_table$columns$d\n    correct_column = ib$custom_table$columns$correct\n    test_id_column = ib$custom_table$columns$test_id\n    cb_group_column = ib$custom_table$columns$cb_group\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{a_column}}` AS `a`, `{{b_column}}` AS `b`, `{{c_column}}` AS `c`, `{{d_column}}` AS `d`, `{{correct_column}}` AS `correct`, `{{cb_group_column}}` AS `cb_group` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}}\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, \"<div class='cat_question'>\", question$question, \"<\/div>\")\n  content = paste0(content, getResponseOptions(question))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question) {\n  content = \"\"\n  options = NULL\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  if(length(o) > 0) {\n    #response options\n    for(i in 1:length(o)) {\n      options = rbind(options, as.list(o[[i]]))\n    }\n\n    if(randomize_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n\n  } else {\n    #open question\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_internal_id_column = \"session_internal_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_internal_id_column = rb$custom_table$columns$session_internal_id\n    correct_column = rb$custom_table$columns$correct\n    theta_column = rb$custom_table$columns$theta\n    sem_column = rb$custom_table$columns$sem\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_internal_id_column}}`={{session_internal_id}}, `{{correct_column}}`={{correct}}, `{{theta_column}}`={{theta}}, `{{sem_column}}`={{sem}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\nquestions = getQuestions()\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\ntheta = 0\nsem = 1\nout = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = paste0(\"<div class='button_panel button_panel_cat'><button name='next' class='cat_button'>\",button_label,\"<\/button><\/div>\")\ncorrectness = c()\n\ncurrent_item = 1\nif(item_debug == \"0\") { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)",
         "resumable": "0",
         "outdated": "0",
         "description": "",
@@ -64,7 +64,7 @@
                 "type": 0,
                 "description": "<p>Response bank definition<\/p>\n",
                 "passableThroughUrl": "0",
-                "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_time_taken_column\":{},\"custom_session_id_column\":{},\"custom_correct_column\":{},\"custom_theta_column\":{},\"custom_sem_column\":{}}",
+                "value": "{\"table_type\":\"default\",\"custom_table\":{\"table\":\"default_cat_response_table\",\"columns\":{\"item_id\":\"item_id\",\"response\":\"response\",\"time_taken\":\"time_taken\",\"session_internal_id\":\"session_internal_id\",\"correct\":\"correct\",\"theta\":\"theta\",\"sem\":\"sem\"}},\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_time_taken_column\":{},\"custom_session_id_column\":{},\"custom_correct_column\":{},\"custom_theta_column\":{},\"custom_sem_column\":{}}",
                 "test": 23,
                 "parentVariable": 212
             },
@@ -318,7 +318,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 98,
+                            "id": 97,
                             "label": "No answer alert",
                             "description": "<p>Alert message that will appear when no answer is given<\/p>\n",
                             "hideCondition": "",
@@ -338,7 +338,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 99,
+                            "id": 98,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
@@ -357,7 +357,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 100,
+                            "id": 99,
                             "label": "Responses layout",
                             "description": "",
                             "hideCondition": "",
@@ -388,7 +388,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 101,
+                            "id": 100,
                             "label": "Response width",
                             "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                             "hideCondition": "",
@@ -407,7 +407,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 207,
+                            "id": 101,
                             "label": "Button label",
                             "description": "<p>CAT page continue button label<\/p>\n",
                             "hideCondition": "",
@@ -608,104 +608,61 @@
                                         "order": 1
                                     },
                                     {
-                                        "type": "6",
+                                        "type": 12,
                                         "name": "custom_table",
                                         "label": "Custom table",
                                         "hideCondition": "parent.table_type != \"custom\"",
                                         "definition": {
-                                            "placeholder": 0
+                                            "placeholder": 0,
+                                            "cols": [
+                                                {
+                                                    "name": "question",
+                                                    "label": "Question",
+                                                    "tooltip": "Question column"
+                                                },
+                                                {
+                                                    "name": "response_options",
+                                                    "label": "Response options",
+                                                    "tooltip": "Response options column"
+                                                },
+                                                {
+                                                    "name": "a",
+                                                    "label": "a",
+                                                    "tooltip": "a column"
+                                                },
+                                                {
+                                                    "name": "b",
+                                                    "label": "b",
+                                                    "tooltip": "b column"
+                                                },
+                                                {
+                                                    "name": "c",
+                                                    "label": "c",
+                                                    "tooltip": "c column"
+                                                },
+                                                {
+                                                    "name": "d",
+                                                    "label": "d",
+                                                    "tooltip": "d column"
+                                                },
+                                                {
+                                                    "name": "correct",
+                                                    "label": "correct",
+                                                    "tooltip": "Correct column"
+                                                },
+                                                {
+                                                    "name": "test_id",
+                                                    "label": "test_id",
+                                                    "tooltip": "Test id column"
+                                                },
+                                                {
+                                                    "name": "cb_group",
+                                                    "label": "cb_group",
+                                                    "tooltip": "Content balancing group column"
+                                                }
+                                            ]
                                         },
                                         "order": 2
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_question_column",
-                                        "label": "Custom question column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 3
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_response_options_column",
-                                        "label": "Custom response options column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 4
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_a_column",
-                                        "label": "Custom a column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 5
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_b_column",
-                                        "label": "Custom b column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 6
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_c_column",
-                                        "label": "Custom c column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 7
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_d_column",
-                                        "label": "Custom d column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 8
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_correct_column",
-                                        "label": "Custom correct answer column",
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "order": 9
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_test_id_column",
-                                        "label": "Custom test id column",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "order": 10
-                                    },
-                                    {
-                                        "type": 7,
-                                        "name": "custom_cb_group_column",
-                                        "label": "Custom CB group column",
-                                        "definition": {
-                                            "placeholder": 0
-                                        },
-                                        "hideCondition": "parent.table_type != \"custom\"",
-                                        "order": 11
                                     }
                                 ]
                             }
@@ -1014,7 +971,7 @@
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_time_taken_column\":{},\"custom_session_id_column\":{},\"custom_correct_column\":{},\"custom_theta_column\":{},\"custom_sem_column\":{}}",
+                            "value": "{\"table_type\":\"default\",\"custom_table\":{\"table\":\"default_cat_response_table\",\"columns\":{\"item_id\":\"item_id\",\"response\":\"response\",\"time_taken\":\"time_taken\",\"session_internal_id\":\"session_internal_id\",\"correct\":\"correct\",\"theta\":\"theta\",\"sem\":\"sem\"}},\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_time_taken_column\":{},\"custom_session_id_column\":{},\"custom_correct_column\":{},\"custom_theta_column\":{},\"custom_sem_column\":{}}",
                             "testVariable": 212,
                             "name": "response_bank",
                             "wizardStep": 39,
@@ -1038,56 +995,55 @@
                                                     "value": "custom",
                                                     "label": "custom"
                                                 }
-                                            ]
+                                            ],
+                                            "defvalue": "default"
                                         }
                                     },
                                     {
-                                        "type": "6",
+                                        "type": 12,
                                         "name": "custom_table",
                                         "label": "Custom table",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_item_id_column",
-                                        "label": "Custom item Id column",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_response_column",
-                                        "label": "Custom response column",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_time_taken_column",
-                                        "label": "Custom time taken column",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_session_internal_id_column",
-                                        "label": "Custom session internal Id column",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_correct_column",
-                                        "label": "Custom correct column",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_theta_column",
-                                        "label": "Custom theta column",
-                                        "hideCondition": "parent.table_type != \"custom\""
-                                    },
-                                    {
-                                        "type": "7",
-                                        "name": "custom_sem_column",
-                                        "label": "Custom SEM column",
-                                        "hideCondition": "parent.table_type != \"custom\""
+                                        "hideCondition": "parent.table_type != \"custom\"",
+                                        "definition": {
+                                            "placeholder": 0,
+                                            "cols": [
+                                                {
+                                                    "name": "item_id",
+                                                    "label": "Item id",
+                                                    "tooltip": "Item id column"
+                                                },
+                                                {
+                                                    "name": "response",
+                                                    "label": "Response",
+                                                    "tooltip": "Response column"
+                                                },
+                                                {
+                                                    "name": "time_taken",
+                                                    "label": "Time taken",
+                                                    "tooltip": "Time taken column"
+                                                },
+                                                {
+                                                    "name": "session_internal_id",
+                                                    "label": "Session internal id",
+                                                    "tooltip": "Session internal id column"
+                                                },
+                                                {
+                                                    "name": "correct",
+                                                    "label": "Correct",
+                                                    "tooltip": "Correct column"
+                                                },
+                                                {
+                                                    "name": "theta",
+                                                    "label": "Theta",
+                                                    "tooltip": "Theta column"
+                                                },
+                                                {
+                                                    "name": "sem",
+                                                    "label": "SEM",
+                                                    "tooltip": "SEM column"
+                                                }
+                                            ]
+                                        }
                                     }
                                 ]
                             }
@@ -1105,8 +1061,8 @@
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
-                "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table\n    question_column = ib$custom_question_column$column\n    response_options_column = ib$custom_response_options_column$column\n    a_column = ib$custom_a_column$column\n    b_column = ib$custom_b_column$column\n    c_column = ib$custom_c_column$column\n    d_column = ib$custom_d_column$column\n    correct_column = ib$custom_correct_column$column\n    test_id_column = ib$custom_test_id_column$column\n    cb_group_column = ib$custom_cb_group_column$column\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{a_column}}` AS `a`, `{{b_column}}` AS `b`, `{{c_column}}` AS `c`, `{{d_column}}` AS `d`, `{{correct_column}}` AS `correct`, `{{cb_group_column}}` AS `cb_group` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}}\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, \"<div class='cat_question'>\", question$question, \"<\/div>\")\n  content = paste0(content, getResponseOptions(question))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question) {\n  content = \"\"\n  options = NULL\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  if(length(o) > 0) {\n    #response options\n    for(i in 1:length(o)) {\n      options = rbind(options, as.list(o[[i]]))\n    }\n\n    if(randomize_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n\n  } else {\n    #open question\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_internal_id_column = \"session_internal_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    item_id_column = rb$custom_item_id_column$column\n    response_column = rb$custom_response_column$column\n    time_taken_column = rb$custom_time_taken_column$column\n    session_internal_id_column = rb$custom_session_internal_id_column$column\n    correct_column = rb$custom_correct_column$column\n    theta_column = rb$custom_theta_column$column\n    sem_column = rb$custom_sem_column$column\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_internal_id_column}}`={{session_internal_id}}, `{{correct_column}}`={{correct}}, `{{theta_column}}`={{theta}}, `{{sem_column}}`={{sem}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\nquestions = getQuestions()\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\ntheta = 0\nsem = 1\nout = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = paste0(\"<div class='button_panel button_panel_cat'><button name='next' class='cat_button'>\",button_label,\"<\/button><\/div>\")\ncorrectness = c()\n\ncurrent_item = 1\nif(item_debug == \"0\") { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)",
-                "slug": "cc3314fb0a284b60da9626cd26944e6c",
+                "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    a_column = ib$custom_table$columns$a\n    b_column = ib$custom_table$columns$b\n    c_column = ib$custom_table$columns$c\n    d_column = ib$custom_table$columns$d\n    correct_column = ib$custom_table$columns$correct\n    test_id_column = ib$custom_table$columns$test_id\n    cb_group_column = ib$custom_table$columns$cb_group\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{a_column}}` AS `a`, `{{b_column}}` AS `b`, `{{c_column}}` AS `c`, `{{d_column}}` AS `d`, `{{correct_column}}` AS `correct`, `{{cb_group_column}}` AS `cb_group` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}}\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, \"<div class='cat_question'>\", question$question, \"<\/div>\")\n  content = paste0(content, getResponseOptions(question))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question) {\n  content = \"\"\n  options = NULL\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  if(length(o) > 0) {\n    #response options\n    for(i in 1:length(o)) {\n      options = rbind(options, as.list(o[[i]]))\n    }\n\n    if(randomize_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n\n  } else {\n    #open question\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_internal_id_column = \"session_internal_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_internal_id_column = rb$custom_table$columns$session_internal_id\n    correct_column = rb$custom_table$columns$correct\n    theta_column = rb$custom_table$columns$theta\n    sem_column = rb$custom_table$columns$sem\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_internal_id_column}}`={{session_internal_id}}, `{{correct_column}}`={{correct}}, `{{theta_column}}`={{theta}}, `{{sem_column}}`={{sem}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\nquestions = getQuestions()\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\ntheta = 0\nsem = 1\nout = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = paste0(\"<div class='button_panel button_panel_cat'><button name='next' class='cat_button'>\",button_label,\"<\/button><\/div>\")\ncorrectness = c()\n\ncurrent_item = 1\nif(item_debug == \"0\") { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)",
+                "slug": "d51c49057df70e96c7d6dcf2cd14b1dd",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -1379,7 +1335,7 @@
                 "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-09-15 17:42:49",
+                "updatedOn": "2016-09-15 22:38:00",
                 "updatedByName": "",
                 "nodes": [],
                 "nodesConnections": [],
@@ -1387,17 +1343,17 @@
                 "owner": 1,
                 "groups": "",
                 "starterContent": false,
-                "rev": 2
+                "rev": 3
             },
             "testName": "source_CAT",
-            "updatedOn": "2016-09-15 18:01:26",
-            "updatedByName": "admin",
+            "updatedOn": "2016-09-15 22:38:01",
+            "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 3
+            "rev": 4
         },
-        "updatedOn": "2016-09-15 17:42:53",
+        "updatedOn": "2016-09-15 22:38:04",
         "updatedByName": "admin",
         "nodes": [],
         "nodesConnections": [],
@@ -1405,6 +1361,6 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 2
+        "rev": 3
     }
 ]

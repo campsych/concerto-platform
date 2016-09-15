@@ -119,7 +119,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     var info = this.getTypeName(param.definition.element.type);
                     return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_LIST.pf(info);
                 case 12:
-                    if (!param.definition.cols)
+                    if (param.definition == undefined || !param.definition.cols)
                         return "";
                     var info = param.definition.cols.length + " - [";
                     for (var i = 0; i < param.definition.cols.length; i++) {
