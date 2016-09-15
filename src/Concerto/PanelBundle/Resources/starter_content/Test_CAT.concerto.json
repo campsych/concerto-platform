@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 19,
+        "id": 23,
         "name": "CAT",
         "accessibility": 2,
         "protected": "1",
@@ -15,273 +15,273 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 193,
+                "id": 232,
                 "name": "answered",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 19,
-                "parentVariable": 169
+                "test": 23,
+                "parentVariable": 208
             },
             {
                 "class_name": "TestVariable",
-                "id": 194,
+                "id": 233,
                 "name": "paragraph",
                 "type": 0,
                 "description": "<p>CAT page paragraph<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "<p>Please answer the question below:<\/p>\n",
-                "test": 19,
-                "parentVariable": 170
+                "test": 23,
+                "parentVariable": 209
             },
             {
                 "class_name": "TestVariable",
-                "id": 195,
+                "id": 234,
                 "name": "button_label",
                 "type": 0,
                 "description": "<p>CAT page continue button label<\/p>\n",
                 "passableThroughUrl": "0",
-                "value": "continue",
-                "test": 19,
-                "parentVariable": 171
+                "value": "aaa",
+                "test": 23,
+                "parentVariable": 210
             },
             {
                 "class_name": "TestVariable",
-                "id": 196,
+                "id": 235,
                 "name": "item_bank",
                 "type": 0,
                 "description": "<p>CAT item bank definition.<\/p>\n\n<p>Leave item response options list empty for open question.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"custom_a_column\":{},\"table_type\":\"direct\",\"custom_table\":\"\",\"custom_question_column\":{},\"custom_response_options_column\":{},\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>This is an easy example question. Make sure you delete the example questions before adding your own item bank.<\/p>\\n\\n<p><b>What is 10+10?<\/b><\/p>\\n\",\"response_options\":[{\"value\":\"20\",\"label\":\"<p>20<\/p>\\n\"},{\"value\":\"40\",\"label\":\"<p>40<\/p>\\n\"}],\"a\":\"1.7\",\"b\":\"-2\",\"c\":\"0\",\"d\":\"1\",\"correct\":\"20\",\"cb_group\":\"mathematics\"},{\"id\":\"2\",\"question\":\"<p>This is an average difficulty example question. If you get this right, the next question should be harder. If you get it wrong, the next question should be easier.<\/p>\\n\\n<p>Make sure you delete the example questions before adding your own item bank.<\/p>\\n\\n<p><b>What is 100+100?<\/b><\/p>\\n\",\"response_options\":[{\"value\":\"200\",\"label\":\"<p>200<\/p>\\n\"},{\"value\":\"400\",\"label\":\"<p>400<\/p>\\n\"}],\"a\":\"1.7\",\"b\":\"0\",\"c\":\"0\",\"d\":\"1\",\"correct\":\"200\",\"cb_group\":\"mathematics\"},{\"id\":\"3\",\"question\":\"<p>This is a hard&nbsp;example question. Make sure you delete the example questions before adding your own item bank.<\/p>\\n\\n<p><b>What is 1000+1000?<\/b><\/p>\\n\",\"response_options\":[{\"value\":\"2000\",\"label\":\"<p>2000<\/p>\\n\"},{\"value\":\"4000\",\"label\":\"<p>4000<\/p>\\n\"}],\"a\":\"1.7\",\"b\":\"2\",\"c\":\"0\",\"d\":\"1\",\"correct\":\"2000\",\"cb_group\":\"mathematics\"}],\"custom_b_column\":{},\"custom_c_column\":{},\"custom_d_column\":{},\"custom_correct_column\":{},\"custom_test_id_column\":{},\"custom_cb_group_column\":{}}",
-                "test": 19,
-                "parentVariable": 172
+                "test": 23,
+                "parentVariable": 211
             },
             {
                 "class_name": "TestVariable",
-                "id": 197,
+                "id": 236,
                 "name": "response_bank",
                 "type": 0,
                 "description": "<p>Response bank definition<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_time_taken_column\":{},\"custom_session_id_column\":{},\"custom_correct_column\":{},\"custom_theta_column\":{},\"custom_sem_column\":{}}",
-                "test": 19,
-                "parentVariable": 173
+                "test": 23,
+                "parentVariable": 212
             },
             {
                 "class_name": "TestVariable",
-                "id": 198,
+                "id": 237,
                 "name": "stopping_time",
                 "type": 0,
                 "description": "<p>Time-based stopping rule that will stop the test when specified amount of seconds will pass<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":{\"value\":\"0\"},\"time_limit\":\"\",\"type\":null}",
-                "test": 19,
-                "parentVariable": 174
+                "test": 23,
+                "parentVariable": 213
             },
             {
                 "class_name": "TestVariable",
-                "id": 199,
+                "id": 238,
                 "name": "stopping_item_count",
                 "type": 0,
                 "description": "<p>Item count-based stopping time that will stop the test after specified number of items is answered<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"count_limit\":\"\",\"count\":\"\"}",
-                "test": 19,
-                "parentVariable": 175
+                "test": 23,
+                "parentVariable": 214
             },
             {
                 "class_name": "TestVariable",
-                "id": 200,
+                "id": 239,
                 "name": "stopping_accuracy",
                 "type": 0,
                 "description": "<p>Accuracy-based stopping rule that will stop the test when at least certain accuracy is reached<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":{\"value\":\"0\"},\"accuracy\":{\"value\":\"\"}}",
-                "test": 19,
-                "parentVariable": 176
+                "test": 23,
+                "parentVariable": 215
             },
             {
                 "class_name": "TestVariable",
-                "id": 201,
+                "id": 240,
                 "name": "scoring_method",
                 "type": 0,
                 "description": "<p>Ability estimator<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "BM",
-                "test": 19,
-                "parentVariable": 177
+                "test": 23,
+                "parentVariable": 216
             },
             {
                 "class_name": "TestVariable",
-                "id": 202,
+                "id": 241,
                 "name": "next_item_criterion",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "MFI",
-                "test": 19,
-                "parentVariable": 178
+                "test": 23,
+                "parentVariable": 217
             },
             {
                 "class_name": "TestVariable",
-                "id": 203,
+                "id": 242,
                 "name": "randomesque",
                 "type": 0,
                 "description": "<p>The number of items to be chosen from the next item selection rule, among those the next item to be administered will be randomly picked up. Default value is 1 and leads to usual selection of the optimal item for the specified criterion.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 19,
-                "parentVariable": 179
+                "test": 23,
+                "parentVariable": 218
             },
             {
                 "class_name": "TestVariable",
-                "id": 204,
+                "id": 243,
                 "name": "randomize_response_options",
                 "type": 0,
                 "description": "<p>Check if you want order of response options to be random<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "1",
-                "test": 19,
-                "parentVariable": 180
+                "test": 23,
+                "parentVariable": 219
             },
             {
                 "class_name": "TestVariable",
-                "id": 205,
+                "id": 244,
                 "name": "no_answer_alert",
                 "type": 0,
                 "description": "<p>Alert message that will appear when no answer is given<\/p>\n",
                 "passableThroughUrl": "0",
-                "value": "No answer given!",
-                "test": 19,
-                "parentVariable": 181
+                "value": "<p>Alert message that will appear when no answer is given<\/p>",
+                "test": 23,
+                "parentVariable": 220
             },
             {
                 "class_name": "TestVariable",
-                "id": 206,
+                "id": 245,
                 "name": "session",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 182
+                "test": 23,
+                "parentVariable": 221
             },
             {
                 "class_name": "TestVariable",
-                "id": 207,
+                "id": 246,
                 "name": "score",
                 "type": 1,
                 "description": "<p>Score R list object with following elements:<\/p>\n\n<ul>\n\t<li><strong>score$theta<\/strong><\/li>\n\t<li><strong>score$sem<\/strong><\/li>\n<\/ul>\n",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 183
+                "test": 23,
+                "parentVariable": 222
             },
             {
                 "class_name": "TestVariable",
-                "id": 208,
+                "id": 247,
                 "name": "inserts",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 184
+                "test": 23,
+                "parentVariable": 223
             },
             {
                 "class_name": "TestVariable",
-                "id": 209,
+                "id": 248,
                 "name": "item_debug",
                 "type": 0,
                 "description": "<p>1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/p>\n",
                 "passableThroughUrl": "0",
                 "value": "0",
-                "test": 19,
-                "parentVariable": 185
+                "test": 23,
+                "parentVariable": 224
             },
             {
                 "class_name": "TestVariable",
-                "id": 210,
+                "id": 249,
                 "name": "out_of_time",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 186
+                "test": 23,
+                "parentVariable": 225
             },
             {
                 "class_name": "TestVariable",
-                "id": 211,
+                "id": 250,
                 "name": "cb",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "{\"enabled\":\"0\",\"props\":[]}",
-                "test": 19,
-                "parentVariable": 187
+                "test": 23,
+                "parentVariable": 226
             },
             {
                 "class_name": "TestVariable",
-                "id": 212,
+                "id": 251,
                 "name": "title",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "DEMO TEST",
-                "test": 19,
-                "parentVariable": 188
+                "test": 23,
+                "parentVariable": 227
             },
             {
                 "class_name": "TestVariable",
-                "id": 213,
+                "id": 252,
                 "name": "template_def",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 189
+                "test": 23,
+                "parentVariable": 228
             },
             {
                 "class_name": "TestVariable",
-                "id": 214,
+                "id": 253,
                 "name": "responses_layout",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": "vertical",
-                "test": 19,
-                "parentVariable": 190
+                "test": 23,
+                "parentVariable": 229
             },
             {
                 "class_name": "TestVariable",
-                "id": 215,
+                "id": 254,
                 "name": "response_width",
                 "type": 0,
                 "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                 "passableThroughUrl": "0",
-                "value": null,
-                "test": 19,
-                "parentVariable": 191
+                "value": "",
+                "test": 23,
+                "parentVariable": 230
             },
             {
                 "class_name": "TestVariable",
-                "id": 216,
+                "id": 255,
                 "name": ".branch",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 19,
-                "parentVariable": 192
+                "test": 23,
+                "parentVariable": 231
             }
         ],
-        "sourceWizard": 9,
+        "sourceWizard": 13,
         "sourceWizardObject": {
             "class_name": "TestWizard",
-            "id": 9,
+            "id": 13,
             "name": "CAT",
             "description": "",
             "accessibility": 2,
@@ -290,100 +290,86 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 27,
+                    "id": 35,
                     "title": "Presentation",
                     "description": "<p>CAT presentation options<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 13,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 71,
+                            "id": 96,
                             "label": "Paragraph",
                             "description": "<p>CAT page paragraph<\/p>\n",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Please answer the question below:<\/p>\n",
-                            "testVariable": 170,
+                            "testVariable": 209,
                             "name": "paragraph",
-                            "wizardStep": 27,
+                            "wizardStep": 35,
                             "stepTitle": "Presentation",
                             "order": 2,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0"
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 72,
-                            "label": "Button label",
-                            "description": "<p>CAT page continue button label<\/p>\n",
-                            "hideCondition": "",
-                            "type": 0,
-                            "passableThroughUrl": "0",
-                            "value": "continue",
-                            "testVariable": 171,
-                            "name": "button_label",
-                            "wizardStep": 27,
-                            "stepTitle": "Presentation",
-                            "order": 4,
-                            "wizard": 9,
-                            "definition": []
-                        },
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 73,
+                            "id": 98,
                             "label": "No answer alert",
                             "description": "<p>Alert message that will appear when no answer is given<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
-                            "value": "No answer given!",
-                            "testVariable": 181,
+                            "value": "<p>Alert message that will appear when no answer is given<\/p>",
+                            "testVariable": 220,
                             "name": "no_answer_alert",
-                            "wizardStep": 27,
+                            "wizardStep": 35,
                             "stepTitle": "Presentation",
                             "order": 3,
-                            "wizard": 9,
-                            "definition": []
+                            "wizard": 13,
+                            "definition": {
+                                "placeholder": 0,
+                                "defvalue": "<p>Alert message that will appear when no answer is given<\/p>"
+                            }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 74,
+                            "id": 99,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "DEMO TEST",
-                            "testVariable": 188,
+                            "testVariable": 227,
                             "name": "title",
-                            "wizardStep": 27,
+                            "wizardStep": 35,
                             "stepTitle": "Presentation",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 75,
+                            "id": 100,
                             "label": "Responses layout",
                             "description": "",
                             "hideCondition": "",
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "vertical",
-                            "testVariable": 190,
+                            "testVariable": 229,
                             "name": "responses_layout",
-                            "wizardStep": 27,
+                            "wizardStep": 35,
                             "stepTitle": "Presentation",
                             "order": 5,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": 0,
                                 "options": [
@@ -402,68 +388,88 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 76,
+                            "id": 101,
                             "label": "Response width",
                             "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 191,
+                            "testVariable": 230,
                             "name": "response_width",
-                            "wizardStep": 27,
+                            "wizardStep": 35,
                             "stepTitle": "Presentation",
                             "order": 6,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": 0
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 207,
+                            "label": "Button label",
+                            "description": "<p>CAT page continue button label<\/p>\n",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "continue",
+                            "testVariable": 210,
+                            "name": "button_label",
+                            "wizardStep": 35,
+                            "stepTitle": "Presentation",
+                            "order": 4,
+                            "wizard": 13,
+                            "definition": {
+                                "placeholder": 0,
+                                "defvalue": "continue"
                             }
                         }
                     ]
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 28,
+                    "id": 36,
                     "title": "Item bank",
                     "description": "<p>CAT item bank options<\/p>\n",
                     "orderNum": 1,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 13,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 77,
+                            "id": 102,
                             "label": "Randomize response options order",
                             "description": "<p>Check if you want order of response options to be random<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 180,
+                            "testVariable": 219,
                             "name": "randomize_response_options",
-                            "wizardStep": 28,
+                            "wizardStep": 36,
                             "stepTitle": "Item bank",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0"
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 78,
+                            "id": 103,
                             "label": "Item bank",
                             "description": "<p>CAT item bank definition.<\/p>\n\n<p>Leave item response options list empty for open question.<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"custom_a_column\":{},\"table_type\":\"direct\",\"custom_table\":\"\",\"custom_question_column\":{},\"custom_response_options_column\":{},\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>This is an easy example question. Make sure you delete the example questions before adding your own item bank.<\/p>\\n\\n<p><b>What is 10+10?<\/b><\/p>\\n\",\"response_options\":[{\"value\":\"20\",\"label\":\"<p>20<\/p>\\n\"},{\"value\":\"40\",\"label\":\"<p>40<\/p>\\n\"}],\"a\":\"1.7\",\"b\":\"-2\",\"c\":\"0\",\"d\":\"1\",\"correct\":\"20\",\"cb_group\":\"mathematics\"},{\"id\":\"2\",\"question\":\"<p>This is an average difficulty example question. If you get this right, the next question should be harder. If you get it wrong, the next question should be easier.<\/p>\\n\\n<p>Make sure you delete the example questions before adding your own item bank.<\/p>\\n\\n<p><b>What is 100+100?<\/b><\/p>\\n\",\"response_options\":[{\"value\":\"200\",\"label\":\"<p>200<\/p>\\n\"},{\"value\":\"400\",\"label\":\"<p>400<\/p>\\n\"}],\"a\":\"1.7\",\"b\":\"0\",\"c\":\"0\",\"d\":\"1\",\"correct\":\"200\",\"cb_group\":\"mathematics\"},{\"id\":\"3\",\"question\":\"<p>This is a hard&nbsp;example question. Make sure you delete the example questions before adding your own item bank.<\/p>\\n\\n<p><b>What is 1000+1000?<\/b><\/p>\\n\",\"response_options\":[{\"value\":\"2000\",\"label\":\"<p>2000<\/p>\\n\"},{\"value\":\"4000\",\"label\":\"<p>4000<\/p>\\n\"}],\"a\":\"1.7\",\"b\":\"2\",\"c\":\"0\",\"d\":\"1\",\"correct\":\"2000\",\"cb_group\":\"mathematics\"}],\"custom_b_column\":{},\"custom_c_column\":{},\"custom_d_column\":{},\"custom_correct_column\":{},\"custom_test_id_column\":{},\"custom_cb_group_column\":{}}",
-                            "testVariable": 172,
+                            "testVariable": 211,
                             "name": "item_bank",
-                            "wizardStep": 28,
+                            "wizardStep": 36,
                             "stepTitle": "Item bank",
                             "order": 0,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -501,13 +507,17 @@
                                                             "type": "0",
                                                             "name": "id",
                                                             "label": "Id",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            }
                                                         },
                                                         {
                                                             "type": "2",
                                                             "name": "question",
                                                             "label": "Question",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            }
                                                         },
                                                         {
                                                             "type": "10",
@@ -522,13 +532,17 @@
                                                                                 "type": "0",
                                                                                 "name": "value",
                                                                                 "label": "Value",
-                                                                                "definition": []
+                                                                                "definition": {
+                                                                                    "placeholder": 0
+                                                                                }
                                                                             },
                                                                             {
                                                                                 "type": "2",
                                                                                 "name": "label",
                                                                                 "label": "Label",
-                                                                                "definition": []
+                                                                                "definition": {
+                                                                                    "placeholder": 0
+                                                                                }
                                                                             }
                                                                         ]
                                                                     }
@@ -539,31 +553,44 @@
                                                             "type": "0",
                                                             "name": "a",
                                                             "label": "a",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0,
+                                                                "defvalue": "1.7"
+                                                            }
                                                         },
                                                         {
                                                             "type": "0",
                                                             "name": "b",
                                                             "label": "b",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            }
                                                         },
                                                         {
                                                             "type": "0",
                                                             "name": "c",
                                                             "label": "c",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0,
+                                                                "defvalue": "0"
+                                                            }
                                                         },
                                                         {
                                                             "type": "0",
                                                             "name": "d",
                                                             "label": "d",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0,
+                                                                "defvalue": "1"
+                                                            }
                                                         },
                                                         {
                                                             "type": "0",
                                                             "name": "correct",
                                                             "label": "Correct answer",
-                                                            "definition": []
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            }
                                                         },
                                                         {
                                                             "type": 0,
@@ -585,7 +612,9 @@
                                         "name": "custom_table",
                                         "label": "Custom table",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 2
                                     },
                                     {
@@ -593,7 +622,9 @@
                                         "name": "custom_question_column",
                                         "label": "Custom question column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 3
                                     },
                                     {
@@ -601,7 +632,9 @@
                                         "name": "custom_response_options_column",
                                         "label": "Custom response options column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 4
                                     },
                                     {
@@ -609,7 +642,9 @@
                                         "name": "custom_a_column",
                                         "label": "Custom a column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 5
                                     },
                                     {
@@ -617,7 +652,9 @@
                                         "name": "custom_b_column",
                                         "label": "Custom b column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 6
                                     },
                                     {
@@ -625,7 +662,9 @@
                                         "name": "custom_c_column",
                                         "label": "Custom c column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 7
                                     },
                                     {
@@ -633,7 +672,9 @@
                                         "name": "custom_d_column",
                                         "label": "Custom d column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 8
                                     },
                                     {
@@ -641,7 +682,9 @@
                                         "name": "custom_correct_column",
                                         "label": "Custom correct answer column",
                                         "hideCondition": "parent.table_type != \"custom\"",
-                                        "definition": [],
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
                                         "order": 9
                                     },
                                     {
@@ -671,28 +714,28 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 29,
+                    "id": 37,
                     "title": "CAT options",
                     "description": "<p>CAT options<\/p>\n",
                     "orderNum": 2,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 13,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 79,
+                            "id": 104,
                             "label": "Next item criterion",
                             "description": "",
                             "hideCondition": "",
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "MFI",
-                            "testVariable": 178,
+                            "testVariable": 217,
                             "name": "next_item_criterion",
-                            "wizardStep": 29,
+                            "wizardStep": 37,
                             "stepTitle": "CAT options",
                             "order": 0,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "options": [
@@ -713,38 +756,38 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 80,
+                            "id": 105,
                             "label": "Next item randomesque",
                             "description": "<p>The number of items to be chosen from the next item selection rule, among those the next item to be administered will be randomly picked up. Default value is 1 and leads to usual selection of the optimal item for the specified criterion.<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 179,
+                            "testVariable": 218,
                             "name": "randomesque",
-                            "wizardStep": 29,
+                            "wizardStep": 37,
                             "stepTitle": "CAT options",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0"
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 81,
+                            "id": 106,
                             "label": "Scoring method",
                             "description": "<p>Ability estimator<\/p>\n",
                             "hideCondition": "",
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "BM",
-                            "testVariable": 177,
+                            "testVariable": 216,
                             "name": "scoring_method",
-                            "wizardStep": 29,
+                            "wizardStep": 37,
                             "stepTitle": "CAT options",
                             "order": 2,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "options": [
@@ -769,19 +812,19 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 82,
+                            "id": 107,
                             "label": "Content Balancing",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"enabled\":\"0\",\"props\":[]}",
-                            "testVariable": 187,
+                            "testVariable": 226,
                             "name": "cb",
-                            "wizardStep": 29,
+                            "wizardStep": 37,
                             "stepTitle": "CAT options",
                             "order": 3,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "fields": [
                                     {
@@ -834,28 +877,28 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 30,
+                    "id": 38,
                     "title": "Stopping rules",
                     "description": "<p>CAT stopping rules<\/p>\n",
                     "orderNum": 3,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 13,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 83,
+                            "id": 108,
                             "label": "Time-based stopping rule",
                             "description": "<p>Time-based stopping rule that will stop the test when specified amount of seconds will pass<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"enabled\":{\"value\":\"0\"},\"time_limit\":\"\",\"type\":null}",
-                            "testVariable": 174,
+                            "testVariable": 213,
                             "name": "stopping_time",
-                            "wizardStep": 30,
+                            "wizardStep": 38,
                             "stepTitle": "Stopping rules",
                             "order": 1,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -890,19 +933,19 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 84,
+                            "id": 109,
                             "label": "Item count-based stopping rule",
                             "description": "<p>Item count-based stopping time that will stop the test after specified number of items is answered<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"enabled\":\"0\",\"count_limit\":\"\",\"count\":\"\"}",
-                            "testVariable": 175,
+                            "testVariable": 214,
                             "name": "stopping_item_count",
-                            "wizardStep": 30,
+                            "wizardStep": 38,
                             "stepTitle": "Stopping rules",
                             "order": 0,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -922,19 +965,19 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 85,
+                            "id": 110,
                             "label": "Accuracy-based stopping rule",
                             "description": "<p>Accuracy-based stopping rule that will stop the test when at least certain accuracy is reached<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"enabled\":{\"value\":\"0\"},\"accuracy\":{\"value\":\"\"}}",
-                            "testVariable": 176,
+                            "testVariable": 215,
                             "name": "stopping_accuracy",
-                            "wizardStep": 30,
+                            "wizardStep": 38,
                             "stepTitle": "Stopping rules",
                             "order": 2,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -956,28 +999,28 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 31,
+                    "id": 39,
                     "title": "Response bank",
                     "description": "<p>CAT response bank options<\/p>\n",
                     "orderNum": 4,
                     "colsNum": 0,
-                    "wizard": 9,
+                    "wizard": 13,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 86,
+                            "id": 111,
                             "label": "Response table",
                             "description": "<p>Response bank definition<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_time_taken_column\":{},\"custom_session_id_column\":{},\"custom_correct_column\":{},\"custom_theta_column\":{},\"custom_sem_column\":{}}",
-                            "testVariable": 173,
+                            "testVariable": 212,
                             "name": "response_bank",
-                            "wizardStep": 31,
+                            "wizardStep": 39,
                             "stepTitle": "Response bank",
                             "order": 0,
-                            "wizard": 9,
+                            "wizard": 13,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -1052,10 +1095,10 @@
                     ]
                 }
             ],
-            "test": 18,
+            "test": 22,
             "testObject": {
                 "class_name": "Test",
-                "id": 18,
+                "id": 22,
                 "name": "source_CAT",
                 "accessibility": 2,
                 "protected": "1",
@@ -1063,280 +1106,280 @@
                 "visibility": 2,
                 "type": 0,
                 "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    test_id = concerto$mainTest$id\n    table = ib$custom_table\n    question_column = ib$custom_question_column$column\n    response_options_column = ib$custom_response_options_column$column\n    a_column = ib$custom_a_column$column\n    b_column = ib$custom_b_column$column\n    c_column = ib$custom_c_column$column\n    d_column = ib$custom_d_column$column\n    correct_column = ib$custom_correct_column$column\n    test_id_column = ib$custom_test_id_column$column\n    cb_group_column = ib$custom_cb_group_column$column\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{a_column}}` AS `a`, `{{b_column}}` AS `b`, `{{c_column}}` AS `c`, `{{d_column}}` AS `d`, `{{correct_column}}` AS `correct`, `{{cb_group_column}}` AS `cb_group` FROM `{{table}}` WHERE `{{test_id_column}}` = {{test_id}}\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      test_id_column=test_id_column,\n      test_id=test_id\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  content = paragraph\n\n  content = paste0(content, \"<div class='formField'>\")\n  content = paste0(content, \"<div class='cat_question'>\", question$question, \"<\/div>\")\n  content = paste0(content, getResponseOptions(question))\n  content = paste0(content, \"<\/div>\")\n\n  return(content)\n}\n\ngetResponseOptions = function(question) {\n  content = \"\"\n  options = NULL\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  if(length(o) > 0) {\n    #response options\n    for(i in 1:length(o)) {\n      options = rbind(options, as.list(o[[i]]))\n    }\n\n    if(randomize_response_options == \"1\") {\n      if(dim(options)[1] > 0) {\n        options = options[sample(1:dim(options)[1]),]\n      }\n    }\n\n    content = \"<div class='catResponseGroup'>\"\n    section_class = \"catResponseSectionVertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_class = \"catResponseSectionHorizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n\n    for(i in 1:dim(options)[1]) {\n      option = options[i,]\n      content = paste0(content, \"<div class='\",section_class,\"' style='\",section_styles,\"'><label for='input_response_\",i,\"'><table class='catResponseTable'><tr>\")\n      content = paste0(content, \"<td class='catResponseButtonCell'><input type='radio' id='input_response_\",i,\"' name='response' value='\",option$value,\"' \/><\/td>\")\n      content = paste0(content, \"<td class='catResponseLabelCell'>\",option$label,\"<\/td>\")\n      content = paste0(content, \"<\/tr><\/table><\/label><\/div>\")\n    }\n    content = paste0(content, \"<div style='clear:both;'><\/div>\")\n    content = paste0(content, \"<\/div>\")\n\n  } else {\n    #open question\n    content = paste0(\"<div><input type='text' name='response' style='width:100%;' \/><\/div>\")\n  }\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_internal_id_column = \"session_internal_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table\n    item_id_column = rb$custom_item_id_column$column\n    response_column = rb$custom_response_column$column\n    time_taken_column = rb$custom_time_taken_column$column\n    session_internal_id_column = rb$custom_session_internal_id_column$column\n    correct_column = rb$custom_correct_column$column\n    theta_column = rb$custom_theta_column$column\n    sem_column = rb$custom_sem_column$column\n  }\n  session_internal_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_internal_id = session$internal_id\n  } else {\n    session_internal_id = concerto$session$id\n  }\n\n  concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_internal_id_column}}`={{session_internal_id}}, `{{correct_column}}`={{correct}}, `{{theta_column}}`={{theta}}, `{{sem_column}}`={{sem}}\", list(\n    table=table,\n    session_internal_id_column=session_internal_id_column,\n    session_internal_id=session_internal_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = \"<div class='debug'>\"\n  debug = paste0(debug, \"<p>Current item id: #\",question$id,\"<\/p>\") \n  debug = paste0(debug, \"<p>Next item id: <input type='text' name='item_debug' \/><\/p>\")\n  debug = paste0(debug, \"<\/div>\")\n  content = paste0(debug, content)\n  return(content)\n}\n\nquestions = getQuestions()\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\ntheta = 0\nsem = 1\nout = NULL\nresponse = NULL\nwarning_msg = NULL\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = paste0(\"<div class='button_panel button_panel_cat'><button name='next' class='cat_button'>\",button_label,\"<\/button><\/div>\")\ncorrectness = c()\n\ncurrent_item = 1\nif(item_debug == \"0\") { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = NULL\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)",
-                "slug": "ea2f4feb5b884a15530118531e592ff0",
+                "slug": "cc3314fb0a284b60da9626cd26944e6c",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
                 "variables": [
                     {
                         "class_name": "TestVariable",
-                        "id": 169,
+                        "id": 208,
                         "name": "answered",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 170,
+                        "id": 209,
                         "name": "paragraph",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 171,
+                        "id": 210,
                         "name": "button_label",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 172,
+                        "id": 211,
                         "name": "item_bank",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 173,
+                        "id": 212,
                         "name": "response_bank",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 174,
+                        "id": 213,
                         "name": "stopping_time",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 175,
+                        "id": 214,
                         "name": "stopping_item_count",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 176,
+                        "id": 215,
                         "name": "stopping_accuracy",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 177,
+                        "id": 216,
                         "name": "scoring_method",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 178,
+                        "id": 217,
                         "name": "next_item_criterion",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 179,
+                        "id": 218,
                         "name": "randomesque",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 180,
+                        "id": 219,
                         "name": "randomize_response_options",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 181,
+                        "id": 220,
                         "name": "no_answer_alert",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 182,
+                        "id": 221,
                         "name": "session",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 183,
+                        "id": 222,
                         "name": "score",
                         "type": 1,
                         "description": "<p>Score R list object with following elements:<\/p>\n\n<ul>\n\t<li><strong>score$theta<\/strong><\/li>\n\t<li><strong>score$sem<\/strong><\/li>\n<\/ul>\n",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 184,
+                        "id": 223,
                         "name": "inserts",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 185,
+                        "id": 224,
                         "name": "item_debug",
                         "type": 0,
                         "description": "<p>1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/p>\n",
                         "passableThroughUrl": "0",
                         "value": "0",
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 186,
+                        "id": 225,
                         "name": "out_of_time",
                         "type": 2,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 187,
+                        "id": 226,
                         "name": "cb",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 188,
+                        "id": 227,
                         "name": "title",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 189,
+                        "id": 228,
                         "name": "template_def",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 190,
+                        "id": 229,
                         "name": "responses_layout",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 191,
+                        "id": 230,
                         "name": "response_width",
                         "type": 0,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     },
                     {
                         "class_name": "TestVariable",
-                        "id": 192,
+                        "id": 231,
                         "name": ".branch",
                         "type": 1,
                         "description": "",
                         "passableThroughUrl": "0",
                         "value": null,
-                        "test": 18,
+                        "test": 22,
                         "parentVariable": null
                     }
                 ],
                 "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-09-06 20:49:06",
+                "updatedOn": "2016-09-15 17:42:49",
                 "updatedByName": "",
                 "nodes": [],
                 "nodesConnections": [],
@@ -1347,14 +1390,14 @@
                 "rev": 2
             },
             "testName": "source_CAT",
-            "updatedOn": "2016-09-06 20:49:06",
-            "updatedByName": "",
+            "updatedOn": "2016-09-15 18:01:26",
+            "updatedByName": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2
+            "rev": 3
         },
-        "updatedOn": "2016-09-06 20:49:09",
+        "updatedOn": "2016-09-15 17:42:53",
         "updatedByName": "admin",
         "nodes": [],
         "nodesConnections": [],
