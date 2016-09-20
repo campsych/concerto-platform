@@ -186,5 +186,5 @@ concertoPanel.config(function ($uibTooltipProvider) {
 concertoPanel.run(['$state', function ($state) {}]);
 
 jsPlumb.importDefaults({
-    Connector: "Straight"
+    Connector: ["Flowchart", {cornerRadius: 15}]
 });

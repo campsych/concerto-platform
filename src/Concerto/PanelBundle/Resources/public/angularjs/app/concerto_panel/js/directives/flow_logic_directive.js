@@ -959,7 +959,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     }]);
                     } else if (params.sourcePort.variableObject.type === 2) {
                         jspConnection.addOverlay(
-                                ["Arrow", {location: 0.5, paintStyle: {fillStyle: "orange", strokeStyle: "grey"}}]);
+                                ["Arrow", {location: 0.25, paintStyle: {fillStyle: "orange", strokeStyle: "grey"}}]);
                     }
                 };
 
