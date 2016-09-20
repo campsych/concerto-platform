@@ -1,3 +1,8 @@
+#accordion-group-test-flow > div > .panel-body {
+    margin: 0px;
+    padding: 0px;
+}
+
 .flow-maximized {
     position: fixed;
     left: 0;

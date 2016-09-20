@@ -157,7 +157,7 @@
             {{ include("ConcertoPanelBundle:Test:wizard_section.html.twig") }}
         </uib-accordion-group>
 
-        <uib-accordion-group is-open="tabAccordion.logic.open" ng-if="object.type == 2">
+        <uib-accordion-group is-open="tabAccordion.logic.open" ng-if="object.type == 2" id="accordion-group-test-flow">
             <uib-accordion-heading>
                 <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'flow.fieldset.legend.tooltip'|trans }}'"></i>
                 {{ 'flow.fieldset.legend'|trans }}
