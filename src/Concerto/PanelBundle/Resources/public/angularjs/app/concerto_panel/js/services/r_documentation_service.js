@@ -24,7 +24,7 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             var handler = (this.autocompletionWizardMapping[ funct_name ]) ? this.autocompletionWizardMapping[ funct_name ] :
                     this.autocompletionWizardMapping[ '#default' ];
 
-            $uibModal.open({
+            var instance = $uibModal.open({
                 templateUrl: Paths.DIALOG_TEMPLATE_ROOT + handler.template,
                 controller: handler.controller,
                 resolve: {
@@ -43,6 +43,7 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
                 },
                 size: "prc-lg"
             });
+            return instance;
         },
         extractHtmlBody: function (data) {
             var html = data.replace(/[\s\S]+(<body)/, "<div");
@@ -93,33 +94,18 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             // simply prevent from hanging if someone put rubbish/incorrect syntax in R documentation.
             var hangprev = 100;
             while (hangprev--) {
-                // console.log( 'ITER' );
-                // console.log( function_arguments );
-
-                // console.log( definition );
                 var argument = new Object();
                 var next_stop = definition.search(/[\)\,\=]{1}/);
                 argument.name = definition.substr(0, next_stop);
-
-                // console.log( 'ARG' );
-                // console.log( argument.name );
                 definition = definition.substr(next_stop);
-
-                // console.log( definition );
                 if (definition[ 0 ] == '=') {
-                    // console.log( 'DEF' );
-
                     var tmp_val = definition.match(/\=([^\(\)]*?(\([^\(\)]*?\))*?[^\(\)]*?)[\,\)]{1}/g);
                     if (!tmp_val)
                         return false;
                     else
                         tmp_val = tmp_val[ 0 ];
                     argument.default = tmp_val.substr(1, tmp_val.length - 2);
-
-                    // console.log( argument.default );
                     definition = definition.substr(tmp_val.length - 1);
-                    // console.log( definition );
-
                 }
                 function_arguments.push(argument);
                 if ((definition == "") || (definition[ 0 ] == ')'))

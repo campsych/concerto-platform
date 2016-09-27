@@ -396,12 +396,13 @@
 
         if (typeof this.completion.config.selectCallback == 'function')
             this.completion.config.selectCallback(completions[0]);
-        var ws = this.completion.config.wizardService;
-        ws.active = true;
-        ws.select(completions[0], function (value) {
-            ws.html = value;
+        else {
+            var ws = this.completion.config.wizardService;
+            ws.active = true;
+            ws.select(completions[0], function (value) {
+                ws.html = value;
+            });
         }
-        );
 
         return true;
     }
@@ -447,6 +448,13 @@
 
             if (typeof this.completion.config.selectCallback == 'function')
                 this.completion.config.selectCallback(this.data.list[this.selectedHint]);
+            else {
+                var ws = this.completion.config.wizardService;
+                ws.active = true;
+                ws.select(this.data.list[this.selectedHint], function (value) {
+                    ws.html = value;
+                });
+            }
         },
         screenAmount: function () {
             return Math.floor(this.hints.clientHeight / this.hints.firstChild.offsetHeight) || 1;
