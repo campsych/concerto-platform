@@ -1,4 +1,4 @@
-function UploadListController($scope, $uibModalInstance, FileUploader) {
+function UploadListController($scope, $uibModalInstance, $uibModal, FileUploader) {
     $scope.item = null;
 
     $scope.getFileName = function () {
@@ -10,10 +10,32 @@ function UploadListController($scope, $uibModalInstance, FileUploader) {
         url: Paths.FILE_UPLOAD
 
     });
+    
+    $scope.showErrorAlert = function () {
+        $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+            controller: AlertController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE;
+                },
+                content: function () {
+                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
+                },
+                type: function () {
+                    return "danger";
+                }
+            }
+        });
+        $uibModalInstance.dismiss(0);
+    };
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
         if (response.result === 0) {
             $scope.item = item;
+        } else {
+            $scope.showErrorAlert();
         }
     };
 

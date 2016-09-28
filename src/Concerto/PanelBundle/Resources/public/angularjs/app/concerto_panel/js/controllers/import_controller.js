@@ -95,6 +95,26 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.getFileName = function () {
         return $scope.item.file.name;
     };
+    
+    $scope.showErrorAlert = function () {
+        $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+            controller: AlertController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE;
+                },
+                content: function () {
+                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
+                },
+                type: function () {
+                    return "danger";
+                }
+            }
+        });
+        $uibModalInstance.dismiss(0);
+    };
 
     // no way to use this module without constructing a new instance, unfortunately
     $scope.uploader = new FileUploader({
@@ -112,6 +132,8 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
             }).success(function (data) {
                 $scope.preImportStatus = data.status;
             });
+        } else {
+            $scope.showErrorAlert();
         }
     };
 

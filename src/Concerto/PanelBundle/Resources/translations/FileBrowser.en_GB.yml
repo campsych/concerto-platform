@@ -2,6 +2,10 @@ breadcrumb:
     manager: File manager
 
 uploader:
+    alerts:
+        upload_failed:
+            title: File upload
+            message: File upload failed!
     library:
         title: Files library
         empty: Files library is currently empty.

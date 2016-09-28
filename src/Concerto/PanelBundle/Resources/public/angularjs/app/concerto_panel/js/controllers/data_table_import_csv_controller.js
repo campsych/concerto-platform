@@ -18,8 +18,11 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
     });
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
+        console.log(response);
         if (response.result === 0) {
             $scope.item = item;
+        } else {
+            $scope.showErrorAlert();
         }
     };
 
@@ -65,24 +68,28 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
             }
             $uibModalInstance.close($scope.item.file.name);
         }).error(function (data, status, headers, config) {
-            $uibModal.open({
-                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                controller: AlertController,
-                size: "sm",
-                resolve: {
-                    title: function () {
-                        return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
-                    },
-                    content: function () {
-                        return Trans.DATA_TABLE_IO_DIALOG_MESSAGE_ERROR;
-                    },
-                    type: function () {
-                        return "danger";
-                    }
-                }
-            });
-            $uibModalInstance.close($scope.item.file.name);
+            $scope.showErrorAlert();
         });
+    };
+
+    $scope.showErrorAlert = function () {
+        $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+            controller: AlertController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
+                },
+                content: function () {
+                    return Trans.DATA_TABLE_IO_DIALOG_MESSAGE_ERROR;
+                },
+                type: function () {
+                    return "danger";
+                }
+            }
+        });
+        $uibModalInstance.dismiss(0);
     };
 
     $scope.cancel = function () {

@@ -20,6 +20,25 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
         $window.close();
     };
 
+    $scope.showErrorAlert = function () {
+        $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+            controller: AlertController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE;
+                },
+                content: function () {
+                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
+                },
+                type: function () {
+                    return "danger";
+                }
+            }
+        });
+    };
+
     $scope.remove = function (file) {
         var modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
@@ -65,6 +84,9 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
     });
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         fileItem.remove();
+        if (response.result != 0) {
+            $scope.showErrorAlert();
+        }
     };
     uploader.onCompleteAll = function () {
         $scope.loadFiles();
@@ -72,6 +94,7 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
     uploader.onErrorItem = function (fileItem, response, status, headers) {
         fileItem.remove();
         $scope.loadFiles();
+        $scope.showErrorAlert();
     };
 
     // Workaround for issue with files not showing up after reopening popup from CKEditor.

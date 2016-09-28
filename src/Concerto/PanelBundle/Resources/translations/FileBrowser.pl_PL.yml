@@ -2,6 +2,10 @@ breadcrumb:
     manager: Menadżer plików
 
 uploader:
+    alerts:
+        upload_failed:
+            title: Wysyłanie pliku
+            message: Wysyłanie pliku się nie powiodło!
     library:
         title: Biblioteka plików
         empty: Biblioteka plików jest obecnie pusta.
