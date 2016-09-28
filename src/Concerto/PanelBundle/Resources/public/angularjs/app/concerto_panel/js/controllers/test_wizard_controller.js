@@ -439,6 +439,10 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             }
         }
     };
+    
+    $scope.onAfterPersist = function(){
+        $scope.testCollectionService.fetchObjectCollection();
+    };
 
     $scope.onDelete = function () {
         $scope.testCollectionService.fetchObjectCollection();

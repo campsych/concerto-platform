@@ -171,7 +171,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     var defs = [];
                     var param = "grid.appScope.param.definition.element";
                     var parent = "grid.appScope.output";
-                    var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
+                    var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)].value";
                     var cd = scope.getColumnDefs(scope.param.definition.element, param, parent, output, false);
                     for (var i = 0; i < cd.length; i++) {
                         defs.push(cd[i]);
