@@ -36,6 +36,7 @@ list:
   delete: Delete
   export: Export
   button:
+    toggle_filters: Toggle filters
     refresh: Refresh
     delete.checked: Delete selected
     export.checked: Export selected

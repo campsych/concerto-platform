@@ -57,7 +57,7 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                 }
 
                 scope.selectOptions = {
-                    enableFiltering: true,
+                    enableFiltering: false,
                     enableGridMenu: true,
                     exporterMenuCsv: false,
                     exporterMenuPdf: false,
@@ -65,6 +65,15 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                     data: 'param.definition.options',
                     exporterCsvFilename: 'export.csv',
                     showGridFooter: true,
+                    gridMenuCustomItems: [
+                        {
+                            title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                            action: function ($event) {
+                                scope.selectOptions.enableFiltering = !scope.selectOptions.enableFiltering;
+                                scope.selectGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                            }
+                        }
+                    ],
                     columnDefs: [
                         {
                             displayName: Trans.TEST_WIZARD_PARAM_SELECT_LIST_FIELD_VALUE,
@@ -99,15 +108,8 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                     enableCellEditOnFocus: true
                 };
 
-                scope.$watch("param.definition.options.length", function (newValue) {
-                    scope.selectOptions.enableFiltering = newValue > 0;
-                    if (scope.selectGridApi && uiGridConstants.dataChange) {
-                        scope.selectGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-                    }
-                });
-
                 scope.colMapOptions = {
-                    enableFiltering: true,
+                    enableFiltering: false,
                     enableGridMenu: true,
                     exporterMenuCsv: false,
                     exporterMenuPdf: false,
@@ -115,6 +117,15 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                     data: 'param.definition.cols',
                     exporterCsvFilename: 'export.csv',
                     showGridFooter: true,
+                    gridMenuCustomItems: [
+                        {
+                            title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                            action: function ($event) {
+                                scope.colMapOptions.enableFiltering = !scope.colMapOptions.enableFiltering;
+                                scope.colMapGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                            }
+                        }
+                    ],
                     columnDefs: [
                         {
                             displayName: Trans.TEST_WIZARD_PARAM_COLUMN_MAP_FIELD_NAME,
@@ -148,13 +159,6 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                     enableCellEditOnFocus: true
                 };
 
-                scope.$watch("param.definition.cols.length", function (newValue) {
-                    scope.colMapOptions.enableFiltering = newValue > 0;
-                    if (scope.colMapGridApi && uiGridConstants.dataChange) {
-                        scope.colMapGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-                    }
-                });
-
                 scope.addColumn = function () {
                     if (!("cols" in scope.param.definition))
                         scope.param.definition.cols = [];
@@ -187,13 +191,22 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                 };
 
                 scope.groupOptions = {
-                    enableFiltering: true,
+                    enableFiltering: false,
                     enableGridMenu: true,
                     exporterMenuCsv: false,
                     exporterMenuPdf: false,
                     data: "param.definition.fields",
                     exporterCsvFilename: 'export.csv',
                     showGridFooter: true,
+                    gridMenuCustomItems: [
+                        {
+                            title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                            action: function ($event) {
+                                scope.groupOptions.enableFiltering = !scope.groupOptions.enableFiltering;
+                                scope.groupGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                            }
+                        }
+                    ],
                     columnDefs: [
                         {
                             displayName: Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_NAME,
@@ -248,13 +261,6 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                     },
                     enableCellEditOnFocus: true
                 };
-
-                scope.$watch("param.definition.fields.length", function (newValue) {
-                    scope.groupOptions.enableFiltering = newValue > 0;
-                    if (scope.groupGridApi && uiGridConstants.dataChange) {
-                        scope.groupGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-                    }
-                });
 
                 scope.getParamDefinitionCellTemplate = function (param) {
                     var cell = "";

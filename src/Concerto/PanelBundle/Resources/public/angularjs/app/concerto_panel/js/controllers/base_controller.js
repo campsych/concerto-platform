@@ -72,11 +72,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.super.onCollectionChanged = function (newCollection) {
         if ($scope.collectionService) {
-            $scope.collectionOptions.enableFiltering = newCollection.length > 0;
-            if ($scope.collectionGridApi && uiGridConstants.dataChange) {
-                $scope.collectionGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-            }
-
             $scope.collectionData = newCollection;
             $scope.updateFromWorkingCopy();
         }
@@ -191,6 +186,15 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
         columnDefs: $scope.columnDefs,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.collectionOptions.enableFiltering = !$scope.collectionOptions.enableFiltering;
+                    $scope.collectionGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.collectionGridApi = gridApi;
         }

@@ -151,13 +151,22 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.logsOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         data: "object.logs",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.logsOptions.enableFiltering = !$scope.logsOptions.enableFiltering;
+                    $scope.logsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.logsGridApi = gridApi;
         },
@@ -195,21 +204,23 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         ]
     };
 
-    $scope.$watch("object.logs.length", function (newValue) {
-        $scope.logsOptions.enableFiltering = newValue > 0;
-        if ($scope.logsGridApi && uiGridConstants.dataChange) {
-            $scope.logsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
-
     $scope.paramsOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         data: "params",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.paramsOptions.enableFiltering = !$scope.paramsOptions.enableFiltering;
+                    $scope.paramsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.paramsGridApi = gridApi;
         },
@@ -252,21 +263,23 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         ]
     };
 
-    $scope.$watch("params.length", function (newValue) {
-        $scope.paramsOptions.enableFiltering = newValue > 0;
-        if ($scope.paramsGridApi && uiGridConstants.dataChange) {
-            $scope.paramsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
-
     $scope.returnsOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         data: "returns",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.returnsOptions.enableFiltering = !$scope.returnsOptions.enableFiltering;
+                    $scope.returnsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.returnsGridApi = gridApi;
         },
@@ -305,21 +318,23 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         ]
     };
 
-    $scope.$watch("returns.length", function (newValue) {
-        $scope.returnsOptions.enableFiltering = newValue > 0;
-        if ($scope.returnsGridApi && uiGridConstants.dataChange) {
-            $scope.returnsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
-
     $scope.branchesOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         data: "branches",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.branchesOptions.enableFiltering = !$scope.branchesOptions.enableFiltering;
+                    $scope.branchesGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.branchesGridApi = gridApi;
         },
@@ -357,13 +372,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             }
         ]
     };
-
-    $scope.$watch("branches.length", function (newValue) {
-        $scope.branchesOptions.enableFiltering = newValue > 0;
-        if ($scope.branchesGridApi && uiGridConstants.dataChange) {
-            $scope.branchesGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
 
     $scope.showDocumentationHelp = function () {
         var modalInstance = $uibModal.open({

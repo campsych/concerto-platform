@@ -1,4 +1,4 @@
-function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploader, importPath, preImportStatusPath) {
+function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploader, importPath, preImportStatusPath, uiGridConstants) {
     $scope.item = null;
     $scope.object.validationErrors = [];
     $scope.importPath = importPath;
@@ -46,6 +46,15 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
         data: "preImportStatus",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.preImportStatusOptions.enableFiltering = !$scope.preImportStatusOptions.enableFiltering;
+                    $scope.preImportStatusGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         columnDefs: [
             {
                 displayName: Trans.LIST_FIELD_ID,
@@ -95,7 +104,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.getFileName = function () {
         return $scope.item.file.name;
     };
-    
+
     $scope.showErrorAlert = function () {
         $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',

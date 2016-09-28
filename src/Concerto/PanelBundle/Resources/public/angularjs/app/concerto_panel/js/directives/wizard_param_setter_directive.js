@@ -83,7 +83,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.listOptions = {
                     //grid virtialization <-> setter directive workaround
                     virtualizationThreshold: 64000,
-                    enableFiltering: true,
+                    enableFiltering: false,
                     enableGridMenu: true,
                     exporterMenuCsv: false,
                     exporterMenuPdf: false,
@@ -91,6 +91,15 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     data: "output",
                     exporterCsvFilename: 'export.csv',
                     exporterHeaderFilterUseName: true,
+                    gridMenuCustomItems: [
+                        {
+                            title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                            action: function ($event) {
+                                scope.listOptions.enableFiltering = !scope.listOptions.enableFiltering;
+                                scope.listGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                            }
+                        }
+                    ],
                     exporterHeaderFilter: function (name) {
                         return name;
                     },
@@ -126,12 +135,6 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     },
                     enableCellEditOnFocus: false
                 };
-                scope.$watch("output.length", function (newValue) {
-                    scope.listOptions.enableFiltering = newValue > 0;
-                    if (scope.listGridApi && uiGridConstants.dataChange) {
-                        scope.listGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-                    }
-                });
                 scope.getColumnDefs = function (obj, param, parent, output, isGroupField) {
                     if (!obj)
                         return [];

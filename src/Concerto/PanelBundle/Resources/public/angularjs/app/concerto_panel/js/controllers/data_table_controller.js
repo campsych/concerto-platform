@@ -92,10 +92,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             exporterSuppressExport: true,
         });
         $scope.fetchDataCollection($scope.object.id);
-        $scope.structureOptions.enableFiltering = $scope.object.columns.length > 0;
-        if ($scope.structureGridApi && uiGridConstants.dataChange) {
-            $scope.structureGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
     });
     $scope.editTextCell = function (entity, colName) {
         if ($scope.object.initProtected === '1')
@@ -123,13 +119,22 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
     };
     $scope.structureOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         data: "object.columns",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.structureOptions.enableFiltering = !$scope.structureOptions.enableFiltering;
+                    $scope.structureGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         columnDefs: [
             {
                 displayName: Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_NAME,
@@ -183,7 +188,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
 
     $scope.dataOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
@@ -191,6 +196,15 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         exporterCsvFilename: "export.csv",
         showGridFooter: true,
         columnDefs: [],
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.dataOptions.enableFiltering = !$scope.dataOptions.enableFiltering;
+                    $scope.dataGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.dataGridApi = gridApi;
             $scope.dataGridApi.core.on.filterChanged($scope, function () {
@@ -238,12 +252,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         useExternalFiltering: true,
         enableCellEditOnFocus: $scope.object.initProtected !== "1"
     };
-    $scope.$watch("data.length", function (newValue) {
-        $scope.dataOptions.enableFiltering = newValue > 0;
-        if ($scope.dataGridApi && uiGridConstants.dataChange) {
-            $scope.dataGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
     $scope.refreshRows = function () {
         $scope.fetchDataCollection($scope.object.id);
     };
@@ -441,7 +449,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }, function () {
         });
     };
-    
+
     $scope.onObjectChanged = function (newObject, oldObject) {
         $scope.super.onObjectChanged(newObject, oldObject);
         if ($scope.structureGridApi)
@@ -449,7 +457,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.dataFilterOptions.filters = {};
         $scope.dataFilterOptions.sorting = [];
     };
-    
+
     $scope.resetObject = function () {
         $scope.object = {
             id: 0,

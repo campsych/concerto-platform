@@ -47,13 +47,22 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     };
 
     $scope.stepsOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
         data: 'object.steps',
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.stepsOptions.enableFiltering = !$scope.stepsOptions.enableFiltering;
+                    $scope.stepsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.stepsGridApi = gridApi;
         },
@@ -95,20 +104,22 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         ]
     };
 
-    $scope.$watch("object.steps.length", function (newValue) {
-        $scope.stepsOptions.enableFiltering = newValue > 0;
-        if ($scope.stepsGridApi && uiGridConstants.dataChange) {
-            $scope.stepsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
-
     $scope.wizardParamsOptions = {
-        enableFiltering: true,
+        enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.wizardParamsOptions.enableFiltering = !$scope.wizardParamsOptions.enableFiltering;
+                    $scope.paramsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
         onRegisterApi: function (gridApi) {
             $scope.paramsGridApi = gridApi;
         },
@@ -160,13 +171,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             }
         ]
     };
-
-    $scope.$watch("params.length", function (newValue) {
-        $scope.wizardParamsOptions.enableFiltering = newValue > 0;
-        if ($scope.paramsGridApi && uiGridConstants.dataChange) {
-            $scope.paramsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        }
-    });
 
     $scope.fetchStep = function (id, callback) {
         for (var i = 0; i < $scope.object.steps.length; i++) {
