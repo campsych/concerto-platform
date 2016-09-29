@@ -135,6 +135,22 @@ param:
             group.tooltip: Parametre grup alanlarını tanımlayınız
             list: "{0} - liste öğe türlerini tanımla"
             list.tooltip: Parametre liste öğe türlerini tanımlayınız
+            single_line: "{0} - set default value"
+            single_line.tooltip: Parameter default value
+            multi_line: "{0} - set default value"
+            multi_line.tooltip: Parameter default value
+            html: "{0} - set default value"
+            html.tooltip: Parameter default value
+            checkbox: "{0} - set default value"
+            checkbox.tooltip: Parameter default value
+            test: "{0} - set default value"
+            test.tooltip: Parameter default value
+            table: "{0} - set default value"
+            table.tooltip: Parameter default value
+            template: "{0} - set default value"
+            template.tooltip: Parameter default value
+            r_code: "{0} - set default value"
+            r_code.tooltip: Parameter default value
         summaries:
             select: "Seçenek sayısı: {0}"
             group: "Alan sayısı: {0}"
@@ -169,6 +185,7 @@ param:
             group.tooltip: Grup alanları parametresini ayarlayın
             list: "{0} - öğe listesi"
             list.tooltip: Öğe listesi parametresini ayarlayın
+            r: "{0} - R kodu"
         summaries:
             textarea: "{0}"
             html: "{0}"
