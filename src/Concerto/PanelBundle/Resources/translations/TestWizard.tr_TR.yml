@@ -92,6 +92,7 @@ param:
             type.single_line_text: Tek satır metin
             type.multi_line_text: Çok satırlı metin
             type.html: HTML
+            type.r: R kodu
             type.select: Aşağı açılır liste
             type.view: Şablonu göster
             type.test: Test
@@ -135,10 +136,30 @@ param:
             group.tooltip: Parametre grup alanlarını tanımlayınız
             list: "{0} - liste öğe türlerini tanımla"
             list.tooltip: Parametre liste öğe türlerini tanımlayınız
+            single_line: "{0} - varsayılan değer"
+            single_line.tooltip: Parametre varsayılan değeri
+            multi_line: "{0} - varsayılan değer"
+            multi_line.tooltip: Parametre varsayılan değeri
+            html: "{0} - varsayılan değer"
+            html.tooltip: Parametre varsayılan değeri
+            checkbox: "{0} - varsayılan değer"
+            checkbox.tooltip: Parametre varsayılan değeri
+            test: "{0} - varsayılan değer"
+            test.tooltip: Parametre varsayılan değeri
+            table: "{0} - varsayılan değer"
+            table.tooltip: Parametre varsayılan değeri
+            template: "{0} - varsayılan değer"
+            template.tooltip: Parametre varsayılan değeri
+            r_code: "{0} - varsayılan değer"
+            r_code.tooltip: Parametre varsayılan değeri
         summaries:
             select: "Seçenek sayısı: {0}"
             group: "Alan sayısı: {0}"
             list: "Öğre türü: {0}"
+        select.options: Seçenekler
+        select.options.tooltip: Kullanılabilir seçenekleri tanımlar
+        select.default: Varsayılan
+        select.default.tooltip: Varsayılan değeri seç
         select.option.add: Yeni seçenek ekle
         select.option.remove.selected: Seçili seçenekleri sil
         select.option.remove.all: Tüm seçenekleri kaldır
@@ -169,12 +190,14 @@ param:
             group.tooltip: Grup alanları parametresini ayarlayın
             list: "{0} - öğe listesi"
             list.tooltip: Öğe listesi parametresini ayarlayın
+            r: "{0} - R kodu"
         summaries:
             textarea: "{0}"
             html: "{0}"
             column: "Tablo: {0}, Sütun: {1}"
             group: "{0}"
             list: "Öğe sayısı: {0}"
+            r: "{0}"
         column.table: Veri tablosu
         column.table.tooltip: Daha sonra sütunu seçeceğiniz veri tablosunu belirleyin
         column: Sütun

@@ -1,0 +1,15 @@
+session.resuming: Teste devam et
+session.resuming.question: Teste başladığınızı ancak bitirmediğinizi belirledik. Teste geri dönmek için Tamam'a basın ya da kutucuğu işaretleyip yeniden başlayın.
+session.resuming.start_new_checkbox_label: Testi yeniden başlat
+OK: Tamam
+ignition.noscript: Tarayıcınız Javascript desteklemiyor. Lütfen Javascript'i etkinleştirin ve yeniden deneyin.
+ignition.ip: "IP:"
+ignition.browser: "Tarayıcı:"
+ignition.time: "Zaman:"
+ignition.browser.notsupported: Tarayıcı sürümünüz desteklenmiyor. Lütfen tarayıcınızı Internet Explorer 9 ya da üzerine güncelleyin ya da Chrome ya da Firefox tarayıcılarını kullanın.
+ignition.browser.potentionallynotsupported: Eğer bu mesaj birazdan kaybolmazsa, başka bir tarayıcı kullanmanıza ihtiyaç duyulacaktır.
+default.template:
+    error: Hata oluştu. Çalışma durdu.
+    finished: Test Tamamlandı.
+    loading: Lütfen Bekleyin...
+    unresumable: Test zaman aşımına uğradı. Yeniden başlamak için lütfen tarayıcınızı yenileyin.
