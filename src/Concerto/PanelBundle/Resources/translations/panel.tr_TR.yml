@@ -1,0 +1,141 @@
+header:
+  logged.user: 'Aktif Kullanıcı: {0}'
+  logout: Çıkış
+
+tab:
+  wizards: Test sihirbazı
+  wizards.tooltip: Test sihirbazı sekmesi
+  tests: Testler
+  tests.tooltip: Test sekmesi
+  templates: Şablonlar
+  templates.tooltip: Şablon görüntüleme sekmesi
+  tables: Veri Tabloları
+  tables.tooltip: Veri tabloları sekmesi
+  files: Dosyalar
+  files.tooltip: Dosya yöneticisi sekmesi
+  users: Kullanıcılar
+  users.tooltip: Kullanıcı sekmesi
+
+list:
+  accessibility:
+      public: Herkes
+      group: grup
+      private: özel
+  field:
+    id: Id
+    info: Bilgi
+    updated.on: Son güncelleme
+    updated.by: Son güncelleme
+    protected: Korumalı
+  edit: Düzenle
+  delete: Sil
+  export: Dışa aktar
+  button:
+    refresh: Yinele
+    delete.checked: Seçilenleri sil
+    export.checked: Seçilenleri dışarı aktar
+    add: Yeni ekle
+    import: İçe aktar
+    download: İndir
+    upload: CSV yükle
+
+form:
+  validation.failed: Doğrulama başarısız
+  button:
+    save.new: Kopyala
+    delete: Sil
+    export: Dışa Aktar
+    save: Kaydet
+    cancel: İptal
+    yes: Evet
+    no: Hayır
+    change: Değiştir
+    ok: Tamam
+    apply: Uygula
+    upload: Yükle
+
+dialog:
+  title:
+    save: Nesne kaydediliyor
+    delete: Nesne siliniyor
+    csv: CSV
+  message:
+    failed: Çalıştırılamadı. Verinizi doğrulayın ve tekrar deneyin.
+    saved: Nesne kaydedildi
+    confirm.delete: Seçili nesne(leri) silmek istediğinizden emin misiniz?
+    leaving: Devam etmek istediğinizden emin misiniz? Kaydetmediğiniz veriler kaybolabilir.
+
+please.wait: Lütfen Bekleyin...
+none.choosen: Hiçbiri seçilmedi
+none: Hiçbiri
+
+description:
+    tooltip: Tanımı değiştir
+    fieldset:
+        legend: Tanım
+        legend.tooltip: Nesne tanımı
+        
+save_new:
+    dialog:
+        title: Yeni nesnenin ismi
+        title_main: Nesne kopyalanıyor
+        message.copied: Nesne kopyalandı
+    fieldset:
+        legend.tooltip: >
+            Kopyalanan nesne için isim giriniz. Orjinal adını korumak için boş bırakın. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+import:
+    dialog:
+        title: Nesne içe aktarılıyor
+        message.imported: Nesne içe aktarıldı
+    fieldset:
+        legend.tooltip: Daha önce dışa aktarılmış dosyadan yeni nesneler içe aktarın.
+    form:
+        field:
+            file: Dosya
+            file.tooltip: İçeri aktarılacak dosyayı seçin
+
+export:
+    dialog:
+        title: Veri dışarı aktar
+        error:
+            empty.content: Lütfen, dışarı aktarmak için aşağıdaki tablodan en az bir girdiyi işaretleyin.
+        format:
+            info: Lüfen dışa aktarılacak dosya biçmini seçin. Sıkıştırılmış format daha az disk alanı ve bant genişliğine ihtiyaç duyar, fakat kolayca açılamaz. Metin formatını düzenlemek ve görüntülemek kolaydır ancak daha büyük dosyalar oluşturur.
+            compressed: sıkıştırılmış
+            plaintext: metin
+     
+download_list:
+    dialog:
+        title: Izgara indiriliyor
+        tooltip: Izgara seçeneklerini belirleyin
+        field:
+            format: Biçim
+            format.tooltip: İndirilen dosya biçmi
+            format.csv: CSV
+            format.pdf: PDF
+            cols: Sütun
+            cols.tooltip: Gösterilecek sütunlar
+            cols.all: Tümü
+            cols.visible: Görünür
+            rows: Satırlar
+            rows.tooltip: Gösterilecek satırlar
+            rows.all: Tümü
+            rows.visible: Görünür
+            rows.selected: Seçili
+            
+upload_list:
+    dialog:
+        title: CSV ızgarası içe aktarılıyor
+        tooltip: Izgara CSV dosyasını seçin
+        description: Yeni data var olan dataya eklenecek
+        fields:
+            file: Dosya
+            file.tooltip: Yüklemek istediğiniz dosyaları seçin
+    
+code:
+    F11: tam-ekran modu
+    shift.tab: seçilen kodu biçimlendir
+    ctrl.space: oto-tamamla
+    documentation:
+        error.info: Oto-tamamlama verisi yüklenemedi!
+        error.solve: Çöz

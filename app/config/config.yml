@@ -3,6 +3,7 @@ parameters:
     available_locales:
         en_GB: english
         pl_PL: polski
+        tr_TR: türkçe
 
 imports:
     - { resource: parameters.yml }

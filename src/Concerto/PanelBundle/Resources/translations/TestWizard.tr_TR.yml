@@ -1,0 +1,217 @@
+breadcrumb:
+    list: Tüm Sihirbazlar
+
+form:
+  title:
+    add: Yeni test sihirbazı yaratılıyor
+    edit: 'Test Sihirbazı #{0} düzenleniyor'
+  field:
+    name: Adı
+    name.tooltip: Test adı
+    accessibility: Erişilebilirlik
+    accessibility.tooltip: Test sihirbazının erişilebilirlik düzeyi 
+    protected: Korumalı
+    protected.tooltip: Test sihirbazı korumalı mı?
+    archived: Arşivlenmiş
+    archived.tooltip: Test sihirbazı arşivlenmiş mi?
+    test: Test
+    test.tooltip: Sihirbaz bir test için kullanılıyor. Daha sonra değiştirilemez.
+    owner: Sahip
+    owner.tooltip: Nesne sahibi
+    groups: Gruplar
+    groups.tooltip: Nesnenin atandığı virgülle ayrılmış grup listesi
+    
+list: 
+  field:
+    name: Adı
+    test: Test
+    
+step:
+    fieldset:
+        legend: Test sihirbazı adımları
+        legend.tooltip: Test sihirbazı adımlarını oluşturun.
+    form:
+        fieldset:
+            legend.tooltip: Test sihirbazı adımlarını giriniz
+        field:
+            title: Başlık
+            title.tooltip: Test sihirbazı adımı başlığı
+            description: Tanım
+            description.tooltip: Test sihirbazı adımı tanımı
+            order: Sıra
+            order.tooltip: Test sihirbazı sırası tanımı
+    list:
+        button: 
+            add: Yeni adım ekle
+            delete.all: Tüm adımları sil
+            delete.checked: Seçilen adımları sil
+            delete: Sil
+            edit: Düzenle
+        field:
+            id: Id
+            info: Bilgi
+            title: Başlık
+            order: Sıra
+    dialog:
+        title:
+            add: Yeni test sihirbazı adımı ekleniyor
+            edit: Test sihirbazı adımı düzenleniyor
+            delete: Test sihirbazı adımı siliniyor
+            clear: Test sihirbazı adımları temizleniyor
+        message:
+            delete.confirm: Seçili sihirbaz adımlarını silmek istediğinizden emin misiniz?
+            clear.confirm: Seçili sihirbaz adımlarını temizlemek istediğinizden emin misiniz?
+            
+param:
+    move_up.tooltip: Parametreyi yukarı taşı
+    move_down.tooltip: Parametreyi aşağı taşı
+    fieldset:
+        legend: Test sihirbazı parametreleri
+        legend.tooltip: Sihirbaz parametrelerini tanımlayınız
+    form:
+        fieldset:
+            legend.tooltip: Test sihirbazı parametre özelliklerini tanımlayınız
+        field:
+            label: Etiket
+            label.tooltip: Test sihirbazı parametre etiketi
+            description: Tanım
+            description.tooltip: Test sihirbazı parametre tanımı
+            url: URL'den geçebilir
+            url.tooltip: Parametre değerinin URL üzerinde tanımlanabilmesini sağlar
+            order: Sıra
+            order.tooltip: Parametre indeksinin sihirbaz adımlarındaki sırası
+            variable: Test değişkeni
+            variable.tooltip: Test parametresi
+            step: Wizard adım
+            step.tooltip: Select test wizard step for this parameter
+            definition: Tanım
+            definition.tooltip: Parameters tanımı
+            definition.icon.tooltip: Parametre tanımını ayarlar
+            type: Tip
+            type.tooltip: Test sihirbazı parametre tipi
+            type.single_line_text: Tek satır metin
+            type.multi_line_text: Çok satırlı metin
+            type.html: HTML
+            type.r: R kodu
+            type.select: Aşağı açılır liste
+            type.view: Şablonu göster
+            type.test: Test
+            type.table: Data tablosu
+            type.column: Data tablosu sütunu
+            type.checkbox: Onay kutucuğu
+            type.group: Grup
+            type.list: Liste
+            hide_condition: Koşulu sakla
+            hide_condition.tooltip: 'Koşulu sakla özelliği javascript syntax kullanır. Nesnenin şu anki parametre değer toplamı bu şekildedir <strong>values</strong>. Seçili parametrenin ana kapsamına erişmek için <strong>parent</strong> kullanın. Örnek: <strong>values.param1.subparam3 != "1"</strong>'
+            setter.icon.tooltip: Bilgi diyalog kutusunu aç
+    list:
+        button: 
+            add: Yeni parametre ekle
+            delete.all: Tüm parametreleri sil
+            delete.checked: Seçili parametreleri sil
+            delete: Sil
+            edit: Düzenle
+        field:
+            id: Id
+            info: Bilgi
+            label: Başlık
+            step: Adım
+            variable: Test parametresi
+            type: Tip
+            order: Sıra
+    dialog:
+        title:
+            add: Yeni test sihirbazı parametresi ekleniyor
+            edit: Test sihirbazı parametresi düzenleniyor
+            delete: Test sihirbazı parametresi siliniyor
+            clear: Test sihirbazı parametresi temizleniyor
+        message:
+            delete.confirm: Seçili test sihirbazı parametresini silmek istediğinizden emin misiniz?
+            clear.confirm: Tüm test sihirbazı parametrelerini temizlemek istediğinizden emin misiniz?
+    definer:
+        titles:
+            select: "{0} - kullanılabileek seçim parametresi sayısını tanımla"
+            select.tooltip: Parametre seçim seçeneklerini tanımlayınız
+            group: "{0} - grup alanlarını tanımla"
+            group.tooltip: Parametre grup alanlarını tanımlayınız
+            list: "{0} - liste öğe türlerini tanımla"
+            list.tooltip: Parametre liste öğe türlerini tanımlayınız
+            single_line: "{0} - varsayılan değer"
+            single_line.tooltip: Parametre varsayılan değeri
+            multi_line: "{0} - varsayılan değer"
+            multi_line.tooltip: Parametre varsayılan değeri
+            html: "{0} - varsayılan değer"
+            html.tooltip: Parametre varsayılan değeri
+            checkbox: "{0} - varsayılan değer"
+            checkbox.tooltip: Parametre varsayılan değeri
+            test: "{0} - varsayılan değer"
+            test.tooltip: Parametre varsayılan değeri
+            table: "{0} - varsayılan değer"
+            table.tooltip: Parametre varsayılan değeri
+            template: "{0} - varsayılan değer"
+            template.tooltip: Parametre varsayılan değeri
+            r_code: "{0} - varsayılan değer"
+            r_code.tooltip: Parametre varsayılan değeri
+        summaries:
+            select: "Seçenek sayısı: {0}"
+            group: "Alan sayısı: {0}"
+            list: "Öğre türü: {0}"
+        select.options: Seçenekler
+        select.options.tooltip: Kullanılabilir seçenekleri tanımlar
+        select.default: Varsayılan
+        select.default.tooltip: Varsayılan değeri seç
+        select.option.add: Yeni seçenek ekle
+        select.option.remove.selected: Seçili seçenekleri sil
+        select.option.remove.all: Tüm seçenekleri kaldır
+        select.list.field.order: Sıra
+        select.list.field.label: Etiket
+        select.list.field.value: Değer
+        select.list.button.delete: Sil
+        group.field.add: Yeni alan ekle
+        group.field.remove.selected: Seçili alanları sil
+        group.field.remove.all: Tüm alanları sil
+        group.field.move_up.tooltip: Alanı yukarı taşı
+        group.field.move_down.tooltip: Alanı aşağı taşı
+        group.list.field.name: Adı
+        group.list.field.label: Etiket
+        group.list.field.type: Tür
+        group.list.field.hide_condition: Koşulu sakla
+        group.list.field.definition: Tanım
+        group.list.field.order: Sıra
+    setter:
+        titles:
+            textarea: "{0} - çok satırlı metin"
+            textarea.tooltip: Metin değeri parametresini ayarlayın
+            html: "{0} - HTML"
+            html.tooltip: HTML parametresini ayarlayın
+            column: "{0} - Veri tablosu sütunu"
+            column.tooltip: Veri tablosu sütunu parametresini ayarlayın
+            group: "{0} - grup alanları"
+            group.tooltip: Grup alanları parametresini ayarlayın
+            list: "{0} - öğe listesi"
+            list.tooltip: Öğe listesi parametresini ayarlayın
+            r: "{0} - R kodu"
+        summaries:
+            textarea: "{0}"
+            html: "{0}"
+            column: "Tablo: {0}, Sütun: {1}"
+            group: "{0}"
+            list: "Öğe sayısı: {0}"
+            r: "{0}"
+        column.table: Veri tablosu
+        column.table.tooltip: Daha sonra sütunu seçeceğiniz veri tablosunu belirleyin
+        column: Sütun
+        column.tooltip: Veri tablosu sütununu seçin
+        list.element.add: Yeni öğe ekle
+        list.element.remove.selected: Seçili öğeleri kaldır
+        list.element.remove.all: Tüm öğeleri kaldır
+        list.element.remove: Sil
+        list.column.element: Öğe
+            
+preview:
+    fieldset:
+        legend: Test sihirbazı ön izleme
+        legend.tooltip: Test sihirbazının ön izlemesi. Her adımdaki parametreleri yeniden sıralayabilirsiniz.
+    buttons:
+        next: Sonraki Adım
+        previous: Önceki Adım
