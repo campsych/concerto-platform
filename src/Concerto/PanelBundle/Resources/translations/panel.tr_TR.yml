@@ -93,6 +93,8 @@ import:
         field:
             file: Dosya
             file.tooltip: İçeri aktarılacak dosyayı seçin
+            instructions: Talimatlar
+            instructions.tooltip: "Talimatları içeri aktar.Yeniden adlandırma yaparken buna benzer değişkenler kullanabilirsiniz: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b> sırasıyla içeri aktarılan nesne adı, içeri aktarılan nesne idsi, içeri aktarılan nesne sahibi adı ve içeri aktarılan nesne sahibi idsi."
 
 export:
     dialog:
