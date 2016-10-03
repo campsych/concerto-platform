@@ -45,7 +45,7 @@ class TestNodeService extends ASectionService {
         return $this->authorizeCollection($this->repository->findByFlowTest($test_id));
     }
 
-    public function save(User $user, $object_id, $type, $posX, $posY, Test $flowTest, Test $sourceTest) {
+    public function save(User $user, $object_id, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $comment) {
         $errors = array();
         $object = $this->get($object_id);
         $is_new = false;
@@ -59,6 +59,7 @@ class TestNodeService extends ASectionService {
         $object->setPosY($posY);
         $object->setFlowTest($flowTest);
         $object->setSourceTest($sourceTest);
+        $object->setComment($comment);
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -179,6 +180,8 @@ class TestNodeService extends ASectionService {
         $ent->setPosY($obj["posY"]);
         $ent->setSourceTest($sourceTest);
         $ent->setType($obj["type"]);
+        if (array_key_exists("comment", $obj))
+            $ent->setComment($obj["comment"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

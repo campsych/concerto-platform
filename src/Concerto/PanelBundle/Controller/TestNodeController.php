@@ -43,7 +43,8 @@ class TestNodeController extends ASectionController {
                 $this->request->get("posX"), //
                 $this->request->get("posY"), //
                 $this->testService->get($this->request->get("flowTest")), //
-                $this->testService->get($this->request->get("sourceTest")));
+                $this->testService->get($this->request->get("sourceTest")), //
+                $this->request->get("comment"));
         return $this->getSaveResponse($result);
     }
 

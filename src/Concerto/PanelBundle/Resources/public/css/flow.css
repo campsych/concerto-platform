@@ -201,6 +201,21 @@
     background-color: #FBFBFB;
 }
 
+.comment {
+    position: absolute;
+    width: 100%;
+}
+
+.comment i {
+    margin-left: 7px;
+}
+
+.comment .comment-text {
+    position: absolute;
+    width: 100%;
+    bottom: 5px;
+}
+
 ._jsPlumb_connector { z-index:4; }
 ._jsPlumb_endpoint { z-index:7; }
 ._jsPlumb_overlay { z-index:8; }

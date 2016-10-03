@@ -264,6 +264,9 @@ flow:
             selection_delete:
                 title: Usuwanie wybranych węzłów
                 message: Jesteś pewien, że chcesz usunąć wybrane węzły?
+            comment:
+                title: Edycja komentarza węzła
+                tooltip: Kometarz do węzła, który będzie widoczny nad węzłem
     ports:
         names:
             in: wejście
@@ -290,5 +293,6 @@ flow:
         zoom_in: Przybliż
         zoom_out: Oddal
         maximize: Przełącz pełno-ekranowy widok
+        comment: Edytuj komentarz
     tags:
         all: Wszystkie

@@ -188,6 +188,9 @@ param:
         column_map.list.button.delete: Usuń
         column_map.columns: Kolumny
         column_map.columns.tooltip: Kolumny do zmapowania
+        column_map.column.add: Dodaj nową kolumnę
+        column_map.column.remove.selected: Usuń wybrane kolumny
+        column_map.column.remove.all: Usuń wszystkie kolumny
     setter:
         titles:
             textarea: "{0} - wieloliniowy tekst"

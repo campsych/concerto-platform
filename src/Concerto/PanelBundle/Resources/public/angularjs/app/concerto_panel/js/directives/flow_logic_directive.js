@@ -278,6 +278,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
 
+                    var comment = "<div class='comment'><div class='comment-text'>" +
+                            "<i class='glyphicon glyphicon-pencil clickable' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_COMMENT + "\"' ng-click='editNodeComment(collectionService.getNode(" + node.id + "))'></i> " +
+                            "<span>{{collectionService.getNode(" + node.id + ").comment}}</span>" +
+                            "</div></div>";
                     var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getNode(" + node.id + ").sourceTestDescription'></i>";
                     var fullName = "";
                     var name = "";
@@ -316,7 +320,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 "tooltip-placement='bottom' tooltip-append-to-body='false' uib-tooltip='" + Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP + "'></i></div>" +
                                 "</div>";
                     }
-                    elemHtml +=
+                    elemHtml += comment +
                             "<div class='nodeHeader' tooltip-append-to-body='true' uib-tooltip-html='\"" + fullName + "\"'>" + selectionCheckbox + tooltip + name + "</div>" +
                             "<div class='nodeFooter'>" +
                             collapseHtml +
@@ -523,7 +527,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     "flowTest": scope.object.id,
                                     "sourceTest": node.sourceTest,
                                     "posX": x,
-                                    "posY": y
+                                    "posY": y,
+                                    "comment": node.comment
                                 }).success(function (data) {
                                     if (data.result === 0) {
                                         node.posX = x;
@@ -616,6 +621,44 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
                 };
 
+                scope.editNodeComment = function (node) {
+                    var oldComment = node.comment;
+                    var modalInstance = $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "textarea_dialog.html",
+                        controller: TextareaController,
+                        resolve: {
+                            readonly: function () {
+                                return false;
+                            },
+                            value: function () {
+                                return node.comment;
+                            },
+                            title: function () {
+                                return Trans.TEST_FLOW_DIALOG_NODE_EDIT_COMMENT_TITLE;
+                            },
+                            tooltip: function () {
+                                return Trans.TEST_FLOW_DIALOG_NODE_EDIT_COMMENT_TOOLTIP;
+                            }
+                        },
+                        size: "lg"
+                    });
+
+                    modalInstance.result.then(function (response) {
+                        $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
+                            "type": node.type,
+                            "flowTest": scope.object.id,
+                            "sourceTest": node.sourceTest,
+                            "posX": node.posX,
+                            "posY": node.posY,
+                            "comment": response
+                        }).success(function (data) {
+                            node.comment = data.object.comment;
+                        });
+                    }, function () {
+                        node.comment = oldComment;
+                    });
+                };
+
                 scope.editPortCode = function (port) {
                     var oldValue = port.value;
                     var modalInstance = $uibModal.open({
@@ -691,7 +734,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         "flowTest": scope.object.id,
                         "sourceTest": testId,
                         "posX": posX,
-                        "posY": posY
+                        "posY": posY,
+                        "comment": ""
                     }).success(function (data) {
                         if (data.result === 0) {
                             //scope.drawNode(data.object);

@@ -13,6 +13,12 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodeRepository")
  */
 class TestNode extends AEntity implements \JsonSerializable {
+    
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $comment;
 
     /**
      *
@@ -66,10 +72,32 @@ class TestNode extends AEntity implements \JsonSerializable {
     public function __construct() {
         parent::__construct();
         
+        $this->comment = "";
         $this->type = 0;
         $this->posX = 0;
         $this->posY = 0;
         $this->ports = new ArrayCollection();
+    }
+    
+     /**
+     * Set comment
+     *
+     * @param string $comment
+     * @return TestNode
+     */
+    public function setComment($comment) {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return string 
+     */
+    public function getComment() {
+        return $this->comment;
     }
     
     public function getOwner() {
@@ -275,6 +303,7 @@ class TestNode extends AEntity implements \JsonSerializable {
         return array(
             "class_name" => "TestNode",
             "id" => $this->id,
+            "comment" => $this->comment,
             "type" => $this->type,
             "posX" => $this->posX,
             "posY" => $this->posY,

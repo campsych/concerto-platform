@@ -262,6 +262,9 @@ flow:
             selection_delete:
                 title: Removing selected nodes
                 message: Are you sure you want to remove selected nodes?
+            comment:
+                title: Edit node comment
+                tooltip: Node comment that will be visible above node
     ports:
         names:
             in: in
@@ -287,6 +290,7 @@ flow:
         zoom_in: Zoom in
         zoom_out: Zoom out
         maximize: Toggle full-screen view
+        comment: Edit comment
     tags:
         all: All
         

@@ -149,8 +149,8 @@ class TestService extends AExportableSectionService {
         $this->updateDependentTests($user, $object->getId());
 
         if ($object->getType() == Test::TYPE_FLOW && $is_new && $insert_initial_objects) {
-            $this->testNodeService->save($user, 0, 1, 15000, 15000, $object, $object);
-            $this->testNodeService->save($user, 0, 2, 15500, 15100, $object, $object);
+            $this->testNodeService->save($user, 0, 1, 15000, 15000, $object, $object, "");
+            $this->testNodeService->save($user, 0, 2, 15500, 15100, $object, $object, "");
         }
     }
 
@@ -310,7 +310,7 @@ class TestService extends AExportableSectionService {
     }
 
     public function addFlowNode(User $user, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $return_collections = false) {
-        $result = $this->testNodeService->save($user, 0, $type, $posX, $posY, $flowTest, $sourceTest);
+        $result = $this->testNodeService->save($user, 0, $type, $posX, $posY, $flowTest, $sourceTest, "");
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
         }

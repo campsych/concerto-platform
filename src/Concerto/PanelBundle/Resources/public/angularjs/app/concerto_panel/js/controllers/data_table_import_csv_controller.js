@@ -18,7 +18,6 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
     });
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
-        console.log(response);
         if (response.result === 0) {
             $scope.item = item;
         } else {

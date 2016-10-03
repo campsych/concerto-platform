@@ -525,7 +525,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     };
 
     $scope.showSingleTextareaModal = function (value, readonly, title, tooltip) {
-        $uibModal.open({
+        return $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "textarea_dialog.html",
             controller: TextareaController,
             resolve: {
