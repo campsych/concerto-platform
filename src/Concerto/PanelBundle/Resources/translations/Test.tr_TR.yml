@@ -286,5 +286,6 @@ flow:
         toggle_collapse: Bağlı olmayan portları göster/gizle
         zoom_in: Yaklaştır
         zoom_out: Uzaklaştır
+        maximize: Tam ekran görünümünü aç/kapat
     tags:
         all: Tümü
