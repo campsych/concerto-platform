@@ -101,6 +101,7 @@ param:
             type.checkbox: Onay kutucuğu
             type.group: Grup
             type.list: Liste
+            type.column_map: Data tablosu sütun haritası
             hide_condition: Koşulu sakla
             hide_condition.tooltip: 'Koşulu sakla özelliği javascript syntax kullanır. Nesnenin şu anki parametre değer toplamı bu şekildedir <strong>values</strong>. Seçili parametrenin ana kapsamına erişmek için <strong>parent</strong> kullanın. Örnek: <strong>values.param1.subparam3 != "1"</strong>'
             setter.icon.tooltip: Bilgi diyalog kutusunu aç
@@ -152,10 +153,13 @@ param:
             template.tooltip: Parametre varsayılan değeri
             r_code: "{0} - varsayılan değer"
             r_code.tooltip: Parametre varsayılan değeri
+            column_map: "{0} - gerekli sütunları tanımla"
+            column_map.tooltip: Sütun haritası
         summaries:
             select: "Seçenek sayısı: {0}"
             group: "Alan sayısı: {0}"
             list: "Öğre türü: {0}"
+            column_map: "Sütunlar: {0}"
         select.options: Seçenekler
         select.options.tooltip: Kullanılabilir seçenekleri tanımlar
         select.default: Varsayılan
@@ -178,6 +182,15 @@ param:
         group.list.field.hide_condition: Koşulu sakla
         group.list.field.definition: Tanım
         group.list.field.order: Sıra
+        column_map.list.field.name: Adı
+        column_map.list.field.label: Etiketi
+        column_map.list.field.tooltip: Yardımcı metni
+        column_map.list.button.delete: Sil
+        column_map.columns: Sütunlar
+        column_map.columns.tooltip: Haritalancak sütunlar
+        column_map.column.add: Yeni sütun ekle
+        column_map.column.remove.selected: Seçili sütunları sil
+        column_map.column.remove.all: Tüm sütunları sil
     setter:
         titles:
             textarea: "{0} - çok satırlı metin"
@@ -185,12 +198,15 @@ param:
             html: "{0} - HTML"
             html.tooltip: HTML parametresini ayarlayın
             column: "{0} - Veri tablosu sütunu"
-            column.tooltip: Veri tablosu sütunu parametresini ayarlayın
+            column.tooltip: Veri tablosu  sütunu parametresini ayarlayın
             group: "{0} - grup alanları"
             group.tooltip: Grup alanları parametresini ayarlayın
             list: "{0} - öğe listesi"
             list.tooltip: Öğe listesi parametresini ayarlayın
             r: "{0} - R kodu"
+            r.tooltip: R kodu
+            column_map: "{0} - sutün haritası"
+            column_map.tooltip: Sutün haritası
         summaries:
             textarea: "{0}"
             html: "{0}"
@@ -198,6 +214,7 @@ param:
             group: "{0}"
             list: "Öğe sayısı: {0}"
             r: "{0}"
+            column_map: "{0}"
         column.table: Veri tablosu
         column.table.tooltip: Daha sonra sütunu seçeceğiniz veri tablosunu belirleyin
         column: Sütun
@@ -207,6 +224,8 @@ param:
         list.element.remove.all: Tüm öğeleri kaldır
         list.element.remove: Sil
         list.column.element: Öğe
+        column_map.table: Tablo
+        column_map.table.tooltip: Haritalanacak veri tablosu
             
 preview:
     fieldset:
