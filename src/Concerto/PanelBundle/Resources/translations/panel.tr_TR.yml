@@ -27,6 +27,11 @@ list:
     updated.on: Son güncelleme
     updated.by: Son güncelleme
     protected: Korumalı
+    type: Tür
+    exists: Varolan
+    action: Eylem
+    rename: Yeniden adlandır
+    safe: Safe
   edit: Düzenle
   delete: Sil
   export: Dışa aktar
@@ -63,6 +68,7 @@ dialog:
     failed: Çalıştırılamadı. Verinizi doğrulayın ve tekrar deneyin.
     saved: Nesne kaydedildi
     confirm.delete: Seçili nesne(leri) silmek istediğinizden emin misiniz?
+    confirm.unsafe_import: Veri kaybına neden olacak güvenli olmayan aktarımlar yapılacak. Devam etmeden önce veritabanını yedeklemenizi öneriririz. Devam etmek istediğinizden emin misiniz?
     leaving: Devam etmek istediğinizden emin misiniz? Kaydetmediğiniz veriler kaybolabilir.
 
 please.wait: Lütfen Bekleyin...
@@ -83,9 +89,14 @@ save_new:
     fieldset:
         legend.tooltip: >
             Kopyalanan nesne için isim giriniz. Orjinal adını korumak için boş bırakın. You can insert original object id or name by using: \{\{id\}\} or \{\{name\}\}.
+
 import:
+    action:
+        new: Yeni
+        convert: Dönüştür
     dialog:
         title: Nesne içe aktarılıyor
+        description_warning: Seçili nesneleri yeni içeri aktarılanlarla değiştirme özelliği henüz deneysel olarak çalışmaktadır ve veri kaybına yol açabilir. İki nesne arasındaki farkları kaçınılmaz bir veri kaybına neden olması olasıdır. Devam etmeden veritabanınızı yedeklemeniz önemle tavsiye edilir.
         message.imported: Nesne içe aktarıldı
     fieldset:
         legend.tooltip: Daha önce dışa aktarılmış dosyadan yeni nesneler içe aktarın.
@@ -93,6 +104,8 @@ import:
         field:
             file: Dosya
             file.tooltip: İçeri aktarılacak dosyayı seçin
+            instructions: Talimatlar
+            instructions.tooltip: "Talimatları içeri aktar.Yeniden adlandırma yaparken buna benzer değişkenler kullanabilirsiniz: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b> sırasıyla içeri aktarılan nesne adı, içeri aktarılan nesne idsi, içeri aktarılan nesne sahibi adı ve içeri aktarılan nesne sahibi idsi."
 
 export:
     dialog:
