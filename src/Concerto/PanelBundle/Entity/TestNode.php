@@ -18,7 +18,7 @@ class TestNode extends AEntity implements \JsonSerializable {
      * @var string
      * @ORM\Column(type="string")
      */
-    private $comment;
+    private $title;
 
     /**
      *
@@ -72,7 +72,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     public function __construct() {
         parent::__construct();
         
-        $this->comment = "";
+        $this->title = "";
         $this->type = 0;
         $this->posX = 0;
         $this->posY = 0;
@@ -80,24 +80,24 @@ class TestNode extends AEntity implements \JsonSerializable {
     }
     
      /**
-     * Set comment
+     * Set title
      *
-     * @param string $comment
+     * @param string $title
      * @return TestNode
      */
-    public function setComment($comment) {
-        $this->comment = $comment;
+    public function setTitle($title) {
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get comment
+     * Get title
      *
      * @return string 
      */
-    public function getComment() {
-        return $this->comment;
+    public function getTitle() {
+        return $this->title;
     }
     
     public function getOwner() {
@@ -303,7 +303,7 @@ class TestNode extends AEntity implements \JsonSerializable {
         return array(
             "class_name" => "TestNode",
             "id" => $this->id,
-            "comment" => $this->comment,
+            "title" => $this->title,
             "type" => $this->type,
             "posX" => $this->posX,
             "posY" => $this->posY,

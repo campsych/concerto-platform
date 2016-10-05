@@ -76,11 +76,13 @@
 
 .node {
     width: 250px;
-    height: 100px;
     border: 1px solid black;
     position: absolute;
     background-color: white;
     z-index: 5;
+}
+
+.node-content {
 }
 
 .node-selected {
@@ -93,26 +95,27 @@
     background-color: #DFEFF5;
 }
 
-.node-selection-checkbox {
+.node-header-icons {
     float: right;
     position: relative;
+    top: 0;
     right: 0;
+    height: 16px;
 }
 
-.nodeHeader {
+.node-header {
+    word-wrap: break-word;
     padding-left: 5px;
     padding-right: 5px;
     font-weight: bold;
     border-bottom: solid grey 1px;
 }
 
-.nodeHeader a {
+.node-header a {
     cursor: pointer;
 }
 
-.nodeFooter {
-    position: absolute;
-    bottom: 0px;
+.node-footer {
     width: 100%;
     padding: 3px;
 }
@@ -199,21 +202,6 @@
 
 .ctx-action-active:hover {
     background-color: #FBFBFB;
-}
-
-.comment {
-    position: absolute;
-    width: 100%;
-}
-
-.comment i {
-    margin-left: 7px;
-}
-
-.comment .comment-text {
-    position: absolute;
-    width: 100%;
-    bottom: 5px;
 }
 
 ._jsPlumb_connector { z-index:4; }

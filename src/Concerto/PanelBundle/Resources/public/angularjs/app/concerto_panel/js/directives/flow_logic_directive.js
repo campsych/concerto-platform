@@ -200,7 +200,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     scope.clearNodeSelection();
                 };
 
-                scope.onNodeCtxOpened = function (nodeId) {
+                scope.onNodeCtxOpened = function ($event, nodeId) {
                     for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
                         if (nodeId === node.id)
@@ -208,11 +208,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                 };
 
-                scope.truncateNodeName = function (name) {
-                    if (name.length > 25) {
-                        name = name.substr(0, 11) + "..." + name.substr(name.length - 11, 11);
-                    }
-                    return name;
+                scope.truncateNodeTitle = function (title) {
+                    return title;
                 };
 
                 scope.clearNodeSelection = function () {
@@ -268,8 +265,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.drawNode = function (node) {
                     /* SETTINGS START */
-                    var portTopMargin = 40;
+                    var portTopMargin = 20;
                     var portElemMargin = 30;
+                    var portBottomMargin = -10;
                     var inputPortOverlayLocation = [3.4, 0.5];
                     var inPortOverlayLocation = [3.7, 0.5];
                     var returnPortOverlayLocation = [-2.4, 0.5];
@@ -277,40 +275,47 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     /* SETTINGS END */
 
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
-
-                    var comment = "<div class='comment'><div class='comment-text'>" +
-                            "<i class='glyphicon glyphicon-pencil clickable' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_COMMENT + "\"' ng-click='editNodeComment(collectionService.getNode(" + node.id + "))'></i> " +
-                            "<span>{{collectionService.getNode(" + node.id + ").comment}}</span>" +
-                            "</div></div>";
-                    var tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='collectionService.getNode(" + node.id + ").sourceTestDescription'></i>";
                     var fullName = "";
-                    var name = "";
+                    var title = "";
                     var nodeClass = "";
+                    var description = scope.collectionService.getNode(node.id).sourceTestDescription;
                     if (node.type === 1) {
                         fullName = Trans.TEST_FLOW_NODE_NAME_START;
-                        name = scope.truncateNodeName(fullName);
-                        tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_START + "\"'></i>";
+                        if (node.title != "")
+                            title = scope.truncateNodeTitle(node.title);
+                        else
+                            title = scope.truncateNodeTitle(fullName);
+                        description = Trans.TEST_FLOW_NODE_DESCRIPTION_START;
                         nodeClass = "nodeStart";
                     } else if (node.type === 2) {
                         fullName = Trans.TEST_FLOW_NODE_NAME_END;
-                        name = scope.truncateNodeName(fullName);
-                        tooltip = "<i class='glyphicon glyphicon-question-sign' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_NODE_DESCRIPTION_END + "\"'></i>";
+                        if (node.title != "")
+                            title = scope.truncateNodeTitle(node.title);
+                        else
+                            title = scope.truncateNodeTitle(fullName);
+                        description = Trans.TEST_FLOW_NODE_DESCRIPTION_END;
                         nodeClass = "nodeEnd";
                     } else if (node.type === 0) {
                         fullName = node.sourceTestName;
-                        name = scope.truncateNodeName(fullName);
+                        if (node.title != "")
+                            title = scope.truncateNodeTitle(node.title);
+                        else
+                            title = scope.truncateNodeTitle(fullName);
                         var test = scope.collectionService.get(node.sourceTest);
                         if (test.sourceWizard) {
-                            name = "<a ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + name + "</a>";
+                            title = "<a ng-click='editNodeWizard(collectionService.getNode(" + node.id + "), collectionService.get(" + node.sourceTest + "))'>" + title + "</a>";
                         }
                     }
 
-                    var elemHtml = "<div context-menu='onNodeCtxOpened(" + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
-                    var selectionCheckbox = "";
+                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
+                    var headerIcons = "";
                     if (node.type === 1 || node.type === 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
                     } else {
-                        selectionCheckbox = "<div class='node-selection-checkbox'><input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' /></div>";
+                        headerIcons = "<div class='node-header-icons'>" +
+                                "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' />" +
+                                "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
+                                "</div>";
                     }
                     var collapseHtml = "";
                     if (scope.isNodeCollapsable(node)) {
@@ -320,17 +325,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 "tooltip-placement='bottom' tooltip-append-to-body='false' uib-tooltip='" + Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP + "'></i></div>" +
                                 "</div>";
                     }
-                    elemHtml += comment +
-                            "<div class='nodeHeader' tooltip-append-to-body='true' uib-tooltip-html='\"" + fullName + "\"'>" + selectionCheckbox + tooltip + name + "</div>" +
-                            "<div class='nodeFooter'>" +
+                    elemHtml += "<div class='node-header' tooltip-append-to-body='true' uib-tooltip-html='\"" + description + "\"'>" + headerIcons + title + "</div>" +
+                            "<div class='node-content'></div>" +
+                            "<div class='node-footer'>" +
                             collapseHtml +
                             "</div>";
                     var elem = $(elemHtml).appendTo("#flowContainer");
+                    var elemContent = elem.find(".node-content");
                     var leftCount = 0;
                     var rightCount = 0;
                     //in port
                     if (node.type !== 1 && !scope.isGetterNode(node)) {
-                        jsPlumb.addEndpoint(elem, {
+                        jsPlumb.addEndpoint(elemContent, {
                             uuid: "node" + node.id + "-ep_entry",
                             isTarget: true,
                             maxConnections: -1,
@@ -363,7 +369,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         for (var i = 0; i < node.ports.length; i++) {
                             var port = node.ports[i];
                             if (port.variableObject.type === 2) { //branches
-                                jsPlumb.addEndpoint(elem, {
+                                jsPlumb.addEndpoint(elemContent, {
                                     uuid: "node" + node.id + "-ep" + port.id,
                                     isSource: true,
                                     maxConnections: 1,
@@ -398,7 +404,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
                         if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 0) || (node.type === 2 && port.variableObject.type === 1))) { //input param
-                            jsPlumb.addEndpoint(elem, {
+                            jsPlumb.addEndpoint(elemContent, {
                                 uuid: "node" + node.id + "-ep" + port.id,
                                 maxConnections: -1,
                                 isTarget: true,
@@ -451,7 +457,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             });
                             leftCount++;
                         } else if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 1) || (node.type === 1 && port.variableObject.type === 0))) { //return vars
-                            jsPlumb.addEndpoint(elem, {
+                            jsPlumb.addEndpoint(elemContent, {
                                 uuid: "node" + node.id + "-ep" + port.id,
                                 isSource: true,
                                 maxConnections: -1,
@@ -482,7 +488,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     }
 
-                    elem.css("height", (portTopMargin + Math.max(leftCount, rightCount) * portElemMargin) + "px");
+                    elemContent.css("height", (portTopMargin + Math.max(leftCount, rightCount) * portElemMargin + portBottomMargin) + "px");
                     jsPlumb.draggable(elem, {
                         containment: true,
                         drag: function (event, ui) {
@@ -528,7 +534,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     "sourceTest": node.sourceTest,
                                     "posX": x,
                                     "posY": y,
-                                    "comment": node.comment
+                                    "title": node.title
                                 }).success(function (data) {
                                     if (data.result === 0) {
                                         node.posX = x;
@@ -545,6 +551,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     });
                     $compile(elem)(scope);
+                };
+
+                scope.openNodeContextMenu = function ($event, id) {
+                    $timeout(function () {
+                        var elem = angular.element('#node' + id);
+                        elem.trigger({type: "contextmenu", pageX: $event.pageX, pageY: $event.pageY});
+                    });
                 };
 
                 scope.getPortTooltip = function (portId) {
@@ -621,8 +634,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
                 };
 
-                scope.editNodeComment = function (node) {
-                    var oldComment = node.comment;
+                scope.editNodeTitle = function (node) {
+                    var oldTitle = node.title;
                     var modalInstance = $uibModal.open({
                         templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "textarea_dialog.html",
                         controller: TextareaController,
@@ -631,13 +644,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 return false;
                             },
                             value: function () {
-                                return node.comment;
+                                return node.title;
                             },
                             title: function () {
-                                return Trans.TEST_FLOW_DIALOG_NODE_EDIT_COMMENT_TITLE;
+                                return Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TITLE;
                             },
                             tooltip: function () {
-                                return Trans.TEST_FLOW_DIALOG_NODE_EDIT_COMMENT_TOOLTIP;
+                                return Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TOOLTIP;
                             }
                         },
                         size: "lg"
@@ -650,12 +663,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             "sourceTest": node.sourceTest,
                             "posX": node.posX,
                             "posY": node.posY,
-                            "comment": response
+                            "title": response
                         }).success(function (data) {
-                            node.comment = data.object.comment;
+                            node.title = data.object.title;
+                            scope.refreshFlow();
                         });
                     }, function () {
-                        node.comment = oldComment;
+                        node.title = oldTitle;
                     });
                 };
 
@@ -735,7 +749,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         "sourceTest": testId,
                         "posX": posX,
                         "posY": posY,
-                        "comment": ""
+                        "title": ""
                     }).success(function (data) {
                         if (data.result === 0) {
                             //scope.drawNode(data.object);
@@ -750,6 +764,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.copyNode = function (id) {
+                    if (scope.selectedNodeIds.length > 0) {
+                        scope.copySelectedNodes();
+                        return;
+                    }
+                    
                     for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
                         if (node.id === id) {
@@ -818,6 +837,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.removeNode = function (id) {
+                    if (scope.selectedNodeIds.length > 0) {
+                        scope.removeSelectedNodes();
+                        return;
+                    }
+
                     var modalInstance = $uibModal.open({
                         templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
                         controller: ConfirmController,

@@ -54,7 +54,7 @@ class TestNodePortControllerTest extends AFunctionalTest {
             "type" => 0,
             "posX" => 0,
             "posY" => 0,
-            "comment" => ""
+            "title" => ""
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);

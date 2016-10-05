@@ -264,9 +264,9 @@ flow:
             selection_delete:
                 title: Usuwanie wybranych węzłów
                 message: Jesteś pewien, że chcesz usunąć wybrane węzły?
-            comment:
-                title: Edycja komentarza węzła
-                tooltip: Kometarz do węzła, który będzie widoczny nad węzłem
+            title:
+                title: Edycja tytułu węzła
+                tooltip: Tuytuł węzła, który będzie widoczny w nagłówku węzła
     ports:
         names:
             in: wejście
@@ -281,18 +281,15 @@ flow:
                 
     buttons:
         reset_view: Resetuj widok
-        toggle_selection: przełącz wybór węzła
-        copy_node: kopiuj węzeł
-        copy_selected_nodes: kopiuj wybrane węzły
-        paste_nodes: wklej węzły
-        remove_node: usuń węzeł
-        remove_selected_nodes: usuń wybrane węzły
-        clear_selection: wyczyść wybór
+        rename_node: Zmień nazwę węzła
+        copy_node: Kopiuj węzły
+        paste_nodes: Wklej węzły
+        remove_node: Usuń węzły
         reset_to_default: Zresetuj do domyślnej
         toggle_collapse: Zsuń/Wysuń niepołączone porty
         zoom_in: Przybliż
         zoom_out: Oddal
         maximize: Przełącz pełno-ekranowy widok
-        comment: Edytuj komentarz
+        node_menu: Kliknij aby otworzyć menu węzła
     tags:
         all: Wszystkie

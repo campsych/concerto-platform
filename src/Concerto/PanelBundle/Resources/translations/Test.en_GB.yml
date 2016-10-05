@@ -262,9 +262,9 @@ flow:
             selection_delete:
                 title: Removing selected nodes
                 message: Are you sure you want to remove selected nodes?
-            comment:
-                title: Edit node comment
-                tooltip: Node comment that will be visible above node
+            title:
+                title: Edit node title
+                tooltip: Node title that will be visible in node header
     ports:
         names:
             in: in
@@ -277,20 +277,17 @@ flow:
                 value: Value
                 value.tooltip: Variable value in this port
     buttons:
-        reset_view: Reset view 
-        toggle_selection: toggle node selection
-        copy_node: copy node
-        copy_selected_nodes: copy selected nodes
-        paste_nodes: paste nodes
-        remove_node: remove node
-        remove_selected_nodes: remove selected nodes
-        clear_selection: clear selection
+        reset_view: Reset view
+        rename_node: Rename node
+        copy_node: Copy nodes
+        paste_nodes: Paste nodes
+        remove_node: Remove nodes
         reset_to_default: Reset to default
         toggle_collapse: Collapse/Expand unconnected ports
         zoom_in: Zoom in
         zoom_out: Zoom out
         maximize: Toggle full-screen view
-        comment: Edit comment
+        node_menu: Click to open node menu
     tags:
         all: All
         

@@ -274,14 +274,8 @@ flow:
                 value: Değer
                 value.tooltip: Bu porttaki değişken değer
     buttons:
-        reset_view: Görünümü sıfırla 
-        toggle_selection: bağ seçimi geçişi
-        copy_node: copy bağ
-        copy_selected_nodes: seçilan bağları kopyala
-        paste_nodes: bağ yapıştır
-        remove_node: bağ kaldır
-        remove_selected_nodes: seçili bağları kaldır
-        clear_selection: seçimi temizle
+        reset_view: Görünümü sıfırla
+        paste_nodes: Bağ yapıştır
         reset_to_default: Varsayılana sıfırla
         toggle_collapse: Bağlı olmayan portları göster/gizle
         zoom_in: Yaklaştır

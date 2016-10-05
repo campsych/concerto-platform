@@ -74,7 +74,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "type" => 0,
             "posX" => 0,
             "posY" => 0,
-            "comment" => ""
+            "title" => ""
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -94,7 +94,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "type" => 1,
                 "posX" => 15000,
                 "posY" => 15000,
-                "comment" => "",
+                "title" => "",
                 "flowTest" => 1,
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
@@ -129,7 +129,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "type" => 2,
                 "posX" => 15500,
                 "posY" => 15100,
-                "comment" => "",
+                "title" => "",
                 "flowTest" => 1,
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
@@ -143,7 +143,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "type" => 0,
                 "posX" => 0,
                 "posY" => 0,
-                "comment" => "",
+                "title" => "",
                 "flowTest" => 1,
                 "sourceTest" => 2,
                 "sourceTestName" => "test_s1",
@@ -228,7 +228,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "type" => 1,
                 "posX" => 15000,
                 "posY" => 15000,
-                "comment" => "",
+                "title" => "",
                 "flowTest" => 1,
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
@@ -263,7 +263,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "type" => 2,
                 "posX" => 15500,
                 "posY" => 15100,
-                "comment" => "",
+                "title" => "",
                 "flowTest" => 1,
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
@@ -277,7 +277,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "type" => 0,
                 "posX" => 0,
                 "posY" => 0,
-                "comment" => "",
+                "title" => "",
                 "flowTest" => 1,
                 "sourceTest" => 2,
                 "sourceTestName" => "test_s1",
@@ -375,7 +375,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "type" => 0,
             "posX" => 100,
             "posY" => 100,
-            "comment" => ""
+            "title" => ""
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -386,7 +386,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "type" => 0,
             "posX" => 100,
             "posY" => 100,
-            "comment" => "",
+            "title" => "",
             "flowTest" => 1,
             "sourceTest" => 2,
             "sourceTestName" => "test_s1",
@@ -474,7 +474,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "type" => 0,
             "posX" => 200,
             "posY" => 200,
-            "comment" => "comment",
+            "title" => "comment",
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -485,7 +485,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "type" => 0,
             "posX" => 200,
             "posY" => 200,
-            "comment" => "comment",
+            "title" => "comment",
             "flowTest" => 1,
             "sourceTest" => 2,
             "sourceTestName" => "test_s1",
