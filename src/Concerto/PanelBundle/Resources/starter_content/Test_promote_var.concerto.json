@@ -1,73 +1,73 @@
 [
     {
         "class_name": "Test",
-        "id": 5,
+        "id": 11,
         "name": "promote_var",
         "accessibility": 2,
         "protected": "1",
         "archived": "0",
         "visibility": 2,
         "type": 0,
-        "code": "",
+        "code": "concerto.var.set(name, value)",
         "resumable": "0",
         "outdated": "0",
         "description": "",
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 47,
+                "id": 118,
                 "name": "name",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 5,
+                "test": 11,
                 "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
-                "id": 48,
+                "id": 119,
                 "name": "value",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 5,
+                "test": 11,
                 "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
-                "id": 49,
+                "id": 120,
                 "name": "value",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 5,
+                "test": 11,
                 "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
-                "id": 50,
+                "id": 121,
                 "name": "out",
                 "type": 2,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 5,
+                "test": 11,
                 "parentVariable": null
             }
         ],
         "sourceWizard": null,
         "sourceWizardObject": null,
-        "updatedOn": "2016-08-13 18:06:34",
-        "updatedByName": "",
+        "updatedOn": "2016-10-05 18:24:04",
+        "updatedByName": "admin",
         "nodes": [],
         "nodesConnections": [],
         "tags": "_concerto_core",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 1
+        "rev": 2
     }
 ]
