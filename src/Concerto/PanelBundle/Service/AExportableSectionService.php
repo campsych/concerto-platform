@@ -25,7 +25,10 @@ abstract class AExportableSectionService extends ASectionService {
         $result = array();
         $object_ids = explode(",", $object_ids);
         foreach ($object_ids as $object_id) {
-            array_push($result, $this->entityToArray($this->get($object_id)));
+            $entity = $this->get($object_id);
+            $arr = $this->entityToArray($entity);
+            $arr["hash"] = $entity->getHash();
+            array_push($result, $arr);
         }
         if ($format === self::FORMAT_COMPRESSED)
             return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);

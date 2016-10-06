@@ -95,6 +95,7 @@ import:
     action:
         new: New
         convert: Convert
+        ignore: Ignore
     dialog:
         title: Importing object
         description_warning: Converting current objects on import with new ones is still experimental and might lead to loss of data. There also might be a situation when differences between current object version and imported one will lead to unavoidable data loss. It is strongly recommended to backup your database before continuing.

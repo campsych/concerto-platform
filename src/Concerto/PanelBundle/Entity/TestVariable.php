@@ -58,13 +58,13 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="variables")
      */
     private $test;
-    
+
     /**
      * @ORM\JoinColumn(name="parentVariable_id", referencedColumnName="id", nullable=true)
      * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="childVariables")
      */
     private $parentVariable;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="parentVariable", cascade={"remove"})
      */
@@ -74,7 +74,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @ORM\OneToMany(targetEntity="TestWizardParam", mappedBy="variable", cascade={"remove"})
      */
     private $params;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="variable", cascade={"remove"})
      */
@@ -82,10 +82,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
 
     public function __construct() {
         parent::__construct();
-        
+
         $this->description = "";
     }
-    
+
     public function getOwner() {
         return $this->getTest()->getOwner();
     }
@@ -245,7 +245,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
     public function getParams() {
         return $this->params;
     }
-    
+
     /**
      * Set parent variable
      *
@@ -266,7 +266,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
     public function getParentVariable() {
         return $this->parentVariable;
     }
-    
+
     /**
      * Add child variable
      *
@@ -296,7 +296,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
     public function getChildVariables() {
         return $this->childVariables;
     }
-    
+
     /**
      * Add test node port
      *
@@ -325,6 +325,16 @@ class TestVariable extends AEntity implements \JsonSerializable {
      */
     public function getPorts() {
         return $this->ports;
+    }
+
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["test"]);
+        unset($arr["parentVariable"]);
+
+        $json = json_encode($arr);
+        return sha1($json);
     }
 
     public function jsonSerialize() {

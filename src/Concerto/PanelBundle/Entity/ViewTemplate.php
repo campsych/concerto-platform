@@ -133,6 +133,16 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     public function getHtml() {
         return $this->html;
     }
+    
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["updatedOn"]);
+        unset($arr["updatedByName"]);
+        unset($arr["owner"]);
+        $json = json_encode($arr);
+        return sha1($json);
+    }
 
     public function jsonSerialize() {
         return array(

@@ -33,7 +33,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.isImportSafe = function () {
         for (var i = 0; i < $scope.preImportStatus.length; i++) {
             var ins = $scope.preImportStatus[i];
-            if (ins.action != 0)
+            if (ins.action == 1)
                 return false;
         }
         return true;
@@ -81,6 +81,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                         '<select ng-model="row.entity.action" style="width: 100%;">' +
                         "<option value='0'>" + Trans.IMPORT_ACTION_NEW + "</option>" +
                         "<option value='1' ng-show='row.entity.existing_object!=null'>" + Trans.IMPORT_ACTION_CONVERT + "</option>" +
+                        "<option value='2' ng-show='row.entity.can_ignore'>" + Trans.IMPORT_ACTION_IGNORE + "</option>" +
                         '</select>' +
                         '</div>'
             }, {
@@ -88,7 +89,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                 field: "rename",
                 cellTemplate:
                         '<div class="ui-grid-cell-contents">' +
-                        '<input ng-model="row.entity.rename" style="width: 100%;" />' +
+                        '<input ng-model="row.entity.rename" style="width: 100%;" ng-disabled="row.entity.action == \'2\'" />' +
                         '</div>'
             }, {
                 displayName: Trans.LIST_FIELD_SAFE,

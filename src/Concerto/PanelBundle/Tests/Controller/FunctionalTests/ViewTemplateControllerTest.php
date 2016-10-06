@@ -94,6 +94,10 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $content = json_decode(
                 ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
         );
+        
+        $this->assertArrayHasKey("hash", $content[0]);
+        unset($content[0]["hash"]);
+        
         $expected = array(
             array(
                 'class_name' => 'ViewTemplate',

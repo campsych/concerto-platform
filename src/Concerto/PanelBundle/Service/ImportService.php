@@ -106,15 +106,32 @@ class ImportService {
                 $existing_entity = $service->get($existing_entity->getId());
             }
 
+            $can_ignore = false;
+            if ($existing_entity != null) {
+                //same hash
+                if (array_key_exists("hash", $imported_object) && $existing_entity->getHash() == $imported_object["hash"])
+                    $can_ignore = true;
+                //existing object is starter content and is of newer or same revision as imported one
+                if (array_key_exists("rev", $imported_object) && $imported_object["rev"] == $existing_entity->getRevision() && $existing_entity->getRevision() != 0)
+                    $can_ignore = true;
+            }
+
+            $default_action = "0";
+            if ($can_ignore)
+                $default_action = "2";
+            else if ($existing_entity != null)
+                $default_action = "1";
+
             $obj_status = array(
                 "id" => $imported_object["id"],
                 "name" => $imported_object["name"],
                 "class_name" => $imported_object["class_name"],
-                "action" => "0",
+                "action" => $default_action,
                 "rename" => $imported_object["name"],
                 "rev" => $new_revision,
                 "starter_content" => $imported_object["starterContent"],
-                "existing_object" => $existing_entity
+                "existing_object" => $existing_entity,
+                "can_ignore" => $can_ignore
             );
             array_push($result, $obj_status);
         }

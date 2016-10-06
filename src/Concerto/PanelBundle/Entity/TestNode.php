@@ -13,7 +13,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodeRepository")
  */
 class TestNode extends AEntity implements \JsonSerializable {
-    
+
     /**
      * @var string
      * @ORM\Column(type="string")
@@ -33,7 +33,7 @@ class TestNode extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="integer")
      */
     private $posX;
-    
+
     /**
      *
      * @var integer
@@ -45,22 +45,22 @@ class TestNode extends AEntity implements \JsonSerializable {
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="nodes")
      */
     private $flowTest;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="sourceForNodes")
      */
     private $sourceTest;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="node", cascade={"remove"})
      */
     private $ports;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="sourceNode", cascade={"remove"})
      */
     private $sourceForConnections;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="destinationNode", cascade={"remove"})
      */
@@ -71,15 +71,15 @@ class TestNode extends AEntity implements \JsonSerializable {
      */
     public function __construct() {
         parent::__construct();
-        
+
         $this->title = "";
         $this->type = 0;
         $this->posX = 0;
         $this->posY = 0;
         $this->ports = new ArrayCollection();
     }
-    
-     /**
+
+    /**
      * Set title
      *
      * @param string $title
@@ -99,7 +99,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     public function getTitle() {
         return $this->title;
     }
-    
+
     public function getOwner() {
         return $this->getFlowTest()->getOwner();
     }
@@ -145,7 +145,7 @@ class TestNode extends AEntity implements \JsonSerializable {
 
         return $this;
     }
-    
+
     /**
      * Get position Y
      *
@@ -187,7 +187,7 @@ class TestNode extends AEntity implements \JsonSerializable {
 
         return $this;
     }
-    
+
     /**
      * Get source test
      *
@@ -208,7 +208,7 @@ class TestNode extends AEntity implements \JsonSerializable {
 
         return $this;
     }
-    
+
     /**
      * Add port
      *
@@ -238,7 +238,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     public function getPorts() {
         return $this->ports;
     }
-    
+
     /**
      * Add source for connection
      *
@@ -268,7 +268,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     public function getSourceForConnections() {
         return $this->sourceForConnections;
     }
-    
+
     /**
      * Add destination for connection
      *
@@ -299,6 +299,21 @@ class TestNode extends AEntity implements \JsonSerializable {
         return $this->destinationForConnections;
     }
 
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["flowTest"]);
+        unset($arr["sourceTest"]);
+        $arr["sourceTestObject"] = $arr["sourceTestObject"] ? $arr["sourceTestObject"]->getHash() : null;
+        $arr["ports"] = array();
+        foreach ($this->ports->toArray() as $port) {
+            array_push($arr["ports"], $port->getHash());
+        }
+
+        $json = json_encode($arr);
+        return sha1($json);
+    }
+
     public function jsonSerialize() {
         return array(
             "class_name" => "TestNode",
@@ -315,4 +330,5 @@ class TestNode extends AEntity implements \JsonSerializable {
             "ports" => $this->getPorts()->toArray(),
         );
     }
+
 }

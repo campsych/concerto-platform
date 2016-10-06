@@ -37,13 +37,13 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @ORM\ManyToOne(targetEntity="TestNodePort", inversedBy="destinationForConnections")
      */
     private $destinationPort;
-    
+
     /**
      * @var string
      * @ORM\Column(type="text")
      */
     private $returnFunction;
-    
+
     /**
      *
      * @var boolean
@@ -56,15 +56,15 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      */
     public function __construct() {
         parent::__construct();
-        
+
         $this->automatic = false;
         $this->returnFunction = "";
     }
-    
+
     public function getOwner() {
         return $this->getFlowTest()->getOwner();
     }
-    
+
     /**
      * Get return function
      *
@@ -190,7 +190,7 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
         return $this;
     }
-    
+
     /**
      * Is automatic?
      * 
@@ -207,6 +207,21 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      */
     public function setAutomatic($automatic) {
         $this->automatic = $automatic;
+    }
+
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["flowTest"]);
+        unset($arr["sourceNode"]);
+        unset($arr["sourcePort"]);
+        $arr["sourcePortObject"] = $arr["sourcePortObject"] ? $arr["sourcePortObject"]->getHash() : null;
+        unset($arr["destinationNode"]);
+        unset($arr["destinationPort"]);
+        $arr["destinationPortObject"] = $arr["destinationPortObject"] ? $arr["destinationPortObject"]->getHash() : null;
+
+        $json = json_encode($arr);
+        return sha1($json);
     }
 
     public function jsonSerialize() {

@@ -436,7 +436,7 @@ class DataTableService extends AExportableSectionService {
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
             $ent->setRevision($obj["rev"]);
-        else 
+        else
             $ent->setRevision(0);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

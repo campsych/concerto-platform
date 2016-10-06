@@ -60,7 +60,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
      */
     public function __construct() {
         parent::__construct();
-        
+
         $this->description = "";
         $this->params = new ArrayCollection();
         $this->steps = new ArrayCollection();
@@ -222,6 +222,23 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
      */
     public function getSteps() {
         return $this->steps;
+    }
+
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["updatedOn"]);
+        unset($arr["updatedByName"]);
+        unset($arr["owner"]);
+        $arr["steps"] = array();
+        foreach ($this->steps->toArray() as $step) {
+            array_push($arr["steps"], $step->getHash());
+        }
+        unset($arr["test"]);
+        $arr["testObject"] = $arr["testObject"] ? $arr["testObject"]->getHash() : null;
+
+        $json = json_encode($arr);
+        return sha1($json);
     }
 
     public function jsonSerialize() {

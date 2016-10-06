@@ -100,6 +100,16 @@ class DataTable extends ATopEntity implements \JsonSerializable {
         return $this->columns;
     }
 
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["updatedOn"]);
+        unset($arr["updatedByName"]);
+        unset($arr["owner"]);
+        $json = json_encode($arr);
+        return sha1($json);
+    }
+
     public function jsonSerialize() {
         return array(
             "class_name" => "DataTable",

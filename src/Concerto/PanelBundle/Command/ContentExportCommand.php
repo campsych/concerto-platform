@@ -39,7 +39,7 @@ class ContentExportCommand extends ContainerAwareCommand {
             foreach ($collection as $ent) {
                 $ent = $service->get($ent->getId(), false, false);
                 $arr = $service->entityToArray($ent);
-                $em->persist($ent);
+                $arr["hash"] = $ent->getHash();
                 $json = json_encode(array($arr), JSON_PRETTY_PRINT);
 
                 $this->saveFile($class_name, $ent->getName(), $json, $input->getArgument("output"));

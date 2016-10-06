@@ -58,12 +58,12 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
      */
     public function __construct() {
         parent::__construct();
-        
+
         $this->description = "";
         $this->colsNum = 0;
         $this->params = new ArrayCollection();
     }
-    
+
     public function getOwner() {
         return $this->getWizard()->getOwner();
     }
@@ -205,6 +205,19 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
         return $this->params;
     }
 
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["wizard"]);
+        $arr["params"] = array();
+        foreach ($this->params->toArray() as $param) {
+            array_push($arr["params"], $param->getHash());
+        }
+
+        $json = json_encode($arr);
+        return sha1($json);
+    }
+
     public function jsonSerialize() {
         return array(
             "class_name" => "TestWizardStep",
@@ -217,4 +230,5 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
             "params" => $this->params->toArray()
         );
     }
+
 }

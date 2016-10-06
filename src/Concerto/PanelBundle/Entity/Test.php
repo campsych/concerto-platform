@@ -557,6 +557,32 @@ class Test extends ATopEntity implements \JsonSerializable {
         return $this->type != self::TYPE_WIZARD || ($this->type == self::TYPE_WIZARD && $this->sourceWizard != null);
     }
 
+    public function getHash() {
+        $arr = $this->jsonSerialize();
+        unset($arr["id"]);
+        unset($arr["updatedOn"]);
+        unset($arr["updatedByName"]);
+        unset($arr["owner"]);
+        $arr["variables"] = array();
+        foreach ($this->variables->toArray() as $var) {
+            array_push($arr["variables"], $var->getHash());
+        }
+        unset($arr["logs"]);
+        unset($arr["sourceWizard"]);
+        $arr["sourceWizardObject"] = $arr["sourceWizardObject"] ? $arr["sourceWizardObject"]->getHash() : null;
+        $arr["nodes"] = array();
+        foreach ($this->nodes->toArray() as $node) {
+            array_push($arr["nodes"], $node->getHash());
+        }
+        $arr["nodesConnections"] = array();
+        foreach ($this->nodesConnections->toArray() as $conn) {
+            array_push($arr["nodesConnections"], $conn->getHash());
+        }
+
+        $json = json_encode($arr);
+        return sha1($json);
+    }
+
     public function jsonSerialize() {
         return array(
             "class_name" => "Test",
