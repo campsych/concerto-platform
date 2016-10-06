@@ -34,7 +34,7 @@ services:
     arguments: ["@concerto_panel.db_structure_dao"]
   concerto_panel.DataTable_service:
     class: Concerto\PanelBundle\Service\DataTableService
-    arguments: ["@concerto_panel.DataTable_repository","@validator","@concerto_panel.db_structure_service","@concerto_panel.db_data_dao", "@security.authorization_checker"] 
+    arguments: ["@concerto_panel.DataTable_repository","@validator","@concerto_panel.db_structure_service","@concerto_panel.db_data_dao", "@security.authorization_checker","@concerto_panel.DataTableUpdate_service"] 
     
 #   Panel
   concerto_panel.panel_service:
@@ -276,6 +276,8 @@ services:
 #starter content update services
   concerto_panel.TestWizardUpdate_service:
     class: Concerto\PanelBundle\StarterContentUpdateService\TestWizardUpdateService
+  concerto_panel.DataTableUpdate_service:
+    class: Concerto\PanelBundle\StarterContentUpdateService\DataTableUpdateService
     
 #security
 

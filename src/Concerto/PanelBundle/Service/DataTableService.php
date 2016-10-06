@@ -10,17 +10,20 @@ use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\AEntity;
 use Concerto\PanelBundle\Security\ObjectVoter;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Concerto\PanelBundle\StarterContentUpdateService\DataTableUpdateService;
 
 class DataTableService extends AExportableSectionService {
 
-    private $dbStructureService;
-    private $dbDataDao;
+    public $dbStructureService;
+    public $dbDataDao;
+    private $updateService;
 
-    public function __construct(DataTableRepository $repository, RecursiveValidator $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(DataTableRepository $repository, RecursiveValidator $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker, DataTableUpdateService $updateService) {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->dbStructureService = $dbStructureService;
         $this->dbDataDao = $dbDataDao;
+        $this->updateService = $updateService;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
@@ -450,38 +453,38 @@ class DataTableService extends AExportableSectionService {
             $db_errors = $this->dbStructureService->renameTable($old_ent->getName(), $new_name);
             if (count($db_errors) > 0)
                 return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+        }
 
-            $old_columns = $ent->getColumns();
-            $new_columns = $obj["columns"];
-            foreach ($new_columns as $new_col) {
-                $found = false;
-                foreach ($old_columns as $old_col) {
-                    if ($old_col["name"] == $new_col["name"]) {
-                        $found = true;
-                        $db_errors = $this->dbStructureService->saveColumn($new_name, $old_col["name"], $new_col["name"], $new_col["type"]);
-                        if (count($db_errors) > 0)
-                            return array("errors" => $db_errors, "entity" => null, "source" => $obj);
-                        break;
-                    }
-                }
-                if (!$found) {
-                    $db_errors = $this->dbStructureService->saveColumn($new_name, "0", $new_col["name"], $new_col["type"]);
+        $old_columns = $ent->getColumns();
+        $new_columns = $obj["columns"];
+        foreach ($new_columns as $new_col) {
+            $found = false;
+            foreach ($old_columns as $old_col) {
+                if ($old_col["name"] == $new_col["name"]) {
+                    $found = true;
+                    $db_errors = $this->dbStructureService->saveColumn($new_name, $old_col["name"], $new_col["name"], $new_col["type"]);
                     if (count($db_errors) > 0)
                         return array("errors" => $db_errors, "entity" => null, "source" => $obj);
+                    break;
                 }
+            }
+            if (!$found) {
+                $db_errors = $this->dbStructureService->saveColumn($new_name, "0", $new_col["name"], $new_col["type"]);
+                if (count($db_errors) > 0)
+                    return array("errors" => $db_errors, "entity" => null, "source" => $obj);
             }
         }
 
         $this->repository->save($ent);
         $map["DataTable"]["id" . $obj["id"]] = $ent->getId();
 
-        $this->onConverted($ent, $old_ent);
+        $this->onConverted($user, $ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($new_ent, $old_ent) {
-        //TODO 
+    protected function onConverted($user, $new_ent, $old_ent) {
+        $this->updateService->update($user, $this, $new_ent, $old_ent);
     }
 
 }

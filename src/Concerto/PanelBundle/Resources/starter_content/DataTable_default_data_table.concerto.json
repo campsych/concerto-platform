@@ -14,11 +14,6 @@
                 "nullable": false
             },
             {
-                "name": "session_internal_id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
                 "name": "name",
                 "type": "string",
                 "nullable": false
@@ -27,14 +22,20 @@
                 "name": "value",
                 "type": "text",
                 "nullable": false
+            },
+            {
+                "name": "session_id",
+                "type": "string",
+                "nullable": false
             }
         ],
-        "updatedOn": "2016-08-13 18:06:44",
-        "updatedByName": "",
+        "updatedOn": "2016-10-06 17:11:14",
+        "updatedByName": "admin",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 1,
-        "data": []
+        "rev": 2,
+        "data": [],
+        "hash": "96c263718df2083247c3591e7fbe98544adc1e29"
     }
 ]

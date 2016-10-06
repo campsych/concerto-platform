@@ -34,8 +34,8 @@
                 "nullable": false
             },
             {
-                "name": "session_internal_id",
-                "type": "bigint",
+                "name": "session_id",
+                "type": "string",
                 "nullable": false
             },
             {
@@ -44,12 +44,13 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-08-13 18:06:51",
-        "updatedByName": "",
+        "updatedOn": "2016-10-06 17:11:59",
+        "updatedByName": "admin",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 1,
-        "data": []
+        "rev": 2,
+        "data": [],
+        "hash": "fbd5e4cf720a40d7a2c3f4d7372cf40a69dcfbcc"
     }
 ]

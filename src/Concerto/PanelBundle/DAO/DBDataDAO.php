@@ -6,7 +6,7 @@ use Doctrine\DBAL\Connection;
 
 class DBDataDAO {
 
-    private $connection;
+    public $connection;
 
     public function __construct(Connection $con) {
         $this->connection = $con;
