@@ -279,9 +279,11 @@ flow:
     buttons:
         reset_view: Reset view
         rename_node: Rename node
-        copy_node: Copy nodes
+        copy_node: Copy node
+        copy_nodes: Copy nodes
         paste_nodes: Paste nodes
-        remove_node: Remove nodes
+        remove_node: Remove node
+        remove_nodes: Remove nodes
         reset_to_default: Reset to default
         toggle_collapse: Collapse/Expand unconnected ports
         zoom_in: Zoom in

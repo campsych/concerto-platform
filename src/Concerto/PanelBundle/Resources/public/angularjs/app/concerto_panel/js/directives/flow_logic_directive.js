@@ -312,9 +312,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     if (node.type === 1 || node.type === 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
                     } else {
-                        headerIcons = "<div class='node-header-icons'>" +
-                                "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' />" +
+                        headerIcons = "<div class='node-header-icons'>" +                              
                                 "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
+                                "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' />" + 
                                 "</div>";
                     }
                     var collapseHtml = "";

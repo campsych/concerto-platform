@@ -282,9 +282,11 @@ flow:
     buttons:
         reset_view: Resetuj widok
         rename_node: Zmień nazwę węzła
-        copy_node: Kopiuj węzły
+        copy_node: Kopiuj węzeł
+        copy_nodes: Kopiuj węzły
         paste_nodes: Wklej węzły
-        remove_node: Usuń węzły
+        remove_node: Usuń węzeł
+        remove_nodes: Usuń węzły
         reset_to_default: Zresetuj do domyślnej
         toggle_collapse: Zsuń/Wysuń niepołączone porty
         zoom_in: Przybliż
