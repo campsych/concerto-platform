@@ -418,7 +418,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                                 var varName = component._jsPlumb.parameters.targetPort.variableObject.name;
                                                 var overlayElem = $("<div>" +
                                                         "<div " +
-                                                        "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + portId + ").string === \"1\"}' " +
+                                                        "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + portId + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + portId + ").string === \"0\"}' " +
                                                         "uib-tooltip-html='getPortTooltip(" + portId + ")' tooltip-append-to-body='true'>" + varName + "</div>" +
                                                         "</div>");
                                                 $compile(overlayElem)(scope);

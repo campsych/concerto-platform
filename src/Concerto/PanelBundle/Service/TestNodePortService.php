@@ -175,6 +175,7 @@ class TestNodePortService extends ASectionService {
         $ent->setValue($obj["value"]);
         $ent->setVariable($variable);
         $ent->setDefaultValue($obj["defaultValue"]);
+        $ent->setString($obj["string"] == "1");
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

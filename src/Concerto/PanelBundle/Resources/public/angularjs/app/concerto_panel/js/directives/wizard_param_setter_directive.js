@@ -117,7 +117,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                                         if (col.type == 4) {
                                             newObjects[i][key] = newObjects[i][key].toString();
                                         }
-                                        if (col.type == 9 || col.type == 10) {
+                                        if (col.type == 7 || col.type == 9 || col.type == 10 || col.type == 12) {
                                             newObjects[i][key] = angular.fromJson(newObjects[i][key]);
                                         }
                                         break;
@@ -128,7 +128,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                         scope.output = scope.output.concat(newObjects);
                     },
                     exporterFieldCallback: function (grid, row, col, value) {
-                        if (value !== undefined && value.constructor == Array) {
+                        if (value !== undefined && value !== null && typeof value === 'object') {
                             value = angular.toJson(value);
                         }
                         return value;
