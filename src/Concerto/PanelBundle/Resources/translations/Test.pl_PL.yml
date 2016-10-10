@@ -293,5 +293,7 @@ flow:
         zoom_out: Oddal
         maximize: Przełącz pełno-ekranowy widok
         node_menu: Kliknij aby otworzyć menu węzła
+        export_test: Eksportuj test
+        export_tests: Eksportuj testy
     tags:
         all: Wszystkie

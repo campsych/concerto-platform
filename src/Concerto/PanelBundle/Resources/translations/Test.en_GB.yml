@@ -290,6 +290,8 @@ flow:
         zoom_out: Zoom out
         maximize: Toggle full-screen view
         node_menu: Click to open node menu
+        export_test: Export test
+        export_tests: Export tests
     tags:
         all: All
         

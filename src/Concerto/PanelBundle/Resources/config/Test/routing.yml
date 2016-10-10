@@ -72,3 +72,7 @@ Test_paste_nodes:
     path: /Test/{object_id}/node/paste
     defaults: { _controller: concerto_panel.Test_controller:pasteNodesAction }
     methods:  [POST]
+    
+Test_node_export:
+    path: /Test/Node/{object_ids}/export/{format}
+    defaults: { _controller: concerto_panel.Test_controller:exportNodeAction, format: 'compressed' }

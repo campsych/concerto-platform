@@ -21,13 +21,13 @@
     Paths.CSS_PANEL_BUNDLE_13 = "{{ asset('bundles/concertopanel/css/flow.css?v=' ~ version) }}";
     Paths.CSS_PANEL_BUNDLE_14 = "{{ asset('bundles/concertopanel/css/file_manager.css?v=' ~ version) }}";
     Paths.CSS_PANEL_BUNDLE_15 = "{{ asset('bundles/concertopanel/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}";
-    
-        
+
+
     Paths.CSS_TEST_BUNDLE_1 = "{{ asset('bundles/concertotest/angularjs/bower_components/bootstrap/dist/css/bootstrap.min.css?v=' ~ version) }}";
     Paths.CSS_TEST_BUNDLE_2 = "{{ asset('bundles/concertotest/angularjs/bower_components/bootstrap/dist/css/bootstrap-theme.min.css?v=' ~ version) }}";
     Paths.CSS_TEST_BUNDLE_3 = "{{ asset('bundles/concertotest/css/test.css?v=' ~ version) }}";
     Paths.CSS_TEST_BUNDLE_4 = "{{ asset('bundles/concertotest/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}";
-        
+
     Paths.LOGOUT = "{{ path("logout") }}";
     Paths.LOCALE = "{{ path("locale_change", {'locale':"{0}"}) }}";
     Paths.FILE_UPLOAD = "{{ path("FileBrowser_upload") }}";
@@ -57,7 +57,7 @@
     Paths.TEST_WIZARD_PARAM_DELETE = "{{ path("TestWizardParam_delete",{'object_ids':"{0}"}) }}";
     Paths.TEST_WIZARD_PARAM_SAVE = "{{ path("TestWizardParam_save", {"object_id":"{0}"}) }}";
     Paths.TEST_WIZARD_PARAM_FETCH_OBJECT = "{{ path("TestWizardParam_object",{'object_id':"{0}"}) }}";
-    
+
     Paths.TEST_FLOW_NODE_COLLECTION = "{{ path("TestNode_collection_by_flow_test", {'test_id':"{0}"}) }}";
     Paths.TEST_FLOW_NODE_SAVE = "{{ path("TestNode_save", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_NODE_ADD_COLLECTION = "{{ path("Test_add_node", {"object_id":"{0}"}) }}";
@@ -72,6 +72,7 @@
     Paths.TEST_FLOW_PORT_SAVE = "{{ path("TestNodePort_save", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_PORT_SAVE_COLLECTION = "{{ path("TestNodePort_save_collection") }}";
     Paths.TEST_FLOW_NODE_PASTE_COLLECTION = "{{ path("Test_paste_nodes", {"object_id":"{0}"}) }}";
+    Paths.TEST_FLOW_NODE_EXPORT = "{{ path("Test_node_export", {"object_ids":"{0}"}) }}";
 
     Paths.TEST_COLLECTION = "{{ path("Test_collection") }}";
     Paths.TEST_DELETE = "{{ path("Test_delete", {'object_ids':"{0}"}) }}";
@@ -136,7 +137,7 @@
     Paths.TEST_RUNNER_START = "{{ path("test_runner_start",{"test_slug":"{0}"}) }}";
 
     Paths.DIALOG_TEMPLATE_ROOT = "{{ path("Dialog_root") }}";
-    
+
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
     Trans.PLEASE_WAIT = "{{ "please.wait"|trans }}";
@@ -220,9 +221,9 @@
         Trans.TEST_WIZARD_PARAM_TYPE_TEST = "{{ 'param.form.field.type.test'|trans }}";
         Trans.TEST_WIZARD_PARAM_TYPE_TABLE = "{{ 'param.form.field.type.table'|trans }}";
         Trans.TEST_WIZARD_PARAM_TYPE_COLUMN = "{{ 'param.form.field.type.column'|trans }}";
-        Trans.TEST_WIZARD_PARAM_TYPE_CHECKBOX = "{{ 'param.form.field.type.checkbox'|trans }}"; 
-        Trans.TEST_WIZARD_PARAM_TYPE_GROUP = "{{ 'param.form.field.type.group'|trans }}"; 
-        Trans.TEST_WIZARD_PARAM_TYPE_LIST = "{{ 'param.form.field.type.list'|trans }}"; 
+        Trans.TEST_WIZARD_PARAM_TYPE_CHECKBOX = "{{ 'param.form.field.type.checkbox'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_GROUP = "{{ 'param.form.field.type.group'|trans }}";
+        Trans.TEST_WIZARD_PARAM_TYPE_LIST = "{{ 'param.form.field.type.list'|trans }}";
         Trans.TEST_WIZARD_PARAM_TYPE_R = "{{ 'param.form.field.type.r'|trans }}";
         Trans.TEST_WIZARD_PARAM_TYPE_COLUMN_MAP = "{{ 'param.form.field.type.column_map'|trans }}";
         Trans.TEST_WIZARD_PARAM_SELECT_LIST_FIELD_ORDER = "{{ "param.definer.select.list.field.order"|trans }}";
@@ -336,7 +337,7 @@
         Trans.TEST_LOG_DIALOG_MESSAGE_DELETE_CONFIRM = "{{ 'log.dialog.message.delete.confirm'|trans }}";
         Trans.TEST_LOGIC_CONVERT_TITLE = "{{ "logic.convert.title"|trans }}";
         Trans.TEST_LOGIC_CONVERT_CONFIRMATION = "{{ "logic.convert.confirmation"|trans }}";
-        
+
         Trans.TEST_FLOW_NODE_NAME_START = "{{ "flow.nodes.names.test_start"|trans }}";
         Trans.TEST_FLOW_NODE_NAME_END = "{{ "flow.nodes.names.test_end"|trans }}";
         Trans.TEST_FLOW_NODE_DESCRIPTION_START = "{{ "flow.nodes.descriptions.test_start"|trans }}";

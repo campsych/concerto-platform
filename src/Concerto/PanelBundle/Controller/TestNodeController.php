@@ -47,5 +47,4 @@ class TestNodeController extends ASectionController {
                 $this->request->get("title"));
         return $this->getSaveResponse($result);
     }
-
 }

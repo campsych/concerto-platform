@@ -212,6 +212,31 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     return title;
                 };
 
+                scope.exportTest = function (nodeId) {
+                    var nodeIds = nodeId;
+                    if (scope.selectedNodeIds.length > 0)
+                        nodeIds = scope.selectedNodeIds.join(",");
+                    var modalInstance = $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'export_dialog.html',
+                        controller: ExportController,
+                        size: "lg",
+                        resolve: {
+                            title: function () {
+                                return Trans.EXPORT_DIALOG_TITLE;
+                            },
+                            content: function () {
+                                return Trans.EXPORT_DIALOG_EMPTY_LIST_ERROR_CONTENT;
+                            },
+                            ids: function () {
+                                return nodeIds;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (response) {
+                        window.open(Paths.TEST_FLOW_NODE_EXPORT.pf(nodeIds) + "/" + response, "_blank");
+                    });
+                };
+
                 scope.clearNodeSelection = function () {
                     scope.selectedNodeIds = [];
                     for (var i = 0; i < scope.object.nodes.length; i++) {
@@ -312,9 +337,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     if (node.type === 1 || node.type === 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
                     } else {
-                        headerIcons = "<div class='node-header-icons'>" +                              
+                        headerIcons = "<div class='node-header-icons'>" +
                                 "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
-                                "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' />" + 
+                                "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' />" +
                                 "</div>";
                     }
                     var collapseHtml = "";
@@ -768,7 +793,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         scope.copySelectedNodes();
                         return;
                     }
-                    
+
                     for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
                         if (node.id === id) {

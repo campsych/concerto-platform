@@ -155,4 +155,15 @@ class TestController extends AExportableTabController {
         return $this->getSaveResponse($result);
     }
 
+    public function exportNodeAction($object_ids, $format = AExportableSectionService::FORMAT_COMPRESSED) {
+        $response = new Response($this->service->exportNodeToFile($object_ids, $format));
+        $ext = ( $format == AExportableSectionService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
+        $name = "TestNode_" . $object_ids . '.' . $ext;
+        $response->headers->set('Content-Type', 'application/x-download');
+        $response->headers->set(
+                'Content-Disposition', 'attachment; filename="' . $name . '"'
+        );
+        return $response;
+    }
+
 }

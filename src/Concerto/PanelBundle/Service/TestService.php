@@ -400,4 +400,31 @@ class TestService extends AExportableSectionService {
         return array("errors" => array());
     }
 
+    public function exportNodeToFile($object_ids, $format = self::FORMAT_COMPRESSED) {
+        $result = array();
+        $object_ids = explode(",", $object_ids);
+        foreach ($object_ids as $object_id) {
+            $node = $this->testNodeService->get($object_id);
+
+            $test = $node->getSourceTest();
+            if ($node->getTitle() != "")
+                $test->setName($node->getTitle());
+            foreach ($node->getPorts() as $port) {
+                foreach ($test->getVariables() as $var) {
+                    if ($port->getVariable()->getId() == $var->getId()) {
+                        $var->setValue($port->getValue());
+                        break;
+                    }
+                }
+            }
+            $arr = $this->entityToArray($test);
+
+            $arr["hash"] = $test->getHash();
+            array_push($result, $arr);
+        }
+        if ($format === self::FORMAT_COMPRESSED)
+            return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
+        else
+            return json_encode($result, JSON_PRETTY_PRINT);
+    }
 }
