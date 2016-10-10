@@ -293,10 +293,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var portTopMargin = 20;
                     var portElemMargin = 30;
                     var portBottomMargin = -10;
-                    var inputPortOverlayLocation = [3.4, 0.5];
-                    var inPortOverlayLocation = [3.7, 0.5];
-                    var returnPortOverlayLocation = [-2.4, 0.5];
-                    var branchPortOverlayLocation = [-2.7, 0.5];
                     /* SETTINGS END */
 
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
@@ -332,10 +328,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     }
 
-                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
+                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
                     var headerIcons = "";
                     if (node.type === 1 || node.type === 2) {
-                        elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;'>";
+                        elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded }'>";
                     } else {
                         headerIcons = "<div class='node-header-icons'>" +
                                 "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
@@ -351,37 +347,30 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 "</div>";
                     }
                     elemHtml += "<div class='node-header' tooltip-append-to-body='true' uib-tooltip-html='\"" + description + "\"'>" + headerIcons + title + "</div>" +
-                            "<div class='node-content'></div>" +
+                            "<div class='node-content'><div class='node-content-left'></div><div class='node-content-right'></div></div>" +
                             "<div class='node-footer'>" +
                             collapseHtml +
                             "</div>";
                     var elem = $(elemHtml).appendTo("#flowContainer");
                     var elemContent = elem.find(".node-content");
+                    var elemContentLeft = elemContent.find(".node-content-left");
+                    var elemContentRight = elemContent.find(".node-content-right");
                     var leftCount = 0;
                     var rightCount = 0;
                     //in port
                     if (node.type !== 1 && !scope.isGetterNode(node)) {
+                        var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
+                        var overlayElem = $("<div class='portLabel portLabelIn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</div>");
+                        $compile(overlayElem)(scope);
+                        overlayElem.appendTo(elemContentLeft);
+
                         jsPlumb.addEndpoint(elemContent, {
                             uuid: "node" + node.id + "-ep_entry",
                             isTarget: true,
                             maxConnections: -1,
                             endpoint: "Rectangle",
-                            anchor: [0, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
+                            anchor: [-0.02, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                             paintStyle: {fillStyle: "white", strokeStyle: "grey"},
-                            overlays: [
-                                ["Custom", {
-                                        create: function (component) {
-                                            var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
-                                            var overlayElem = $("<div>" +
-                                                    "<div class='portLabel portLabelIn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</div>" +
-                                                    "</div>");
-                                            $compile(overlayElem)(scope);
-                                            return overlayElem;
-                                        },
-                                        location: inPortOverlayLocation,
-                                        id: "overlayIn" + node.id
-                                    }]
-                            ],
                             parameters: {
                                 targetNode: node,
                                 targetPort: null
@@ -394,28 +383,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         for (var i = 0; i < node.ports.length; i++) {
                             var port = node.ports[i];
                             if (port.variableObject.type === 2) { //branches
+
+                                var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
+                                $compile(overlayElem)(scope);
+                                overlayElem.appendTo(elemContentRight);
+
                                 jsPlumb.addEndpoint(elemContent, {
                                     uuid: "node" + node.id + "-ep" + port.id,
                                     isSource: true,
                                     maxConnections: 1,
                                     endpoint: "Rectangle",
-                                    anchor: [1, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                                    anchor: [1.03, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
                                     paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
-                                    overlays: [
-                                        ["Custom", {
-                                                create: function (component) {
-                                                    var portId = component._jsPlumb.parameters.sourcePort.id;
-                                                    var varName = component._jsPlumb.parameters.sourcePort.variableObject.name;
-                                                    var overlayElem = $("<div>" +
-                                                            "<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + portId + ")' tooltip-append-to-body='true'>" + varName + "</div>" +
-                                                            "</div>");
-                                                    $compile(overlayElem)(scope);
-                                                    return overlayElem;
-                                                },
-                                                location: branchPortOverlayLocation,
-                                                id: "overlay" + port.id
-                                            }]
-                                    ],
                                     parameters: {
                                         sourceNode: node,
                                         sourcePort: port
@@ -429,52 +408,44 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
                         if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 0) || (node.type === 2 && port.variableObject.type === 1))) { //input param
+
+                            var overlayElem = $("<div " +
+                                    "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}' " +
+                                    "uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
+                            $compile(overlayElem)(scope);
+                            overlayElem.appendTo(elemContentLeft);
+
                             jsPlumb.addEndpoint(elemContent, {
                                 uuid: "node" + node.id + "-ep" + port.id,
                                 maxConnections: -1,
                                 isTarget: true,
                                 endpoint: "Dot",
-                                anchor: [0, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
+                                anchor: [-0.02, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                                 paintStyle: {fillStyle: "blue", strokeStyle: "grey"},
                                 overlays: [[
-                                        "Custom", {
-                                            create: function (component) {
-                                                var portId = component._jsPlumb.parameters.targetPort.id;
-                                                var varName = component._jsPlumb.parameters.targetPort.variableObject.name;
-                                                var overlayElem = $("<div>" +
-                                                        "<div " +
-                                                        "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + portId + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + portId + ").string === \"0\"}' " +
-                                                        "uib-tooltip-html='getPortTooltip(" + portId + ")' tooltip-append-to-body='true'>" + varName + "</div>" +
-                                                        "</div>");
-                                                $compile(overlayElem)(scope);
-                                                return overlayElem;
-                                            },
-                                            location: inputPortOverlayLocation,
-                                            id: "overlay" + port.id
-                                        }], [
-                                        "Custom", {
-                                            create: function (component) {
-                                                var portId = component._jsPlumb.parameters.targetPort.id;
-                                                var connected = false;
-                                                for (var j = 0; j < scope.object.nodesConnections.length; j++) {
-                                                    var connection = scope.object.nodesConnections[j];
-                                                    if (connection.destinationPort == portId) {
-                                                        connected = true;
-                                                        break;
-                                                    }
+                                    "Custom", {
+                                        create: function (component) {
+                                            var portId = component._jsPlumb.parameters.targetPort.id;
+                                            var connected = false;
+                                            for (var j = 0; j < scope.object.nodesConnections.length; j++) {
+                                                var connection = scope.object.nodesConnections[j];
+                                                if (connection.destinationPort == portId) {
+                                                    connected = true;
+                                                    break;
                                                 }
+                                            }
 
-                                                var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
-                                                        "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"portValueDefault\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
-                                                        "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
-                                                        "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
-                                                $compile(overlayElem)(scope);
-                                                return overlayElem;
-                                            },
-                                            location: [-0.5, 0.5],
-                                            id: "overlayCode" + port.id
-                                        }
-                                    ]],
+                                            var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
+                                                    "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"portValueDefault\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
+                                                    "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
+                                                    "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
+                                            $compile(overlayElem)(scope);
+                                            return overlayElem;
+                                        },
+                                        location: [-0.5, 0.5],
+                                        id: "overlayCode" + port.id
+                                    }
+                                ]],
                                 parameters: {
                                     targetNode: node,
                                     targetPort: port
@@ -482,28 +453,20 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             });
                             leftCount++;
                         } else if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 1) || (node.type === 1 && port.variableObject.type === 0))) { //return vars
+
+                            var overlayElem = $("<div>" +
+                                    "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>" +
+                                    "</div>");
+                            $compile(overlayElem)(scope);
+                            overlayElem.appendTo(elemContentRight);
+
                             jsPlumb.addEndpoint(elemContent, {
                                 uuid: "node" + node.id + "-ep" + port.id,
                                 isSource: true,
                                 maxConnections: -1,
                                 endpoint: "Dot",
-                                anchor: [1, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                                anchor: [1.03, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
                                 paintStyle: {fillStyle: "red", strokeStyle: "grey"},
-                                overlays: [
-                                    ["Custom", {
-                                            create: function (component) {
-                                                var portId = component._jsPlumb.parameters.sourcePort.id;
-                                                var varName = component._jsPlumb.parameters.sourcePort.variableObject.name;
-                                                var overlayElem = $("<div>" +
-                                                        "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + portId + ")' tooltip-append-to-body='true'>" + varName + "</div>" +
-                                                        "</div>");
-                                                $compile(overlayElem)(scope);
-                                                return overlayElem;
-                                            },
-                                            location: returnPortOverlayLocation,
-                                            id: "overlay" + port.id
-                                        }]
-                                ],
                                 parameters: {
                                     sourceNode: node,
                                     sourcePort: port

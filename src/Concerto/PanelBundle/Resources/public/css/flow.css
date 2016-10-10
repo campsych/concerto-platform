@@ -9,7 +9,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 11;
+    z-index: 12;
     background-color: #ffffff;
 }
 
@@ -61,7 +61,7 @@
     width: 100%;
     position: relative;
     right: 0px;
-    z-index: 10;
+    z-index: 11;
 }
 
 #flow-menu {
@@ -78,11 +78,25 @@
     width: 250px;
     border: 1px solid black;
     position: absolute;
-    background-color: white;
-    z-index: 5;
+    z-index: 7;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .node-content {
+}
+
+.node-content-left {
+    width: 50%;
+    float: left;
+}
+
+.node-content-right {
+    width: 50%;
+    float: right;
+}
+
+.node-expanded {
+    z-index: 8;
 }
 
 .node-selected {
@@ -127,10 +141,13 @@
 }
 
 .portLabel{
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 12px;
     font-size: small;
-    width: 100px; 
     overflow: hidden;
     white-space: nowrap;
+    height: 18px;
 }
 
 .portLabelIn {
@@ -171,7 +188,7 @@
 }
 
 .ctx-menu {
-    z-index: 9;
+    z-index: 10;
     position: fixed;
 }
 
@@ -208,6 +225,6 @@
 }
 
 ._jsPlumb_connector { z-index:4; }
-._jsPlumb_endpoint { z-index:7; }
-._jsPlumb_overlay { z-index:8; }
-._jsPlumb_hover._jsPlumb_connector { z-index: 6; }
+._jsPlumb_endpoint { z-index:5; }
+._jsPlumb_overlay { z-index:6; }
+._jsPlumb_hover._jsPlumb_connector { z-index: 9; }
