@@ -2,6 +2,10 @@ breadcrumb:
     manager: Dosya yöneticisi
 
 uploader:
+    alerts:
+        upload_failed:
+            title: Dosya yükle
+            message: Dosya yükleme başarısız!
     library:
         title: Dosya kitaplığı
         empty: Dosya kitaplığı boş
