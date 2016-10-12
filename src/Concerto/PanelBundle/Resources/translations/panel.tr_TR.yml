@@ -36,6 +36,7 @@ list:
   delete: Sil
   export: Dışa aktar
   button:
+    toggle_filters: Filtrele
     refresh: Yinele
     delete.checked: Seçilenleri sil
     export.checked: Seçilenleri dışarı aktar
