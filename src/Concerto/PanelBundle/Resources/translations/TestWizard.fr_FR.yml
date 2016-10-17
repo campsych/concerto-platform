@@ -1,0 +1,194 @@
+breadcrumb:
+    list: Tous les assistants
+
+form:
+  title:
+    add: Créer un nouvel assistant de création de tests
+    edit: "Editer l'assistant #{0}"
+  field:
+    name: Nom
+    name.tooltip: Nom de l\'assistant de création de tests
+    accessibility: Accès
+    accessibility.tooltip: Niveau d\'accès de l\'assistant de création de tests
+    protected: Protégé
+    protected.tooltip: L\'assistant de création de tests est-il protégé ?
+    archived: Archivé
+    archived.tooltip: L\'assistant de création de tests est-il archivé ?
+    test: Test
+    test.tooltip: Test sous-jacent de l\'assistant. Ne peut pas être modifié plus tard.
+    owner: Propriétaire
+    owner.tooltip: Propriétaire de l\'objet
+    groups: Groupes
+    groups.tooltip: Liste des groupes (séparés par une virgule) pour qui l\'objet est assigné
+    
+list: 
+  field:
+    name: Nom
+    test: Test
+    
+step:
+    fieldset:
+        legend: Etapes de l'assistant
+        legend.tooltip: Déclarez les étapes de l\'assistant de création de tests.
+    form:
+        fieldset:
+            legend.tooltip: Saisissez les propriétés de l\'étape de l'assistant de création de tests
+        field:
+            title: Titre
+            title.tooltip: Titre de l\'étape de l\'assistant de création de tests
+            description: Description
+            description.tooltip: Description de l\'étape de l\'assistant de création de tests
+            order: Ordre
+            order.tooltip: Ordre de l\'étape de l\'assistant de création de tests
+    list:
+        button: 
+            add: Ajouter une nouvelle étape
+            delete.all: Supprimer toutes les étapes
+            delete.checked: Supprimer les étapes sélectionnées
+            delete: Supprimer
+            edit: Editer
+        field:
+            id: Id
+            info: Info
+            title: Titre
+            order: Ordre
+    dialog:
+        title:
+            add: Créer une nouvelle étape de l'assistant de création de tests
+            edit: Editer une étape de l'assistant de création de tests
+            delete: Enlever une étape de l'assistant de création de tests
+            clear: Effacer les étapes de l'assistant de création de tests
+        message:
+            delete.confirm: Êtes-vous sûr de vouloir supprimer l'étape de l'assistant de création de tests ?
+            clear.confirm: Êtes-vous sûr de vouloir effacer toutes les étapes de l'assistant de création de tests ?
+            
+param:
+    move_up.tooltip: Monter le paramètre
+    move_down.tooltip: Descendre le paramètre
+    fieldset:
+        legend: Paramètres de l'assistant
+        legend.tooltip: Déclarer des paramètres de l\'assistant de création de tests
+    form:
+        fieldset:
+            legend.tooltip: Saisir des propriétés de paramètres de l\'assistant de création de tests
+        field:
+            label: Libellé
+            label.tooltip: Libellé du paramètre de l\'assistant de création de tests
+            description: Description
+            description.tooltip: Description du paramètre de l\'assistant de création de tests
+            url: Transmission via l'URL
+            url.tooltip: Cochez si la valeur du paramètre peut être transmise au travers des paramètres l'URL
+            order: Ordre
+            order.tooltip: Ordonnez l'index du paramètre dans son étape de l\'assistant
+            variable: Variable de test
+            variable.tooltip: Paramètre du test
+            step: Etape de l'assitant
+            step.tooltip: Sélectionnez l\'étape de l\'assistant de création de tests pour ce paramètre
+            definition: Définition
+            definition.tooltip: Définition du paramètre
+            definition.icon.tooltip: Appliquez la définition du paramètre
+            type: Type
+            type.tooltip: Type de paramètre d\'assistant de création de tests
+            type.single_line_text: Texte ligne simple
+            type.multi_line_text: Texte multi-lignes
+            type.html: HTML
+            type.select: Zone de liste déroulante
+            type.view: Modèle de vue
+            type.test: Test
+            type.table: Table de données
+            type.column: Colonne de table de données
+            type.checkbox: Case à cocher
+            type.group: Groupe
+            type.list: Liste
+            hide_condition: Masquer la condition
+            hide_condition.tooltip: "Masquer la condition. Utilise la syntaxe javascript. L\'objet courant de collection de valeurs de paramètres est appelé <strong>values</strong>. Pour accéder à la portée du paramètre parent utilisez <strong>parent</strong>. Exemple : <strong>values.param1.subparam3 != \"1\" </strong>"
+            setter.icon.tooltip: Afficher l'éditeur
+    list:
+        button: 
+            add: Ajouter un nouveau paramètre
+            delete.all: Supprimer tous les paramètres
+            delete.checked: Supprimer les paramètres sélectionnés
+            delete: Supprimer
+            edit: Editer
+        field:
+            id: Id
+            info: Info
+            label: Titre
+            step: Etape
+            variable: Paramètre de test
+            type: Type
+            order: Ordre
+    dialog:
+        title:
+            add: Ajouter un nouveau paramètre d'assistant de création de tests
+            edit: Editer un paramètre d'assistant de création de tests
+            delete: Enlever un paramètre d'assistant de création de tests
+            clear: Effacer les paramètres d'assistant de création de tests
+        message:
+            delete.confirm: Êtes-vous sûr de vouloir supprimer les paramètres d'assistant de création de tests sélectionnés ?
+            clear.confirm: Êtes-vous sûr de vouloir effacer tous les paramètres d'assistant de création de tests ?
+    definer:
+        titles:
+            select: "{0} - définir les options de sélection possibles"
+            select.tooltip: Appliquez les options de sélection au paramètre courant
+            group: "{0} - définir les champs du groupe"
+            group.tooltip: Appliquez les champs du groupe au paramètre courant
+            list: "{0} - définir le type d'élément de liste "
+            list.tooltip: Appliquez le type d'élement de liste au paramètre courant
+        summaries:
+            select: "Nombre d'options : {0}"
+            group: "Nombre de champs : {0}"
+            list: "Type d'élements : {0}"
+        select.option.add: Ajouter une nouvelle option
+        select.option.remove.selected: Enlever les options sélectionnées
+        select.option.remove.all: Enlever toutes les options
+        select.list.field.order: Ordre
+        select.list.field.label: Libellé
+        select.list.field.value: Valeur
+        select.list.button.delete: Supprimer
+        group.field.add: Ajouter un nouveau champ
+        group.field.remove.selected: Enlever les champs sélectionnés
+        group.field.remove.all: Enlever tous les champs
+        group.field.move_up.tooltip: Monter le champ
+        group.field.move_down.tooltip: Descendre le champ
+        group.list.field.name: Nom
+        group.list.field.label: Libellé
+        group.list.field.type: Type
+        group.list.field.hide_condition: Masquer la condition
+        group.list.field.definition: Définition
+        group.list.field.order: Ordre
+    setter:
+        titles:
+            textarea: "{0} - texte multilignes"
+            textarea.tooltip: Appliquez la valeur du texte au paramètre courant
+            html: "{0} - HTML"
+            html.tooltip: Appliquez le HTML au paramètre courant
+            column: "{0} - colonne de table de données"
+            column.tooltip: Appliquez la colonne de table de données au paramètre courant
+            group: "{0} - champs de groupe"
+            group.tooltip: Appliquez les valeurs des champs de groupe au paramètre courant
+            list: "{0} - éléments de liste"
+            list.tooltip: Appliquez les éléments de liste au paramètre courant
+        summaries:
+            textarea: "{0}"
+            html: "{0}"
+            column: "Table: {0}, Column: {1}"
+            group: "{0}"
+            list: "Elements count: {0}"
+        column.table: Table de données
+        column.table.tooltip: Choisissez la table de données depuis laquelle vous sélectionnerez la colonne ensuite
+        column: Colonne
+        column.tooltip: Choisissez la colonne de table de données
+        list.element.add: Ajoutez un nouvel élément
+        list.element.remove.selected: Enlever les éléments sélectionnés
+        list.element.remove.all: Enlever tous les éléments
+        list.element.remove: Supprimer
+        list.column.element: Elément
+            
+preview:
+    fieldset:
+        legend: Prévisualisation de l'assitant
+        legend.tooltip: Prévisualiser l\'assistant de création de tests. Vous pouvez réorganiser les paramètres dans chaque étape.
+    buttons:
+        next: Etape suivante
+        previous: Etape précédente

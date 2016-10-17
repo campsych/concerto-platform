@@ -1,0 +1,143 @@
+header:
+  logged.user: 'Utilisateur connecté : {0}'
+  logout: Se déconnecter
+
+tab:
+  wizards: Assistants
+  wizards.tooltip: Onglet des assistants de création de test.
+  tests: Tests
+  tests.tooltip: Onglet des tests
+  templates: Modèles
+  templates.tooltip: Onglet des modèles de vue
+  tables: Table de données
+  tables.tooltip: Onglet des tables de données
+  files: Fichiers
+  files.tooltip: Onglet du gestionnaire de fichiers
+  users: Utilisateurs
+  users.tooltip: Onglet de gestion des utilisateurs
+
+list:
+  accessibility:
+      public: Public
+      group: Groupe
+      private: Privé
+  field:
+    id: Id
+    info: Info
+    updated.on: Dernière mise à jour
+    updated.by: Dernier auteur
+    protected: Protégé
+  edit: Editer
+  delete: Supprimer
+  export: Exporter
+  button:
+    refresh: Actualiser
+    delete.checked: Supprimer la sélection
+    export.checked: Exporter la sélection
+    add: Ajouter nouveau
+    import: Importer
+    download: Télécharger
+    upload: Téléverser CSV
+
+form:
+  validation.failed: Echec de la validation 
+  button:
+    save.new: Copier
+    delete: Supprimer
+    export: Exporter
+    save: Sauvegarder
+    cancel: Annuler
+    yes: Oui
+    no: Non
+    change: Changer
+    ok: Ok
+    apply: Appliquer
+    upload: Téléverser
+
+dialog:
+  title:
+    save: Enregistrer un objet
+    delete: Supprimer un objet
+    csv: CSV
+  message:
+    failed: L'operation a échoué. Valider vos données et essayez une nouvelle fois.
+    saved: L'objet a été sauvegardé
+    confirm.delete: Êtes-vous sûr de vouloir supprimer le(s) objet(s) sélectionné(s) ?
+    leaving: Êtes-vous sûr de vouloir continuer ? Toutes les modifications non sauvegardées seront perdues.
+
+please.wait: Merci de patienter...
+none.choosen: Aucun choisi
+none: Aucun
+
+description:
+    tooltip: Changer la description
+    fieldset:
+        legend: Description
+        legend.tooltip: Description de l\'objet
+        
+save_new:
+    dialog:
+        title: Nom du nouvel objet
+        title_main: Copier un objet
+        message.copied: Objet copié
+    fieldset:
+        legend.tooltip: >
+            Saisissez le nom que vous voulez appliquer à l\'objet copié. Laissez vide pour appliquer le nom original. Vous pouvez insérer l\'id ou le nom original de l\'objet en utilisant : \{\{id\}\} ou \{\{name\}\}.
+
+import:
+    dialog:
+        title: Importer un objet
+        message.imported: Objet importé
+    fieldset:
+        legend.tooltip: Importez de nouveaux objets depuis un fichier qui a été exporté précédemment.
+    form:
+        field:
+            file: Fichier
+            file.tooltip: Choisissez le fichier à importer
+
+export:
+    dialog:
+        title: Exportation de données
+        error:
+            empty.content: Merci de sélectionner au moins une entrée dans la table ci-dessous afin de l'exporter.
+        format:
+            info: Merci de sélectionner un format pour le fichier d'exportation. Le format compressé requiert moins d'espace disque et de bande passante, mais peut ne pas être facile à ouvrir. Le format texte est plus facile à lire ou à éditier, mais génère des fichiers de plus grande taille.
+            compressed: compressé
+            plaintext: texte
+     
+download_list:
+    dialog:
+        title: Téléchargement du tableau
+        tooltip: Sélectionnez les options du tableau
+        field:
+            format: Format
+            format.tooltip: Format du fichier téléchargé
+            format.csv: CSV
+            format.pdf: PDF
+            cols: Colonnes
+            cols.tooltip: Colonnes devant apparaître
+            cols.all: Toutes
+            cols.visible: Visibles
+            rows: Lignes
+            rows.tooltip: Lignes devant apparaître
+            rows.all: Toutes
+            rows.visible: Visibles
+            rows.selected: Sélectionnées
+            
+upload_list:
+    dialog:
+        title: Téléverser tableau CSV
+        tooltip: Sélectionnez le fichier CSV du tableau
+        description: Les nouvelles données seront ajoutées aux données existantes.
+        fields:
+            file: Fichier
+            file.tooltip: Choisissez un fichier que vous souhaitez téléverser
+    
+code:
+    F11: Mode plein-écran
+    shift.tab:  Code du format sélectionné
+    ctrl.space: Autocomplétion
+    documentation:
+        error.info: Chargement des données d'autocomplétion impossible !
+        error.solve: Résoudre
+    

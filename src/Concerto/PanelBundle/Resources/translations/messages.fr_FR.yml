@@ -1,0 +1,71 @@
+validate:
+    protected.mod: Essai de modification de l'objet protégé
+    
+    user:
+      username.unique: Cet identifiant existe déjà dans le système
+      username.min: Le champ de l'identifiant doit avoir une longueur minimum de 3 caractères
+      username.max: Le champ de l'identifiant doit avoir une longueur maximum de 25 caractères
+      username.blank: Le champ de l'identifiant ne peut pas être vide
+      password.min: Le champ du mot de passe doit avoir une longueur minimum de 4 caractères
+      password.max: Le champ du mot de passe doit avoir une longueur maximum de 40 caractères
+      password.match: Le mot de passe de confimation ne correspond pas au mot de passe
+      password.blank: Le champ du mot de passe ne peut pas être vide
+      email: Ce n'est pas une adresse email correcte
+      email.unique: Cet email existe déjà dans le système
+      email.max: Le champ de l'email doit avoir une longueur maximum de 60 caractères
+      email.blank: Le champ de l'email ne peut pas être vide
+      
+    table:
+      name.unique: Ce nom existe déjà dans le système
+      name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+      name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+      name.blank: Le champ du nom ne peut pas être vide
+      name.incorrect: Nom invalide
+      column.name.unique: Cette colonne existe déjà dans la table
+      column.name.blank: Le nom ne peut pas être vide
+      column.name.incorrect: Nom invalide
+      
+    template:
+      name.unique: Ce nom existe déjà dans le système
+      name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+      name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+      name.blank: Le champ du nom ne peut pas être vide
+      
+    test:
+      name.unique: Ce nom existe déjà dans le système
+      name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+      name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+      name.blank: Le champ Nom ne peut pas être vide
+      wizard.source: L'assitant source doit être sélectionné pour le type d'assistant de création de tests
+      
+      variables:
+        unique: Une variable avec ce nom et ce type est déjà assignée au test
+        name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+        name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+        name.blank: Le champ du nom ne peut pas être vide
+        name.incorrect: Nom invalide
+          
+      wizards:
+        name.unique: Ce nom existe déjà dans le système
+        name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+        name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+        name.blank: Le champ du nom ne peut pas être vide
+        test.null: Le test doit être sélectionné
+        
+        params:
+            label.min: Le champ du libellé doit avoir une longueur minimum de 1 caractère
+            label.max: Le champ du libellé doit avoir une longueur maximum de 64 caractères
+            label.blank: Le champ du libellé ne peut pas être vide
+            variable.null: La variable de test doit être sélectionnée
+            variable.unique: Seulement un paramètre de l'assistant peut être assigné à un paramètre spécifique du test
+            step.null: L'étape de l'assitant de création de tests doit être sélectionnée
+        
+        steps:
+            title.min: Le champ du titre doit avoir une longueur minimum de 1 caractère
+            title.max: Le champ du titre doit avoir une longueur maximum de 64 caractères
+            title.blank: Le champ du titre ne peut pas être vide
+            
+errors:
+    title: Erreurs du sytème
+    table:
+        column.conversion: Le type de conversion sélectionné n'est pas supporté avec le moteur de base de données configuré.

@@ -1,0 +1,287 @@
+breadcrumb:
+    list: Tous les tests
+
+form:
+  title:
+    add: Créer nu nouveau test
+    edit: 'Editer le test #{0}'
+  field:
+    name: Nom
+    name.tooltip: Nom du test
+    accessibility: Accès
+    accessibility.tooltip: Niveau d\'accès du test
+    protected: Protégé
+    protected.tooltip: Le test est-il protégé ?
+    archived: Archivé
+    archived.tooltip: Le test est-il archivé ?
+    slug: Nom de l'URL
+    slug.tooltip: Le nom de l\'URL (appelé aussi "slug") est une partie personnalisable de l\'URL avec laquelle le test est accessible ; cela permet de construire des URLs plus descriptive.
+    visibility: Visibilité
+    visibility.tooltip: Visibilité du test
+    visibility.subtest: Subtest
+    visibility.regular: Normal
+    visibility.featured: Spécifique
+    type: Type
+    type.tooltip: Type du test
+    type.code: code
+    type.wizard: assistant
+    type.flow: organigramme
+    resumable: Reprise
+    resumable.tooltip: La boîte de dialogue de reprise de session est-elle autorisée ?
+    wizard: Assistant
+    wizard.tooltip: Sélectionnez un assistant de création de test grâce auquel sera créé ce test.
+    wizard.none: <aucun sélectionné>
+    owner: Propriétaire
+    owner.tooltip: Propriétaire de l\'objet
+    groups: Groupes
+    groups.tooltip: Liste des groupes (séparés par une virgule) pour qui l\'objet est assigné
+  button:
+      run: Démarrer
+      debug: Deboguer
+      update: Mettre à jour tous les tests dépendants
+  dialog:
+      title:
+          update: Mise à jour des tests dépendants
+      message:
+          update.successful: Mise à jour terminée.
+    
+list: 
+  field:
+    name: Nom
+    wizard: Assistant
+    wizard.source: Test source
+  tooltips:
+    outdated: Il ya une nouvelle version du test source disponible. Merci de sauvegarder à nouveau pour mettre à jour.
+    uptodate: Utiliser la dernière version du test source.
+    
+variables:
+    form:
+        field:
+            name: Nom
+            name.tooltip: Nom unique de la variable
+            description: Description
+            description.tooltip: Description de la variable
+            url: URL
+            url.tooltip: Le paramètre est-il transmis au travers de l\'URL ?
+            value: Valeur par défaut
+            value.tooltip: Valeur par défaut de la variable
+    dialog:
+        tooltip: Définissez une variable du test
+    
+    input:
+        fieldset:
+            legend: Variables d'entrée du test
+            legend.tooltip: Variables d\'entrée du test.
+        parameters:
+            list:
+                add: Ajouter un paramètre d'entrée
+                delete.checked: Enlever les paramètres sélectionnés
+                edit: Editer
+                delete: Supprimer
+                field:
+                    info: Info
+                    name: Nom
+                    url: URL
+                    url.yes: Oui
+                    url.no: Non
+                    value: Valeur par défaut
+            dialog:
+                title:
+                    add: Ajouter un nouveau paramètre d'entrée
+                    edit: Editer un paramètre d'entrée
+                    delete: Enlever un paramètre d'entrée
+                message:
+                    delete.confirm: Êtes-vous sûr de vouloir supprimer les paramètres d'entrée sélectionnés ?
+    output:
+        fieldset:
+            legend: Variables de sortie du test
+            legend.tooltip: Variables de sortie du test.
+        returns:
+            legend: Variables de retour
+            legend.tooltip: Définissez les variables de retour du test
+            list:
+                add: Ajouter une variable de retour
+                delete.checked: Enlever les variables de retour sélectionnées
+                edit: Editer
+                delete: Supprimer
+                field:
+                    info: Info
+                    name: Nom
+                    value: Valeur par défaut
+            dialog:
+                title:
+                    add: Ajouter une nouvelle variable de retour
+                    edit: Editer une variable de retour
+                    delete: Enlever une variable de retour
+                message:
+                    delete.confirm:  Êtes-vous sûr de vouloir supprimer les variables de retour sélectionnées ?
+        branches:
+            legend: Ramification
+            legend.tooltip: Définissez les ramifications du test
+            list:
+                add: Ajouter une ramification
+                delete.checked: Enlever les ramifications sélectionnées
+                edit: Editer
+                delete: Supprimer
+                field:
+                    info: Info
+                    name: Nom
+                    value: Valeur par défaut
+            dialog:
+                title:
+                    add: Ajouter une nouvelle ramification
+                    edit: Editer une ramification
+                    delete: Enlever une ramification
+                message:
+                    delete.confirm: Êtes-vous sûr de vouloir supprimer les ramifications sélectionnées ?
+    
+log:
+    dialog:
+        title:
+            delete: Enlever le journal
+            clear: Effacer les journaux
+        message:
+            delete.confirm: Êtes-vous sûr de vouloir enlever les journaux sélectionnés ?
+            clear.confirm: Êtes-vous sûr de vouloir effacer tous les journaux ?
+    fieldset:
+        legend: Journaux d'erreur
+        legend.tooltip: Journaux d\'erreur du test
+    list:
+        button: 
+            delete.all: Tout supprimer
+            delete.checked: Supprimer la sélection
+            delete: Supprimer
+            refresh: Actualiser
+        field:
+            date: Date
+            type: Type
+            type.R: R
+            type.javascript: Javascript
+            message: Message
+            browser: Navigateur
+            ip: IP
+            
+logic:
+    convert:
+        title: Tester la conversion vers du code R
+        confirmation: Êtes-vous sûr de vouloir convertir ce test en code R. Cette opération est définitive.
+        buttons:
+            convert: Convertir en code R
+    code:
+        fieldset:
+            legend: Tester la logique
+            legend.tooltip: Tester la logique du code
+            
+completion:
+    wizard:
+        default:
+            autoformat: Autoformatage
+            insertcomments: Insérer les commentaires
+        
+        sql:
+            selection:
+                empty:
+                    column: -- choisir une colonne --
+                    table: -- choisir une table --
+            options:
+                wizard: assistant
+                code: code SQL
+            parameters: 
+                label: paramètres
+                tooltip: Définissez les paramètres du code SQL.
+            fetchcount: 
+                label: Nombre de lignes
+                tooltip: Nombre de lignes à retourner. Utiliser -1 pour toutes et 0 pour aucune.
+            table:
+                label: Choix de la table
+                tooltip: Choisissez la table sur laquelle vous voulez effectuer une action.
+            type:
+                label: Type de requête
+                tooltip: Choisissez le type de requête.
+            update:
+                label: mettre à jour (set)
+                tooltip: Assignez des valeurs de mise à jour.
+                empty: Pas de sélection de ligne à modifier. Aucun changement ne sera fait dans les lignes mises à jour. 
+            select:
+                label: sélectionner (select)
+                tooltip: Choisissez les colonnes que vous voulez sélectionner.
+            where:
+                label: où (where)
+                tooltip: Ajouter une déclaration conditionnelle.
+                empty:  La déclaration conditionnelle est vide. Aucun filtre ne sera appliqué.
+                logic:
+                    or: OU
+                    and: ET
+                operators:
+                    equal: égal
+                    notequal: différent
+                    greater: supérieur à
+                    equalgreater: supérieur ou égal à
+                    lesser: inférieur à
+                    equallesser: inférieur ou égal à
+                    like: comme
+                    notlike: pas comme
+            order:
+                label: trié par (order by)
+                tooltip: Choisissez le tri.
+                empty:  Aucun tri n'est déclaré. Aucun tri ne sera appliqué.
+                directions:
+                    ascending: ascendant (du plus petit au plus grand)
+                    descending: descendant (du plus grand au plus petit)
+            insert:
+                label: insérer (insert)
+                tooltip: Assignez des valeurs à insérer.
+                empty: Aucune déclaration d'insertion. Un enregistrement sera ajouté avec les valeurs par défaut. 
+    documentation:
+        help:
+            title: Documentation d'autocomplétion pour R - Instructions de génération
+            intro: Avant d'utiliser la fonctionnalité d'autocomplétion pour R dans Concerto, vous avez besoin d'être sûr que la documentation de R, basée sur la configuration de R dans votre système, a bien été générée.
+            info:
+                directory: >
+                    Dans le but de générer cette documentation, you devez ouvrir une console de ligne de commande (sur Windows `cmd`, sur Linux `xterm`, `konsole` ou `gnome-terminal`) et, une fois ouverte, naviguer jusqu'au dossier d'installation de Concerto:
+                console: Depuis cet emplacement, vous devez être capable d'utiliser la console de Symfony. Vous devez exécuter l'opération `concerto:r:cache` avec la console.
+                console.more: Cliquez ici pour plus d'information à propos de la console de Symfony
+                output: Exécuter cette commande affichera toutes les fonction de R qui ont été trouvées dans votre système, et préparera les fichiers de documentation nécessaires. Rechargez ou ré-ouvrez la page de Concerto afin de commencer à l'utiliser lors de l'édition de sources R.
+
+flow:
+    fieldset:
+        legend: Flux du test
+        legend.tooltip: Flux du test
+        return_function.tooltip: Fonction de retour.
+    nodes:
+        names:
+            test_start: début du test
+            test_end: fin du test
+        descriptions:
+            test_start: C'est un nœud d'entrée du test. L'exécution du flux du test commence ici. Il renvoie les paramètres d'entrée du test.
+            test_end: C'est un nœud du test où vous pouvez assigner les valeurs des variables de retour du test.  This is a test node where you can set the values of test return variables.
+        dialog:
+            delete:
+                title: Enlever un nœud
+                message: Êtes-vous sûr de vouloir enlever ce nœud ?
+            selection_delete:
+                title: Enlever les nœuds sélectionnés
+                message: Êtes-vous sûr de vouloir enlever les nœuds sélectionnés ?
+    ports:
+        names:
+            in: entrée
+        descriptions:
+            in: Point d'entrée du nœud.
+        dialog:
+            fields:
+                string: Comme un chaîne de caractères ?
+                string.tooltip: Si coché, la valeur de la balise sera traitée comme une chaîne de caractères, sinon comme du code R.
+                value: Valeur
+                value.tooltip: Valeur de la variable dans cette balise
+    buttons:
+        reset_view: Rétablir la vue
+        copy_node: Copier le nœud
+        paste_nodes: Coller les nœuds
+        remove_node: Enlever le nœud
+        reset_to_default: Rétablir par défaut
+        toggle_collapse: Réduire/développer les balises non connectées
+        zoom_in: Aggrandir
+        zoom_out: Réduire
+    tags:
+        all: Tout        
+        

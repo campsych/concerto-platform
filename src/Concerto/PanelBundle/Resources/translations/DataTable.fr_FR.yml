@@ -1,0 +1,99 @@
+breadcrumb:
+    list: Toutes les tables
+
+form:
+  title:
+    add: Créer une nouvelle table de données
+    edit: 'Editer la table de données #{0}'
+  field:
+    name: Nom
+    name.tooltip: Nom de la table de données
+    accessibility: Accès
+    accessibility.tooltip: Niveau d\'accès de la table de données
+    protected: Protégée
+    protected.tooltip: La table de données est-elle protégée ?
+    archived: Archivée
+    archived.tooltip: La table de données est-elle archivée ?
+    owner: Propriétaire
+    owner.tooltip: Propriétaire de l\'objet
+    groups: Groupes
+    groups.tooltip: Liste des groupes (séparés par une virgule) pour qui l\'objet est assigné
+  button:
+      import.csv: Téléverser CSV
+
+list: 
+  field:
+    name: Nom
+    
+structure:
+  fieldset:
+    legend: Structure de la table de données
+    legend.tooltip: Définition de la structure de la table de données
+    
+  form:
+    field:
+      name: Nom
+      name.tooltip: Nom de la colonne
+      type: Type
+      type.tooltip: Type de la colonne
+      
+  list:
+    field:
+      name: Nom
+      type: Type
+    edit: Editer
+    add: Ajouter une colonne
+    delete: Supprimer
+    delete.checked: Supprimer la sélection
+    
+  dialog:
+    title:
+      add: Ajouter une nouvelle colonne à la table de données
+      delete: Supprimer une colonne de la table de données Deleting data table column
+      edit: Editer un colonne de la table de données
+    message:
+      confirm.delete: Êtes-vous sûr devouloir supprimer les colonnes sélectionnées de la table de données ?
+      
+data:
+    dialog:
+        title:
+            delete: Enlever une ligne
+        message:
+            confirm.delete: Êtes-vous sûr de vouloir enlever les lignes sélectionnées ?
+    fieldset:
+        legend: Données de la table
+        legend.tooltip: Données de la table
+    list:
+        add: Ajouter une ligne
+        delete.checked: Supprimer la sélection
+        delete.all: Tout supprimer
+        delete: Supprimer
+        
+    cell:
+        text:
+            fieldset:
+                legend: Contenu de la cellule de texte
+                legend.tooltip: Editer le contenu de la cellule de texte
+        
+io:
+    dialog:
+        title: 
+            import: Téléverser une table depuis un fichier CSV
+        message: 
+            imported: Table importée.
+            error: L'importation a échouée.
+        fieldset:
+            legend:
+              import.tooltip: Description des propriétés du fichier CSV.
+            field:
+                header: Ligne d'entête
+                header.import.tooltip: Si cochée, la première ligne du CSV sera utilisée pour les noms des colonnes.
+                restructure: Restructurer
+                restructure.tooltip: Recrée toute la structure de la table et remplace les données existantes. Si non cochée, la données seront ajoutées à la structure courante. Aussi, si la ligne d\'entête est cochée, la première ligne sera utilisée pour la correspondance des colonnes, sinon les données seront insérées dans l\'ordre des colonnes défini dans le CSV.
+                field.delimiter: Séparateur de champ
+                field.delimiter.tooltip: Caractère unique utilisé pour séparer les champs dans une ligne. Le caractère par défaut est ,
+                field.enclosure: Délimiteur de texte
+                field.enclosure.tooltip: Caractère unique utilisé entourer les champs de texte. Le caractère par défaut est \"
+                file: Fichier
+                file.tooltip: Choisissez le fichier CSV à importer
+        

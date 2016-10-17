@@ -1,0 +1,34 @@
+breadcrumb:
+    list: Tous les modèles
+
+form:
+  title:
+    add: Créer un nouveau modèle de vue
+    edit: 'Editer le modèle de vue #{0}'
+  field:
+    name: Nom
+    name.tooltip: Nom du modèle de vue
+    accessibility: Accès
+    accessibility.tooltip: Niveau d\'accès du modèle de vue
+    protected: Protégé
+    protected.tooltip: Le modèle de vue est-il protégé ?
+    archived: Archivé
+    archived.tooltip: Le modèle de vue est-il archivé ?
+    owner: Propriétaire
+    owner.tooltip: Propriétaire de l\'objet
+    groups: Groupes
+    groups.tooltip: Liste des groupes (séparés par une virgule) pour qui l\'objet est assigné
+
+list: 
+  field:
+    name: Nom
+          
+source:
+    fieldset:
+        legend: Source du modèle de vue
+        legend.tooltip: Basile d\'entête HTML et code source HTML du corps du modèle de vue
+    field:
+        head: Balise d'entête
+        head.tooltip: Basile d\'entête HTML du modèle de vue
+        html: Corps de document HTML
+        html.tooltip: Code source HTML du corps du modèle de vue

@@ -36,8 +36,8 @@ form:
     groups: Grupy
     groups.tooltip: Lista grup, oddzielonych przecinkiem, do których należy obiekt
   button:
-      run: Uruchom test
-      debug: Debuguj test
+      run: Uruchom
+      debug: Debuguj
       update: Zaktualizuj wszystkie zależne testy
   dialog:
       title:

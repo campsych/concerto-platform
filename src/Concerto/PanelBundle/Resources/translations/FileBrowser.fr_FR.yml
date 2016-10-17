@@ -1,0 +1,22 @@
+breadcrumb:
+    manager: Gestionnaire de fichiers
+
+uploader:
+    library:
+        title: Bibliothèque de fichiers
+        empty: La bibliothèque de fichiers est actuellement vide.
+        buttons:
+            use: Utiliser
+            remove: Enlever
+            open: Ouvrir
+    queue:
+        title: File d'attente de téléversement
+        droparea: Déposez vos fichiers ici
+        progress: Progression totale
+        buttons:
+            upload: Téléverser
+            cancel: Annuler
+            remove: Enlever
+            uploadall: Téléverser tout
+            cancelall: Annuler tout
+            removeall: Enlever tout

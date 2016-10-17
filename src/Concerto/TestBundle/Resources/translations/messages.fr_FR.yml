@@ -1,0 +1,15 @@
+session.resuming: Reprendre le test
+session.resuming.question: Il semble que vous ayez commencé, mais pas fini, le test. Cliquer sur OK pour le reprendre la passation ou cocher la case pour recommencer le test.
+session.resuming.start_new_checkbox_label: Recommencer le test
+OK: OK
+ignition.noscript: Votre navigateur ne supporte pas javascript. Merci d\'activer javascript puis d\'actualiser votre navigateur.
+ignition.ip: "IP:"
+ignition.browser: "Navigateur:"
+ignition.time: "Temps:"
+ignition.browser.notsupported: La version de votre navigateur n\'est pas supportée. Merci de bien vouloir mettre à jour votre navigateur vers Internet Explorer 9 ou plus, ou de changer pour un navigateur alternatif comme Chrome ou Firefox.
+ignition.browser.potentionallynotsupported: Si ce message ne disparaît pas dans un moment, vous devriez utiliser un autre navigateur.
+default.template:
+    error: Erreur rencontrée. Exécution arrêtée.
+    finished: Test fini.
+    loading: Merci de patienter...
+    unresumable: Test expiré. Actualisez la page pour recommencer.

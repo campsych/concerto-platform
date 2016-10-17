@@ -1,0 +1,43 @@
+breadcrumb:
+    list: Tous les utilisateurs
+
+form:
+  title:
+    add: Créer un nouvel utilisateur
+    edit: "Editer l'utilisateur #{0}"
+  field:
+    login: Identifiant
+    login.tooltip: Saisissez un identifiant unique
+    password: Mot de passe
+    password.tooltip: Saisissez un mot de passe
+    passwordConfirmation: Confirmez le mot de passe
+    passwordConfirmation.tooltip: Répétez votre mot de passe ici
+    email: Email
+    email.tooltip: Saissez votre adresse email
+    accessibility: Accès
+    accessibility.tooltip: Niveau d\'accès de l\'utilisateur
+    protected: Protégé
+    protected.tooltip: L\'utilisateur est-il protégé ?
+    archived: Archivé
+    archived.tooltip: L\'utilisateur est-il archivé ?
+    role_super_admin: Super admin
+    role_super_admin.tooltip: Accorde les droits utilisateurs de la section utilisateur et de toutes les autres sections
+    role_test: Accès aux tests
+    role_test.tooltip: Accorde l\'accès à la section des tests
+    role_template: Accès aux modèles de vue
+    role_template.tooltip: Accorde l\'accès à la section des modèles de vue
+    role_table: Accès aux tables de données
+    role_table.tooltip: Accorde l\'accès à la section des tables de données
+    role_file: Accès aux fichiers
+    role_file.tooltip: Accorde l\'accès à la section des fichiers
+    role_wizard: Accès aux assistants de création de tests
+    role_wizard.tooltip: Accorde l\'accès à la section des assistants de création de tests
+    owner: Propriétaire
+    owner.tooltip: Propriétaire de l\'objet
+    groups: Groupes
+    groups.tooltip: Liste des groupes (séparés par une virgule) pour qui l\'objet est assigné
+    
+list:
+  field:
+    username: Identifiant
+    email: Email

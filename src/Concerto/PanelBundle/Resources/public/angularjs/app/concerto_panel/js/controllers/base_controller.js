@@ -156,8 +156,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             enableSorting: false,
             enableFiltering: false,
             exporterSuppressExport: true,
-            cellTemplate: cellTemplate,
-            width: 200
+            cellTemplate: cellTemplate
         });
     };
 

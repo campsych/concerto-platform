@@ -1,7 +1,8 @@
 parameters:
-    version: 5.0.beta.2.160
+    version: 5.0.beta.2.161
     available_locales:
         en_GB: english
+        fr_FR: français
         pl_PL: polski
         tr_TR: türkçe
 

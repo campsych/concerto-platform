@@ -1,0 +1,12 @@
+form:
+  legend: Merci de saisir vos informations
+  legend.tooltip: Saisissez votre identifiant et votre mot de passe
+  field:
+    login: Identifiant
+    login.tooltip: Merci de saisir votre identifiant
+    password: Mot de passe
+    password.tooltip: Merci de saisir votre mot de passe
+  button.login: Se connecter
+
+'Bad credentials.': Identifiant ou mot de passe incorrect!
+'User account is disabled.': Le compte utilisateur est archivé!
