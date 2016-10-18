@@ -29,8 +29,8 @@
                 "nullable": false
             },
             {
-                "name": "test_id",
-                "type": "bigint",
+                "name": "data_set_id",
+                "type": "string",
                 "nullable": false
             },
             {
@@ -44,12 +44,13 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-08-13 18:06:33",
+        "updatedOn": "2016-10-18 14:43:04",
         "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 1,
-        "data": []
+        "rev": 2,
+        "data": [],
+        "hash": "f931a6ba6ecdc9781e440cd6a8d74794f52600fd"
     }
 ]

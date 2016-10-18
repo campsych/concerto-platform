@@ -37,15 +37,20 @@
                 "name": "trait",
                 "type": "string",
                 "nullable": false
+            },
+            {
+                "name": "data_set_id",
+                "type": "string",
+                "nullable": false
             }
         ],
-        "updatedOn": "2016-10-06 17:13:12",
-        "updatedByName": "admin",
+        "updatedOn": "2016-10-18 14:43:35",
+        "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 2,
+        "rev": 3,
         "data": [],
-        "hash": "27bbabcef67caca54881ec3fd21450c7d4bcd29f"
+        "hash": "edee3fdef6181187fae1e778cb645a0662db0bfa"
     }
 ]
