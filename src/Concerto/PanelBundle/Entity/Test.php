@@ -413,7 +413,7 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestSession $sessions
      * @return Test
      */
-    public function addSession(TestSessionLog $sessions) {
+    public function addSession(TestSession $sessions) {
         $this->sessions[] = $sessions;
 
         return $this;
