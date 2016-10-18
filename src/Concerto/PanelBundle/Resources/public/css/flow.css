@@ -96,6 +96,9 @@
 }
 
 .node-expanded {
+}
+
+.node-active {
     z-index: 8;
 }
 

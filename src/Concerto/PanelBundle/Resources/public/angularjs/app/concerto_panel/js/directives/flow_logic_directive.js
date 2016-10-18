@@ -21,6 +21,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.selectionRectanglePoints = {x1: 0, y1: 0, x2: 0, y2: 0, sx: 0, sy: 0, ex: 0, ey: 0};
                 scope.selectionDisabled = false;
                 scope.maximized = false;
+                scope.lastActiveNodeId = null;
 
                 scope.updateSelectionRectangle = function () {
                     scope.selectionRectanglePoints.sx = Math.min(scope.selectionRectanglePoints.x1, scope.selectionRectanglePoints.x2);
@@ -201,6 +202,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.onNodeCtxOpened = function ($event, nodeId) {
+                    scope.setLastActiveNodeId(nodeId);
                     for (var i = 0; i < scope.object.nodes.length; i++) {
                         var node = scope.object.nodes[i];
                         if (nodeId === node.id)
@@ -328,10 +330,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     }
 
-                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + ")'>";
+                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + "); setLastActiveNodeId(" + node.id + ");'";
                     var headerIcons = "";
                     if (node.type === 1 || node.type === 2) {
-                        elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded }'>";
+                        elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
                     } else {
                         headerIcons = "<div class='node-header-icons'>" +
                                 "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
@@ -423,29 +425,29 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 anchor: [-0.02, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                                 paintStyle: {fillStyle: "blue", strokeStyle: "grey"},
                                 overlays: [[
-                                    "Custom", {
-                                        create: function (component) {
-                                            var portId = component._jsPlumb.parameters.targetPort.id;
-                                            var connected = false;
-                                            for (var j = 0; j < scope.object.nodesConnections.length; j++) {
-                                                var connection = scope.object.nodesConnections[j];
-                                                if (connection.destinationPort == portId) {
-                                                    connected = true;
-                                                    break;
+                                        "Custom", {
+                                            create: function (component) {
+                                                var portId = component._jsPlumb.parameters.targetPort.id;
+                                                var connected = false;
+                                                for (var j = 0; j < scope.object.nodesConnections.length; j++) {
+                                                    var connection = scope.object.nodesConnections[j];
+                                                    if (connection.destinationPort == portId) {
+                                                        connected = true;
+                                                        break;
+                                                    }
                                                 }
-                                            }
 
-                                            var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
-                                                    "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"portValueDefault\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
-                                                    "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
-                                                    "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
-                                            $compile(overlayElem)(scope);
-                                            return overlayElem;
-                                        },
-                                        location: [-0.5, 0.5],
-                                        id: "overlayCode" + port.id
-                                    }
-                                ]],
+                                                var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
+                                                        "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"portValueDefault\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
+                                                        "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
+                                                        "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
+                                                $compile(overlayElem)(scope);
+                                                return overlayElem;
+                                            },
+                                            location: [-0.5, 0.5],
+                                            id: "overlayCode" + port.id
+                                        }
+                                    ]],
                                 parameters: {
                                     targetNode: node,
                                     targetPort: port
@@ -510,6 +512,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 }
                             }
                         },
+                        start: function (event, ui) {
+                            scope.setLastActiveNodeId(node.id);
+                        },
                         stop: function (event, ui) {
                             scope.movingActive = false;
                             scope.$apply();
@@ -546,6 +551,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         var elem = angular.element('#node' + id);
                         elem.trigger({type: "contextmenu", pageX: $event.pageX, pageY: $event.pageY});
                     });
+                };
+
+                scope.setLastActiveNodeId = function (id) {
+                    scope.lastActiveNodeId = id;
                 };
 
                 scope.getPortTooltip = function (portId) {
