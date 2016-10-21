@@ -262,6 +262,9 @@ flow:
             selection_delete:
                 title: Seçilen bağlar kaldırılıyor
                 message: Seçili bağları kaldırmak istediğinizden emin misiniz?
+            title:
+                title: Bağ başlığını düzenle
+                tooltip: Bağın başlık kısmında görünen ifadeyi değiştirir
     ports:
         names:
             in: içeri
@@ -275,11 +278,19 @@ flow:
                 value.tooltip: Bu porttaki değişken değer
     buttons:
         reset_view: Görünümü sıfırla
+        rename_node: Bağı yeniden adlandır
+        copy_node: Bağı kopyala
+        copy_nodes: Bağları kopyala
         paste_nodes: Bağ yapıştır
+        remove_node: Bağı kaldır
+        remove_nodes: Bağları kaldır
         reset_to_default: Varsayılana sıfırla
         toggle_collapse: Bağlı olmayan portları göster/gizle
         zoom_in: Yaklaştır
         zoom_out: Uzaklaştır
         maximize: Tam ekran görünümünü aç/kapat
+        node_menu: Bağ menüsünü açmak için tıklayın
+        export_test: Testi dışarı aktar
+        export_tests: Testleri dışarı aktar
     tags:
         all: Tümü
