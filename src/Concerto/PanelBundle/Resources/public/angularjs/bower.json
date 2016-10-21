@@ -39,6 +39,8 @@
     },
     "resolutions": {
         "angular": "1.5.5",
-        "ckeditor": "full/4.5.5"
+        "ckeditor": "full/4.5.5",
+        "jquery": "2.1.4",
+        "jquery-ui": "1.11.4"
     }
 }
