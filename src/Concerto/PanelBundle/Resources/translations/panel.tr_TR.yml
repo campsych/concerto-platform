@@ -95,6 +95,7 @@ import:
     action:
         new: Yeni
         convert: Dönüştür
+        ignore: Yoksay
     dialog:
         title: Nesne içe aktarılıyor
         description_warning: Seçili nesneleri yeni içeri aktarılanlarla değiştirme özelliği henüz deneysel olarak çalışmaktadır ve veri kaybına yol açabilir. İki nesne arasındaki farkları kaçınılmaz bir veri kaybına neden olması olasıdır. Devam etmeden veritabanınızı yedeklemeniz önemle tavsiye edilir.
