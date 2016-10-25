@@ -42,15 +42,20 @@
                 "name": "time_taken",
                 "type": "float",
                 "nullable": false
+            },
+            {
+                "name": "data_set_id",
+                "type": "string",
+                "nullable": false
             }
         ],
-        "updatedOn": "2016-10-06 17:11:59",
-        "updatedByName": "admin",
+        "updatedOn": "2016-10-18 14:43:35",
+        "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 2,
+        "rev": 3,
         "data": [],
-        "hash": "fbd5e4cf720a40d7a2c3f4d7372cf40a69dcfbcc"
+        "hash": "5adfbd85b450731fc992fb9562ada1485ee1b418"
     }
 ]

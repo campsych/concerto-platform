@@ -27,15 +27,20 @@
                 "name": "session_id",
                 "type": "string",
                 "nullable": false
+            },
+            {
+                "name": "data_set_id",
+                "type": "string",
+                "nullable": false
             }
         ],
-        "updatedOn": "2016-10-06 17:11:14",
-        "updatedByName": "admin",
+        "updatedOn": "2016-10-18 14:43:27",
+        "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 2,
+        "rev": 3,
         "data": [],
-        "hash": "96c263718df2083247c3591e7fbe98544adc1e29"
+        "hash": "a2193a4195a69e69a7d37e16eced3d944c89ff9a"
     }
 ]

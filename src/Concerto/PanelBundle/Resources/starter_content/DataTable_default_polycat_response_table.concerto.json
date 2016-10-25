@@ -42,15 +42,20 @@
                 "name": "sem",
                 "type": "float",
                 "nullable": false
+            },
+            {
+                "name": "data_set_id",
+                "type": "string",
+                "nullable": false
             }
         ],
-        "updatedOn": "2016-10-06 17:12:56",
-        "updatedByName": "admin",
+        "updatedOn": "2016-10-18 14:43:35",
+        "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 2,
+        "rev": 3,
         "data": [],
-        "hash": "182ae2ab5bd4f957590fdf742c19e2a3a4805c85"
+        "hash": "1f457edd3f386863f75a4e4687db8ef8cf824eeb"
     }
 ]
