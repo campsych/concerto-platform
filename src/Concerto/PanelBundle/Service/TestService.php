@@ -200,7 +200,7 @@ class TestService extends AExportableSectionService {
         if (!array_key_exists("Test", $map))
             $map["Test"] = array();
         if (array_key_exists("id" . $obj["id"], $map["Test"]))
-            return array();
+            return array("errors" => null, "entity" => $this->get($map["Test"]["id" . $obj["id"]]));
 
         $wizard = null;
         if ($obj["sourceWizard"]) {
@@ -220,12 +220,14 @@ class TestService extends AExportableSectionService {
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object"] ? $instruction["existing_object"]["name"] : null;
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $wizard);
         else if ($instruction["action"] == 2) {
             $map["Test"]["id" . $obj["id"]] = $obj["id"];
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
         } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue, $wizard);
 
@@ -286,7 +288,7 @@ class TestService extends AExportableSectionService {
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
             $ent->setRevision($obj["rev"]);
-        else 
+        else
             $ent->setRevision(0);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
@@ -427,4 +429,5 @@ class TestService extends AExportableSectionService {
         else
             return json_encode($result, JSON_PRETTY_PRINT);
     }
+
 }

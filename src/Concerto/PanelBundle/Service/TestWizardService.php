@@ -143,7 +143,7 @@ class TestWizardService extends AExportableSectionService {
         if (!array_key_exists("TestWizard", $map))
             $map["TestWizard"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestWizard"]))
-            return array();
+            return array("errors" => null, "entity" => $this->get($map["TestWizard"]["id" . $obj["id"]]));
 
         $test = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
@@ -164,9 +164,10 @@ class TestWizardService extends AExportableSectionService {
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
-        else if ($instruction["action"] == 2)
+        else if ($instruction["action"] == 2) {
             $map["TestWizard"]["id" . $obj["id"]] = $obj["id"];
-        else
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue, $test);
 
         array_splice($queue, 1, 0, $obj["steps"]);

@@ -184,7 +184,7 @@ class TestVariableService extends ASectionService {
         if (!array_key_exists("TestVariable", $map))
             $map["TestVariable"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestVariable"])) {
-            return(array());
+            return array("errors" => null, "entity" => $this->get($map["TestVariable"]["id" . $obj["id"]]));
         }
 
         $test = null;
@@ -215,6 +215,7 @@ class TestVariableService extends ASectionService {
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
         else if ($parent_instruction["action"] == 2) {
             $map["TestVariable"]["id" . $obj["id"]] = $obj["id"];
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
         return $result;

@@ -136,7 +136,7 @@ class TestNodeService extends ASectionService {
         if (!array_key_exists("TestNode", $map))
             $map["TestNode"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestNode"])) {
-            return(array());
+            return array("errors" => null, "entity" => $this->get($map["TestNode"]["id" . $obj["id"]]));
         }
 
         $flowTest = null;
@@ -163,9 +163,10 @@ class TestNodeService extends ASectionService {
                     "id" => $obj["flowTest"]
                         ), $instructions);
         $result = array();
-        if ($parent_instruction["action"] == 2)
+        if ($parent_instruction["action"] == 2) {
             $map["TestNodePort"]["id" . $obj["id"]] = $obj["id"];
-        else
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $flowTest, $sourceTest);
 
         array_splice($queue, 1, 0, $obj["ports"]);

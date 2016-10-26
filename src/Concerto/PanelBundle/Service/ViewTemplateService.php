@@ -94,7 +94,7 @@ class ViewTemplateService extends AExportableSectionService {
         if (!array_key_exists("ViewTemplate", $map))
             $map["ViewTemplate"] = array();
         if (array_key_exists("id" . $obj["id"], $map["ViewTemplate"]))
-            return array();
+            return array("errors" => null, "entity" => $this->get($map["ViewTemplate"]["id" . $obj["id"]]));
 
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
@@ -107,9 +107,10 @@ class ViewTemplateService extends AExportableSectionService {
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
-        else if ($instruction["action"] == 2)
+        else if ($instruction["action"] == 2) {
             $map["ViewTemplate"]["id" . $obj["id"]] = $obj["id"];
-        else
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue);
         return $result;
     }
@@ -157,7 +158,7 @@ class ViewTemplateService extends AExportableSectionService {
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
             $ent->setRevision($obj["rev"]);
-        else 
+        else
             $ent->setRevision(0);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

@@ -378,7 +378,7 @@ class DataTableService extends AExportableSectionService {
         if (!array_key_exists("DataTable", $map))
             $map["DataTable"] = array();
         if (array_key_exists("id" . $obj["id"], $map["DataTable"]))
-            return array();
+            return array("errors" => null, "entity" => $this->get($map["DataTable"]["id" . $obj["id"]]));
         if (count($pre_queue) > 0)
             return array("pre_queue" => $pre_queue);
 
@@ -391,6 +391,7 @@ class DataTableService extends AExportableSectionService {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
         else if ($instruction["action"] == 2) {
             $map["DataTable"]["id" . $obj["id"]] = $obj["id"];
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
         } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue);
         return $result;

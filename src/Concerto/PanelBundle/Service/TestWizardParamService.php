@@ -122,7 +122,7 @@ class TestWizardParamService extends ASectionService {
         if (!array_key_exists("TestWizardParam", $map))
             $map["TestWizardParam"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
-            return(array());
+            return array("errors" => null, "entity" => $this->get($map["TestWizardParam"]["id" . $obj["id"]]));
         }
 
         $variable = null;
@@ -155,9 +155,10 @@ class TestWizardParamService extends ASectionService {
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
-        else if ($parent_instruction["action"] == 2)
+        else if ($parent_instruction["action"] == 2) {
             $map["TestWizardParam"]["id" . $obj["id"]] = $obj["id"];
-        else
+            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
 
         return $result;

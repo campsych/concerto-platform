@@ -181,6 +181,7 @@ class ImportService {
         for ($i = 0; $i < count($instructions); $i++) {
             if ($i == 0) {
                 $instructions[$i]["rename"] = $name;
+                $instructions[$i]["action"] = "0";
             } else {
                 $instructions[$i]["action"] = "2";
             }

@@ -53,7 +53,13 @@ abstract class AExportableTabController extends ASectionController {
                 json_decode($this->request->get("instructions"), true), //
                 false);
         $errors = array();
-        foreach ($result as $r) {
+        $show_index = 0;
+        for ($j = 0; $j < count($result); $j++) {
+            $r = $result[$j];
+
+            if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
+                $show_index = $j;
+
             if (!array_key_exists("errors", $r))
                 continue;
             for ($i = 0; $i < count($r['errors']); $i++) {
@@ -63,7 +69,7 @@ abstract class AExportableTabController extends ASectionController {
         if (count($errors) > 0) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object_id" => $result[0]['entity']->getId())));
+            $response = new Response(json_encode(array("result" => 0, "object" => $result[$show_index]['entity'], "object_id" => $result[$show_index]['entity']->getId())));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -86,7 +92,13 @@ abstract class AExportableTabController extends ASectionController {
                 $this->request->get("name")
         );
         $errors = array();
-        foreach ($result as $r) {
+        $show_index = 0;
+        for ($j = 0; $j < count($result); $j++) {
+            $r = $result[$j];
+
+            if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
+                $show_index = $j;
+
             if (!array_key_exists("errors", $r))
                 continue;
             for ($i = 0; $i < count($r['errors']); $i++) {
@@ -96,7 +108,7 @@ abstract class AExportableTabController extends ASectionController {
         if (count($errors) > 0) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object" => $result[0]['entity'], "object_id" => $result[0]['entity']->getId())));
+            $response = new Response(json_encode(array("result" => 0, "object" => $result[$show_index]['entity'], "object_id" => $result[$show_index]['entity']->getId())));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
