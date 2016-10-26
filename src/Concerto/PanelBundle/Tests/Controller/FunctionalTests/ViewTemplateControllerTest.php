@@ -94,10 +94,10 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $content = json_decode(
                 ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
         );
-        
+
         $this->assertArrayHasKey("hash", $content[0]);
         unset($content[0]["hash"]);
-        
+
         $expected = array(
             array(
                 'class_name' => 'ViewTemplate',
@@ -145,7 +145,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertEquals(0, $decoded_response["result"]);
+        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(2, self::$repository->findAll());
     }
 
@@ -170,7 +171,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertEquals(0, $decoded_response["result"]);
+        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(1, self::$repository->findBy(array("name" => "view_1")));
     }
 

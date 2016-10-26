@@ -192,7 +192,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $new_entity = self::$repository->find(2);
         $this->assertNotNull($new_entity);
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertEquals(0, $decoded_response["result"]);
+        $this->assertEquals(2, $decoded_response["object_id"]);
     }
 
     public function testImportNewSameNameAction() {
@@ -216,7 +217,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(array("result" => 0, "object_id" => 2), $decoded_response);
+        $this->assertEquals(0, $decoded_response["result"]);
+        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(1, self::$repository->findBy(array("name" => "main_table_1")));
     }
 

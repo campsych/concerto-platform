@@ -389,9 +389,9 @@ class DataTableService extends AExportableSectionService {
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
-        else if ($instruction["action"] == 2) {
-            $map["DataTable"]["id" . $obj["id"]] = $obj["id"];
-            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        else if ($instruction["action"] == 2 && $src_ent) {
+            $map["DataTable"]["id" . $obj["id"]] = $src_ent->getId();
+            $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue);
         return $result;

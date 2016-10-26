@@ -105,15 +105,24 @@ class TestWizardStepService extends ASectionService {
                     "id" => $obj["wizard"]
                         ), $instructions);
         $result = array();
-        if ($parent_instruction["action"] == 2) {
-            $map["TestWizardStep"]["id" . $obj["id"]] = $obj["id"];
-            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestWizardStep"]["id" . $obj["id"]] = $src_ent->getId();
+            $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $wizard);
 
         array_splice($queue, 1, 0, $obj["params"]);
 
         return $result;
+    }
+
+    protected function findConversionSource($obj, $map) {
+        $wizardId = $map["TestWizard"]["id" . $obj["wizard"]];
+        $ent = $this->repository->findOneBy(array("wizard" => $wizardId, "title" => $obj["title"]));
+        if ($ent == null)
+            return null;
+        return $this->get($ent->getId());
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $wizard) {

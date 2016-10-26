@@ -4,6 +4,7 @@ namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestWizardStepRepository")
+ * @UniqueEntity(fields={"wizard","title"}, message="validate.wizards.steps.unique")
  */
 class TestWizardStep extends AEntity implements \JsonSerializable {
 

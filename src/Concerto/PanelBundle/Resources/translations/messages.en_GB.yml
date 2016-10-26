@@ -61,6 +61,7 @@ validate:
             step.null: Test wizard step must be selected
         
         steps:
+            unique: Each step title must be unique
             title.min: Title field must be at least of length 1
             title.max: Title field must be at most of length 64
             title.blank: Title field must not be empty

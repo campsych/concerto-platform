@@ -181,12 +181,26 @@ class TestNodeConnectionService extends ASectionService {
                     "id" => $obj["flowTest"]
                         ), $instructions);
         $result = array();
-        if ($parent_instruction["action"] == 2) {
-            $map["TestNodeConnection"]["id" . $obj["id"]] = $obj["id"];
-            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestNodeConnection"]["id" . $obj["id"]] = $src_ent->getId();
+            $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
         return $result;
+    }
+
+    protected function findConversionSource($obj, $map) {
+        if (!array_key_exists("id" . $obj["sourcePort"], $map["TestNodePort"]))
+            return null;
+        $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]];
+        if (!array_key_exists("id" . $obj["destinationPort"], $map["TestNodePort"]))
+            return null;
+        $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]];
+        $ent = $this->repository->findByPorts($sourcePortId, $destinationPortId);
+        if (!$ent)
+            return null;
+        return $this->get($ent->getId());
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode) {

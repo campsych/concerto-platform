@@ -61,6 +61,7 @@ validate:
             step.null: Krok wizardu testu musi zostać wybrany
         
         steps:
+            unique: Każdy tytuł kroku musi być unikalny
             title.min: Minimalna długość pola "tytuł" to 1
             title.max: Maksymalna długość pola "tytuł" to 64
             title.blank: Pole "tytuł" nie może być puste

@@ -162,12 +162,26 @@ class TestNodePortService extends ASectionService {
                     "id" => $node->getFlowTest()->getId()
                         ), $instructions);
         $result = array();
-        if ($parent_instruction["action"] == 2) {
-            $map["TestNodePort"]["id" . $obj["id"]] = $obj["id"];
-            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestNodePort"]["id" . $obj["id"]] = $src_ent->getId();
+            $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $node, $variable);
         return $result;
+    }
+
+    protected function findConversionSource($obj, $map) {
+        if (!array_key_exists("id" . $obj["node"], $map["TestNode"]))
+            return null;
+        $nodeId = $map["TestNode"]["id" . $obj["node"]];
+        if (!array_key_exists("id" . $obj["variable"], $map["TestVariable"]))
+            return null;
+        $variableId = $map["TestVariable"]["id" . $obj["variable"]];
+        $ent = $this->repository->findOneBy(array("node" => $nodeId, "variable" => $variableId));
+        if (!$ent)
+            return null;
+        return $this->get($ent->getId());
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $node, $variable) {

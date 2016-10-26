@@ -155,9 +155,9 @@ class TestWizardParamService extends ASectionService {
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent)
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
-        else if ($parent_instruction["action"] == 2) {
-            $map["TestWizardParam"]["id" . $obj["id"]] = $obj["id"];
-            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        else if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestWizardParam"]["id" . $obj["id"]] = $src_ent->getId();
+            $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
 

@@ -163,15 +163,29 @@ class TestNodeService extends ASectionService {
                     "id" => $obj["flowTest"]
                         ), $instructions);
         $result = array();
-        if ($parent_instruction["action"] == 2) {
-            $map["TestNodePort"]["id" . $obj["id"]] = $obj["id"];
-            $result = array("errors" => null, "entity" => $this->get($obj["id"]));
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestNode"]["id" . $obj["id"]] = $src_ent->getId();
+            $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $flowTest, $sourceTest);
 
         array_splice($queue, 1, 0, $obj["ports"]);
 
         return $result;
+    }
+
+    /* TODO: improve it, curretly it's not 100% reliable (for nodes with same position) */
+
+    protected function findConversionSource($obj, $map) {
+        $ent = $this->repository->findOneBy(array(
+            "posX" => $obj["posX"],
+            "posY" => $obj["posY"],
+            "flowTest" => $map["Test"]["id" . $obj["flowTest"]]
+        ));
+        if (!$ent)
+            return null;
+        return $this->get($ent->getId());
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $flowTest, $sourceTest) {
