@@ -752,6 +752,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             //scope.drawNode(data.object);
 
                             scope.object.nodes = data.collections.nodes;
+                            scope.object.nodesConnections = data.collections.nodesConnections;
 
                             if (data.object.sourceTestObject && data.object.sourceTestObject.sourceWizard) {
                                 scope.editNodeWizard(scope.collectionService.getNode(data.object.id), data.object.sourceTestObject);
@@ -830,6 +831,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         nodes: serializedNodes
                     }).success(function (data) {
                         scope.object.nodes = data.collections.nodes;
+                        scope.object.nodesConnections = data.collections.nodesConnections;
                     });
                 };
 
