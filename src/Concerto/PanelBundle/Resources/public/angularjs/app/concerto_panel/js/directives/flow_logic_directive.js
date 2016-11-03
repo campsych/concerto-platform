@@ -342,10 +342,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                     var collapseHtml = "";
                     if (scope.isNodeCollapsable(node)) {
-                        collapseHtml = "<div style='display: table; margin: auto;'>" +
-                                "<i class='glyphicon clickable' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
-                                "ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")' " +
-                                "tooltip-placement='bottom' tooltip-append-to-body='false' uib-tooltip='" + Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP + "'></i></div>" +
+                        collapseHtml = "<div style='width: 100%; text-align: center;'><button class='btn btn-default btn-xs btn-block' ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")' tooltip-placement='bottom' tooltip-append-to-body='false' uib-tooltip='" + Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP + "'>" +
+                                "<i class='glyphicon' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
+                                "></i></button></div>" +
                                 "</div>";
                     }
                     elemHtml += "<div class='node-header' tooltip-append-to-body='true' uib-tooltip-html='\"" + description + "\"'>" + headerIcons + title + "</div>" +
@@ -371,7 +370,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             isTarget: true,
                             maxConnections: -1,
                             endpoint: "Rectangle",
-                            anchor: [-0.02, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
+                            anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                             paintStyle: {fillStyle: "white", strokeStyle: "grey"},
                             parameters: {
                                 targetNode: node,
@@ -395,7 +394,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     isSource: true,
                                     maxConnections: 1,
                                     endpoint: "Rectangle",
-                                    anchor: [1.03, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                                    anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
                                     paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
                                     parameters: {
                                         sourceNode: node,
@@ -422,7 +421,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 maxConnections: -1,
                                 isTarget: true,
                                 endpoint: "Dot",
-                                anchor: [-0.02, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
+                                anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                                 paintStyle: {fillStyle: "blue", strokeStyle: "grey"},
                                 overlays: [[
                                         "Custom", {
@@ -467,7 +466,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 isSource: true,
                                 maxConnections: -1,
                                 endpoint: "Dot",
-                                anchor: [1.03, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                                anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
                                 paintStyle: {fillStyle: "red", strokeStyle: "grey"},
                                 parameters: {
                                     sourceNode: node,
