@@ -109,7 +109,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     timer--;
                     scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), settings.timeFormat);
                     if (timer === 0) {
-                        submitView("timeout", true);
+                        scope.submitView("timeout", true);
                     }
                 }
             }
@@ -161,7 +161,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 });
             }
 
-            function submitView(btnName, isTimeout, passedVals) {
+            scope.submitView = function(btnName, isTimeout, passedVals) {
                 if (displayState !== DISPLAY_VIEW_SHOWN) {
                     return;
                 }
@@ -209,7 +209,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 });
             }
 
-            testRunner.submitView = submitView;
+            testRunner.submitView = scope.submitView;
 
             function resumeTest() {
                 if (settings.clientDebug)
@@ -364,13 +364,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function addSubmitEvents() {
                 element.find(":button:not(.concerto-nosubmit)").bind("click", function (event) {
-                    submitView($(this).attr("name"), false);
+                    scope.submitView($(this).attr("name"), false);
                 });
                 element.find("input:image:not(.concerto-nosubmit)").bind("click", function (event) {
-                    submitView($(this).attr("name"), false);
+                    scope.submitView($(this).attr("name"), false);
                 });
                 element.find("input:submit:not(.concerto-nosubmit)").bind("click", function (event) {
-                    submitView($(this).attr("name"), false);
+                    scope.submitView($(this).attr("name"), false);
                 });
             }
 
