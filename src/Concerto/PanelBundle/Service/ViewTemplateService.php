@@ -24,7 +24,7 @@ class ViewTemplateService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $protected, $archived, $owner, $groups, $html, $head) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $protected, $archived, $owner, $groups, $html, $head, $css, $js) {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -39,6 +39,12 @@ class ViewTemplateService extends AExportableSectionService {
         }
         if ($html !== null) {
             $object->setHtml($html);
+        }
+        if ($css !== null) {
+            $object->setCss($css);
+        }
+        if ($js !== null) {
+            $object->setJs($js);
         }
         $object->setName($name);
         if ($description !== null) {
@@ -120,6 +126,10 @@ class ViewTemplateService extends AExportableSectionService {
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setHead($obj["head"]);
+        if (array_key_exists("css", $obj))
+            $ent->setCss($obj["css"]);
+        if (array_key_exists("js", $obj))
+            $ent->setJs($obj["js"]);
         $ent->setHtml($obj["html"]);
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
@@ -152,6 +162,10 @@ class ViewTemplateService extends AExportableSectionService {
         $ent->setDescription($obj["description"]);
         $ent->setHead($obj["head"]);
         $ent->setHtml($obj["html"]);
+        if ($obj["css"])
+            $ent->setCss($obj["css"]);
+        if ($obj["js"])
+            $ent->setJs($obj["js"]);
         $ent->setOwner($user);
         $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);

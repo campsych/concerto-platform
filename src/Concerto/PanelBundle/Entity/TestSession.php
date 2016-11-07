@@ -58,6 +58,18 @@ class TestSession extends AEntity {
      *
      * @ORM\Column(type="text", nullable=true)
      */
+    private $templateCss;
+
+    /**
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $templateJs;
+
+    /**
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
     private $templateHtml;
 
     /**
@@ -71,6 +83,18 @@ class TestSession extends AEntity {
      * @ORM\JoinColumn(name="loader_id", referencedColumnName="id", nullable=true)
      */
     private $loader;
+
+    /**
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $loaderCss;
+
+    /**
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $loaderJs;
 
     /**
      *
@@ -95,7 +119,7 @@ class TestSession extends AEntity {
      * @ORM\Column(type="text", nullable=true)
      */
     private $params;
-    
+
     /**
      *
      * @ORM\Column(type="text", nullable=true)
@@ -140,13 +164,13 @@ class TestSession extends AEntity {
 
     public function __construct() {
         parent::__construct();
-        
+
         $this->hash = sha1(rand(1000, 9999));
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
         $this->finalize = 0;
     }
-    
+
     public function getOwner() {
         return $this->getTest()->getOwner();
     }
@@ -257,6 +281,48 @@ class TestSession extends AEntity {
     }
 
     /**
+     * Set template CSS
+     *
+     * @param string $css
+     * @return TestSession
+     */
+    public function setTemplateCss($css) {
+        $this->templateCss = $css;
+
+        return $this;
+    }
+
+    /**
+     * Get template CSS
+     *
+     * @return string 
+     */
+    public function getTemplateCss() {
+        return $this->templateCss;
+    }
+
+    /**
+     * Set template JS
+     *
+     * @param string $js
+     * @return TestSession
+     */
+    public function setTemplateJs($js) {
+        $this->templateJs = $js;
+
+        return $this;
+    }
+
+    /**
+     * Get template JS
+     *
+     * @return string 
+     */
+    public function getTemplateJs() {
+        return $this->templateJs;
+    }
+
+    /**
      * Set templateHtml
      *
      * @param string $templateHtml
@@ -296,6 +362,48 @@ class TestSession extends AEntity {
      */
     public function getTemplateHead() {
         return $this->templateHead;
+    }
+
+    /**
+     * Set loader CSS
+     *
+     * @param string $css
+     * @return TestSession
+     */
+    public function setLoaderCss($css) {
+        $this->loaderCss = $css;
+
+        return $this;
+    }
+
+    /**
+     * Get loader CSS
+     *
+     * @return string 
+     */
+    public function getLoaderCss() {
+        return $this->loaderCss;
+    }
+
+    /**
+     * Set loader JS
+     *
+     * @param string $js
+     * @return TestSession
+     */
+    public function setLoaderJs($js) {
+        $this->loaderJs = $js;
+
+        return $this;
+    }
+
+    /**
+     * Get loader JS
+     *
+     * @return string 
+     */
+    public function getLoaderJs() {
+        return $this->loaderJs;
     }
 
     /**
@@ -444,7 +552,7 @@ class TestSession extends AEntity {
     public function getParams() {
         return $this->params;
     }
-    
+
     /**
      * Set template params
      *
@@ -514,7 +622,7 @@ class TestSession extends AEntity {
      * @param string $clientIp
      * @return TestSession
      */
-    public function setClientIp($clientIp) { 
+    public function setClientIp($clientIp) {
         $this->clientIp = $clientIp;
 
         return $this;

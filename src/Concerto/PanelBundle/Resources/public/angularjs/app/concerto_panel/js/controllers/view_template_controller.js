@@ -16,15 +16,15 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     $scope.formTitleAddLabel = Trans.VIEW_TEMPLATE_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.VIEW_TEMPLATE_FORM_TITLE_EDIT;
     $scope.formTitle = $scope.formTitleAddLabel;
-    
+
     $scope.additionalColumnsDef = [{
             displayName: Trans.VIEW_TEMPLATE_LIST_FIELD_NAME,
             field: "name"
         }];
-    
+
     // A hack to delay codemirror refresh, this variable should be changed shortly after changing scope contents
     // to make sure that codemirror properly refreshes its view
-    $scope.codemirrorForceRefresh= 1;
+    $scope.codemirrorForceRefresh = 1;
     $scope.$watchCollection(
             "[ tabAccordion.source.open, object.id, tabSection ]",
             function () {
@@ -33,15 +33,47 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
                 }, 20);
             }
     );
-    
+
     $scope.tabAccordion.source = {
         open: true
     };
-    
+
     $scope.headCodeOptions = {
         lineWrapping: true,
         lineNumbers: true,
         mode: 'htmlmixed',
+        viewportMargin: Infinity,
+        extraKeys: {
+            "F11": function (cm) {
+                cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen"))
+                    cm.setOption("fullScreen", false);
+            }
+        }
+    };
+
+    $scope.cssCodeOptions = {
+        lineWrapping: true,
+        lineNumbers: true,
+        mode: 'css',
+        viewportMargin: Infinity,
+        extraKeys: {
+            "F11": function (cm) {
+                cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen"))
+                    cm.setOption("fullScreen", false);
+            }
+        }
+    };
+
+    $scope.jsCodeOptions = {
+        lineWrapping: true,
+        lineNumbers: true,
+        mode: 'javascript',
         viewportMargin: Infinity,
         extraKeys: {
             "F11": function (cm) {
@@ -63,7 +95,9 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
             name: "",
             description: "",
             head: "",
-            html: ""
+            html: "",
+            css: "",
+            js: ""
         };
     };
 

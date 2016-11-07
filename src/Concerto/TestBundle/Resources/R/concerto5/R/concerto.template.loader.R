@@ -4,14 +4,8 @@ function(
     html="", 
     head="", 
     params=list()){
-  print(paste("setting loader template #",workspaceID,":",templateId,"...",sep=''))
-
-  if(templateId==0){
-    concerto$session$loaderHtml <<- ""
-    return
-  }
-  if(templateId==-1 && html=="") stop("templateId or HTML must be declared")
   if(!is.list(params)) stop("'params' must be a list!")
+  if(templateId==-1 && html=="") stop("templateId or html must be declared")
   
   template <- concerto.template.get(templateId)
 
@@ -21,7 +15,10 @@ function(
   } else {
     if(dim(template)[1]==0) stop(paste("Template #",workspaceID,":",templateId," not found!",sep=''))
     concerto$session$loaderHead <<- concerto.template.insertParams(template$head,params)
+    concerto$session$loaderCss <<- concerto.template.insertParams(template$css,params)
+    concerto$session$loaderJs <<- concerto.template.insertParams(template$js,params)
     concerto$session$loaderHtml <<- concerto.template.insertParams(template$html,params)
+
   }
   concerto$session$loader_id <<- template$id
 

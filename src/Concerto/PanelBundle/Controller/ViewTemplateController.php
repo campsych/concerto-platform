@@ -18,15 +18,15 @@ class ViewTemplateController extends AExportableTabController {
 
     const ENTITY_NAME = "ViewTemplate";
     const EXPORT_FILE_PREFIX = "ViewTemplate_";
-    
+
     private $userService;
-    
+
     public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, UserService $userService) {
         parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
-        
+
         $this->userService = $userService;
     }
 
@@ -42,7 +42,10 @@ class ViewTemplateController extends AExportableTabController {
                 $this->userService->get($this->request->get("owner")), //
                 $this->request->get("groups"), //
                 $this->request->get("html"), //
-                $this->request->get("head"));
+                $this->request->get("head"), //
+                $this->request->get("css"), //
+                $this->request->get("js"));
         return $this->getSaveResponse($result);
     }
+
 }

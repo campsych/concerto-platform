@@ -31,7 +31,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var SOURCE_R_SERVER = 2;
             var settings = angular.extend({
                 debug: false,
-                clientDebug: true,
+                clientDebug: false,
                 params: null,
                 directory: "/",
                 nodeId: null,
@@ -40,7 +40,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 unresumableHtml: $templateCache.get("unresumable_template.html"),
                 finishedHtml: $templateCache.get("finished_template.html"),
                 errorHtml: $templateCache.get("error_template.html"),
-                loaderHead: "",
                 loaderHtml: $templateCache.get("loading_template.html"),
                 timeFormat: "HH:mm:ss",
                 callback: null,
@@ -58,7 +57,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var lastResponse = null;
             scope.timeLeft = "";
 
-            scope.html = settings.defaultLoaderHtml;
+            scope.html = settings.loaderHtml;
             scope.R = {};
             testRunner.R = {};
 
@@ -72,6 +71,15 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     addSubmitEvents();
                 }
             });
+
+            function joinHtml(css, js, html) {
+                if (js != null)
+                    html = "<script>" + js + "</script>" + html;
+                if (css != null)
+                    html = "<style>" + css + "</style>" + html;
+                return html;
+            }
+
             function clearTimer() {
                 $interval.cancel(timerId);
                 $interval.cancel(keepAliveTimerPromise);
@@ -140,22 +148,20 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();
+                    isViewReady = true;
+                    
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
                         case RESPONSE_VIEW_FINAL_TEMPLATE:
                         {
                             settings.hash = response.hash;
                             timeLimit = response.timeLimit;
-                            isResumable = response.isResumable;
-                            if (response.loaderHead != null && response.loaderHead != null) {
-                                settings.loaderHead = response.loaderHead;
-                                settings.loaderHtml = response.loaderHtml;
-                            }
+                            if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
+                                settings.loaderHtml = joinHtml(response.loaderCss, response.loaderJs, response.loaderHtml);
                             break;
                         }
                     }
-
-                    isViewReady = true;
+                    
                     showView();
                     if (settings.callback != null) {
                         settings.callback.call(this, response, settings.hash);
@@ -195,10 +201,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         {
                             settings.hash = response.hash;
                             timeLimit = response.timeLimit;
-                            if (response.loaderHead != null && response.loaderHead != null) {
-                                settings.loaderHead = response.loaderHead;
-                                settings.loaderHtml = response.loaderHtml;
-                            }
+                            if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
+                                settings.loaderHtml = joinHtml(response.loaderCss, response.loaderJs, response.loaderHtml);
                             break;
                         }
                     }
@@ -226,16 +230,15 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();
+                    
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
                         case RESPONSE_VIEW_FINAL_TEMPLATE:
                         {
                             settings.hash = response.hash;
                             timeLimit = response.timeLimit;
-                            if (response.loaderHead != null && response.loaderHead != null) {
-                                settings.loaderHead = response.loaderHead;
-                                settings.loaderHtml = response.loaderHtml;
-                            }
+                            if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
+                                settings.loaderHtml = joinHtml(response.loaderCss, response.loaderJs, response.loaderHtml);
                             break;
                         }
                     }
@@ -283,10 +286,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (displayState === DISPLAY_VIEW_HIDDEN || displayState === DISPLAY_LOADER_HIDDEN) {
 
                     var head = null;
-                    var html = null;
+                    var css = "";
+                    var js = "";
+                    var html = "";
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
                         case RESPONSE_VIEW_FINAL_TEMPLATE:
+                            css = lastResponse.templateCss.trim();
+                            js = lastResponse.templateJs.trim();
                             html = lastResponse.templateHtml.trim();
                             head = lastResponse.templateHead.trim();
                             break;
@@ -311,7 +318,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     if (head != null && head !== "") {
                         angular.element("head").append($compile(head)(scope));
                     }
-                    scope.html = html;
+                    scope.html = joinHtml(css, js, html);
                 }
             }
 
@@ -332,7 +339,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     console.log("showLoader");
                 displayState = DISPLAY_LOADER_SHOWN;
 
-                if (lastResponse.templateParams != null) {
+                if (lastResponse != null && lastResponse.templateParams != null) {
                     scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
                     testRunner.R = scope.R;
                 }

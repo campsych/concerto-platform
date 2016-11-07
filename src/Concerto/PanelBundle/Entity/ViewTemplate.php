@@ -40,13 +40,29 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @var string
      * @ORM\Column(type="text")
      */
+    private $css;
+
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $js;
+
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="text")
+     */
     private $html;
 
     public function __construct() {
         parent::__construct();
-        
+
         $this->description = "";
         $this->head = "";
+        $this->css = "";
+        $this->js = "";
         $this->html = "";
     }
 
@@ -114,6 +130,48 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     }
 
     /**
+     * Set css
+     *
+     * @param string $css
+     * @return ViewTemplate
+     */
+    public function setCss($css) {
+        $this->css = $css;
+
+        return $this;
+    }
+
+    /**
+     * Get css
+     *
+     * @return string 
+     */
+    public function getCss() {
+        return $this->css;
+    }
+
+    /**
+     * Set js
+     *
+     * @param string $js
+     * @return ViewTemplate
+     */
+    public function setJs($js) {
+        $this->js = $js;
+
+        return $this;
+    }
+
+    /**
+     * Get js
+     *
+     * @return string 
+     */
+    public function getJs() {
+        return $this->js;
+    }
+
+    /**
      * Set html
      *
      * @param string $html
@@ -133,7 +191,7 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     public function getHtml() {
         return $this->html;
     }
-    
+
     public function getHash() {
         $arr = $this->jsonSerialize();
         unset($arr["id"]);
@@ -154,6 +212,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
             "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
             "head" => $this->head,
+            "css" => $this->css,
+            "js" => $this->js,
             "html" => $this->html,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",

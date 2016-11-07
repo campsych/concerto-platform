@@ -30,5 +30,9 @@ source:
     field:
         head: Nagłówek HTML
         head.tooltip: Tag nagłówka HTML
+        css: CSS
+        css.tooltip: Style CSS
+        js: javascript
+        js.tooltip: Kod javascript
         html: Ciało HTML
         html.tooltip: Kod źródłowy ciała HTML

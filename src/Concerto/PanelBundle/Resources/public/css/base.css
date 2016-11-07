@@ -250,3 +250,7 @@ ul.breadcrumb li {
     color: #BDBDBD;
     font-style: italic;
 }
+
+.code-mirror-info {
+    font-size: 0.8em;
+}

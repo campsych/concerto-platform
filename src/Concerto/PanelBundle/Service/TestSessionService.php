@@ -298,8 +298,12 @@ class TestSessionService {
                     $decoded_response["results"] = $session->getReturns();
                     $decoded_response["timeLimit"] = $session->getTimeLimit();
                     $decoded_response["templateHead"] = $session->getTemplateHead();
+                    $decoded_response["templateCss"] = $session->getTemplateCss();
+                    $decoded_response["templateJs"] = $session->getTemplateJs();
                     $decoded_response["templateHtml"] = $session->getTemplateHtml();
                     $decoded_response["loaderHead"] = $session->getLoaderHead();
+                    $decoded_response["loaderCss"] = $session->getLoaderCss();
+                    $decoded_response["loaderJs"] = $session->getLoaderJs();
                     $decoded_response["loaderHtml"] = $session->getLoaderHtml();
                     $decoded_response["isResumable"] = $session->getTest()->isResumable();
                     $decoded_response["templateParams"] = $session->getTemplateParams();

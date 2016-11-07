@@ -12,12 +12,11 @@
             </uib-alert>
         </div>
     {% endif %}
-    <uib-alert type="info">
-        <i class="glyphicon glyphicon-info-sign"></i>
+    <div class="code-mirror-info">
         <span><b>F11:</b> {{ 'code.F11'|trans }}</span>
         <span>, <b>Shift + Tab:</b> {{ 'code.shift.tab'|trans }}</span>
         {% if mode is defined and mode == 'R' %}
             <span ng-if="codeOptions.hintOptions.functionIndex[0]">, <b>Ctrl + Space:</b> {{ 'code.ctrl.space'|trans }}</span>
         {% endif %}
-    </uib-alert>
+    </div>
 </div>
