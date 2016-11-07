@@ -95,6 +95,12 @@ class TestSession extends AEntity {
      * @ORM\Column(type="text", nullable=true)
      */
     private $params;
+    
+    /**
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $templateParams;
 
     /**
      *
@@ -437,6 +443,27 @@ class TestSession extends AEntity {
      */
     public function getParams() {
         return $this->params;
+    }
+    
+    /**
+     * Set template params
+     *
+     * @param string $params
+     * @return TestSession
+     */
+    public function setTemplateParams($params) {
+        $this->templateParams = $params;
+
+        return $this;
+    }
+
+    /**
+     * Get template eparams
+     *
+     * @return string 
+     */
+    public function getTemplateParams() {
+        return $this->templateParams;
     }
 
     /**

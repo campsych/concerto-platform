@@ -31,7 +31,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var SOURCE_R_SERVER = 2;
             var settings = angular.extend({
                 debug: false,
-                clientDebug: false,
+                clientDebug: true,
                 params: null,
                 directory: "/",
                 nodeId: null,
@@ -59,11 +59,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             scope.timeLeft = "";
 
             scope.html = settings.defaultLoaderHtml;
+            scope.R = {};
+            testRunner.R = {};
 
             scope.$watch('html', function (newValue) {
                 angular.element("#testHtml").empty().append(newValue);
                 $compile(element.contents())(scope);
-                
+
                 if (displayState === DISPLAY_VIEW_SHOWN && lastResponse != null && lastResponse.code === RESPONSE_VIEW_TEMPLATE) {
                     initializeTimer();
                     startKeepAlive(lastResponse);
@@ -161,7 +163,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 });
             }
 
-            scope.submitView = function(btnName, isTimeout, passedVals) {
+            scope.submitView = function (btnName, isTimeout, passedVals) {
                 if (displayState !== DISPLAY_VIEW_SHOWN) {
                     return;
                 }
@@ -300,10 +302,15 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             break;
                     }
                     displayState = DISPLAY_VIEW_SHOWN;
+
+                    if (lastResponse.templateParams != null) {
+                        scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
+                        testRunner.R = scope.R;
+                    }
+
                     if (head != null && head !== "") {
                         angular.element("head").append($compile(head)(scope));
                     }
-
                     scope.html = html;
                 }
             }
@@ -324,6 +331,12 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (settings.clientDebug)
                     console.log("showLoader");
                 displayState = DISPLAY_LOADER_SHOWN;
+
+                if (lastResponse.templateParams != null) {
+                    scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
+                    testRunner.R = scope.R;
+                }
+
                 if (settings.loaderHead != null && settings.loaderHead.trim() !== "")
                     angular.element("head").append($compile(settings.loaderHead)(scope));
 

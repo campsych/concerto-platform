@@ -302,6 +302,7 @@ class TestSessionService {
                     $decoded_response["loaderHead"] = $session->getLoaderHead();
                     $decoded_response["loaderHtml"] = $session->getLoaderHtml();
                     $decoded_response["isResumable"] = $session->getTest()->isResumable();
+                    $decoded_response["templateParams"] = $session->getTemplateParams();
                     break;
             }
             if (!$session->isDebug()) {

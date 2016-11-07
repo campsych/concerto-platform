@@ -21,11 +21,18 @@ concerto.template.show = function(
     }
     concerto$session$timeLimit <<- timeLimit
 
+    for(name in ls(params)) {
+        concerto$templateParams[[name]] <<- params[[name]]
+    }
+    concerto$session$templateParams <<- toJSON(concerto$templateParams)
+
     if(finalize) {
         concerto$session$status <<- STATUS_FINALIZED
     } else {
         concerto5:::concerto.session.update()
         concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
+
+        concerto$templateParams <<- list()
 
         resp = concerto5:::concerto.server.listen()
         return(resp)

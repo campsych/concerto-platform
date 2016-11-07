@@ -5,6 +5,7 @@ concerto.session.update = function(returns=list()){
   sql = sprintf("UPDATE TestSession SET 
     templateHead = '%s',
     templateHtml = '%s',
+    templateParams = '%s',
     status = '%s',
     template_id = %s,
     timeLimit = '%s',
@@ -14,6 +15,7 @@ concerto.session.update = function(returns=list()){
     WHERE id='%s'",
     dbEscapeStrings(concerto$connection, toString(concerto$session$templateHead)),
     dbEscapeStrings(concerto$connection, toString(concerto$session$templateHtml)),
+    dbEscapeStrings(concerto$connection, concerto$session$templateParams),
     dbEscapeStrings(concerto$connection, toString(concerto$session$status)),
     dbEscapeStrings(concerto$connection, toString(concerto$session$template_id)),
     dbEscapeStrings(concerto$connection, toString(concerto$session$timeLimit)),

@@ -24,4 +24,8 @@ function(
     concerto$session$loaderHtml <<- concerto.template.insertParams(template$html,params)
   }
   concerto$session$loader_id <<- template$id
+
+  for(name in ls(params)) {
+    concerto$templateParams[[name]] <<- params[[name]]
+  }
 }

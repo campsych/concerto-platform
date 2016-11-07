@@ -23,6 +23,7 @@ STATUS_ERROR = 3
 
 concerto <- list()
 concerto$promoted <- list()
+concerto$templateParams <- list()
 
 #DEFAULTS START
 concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Your header goes here. For example, it could be a logo.\",\"footer\":\"Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.\"}"
