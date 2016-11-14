@@ -8,7 +8,7 @@
         "archived": "0",
         "visibility": 2,
         "type": 1,
-        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feedback = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feedback = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n        \n      content = paste0(content, \"<div class='feedbackTraitLabel'>\",t_fb$label,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitDescription'>\",t_fb$description,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitFeedback'>\",feedback,\"<\/div>\")\n    }\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = paste('<div class=\"button_panel button_panel_feedback\"><button name=\"button\">',button_label,'<\/button><\/div>',sep=\"\")\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer\n)))",
+        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  feedback = list()\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feed = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feed = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n      \n      feedback[[length(feedback) + 1]] = list(label=t_fb$label,description=t_fb$description,feedback=feed)\n    }\n    content = concerto.template.join(templateId=\"feedback_content\",params=list(feedback=toJSON(feedback)))\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = concerto.template.join(templateId=\"buttons_single\", params=list(label=button_label))\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
         "resumable": "0",
         "outdated": "0",
         "description": "",
@@ -123,7 +123,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 203,
+                            "id": 205,
                             "label": "Paragraph",
                             "description": "",
                             "hideCondition": "",
@@ -142,7 +142,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 204,
+                            "id": 206,
                             "label": "Button label",
                             "description": "",
                             "hideCondition": "",
@@ -161,7 +161,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 205,
+                            "id": 207,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
@@ -191,7 +191,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 206,
+                            "id": 208,
                             "label": "Trait feedback",
                             "description": "",
                             "hideCondition": "",
@@ -281,8 +281,8 @@
                 "archived": "0",
                 "visibility": 2,
                 "type": 0,
-                "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feedback = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feedback = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n        \n      content = paste0(content, \"<div class='feedbackTraitLabel'>\",t_fb$label,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitDescription'>\",t_fb$description,\"<\/div>\")\n      content = paste0(content, \"<div class='feedbackTraitFeedback'>\",feedback,\"<\/div>\")\n    }\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = paste('<div class=\"button_panel button_panel_feedback\"><button name=\"button\">',button_label,'<\/button><\/div>',sep=\"\")\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer\n)))",
-                "slug": "4821be413ac0bc35e4ece537e6709bd4",
+                "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  feedback = list()\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feed = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feed = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n      \n      feedback[[length(feedback) + 1]] = list(label=t_fb$label,description=t_fb$description,feedback=feed)\n    }\n    content = concerto.template.join(templateId=\"feedback_content\",params=list(feedback=toJSON(feedback)))\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = concerto.template.join(templateId=\"buttons_single\", params=list(label=button_label))\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
+                "slug": "1917a69005882eaa74f2ce6b6930c0f2",
                 "resumable": "0",
                 "outdated": "0",
                 "description": "",
@@ -379,7 +379,7 @@
                 "logs": [],
                 "sourceWizard": null,
                 "sourceWizardObject": null,
-                "updatedOn": "2016-09-09 13:44:24",
+                "updatedOn": "2016-11-09 23:21:24",
                 "updatedByName": "admin",
                 "nodes": [],
                 "nodesConnections": [],
@@ -387,17 +387,17 @@
                 "owner": 1,
                 "groups": "",
                 "starterContent": false,
-                "rev": 2
+                "rev": 3
             },
             "testName": "source_feedback",
-            "updatedOn": "2016-09-07 17:51:44",
+            "updatedOn": "2016-11-08 20:40:43",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2
+            "rev": 3
         },
-        "updatedOn": "2016-09-09 13:44:24",
+        "updatedOn": "2016-11-09 23:21:24",
         "updatedByName": "admin",
         "nodes": [],
         "nodesConnections": [],
@@ -405,6 +405,7 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 2
+        "rev": 3,
+        "hash": "b65919fd4ef4f7c235dcd490eeefde2155fa9bcf"
     }
 ]

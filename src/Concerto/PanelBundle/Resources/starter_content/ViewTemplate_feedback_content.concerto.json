@@ -1,0 +1,22 @@
+[
+    {
+        "class_name": "ViewTemplate",
+        "id": 16,
+        "name": "feedback_content",
+        "description": "",
+        "accessibility": 0,
+        "protected": "1",
+        "archived": "0",
+        "head": "",
+        "css": "",
+        "js": "testRunner.controllerProvider.register(\"feedbackTrait\", function($scope) {\n  $scope.feedback = {{feedback}};\n});",
+        "html": "<div ng-controller=\"feedbackTrait\">\n  <div ng-repeat=\"trait in feedback\">\n    <div class=\"feedbackTraitLabel\" ng-bind-html=\"trait.label\">&nbsp;<\/div>\n\n    <div class=\"feedbackTraitDescription\" ng-bind-html=\"trait.description\">&nbsp;<\/div>\n\n    <div class=\"feedbackTraitFeedback\" ng-bind-html=\"trait.feedback\">&nbsp;<\/div>\n  <\/div>\n<\/div>\n",
+        "updatedOn": "2016-11-09 23:30:08",
+        "updatedByName": "admin",
+        "owner": null,
+        "groups": "",
+        "starterContent": true,
+        "rev": 1,
+        "hash": "cc2873ef66eade4573072ea2b84f05efc80885c4"
+    }
+]

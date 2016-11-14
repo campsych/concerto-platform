@@ -1,0 +1,22 @@
+[
+    {
+        "class_name": "ViewTemplate",
+        "id": 15,
+        "name": "buttons_start_session_login",
+        "description": "",
+        "accessibility": 0,
+        "protected": "1",
+        "archived": "0",
+        "head": "",
+        "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
+        "js": "",
+        "html": "<div class=\"button-group\">\n<ul>\n\t<li><button name=\"login\">{{label_login}}<\/button><\/li>\n\t<li><button name=\"register\" ng-show=\"{{show_register}}\">{{label_register}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
+        "updatedOn": "2016-11-14 17:54:11",
+        "updatedByName": "admin",
+        "owner": null,
+        "groups": "",
+        "starterContent": true,
+        "rev": 1,
+        "hash": "935d6f041ec0176fd2c086e6f9616d0fbde6e2ce"
+    }
+]
