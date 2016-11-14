@@ -21,6 +21,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/ViewTemplate/-1/save", array(
             "name" => "view",
             "html" => "html",
+            "css" => "css",
+            "js" => "js",
             "head" => "<link />",
             "description" => "description",
             "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -44,6 +46,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "description" => "description",
                 "head" => "<link />",
                 "html" => "html",
+                "css" => "css",
+                "js" => "js",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedByName" => "admin",
                 "protected" => "0",
@@ -108,6 +112,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 'description' => 'description',
                 'head' => '<link />',
                 'html' => 'html',
+                "css" => "css",
+                "js" => "js",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "updatedOn" => $content[0]["updatedOn"],
                 "protected" => "0",
@@ -196,6 +202,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "description" => "",
                 "head" => "",
                 "html" => "",
+                "css" => "",
+                "js" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
                 "protected" => "0",
@@ -217,6 +225,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
             "description" => "edited view description",
             "head" => "head",
             "html" => "html",
+            "css" => "css",
+            "js" => "js",
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -232,6 +242,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "description" => "edited view description",
                 "head" => "head",
                 "html" => "html",
+                "css" => "css",
+                "js" => "js",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
                 "protected" => "0",
@@ -253,6 +265,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
             "description" => "edited view description",
             "head" => "head",
             "html" => "html",
+            "css" => "css",
+            "js" => "js",
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -268,6 +282,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "description" => "edited view description",
                 "head" => "head",
                 "html" => "html",
+                "css" => "css",
+                "js" => "js",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
                 "protected" => "0",
@@ -301,6 +317,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "description" => "",
                 "head" => "",
                 "html" => "",
+                "css" => "",
+                "js" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
                 "protected" => "0",
@@ -317,7 +335,10 @@ class ViewTemplateControllerTest extends AFunctionalTest {
             "name" => "new_view",
             "description" => "edited view description",
             "head" => "head",
-            "html" => "html"));
+            "html" => "html",
+            "css" => "css",
+            "js" => "js"
+        ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(

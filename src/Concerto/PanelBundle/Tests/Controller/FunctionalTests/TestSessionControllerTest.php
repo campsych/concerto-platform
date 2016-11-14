@@ -139,8 +139,13 @@ class TestSessionControllerTest extends AFunctionalTest {
             "timeLimit" => $session->getTimeLimit(),
             "hash" => $session->getHash(),
             "templateHead" => $session->getTemplateHead(),
+            "templateCss" => $session->getTemplateCss(),
+            "templateJs" => $session->getTemplateJs(),
             "templateHtml" => $session->getTemplateHtml(),
+            "templateParams" => $session->getTemplateParams(),
             "loaderHead" => $session->getLoaderHead(),
+            "loaderCss" => $session->getLoaderCss(),
+            "loaderJs" => $session->getLoaderJs(),
             "loaderHtml" => $session->getLoaderHtml(),
             "isResumable" => false,
             "debug" => ""

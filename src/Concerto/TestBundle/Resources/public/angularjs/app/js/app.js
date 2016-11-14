@@ -2,7 +2,8 @@
 
 var testRunner = angular.module('testRunner', [
     'ui.bootstrap',
-    'ngCookies'
+    'ngCookies',
+    'ngSanitize'
 ]).config(function ($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     var param = function (obj) {
@@ -41,4 +42,6 @@ var testRunner = angular.module('testRunner', [
     ];
 }).config(function ($controllerProvider) {
     testRunner.controllerProvider = $controllerProvider;
+}).config(function ($interpolateProvider) {
+    $interpolateProvider.startSymbol('[[').endSymbol(']]');
 });
