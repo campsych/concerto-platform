@@ -101,6 +101,36 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         };
     };
 
+    $scope.updateCKEditorCSS = function () {
+        var styleId = 'ckeditor-concerto-template';
+        if (CKEDITOR.instances.editor1 && CKEDITOR.instances.editor1.document && CKEDITOR.instances.editor1.document.$) {
+            var doc = CKEDITOR.instances.editor1.document.$;
+            var style = doc.getElementById(styleId);
+            if (!style) {
+                var head = doc.getElementsByTagName('head')[0];
+                style = doc.createElement('style');
+                style.id = styleId;
+                head.appendChild(style);
+            }
+            $(style).html($scope.object.css);
+        }
+    };
+
+    $scope.$watch("object.css", function () {
+        if (CKEDITOR.instances.editor1 && CKEDITOR.instances.editor1.document && CKEDITOR.instances.editor1.document.$) {
+            $scope.updateCKEditorCSS();
+        }
+    });
+
+    CKEDITOR.on("instanceReady", function (event) {
+        if (event.editor.id == "cke_1") {
+            event.editor.on("change", function (event) {
+                $scope.updateCKEditorCSS();
+            });
+            $scope.updateCKEditorCSS();
+        }
+    });
+
     $scope.resetObject();
     $scope.initializeColumnDefs();
     $scope.fetchObjectCollection();
