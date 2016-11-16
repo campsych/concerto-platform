@@ -110,7 +110,12 @@ class DataTable extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
+        if (self::isInProcessedArray($processed, "DataTable", $this->id))
+            return array("id" => $this->id);
+
+        self::addToProcessedArray($processed, "DataTable", $this->id);
+
         return array(
             "class_name" => "DataTable",
             "id" => $this->id,

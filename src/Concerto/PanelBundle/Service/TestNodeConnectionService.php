@@ -120,8 +120,8 @@ class TestNodeConnectionService extends ASectionService {
         $this->repository->deleteAutomatic($object->getSourceNode(), $object->getDestinationNode());
     }
 
-    public function entityToArray(TestWizardStep $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(TestNodeConnection $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         return $e;
     }
 

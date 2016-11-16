@@ -123,8 +123,8 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    public function entityToArray(TestNodePort $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(TestNodePort $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         return $e;
     }
 

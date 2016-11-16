@@ -78,8 +78,8 @@ class TestWizardStepService extends ASectionService {
         return array("errors" => array());
     }
 
-    public function entityToArray(TestWizardStep $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(TestWizardStep $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         return $e;
     }
 

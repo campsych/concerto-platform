@@ -348,7 +348,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
         return array(
             "class_name" => "TestWizardParam",
             "id" => $this->id,

@@ -126,8 +126,8 @@ class TestNodeService extends ASectionService {
         return $result;
     }
 
-    public function entityToArray(TestNode $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(TestNode $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         return $e;
     }
 

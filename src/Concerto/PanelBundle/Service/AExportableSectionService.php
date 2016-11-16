@@ -24,9 +24,10 @@ abstract class AExportableSectionService extends ASectionService {
     public function exportToFile($object_ids, $format = self::FORMAT_COMPRESSED) {
         $result = array();
         $object_ids = explode(",", $object_ids);
+        $processed = array();
         foreach ($object_ids as $object_id) {
             $entity = $this->get($object_id);
-            $arr = $this->entityToArray($entity);
+            $arr = $this->entityToArray($entity, $processed);
             $arr["hash"] = $entity->getHash();
             array_push($result, $arr);
         }
@@ -81,5 +82,5 @@ abstract class AExportableSectionService extends ASectionService {
         return $this->repository->findOneBy(array("name" => $name)) != null;
     }
 
-    abstract public function entityToArray(AEntity $entity);
+    abstract public function entityToArray(AEntity $entity, &$processed = array());
 }

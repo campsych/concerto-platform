@@ -367,8 +367,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function entityToArray(AEntity $entity) {
-        $e = $entity->jsonSerialize();
+    public function entityToArray(AEntity $entity, &$processed = array()) {
+        $e = $entity->jsonSerialize($processed);
         $e["data"] = $this->dbDataDao->getData($entity->getName());
         return $e;
     }

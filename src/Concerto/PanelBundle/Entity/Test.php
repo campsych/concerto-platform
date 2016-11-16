@@ -583,7 +583,12 @@ class Test extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
+        if (self::isInProcessedArray($processed, "Test", $this->id))
+            return array("id" => $this->id);
+        
+        self::addToProcessedArray($processed, "Test", $this->id);
+
         return array(
             "class_name" => "Test",
             "id" => $this->id,
@@ -598,14 +603,14 @@ class Test extends ATopEntity implements \JsonSerializable {
             "resumable" => $this->resumable ? "1" : "0",
             "outdated" => $this->outdated ? "1" : "0",
             "description" => $this->description,
-            "variables" => $this->variables->toArray(),
+            "variables" => self::jsonSerializeArray($this->variables->toArray(), $processed),
             "logs" => $this->logs->toArray(),
             "sourceWizard" => $this->sourceWizard != null ? $this->sourceWizard->getId() : null,
-            "sourceWizardObject" => $this->sourceWizard,
+            "sourceWizardObject" => $this->sourceWizard ? $this->sourceWizard->jsonSerialize($processed) : null,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
-            "nodes" => $this->getNodes()->toArray(),
-            "nodesConnections" => $this->getNodesConnections()->toArray(),
+            "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $processed),
+            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $processed),
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,

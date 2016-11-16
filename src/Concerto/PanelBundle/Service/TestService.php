@@ -188,8 +188,8 @@ class TestService extends AExportableSectionService {
         return $result;
     }
 
-    public function entityToArray(AEntity $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(AEntity $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         unset($e["logs"]);
         unset($e["slug"]);
         return $e;
@@ -405,6 +405,7 @@ class TestService extends AExportableSectionService {
     public function exportNodeToFile($object_ids, $format = self::FORMAT_COMPRESSED) {
         $result = array();
         $object_ids = explode(",", $object_ids);
+        $processed = array();
         foreach ($object_ids as $object_id) {
             $node = $this->testNodeService->get($object_id);
 
@@ -419,7 +420,7 @@ class TestService extends AExportableSectionService {
                     }
                 }
             }
-            $arr = $this->entityToArray($test);
+            $arr = $this->entityToArray($test, $processed);
 
             $arr["hash"] = $test->getHash();
             array_push($result, $arr);

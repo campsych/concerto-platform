@@ -314,7 +314,7 @@ class TestNode extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
         return array(
             "class_name" => "TestNode",
             "id" => $this->id,
@@ -324,10 +324,10 @@ class TestNode extends AEntity implements \JsonSerializable {
             "posY" => $this->posY,
             "flowTest" => $this->flowTest->getId(),
             "sourceTest" => $this->sourceTest->getId(),
-            "sourceTestObject" => $this->type == 0 ? $this->sourceTest : null,
+            "sourceTestObject" => $this->sourceTest->jsonSerialize($processed),
             "sourceTestName" => $this->sourceTest->getName(),
             "sourceTestDescription" => $this->sourceTest->getDescription(),
-            "ports" => $this->getPorts()->toArray(),
+            "ports" => self::jsonSerializeArray($this->getPorts()->toArray(), $processed),
         );
     }
 

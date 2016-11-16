@@ -202,7 +202,12 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
+        if (self::isInProcessedArray($processed, "ViewTemplate", $this->id))
+            return array("id" => $this->id);
+        
+        self::addToProcessedArray($processed, "ViewTemplate", $this->id);
+        
         return array(
             "class_name" => "ViewTemplate",
             "id" => $this->id,

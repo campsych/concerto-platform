@@ -220,7 +220,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
         return array(
             "class_name" => "TestWizardStep",
             "id" => $this->id,
@@ -229,7 +229,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
             "orderNum" => $this->orderNum,
             "colsNum" => $this->colsNum,
             "wizard" => $this->wizard->getId(),
-            "params" => $this->params->toArray()
+            "params" => self::jsonSerializeArray($this->params->toArray(), $processed)
         );
     }
 

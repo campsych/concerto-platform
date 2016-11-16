@@ -241,7 +241,12 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(&$processed = array()) {
+        if (self::isInProcessedArray($processed, "TestWizard", $this->id))
+            return array("id" => $this->id);
+        
+        self::addToProcessedArray($processed, "TestWizard", $this->id);
+        
         return array(
             "class_name" => "TestWizard",
             "id" => $this->id,
@@ -250,9 +255,9 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "accessibility" => $this->accessibility,
             "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
-            "steps" => $this->steps->toArray(),
+            "steps" => self::jsonSerializeArray($this->steps->toArray(), $processed),
             "test" => $this->getTest()->getId(),
-            "testObject" => $this->getTest(),
+            "testObject" => $this->getTest()->jsonSerialize($processed),
             "testName" => $this->getTest()->getName(),
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",

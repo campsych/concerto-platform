@@ -148,5 +148,28 @@ abstract class AEntity {
         return $result;
     }
 
+    public static function isInProcessedArray($processed, $class, $id) {
+        if (!array_key_exists($class, $processed))
+            return false;
+        return in_array($id, $processed[$class]);
+    }
+
+    public static function jsonSerializeArray($array, &$processed = array()) {
+        $result = array();
+        foreach ($array as $ent) {
+            array_push($result, $ent->jsonSerialize($processed));
+        }
+        return $result;
+    }
+
+    public static function addToProcessedArray(&$processed, $class, $id) {
+        if (!array_key_exists($class, $processed)) {
+            $processed[$class] = array();
+        }
+        if (!in_array($id, $processed[$class])) {
+            array_push($processed[$class], $id);
+        }
+    }
+
     public abstract function getOwner();
 }

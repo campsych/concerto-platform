@@ -292,8 +292,8 @@ class TestVariableService extends ASectionService {
         //TODO 
     }
 
-    public function entityToArray(TestVariable $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(TestVariable $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         return $e;
     }
 

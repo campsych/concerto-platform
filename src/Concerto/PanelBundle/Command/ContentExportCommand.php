@@ -53,7 +53,7 @@ class ContentExportCommand extends ContainerAwareCommand {
     private function saveFile($class_name, $name, $content, $path) {
         $fs = new Filesystem();
         if (strripos($path, DIRECTORY_SEPARATOR) !== strlen($path) - 1) {
-            $path.=DIRECTORY_SEPARATOR;
+            $path .= DIRECTORY_SEPARATOR;
         }
         $file_path = $path . $class_name . "_" . $name . ".concerto.json";
         $fs->dumpFile($file_path, $content);

@@ -133,8 +133,8 @@ class TestWizardService extends AExportableSectionService {
         return $result;
     }
 
-    public function entityToArray(AEntity $ent) {
-        $e = $ent->jsonSerialize();
+    public function entityToArray(AEntity $ent, &$processed = array()) {
+        $e = $ent->jsonSerialize($processed);
         return $e;
     }
 
