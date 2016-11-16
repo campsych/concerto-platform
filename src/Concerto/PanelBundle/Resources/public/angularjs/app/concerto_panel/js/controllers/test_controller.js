@@ -45,22 +45,17 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         };
     };
 
-    $scope.getWizardCellTemplate = function (col) {
-        if (col !== null) {
-            return "<a href='#/wizards/" + col.id + "'><i class='glyphicon glyphicon-link'></i>" + col.name + "</a>";
+    $scope.getWizardCellTemplate = function (col, entity) {
+        if (entity.sourceWizard !== null) {
+            return "<a href='#/wizards/" + entity.sourceWizard + "'><i class='glyphicon glyphicon-link'></i>" + entity.sourceWizardName + "</a>";
         } else {
             return Trans.NONE;
         }
     };
     $scope.getSourceTestCellTemplate = function (col, entity) {
-        if (col !== null) {
-            var cell = "<a href='#/tests/" + col.test + "'>";
-            //if (entity.outdated === "1") {
-            //    cell += "<i class='glyphicon glyphicon-warning-sign red' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_LIST_TIP_OUTDATED + "\"'></i>";
-            //} else {
-            //    cell += "<i class='glyphicon glyphicon-ok-circle green' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_LIST_TIP_UPTODATE + "\"'></i>";
-            //}
-            cell += "<i class='glyphicon glyphicon-link'></i>" + col.testName + "</a>";
+        if (entity.sourceWizard !== null) {
+            var cell = "<a href='#/tests/" + col.sourceWizardTest + "'>";
+            cell += "<i class='glyphicon glyphicon-link'></i>" + col.sourceWizardTestName + "</a>";
             return cell;
         } else {
             return Trans.NONE;
@@ -72,12 +67,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         }, {
             name: "wizard",
             displayName: Trans.TEST_LIST_FIELD_WIZARD,
-            field: "sourceWizardObject",
             cellTemplate: "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getWizardCellTemplate(COL_FIELD, row.entity)'></div>"
         }, {
             name: "wizard_source",
             displayName: Trans.TEST_LIST_FIELD_WIZARD_SOURCE,
-            field: "sourceWizardObject",
             cellTemplate: "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getSourceTestCellTemplate(COL_FIELD, row.entity)'></div>"
         }];
 
@@ -96,7 +89,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 if (!input)
                     return "";
                 else
-                    return input.testObject.name;
+                    return input.testName;
                 break;
             }
             default:
@@ -452,9 +445,9 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if ($scope.branchesGridApi)
             $scope.branchesGridApi.selection.clearSelectedRows();
 
-        if (newObject.sourceWizardObject != null) {
-            newObject.steps = newObject.sourceWizardObject.steps;
-            TestWizardParam.testVariablesToWizardParams($scope.object.variables, newObject.sourceWizardObject.steps);
+        if (newObject.sourceWizard != null) {
+            newObject.steps = TestWizardCollectionService.get(newObject.sourceWizard).steps;
+            TestWizardParam.testVariablesToWizardParams($scope.object.variables, newObject.steps);
         }
 
         if (newObject.variables != null) {
@@ -488,9 +481,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.onBeforePersist = function () {
         if ($scope.object.type !== 1) {
             $scope.object.sourceWizard = null;
-            $scope.object.sourceWizardObject = null;
         }
-        if ($scope.object.sourceWizardObject != null) {
+        if ($scope.object.sourceWizard != null) {
             TestWizardParam.wizardParamsToTestVariables($scope.object, $scope.object.steps, $scope.object.variables);
         }
     }
@@ -676,7 +668,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         modalInstance.result.then(function (response) {
             $scope.object.type = 0;
             $scope.object.sourceWizard = null;
-            $scope.object.sourceWizardObject = null;
         }, function () {
         });
     };
@@ -747,7 +738,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         delete obj.logs;
         delete obj.nodes;
         delete obj.nodesConnections;
-        delete obj.sourceWizardObject;
         delete obj.steps;
         obj.serializedVariables = angular.toJson(obj.variables);
         delete obj.variables;

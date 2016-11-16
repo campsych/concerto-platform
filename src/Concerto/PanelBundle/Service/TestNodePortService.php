@@ -123,11 +123,6 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    public function entityToArray(TestNodePort $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("TestNodePort", $map))
@@ -157,12 +152,20 @@ class TestNodePortService extends ASectionService {
             return array("pre_queue" => $pre_queue);
         }
 
+        $imported_parent_id = $node->getFlowTest()->getId();
+        $exported_parent_id = null;
+        foreach ($map["Test"] as $k => $v) {
+            if ($v == $imported_parent_id) {
+                $exported_parent_id = substr($k, 2);
+                break;
+            }
+        }
         $parent_instruction = self::getObjectImportInstruction(array(
                     "class_name" => "Test",
-                    "id" => $node->getFlowTest()->getId()
+                    "id" => $exported_parent_id
                         ), $instructions);
         $result = array();
-        $src_ent = $this->findConversionSource($obj, $map);
+        $src_ent = $this->findConversionSource($obj, $map, $node);
         if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNodePort"]["id" . $obj["id"]] = $src_ent->getId();
             $result = array("errors" => null, "entity" => $src_ent);
@@ -171,16 +174,22 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    protected function findConversionSource($obj, $map) {
-        if (!array_key_exists("id" . $obj["node"], $map["TestNode"]))
-            return null;
+    protected function findConversionSource($obj, $map, TestNode $node) {
         $nodeId = $map["TestNode"]["id" . $obj["node"]];
-        if (!array_key_exists("id" . $obj["variable"], $map["TestVariable"]))
-            return null;
-        $variableId = $map["TestVariable"]["id" . $obj["variable"]];
+        $variableId = null;
+        foreach ($node->getPorts() as $port) {
+            $var = $port->getVariable();
+            if ($var->getType() != $obj["variableObject"]["type"])
+                continue;
+            if ($var->getName() != $obj["variableObject"]["name"])
+                continue;
+            $variableId = $var->getId();
+            break;
+        }
         $ent = $this->repository->findOneBy(array("node" => $nodeId, "variable" => $variableId));
-        if (!$ent)
+        if (!$ent) {
             return null;
+        }
         return $this->get($ent->getId());
     }
 

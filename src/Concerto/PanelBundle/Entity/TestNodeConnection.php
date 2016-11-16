@@ -209,32 +209,31 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
         $this->automatic = $automatic;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["flowTest"]);
         unset($arr["sourceNode"]);
         unset($arr["sourcePort"]);
-        $arr["sourcePortObject"] = $arr["sourcePortObject"] ? $arr["sourcePortObject"]->getHash() : null;
+        $arr["sourcePortObject"] = $arr["sourcePortObject"] ? TestNodePort::getArrayHash($arr["sourcePortObject"]) : null;
         unset($arr["destinationNode"]);
         unset($arr["destinationPort"]);
-        $arr["destinationPortObject"] = $arr["destinationPortObject"] ? $arr["destinationPortObject"]->getHash() : null;
+        $arr["destinationPortObject"] = $arr["destinationPortObject"] ? TestNodePort::getArrayHash($arr["destinationPortObject"]) : null;
 
         $json = json_encode($arr);
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "TestNodeConnection",
             "id" => $this->id,
             "flowTest" => $this->flowTest->getId(),
             "sourceNode" => $this->sourceNode->getId(),
             "sourcePort" => $this->sourcePort ? $this->sourcePort->getId() : null,
-            "sourcePortObject" => $this->sourcePort,
+            "sourcePortObject" => $this->sourcePort ? $this->sourcePort->jsonSerialize($dependencies) : null,
             "destinationNode" => $this->destinationNode->getId(),
             "destinationPort" => $this->destinationPort ? $this->destinationPort->getId() : null,
-            "destinationPortObject" => $this->destinationPort,
+            "destinationPortObject" => $this->destinationPort ? $this->destinationPort->jsonSerialize($dependencies) : null,
             "returnFunction" => $this->returnFunction,
             "automatic" => $this->automatic ? "1" : "0"
         );

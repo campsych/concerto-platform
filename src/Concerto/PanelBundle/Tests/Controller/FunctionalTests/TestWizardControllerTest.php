@@ -98,7 +98,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "id" => 1,
                 "name" => "wizard",
                 "description" => "description",
-                "testObject" => json_decode($client->getResponse()->getContent(), true)[0]["testObject"],
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -206,8 +205,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedByName" => "admin",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"],
+                "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -232,7 +230,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "id" => 1,
                 "name" => "edited_wizard",
                 "description" => "edited wizard description",
-                "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"],
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -298,7 +295,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "id" => 1,
                 "name" => "wizard",
                 "description" => "edited wizard description",
-                "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"],
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -375,8 +371,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "rev" => 0,
                 "owner" => null,
-                "groups" => "",
-                "testObject" => json_decode($client->getResponse()->getContent(), true)["object"]["testObject"]
+                "groups" => ""
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 

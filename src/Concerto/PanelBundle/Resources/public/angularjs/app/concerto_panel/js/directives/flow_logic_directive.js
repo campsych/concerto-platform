@@ -1,5 +1,5 @@
 'use strict';
-angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$timeout', '$uibModal', '$filter', function ($http, $compile, $timeout, $uibModal, $filter) {
+angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$timeout', '$uibModal', '$filter', 'TestCollectionService', function ($http, $compile, $timeout, $uibModal, $filter, TestCollectionService) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs, controllers) {
@@ -753,8 +753,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.object.nodes = data.collections.nodes;
                             scope.object.nodesConnections = data.collections.nodesConnections;
 
-                            if (data.object.sourceTestObject && data.object.sourceTestObject.sourceWizard) {
-                                scope.editNodeWizard(scope.collectionService.getNode(data.object.id), data.object.sourceTestObject);
+                            var sourceTest = angular.copy(TestCollectionService.get(data.object.sourceTest));
+
+                            if (sourceTest && sourceTest.sourceWizard) {
+                                scope.editNodeWizard(scope.collectionService.getNode(data.object.id), sourceTest);
                             }
                         }
                     });

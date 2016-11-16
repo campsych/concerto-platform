@@ -99,7 +99,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
-                "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[0]["sourceTestObject"],
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -134,7 +133,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
-                "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[1]["sourceTestObject"],
                 "ports" => array()
             ),
             array(
@@ -148,7 +146,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 2,
                 "sourceTestName" => "test_s1",
                 "sourceTestDescription" => "description",
-                "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[2]["sourceTestObject"],
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -233,7 +230,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
-                "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[0]["sourceTestObject"],
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -268,7 +264,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
-                "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[1]["sourceTestObject"],
                 "ports" => array()
             ),
             array(
@@ -282,7 +277,6 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 2,
                 "sourceTestName" => "test_s1",
                 "sourceTestDescription" => "description",
-                "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)[2]["sourceTestObject"],
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
@@ -391,7 +385,6 @@ class TestNodeControllerTest extends AFunctionalTest {
             "sourceTest" => 2,
             "sourceTestName" => "test_s1",
             "sourceTestDescription" => "description",
-            "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)["object"]["sourceTestObject"],
             "ports" => array(
                 array(
                     "class_name" => "TestNodePort",
@@ -490,7 +483,6 @@ class TestNodeControllerTest extends AFunctionalTest {
             "sourceTest" => 2,
             "sourceTestName" => "test_s1",
             "sourceTestDescription" => "description",
-            "sourceTestObject" => json_decode($client->getResponse()->getContent(), true)["object"]["sourceTestObject"],
             "ports" => array(
                 array(
                     "class_name" => "TestNodePort",

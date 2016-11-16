@@ -108,8 +108,12 @@ class ImportService {
 
             $can_ignore = false;
             if ($existing_entity != null) {
+                $existing_entity_array = $existing_entity->jsonSerialize();
+                $class = "\\Concerto\\PanelBundle\\Entity\\" . $existing_entity_array["class_name"];
+                $existing_entity_hash = $class::getArrayHash($existing_entity_array);
+
                 //same hash
-                if (array_key_exists("hash", $imported_object) && $existing_entity->getHash() == $imported_object["hash"])
+                if (array_key_exists("hash", $imported_object) && $existing_entity_hash == $imported_object["hash"])
                     $can_ignore = true;
                 //existing object is starter content and is of newer or same revision as imported one
                 if (array_key_exists("rev", $imported_object) && $imported_object["rev"] == $existing_entity->getRevision() && $existing_entity->getRevision() != 0)
@@ -176,10 +180,20 @@ class ImportService {
     }
 
     public function copy($class_name, User $user, $object_id, $name) {
-        $arr = array(json_decode(json_encode($this->serviceMap[$class_name]->entityToArray($this->serviceMap[$class_name]->get($object_id))), true));
-        $instructions = $this->getPreImportStatus($arr);
+        $ent = $this->serviceMap[$class_name]->get($object_id);
+        $dependencies = array();
+        $ent->jsonSerialize($dependencies);
+
+        $collection = $dependencies["collection"];
+        for ($i = 0; $i < count($collection); $i++) {
+            $elem = $collection[$i];
+            $elem_class = $elem["class_name"];
+            $collection[$i] = $this->serviceMap[$elem_class]->convertToExportable($elem);
+        }
+
+        $instructions = $this->getPreImportStatus($collection);
         for ($i = 0; $i < count($instructions); $i++) {
-            if ($i == 0) {
+            if ($instructions[$i]["id"] == $object_id && $instructions[$i]["class_name"] == $class_name) {
                 $instructions[$i]["rename"] = $name;
                 $instructions[$i]["action"] = "0";
             } else {
@@ -189,7 +203,7 @@ class ImportService {
         $result = $this->import(
                 $user, //
                 json_decode(json_encode($instructions), true), //
-                $arr
+                $collection
         );
         return $result;
     }

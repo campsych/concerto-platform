@@ -557,39 +557,37 @@ class Test extends ATopEntity implements \JsonSerializable {
         return $this->type != self::TYPE_WIZARD || ($this->type == self::TYPE_WIZARD && $this->sourceWizard != null);
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedByName"]);
         unset($arr["owner"]);
-        $arr["variables"] = array();
-        foreach ($this->variables->toArray() as $var) {
-            array_push($arr["variables"], $var->getHash());
+        for ($i = 0; $i < count($arr["variables"]); $i++) {
+            $arr["variables"][$i] = TestVariable::getArrayHash($arr["variables"][$i]);
         }
         unset($arr["logs"]);
+        unset($arr["slug"]);
         unset($arr["sourceWizard"]);
-        $arr["sourceWizardObject"] = $arr["sourceWizardObject"] ? $arr["sourceWizardObject"]->getHash() : null;
-        $arr["nodes"] = array();
-        foreach ($this->nodes->toArray() as $node) {
-            array_push($arr["nodes"], $node->getHash());
+        for ($i = 0; $i < count($arr["nodes"]); $i++) {
+            $arr["nodes"][$i] = TestNode::getArrayHash($arr["nodes"][$i]);
         }
-        $arr["nodesConnections"] = array();
-        foreach ($this->nodesConnections->toArray() as $conn) {
-            array_push($arr["nodesConnections"], $conn->getHash());
+        for ($i = 0; $i < count($arr["nodesConnections"]); $i++) {
+            $arr["nodesConnections"][$i] = TestNodeConnection::getArrayHash($arr["nodesConnections"][$i]);
         }
 
         $json = json_encode($arr);
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
-        if (self::isInProcessedArray($processed, "Test", $this->id))
-            return array("id" => $this->id);
-        
-        self::addToProcessedArray($processed, "Test", $this->id);
+    public function jsonSerialize(&$dependencies = array()) {
+        if (self::isDependencyReserved($dependencies, "Test", $this->id))
+            return null;
+        self::reserveDependency($dependencies, "Test", $this->id);
 
-        return array(
+        if ($this->sourceWizard != null)
+            $this->sourceWizard->jsonSerialize($dependencies);
+
+        $serialized = array(
             "class_name" => "Test",
             "id" => $this->id,
             "name" => $this->name,
@@ -603,20 +601,25 @@ class Test extends ATopEntity implements \JsonSerializable {
             "resumable" => $this->resumable ? "1" : "0",
             "outdated" => $this->outdated ? "1" : "0",
             "description" => $this->description,
-            "variables" => self::jsonSerializeArray($this->variables->toArray(), $processed),
+            "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies),
             "logs" => $this->logs->toArray(),
             "sourceWizard" => $this->sourceWizard != null ? $this->sourceWizard->getId() : null,
-            "sourceWizardObject" => $this->sourceWizard ? $this->sourceWizard->jsonSerialize($processed) : null,
+            "sourceWizardName" => $this->sourceWizard != null ? $this->sourceWizard->getName() : null,
+            "sourceWizardTest" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getId() : null,
+            "sourceWizardTestName" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getName() : null,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
-            "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $processed),
-            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $processed),
+            "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies),
+            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies),
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent,
             "rev" => $this->rev
         );
+
+        self::addDependency($dependencies, $serialized);
+        return $serialized;
     }
 
 }

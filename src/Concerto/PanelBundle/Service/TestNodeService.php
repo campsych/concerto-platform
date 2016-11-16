@@ -126,11 +126,6 @@ class TestNodeService extends ASectionService {
         return $result;
     }
 
-    public function entityToArray(TestNode $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("TestNode", $map))
@@ -151,7 +146,12 @@ class TestNodeService extends ASectionService {
             $sourceTest = $this->testRepository->find($sourceTest_id);
         }
         if (!$sourceTest) {
-            array_push($pre_queue, $obj["sourceTestObject"]);
+            foreach ($queue as $elem) {
+                if ($elem["class_name"] == "Test" && $elem["id"] == $obj["sourceTest"]) {
+                    array_push($pre_queue, $elem);
+                    break;
+                }
+            }
         }
 
         if (count($pre_queue) > 0) {

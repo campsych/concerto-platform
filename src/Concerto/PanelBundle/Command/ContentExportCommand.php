@@ -35,12 +35,23 @@ class ContentExportCommand extends ContainerAwareCommand {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
             $collection = $repo->findBy(array("starterContent" => 1));
             $importService = $this->getContainer()->get('concerto_panel.import_service');
-            $service = $importService->serviceMap[$class_name];
+            $class_service = $importService->serviceMap[$class_name];
             foreach ($collection as $ent) {
-                $ent = $service->get($ent->getId(), false, false);
-                $arr = $service->entityToArray($ent);
-                $arr["hash"] = $ent->getHash();
-                $json = json_encode(array($arr), JSON_PRETTY_PRINT);
+                $dependencies = array();
+                $ent = $class_service->get($ent->getId(), false, false);
+                $ent->jsonSerialize($dependencies);
+
+                $result = array();
+                if (array_key_exists("collection", $dependencies)) {
+                    foreach ($dependencies["collection"] as $elem) {
+                        $export_elem = $elem;
+                        $elem_service = $importService->serviceMap[$elem["class_name"]];
+                        $export_elem["hash"] = $elem["class_name"]::getArrayHash($elem);
+                        $export_elem = $elem_service->convertToExportable($export_elem);
+                        array_push($result, $export_elem);
+                    }
+                }
+                $json = json_encode($result, JSON_PRETTY_PRINT);
 
                 $this->saveFile($class_name, $ent->getName(), $json, $input->getArgument("output"));
                 $output->writeln("ConcertoPanelBundle:" . $class_name . ":" . $ent->getId() . ":" . $ent->getName() . " exported");

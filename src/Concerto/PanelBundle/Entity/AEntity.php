@@ -148,27 +148,36 @@ abstract class AEntity {
         return $result;
     }
 
-    public static function isInProcessedArray($processed, $class, $id) {
-        if (!array_key_exists($class, $processed))
-            return false;
-        return in_array($id, $processed[$class]);
+    public static function reserveDependency(&$dependencies, $class, $id) {
+        if (!array_key_exists("reservations", $dependencies))
+            $dependencies["reservations"] = array();
+        if (!array_key_exists($class, $dependencies["reservations"]))
+            $dependencies["reservations"][$class] = array();
+        if (!in_array($id, $dependencies["reservations"][$class]))
+            array_push($dependencies["reservations"][$class], $id);
     }
 
-    public static function jsonSerializeArray($array, &$processed = array()) {
+    public static function isDependencyReserved($dependencies, $class, $id) {
+        if (!array_key_exists("reservations", $dependencies))
+            return false;
+        if (!array_key_exists($class, $dependencies["reservations"]))
+            return false;
+        return in_array($id, $dependencies["reservations"][$class]);
+    }
+
+    public static function addDependency(&$dependencies, $serialized) {
+        if (!array_key_exists("collection", $dependencies)) {
+            $dependencies["collection"] = array();
+        }
+        array_push($dependencies["collection"], $serialized);
+    }
+
+    public static function jsonSerializeArray($array, &$dependencies = array()) {
         $result = array();
         foreach ($array as $ent) {
-            array_push($result, $ent->jsonSerialize($processed));
+            array_push($result, $ent->jsonSerialize($dependencies));
         }
         return $result;
-    }
-
-    public static function addToProcessedArray(&$processed, $class, $id) {
-        if (!array_key_exists($class, $processed)) {
-            $processed[$class] = array();
-        }
-        if (!in_array($id, $processed[$class])) {
-            array_push($processed[$class], $id);
-        }
     }
 
     public abstract function getOwner();

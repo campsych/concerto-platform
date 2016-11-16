@@ -194,6 +194,11 @@ services:
   concerto_panel.import_service:
       class: Concerto\PanelBundle\Service\ImportService
       arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.Test_service", "@concerto_panel.TestNode_service", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.TestVariable_service", "@concerto_panel.TestWizard_service", "@concerto_panel.TestWizardStep_service", "@concerto_panel.TestWizardParam_service", "@concerto_panel.ViewTemplate_service"]
+      
+#   ExportService
+  concerto_panel.export_service:
+      class: Concerto\PanelBundle\Service\ExportService
+      arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.Test_service", "@concerto_panel.TestNode_service", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.TestVariable_service", "@concerto_panel.TestWizard_service", "@concerto_panel.TestWizardStep_service", "@concerto_panel.TestWizardParam_service", "@concerto_panel.ViewTemplate_service"]
     
 #   RDataCacheService
   concerto_panel.r_data_cache_service:
@@ -206,7 +211,7 @@ services:
 #   Controllers
   concerto_panel.DataTable_controller:
     class: Concerto\PanelBundle\Controller\DataTableController
-    arguments: ["%kernel.environment%","@templating","@concerto_panel.DataTable_service","@request","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.DataTable_service","@request","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service"]
     scope: request
   concerto_panel.panel_controller:
     class: Concerto\PanelBundle\Controller\PanelController
@@ -218,7 +223,7 @@ services:
     scope: request
   concerto_panel.Test_controller:
     class: Concerto\PanelBundle\Controller\TestController
-    arguments: ["%kernel.environment%","@templating","@concerto_panel.Test_service","@request","@translator","@security.token_storage","@concerto_panel.TestWizard_service", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.Test_service","@request","@translator","@security.token_storage","@concerto_panel.TestWizard_service", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service"]
     scope: request
   concerto_panel.TestNode_controller:
     class: Concerto\PanelBundle\Controller\TestNodeController
@@ -234,7 +239,7 @@ services:
     scope: request
   concerto_panel.TestWizard_controller:
     class: Concerto\PanelBundle\Controller\TestWizardController
-    arguments: ["%kernel.environment%","@templating","@concerto_panel.TestWizard_service","@request","@translator","@security.token_storage","@concerto_panel.Test_service", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.TestWizard_service","@request","@translator","@security.token_storage","@concerto_panel.Test_service", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service"]
     scope: request
   concerto_panel.TestWizardStep_controller:
     class: Concerto\PanelBundle\Controller\TestWizardStepController
@@ -262,7 +267,7 @@ services:
     scope: request
   concerto_panel.ViewTemplate_controller:
     class: Concerto\PanelBundle\Controller\ViewTemplateController
-    arguments: ["%kernel.environment%","@templating","@concerto_panel.ViewTemplate_service","@request","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.User_service"]
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.ViewTemplate_service","@request","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service"]
     scope: request
   concerto_panel.FileBrowser_controller:
     class: Concerto\PanelBundle\Controller\FileBrowserController

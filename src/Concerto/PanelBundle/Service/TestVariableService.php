@@ -292,11 +292,6 @@ class TestVariableService extends ASectionService {
         //TODO 
     }
 
-    public function entityToArray(TestVariable $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
     public function authorizeObject($object) {
         if (!self::$securityOn)
             return $object;

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Concerto\PanelBundle\Service\ImportService;
+use Concerto\PanelBundle\Service\ExportService;
 use Concerto\PanelBundle\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -24,8 +25,8 @@ class TestController extends AExportableTabController {
     private $testWizardService;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, UserService $userService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService);
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService) {
+        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -155,9 +156,9 @@ class TestController extends AExportableTabController {
         return $this->getSaveResponse($result);
     }
 
-    public function exportNodeAction($object_ids, $format = AExportableSectionService::FORMAT_COMPRESSED) {
-        $response = new Response($this->service->exportNodeToFile($object_ids, $format));
-        $ext = ( $format == AExportableSectionService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
+    public function exportNodeAction($object_ids, $format = ExportService::FORMAT_COMPRESSED) {
+        $response = new Response($this->exportService->exportNodeToFile($object_ids, $format));
+        $ext = ( $format == ExportService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
         $name = "TestNode_" . $object_ids . '.' . $ext;
         $response->headers->set('Content-Type', 'application/x-download');
         $response->headers->set(

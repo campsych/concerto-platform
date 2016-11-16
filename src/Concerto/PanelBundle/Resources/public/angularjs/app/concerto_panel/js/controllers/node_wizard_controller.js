@@ -1,9 +1,10 @@
-function NodeWizardController($scope, $uibModalInstance, TestWizardParam, node, test) {
+function NodeWizardController($scope, $uibModalInstance, TestWizardParam, TestWizardCollectionService, node, test) {
     $scope.node = node;
     $scope.object = test;
     $scope.originalTest = angular.copy(test);
+    $scope.sourceWizard = TestWizardCollectionService.get($scope.object.sourceWizard);
 
-    $scope.object.steps = $scope.object.sourceWizardObject.steps;
+    $scope.object.steps = $scope.sourceWizard.steps;
     for (var i = 0; i < $scope.object.variables.length; i++) {
         var variable = $scope.object.variables[i];
         var originalVariable = $scope.originalTest.variables[i];
@@ -15,7 +16,7 @@ function NodeWizardController($scope, $uibModalInstance, TestWizardParam, node, 
             }
         }
     }
-    TestWizardParam.testVariablesToWizardParams($scope.object.variables, $scope.object.sourceWizardObject.steps);
+    TestWizardParam.testVariablesToWizardParams($scope.object.variables, $scope.sourceWizard.steps);
 
     $scope.assignVarsToPorts = function () {
         for (var i = 0; i < $scope.object.variables.length; i++) {

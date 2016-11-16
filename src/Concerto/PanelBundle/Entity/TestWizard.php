@@ -224,30 +224,28 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
         return $this->steps;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedByName"]);
         unset($arr["owner"]);
-        $arr["steps"] = array();
-        foreach ($this->steps->toArray() as $step) {
-            array_push($arr["steps"], $step->getHash());
+        for ($i = 0; $i < count($arr["steps"]); $i++) {
+            $arr["steps"][$i] = TestWizardStep::getArrayHash($arr["steps"][$i]);
         }
         unset($arr["test"]);
-        $arr["testObject"] = $arr["testObject"] ? $arr["testObject"]->getHash() : null;
 
         $json = json_encode($arr);
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
-        if (self::isInProcessedArray($processed, "TestWizard", $this->id))
-            return array("id" => $this->id);
-        
-        self::addToProcessedArray($processed, "TestWizard", $this->id);
-        
-        return array(
+    public function jsonSerialize(&$dependencies = array()) {
+        if (self::isDependencyReserved($dependencies, "TestWizard", $this->id))
+            return null;
+        self::reserveDependency($dependencies, "TestWizard", $this->id);
+
+        $this->test->jsonSerialize($dependencies);
+
+        $serialized = array(
             "class_name" => "TestWizard",
             "id" => $this->id,
             "name" => $this->name,
@@ -255,9 +253,8 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "accessibility" => $this->accessibility,
             "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
-            "steps" => self::jsonSerializeArray($this->steps->toArray(), $processed),
+            "steps" => self::jsonSerializeArray($this->steps->toArray(), $dependencies),
             "test" => $this->getTest()->getId(),
-            "testObject" => $this->getTest()->jsonSerialize($processed),
             "testName" => $this->getTest()->getName(),
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
@@ -266,6 +263,8 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "starterContent" => $this->starterContent,
             "rev" => $this->rev
         );
+        self::addDependency($dependencies, $serialized);
+        return $serialized;
     }
 
 }

@@ -327,8 +327,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
         return $this->ports;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["test"]);
         unset($arr["parentVariable"]);
@@ -337,7 +336,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "TestVariable",
             "id" => $this->getId(),

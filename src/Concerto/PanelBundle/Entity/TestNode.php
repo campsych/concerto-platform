@@ -299,22 +299,22 @@ class TestNode extends AEntity implements \JsonSerializable {
         return $this->destinationForConnections;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["flowTest"]);
         unset($arr["sourceTest"]);
-        $arr["sourceTestObject"] = $arr["sourceTestObject"] ? $arr["sourceTestObject"]->getHash() : null;
-        $arr["ports"] = array();
-        foreach ($this->ports->toArray() as $port) {
-            array_push($arr["ports"], $port->getHash());
+        for ($i = 0; $i < count($arr["ports"]); $i++) {
+            $arr["ports"][$i] = TestNodePort::getArrayHash($arr["ports"][$i]);
         }
 
         $json = json_encode($arr);
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
+        if ($this->sourceTest != null)
+            $this->sourceTest->jsonSerialize($dependencies);
+        
         return array(
             "class_name" => "TestNode",
             "id" => $this->id,
@@ -324,10 +324,9 @@ class TestNode extends AEntity implements \JsonSerializable {
             "posY" => $this->posY,
             "flowTest" => $this->flowTest->getId(),
             "sourceTest" => $this->sourceTest->getId(),
-            "sourceTestObject" => $this->sourceTest->jsonSerialize($processed),
             "sourceTestName" => $this->sourceTest->getName(),
             "sourceTestDescription" => $this->sourceTest->getDescription(),
-            "ports" => self::jsonSerializeArray($this->getPorts()->toArray(), $processed),
+            "ports" => self::jsonSerializeArray($this->getPorts()->toArray(), $dependencies),
         );
     }
 

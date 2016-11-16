@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Concerto\PanelBundle\Service\ImportService;
+use Concerto\PanelBundle\Service\ExportService;
 use Concerto\PanelBundle\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -23,8 +24,8 @@ class TestWizardController extends AExportableTabController {
     private $testService;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, TestWizardService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestService $testService, ImportService $importService, UserService $userService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService);
+    public function __construct($environment, EngineInterface $templating, TestWizardService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestService $testService, ImportService $importService, ExportService $exportService, UserService $userService) {
+        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;

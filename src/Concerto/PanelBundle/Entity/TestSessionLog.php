@@ -163,7 +163,7 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
         return $this->test;
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "TestSessionLog",
             "id" => $this->getId(),

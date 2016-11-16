@@ -133,11 +133,6 @@ class TestWizardService extends AExportableSectionService {
         return $result;
     }
 
-    public function entityToArray(AEntity $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("TestWizard", $map))
@@ -149,9 +144,14 @@ class TestWizardService extends AExportableSectionService {
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
             $test_id = $map["Test"]["id" . $obj["test"]];
             $test = $this->testService->repository->find($test_id);
-        }
-        if (!$test) {
-            array_push($pre_queue, $obj["testObject"]);
+            if (!$test) {
+                foreach ($queue as $elem) {
+                    if ($elem["class_name"] == "Test" && $elem["id"] == $obj["test"]) {
+                        array_push($pre_queue, $elem);
+                        break;
+                    }
+                }
+            }
         }
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);

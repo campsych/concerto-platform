@@ -226,25 +226,24 @@ class TestNodePort extends AEntity implements \JsonSerializable {
         $this->defaultValue = $defaultValue;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["node"]);
         unset($arr["variable"]);
-        $arr["variableObject"] = $arr["variableObject"] ? $arr["variableObject"]->getHash() : null;
+        $arr["variableObject"] = $arr["variableObject"] ? TestVariable::getArrayHash($arr["variableObject"]) : null;
 
         $json = json_encode($arr);
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "TestNodePort",
             "id" => $this->id,
             "value" => $this->value,
             "node" => $this->node->getId(),
             "variable" => $this->variable->getId(),
-            "variableObject" => $this->variable,
+            "variableObject" => $this->variable->jsonSerialize($dependencies),
             "string" => $this->string ? "1" : "0",
             "defaultValue" => $this->defaultValue ? "1" : "0"
         );

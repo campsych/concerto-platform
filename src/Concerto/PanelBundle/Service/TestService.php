@@ -188,19 +188,19 @@ class TestService extends AExportableSectionService {
         return $result;
     }
 
-    public function entityToArray(AEntity $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        unset($e["logs"]);
-        unset($e["slug"]);
-        return $e;
+    public function convertToExportable($array) {
+        unset($array["logs"]);
+        unset($array["slug"]);
+        return $array;
     }
 
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("Test", $map))
             $map["Test"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["Test"]))
+        if (array_key_exists("id" . $obj["id"], $map["Test"])) {
             return array("errors" => null, "entity" => $this->get($map["Test"]["id" . $obj["id"]]));
+        }
 
         $wizard = null;
         if ($obj["sourceWizard"]) {
@@ -209,7 +209,12 @@ class TestService extends AExportableSectionService {
                 $wizard = $this->testWizardRepository->find($wizard_id);
             }
             if (!$wizard) {
-                array_push($pre_queue, $obj["sourceWizardObject"]);
+                foreach ($queue as $elem) {
+                    if ($elem["class_name"] == "TestWizard" && $elem["id"] == $obj["sourceWizard"]) {
+                        array_push($pre_queue, $elem);
+                        break;
+                    }
+                }
             }
         }
 
@@ -220,7 +225,7 @@ class TestService extends AExportableSectionService {
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object"] ? $instruction["existing_object"]["name"] : null;
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
-        
+
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent)
@@ -400,35 +405,6 @@ class TestService extends AExportableSectionService {
         }
         //$this->testNodeService->repository->deleteByTest($test);
         return array("errors" => array());
-    }
-
-    public function exportNodeToFile($object_ids, $format = self::FORMAT_COMPRESSED) {
-        $result = array();
-        $object_ids = explode(",", $object_ids);
-        $processed = array();
-        foreach ($object_ids as $object_id) {
-            $node = $this->testNodeService->get($object_id);
-
-            $test = $node->getSourceTest();
-            if ($node->getTitle() != "")
-                $test->setName($node->getTitle());
-            foreach ($node->getPorts() as $port) {
-                foreach ($test->getVariables() as $var) {
-                    if ($port->getVariable()->getId() == $var->getId()) {
-                        $var->setValue($port->getValue());
-                        break;
-                    }
-                }
-            }
-            $arr = $this->entityToArray($test, $processed);
-
-            $arr["hash"] = $test->getHash();
-            array_push($result, $arr);
-        }
-        if ($format === self::FORMAT_COMPRESSED)
-            return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
-        else
-            return json_encode($result, JSON_PRETTY_PRINT);
     }
 
 }

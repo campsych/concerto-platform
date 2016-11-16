@@ -192,8 +192,7 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
         return $this->html;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedByName"]);
@@ -202,13 +201,12 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
-        if (self::isInProcessedArray($processed, "ViewTemplate", $this->id))
-            return array("id" => $this->id);
-        
-        self::addToProcessedArray($processed, "ViewTemplate", $this->id);
-        
-        return array(
+    public function jsonSerialize(&$dependencies = array()) {
+        if (self::isDependencyReserved($dependencies, "ViewTemplate", $this->id))
+            return null;
+        self::reserveDependency($dependencies, "ViewTemplate", $this->id);
+
+        $serialized = array(
             "class_name" => "ViewTemplate",
             "id" => $this->id,
             "name" => $this->name,
@@ -227,6 +225,9 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
             "starterContent" => $this->starterContent,
             "rev" => $this->rev
         );
+
+        self::addDependency($dependencies, $serialized);
+        return $serialized;
     }
 
 }

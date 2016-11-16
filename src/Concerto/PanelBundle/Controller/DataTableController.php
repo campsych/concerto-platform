@@ -11,6 +11,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Concerto\PanelBundle\Service\DataTableService;
 use Concerto\PanelBundle\Service\ImportService;
+use Concerto\PanelBundle\Service\ExportService;
 use Concerto\PanelBundle\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -26,8 +27,8 @@ class DataTableController extends AExportableTabController {
     private static $stream_param_data_collection_action_prefixed;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, DataTableService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, UserService $userService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService);
+    public function __construct($environment, EngineInterface $templating, DataTableService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService) {
+        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;

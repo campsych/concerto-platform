@@ -270,7 +270,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
         return !$this->archived;
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "User",
             "id" => $this->id,

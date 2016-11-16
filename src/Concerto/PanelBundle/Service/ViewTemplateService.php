@@ -89,12 +89,7 @@ class ViewTemplateService extends AExportableSectionService {
         }
         return $result;
     }
-
-    public function entityToArray(AEntity $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
+    
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("ViewTemplate", $map))

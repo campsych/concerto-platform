@@ -473,7 +473,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         var obj = angular.copy($scope.object);
         obj.serializedSteps = angular.toJson(obj.steps);
         delete obj.steps;
-        delete obj.testObject;
         return obj;
     };
 

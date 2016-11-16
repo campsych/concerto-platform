@@ -112,11 +112,6 @@ class TestWizardParamService extends ASectionService {
         return array("errors" => array());
     }
 
-    public function entityToArray(TestWizardParam $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("TestWizardParam", $map))

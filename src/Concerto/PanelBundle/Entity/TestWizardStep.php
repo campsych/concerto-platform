@@ -207,20 +207,18 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
         return $this->params;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["wizard"]);
-        $arr["params"] = array();
-        foreach ($this->params->toArray() as $param) {
-            array_push($arr["params"], $param->getHash());
+        for ($i = 0; $i < count($arr["params"]); $i++) {
+            $arr["params"][$i] = TestWizardParam::getArrayHash($arr["params"][$i]);
         }
 
         $json = json_encode($arr);
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "TestWizardStep",
             "id" => $this->id,
@@ -229,7 +227,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
             "orderNum" => $this->orderNum,
             "colsNum" => $this->colsNum,
             "wizard" => $this->wizard->getId(),
-            "params" => self::jsonSerializeArray($this->params->toArray(), $processed)
+            "params" => self::jsonSerializeArray($this->params->toArray(), $dependencies)
         );
     }
 

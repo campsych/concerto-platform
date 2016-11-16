@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Concerto\PanelBundle\Service\ImportService;
+use Concerto\PanelBundle\Service\ExportService;
 
 abstract class AExportableTabController extends ASectionController {
 
@@ -16,13 +17,15 @@ abstract class AExportableTabController extends ASectionController {
     protected $environment;
     protected $exportFilePrefix;
     protected $importService;
+    protected $exportService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService) {
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService) {
         parent::__construct($templating, $service, $translator, $securityTokenStorage);
 
         $this->environment = $environment;
         $this->request = $request;
         $this->importService = $importService;
+        $this->exportService = $exportService;
     }
 
     public function preImportStatusAction() {
@@ -75,8 +78,8 @@ abstract class AExportableTabController extends ASectionController {
         return $response;
     }
 
-    public function exportAction($object_ids, $format = AExportableSectionService::FORMAT_COMPRESSED) {
-        $response = new Response($this->service->exportToFile($object_ids, $format));
+    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED) {
+        $response = new Response($this->exportService->exportToFile($this->entityName, $object_ids, $format));
         $response->headers->set('Content-Type', 'application/x-download');
         $response->headers->set(
                 'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $object_ids, $format) . '"'

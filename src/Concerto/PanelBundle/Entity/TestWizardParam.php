@@ -337,8 +337,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return $this->definition;
     }
     
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["testVariable"]);
         unset($arr["wizardStep"]);
@@ -348,7 +347,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
+    public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "TestWizardParam",
             "id" => $this->id,

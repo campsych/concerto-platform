@@ -100,8 +100,7 @@ class DataTable extends ATopEntity implements \JsonSerializable {
         return $this->columns;
     }
 
-    public function getHash() {
-        $arr = $this->jsonSerialize();
+    public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedByName"]);
@@ -110,13 +109,12 @@ class DataTable extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$processed = array()) {
-        if (self::isInProcessedArray($processed, "DataTable", $this->id))
-            return array("id" => $this->id);
+    public function jsonSerialize(&$dependencies = array()) {
+        if (self::isDependencyReserved($dependencies, "DataTable", $this->id))
+            return null;
+        self::reserveDependency($dependencies, "DataTable", $this->id);
 
-        self::addToProcessedArray($processed, "DataTable", $this->id);
-
-        return array(
+        $serialized = array(
             "class_name" => "DataTable",
             "id" => $this->id,
             "name" => $this->name,
@@ -132,6 +130,9 @@ class DataTable extends ATopEntity implements \JsonSerializable {
             "starterContent" => $this->starterContent,
             "rev" => $this->rev
         );
+
+        self::addDependency($dependencies, $serialized);
+        return $serialized;
     }
 
 }

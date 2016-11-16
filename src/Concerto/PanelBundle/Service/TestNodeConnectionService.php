@@ -120,11 +120,6 @@ class TestNodeConnectionService extends ASectionService {
         $this->repository->deleteAutomatic($object->getSourceNode(), $object->getDestinationNode());
     }
 
-    public function entityToArray(TestNodeConnection $ent, &$processed = array()) {
-        $e = $ent->jsonSerialize($processed);
-        return $e;
-    }
-
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
         $pre_queue = array();
         if (!array_key_exists("TestNodeConnection", $map))
@@ -191,12 +186,10 @@ class TestNodeConnectionService extends ASectionService {
     }
 
     protected function findConversionSource($obj, $map) {
-        if (!array_key_exists("id" . $obj["sourcePort"], $map["TestNodePort"]))
-            return null;
         $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]];
-        if (!array_key_exists("id" . $obj["destinationPort"], $map["TestNodePort"]))
-            return null;
-        $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]];
+        $destinationPortId = null;
+        if ($obj["destinationPort"])
+            $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]];
         $ent = $this->repository->findByPorts($sourcePortId, $destinationPortId);
         if (!$ent)
             return null;
