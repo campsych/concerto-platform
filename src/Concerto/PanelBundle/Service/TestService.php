@@ -374,9 +374,11 @@ class TestService extends AExportableSectionService {
     }
 
     public function pasteNodes(User $user, Test $flowTest, $nodes, $return_collections = false) {
+        $node_map = array();
         foreach ($nodes as $node) {
             $result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), false);
             $new_node = $result["object"];
+            $node_map["id" . $node["id"]] = $new_node->getId();
 
             foreach ($node["ports"] as $src_port) {
                 foreach ($new_node->getPorts() as $dest_port) {
@@ -388,6 +390,52 @@ class TestService extends AExportableSectionService {
                     }
                 }
             }
+        }
+
+        $connections = array();
+        foreach ($flowTest->getNodesConnections() as $connection) {
+            $sourceNodeId = $connection->getSourceNode()->getId();
+            $destinationNodeId = $connection->getDestinationNode()->getId();
+            $src_found = false;
+            $dst_found = false;
+
+            foreach ($nodes as $node) {
+                if ($sourceNodeId == $node["id"])
+                    $src_found = true;
+                if ($destinationNodeId == $node["id"])
+                    $dst_found = true;
+                if ($src_found && $dst_found) {
+                    array_push($connections, $connection);
+                    break;
+                }
+            }
+        }
+
+        foreach ($connections as $copied_connection) {
+            $source_node = $this->testNodeService->get($node_map["id" . $copied_connection->getSourceNode()->getId()]);
+            $destination_node = $this->testNodeService->get($node_map["id" . $copied_connection->getDestinationNode()->getId()]);
+
+            $source_port = null;
+            if ($copied_connection->getSourcePort() != null) {
+                foreach ($source_node->getPorts() as $port) {
+                    if ($port->getVariable()->getId() == $copied_connection->getSourcePort()->getVariable()->getId()) {
+                        $source_port = $port;
+                        break;
+                    }
+                }
+            }
+
+            $destination_port = null;
+            if ($copied_connection->getDestinationPort() != null) {
+                foreach ($destination_node->getPorts() as $port) {
+                    if ($port->getVariable()->getId() == $copied_connection->getDestinationPort()->getVariable()->getId()) {
+                        $destination_port = $port;
+                        break;
+                    }
+                }
+            }
+
+            $this->addFlowConnection($user, $flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->isAutomatic(), $copied_connection->hasDefaultReturnFunction(), false);
         }
 
         if ($return_collections) {
