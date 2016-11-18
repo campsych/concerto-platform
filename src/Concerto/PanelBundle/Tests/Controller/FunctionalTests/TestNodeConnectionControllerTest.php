@@ -133,7 +133,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "destinationNode" => 4,
                 "destinationPort" => 5,
                 "returnFunction" => "out",
-                "automatic" => 0,
+                "defaultReturnFunction" => "0",
+                "automatic" => "0",
                 "sourcePortObject" => array(
                     "class_name" => "TestNodePort",
                     "id" => 3,
@@ -214,7 +215,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "destinationNode" => 4,
             "destinationPort" => null,
             "returnFunction" => "params",
-            "automatic" => 0,
+            "defaultReturnFunction" => "0",
+            "automatic" => "0",
             "sourcePortObject" => array(
                 "class_name" => "TestNodePort",
                 "id" => 4,
@@ -270,7 +272,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "destinationNode" => 4,
             "destinationPort" => null,
             "returnFunction" => "params",
-            "automatic" => 0,
+            "defaultReturnFunction" => "0",
+            "automatic" => "0",
             "sourcePortObject" => array(
                 "class_name" => "TestNodePort",
                 "id" => 4,

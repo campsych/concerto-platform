@@ -6,6 +6,7 @@ use Concerto\PanelBundle\Repository\TestNodeConnectionRepository;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
 use Concerto\PanelBundle\Entity\TestNode;
+use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Repository\TestRepository;
@@ -42,7 +43,7 @@ class TestNodeConnectionService extends ASectionService {
         return $this->authorizeCollection($this->repository->findByFlowTest($test_id));
     }
 
-    public function save(User $user, $object_id, Test $flowTest, TestNode $sourceNode, $sourcePort, TestNode $destinationNode, $destinationPort, $returnFunction, $automatic) {
+    public function save(User $user, $object_id, Test $flowTest, TestNode $sourceNode, $sourcePort, TestNode $destinationNode, $destinationPort, $returnFunction, $automatic, $default) {
         $errors = array();
         $object = $this->get($object_id);
         $is_new = false;
@@ -56,7 +57,12 @@ class TestNodeConnectionService extends ASectionService {
         $object->setSourcePort($sourcePort);
         $object->setDestinationNode($destinationNode);
         $object->setDestinationPort($destinationPort);
-        $object->setReturnFunction($returnFunction ? $returnFunction : $sourcePort->getVariable()->getName());
+        $object->setDefaultReturnFunction($default);
+        if ($default || !$returnFunction) {
+            $object->setReturnFunction($sourcePort->getVariable()->getName());
+        } else {
+            $object->setReturnFunction($returnFunction);
+        }
         $object->setAutomatic($automatic);
 
         foreach ($this->validator->validate($object) as $err) {
@@ -118,6 +124,19 @@ class TestNodeConnectionService extends ASectionService {
 
     public function onObjectDeleted(TestNodeConnection $object) {
         $this->repository->deleteAutomatic($object->getSourceNode(), $object->getDestinationNode());
+    }
+
+    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new) {
+        $ports = $variable->getPorts();
+        foreach ($ports as $port) {
+            $connections = $port->getSourceForConnections();
+            foreach ($connections as $connection) {
+                if ($connection->getReturnFunction() != $variable->getName() && $connection->hasDefaultReturnFunction()) {
+                    $connection->setReturnFunction($variable->getName());
+                    $this->repository->save($connection);
+                }
+            }
+        }
     }
 
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
@@ -205,6 +224,10 @@ class TestNodeConnectionService extends ASectionService {
         $ent->setSourceNode($sourceNode);
         $ent->setSourcePort($sourcePort);
         $ent->setAutomatic($obj["automatic"] == "1");
+        if (array_key_exists("defaultReturnFunction", $obj))
+            $ent->setDefaultReturnFunction($obj["defaultReturnFunction"]);
+        else
+            $ent->setDefaultReturnFunction($sourcePort->getVariable()->getName() == $obj["returnFunction"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

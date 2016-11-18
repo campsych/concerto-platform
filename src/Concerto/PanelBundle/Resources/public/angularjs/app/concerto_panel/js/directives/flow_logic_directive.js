@@ -701,33 +701,31 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.editConnectionCode = function (connection) {
                     var oldValue = connection.returnFunction;
                     var modalInstance = $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "codemirror_dialog.html",
-                        controller: CodemirrorController,
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "connection_return_function_dialog.html",
+                        controller: ConnectionReturnFunctionController,
                         scope: scope,
                         resolve: {
-                            value: function () {
-                                return connection.returnFunction;
+                            object: function () {
+                                return connection;
                             },
                             title: function () {
                                 return connection.sourcePortObject.variableObject.name + "->" + connection.destinationPortObject.variableObject.name;
-                            },
-                            tooltip: function () {
-                                return Trans.TEST_FLOW_RETURN_FUNCTION_TOOLTIP;
                             }
                         },
                         size: "lg"
                     });
 
-                    modalInstance.result.then(function (newVal) {
-                        connection.returnFunction = newVal;
+                    modalInstance.result.then(function (object) {
                         $http.post(Paths.TEST_FLOW_CONNECTION_SAVE.pf(connection.id), {
-                            "flowTest": connection.flowTest,
-                            "sourceNode": connection.sourceNode,
-                            "sourcePort": connection.sourcePort,
-                            "destinationNode": connection.destinationNode,
-                            "destinationPort": connection.destinationPort,
-                            "returnFunction": connection.returnFunction
+                            "flowTest": object.flowTest,
+                            "sourceNode": object.sourceNode,
+                            "sourcePort": object.sourcePort,
+                            "destinationNode": object.destinationNode,
+                            "destinationPort": object.destinationPort,
+                            "returnFunction": object.returnFunction,
+                            "default": object.defaultReturnFunction
                         }).success(function (data) {
+                            connection.returnFunction = data.object.returnFunction
                         });
                     }, function () {
                         connection.returnFunction = oldValue;
@@ -936,7 +934,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         "sourceNode": params.sourceNode.id,
                         "sourcePort": params.sourcePort.id,
                         "destinationNode": params.targetNode.id,
-                        "destinationPort": params.targetPort ? params.targetPort.id : null
+                        "destinationPort": params.targetPort ? params.targetPort.id : null,
+                        "default": "1"
                     }).success(function (data) {
                         if (data.result === 0) {
                             scope.object.nodesConnections = data.collections.nodesConnections;
@@ -957,11 +956,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         "sourceNode": params.sourceNode.id,
                         "sourcePort": params.sourcePort.id,
                         "destinationNode": params.targetNode.id,
-                        "destinationPort": params.targetPort ? params.targetPort.id : null
+                        "destinationPort": params.targetPort ? params.targetPort.id : null,
+                        "default": "1"
                     }).success(function (data) {
                         if (data.result === 0) {
                             jspConnection.setParameter("concertoConnection", data.object);
-                            //scope.setUpConnection(jspConnection);
                         }
                     });
                 };
@@ -1015,7 +1014,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         create: function (component) {
                                             var overlayElem = $("<div>" +
                                                     "<div id='divConnectionControl" + params.concertoConnection.id + "'>" +
-                                                    "<i class='glyphInteractable glyphicon glyphicon-align-justify' " +
+                                                    "<i class='glyphInteractable glyphicon glyphicon-align-justify' ng-class='{\"return-function-default\": collectionService.getConnection(" + params.concertoConnection.id + ").defaultReturnFunction == \"1\"}' " +
                                                     "ng-click='editConnectionCode(collectionService.getConnection(" + params.concertoConnection.id + "))' " +
                                                     "uib-tooltip-html='collectionService.getConnection(" + params.concertoConnection.id + ").returnFunction' tooltip-append-to-body='true'></i></div>" +
                                                     "</div>");

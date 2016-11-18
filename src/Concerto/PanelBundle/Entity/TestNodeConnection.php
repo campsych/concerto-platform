@@ -43,6 +43,13 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="text")
      */
     private $returnFunction;
+    
+    /**
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $defaultReturnFunction;
 
     /**
      *
@@ -59,6 +66,7 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
         $this->automatic = false;
         $this->returnFunction = "";
+        $this->defaultValue = true;
     }
 
     public function getOwner() {
@@ -208,6 +216,24 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     public function setAutomatic($automatic) {
         $this->automatic = $automatic;
     }
+    
+    /**
+     * Returns true if connection has default return function.
+     * 
+     * @return boolean
+     */
+    public function hasDefaultReturnFunction() {
+        return $this->defaultReturnFunction;
+    }
+
+    /**
+     * Set whether connection has default return function.
+     * 
+     * @param boolean $defaultValue
+     */
+    public function setDefaultReturnFunction($default) {
+        $this->defaultReturnFunction = $default;
+    }
 
     public static function getArrayHash($arr) {
         unset($arr["id"]);
@@ -235,7 +261,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
             "destinationPort" => $this->destinationPort ? $this->destinationPort->getId() : null,
             "destinationPortObject" => $this->destinationPort ? $this->destinationPort->jsonSerialize($dependencies) : null,
             "returnFunction" => $this->returnFunction,
-            "automatic" => $this->automatic ? "1" : "0"
+            "automatic" => $this->automatic ? "1" : "0",
+            "defaultReturnFunction" => $this->defaultReturnFunction ? "1" : "0"
         );
     }
 

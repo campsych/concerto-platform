@@ -9,6 +9,7 @@ use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use Concerto\PanelBundle\Entity\TestNodePort;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table
@@ -84,6 +85,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
         parent::__construct();
 
         $this->description = "";
+        $this->ports = new ArrayCollection();
+        $this->params =  new ArrayCollection();
     }
 
     public function getOwner() {

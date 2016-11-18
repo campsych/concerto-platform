@@ -147,7 +147,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestVariable_metadata"]
   concerto_panel.TestVariable_service:
     class: Concerto\PanelBundle\Service\TestVariableService
-    arguments: ["@concerto_panel.TestVariable_repository","@validator", "@concerto_panel.TestNodePort_service", "@concerto_panel.Test_repository", "@security.authorization_checker"]
+    arguments: ["@concerto_panel.TestVariable_repository","@validator", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.Test_repository", "@security.authorization_checker"]
  
 #   Role
   concerto_panel.Role_metadata:

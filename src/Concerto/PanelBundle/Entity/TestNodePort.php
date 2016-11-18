@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Concerto\PanelBundle\Entity\TestNode;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table
@@ -61,6 +62,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
 
         $this->string = true;
         $this->defaultValue = true;
+        $this->sourceForConnections = new ArrayCollection();
+        $this->destinationForConnections = new ArrayCollection();
     }
 
     public function getOwner() {

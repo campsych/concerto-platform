@@ -8,6 +8,7 @@ use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Service\TestNodePortService;
+use Concerto\PanelBundle\Service\TestNodeConnectionService;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
@@ -16,13 +17,15 @@ class TestVariableService extends ASectionService {
 
     private $validator;
     private $testNodePortService;
+    private $testNodeConnectionService;
     private $testRepository;
 
-    public function __construct(TestVariableRepository $repository, RecursiveValidator $validator, TestNodePortService $portService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestVariableRepository $repository, RecursiveValidator $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker) {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
         $this->testNodePortService = $portService;
+        $this->testNodeConnectionService = $connectionService;
         $this->testRepository = $testRepository;
     }
 
@@ -157,6 +160,7 @@ class TestVariableService extends ASectionService {
     private function onObjectSaved(User $user, TestVariable $object, $is_new) {
         $this->updateChildVariables($user, $object);
         $this->testNodePortService->onTestVariableSaved($user, $object, $is_new);
+        $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new);
     }
 
     public function delete($object_ids, $secure = true) {

@@ -345,12 +345,12 @@ class TestService extends AExportableSectionService {
         }
     }
 
-    public function addFlowConnection(User $user, Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $return_collections = false) {
+    public function addFlowConnection(User $user, Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default, $return_collections = false) {
         $sourceNode = $this->testNodeService->get($sourceNode);
         $sourcePort = $this->testNodePortService->get($sourcePort);
         $destinationNode = $this->testNodeService->get($destinationNode);
         $destinationPort = $this->testNodePortService->get($destinationPort);
-        $result = $this->testNodeConnectionService->save($user, 0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic);
+        $result = $this->testNodeConnectionService->save($user, 0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default);
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
         }
