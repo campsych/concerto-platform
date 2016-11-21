@@ -45,7 +45,7 @@ class ContentExportCommand extends ContainerAwareCommand {
                     foreach ($dependencies["ids"] as $k => $v) {
                         $ids_service = $importService->serviceMap[$k];
                         foreach ($v as $id) {
-                            $ids_service->get($id)->jsonSerialize($dependencies);
+                            $ids_service->get($id, false, false)->jsonSerialize($dependencies);
                         }
                     }
                 }
@@ -55,7 +55,8 @@ class ContentExportCommand extends ContainerAwareCommand {
                     foreach ($dependencies["collection"] as $elem) {
                         $export_elem = $elem;
                         $elem_service = $importService->serviceMap[$elem["class_name"]];
-                        $export_elem["hash"] = $elem["class_name"]::getArrayHash($elem);
+                        $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
+                        $export_elem["hash"] = $elem_class::getArrayHash($elem);
                         $export_elem = $elem_service->convertToExportable($export_elem);
                         array_push($result, $export_elem);
                     }
