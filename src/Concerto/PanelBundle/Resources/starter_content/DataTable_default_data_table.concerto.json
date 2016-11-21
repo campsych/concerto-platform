@@ -34,13 +34,13 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-10-18 14:43:27",
+        "updatedOn": "2016-11-08 20:41:04",
         "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
         "rev": 3,
-        "data": [],
-        "hash": "a2193a4195a69e69a7d37e16eced3d944c89ff9a"
+        "hash": "a2193a4195a69e69a7d37e16eced3d944c89ff9a",
+        "data": []
     }
 ]

@@ -1,6 +1,231 @@
 [
     {
         "class_name": "Test",
+        "id": 12,
+        "name": "source_info",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "visibility": 2,
+        "type": 0,
+        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = \"\"\nif(button_exists == 1) {\n  buttons = concerto.template.join(templateId=\"buttons_single\",params=list(label=button_label))\n}\n\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
+        "resumable": "0",
+        "outdated": "0",
+        "description": "",
+        "variables": [
+            {
+                "class_name": "TestVariable",
+                "id": 122,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 123,
+                "name": "content",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 124,
+                "name": "button_label",
+                "type": 0,
+                "description": "<p>Label on continue button.<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": "continue",
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 125,
+                "name": "response",
+                "type": 1,
+                "description": "<p>Submitted user response<\/p>\n",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 126,
+                "name": "inserts",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 127,
+                "name": "button_exists",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "1",
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 128,
+                "name": "title",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 12,
+                "parentVariable": null
+            },
+            {
+                "class_name": "TestVariable",
+                "id": 129,
+                "name": "template_def",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 12,
+                "parentVariable": null
+            }
+        ],
+        "sourceWizard": null,
+        "sourceWizardName": null,
+        "sourceWizardTest": null,
+        "sourceWizardTestName": null,
+        "updatedOn": "2016-11-09 22:24:44",
+        "updatedByName": "admin",
+        "nodes": [],
+        "nodesConnections": [],
+        "tags": "",
+        "owner": 1,
+        "groups": "",
+        "starterContent": false,
+        "rev": 2,
+        "hash": "b9490fe94e89b4ffe0569e264443496d853ce44f"
+    },
+    {
+        "class_name": "TestWizard",
+        "id": 8,
+        "name": "info",
+        "description": "",
+        "accessibility": 2,
+        "protected": "1",
+        "archived": "0",
+        "steps": [
+            {
+                "class_name": "TestWizardStep",
+                "id": 58,
+                "title": "Presentation",
+                "description": "<p>Set info page presentation properties<\/p>\n",
+                "orderNum": 0,
+                "colsNum": 0,
+                "wizard": 8,
+                "params": [
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 179,
+                        "label": "Page content",
+                        "description": "<p>Info page content<\/p>\n",
+                        "hideCondition": "",
+                        "type": 2,
+                        "passableThroughUrl": "0",
+                        "value": "<p>Page content goes here. For example: Information about your study.<\/p>\n",
+                        "testVariable": 123,
+                        "name": "content",
+                        "wizardStep": 58,
+                        "stepTitle": "Presentation",
+                        "order": 2,
+                        "wizard": 8,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 180,
+                        "label": "Button label",
+                        "description": "<p>Continue button label text<\/p>\n",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "continue",
+                        "testVariable": 124,
+                        "name": "button_label",
+                        "wizardStep": 58,
+                        "stepTitle": "Presentation",
+                        "order": 4,
+                        "wizard": 8,
+                        "definition": {
+                            "placeholder": "0"
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 181,
+                        "label": "Button exists?",
+                        "description": "<p>Check if there should be continue button on the page<\/p>\n",
+                        "hideCondition": "",
+                        "type": 4,
+                        "passableThroughUrl": "0",
+                        "value": "1",
+                        "testVariable": 127,
+                        "name": "button_exists",
+                        "wizardStep": 58,
+                        "stepTitle": "Presentation",
+                        "order": 3,
+                        "wizard": 8,
+                        "definition": {
+                            "placeholder": 0
+                        }
+                    },
+                    {
+                        "class_name": "TestWizardParam",
+                        "id": 182,
+                        "label": "Page Title",
+                        "description": "",
+                        "hideCondition": "",
+                        "type": 0,
+                        "passableThroughUrl": "0",
+                        "value": "DEMO TEST",
+                        "testVariable": 128,
+                        "name": "title",
+                        "wizardStep": 58,
+                        "stepTitle": "Presentation",
+                        "order": 1,
+                        "wizard": 8,
+                        "definition": {
+                            "placeholder": 0
+                        }
+                    }
+                ]
+            }
+        ],
+        "test": 12,
+        "testName": "source_info",
+        "updatedOn": "2016-11-08 20:40:45",
+        "updatedByName": "",
+        "owner": 1,
+        "groups": "",
+        "starterContent": true,
+        "rev": 2,
+        "hash": "61b77be0fe5231ee0185e55d0cfcd7a1be5cb7e6"
+    },
+    {
+        "class_name": "Test",
         "id": 31,
         "name": "info",
         "accessibility": 2,
@@ -103,229 +328,9 @@
             }
         ],
         "sourceWizard": 8,
-        "sourceWizardObject": {
-            "class_name": "TestWizard",
-            "id": 8,
-            "name": "info",
-            "description": "",
-            "accessibility": 2,
-            "protected": "1",
-            "archived": "0",
-            "steps": [
-                {
-                    "class_name": "TestWizardStep",
-                    "id": 58,
-                    "title": "Presentation",
-                    "description": "<p>Set info page presentation properties<\/p>\n",
-                    "orderNum": 0,
-                    "colsNum": 0,
-                    "wizard": 8,
-                    "params": [
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 179,
-                            "label": "Page content",
-                            "description": "<p>Info page content<\/p>\n",
-                            "hideCondition": "",
-                            "type": 2,
-                            "passableThroughUrl": "0",
-                            "value": "<p>Page content goes here. For example: Information about your study.<\/p>\n",
-                            "testVariable": 123,
-                            "name": "content",
-                            "wizardStep": 58,
-                            "stepTitle": "Presentation",
-                            "order": 2,
-                            "wizard": 8,
-                            "definition": {
-                                "placeholder": "0"
-                            }
-                        },
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 180,
-                            "label": "Button label",
-                            "description": "<p>Continue button label text<\/p>\n",
-                            "hideCondition": "",
-                            "type": 0,
-                            "passableThroughUrl": "0",
-                            "value": "continue",
-                            "testVariable": 124,
-                            "name": "button_label",
-                            "wizardStep": 58,
-                            "stepTitle": "Presentation",
-                            "order": 4,
-                            "wizard": 8,
-                            "definition": {
-                                "placeholder": "0"
-                            }
-                        },
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 181,
-                            "label": "Button exists?",
-                            "description": "<p>Check if there should be continue button on the page<\/p>\n",
-                            "hideCondition": "",
-                            "type": 4,
-                            "passableThroughUrl": "0",
-                            "value": "1",
-                            "testVariable": 127,
-                            "name": "button_exists",
-                            "wizardStep": 58,
-                            "stepTitle": "Presentation",
-                            "order": 3,
-                            "wizard": 8,
-                            "definition": {
-                                "placeholder": 0
-                            }
-                        },
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 182,
-                            "label": "Page Title",
-                            "description": "",
-                            "hideCondition": "",
-                            "type": 0,
-                            "passableThroughUrl": "0",
-                            "value": "DEMO TEST",
-                            "testVariable": 128,
-                            "name": "title",
-                            "wizardStep": 58,
-                            "stepTitle": "Presentation",
-                            "order": 1,
-                            "wizard": 8,
-                            "definition": {
-                                "placeholder": 0
-                            }
-                        }
-                    ]
-                }
-            ],
-            "test": 12,
-            "testObject": {
-                "class_name": "Test",
-                "id": 12,
-                "name": "source_info",
-                "accessibility": 2,
-                "protected": "1",
-                "archived": "0",
-                "visibility": 2,
-                "type": 0,
-                "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = \"\"\nif(button_exists == 1) {\n  buttons = concerto.template.join(templateId=\"buttons_single\",params=list(label=button_label))\n}\n\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
-                "slug": "ff9e3981011560f692dd36a84224e684",
-                "resumable": "0",
-                "outdated": "0",
-                "description": "",
-                "variables": [
-                    {
-                        "class_name": "TestVariable",
-                        "id": 122,
-                        "name": "out",
-                        "type": 2,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": "0",
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 123,
-                        "name": "content",
-                        "type": 0,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": null,
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 124,
-                        "name": "button_label",
-                        "type": 0,
-                        "description": "<p>Label on continue button.<\/p>\n",
-                        "passableThroughUrl": "0",
-                        "value": "continue",
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 125,
-                        "name": "response",
-                        "type": 1,
-                        "description": "<p>Submitted user response<\/p>\n",
-                        "passableThroughUrl": "0",
-                        "value": null,
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 126,
-                        "name": "inserts",
-                        "type": 0,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": null,
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 127,
-                        "name": "button_exists",
-                        "type": 0,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": "1",
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 128,
-                        "name": "title",
-                        "type": 0,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": null,
-                        "test": 12,
-                        "parentVariable": null
-                    },
-                    {
-                        "class_name": "TestVariable",
-                        "id": 129,
-                        "name": "template_def",
-                        "type": 0,
-                        "description": "",
-                        "passableThroughUrl": "0",
-                        "value": null,
-                        "test": 12,
-                        "parentVariable": null
-                    }
-                ],
-                "logs": [],
-                "sourceWizard": null,
-                "sourceWizardObject": null,
-                "updatedOn": "2016-11-09 22:24:44",
-                "updatedByName": "admin",
-                "nodes": [],
-                "nodesConnections": [],
-                "tags": "",
-                "owner": 1,
-                "groups": "",
-                "starterContent": false,
-                "rev": 2
-            },
-            "testName": "source_info",
-            "updatedOn": "2016-11-08 20:40:45",
-            "updatedByName": "",
-            "owner": 1,
-            "groups": "",
-            "starterContent": true,
-            "rev": 2
-        },
+        "sourceWizardName": "info",
+        "sourceWizardTest": 12,
+        "sourceWizardTestName": "source_info",
         "updatedOn": "2016-11-09 22:24:44",
         "updatedByName": "admin",
         "nodes": [],
@@ -335,6 +340,6 @@
         "groups": "",
         "starterContent": true,
         "rev": 2,
-        "hash": "ceb878beaf0793b39e2cfd0a5e0ce508f5c34d73"
+        "hash": "983f054e7c6764a532fc1619dc060ca9a71dcd8a"
     }
 ]

@@ -1,7 +1,7 @@
 [
     {
         "class_name": "Test",
-        "id": 30,
+        "id": 32,
         "name": "get_promoted_var",
         "accessibility": 2,
         "protected": "1",
@@ -15,30 +15,32 @@
         "variables": [
             {
                 "class_name": "TestVariable",
-                "id": 365,
+                "id": 383,
                 "name": "name",
                 "type": 0,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 30,
+                "test": 32,
                 "parentVariable": null
             },
             {
                 "class_name": "TestVariable",
-                "id": 366,
+                "id": 384,
                 "name": "value",
                 "type": 1,
                 "description": "",
                 "passableThroughUrl": "0",
                 "value": null,
-                "test": 30,
+                "test": 32,
                 "parentVariable": null
             }
         ],
         "sourceWizard": null,
-        "sourceWizardObject": null,
-        "updatedOn": "2016-08-13 18:06:51",
+        "sourceWizardName": null,
+        "sourceWizardTest": null,
+        "sourceWizardTestName": null,
+        "updatedOn": "2016-11-08 20:41:11",
         "updatedByName": "",
         "nodes": [],
         "nodesConnections": [],
@@ -46,6 +48,7 @@
         "owner": 1,
         "groups": "",
         "starterContent": true,
-        "rev": 1
+        "rev": 1,
+        "hash": "308870928cfb511f304d721dd8c9bb63ea5f0a93"
     }
 ]

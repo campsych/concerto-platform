@@ -44,13 +44,13 @@
                 "nullable": false
             }
         ],
-        "updatedOn": "2016-10-18 14:43:04",
+        "updatedOn": "2016-11-08 20:40:41",
         "updatedByName": "",
         "owner": 1,
         "groups": "",
         "starterContent": true,
         "rev": 2,
-        "data": [],
-        "hash": "f931a6ba6ecdc9781e440cd6a8d74794f52600fd"
+        "hash": "f931a6ba6ecdc9781e440cd6a8d74794f52600fd",
+        "data": []
     }
 ]
