@@ -1,41 +1,44 @@
-[
-    {
-        "class_name": "DataTable",
-        "id": 2,
-        "name": "default_session_table",
-        "description": "",
-        "accessibility": 2,
-        "protected": "0",
-        "archived": "0",
-        "columns": [
-            {
-                "name": "id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "internal_id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "user_id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "test_id",
-                "type": "bigint",
-                "nullable": false
-            }
-        ],
-        "updatedOn": "2016-11-08 20:41:01",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "14f19acf4e200f2c6ca8bbba9542857b8a6ebb6f",
-        "data": []
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 3,
+            "name": "default_session_table",
+            "description": "",
+            "accessibility": 2,
+            "protected": "0",
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "internal_id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "test_id",
+                    "type": "bigint",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2016-11-21 19:41:07",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "0d1d95396f20dd50395a6b299d1f036f392ce647",
+            "data": []
+        }
+    ]
+}

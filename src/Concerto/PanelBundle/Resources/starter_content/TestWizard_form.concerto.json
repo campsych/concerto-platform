@@ -1,458 +1,461 @@
-[
-    {
-        "class_name": "Test",
-        "id": 1,
-        "name": "source_form",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "visibility": 2,
-        "type": 0,
-        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      if(is.null(value)) {\n        value = \"\"\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      id = paste0(\"form\",i)\n      name = form[[i]]$name\n      label = form[[i]]$label\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = concerto.template.join(templateId=\"form_field_input\",params=list(id=id,name=name,type=\"text\",value=value))\n      } else if(type == \"password\") {\n        control = concerto.template.join(templateId=\"form_field_input\",params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"multiline\") {\n        control = concerto.template.join(templateId=\"form_field_multiline\",params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"select\") {\n        control = concerto.template.join(templateId=\"form_field_select\",params=list(id=id,name=name,options=toJSON(form[[i]]$definition$select_options)))\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\") {\n          checked = \"checked\"\n        }\n        control = concerto.template.join(templateId=\"form_field_checkbox\",params=list(id=id,name=name,attrs=checked))\n      } else if(type == \"slider\") {\n        if(value == \"\") {\n          value = \"null\";\n        }\n        control = concerto.template.join(templateId=\"form_field_slider\",params=list(id=id,name=name,value=value,definition=toJSON(form[[i]]$definition)))\n      }\n        classes = \"\"\n        if(!is.null(response) && !valid) {\n          classes = \"validationHighlight\"\n        }\n        field = concerto.template.join(templateId=\"form_field\",params=list(id=id,label=label,classes=classes,control=control))\n        content = paste0(content, field)\n        }\n        }\n        return(content)\n        }\n\n        getAlert = function(form, response) {\n          alert = NULL\n\n          if(length(form) > 0) {\n            for(i in 1:length(form)) {\n              type = form[[i]]$definition$type\n              value = response[[form[[i]]$name]]\n              condition = form[[i]]$validation\n              valid = isValid(type, value, condition, form, response)\n\n              validationHighlight = \"\"\n              if(!is.null(response) && !valid) {\n                alert = concerto.template.join(templateId=\"form_alert\",params=list(alert=form[[i]]$alert))\n              }\n            }\n          }\n          return(alert)\n        }\n\n        getTemplateParams = function(template_params){\n          params = list()\n          if(!is.null(inserts) && is.list(inserts)) {\n            params = inserts\n          }\n          for(key in ls(template_params)) {\n            params[[key]] = template_params[[key]]\n          }\n          return(params)\n        }\n\n        buttons = concerto.template.join(templateId=\"buttons_single\",params=list(label=button_label))\n\n        content = paragraph\n        form = fromJSON(form)\n\n        if(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n          warning_msg = \"\"\n        }\n\n        response = NULL\n        while(T) {\n          content = getContent(paragraph, form, response)\n          response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n            header=decoded_template_def$header, \n            title=title,\n            content=content, \n            warning_msg=warning_msg, \n            buttons=buttons,\n            footer=decoded_template_def$footer\n          )))\n          warning_msg = getAlert(form, response)\n          if(is.null(warning_msg) || warning_msg == \"\") { break }\n        }\n\n        response$isTimeout <- NULL\n        response$buttonPressed <- NULL\n        response$timeTaken <- NULL",
-        "resumable": "0",
-        "outdated": "0",
-        "description": "",
-        "variables": [
-            {
-                "class_name": "TestVariable",
-                "id": 1,
-                "name": "out",
-                "type": 2,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "0",
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 2,
-                "name": "form",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 3,
-                "name": "button_label",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 4,
-                "name": "paragraph",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 5,
-                "name": "response",
-                "type": 1,
-                "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 6,
-                "name": "inserts",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 7,
-                "name": "warning_msg",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 8,
-                "name": "title",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 9,
-                "name": "template_def",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 1,
-                "parentVariable": null
-            }
-        ],
-        "sourceWizard": null,
-        "sourceWizardName": null,
-        "sourceWizardTest": null,
-        "sourceWizardTestName": null,
-        "updatedOn": "2016-11-09 21:58:07",
-        "updatedByName": "admin",
-        "nodes": [],
-        "nodesConnections": [],
-        "tags": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": false,
-        "rev": 2,
-        "hash": "50d031cc5a307c97ccd7f2d2c4f64dec7d5a8565"
-    },
-    {
-        "class_name": "TestWizard",
-        "id": 1,
-        "name": "form",
-        "description": "",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "steps": [
-            {
-                "class_name": "TestWizardStep",
-                "id": 33,
-                "title": "Presentation",
-                "description": "<p>Visual presentation of form page<\/p>\n",
-                "orderNum": 0,
-                "colsNum": 0,
-                "wizard": 1,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 93,
-                        "label": "Button label",
-                        "description": "<p>Continue button label<\/p>\n",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "continue",
-                        "testVariable": 3,
-                        "name": "button_label",
-                        "wizardStep": 33,
-                        "stepTitle": "Presentation",
-                        "order": 3,
-                        "wizard": 1,
-                        "definition": {
-                            "placeholder": "0"
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 1,
+            "name": "source_form",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      if(is.null(value)) {\n        value = \"\"\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      id = paste0(\"form\",i)\n      name = form[[i]]$name\n      label = form[[i]]$label\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = concerto.template.join(templateId=\"form_field_input\",params=list(id=id,name=name,type=\"text\",value=value))\n      } else if(type == \"password\") {\n        control = concerto.template.join(templateId=\"form_field_input\",params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"multiline\") {\n        control = concerto.template.join(templateId=\"form_field_multiline\",params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"select\") {\n        control = concerto.template.join(templateId=\"form_field_select\",params=list(id=id,name=name,options=toJSON(form[[i]]$definition$select_options)))\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\") {\n          checked = \"checked\"\n        }\n        control = concerto.template.join(templateId=\"form_field_checkbox\",params=list(id=id,name=name,attrs=checked))\n      } else if(type == \"slider\") {\n        if(value == \"\") {\n          value = \"null\";\n        }\n        control = concerto.template.join(templateId=\"form_field_slider\",params=list(id=id,name=name,value=value,definition=toJSON(form[[i]]$definition)))\n      }\n        classes = \"\"\n        if(!is.null(response) && !valid) {\n          classes = \"validationHighlight\"\n        }\n        field = concerto.template.join(templateId=\"form_field\",params=list(id=id,label=label,classes=classes,control=control))\n        content = paste0(content, field)\n        }\n        }\n        return(content)\n        }\n\n        getAlert = function(form, response) {\n          alert = NULL\n\n          if(length(form) > 0) {\n            for(i in 1:length(form)) {\n              type = form[[i]]$definition$type\n              value = response[[form[[i]]$name]]\n              condition = form[[i]]$validation\n              valid = isValid(type, value, condition, form, response)\n\n              validationHighlight = \"\"\n              if(!is.null(response) && !valid) {\n                alert = concerto.template.join(templateId=\"form_alert\",params=list(alert=form[[i]]$alert))\n              }\n            }\n          }\n          return(alert)\n        }\n\n        getTemplateParams = function(template_params){\n          params = list()\n          if(!is.null(inserts) && is.list(inserts)) {\n            params = inserts\n          }\n          for(key in ls(template_params)) {\n            params[[key]] = template_params[[key]]\n          }\n          return(params)\n        }\n\n        buttons = concerto.template.join(templateId=\"buttons_single\",params=list(label=button_label))\n\n        content = paragraph\n        form = fromJSON(form)\n\n        if(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n          warning_msg = \"\"\n        }\n\n        response = NULL\n        while(T) {\n          content = getContent(paragraph, form, response)\n          response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n            header=decoded_template_def$header, \n            title=title,\n            content=content, \n            warning_msg=warning_msg, \n            buttons=buttons,\n            footer=decoded_template_def$footer\n          )))\n          warning_msg = getAlert(form, response)\n          if(is.null(warning_msg) || warning_msg == \"\") { break }\n        }\n\n        response$isTimeout <- NULL\n        response$buttonPressed <- NULL\n        response$timeTaken <- NULL",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 1,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 2,
+                    "name": "form",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 3,
+                    "name": "button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 4,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 5,
+                    "name": "response",
+                    "type": 1,
+                    "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 6,
+                    "name": "inserts",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 7,
+                    "name": "warning_msg",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 8,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 9,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2016-11-21 19:40:42",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "rev": 3,
+            "hash": "9588fe44369ef97c9ae55e945c50929a2d3afb49"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 1,
+            "name": "form",
+            "description": "",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 65,
+                    "title": "Presentation",
+                    "description": "<p>Visual presentation of form page<\/p>\n",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 1,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 203,
+                            "label": "Button label",
+                            "description": "<p>Continue button label<\/p>\n",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "continue",
+                            "testVariable": 3,
+                            "name": "button_label",
+                            "wizardStep": 65,
+                            "stepTitle": "Presentation",
+                            "order": 3,
+                            "wizard": 1,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 204,
+                            "label": "Paragraph",
+                            "description": "<p>Form page paragraph<\/p>\n",
+                            "hideCondition": "",
+                            "type": 2,
+                            "passableThroughUrl": "0",
+                            "value": "<p>Please answer the questions below:<\/p>\n",
+                            "testVariable": 4,
+                            "name": "paragraph",
+                            "wizardStep": 65,
+                            "stepTitle": "Presentation",
+                            "order": 2,
+                            "wizard": 1,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 205,
+                            "label": "Title",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "Page Title e.g. Demographics",
+                            "testVariable": 8,
+                            "name": "title",
+                            "wizardStep": 65,
+                            "stepTitle": "Presentation",
+                            "order": 1,
+                            "wizard": 1,
+                            "definition": {
+                                "placeholder": 0
+                            }
                         }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 94,
-                        "label": "Paragraph",
-                        "description": "<p>Form page paragraph<\/p>\n",
-                        "hideCondition": "",
-                        "type": 2,
-                        "passableThroughUrl": "0",
-                        "value": "<p>Please answer the questions below:<\/p>\n",
-                        "testVariable": 4,
-                        "name": "paragraph",
-                        "wizardStep": 33,
-                        "stepTitle": "Presentation",
-                        "order": 2,
-                        "wizard": 1,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 95,
-                        "label": "Title",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "Page Title e.g. Demographics",
-                        "testVariable": 8,
-                        "name": "title",
-                        "wizardStep": 33,
-                        "stepTitle": "Presentation",
-                        "order": 1,
-                        "wizard": 1,
-                        "definition": {
-                            "placeholder": 0
-                        }
-                    }
-                ]
-            },
-            {
-                "class_name": "TestWizardStep",
-                "id": 34,
-                "title": "Forms",
-                "description": "<p>Forms declaration<\/p>\n",
-                "orderNum": 1,
-                "colsNum": 0,
-                "wizard": 1,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 96,
-                        "label": "Form fields",
-                        "description": "<p>Form fields list<\/p>\n",
-                        "hideCondition": "",
-                        "type": 10,
-                        "passableThroughUrl": "0",
-                        "value": "[{\"name\":\"age\",\"label\":\"How old are you?\",\"validation\":\"age != \\\"\\\"\",\"alert\":\"Please enter your age\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"gender\",\"label\":\"What is your gender?\",\"validation\":\"gender != \\\"none\\\"\",\"alert\":\"Please select your gender\",\"default\":\"\",\"definition\":{\"type\":\"select\",\"select_options\":[{\"value\":\"none\",\"label\":\"\"},{\"value\":\"male\",\"label\":\"Male\"},{\"value\":\"female\",\"label\":\"Female\"}],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"email_address\",\"label\":\"What is your email address?\",\"validation\":\"grepl(\\\"\\\\\\\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\\\\\.[A-Z]{2,}\\\\\\\\>\\\", as.character(email_address), ignore.case=TRUE)\",\"alert\":\"Please enter a valid email address\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}}]",
-                        "testVariable": 2,
-                        "name": "form",
-                        "wizardStep": 34,
-                        "stepTitle": "Forms",
-                        "order": 0,
-                        "wizard": 1,
-                        "definition": {
-                            "placeholder": "0",
-                            "element": {
-                                "type": 9,
-                                "definition": {
-                                    "placeholder": "0",
-                                    "fields": [
-                                        {
-                                            "type": "0",
-                                            "name": "name",
-                                            "label": "Name",
-                                            "definition": {
-                                                "placeholder": "0"
-                                            }
-                                        },
-                                        {
-                                            "type": "0",
-                                            "name": "label",
-                                            "label": "Label",
-                                            "definition": {
-                                                "placeholder": "0"
-                                            }
-                                        },
-                                        {
-                                            "type": 0,
-                                            "name": "validation",
-                                            "label": "Validation",
-                                            "definition": {
-                                                "placeholder": "0"
-                                            }
-                                        },
-                                        {
-                                            "type": "0",
-                                            "name": "alert",
-                                            "label": "Validation alert",
-                                            "hideCondition": "parent.validation == \"\"",
-                                            "definition": {
-                                                "placeholder": "0"
-                                            }
-                                        },
-                                        {
-                                            "type": 0,
-                                            "name": "default",
-                                            "label": "Default value",
-                                            "definition": {
-                                                "placeholder": 0
-                                            }
-                                        },
-                                        {
-                                            "type": 9,
-                                            "name": "definition",
-                                            "label": "Definition",
-                                            "definition": {
-                                                "placeholder": 0,
-                                                "fields": [
-                                                    {
-                                                        "type": 10,
-                                                        "name": "select_options",
-                                                        "label": "Options",
-                                                        "definition": {
-                                                            "placeholder": 0,
-                                                            "element": {
-                                                                "type": 9,
-                                                                "definition": {
-                                                                    "placeholder": 0,
-                                                                    "fields": [
-                                                                        {
-                                                                            "type": 0,
-                                                                            "name": "value",
-                                                                            "label": "Value",
-                                                                            "definition": {
-                                                                                "placeholder": 0
-                                                                            }
-                                                                        },
-                                                                        {
-                                                                            "type": 0,
-                                                                            "name": "label",
-                                                                            "label": "Label",
-                                                                            "definition": {
-                                                                                "placeholder": 0
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            }
-                                                        },
-                                                        "hideCondition": "parent.type != \"select\"",
-                                                        "order": 1
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "min",
-                                                        "label": "Min value",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\"",
-                                                        "order": 2
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "max",
-                                                        "label": "Max value",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\"",
-                                                        "order": 3
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "step",
-                                                        "label": "Step",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\"",
-                                                        "order": 4
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "label_extreme_left",
-                                                        "label": "Left extreme label",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\"",
-                                                        "order": 5
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "label_extreme_right",
-                                                        "label": "Right extreme label",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\"",
-                                                        "order": 6
-                                                    },
-                                                    {
-                                                        "type": 3,
-                                                        "name": "type",
-                                                        "label": "Type",
-                                                        "definition": {
-                                                            "placeholder": 0,
-                                                            "options": [
-                                                                {
-                                                                    "value": "singleline",
-                                                                    "label": "Single line"
-                                                                },
-                                                                {
-                                                                    "value": "multiline",
-                                                                    "label": "Multi line"
-                                                                },
-                                                                {
-                                                                    "value": "select",
-                                                                    "label": "Drop-down list"
-                                                                },
-                                                                {
-                                                                    "value": "checkbox",
-                                                                    "label": "Checkbox"
-                                                                },
-                                                                {
-                                                                    "value": "password",
-                                                                    "label": "Password"
-                                                                },
-                                                                {
-                                                                    "value": "slider",
-                                                                    "label": "Slider"
-                                                                }
-                                                            ]
-                                                        },
-                                                        "order": 0
-                                                    },
-                                                    {
-                                                        "type": 4,
-                                                        "name": "hide_number",
-                                                        "label": "Hide Slider Number?",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "order": 7,
-                                                        "hideCondition": "parent.type != \"slider\""
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "prefix_text",
-                                                        "label": "Prefix text for number, e.g. \"$\" (optional)",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\" || parent.hide_number == \"1\"",
-                                                        "order": 8
-                                                    },
-                                                    {
-                                                        "type": 0,
-                                                        "name": "suffix_text",
-                                                        "label": "Suffix text for number, e.g. \" USD\" - note the extra space (optional)",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        },
-                                                        "hideCondition": "parent.type != \"slider\" || parent.hide_number == \"1\"",
-                                                        "order": 9
-                                                    }
-                                                ]
+                    ]
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 66,
+                    "title": "Forms",
+                    "description": "<p>Forms declaration<\/p>\n",
+                    "orderNum": 1,
+                    "colsNum": 0,
+                    "wizard": 1,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 206,
+                            "label": "Form fields",
+                            "description": "<p>Form fields list<\/p>\n",
+                            "hideCondition": "",
+                            "type": 10,
+                            "passableThroughUrl": "0",
+                            "value": "[{\"name\":\"age\",\"label\":\"How old are you?\",\"validation\":\"age != \\\"\\\"\",\"alert\":\"Please enter your age\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"gender\",\"label\":\"What is your gender?\",\"validation\":\"gender != \\\"none\\\"\",\"alert\":\"Please select your gender\",\"default\":\"\",\"definition\":{\"type\":\"select\",\"select_options\":[{\"value\":\"none\",\"label\":\"\"},{\"value\":\"male\",\"label\":\"Male\"},{\"value\":\"female\",\"label\":\"Female\"}],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}},{\"name\":\"email_address\",\"label\":\"What is your email address?\",\"validation\":\"grepl(\\\"\\\\\\\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\\\\\.[A-Z]{2,}\\\\\\\\>\\\", as.character(email_address), ignore.case=TRUE)\",\"alert\":\"Please enter a valid email address\",\"default\":\"\",\"definition\":{\"type\":\"singleline\",\"select_options\":[],\"min\":\"\",\"max\":\"\",\"step\":\"\",\"label_extreme_left\":\"\",\"label_extreme_right\":\"\",\"hide_number\":\"0\",\"prefix_text\":\"\",\"suffix_text\":\"\"}}]",
+                            "testVariable": 2,
+                            "name": "form",
+                            "wizardStep": 66,
+                            "stepTitle": "Forms",
+                            "order": 0,
+                            "wizard": 1,
+                            "definition": {
+                                "placeholder": "0",
+                                "element": {
+                                    "type": 9,
+                                    "definition": {
+                                        "placeholder": "0",
+                                        "fields": [
+                                            {
+                                                "type": "0",
+                                                "name": "name",
+                                                "label": "Name",
+                                                "definition": {
+                                                    "placeholder": "0"
+                                                }
                                             },
-                                            "hideCondition": ""
-                                        }
-                                    ]
+                                            {
+                                                "type": "0",
+                                                "name": "label",
+                                                "label": "Label",
+                                                "definition": {
+                                                    "placeholder": "0"
+                                                }
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "validation",
+                                                "label": "Validation",
+                                                "definition": {
+                                                    "placeholder": "0"
+                                                }
+                                            },
+                                            {
+                                                "type": "0",
+                                                "name": "alert",
+                                                "label": "Validation alert",
+                                                "hideCondition": "parent.validation == \"\"",
+                                                "definition": {
+                                                    "placeholder": "0"
+                                                }
+                                            },
+                                            {
+                                                "type": 0,
+                                                "name": "default",
+                                                "label": "Default value",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            },
+                                            {
+                                                "type": 9,
+                                                "name": "definition",
+                                                "label": "Definition",
+                                                "definition": {
+                                                    "placeholder": 0,
+                                                    "fields": [
+                                                        {
+                                                            "type": 10,
+                                                            "name": "select_options",
+                                                            "label": "Options",
+                                                            "definition": {
+                                                                "placeholder": 0,
+                                                                "element": {
+                                                                    "type": 9,
+                                                                    "definition": {
+                                                                        "placeholder": 0,
+                                                                        "fields": [
+                                                                            {
+                                                                                "type": 0,
+                                                                                "name": "value",
+                                                                                "label": "Value",
+                                                                                "definition": {
+                                                                                    "placeholder": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": 0,
+                                                                                "name": "label",
+                                                                                "label": "Label",
+                                                                                "definition": {
+                                                                                    "placeholder": 0
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            },
+                                                            "hideCondition": "parent.type != \"select\"",
+                                                            "order": 1
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "min",
+                                                            "label": "Min value",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\"",
+                                                            "order": 2
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "max",
+                                                            "label": "Max value",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\"",
+                                                            "order": 3
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "step",
+                                                            "label": "Step",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\"",
+                                                            "order": 4
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "label_extreme_left",
+                                                            "label": "Left extreme label",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\"",
+                                                            "order": 5
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "label_extreme_right",
+                                                            "label": "Right extreme label",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\"",
+                                                            "order": 6
+                                                        },
+                                                        {
+                                                            "type": 3,
+                                                            "name": "type",
+                                                            "label": "Type",
+                                                            "definition": {
+                                                                "placeholder": 0,
+                                                                "options": [
+                                                                    {
+                                                                        "value": "singleline",
+                                                                        "label": "Single line"
+                                                                    },
+                                                                    {
+                                                                        "value": "multiline",
+                                                                        "label": "Multi line"
+                                                                    },
+                                                                    {
+                                                                        "value": "select",
+                                                                        "label": "Drop-down list"
+                                                                    },
+                                                                    {
+                                                                        "value": "checkbox",
+                                                                        "label": "Checkbox"
+                                                                    },
+                                                                    {
+                                                                        "value": "password",
+                                                                        "label": "Password"
+                                                                    },
+                                                                    {
+                                                                        "value": "slider",
+                                                                        "label": "Slider"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "order": 0
+                                                        },
+                                                        {
+                                                            "type": 4,
+                                                            "name": "hide_number",
+                                                            "label": "Hide Slider Number?",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "order": 7,
+                                                            "hideCondition": "parent.type != \"slider\""
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "prefix_text",
+                                                            "label": "Prefix text for number, e.g. \"$\" (optional)",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\" || parent.hide_number == \"1\"",
+                                                            "order": 8
+                                                        },
+                                                        {
+                                                            "type": 0,
+                                                            "name": "suffix_text",
+                                                            "label": "Suffix text for number, e.g. \" USD\" - note the extra space (optional)",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            },
+                                                            "hideCondition": "parent.type != \"slider\" || parent.hide_number == \"1\"",
+                                                            "order": 9
+                                                        }
+                                                    ]
+                                                },
+                                                "hideCondition": ""
+                                            }
+                                        ]
+                                    }
                                 }
                             }
                         }
-                    }
-                ]
-            }
-        ],
-        "test": 1,
-        "testName": "source_form",
-        "updatedOn": "2016-11-08 20:40:41",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 2,
-        "hash": "2c4453c4229b518da3f345ff58131edc13aa8fdd"
-    }
-]
+                    ]
+                }
+            ],
+            "test": 1,
+            "testName": "source_form",
+            "updatedOn": "2016-11-21 19:40:42",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 3,
+            "hash": "a5198c44a4ba29e72304f66032fa8544a0c4e390"
+        }
+    ]
+}

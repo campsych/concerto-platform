@@ -1,56 +1,59 @@
-[
-    {
-        "class_name": "DataTable",
-        "id": 1,
-        "name": "default_user_table",
-        "description": "",
-        "accessibility": 2,
-        "protected": "0",
-        "archived": "0",
-        "columns": [
-            {
-                "name": "id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "login",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "password",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "encryption",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "data_set_id",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "email",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "enabled",
-                "type": "boolean",
-                "nullable": false
-            }
-        ],
-        "updatedOn": "2016-11-08 20:40:41",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 2,
-        "hash": "f931a6ba6ecdc9781e440cd6a8d74794f52600fd",
-        "data": []
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 1,
+            "name": "default_user_table",
+            "description": "",
+            "accessibility": 2,
+            "protected": "0",
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "login",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "password",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "encryption",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "data_set_id",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "email",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "enabled",
+                    "type": "boolean",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2016-11-21 19:40:42",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 3,
+            "hash": "9ce70661aeb64561ccc78fda34c79c26065a11de",
+            "data": []
+        }
+    ]
+}

@@ -1,54 +1,57 @@
-[
-    {
-        "class_name": "Test",
-        "id": 32,
-        "name": "get_promoted_var",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "visibility": 2,
-        "type": 0,
-        "code": "concerto.var.get(name)",
-        "resumable": "0",
-        "outdated": "0",
-        "description": "",
-        "variables": [
-            {
-                "class_name": "TestVariable",
-                "id": 383,
-                "name": "name",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 32,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 384,
-                "name": "value",
-                "type": 1,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 32,
-                "parentVariable": null
-            }
-        ],
-        "sourceWizard": null,
-        "sourceWizardName": null,
-        "sourceWizardTest": null,
-        "sourceWizardTestName": null,
-        "updatedOn": "2016-11-08 20:41:11",
-        "updatedByName": "",
-        "nodes": [],
-        "nodesConnections": [],
-        "tags": "_concerto_core",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "308870928cfb511f304d721dd8c9bb63ea5f0a93"
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 32,
+            "name": "get_promoted_var",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "concerto.var.get(name)",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 383,
+                    "name": "name",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 32,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 384,
+                    "name": "value",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 32,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2016-11-21 19:41:21",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "_concerto_core",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "7f35ec0b88b6e0db7b56de7099d9375d56322dda"
+        }
+    ]
+}

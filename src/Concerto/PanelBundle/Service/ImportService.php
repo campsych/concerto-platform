@@ -6,6 +6,8 @@ use Concerto\PanelBundle\Entity\User;
 
 class ImportService {
 
+    const MIN_EXPORT_VERSION = "5.0.beta.2.167";
+
     private $dataTableService;
     private $testService;
     private $testNodeService;
@@ -18,9 +20,10 @@ class ImportService {
     private $viewTemplateService;
     private $queue;
     private $map;
+    private $version;
     public $serviceMap;
 
-    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService) {
+    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version) {
         $this->dataTableService = $dataTableService;
         $this->testService = $testService;
         $this->testNodeService = $testNodeService;
@@ -31,6 +34,7 @@ class ImportService {
         $this->testWizardStepService = $testWizardStepService;
         $this->testWizardParamService = $testWizardParamService;
         $this->viewTemplateService = $viewTemplateService;
+        $this->version = $version;
 
         $this->map = array();
         $this->queue = array();
@@ -50,6 +54,34 @@ class ImportService {
 
     public static function is_array_assoc($arr) {
         return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
+    public function isVersionValid($export_version) {
+        $eve = explode(".", $export_version);
+        $mve = explode(".", self::MIN_EXPORT_VERSION);
+
+        for ($i = 0; $i < 2; $i++) {
+            $ei = $eve[$i];
+            $mi = $mve[$i];
+            if ($ei > $mi)
+                return true;
+            if ($ei < $mi)
+                return false;
+        }
+        if (count($ei) < count($mi))
+            return true;
+        if (count($ei) > count($mi))
+            return false;
+
+        for ($i = 2; $i < count($eve); $i++) {
+            $ei = $eve[$i];
+            $mi = $mve[$i];
+            if ($ei > $mi)
+                return true;
+            if ($ei < $mi)
+                return false;
+        }
+        return true;
     }
 
     public function getImportFileContents($file, $unlink = true) {
@@ -144,7 +176,10 @@ class ImportService {
 
     public function getPreImportStatusFromFile($file) {
         $data = $this->getImportFileContents($file, false);
-        return $this->getPreImportStatus($data);
+        $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
+        if (!$valid)
+            return array("result" => 2);
+        return array("result" => 0, "status" => $this->getPreImportStatus($data["collection"]));
     }
 
     public function reset() {
@@ -153,11 +188,14 @@ class ImportService {
 
     public function importFromFile(User $user, $file, $instructions, $unlink = true) {
         $data = $this->getImportFileContents($file, $unlink);
-        return $this->import($user, $instructions, $data);
+        $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
+        if (!$valid)
+            return array("result" => 2);
+        return $this->import($user, $instructions, $data["collection"]);
     }
 
     public function import(User $user, $instructions, $data) {
-        $result = array();
+        $result = array("result" => 0, "import" => array());
         $this->queue = $data;
         while (count($this->queue) > 0) {
             $obj = $this->queue[0];
@@ -165,13 +203,14 @@ class ImportService {
                 $service = $this->serviceMap[$obj["class_name"]];
                 $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->queue);
                 if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
-                    array_push($result, $last_result);
+                    array_push($result["import"], $last_result);
+                    $result["result"] = 1;
                     return $result;
                 }
                 if (array_key_exists("pre_queue", $last_result) && count($last_result["pre_queue"]) > 0) {
                     $this->queue = array_merge($last_result["pre_queue"], $this->queue);
                 } else {
-                    array_push($result, $last_result);
+                    array_push($result["import"], $last_result);
                     array_shift($this->queue);
                 }
             }

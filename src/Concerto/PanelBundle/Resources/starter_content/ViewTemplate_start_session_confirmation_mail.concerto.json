@@ -1,22 +1,25 @@
-[
-    {
-        "class_name": "ViewTemplate",
-        "id": 14,
-        "name": "start_session_confirmation_mail",
-        "description": "",
-        "accessibility": 0,
-        "protected": "1",
-        "archived": "0",
-        "head": "",
-        "css": "",
-        "js": "",
-        "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-        "updatedOn": "2016-11-09 21:43:44",
-        "updatedByName": "admin",
-        "owner": null,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "6a760b61bd7aa99f5f8c1e8ab270298d6f3b54a9"
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 16,
+            "name": "start_session_confirmation_mail",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "head": "",
+            "css": "",
+            "js": "",
+            "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
+            "updatedOn": "2016-11-21 19:41:12",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "9dc44fec503972394523f9d46aef80d7f89e513d"
+        }
+    ]
+}

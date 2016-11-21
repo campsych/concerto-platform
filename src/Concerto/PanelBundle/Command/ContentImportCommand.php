@@ -42,19 +42,18 @@ class ContentImportCommand extends ContainerAwareCommand {
             }
             $output->writeln("importing " . $f->getFileName() . "...");
 
-            $instructions = $importService->getPreImportStatusFromFile($f->getRealpath());
+            $instructions = $importService->getPreImportStatusFromFile($f->getRealpath())["status"];
             for ($i = 0; $i < count($instructions); $i++) {
                 if ($convert)
                     $instructions[$i]["action"] = "1";
             }
 
-            $results = $importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false);
+            $results = $importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];
             $success = true;
             foreach ($results as $res) {
                 if ($res["errors"]) {
                     $success = false;
                     $output->writeln("importing " . $f->getFileName() . " failed!");
-                    var_dump($res["errors"]);
                     $output->writeln("starter content importing failed!");
                     break;
                 }

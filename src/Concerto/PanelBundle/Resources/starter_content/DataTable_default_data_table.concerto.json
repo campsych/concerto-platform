@@ -1,46 +1,49 @@
-[
-    {
-        "class_name": "DataTable",
-        "id": 3,
-        "name": "default_data_table",
-        "description": "",
-        "accessibility": 2,
-        "protected": "0",
-        "archived": "0",
-        "columns": [
-            {
-                "name": "id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "name",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "value",
-                "type": "text",
-                "nullable": false
-            },
-            {
-                "name": "session_id",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "data_set_id",
-                "type": "string",
-                "nullable": false
-            }
-        ],
-        "updatedOn": "2016-11-08 20:41:04",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 3,
-        "hash": "a2193a4195a69e69a7d37e16eced3d944c89ff9a",
-        "data": []
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 4,
+            "name": "default_data_table",
+            "description": "",
+            "accessibility": 2,
+            "protected": "0",
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "session_id",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "data_set_id",
+                    "type": "string",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2016-11-21 19:41:12",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 4,
+            "hash": "a06baaf69b32ee53e3d6de9a6e739403812d8815",
+            "data": []
+        }
+    ]
+}

@@ -106,7 +106,10 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
         return $scope.item.file.name;
     };
 
-    $scope.showErrorAlert = function () {
+    $scope.showErrorAlert = function (content) {
+        if (content == null) {
+            content = Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
+        }
         $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
             controller: AlertController,
@@ -116,7 +119,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                     return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE;
                 },
                 content: function () {
-                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
+                    return content;
                 },
                 type: function () {
                     return "danger";
@@ -140,7 +143,18 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
             $http.post($scope.preImportStatusPath, {
                 "file": $scope.item.file.name
             }).success(function (data) {
-                $scope.preImportStatus = data.status;
+                switch (data.result) {
+                    case BaseController.RESULT_OK:
+                    {
+                        $scope.preImportStatus = data.status;
+                        break;
+                    }
+                    case 2:
+                    {
+                        $scope.showErrorAlert(Trans.IMPORT_MESSAGE_VERSION_INCOMPATIBLE);
+                        break;
+                    }
+                }
             });
         } else {
             $scope.showErrorAlert();
@@ -182,6 +196,11 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                         {
                             $scope.object.validationErrors = response.data.errors;
                             $(".modal").animate({scrollTop: 0}, "slow");
+                            break;
+                        }
+                        case 2:
+                        {
+                            $scope.showErrorAlert(Trans.IMPORT_MESSAGE_VERSION_INCOMPATIBLE);
                             break;
                         }
                     }

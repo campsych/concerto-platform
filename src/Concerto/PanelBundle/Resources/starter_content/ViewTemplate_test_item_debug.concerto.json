@@ -1,22 +1,25 @@
-[
-    {
-        "class_name": "ViewTemplate",
-        "id": 12,
-        "name": "test_item_debug",
-        "description": "",
-        "accessibility": 0,
-        "protected": "1",
-        "archived": "0",
-        "head": "",
-        "css": "",
-        "js": "",
-        "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
-        "updatedOn": "2016-11-10 01:20:20",
-        "updatedByName": "admin",
-        "owner": null,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "57bf9bdcf8ecd5c25331bfe204942117ff04a458"
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 3,
+            "name": "test_item_debug",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "head": "",
+            "css": "",
+            "js": "",
+            "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
+            "updatedOn": "2016-11-21 19:40:46",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "fa5979fc29ed247671036f474bfc904a9cd84df7"
+        }
+    ]
+}

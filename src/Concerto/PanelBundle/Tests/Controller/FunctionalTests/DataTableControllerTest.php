@@ -143,8 +143,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $content = json_decode(
                 ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
         );
-        $this->assertArrayHasKey("hash", $content[0]);
-        unset($content[0]["hash"]);
+        $this->assertArrayHasKey("hash", $content["collection"][0]);
+        unset($content["collection"][0]["hash"]);
 
         $this->assertEquals(array(array(
                 'class_name' => 'DataTable',
@@ -158,7 +158,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "rev" => 0,
                 "owner" => null,
                 "groups" => "",
-                'updatedOn' => $content[0]["updatedOn"],
+                'updatedOn' => $content["collection"][0]["updatedOn"],
                 'updatedByName' => 'admin',
                 'columns' => array(
                     array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
@@ -167,7 +167,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 'data' => array(
                     array('id' => '1', 'temp' => 'temp1',),
                     array('id' => '2', 'temp' => 'temp2',)
-                ))), $content);
+                ))), $content["collection"]);
     }
 
     public function testImportNewAction() {

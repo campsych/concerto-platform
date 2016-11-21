@@ -29,7 +29,7 @@ abstract class AExportableTabController extends ASectionController {
     }
 
     public function preImportStatusAction() {
-        $status = $this->importService->getPreImportStatusFromFile(
+        $result = $this->importService->getPreImportStatusFromFile(
                 __DIR__ . DIRECTORY_SEPARATOR .
                 ".." . DIRECTORY_SEPARATOR .
                 ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
@@ -38,7 +38,8 @@ abstract class AExportableTabController extends ASectionController {
                 "files" . DIRECTORY_SEPARATOR .
                 $this->request->get("file"), //
                 $this->request->get("name"));
-        $response = new Response(json_encode(array("result" => 0, "status" => $status)));
+
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -57,8 +58,8 @@ abstract class AExportableTabController extends ASectionController {
                 false);
         $errors = array();
         $show_index = 0;
-        for ($j = 0; $j < count($result); $j++) {
-            $r = $result[$j];
+        for ($j = 0; $j < count($result["import"]); $j++) {
+            $r = $result["import"][$j];
 
             if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
                 $show_index = $j;
@@ -69,10 +70,12 @@ abstract class AExportableTabController extends ASectionController {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
             }
         }
-        if (count($errors) > 0) {
+        if ($result["result"] == 1) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
-        } else {
-            $response = new Response(json_encode(array("result" => 0, "object" => $result[$show_index]['entity'], "object_id" => $result[$show_index]['entity']->getId())));
+        } else if ($result["result"] == 0) {
+            $response = new Response(json_encode(array("result" => 0, "object" => $result["import"][$show_index]['entity'], "object_id" => $result["import"][$show_index]['entity']->getId())));
+        } else if ($result["result"] == 2) {
+            $response = new Response(json_encode(array("result" => 2)));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;

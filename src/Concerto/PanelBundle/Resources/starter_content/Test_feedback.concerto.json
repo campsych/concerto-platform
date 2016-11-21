@@ -1,416 +1,419 @@
-[
-    {
-        "class_name": "Test",
-        "id": 5,
-        "name": "source_feedback",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "visibility": 2,
-        "type": 0,
-        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  feedback = list()\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feed = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feed = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n      \n      feedback[[length(feedback) + 1]] = list(label=t_fb$label,description=t_fb$description,feedback=feed)\n    }\n    content = concerto.template.join(templateId=\"feedback_content\",params=list(feedback=toJSON(feedback)))\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = concerto.template.join(templateId=\"buttons_single\", params=list(label=button_label))\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
-        "resumable": "0",
-        "outdated": "0",
-        "description": "",
-        "variables": [
-            {
-                "class_name": "TestVariable",
-                "id": 63,
-                "name": "out",
-                "type": 2,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "0",
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 64,
-                "name": "paragraph",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 65,
-                "name": "button_label",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 66,
-                "name": "traits",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 67,
-                "name": "inserts",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 68,
-                "name": "scores",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 69,
-                "name": "title",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 70,
-                "name": "template_def",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 5,
-                "parentVariable": null
-            }
-        ],
-        "sourceWizard": null,
-        "sourceWizardName": null,
-        "sourceWizardTest": null,
-        "sourceWizardTestName": null,
-        "updatedOn": "2016-11-09 23:21:24",
-        "updatedByName": "admin",
-        "nodes": [],
-        "nodesConnections": [],
-        "tags": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": false,
-        "rev": 3,
-        "hash": "7a7307cbc898ce664d02b1dd808c1a348a799722"
-    },
-    {
-        "class_name": "TestWizard",
-        "id": 4,
-        "name": "feedback",
-        "description": "",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "steps": [
-            {
-                "class_name": "TestWizardStep",
-                "id": 65,
-                "title": "Presentation",
-                "description": "",
-                "orderNum": 0,
-                "colsNum": 0,
-                "wizard": 4,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 205,
-                        "label": "Paragraph",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 2,
-                        "passableThroughUrl": "0",
-                        "value": "<p>Feedback:<\/p>\n",
-                        "testVariable": 64,
-                        "name": "paragraph",
-                        "wizardStep": 65,
-                        "stepTitle": "Presentation",
-                        "order": 3,
-                        "wizard": 4,
-                        "definition": {
-                            "placeholder": "0"
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 8,
+            "name": "source_feedback",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  feedback = list()\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feed = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feed = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n      \n      feedback[[length(feedback) + 1]] = list(label=t_fb$label,description=t_fb$description,feedback=feed)\n    }\n    content = concerto.template.join(templateId=\"feedback_content\",params=list(feedback=toJSON(feedback)))\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = concerto.template.join(templateId=\"buttons_single\", params=list(label=button_label))\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 88,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 89,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 90,
+                    "name": "button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 91,
+                    "name": "traits",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 92,
+                    "name": "inserts",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 93,
+                    "name": "scores",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 94,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 95,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 8,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2016-11-21 19:40:44",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "rev": 4,
+            "hash": "0b01df7941c67771644c601de4c8a1bac6c05b9f"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 5,
+            "name": "feedback",
+            "description": "",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 71,
+                    "title": "Presentation",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 5,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 221,
+                            "label": "Paragraph",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 2,
+                            "passableThroughUrl": "0",
+                            "value": "<p>Feedback:<\/p>\n",
+                            "testVariable": 89,
+                            "name": "paragraph",
+                            "wizardStep": 71,
+                            "stepTitle": "Presentation",
+                            "order": 3,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 222,
+                            "label": "Button label",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "continue",
+                            "testVariable": 90,
+                            "name": "button_label",
+                            "wizardStep": 71,
+                            "stepTitle": "Presentation",
+                            "order": 4,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 223,
+                            "label": "Title",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "DEMO TEST",
+                            "testVariable": 94,
+                            "name": "title",
+                            "wizardStep": 71,
+                            "stepTitle": "Presentation",
+                            "order": 2,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": 0
+                            }
                         }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 206,
-                        "label": "Button label",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "continue",
-                        "testVariable": 65,
-                        "name": "button_label",
-                        "wizardStep": 65,
-                        "stepTitle": "Presentation",
-                        "order": 4,
-                        "wizard": 4,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 207,
-                        "label": "Title",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "DEMO TEST",
-                        "testVariable": 69,
-                        "name": "title",
-                        "wizardStep": 65,
-                        "stepTitle": "Presentation",
-                        "order": 2,
-                        "wizard": 4,
-                        "definition": {
-                            "placeholder": 0
-                        }
-                    }
-                ]
-            },
-            {
-                "class_name": "TestWizardStep",
-                "id": 66,
-                "title": "Scores",
-                "description": "",
-                "orderNum": 1,
-                "colsNum": 0,
-                "wizard": 4,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 208,
-                        "label": "Trait feedback",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 10,
-                        "passableThroughUrl": "0",
-                        "value": "[]",
-                        "testVariable": 66,
-                        "name": "traits",
-                        "wizardStep": 66,
-                        "stepTitle": "Scores",
-                        "order": 0,
-                        "wizard": 4,
-                        "definition": {
-                            "placeholder": "0",
-                            "element": {
-                                "type": 9,
-                                "definition": {
-                                    "placeholder": "0",
-                                    "fields": [
-                                        {
-                                            "type": "0",
-                                            "name": "trait",
-                                            "label": "Trait"
-                                        },
-                                        {
-                                            "type": "0",
-                                            "name": "label",
-                                            "label": "Label"
-                                        },
-                                        {
-                                            "type": "2",
-                                            "name": "description",
-                                            "label": "Description",
-                                            "definition": {
-                                                "placeholder": "0"
-                                            }
-                                        },
-                                        {
-                                            "type": "10",
-                                            "name": "boundaries",
-                                            "label": "Score boundaries",
-                                            "definition": {
-                                                "placeholder": "0",
-                                                "element": {
-                                                    "type": 9,
-                                                    "definition": {
-                                                        "placeholder": "0",
-                                                        "fields": [
-                                                            {
-                                                                "type": "0",
-                                                                "name": "min_value",
-                                                                "label": "Min value ( <= )"
-                                                            },
-                                                            {
-                                                                "type": "0",
-                                                                "name": "max_value",
-                                                                "label": "Max value ( > )"
-                                                            },
-                                                            {
-                                                                "type": "2",
-                                                                "name": "feedback",
-                                                                "label": "Feedback",
-                                                                "definition": {
-                                                                    "placeholder": "0"
+                    ]
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 72,
+                    "title": "Scores",
+                    "description": "",
+                    "orderNum": 1,
+                    "colsNum": 0,
+                    "wizard": 5,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 224,
+                            "label": "Trait feedback",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 10,
+                            "passableThroughUrl": "0",
+                            "value": "[]",
+                            "testVariable": 91,
+                            "name": "traits",
+                            "wizardStep": 72,
+                            "stepTitle": "Scores",
+                            "order": 0,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": "0",
+                                "element": {
+                                    "type": 9,
+                                    "definition": {
+                                        "placeholder": "0",
+                                        "fields": [
+                                            {
+                                                "type": "0",
+                                                "name": "trait",
+                                                "label": "Trait"
+                                            },
+                                            {
+                                                "type": "0",
+                                                "name": "label",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "type": "2",
+                                                "name": "description",
+                                                "label": "Description",
+                                                "definition": {
+                                                    "placeholder": "0"
+                                                }
+                                            },
+                                            {
+                                                "type": "10",
+                                                "name": "boundaries",
+                                                "label": "Score boundaries",
+                                                "definition": {
+                                                    "placeholder": "0",
+                                                    "element": {
+                                                        "type": 9,
+                                                        "definition": {
+                                                            "placeholder": "0",
+                                                            "fields": [
+                                                                {
+                                                                    "type": "0",
+                                                                    "name": "min_value",
+                                                                    "label": "Min value ( <= )"
+                                                                },
+                                                                {
+                                                                    "type": "0",
+                                                                    "name": "max_value",
+                                                                    "label": "Max value ( > )"
+                                                                },
+                                                                {
+                                                                    "type": "2",
+                                                                    "name": "feedback",
+                                                                    "label": "Feedback",
+                                                                    "definition": {
+                                                                        "placeholder": "0"
+                                                                    }
                                                                 }
-                                                            }
-                                                        ]
+                                                            ]
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                    ]
+                                        ]
+                                    }
                                 }
                             }
                         }
-                    }
-                ]
-            }
-        ],
-        "test": 5,
-        "testName": "source_feedback",
-        "updatedOn": "2016-11-08 20:40:43",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 3,
-        "hash": "0b8c778d2f963df13e9b834ba9aadda71e2f8cf3"
-    },
-    {
-        "class_name": "Test",
-        "id": 6,
-        "name": "feedback",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "visibility": 2,
-        "type": 1,
-        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  feedback = list()\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feed = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feed = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n      \n      feedback[[length(feedback) + 1]] = list(label=t_fb$label,description=t_fb$description,feedback=feed)\n    }\n    content = concerto.template.join(templateId=\"feedback_content\",params=list(feedback=toJSON(feedback)))\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = concerto.template.join(templateId=\"buttons_single\", params=list(label=button_label))\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
-        "resumable": "0",
-        "outdated": "0",
-        "description": "",
-        "variables": [
-            {
-                "class_name": "TestVariable",
-                "id": 71,
-                "name": "out",
-                "type": 2,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "0",
-                "test": 6,
-                "parentVariable": 63
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 72,
-                "name": "paragraph",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "<p>Feedback<\/p>\n",
-                "test": 6,
-                "parentVariable": 64
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 73,
-                "name": "button_label",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "continue",
-                "test": 6,
-                "parentVariable": 65
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 74,
-                "name": "traits",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "[]",
-                "test": 6,
-                "parentVariable": 66
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 75,
-                "name": "inserts",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 6,
-                "parentVariable": 67
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 76,
-                "name": "scores",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 6,
-                "parentVariable": 68
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 77,
-                "name": "title",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "DEMO TEST",
-                "test": 6,
-                "parentVariable": 69
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 78,
-                "name": "template_def",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 6,
-                "parentVariable": 70
-            }
-        ],
-        "sourceWizard": 4,
-        "sourceWizardName": "feedback",
-        "sourceWizardTest": 5,
-        "sourceWizardTestName": "source_feedback",
-        "updatedOn": "2016-11-09 23:21:24",
-        "updatedByName": "admin",
-        "nodes": [],
-        "nodesConnections": [],
-        "tags": "_concerto_core",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 3,
-        "hash": "d6f7d40a1f5cad33928fbb151f58805f1e42b320"
-    }
-]
+                    ]
+                }
+            ],
+            "test": 8,
+            "testName": "source_feedback",
+            "updatedOn": "2016-11-21 19:40:44",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 4,
+            "hash": "673f244a1dc61089715760fd953d54ca1ebfca0e"
+        },
+        {
+            "class_name": "Test",
+            "id": 9,
+            "name": "feedback",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 1,
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function() {\n  content = paragraph\n  t_def = fromJSON(traits)\n  feedback = list()\n  \n  if(length(t_def) > 0) {\n    for(i in 1:length(t_def)) {\n      t_fb = t_def[[i]]\n      score = 0\n      if(is.list(scores) && !is.null(scores[[t_fb$trait]])) {\n        score = scores[[t_fb$trait]]\n      } else {\n        next\n      }\n      feed = NULL\n      if(length(t_fb$boundaries) > 0) {\n        for(j in 1:length(t_fb$boundaries)) {\n      \t  t_bound = t_fb$boundaries[[j]]\n          if(as.numeric(t_bound$min_value) <= score && as.numeric(t_bound$max_value) > score) {\n            feed = t_bound$feedback\n          }\n        }\n      }\n      if(is.null(feedback)) { next }\n      \n      feedback[[length(feedback) + 1]] = list(label=t_fb$label,description=t_fb$description,feedback=feed)\n    }\n    content = concerto.template.join(templateId=\"feedback_content\",params=list(feedback=toJSON(feedback)))\n  }\n  return(content)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ncontent = getContent()\nbuttons = concerto.template.join(templateId=\"buttons_single\", params=list(label=button_label))\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 96,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 9,
+                    "parentVariable": 88
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 97,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "<p>Feedback<\/p>\n",
+                    "test": 9,
+                    "parentVariable": 89
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 98,
+                    "name": "button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "continue",
+                    "test": 9,
+                    "parentVariable": 90
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 99,
+                    "name": "traits",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "[]",
+                    "test": 9,
+                    "parentVariable": 91
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 100,
+                    "name": "inserts",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 92
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 101,
+                    "name": "scores",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 93
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 102,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "DEMO TEST",
+                    "test": 9,
+                    "parentVariable": 94
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 103,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 95
+                }
+            ],
+            "sourceWizard": 5,
+            "sourceWizardName": "feedback",
+            "sourceWizardTest": 8,
+            "sourceWizardTestName": "source_feedback",
+            "updatedOn": "2016-11-21 19:41:34",
+            "updatedByName": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "_concerto_core",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 4,
+            "hash": "2a444788526fd666acb42853d9a8431af64be971"
+        }
+    ]
+}

@@ -134,8 +134,8 @@ class TestControllerTest extends AFunctionalTest {
         $content = json_decode(
                 ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
         );
-        $this->assertArrayHasKey("hash", $content[0]);
-        unset($content[0]["hash"]);
+        $this->assertArrayHasKey("hash", $content["collection"][0]);
+        unset($content["collection"][0]["hash"]);
 
         $this->assertEquals(array(array(
                 'class_name' => 'Test',
@@ -157,7 +157,7 @@ class TestControllerTest extends AFunctionalTest {
                 'sourceWizardName' => null,
                 'sourceWizardTest' => null,
                 'sourceWizardTestName' => null,
-                'updatedOn' => $content[0]["updatedOn"],
+                'updatedOn' => $content["collection"][0]["updatedOn"],
                 'updatedByName' => 'admin',
                 'type' => Test::TYPE_CODE,
                 'variables' => array(
@@ -176,7 +176,7 @@ class TestControllerTest extends AFunctionalTest {
                 'nodes' => array(),
                 'nodesConnections' => array(),
                 "tags" => ""
-            )), $content);
+            )), $content["collection"]);
     }
 
     public function testImportNewAction() {

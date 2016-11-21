@@ -1,11 +1,14 @@
-[{
-        "class_name": "ViewTemplate",
-        "id": 8,
-        "name": "some_template",
-        "description": "",
-        "accessibility": 0,
-        "protected": 0,
-        "head": "",
-        "html": "\u003Cp\u003Eexample html\u003C\/p\u003E\n",
-        "starterContent": false
-    }]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [{
+            "class_name": "ViewTemplate",
+            "id": 8,
+            "name": "some_template",
+            "description": "",
+            "accessibility": 0,
+            "protected": 0,
+            "head": "",
+            "html": "\u003Cp\u003Eexample html\u003C\/p\u003E\n",
+            "starterContent": false
+        }]
+}

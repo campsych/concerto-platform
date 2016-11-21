@@ -1,22 +1,25 @@
-[
-    {
-        "class_name": "ViewTemplate",
-        "id": 3,
-        "name": "form_field_input",
-        "description": "",
-        "accessibility": 0,
-        "protected": "1",
-        "archived": "0",
-        "head": "",
-        "css": "",
-        "js": "",
-        "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-        "updatedOn": "2016-11-09 02:16:54",
-        "updatedByName": "admin",
-        "owner": null,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "ce31f260de422b9d78c983ffb70af8736c47895d"
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 11,
+            "name": "form_field_input",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "head": "",
+            "css": "",
+            "js": "",
+            "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
+            "updatedOn": "2016-11-21 19:41:04",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "4bf054a43603964cdcd391b8c4bb90f498b3ce1a"
+        }
+    ]
+}

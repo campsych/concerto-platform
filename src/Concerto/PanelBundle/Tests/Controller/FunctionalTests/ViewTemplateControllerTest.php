@@ -99,8 +99,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
         );
 
-        $this->assertArrayHasKey("hash", $content[0]);
-        unset($content[0]["hash"]);
+        $this->assertArrayHasKey("hash", $content["collection"][0]);
+        unset($content["collection"][0]["hash"]);
 
         $expected = array(
             array(
@@ -115,7 +115,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "css",
                 "js" => "js",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                "updatedOn" => $content[0]["updatedOn"],
+                "updatedOn" => $content["collection"][0]["updatedOn"],
                 "protected" => "0",
                 "archived" => "0",
                 "starterContent" => false,
@@ -128,7 +128,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/x-download'));
 
-        $this->assertEquals($expected, $content);
+        $this->assertEquals($expected, $content["collection"]);
     }
 
     public function testImportNewAction() {

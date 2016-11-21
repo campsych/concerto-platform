@@ -1,61 +1,64 @@
-[
-    {
-        "class_name": "DataTable",
-        "id": 6,
-        "name": "default_polycat_response_table",
-        "description": "",
-        "accessibility": 2,
-        "protected": "0",
-        "archived": "0",
-        "columns": [
-            {
-                "name": "id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "item_id",
-                "type": "bigint",
-                "nullable": false
-            },
-            {
-                "name": "response",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "time_taken",
-                "type": "float",
-                "nullable": false
-            },
-            {
-                "name": "session_id",
-                "type": "string",
-                "nullable": false
-            },
-            {
-                "name": "theta",
-                "type": "float",
-                "nullable": false
-            },
-            {
-                "name": "sem",
-                "type": "float",
-                "nullable": false
-            },
-            {
-                "name": "data_set_id",
-                "type": "string",
-                "nullable": false
-            }
-        ],
-        "updatedOn": "2016-11-08 20:41:12",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 3,
-        "hash": "1f457edd3f386863f75a4e4687db8ef8cf824eeb",
-        "data": []
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 6,
+            "name": "default_polycat_response_table",
+            "description": "",
+            "accessibility": 2,
+            "protected": "0",
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "item_id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "response",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "time_taken",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "session_id",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "theta",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "sem",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "data_set_id",
+                    "type": "string",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2016-11-21 19:41:23",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 4,
+            "hash": "31ff929759d73c30e6739e259ac109a3dc66923a",
+            "data": []
+        }
+    ]
+}

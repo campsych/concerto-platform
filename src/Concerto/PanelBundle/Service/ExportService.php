@@ -19,9 +19,10 @@ class ExportService {
     private $testWizardStepService;
     private $testWizardParamService;
     private $viewTemplateService;
+    private $version;
     public $serviceMap;
 
-    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService) {
+    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version) {
         $this->dataTableService = $dataTableService;
         $this->testService = $testService;
         $this->testNodeService = $testNodeService;
@@ -32,6 +33,7 @@ class ExportService {
         $this->testWizardStepService = $testWizardStepService;
         $this->testWizardParamService = $testWizardParamService;
         $this->viewTemplateService = $viewTemplateService;
+        $this->version = $version;
 
         $this->serviceMap = array(
             "DataTable" => $this->dataTableService,
@@ -48,7 +50,7 @@ class ExportService {
     }
 
     public function exportToFile($class, $object_ids, $format = self::FORMAT_COMPRESSED) {
-        $result = array();
+        $collection = array();
         $object_ids = explode(",", $object_ids);
         $dependencies = array();
         $section_service = $this->serviceMap[$class];
@@ -72,10 +74,11 @@ class ExportService {
                     $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
                     $export_elem["hash"] = $elem_class::getArrayHash($elem);
                     $export_elem = $elem_service->convertToExportable($export_elem);
-                    array_push($result, $export_elem);
+                    array_push($collection, $export_elem);
                 }
             }
         }
+        $result = array("version" => $this->version, "collection" => $collection);
         if ($format === self::FORMAT_COMPRESSED)
             return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
         else
@@ -111,7 +114,7 @@ class ExportService {
             }
         }
 
-        $result = array();
+        $collection = array();
         if (array_key_exists("collection", $dependencies)) {
             foreach ($dependencies["collection"] as $elem) {
                 $export_elem = $elem;
@@ -119,10 +122,10 @@ class ExportService {
                 $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
                 $export_elem["hash"] = $elem_class::getArrayHash($elem);
                 $export_elem = $elem_service->convertToExportable($export_elem);
-                array_push($result, $export_elem);
+                array_push($collection, $export_elem);
             }
         }
-
+        $result = array("version" => $this->version, "collection" => $collection);
         if ($format === ExportService::FORMAT_COMPRESSED)
             return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
         else

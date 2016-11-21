@@ -54,8 +54,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
     $scope.getSourceTestCellTemplate = function (col, entity) {
         if (entity.sourceWizard !== null) {
-            var cell = "<a href='#/tests/" + col.sourceWizardTest + "'>";
-            cell += "<i class='glyphicon glyphicon-link'></i>" + col.sourceWizardTestName + "</a>";
+            var cell = "<a href='#/tests/" + entity.sourceWizardTest + "'>";
+            cell += "<i class='glyphicon glyphicon-link'></i>" + entity.sourceWizardTestName + "</a>";
             return cell;
         } else {
             return Trans.NONE;

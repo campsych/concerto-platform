@@ -1,22 +1,25 @@
-[
-    {
-        "class_name": "ViewTemplate",
-        "id": 8,
-        "name": "form_field",
-        "description": "",
-        "accessibility": 0,
-        "protected": "1",
-        "archived": "0",
-        "head": "",
-        "css": ".form-field {\n  padding-bottom: 10px;\n}",
-        "js": "",
-        "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-        "updatedOn": "2016-11-10 04:07:08",
-        "updatedByName": "admin",
-        "owner": null,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "2e95578299acffae071208b61fe3a2afa14971ee"
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 17,
+            "name": "form_field",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "head": "",
+            "css": ".form-field {\n  padding-bottom: 10px;\n}",
+            "js": "",
+            "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
+            "updatedOn": "2016-11-21 19:41:12",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "213bf88ae55c34e7b4ce25b2ead962988729bbf9"
+        }
+    ]
+}

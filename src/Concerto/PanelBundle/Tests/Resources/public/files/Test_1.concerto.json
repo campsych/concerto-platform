@@ -1,63 +1,65 @@
-[
-    {
-        "class_name": "Test",
-        "id": 1,
-        "name": "subtest",
-        "description": "\u003Cp\u003E\u003Cspan style=\"font-size:11px\"\u003Easdasd\u003C\/span\u003E\u003C\/p\u003E\n",
-        "visibility": 0,
-        "sourceWizard": null,
-        "code": "ret1 \u003C- inp1 + inp2\nret2 \u003C- inp1 - inp2",
-        "type": 0,
-        "accessibility": 0,
-        "protected": 0,
-        "resumable": 0,
-        "starterContent": false,
-        "variables": [
-            {
-                "class_name": "TestVariable",
-                "id": 1,
-                "name": "inp1",
-                "description": "\u003Cp\u003Esdfdsfdsf\u003C\/p\u003E\n",
-                "type": 0,
-                "passableThroughUrl": false,
-                "value": "1",
-                "test": 1,
-                "parentVariable": null
-            }, {
-                "class_name": "TestVariable",
-                "id": 2,
-                "name": "ret1",
-                "description": "\u003Cp\u003Eret1\u003C\/p\u003E\n",
-                "type": 1,
-                "passableThroughUrl": false,
-                "value": "1",
-                "test": 1,
-                "parentVariable": null
-            }, {
-                "class_name": "TestVariable",
-                "id": 3,
-                "name": "inp2",
-                "description": "\u003Cp\u003E1\u003C\/p\u003E\n",
-                "type": 0,
-                "passableThroughUrl": true,
-                "value": "100",
-                "test": 1,
-                "parentVariable": null
-            }, {
-                "class_name": "TestVariable",
-                "id": 4,
-                "name": "ret2",
-                "description": "\u003Cp\u003Eret2\u003C\/p\u003E\n",
-                "type": 1,
-                "passableThroughUrl": false,
-                "value": "111",
-                "test": 1,
-                "parentVariable": null
-            }
-        ],
-        "nodes": [],
-        "nodesConnections": [],
-        "tags": "",
-        "groups": ""
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [{
+            "class_name": "Test",
+            "id": 1,
+            "name": "subtest",
+            "description": "\u003Cp\u003E\u003Cspan style=\"font-size:11px\"\u003Easdasd\u003C\/span\u003E\u003C\/p\u003E\n",
+            "visibility": 0,
+            "sourceWizard": null,
+            "code": "ret1 \u003C- inp1 + inp2\nret2 \u003C- inp1 - inp2",
+            "type": 0,
+            "accessibility": 0,
+            "protected": 0,
+            "resumable": 0,
+            "starterContent": false,
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 1,
+                    "name": "inp1",
+                    "description": "\u003Cp\u003Esdfdsfdsf\u003C\/p\u003E\n",
+                    "type": 0,
+                    "passableThroughUrl": false,
+                    "value": "1",
+                    "test": 1,
+                    "parentVariable": null
+                }, {
+                    "class_name": "TestVariable",
+                    "id": 2,
+                    "name": "ret1",
+                    "description": "\u003Cp\u003Eret1\u003C\/p\u003E\n",
+                    "type": 1,
+                    "passableThroughUrl": false,
+                    "value": "1",
+                    "test": 1,
+                    "parentVariable": null
+                }, {
+                    "class_name": "TestVariable",
+                    "id": 3,
+                    "name": "inp2",
+                    "description": "\u003Cp\u003E1\u003C\/p\u003E\n",
+                    "type": 0,
+                    "passableThroughUrl": true,
+                    "value": "100",
+                    "test": 1,
+                    "parentVariable": null
+                }, {
+                    "class_name": "TestVariable",
+                    "id": 4,
+                    "name": "ret2",
+                    "description": "\u003Cp\u003Eret2\u003C\/p\u003E\n",
+                    "type": 1,
+                    "passableThroughUrl": false,
+                    "value": "111",
+                    "test": 1,
+                    "parentVariable": null
+                }
+            ],
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "groups": ""
+        }
+    ]
+}

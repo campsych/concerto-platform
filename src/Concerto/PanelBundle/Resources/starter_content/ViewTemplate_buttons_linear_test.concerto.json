@@ -1,22 +1,25 @@
-[
-    {
-        "class_name": "ViewTemplate",
-        "id": 13,
-        "name": "buttons_linear_test",
-        "description": "",
-        "accessibility": 0,
-        "protected": "1",
-        "archived": "0",
-        "head": "",
-        "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
-        "js": "",
-        "html": "<div class=\"button-group\">\n<ul>\n\t<li><button class=\"linear_test_button\" name=\"previous\" ng-show=\"{{show_previous}}\">{{label_previous}}<\/button><\/li>\n\t<li ng-if=\"{{show_pager}}\">{{current_item}} \/ {{max_items}}<\/li>\n\t<li><button class=\"linear_test_button\" name=\"next\" ng-show=\"{{show_next}}\">{{label_next}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-        "updatedOn": "2016-11-14 17:51:31",
-        "updatedByName": "admin",
-        "owner": null,
-        "groups": "",
-        "starterContent": true,
-        "rev": 1,
-        "hash": "6e6714fa012f21262adf0a88ab61141a542dec91"
-    }
-]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 18,
+            "name": "buttons_linear_test",
+            "description": "",
+            "accessibility": 0,
+            "protected": "1",
+            "archived": "0",
+            "head": "",
+            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
+            "js": "",
+            "html": "<div class=\"button-group\">\n<ul>\n\t<li><button class=\"linear_test_button\" name=\"previous\" ng-show=\"{{show_previous}}\">{{label_previous}}<\/button><\/li>\n\t<li ng-if=\"{{show_pager}}\">{{current_item}} \/ {{max_items}}<\/li>\n\t<li><button class=\"linear_test_button\" name=\"next\" ng-show=\"{{show_next}}\">{{label_next}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
+            "updatedOn": "2016-11-21 19:41:31",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "229e3f766f8c377c6b9e94633b6a2a6fbd0596be"
+        }
+    ]
+}

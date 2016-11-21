@@ -1,1165 +1,1168 @@
-[
-    {
-        "class_name": "Test",
-        "id": 28,
-        "name": "source_linear_test",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "visibility": 2,
-        "type": 0,
-        "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  print(ib)\n  if(ib$table_type == \"custom\") {\n    data_set_id = ib$data_set_id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    trait_column = ib$custom_table$columns$trait\n    order_column = ib$custom_table$columns$order\n    data_set_id_column = ib$custom_table$columns$data_set_id\n\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{trait_column}}` AS `trait` FROM `{{table}}` WHERE `{{data_set_id_column}}` = '{{data_set_id}}' ORDER BY `{{order_column}}` ASC\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      trait_column=trait_column,\n      order_column=order_column,\n      table=table,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        print(\"ib$direct_table[[i]] = \")\n        print(ib$direct_table[[i]])\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] > 0 && order == \"random\") {\n    questions = questions[sample(1:dim(questions)[1]),]\n  }\n\n  print(questions)\n\n  return(questions)\n}\n\ngetContent = function(question, current_item, answers) {\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  options = NULL\n  section_classes = \"\"\n  section_styles = \"\"\n  if(o$response_type == \"multiple_choice\") {\n    #response options\n    if(randomized_response_options == \"1\") {\n      options = o$response_options[sample(1:length(o$response_options))]\n    } else {\n      options = o$response_options\n    }\n    for(i in 1:length(options)) {\n      options[[i]]$points = NULL\n    }\n    \n    section_classes = \"linear-test-response-section-vertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_classes = \"linear-test-response-section-horizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n  }\n  \n  content = concerto.template.join(templateId=\"linear_test_content\",params=list(\n    paragraph = paragraph,\n    question = question$question,\n    response_type = o$response_type,\n    response_options = toJSON(options),\n    answers = toJSON(answers),\n    current_item = current_item,\n    section_classes = section_classes,\n    section_styles = section_styles\n  ))\n\n  return(content)\n}\n\nshouldStop = function(response, answers, questions, current_item, next_item) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n\n  if((sr_count$enabled == \"1\" && current_item >= as.numeric(sr_count$count)) || next_item > dim(questions)[1]) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, correct, scores, correctness, current_item) {\n  if(is.null(response$response)) { return(scores) }\n\n  table = \"default_linear_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  trait_column = \"trait\"\n  data_set_id_column = \"data_set_id\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_id_column = rb$custom_table$columns$session_id\n    correct_column = rb$custom_table$columns$correct\n    trait_column = rb$custom_table$columns$trait\n    data_set_id_column = rb$custom_table$columns$data_set_id\n  }\n  session_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_id = session$id\n  } else {\n    session_id = paste0(\"i\",concerto$session$id)\n  }\n\n  r = concerto.table.query(\"SELECT `id` FROM `{{table}}` WHERE `{{item_id_column}}`={{item_id}} AND `{{session_id_column}}`='{{session_id}}' AND `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(rb$data_set_id))\n  ))\n  if(dim(r)[1] > 0) { \n    rid = r[1,\"id\"]\n    concerto.table.query(\"UPDATE `{{table}}` SET `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{correct_column}}`={{correct}} WHERE `id`={{id}}\", list(\n      table=table,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait,\n      id=rid\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_id_column}}`='{{session_id}}', `{{correct_column}}`={{correct}}, `{{trait_column}}`='{{trait}}', `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n      table=table,\n      session_id_column=session_id_column,\n      session_id=session_id,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(rb$data_set_id))\n    ))\n  }\n\n  if(is.null(scores[[question$trait]])) {\n    scores[[question$trait]] = 0\n  }\n\n  if(!is.null(correctness[current_item]) && !is.na(correctness[current_item])) { \n    prev_correct = correctness[current_item] \n    scores[[question$trait]] = scores[[question$trait]] - prev_correct\n  }\n\n  scores[[question$trait]] = scores[[question$trait]] + correct\n  return(scores)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = concerto.template.join(templateId=\"test_item_debug\",params=list(id=question$id))\n  content = paste0(debug, content)\n  return(content)\n}\n\n#calculate score based on response (e.g. correct\/incorrect, or differing number of points depending on choice)\ncalculateScore = function(response, question) { \n  print(\"calculateScore()\")\n  if (is.character(question$response_options)) {\n    o = fromJSON(question$response_options)\n  }\n\n  if (o$response_type == \"open_text\") {\n    print(\"open text item\")\n    if(response$response == o$correct_answer) { #open text response just needs to match database correct answer\n      print(\"correct\")\n      return(1)\n    } else {\n      print(\"incorrect\")\n      return(0)\n    }\n  } else if (o$response_type == \"multiple_choice\") { #make it go through all the responses, see which one they matched with, and then give them points for the match.\n    print(\"multiple choice item\")\n\n    options = NULL #turn response options into a nice table rather than a list.\n    for(i in 1:length(o$response_options)) {\n      options = rbind(options, as.list(o$response_options[[i]]))\n    }\n\n    for(i in 1:dim(options)[1]) {  \n      if (options[i,]$value == response$response) { #user chose this response option\n        print(\"response led to this many points:\")\n        print(options[i,]$points)\n        return(as.numeric(options[i,]$points)) #so they get this many points\n      }\n    }\n    print(\"Warning: User's response did not match any of the options in the item bank. They have been given 0 points for this response.\")\n    return(0) #no match, so no points\n  } \n  return(F)\n}\n\nquestions = getQuestions()\nrb = fromJSON(response_bank)\nanswers = NULL\nresponse = NULL\nwarning_msg = \"\"\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { \n  time_limit = as.numeric(sr_time$time_limit) \n}\nif(time_limit > 0) { timer_set = TRUE }\nscores = list()\ncorrectness = NULL\nmax_items = dim(questions)[1]\nsr_item_count = fromJSON(stopping_item_count)\nif(sr_item_count$enabled == \"1\") { max_items = min(max_items, as.numeric(sr_item_count$count)) }\n\ncurrent_item = 1\nwhile(T) {\n  show_previous = \"false\"\n  if(current_item > 1 && can_go_back == \"1\" && item_debug == \"0\") { show_previous = \"true\" }\n  show_pager = \"false\"\n  if(dim(questions)[1] > 1 && item_debug == \"0\") { show_pager = \"true\" }\n  show_next = \"false\"\n  if(current_item <= dim(questions)[1] || item_debug == \"1\") { show_next = \"true\" }\n  buttons = concerto.template.join(templateId=\"buttons_linear_test\", params=list(\n    show_previous=show_previous,\n    show_pager=show_pager,\n    show_next=show_next,\n    current_item=current_item,\n    max_items=max_items,\n    label_previous=previous_button_label,\n    label_next=next_button_label\n  ))\n\n  question = questions[current_item,]\n  content = getContent(question, current_item, answers)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = \"\"\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n\n    if(!is.null(response$response) || response$isTimeout == \"1\") {\n      correct = 0\n      if(is.null(response$response)) { response$response = \"\" }\n      correct = calculateScore(response, question)\n\n      scores = saveResponse(response, question, rb, correct, scores, correctness, current_item)\n      if(length(answers) < current_item) {\n        answers = c(answers, response$response)\n        correctness = c(correctness, correct)\n      } else {\n        answers[current_item] = response$response\n        correctness[current_item] = correct\n      }\n    }\n\n    prev_item = current_item\n    if(response$buttonPressed == \"next\" || response$isTimeout == \"1\") {\n      if(response_required == \"0\" || (!is.null(response$response) && response$response != \"\") || response$isTimeout == \"1\") {\n        current_item = current_item + 1\n        if(timer_set && sr_time$type == \"item\"){\n          time_limit = as.numeric(sr_time$time_limit) \n        }\n      } else {\n        warning_msg = no_response_alert\n      }\n    }\n    if(response$buttonPressed == \"previous\") {\n      current_item = current_item - 1\n      if(timer_set && sr_time$type == \"item\"){\n        time_limit = as.numeric(sr_time$time_limit) \n      }\n    }\n\n    if(shouldStop(response, answers, questions, prev_item, current_item)) {\n      if(response$isTimeout == \"1\") {\n        .branch = \"out_of_time\"\n      }\n      break\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nrm(questions)",
-        "resumable": "0",
-        "outdated": "0",
-        "description": "",
-        "variables": [
-            {
-                "class_name": "TestVariable",
-                "id": 321,
-                "name": "answered",
-                "type": 2,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": "0",
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 322,
-                "name": "paragraph",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 323,
-                "name": "next_button_label",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 324,
-                "name": "previous_button_label",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 325,
-                "name": "item_bank",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 326,
-                "name": "response_bank",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 327,
-                "name": "stopping_time",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 328,
-                "name": "stopping_item_count",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 329,
-                "name": "randomized_response_options",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 330,
-                "name": "order",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 331,
-                "name": "session",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 332,
-                "name": "inserts",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 333,
-                "name": "response_required",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 334,
-                "name": "no_response_alert",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 335,
-                "name": "scores",
-                "type": 1,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 336,
-                "name": "can_go_back",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 337,
-                "name": "item_debug",
-                "type": 0,
-                "description": "<p><span style=\"line-height: 20.8px;\">1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/span><\/p>\n",
-                "passableThroughUrl": "0",
-                "value": "0",
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 338,
-                "name": "out_of_time",
-                "type": 2,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 339,
-                "name": "title",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 340,
-                "name": "template_def",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 341,
-                "name": "responses_layout",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 342,
-                "name": "response_width",
-                "type": 0,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            },
-            {
-                "class_name": "TestVariable",
-                "id": 343,
-                "name": ".branch",
-                "type": 1,
-                "description": "",
-                "passableThroughUrl": "0",
-                "value": null,
-                "test": 28,
-                "parentVariable": null
-            }
-        ],
-        "sourceWizard": null,
-        "sourceWizardName": null,
-        "sourceWizardTest": null,
-        "sourceWizardTestName": null,
-        "updatedOn": "2016-11-10 03:51:32",
-        "updatedByName": "admin",
-        "nodes": [],
-        "nodesConnections": [],
-        "tags": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": false,
-        "rev": 6,
-        "hash": "d85d8d78395be5a8b93ab480d10dc3a49f0e953e"
-    },
-    {
-        "class_name": "TestWizard",
-        "id": 15,
-        "name": "linear_test",
-        "description": "",
-        "accessibility": 2,
-        "protected": "1",
-        "archived": "0",
-        "steps": [
-            {
-                "class_name": "TestWizardStep",
-                "id": 54,
-                "title": "Presentation",
-                "description": "<p>Linear test presentation<\/p>\n",
-                "orderNum": 0,
-                "colsNum": 0,
-                "wizard": 15,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 164,
-                        "label": "Paragraph",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 2,
-                        "passableThroughUrl": "0",
-                        "value": "<p>Please answer question below:<\/p>\n",
-                        "testVariable": 322,
-                        "name": "paragraph",
-                        "wizardStep": 54,
-                        "stepTitle": "Presentation",
-                        "order": 2,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 165,
-                        "label": "Title",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "DEMO TEST",
-                        "testVariable": 339,
-                        "name": "title",
-                        "wizardStep": 54,
-                        "stepTitle": "Presentation",
-                        "order": 1,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": 0
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 166,
-                        "label": "Responses layout",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 3,
-                        "passableThroughUrl": "0",
-                        "value": "vertical",
-                        "testVariable": 341,
-                        "name": "responses_layout",
-                        "wizardStep": 54,
-                        "stepTitle": "Presentation",
-                        "order": 3,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": 0,
-                            "options": [
-                                {
-                                    "value": "horizontal",
-                                    "label": "Horizontal",
-                                    "order": 0
-                                },
-                                {
-                                    "value": "vertical",
-                                    "label": "Vertical",
-                                    "order": 1
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 167,
-                        "label": "Response width",
-                        "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "",
-                        "testVariable": 342,
-                        "name": "response_width",
-                        "wizardStep": 54,
-                        "stepTitle": "Presentation",
-                        "order": 4,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": 0
-                        }
-                    }
-                ]
-            },
-            {
-                "class_name": "TestWizardStep",
-                "id": 55,
-                "title": "Items and navigation",
-                "description": "<p>Item bank definition<\/p>\n",
-                "orderNum": 1,
-                "colsNum": 0,
-                "wizard": 15,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 168,
-                        "label": "Order",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 3,
-                        "passableThroughUrl": "0",
-                        "value": "random",
-                        "testVariable": 330,
-                        "name": "order",
-                        "wizardStep": 55,
-                        "stepTitle": "Items and navigation",
-                        "order": 1,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0",
-                            "options": [
-                                {
-                                    "value": "manual",
-                                    "label": "manual"
-                                },
-                                {
-                                    "value": "random",
-                                    "label": "random"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 169,
-                        "label": "Item bank",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 9,
-                        "passableThroughUrl": "0",
-                        "value": "{\"table_type\":\"direct\",\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>If you have a nose bleed, what should you do?<\/p>\\n\",\"order\":\"1\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"tilt_back\",\"label\":\"Tilt your head back\",\"points\":\"0\"},{\"value\":\"tilt_forwards\",\"label\":\"Tilt your head forwards\",\"points\":\"0.5\"},{\"value\":\"tilt_forwards_pinch\",\"label\":\"Tilt your head forwards and pinch your nose\",\"points\":\"1\"}]},\"trait\":\"first_aid\"},{\"id\":\"2\",\"question\":\"<p>In first aid,&nbsp;ABC stands for what?<\/p>\\n\",\"order\":\"2\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"airway_breathing_circulation\",\"label\":\"Airway, breathing, circulation\",\"points\":\"1\"},{\"value\":\"alcoholic_beverage_control\",\"label\":\"Alcoholic Beverage Control\",\"points\":\"0\"}]},\"trait\":\"first_aid\"},{\"id\":\"3\",\"question\":\"<p>In CPR, how many chest compressions per minute should be performed?<\/p>\\n\",\"order\":\"3\",\"response_options\":{\"response_type\":\"open_text\",\"correct_answer\":\"100\",\"response_options\":[]},\"trait\":\"first_aid\"}],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_response_options\":{},\"custom_correct_column\":{},\"custom_trait_column\":{},\"custom_test_id_column\":{}}",
-                        "testVariable": 325,
-                        "name": "item_bank",
-                        "wizardStep": 55,
-                        "stepTitle": "Items and navigation",
-                        "order": 0,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0",
-                            "fields": [
-                                {
-                                    "type": "3",
-                                    "name": "table_type",
-                                    "label": "Table type",
-                                    "definition": {
-                                        "placeholder": "0",
-                                        "options": [
-                                            {
-                                                "value": "direct",
-                                                "label": "direct"
-                                            },
-                                            {
-                                                "value": "custom",
-                                                "label": "custom"
-                                            }
-                                        ]
+{
+    "version": "5.0.beta.2.168",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 29,
+            "name": "source_linear_test",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  print(ib)\n  if(ib$table_type == \"custom\") {\n    data_set_id = ib$data_set_id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    trait_column = ib$custom_table$columns$trait\n    order_column = ib$custom_table$columns$order\n    data_set_id_column = ib$custom_table$columns$data_set_id\n\n    questions = concerto.table.query(\"SELECT id, `{{question_column}}` AS `question`, `{{response_options_column}}` AS `response_options`, `{{trait_column}}` AS `trait` FROM `{{table}}` WHERE `{{data_set_id_column}}` = '{{data_set_id}}' ORDER BY `{{order_column}}` ASC\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      trait_column=trait_column,\n      order_column=order_column,\n      table=table,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = toJSON(ib$direct_table[[i]]$response_options) #response options don't fit into flat table, so turn them back to JSON.\n        print(\"ib$direct_table[[i]] = \")\n        print(ib$direct_table[[i]])\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] > 0 && order == \"random\") {\n    questions = questions[sample(1:dim(questions)[1]),]\n  }\n\n  print(questions)\n\n  return(questions)\n}\n\ngetContent = function(question, current_item, answers) {\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  options = NULL\n  section_classes = \"\"\n  section_styles = \"\"\n  if(o$response_type == \"multiple_choice\") {\n    #response options\n    if(randomized_response_options == \"1\") {\n      options = o$response_options[sample(1:length(o$response_options))]\n    } else {\n      options = o$response_options\n    }\n    for(i in 1:length(options)) {\n      options[[i]]$points = NULL\n    }\n    \n    section_classes = \"linear-test-response-section-vertical\"\n    section_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      section_classes = \"linear-test-response-section-horizontal\" \n      section_styles = paste0(\"width: \",response_width)\n    }\n  }\n  \n  content = concerto.template.join(templateId=\"linear_test_content\",params=list(\n    paragraph = paragraph,\n    question = question$question,\n    response_type = o$response_type,\n    response_options = toJSON(options),\n    answers = toJSON(answers),\n    current_item = current_item,\n    section_classes = section_classes,\n    section_styles = section_styles\n  ))\n\n  return(content)\n}\n\nshouldStop = function(response, answers, questions, current_item, next_item) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n\n  if((sr_count$enabled == \"1\" && current_item >= as.numeric(sr_count$count)) || next_item > dim(questions)[1]) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, correct, scores, correctness, current_item) {\n  if(is.null(response$response)) { return(scores) }\n\n  table = \"default_linear_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  trait_column = \"trait\"\n  data_set_id_column = \"data_set_id\"\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_id_column = rb$custom_table$columns$session_id\n    correct_column = rb$custom_table$columns$correct\n    trait_column = rb$custom_table$columns$trait\n    data_set_id_column = rb$custom_table$columns$data_set_id\n  }\n  session_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_id = session$id\n  } else {\n    session_id = paste0(\"i\",concerto$session$id)\n  }\n\n  r = concerto.table.query(\"SELECT `id` FROM `{{table}}` WHERE `{{item_id_column}}`={{item_id}} AND `{{session_id_column}}`='{{session_id}}' AND `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(rb$data_set_id))\n  ))\n  if(dim(r)[1] > 0) { \n    rid = r[1,\"id\"]\n    concerto.table.query(\"UPDATE `{{table}}` SET `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{correct_column}}`={{correct}} WHERE `id`={{id}}\", list(\n      table=table,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait,\n      id=rid\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO `{{table}}` SET `{{item_id_column}}`={{item_id}}, `{{response_column}}`='{{response}}', `{{time_taken_column}}`={{time_taken}}, `{{session_id_column}}`='{{session_id}}', `{{correct_column}}`={{correct}}, `{{trait_column}}`='{{trait}}', `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n      table=table,\n      session_id_column=session_id_column,\n      session_id=session_id,\n      item_id_column=item_id_column,\n      item_id=question$id,\n      response_column=response_column,\n      response=response$response,\n      time_taken_column=time_taken_column,\n      time_taken=response$timeTaken,\n      correct_column=correct_column,\n      correct=correct,\n      trait_column=trait_column,\n      trait=question$trait,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(rb$data_set_id))\n    ))\n  }\n\n  if(is.null(scores[[question$trait]])) {\n    scores[[question$trait]] = 0\n  }\n\n  if(!is.null(correctness[current_item]) && !is.na(correctness[current_item])) { \n    prev_correct = correctness[current_item] \n    scores[[question$trait]] = scores[[question$trait]] - prev_correct\n  }\n\n  scores[[question$trait]] = scores[[question$trait]] + correct\n  return(scores)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = concerto.template.join(templateId=\"test_item_debug\",params=list(id=question$id))\n  content = paste0(debug, content)\n  return(content)\n}\n\n#calculate score based on response (e.g. correct\/incorrect, or differing number of points depending on choice)\ncalculateScore = function(response, question) { \n  print(\"calculateScore()\")\n  if (is.character(question$response_options)) {\n    o = fromJSON(question$response_options)\n  }\n\n  if (o$response_type == \"open_text\") {\n    print(\"open text item\")\n    if(response$response == o$correct_answer) { #open text response just needs to match database correct answer\n      print(\"correct\")\n      return(1)\n    } else {\n      print(\"incorrect\")\n      return(0)\n    }\n  } else if (o$response_type == \"multiple_choice\") { #make it go through all the responses, see which one they matched with, and then give them points for the match.\n    print(\"multiple choice item\")\n\n    options = NULL #turn response options into a nice table rather than a list.\n    for(i in 1:length(o$response_options)) {\n      options = rbind(options, as.list(o$response_options[[i]]))\n    }\n\n    for(i in 1:dim(options)[1]) {  \n      if (options[i,]$value == response$response) { #user chose this response option\n        print(\"response led to this many points:\")\n        print(options[i,]$points)\n        return(as.numeric(options[i,]$points)) #so they get this many points\n      }\n    }\n    print(\"Warning: User's response did not match any of the options in the item bank. They have been given 0 points for this response.\")\n    return(0) #no match, so no points\n  } \n  return(F)\n}\n\nquestions = getQuestions()\nrb = fromJSON(response_bank)\nanswers = NULL\nresponse = NULL\nwarning_msg = \"\"\ntimer_set = FALSE\ntime_limit = 0\nsr_time = fromJSON(stopping_time)\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { \n  time_limit = as.numeric(sr_time$time_limit) \n}\nif(time_limit > 0) { timer_set = TRUE }\nscores = list()\ncorrectness = NULL\nmax_items = dim(questions)[1]\nsr_item_count = fromJSON(stopping_item_count)\nif(sr_item_count$enabled == \"1\") { max_items = min(max_items, as.numeric(sr_item_count$count)) }\n\ncurrent_item = 1\nwhile(T) {\n  show_previous = \"false\"\n  if(current_item > 1 && can_go_back == \"1\" && item_debug == \"0\") { show_previous = \"true\" }\n  show_pager = \"false\"\n  if(dim(questions)[1] > 1 && item_debug == \"0\") { show_pager = \"true\" }\n  show_next = \"false\"\n  if(current_item <= dim(questions)[1] || item_debug == \"1\") { show_next = \"true\" }\n  buttons = concerto.template.join(templateId=\"buttons_linear_test\", params=list(\n    show_previous=show_previous,\n    show_pager=show_pager,\n    show_next=show_next,\n    current_item=current_item,\n    max_items=max_items,\n    label_previous=previous_button_label,\n    label_next=next_button_label\n  ))\n\n  question = questions[current_item,]\n  content = getContent(question, current_item, answers)\n\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = \"\"\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n\n    if(!is.null(response$response) || response$isTimeout == \"1\") {\n      correct = 0\n      if(is.null(response$response)) { response$response = \"\" }\n      correct = calculateScore(response, question)\n\n      scores = saveResponse(response, question, rb, correct, scores, correctness, current_item)\n      if(length(answers) < current_item) {\n        answers = c(answers, response$response)\n        correctness = c(correctness, correct)\n      } else {\n        answers[current_item] = response$response\n        correctness[current_item] = correct\n      }\n    }\n\n    prev_item = current_item\n    if(response$buttonPressed == \"next\" || response$isTimeout == \"1\") {\n      if(response_required == \"0\" || (!is.null(response$response) && response$response != \"\") || response$isTimeout == \"1\") {\n        current_item = current_item + 1\n        if(timer_set && sr_time$type == \"item\"){\n          time_limit = as.numeric(sr_time$time_limit) \n        }\n      } else {\n        warning_msg = no_response_alert\n      }\n    }\n    if(response$buttonPressed == \"previous\") {\n      current_item = current_item - 1\n      if(timer_set && sr_time$type == \"item\"){\n        time_limit = as.numeric(sr_time$time_limit) \n      }\n    }\n\n    if(shouldStop(response, answers, questions, prev_item, current_item)) {\n      if(response$isTimeout == \"1\") {\n        .branch = \"out_of_time\"\n      }\n      break\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nrm(questions)",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 329,
+                    "name": "answered",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 330,
+                    "name": "paragraph",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 331,
+                    "name": "next_button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 332,
+                    "name": "previous_button_label",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 333,
+                    "name": "item_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 334,
+                    "name": "response_bank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 335,
+                    "name": "stopping_time",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 336,
+                    "name": "stopping_item_count",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 337,
+                    "name": "randomized_response_options",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 338,
+                    "name": "order",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 339,
+                    "name": "session",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 340,
+                    "name": "inserts",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 341,
+                    "name": "response_required",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 342,
+                    "name": "no_response_alert",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 343,
+                    "name": "scores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 344,
+                    "name": "can_go_back",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 345,
+                    "name": "item_debug",
+                    "type": 0,
+                    "description": "<p><span style=\"line-height: 20.8px;\">1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/span><\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 346,
+                    "name": "out_of_time",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 347,
+                    "name": "title",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 348,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 349,
+                    "name": "responses_layout",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 350,
+                    "name": "response_width",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 351,
+                    "name": ".branch",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 29,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2016-11-21 19:41:07",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": false,
+            "rev": 7,
+            "hash": "fef89496c1fe2a930bc7e152594fbbcf4acca814"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 15,
+            "name": "linear_test",
+            "description": "",
+            "accessibility": 2,
+            "protected": "1",
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 57,
+                    "title": "Presentation",
+                    "description": "<p>Linear test presentation<\/p>\n",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 15,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 172,
+                            "label": "Paragraph",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 2,
+                            "passableThroughUrl": "0",
+                            "value": "<p>Please answer question below:<\/p>\n",
+                            "testVariable": 330,
+                            "name": "paragraph",
+                            "wizardStep": 57,
+                            "stepTitle": "Presentation",
+                            "order": 2,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 173,
+                            "label": "Title",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "DEMO TEST",
+                            "testVariable": 347,
+                            "name": "title",
+                            "wizardStep": 57,
+                            "stepTitle": "Presentation",
+                            "order": 1,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": 0
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 174,
+                            "label": "Responses layout",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 3,
+                            "passableThroughUrl": "0",
+                            "value": "vertical",
+                            "testVariable": 349,
+                            "name": "responses_layout",
+                            "wizardStep": 57,
+                            "stepTitle": "Presentation",
+                            "order": 3,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": 0,
+                                "options": [
+                                    {
+                                        "value": "horizontal",
+                                        "label": "Horizontal",
+                                        "order": 0
                                     },
-                                    "order": 0
-                                },
-                                {
-                                    "type": 10,
-                                    "name": "direct_table",
-                                    "label": "Table",
-                                    "definition": {
-                                        "placeholder": "0",
-                                        "element": {
-                                            "type": 9,
-                                            "definition": {
-                                                "placeholder": "0",
-                                                "fields": [
-                                                    {
-                                                        "type": "0",
-                                                        "name": "id",
-                                                        "label": "Id",
-                                                        "definition": {
-                                                            "placeholder": "0"
-                                                        }
-                                                    },
-                                                    {
-                                                        "type": "2",
-                                                        "name": "question",
-                                                        "label": "Question",
-                                                        "definition": {
-                                                            "placeholder": "0"
-                                                        }
-                                                    },
-                                                    {
-                                                        "type": "0",
-                                                        "name": "order",
-                                                        "label": "Order",
-                                                        "definition": {
-                                                            "placeholder": 0
-                                                        }
-                                                    },
-                                                    {
-                                                        "type": 9,
-                                                        "name": "response_options",
-                                                        "label": "Response options",
-                                                        "definition": {
-                                                            "placeholder": 0,
-                                                            "element": {
-                                                                "type": 9,
-                                                                "definition": {
-                                                                    "placeholder": 0,
-                                                                    "fields": [
-                                                                        {
-                                                                            "type": 3,
-                                                                            "name": "response_type",
-                                                                            "label": "Response Type",
-                                                                            "definition": {
-                                                                                "placeholder": 0,
-                                                                                "options": [
-                                                                                    {
-                                                                                        "value": "open_text",
-                                                                                        "label": "Open text",
-                                                                                        "order": 2
-                                                                                    },
-                                                                                    {
-                                                                                        "value": "multiple_choice",
-                                                                                        "label": "Multiple choice",
-                                                                                        "order": 1
-                                                                                    }
-                                                                                ]
-                                                                            },
-                                                                            "order": 0
-                                                                        },
-                                                                        {
-                                                                            "type": 0,
-                                                                            "name": "correct_answer",
-                                                                            "label": "Correct Answer",
-                                                                            "definition": {
-                                                                                "placeholder": 0
-                                                                            },
-                                                                            "hideCondition": "parent.type != \"open_text\"",
-                                                                            "order": 1
-                                                                        },
-                                                                        {
-                                                                            "type": 9,
-                                                                            "name": "response_options",
-                                                                            "label": "Response Options",
-                                                                            "definition": {
-                                                                                "placeholder": 0,
-                                                                                "fields": [
-                                                                                    {
-                                                                                        "type": 0,
-                                                                                        "name": "name",
-                                                                                        "label": "Name",
-                                                                                        "definition": {
-                                                                                            "placeholder": 0
-                                                                                        },
-                                                                                        "order": 0
-                                                                                    },
-                                                                                    {
-                                                                                        "type": 0,
-                                                                                        "name": "label",
-                                                                                        "label": "Label",
-                                                                                        "definition": {
-                                                                                            "placeholder": 0
-                                                                                        },
-                                                                                        "order": 1
-                                                                                    },
-                                                                                    {
-                                                                                        "type": 0,
-                                                                                        "name": "score",
-                                                                                        "label": "Score",
-                                                                                        "definition": {
-                                                                                            "placeholder": 0
-                                                                                        },
-                                                                                        "order": 2
-                                                                                    }
-                                                                                ]
-                                                                            },
-                                                                            "order": 2,
-                                                                            "hideCondition": "parent.type != \"multiple_choice\""
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            },
-                                                            "fields": [
-                                                                {
-                                                                    "type": 3,
-                                                                    "name": "response_type",
-                                                                    "label": "Response type",
-                                                                    "definition": {
-                                                                        "placeholder": 0,
-                                                                        "options": [
-                                                                            {
-                                                                                "value": "multiple_choice",
-                                                                                "label": "Multiple choice",
-                                                                                "order": 0
-                                                                            },
-                                                                            {
-                                                                                "value": "open_text",
-                                                                                "label": "Open text",
-                                                                                "order": 1
-                                                                            }
-                                                                        ]
-                                                                    },
-                                                                    "order": 0
-                                                                },
-                                                                {
-                                                                    "type": 0,
-                                                                    "name": "correct_answer",
-                                                                    "label": "Correct answer",
-                                                                    "definition": {
-                                                                        "placeholder": 0
-                                                                    },
-                                                                    "order": 1,
-                                                                    "hideCondition": "parent.response_type != \"open_text\""
-                                                                },
-                                                                {
-                                                                    "type": 10,
-                                                                    "name": "response_options",
-                                                                    "label": "Response options",
+                                    {
+                                        "value": "vertical",
+                                        "label": "Vertical",
+                                        "order": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 175,
+                            "label": "Response width",
+                            "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 350,
+                            "name": "response_width",
+                            "wizardStep": 57,
+                            "stepTitle": "Presentation",
+                            "order": 4,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 58,
+                    "title": "Items and navigation",
+                    "description": "<p>Item bank definition<\/p>\n",
+                    "orderNum": 1,
+                    "colsNum": 0,
+                    "wizard": 15,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 176,
+                            "label": "Order",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 3,
+                            "passableThroughUrl": "0",
+                            "value": "random",
+                            "testVariable": 338,
+                            "name": "order",
+                            "wizardStep": 58,
+                            "stepTitle": "Items and navigation",
+                            "order": 1,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0",
+                                "options": [
+                                    {
+                                        "value": "manual",
+                                        "label": "manual"
+                                    },
+                                    {
+                                        "value": "random",
+                                        "label": "random"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 177,
+                            "label": "Item bank",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 9,
+                            "passableThroughUrl": "0",
+                            "value": "{\"table_type\":\"direct\",\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>If you have a nose bleed, what should you do?<\/p>\\n\",\"order\":\"1\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"tilt_back\",\"label\":\"Tilt your head back\",\"points\":\"0\"},{\"value\":\"tilt_forwards\",\"label\":\"Tilt your head forwards\",\"points\":\"0.5\"},{\"value\":\"tilt_forwards_pinch\",\"label\":\"Tilt your head forwards and pinch your nose\",\"points\":\"1\"}]},\"trait\":\"first_aid\"},{\"id\":\"2\",\"question\":\"<p>In first aid,&nbsp;ABC stands for what?<\/p>\\n\",\"order\":\"2\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"airway_breathing_circulation\",\"label\":\"Airway, breathing, circulation\",\"points\":\"1\"},{\"value\":\"alcoholic_beverage_control\",\"label\":\"Alcoholic Beverage Control\",\"points\":\"0\"}]},\"trait\":\"first_aid\"},{\"id\":\"3\",\"question\":\"<p>In CPR, how many chest compressions per minute should be performed?<\/p>\\n\",\"order\":\"3\",\"response_options\":{\"response_type\":\"open_text\",\"correct_answer\":\"100\",\"response_options\":[]},\"trait\":\"first_aid\"}],\"custom_table\":\"\",\"custom_question_column\":{},\"custom_order_column\":{},\"custom_response_options\":{},\"custom_correct_column\":{},\"custom_trait_column\":{},\"custom_test_id_column\":{}}",
+                            "testVariable": 333,
+                            "name": "item_bank",
+                            "wizardStep": 58,
+                            "stepTitle": "Items and navigation",
+                            "order": 0,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0",
+                                "fields": [
+                                    {
+                                        "type": "3",
+                                        "name": "table_type",
+                                        "label": "Table type",
+                                        "definition": {
+                                            "placeholder": "0",
+                                            "options": [
+                                                {
+                                                    "value": "direct",
+                                                    "label": "direct"
+                                                },
+                                                {
+                                                    "value": "custom",
+                                                    "label": "custom"
+                                                }
+                                            ]
+                                        },
+                                        "order": 0
+                                    },
+                                    {
+                                        "type": 10,
+                                        "name": "direct_table",
+                                        "label": "Table",
+                                        "definition": {
+                                            "placeholder": "0",
+                                            "element": {
+                                                "type": 9,
+                                                "definition": {
+                                                    "placeholder": "0",
+                                                    "fields": [
+                                                        {
+                                                            "type": "0",
+                                                            "name": "id",
+                                                            "label": "Id",
+                                                            "definition": {
+                                                                "placeholder": "0"
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": "2",
+                                                            "name": "question",
+                                                            "label": "Question",
+                                                            "definition": {
+                                                                "placeholder": "0"
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": "0",
+                                                            "name": "order",
+                                                            "label": "Order",
+                                                            "definition": {
+                                                                "placeholder": 0
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": 9,
+                                                            "name": "response_options",
+                                                            "label": "Response options",
+                                                            "definition": {
+                                                                "placeholder": 0,
+                                                                "element": {
+                                                                    "type": 9,
                                                                     "definition": {
                                                                         "placeholder": 0,
                                                                         "fields": [
                                                                             {
-                                                                                "type": 0,
-                                                                                "name": "name",
-                                                                                "label": "Name",
+                                                                                "type": 3,
+                                                                                "name": "response_type",
+                                                                                "label": "Response Type",
                                                                                 "definition": {
-                                                                                    "placeholder": 0
-                                                                                }
+                                                                                    "placeholder": 0,
+                                                                                    "options": [
+                                                                                        {
+                                                                                            "value": "open_text",
+                                                                                            "label": "Open text",
+                                                                                            "order": 2
+                                                                                        },
+                                                                                        {
+                                                                                            "value": "multiple_choice",
+                                                                                            "label": "Multiple choice",
+                                                                                            "order": 1
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                "order": 0
                                                                             },
                                                                             {
                                                                                 "type": 0,
-                                                                                "name": "label",
-                                                                                "label": "Label",
+                                                                                "name": "correct_answer",
+                                                                                "label": "Correct Answer",
                                                                                 "definition": {
                                                                                     "placeholder": 0
-                                                                                }
+                                                                                },
+                                                                                "hideCondition": "parent.type != \"open_text\"",
+                                                                                "order": 1
                                                                             },
                                                                             {
-                                                                                "type": 0,
-                                                                                "name": "score",
-                                                                                "label": "Score",
+                                                                                "type": 9,
+                                                                                "name": "response_options",
+                                                                                "label": "Response Options",
                                                                                 "definition": {
-                                                                                    "placeholder": 0
+                                                                                    "placeholder": 0,
+                                                                                    "fields": [
+                                                                                        {
+                                                                                            "type": 0,
+                                                                                            "name": "name",
+                                                                                            "label": "Name",
+                                                                                            "definition": {
+                                                                                                "placeholder": 0
+                                                                                            },
+                                                                                            "order": 0
+                                                                                        },
+                                                                                        {
+                                                                                            "type": 0,
+                                                                                            "name": "label",
+                                                                                            "label": "Label",
+                                                                                            "definition": {
+                                                                                                "placeholder": 0
+                                                                                            },
+                                                                                            "order": 1
+                                                                                        },
+                                                                                        {
+                                                                                            "type": 0,
+                                                                                            "name": "score",
+                                                                                            "label": "Score",
+                                                                                            "definition": {
+                                                                                                "placeholder": 0
+                                                                                            },
+                                                                                            "order": 2
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                "order": 2,
+                                                                                "hideCondition": "parent.type != \"multiple_choice\""
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                "fields": [
+                                                                    {
+                                                                        "type": 3,
+                                                                        "name": "response_type",
+                                                                        "label": "Response type",
+                                                                        "definition": {
+                                                                            "placeholder": 0,
+                                                                            "options": [
+                                                                                {
+                                                                                    "value": "multiple_choice",
+                                                                                    "label": "Multiple choice",
+                                                                                    "order": 0
+                                                                                },
+                                                                                {
+                                                                                    "value": "open_text",
+                                                                                    "label": "Open text",
+                                                                                    "order": 1
                                                                                 }
-                                                                            }
-                                                                        ],
-                                                                        "element": {
-                                                                            "type": 9,
-                                                                            "definition": {
-                                                                                "placeholder": 0,
-                                                                                "fields": [
-                                                                                    {
-                                                                                        "type": 0,
-                                                                                        "name": "value",
-                                                                                        "label": "Value",
-                                                                                        "definition": {
-                                                                                            "placeholder": 0
-                                                                                        },
-                                                                                        "order": 0
-                                                                                    },
-                                                                                    {
-                                                                                        "type": 0,
-                                                                                        "name": "label",
-                                                                                        "label": "Label",
-                                                                                        "definition": {
-                                                                                            "placeholder": 0
-                                                                                        },
-                                                                                        "order": 1
-                                                                                    },
-                                                                                    {
-                                                                                        "type": 0,
-                                                                                        "name": "points",
-                                                                                        "label": "Points",
-                                                                                        "definition": {
-                                                                                            "placeholder": 0
-                                                                                        },
-                                                                                        "order": 2
-                                                                                    }
-                                                                                ]
-                                                                            }
-                                                                        }
+                                                                            ]
+                                                                        },
+                                                                        "order": 0
                                                                     },
-                                                                    "order": 2,
-                                                                    "hideCondition": "parent.response_type != \"multiple_choice\""
-                                                                }
-                                                            ]
+                                                                    {
+                                                                        "type": 0,
+                                                                        "name": "correct_answer",
+                                                                        "label": "Correct answer",
+                                                                        "definition": {
+                                                                            "placeholder": 0
+                                                                        },
+                                                                        "order": 1,
+                                                                        "hideCondition": "parent.response_type != \"open_text\""
+                                                                    },
+                                                                    {
+                                                                        "type": 10,
+                                                                        "name": "response_options",
+                                                                        "label": "Response options",
+                                                                        "definition": {
+                                                                            "placeholder": 0,
+                                                                            "fields": [
+                                                                                {
+                                                                                    "type": 0,
+                                                                                    "name": "name",
+                                                                                    "label": "Name",
+                                                                                    "definition": {
+                                                                                        "placeholder": 0
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "type": 0,
+                                                                                    "name": "label",
+                                                                                    "label": "Label",
+                                                                                    "definition": {
+                                                                                        "placeholder": 0
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "type": 0,
+                                                                                    "name": "score",
+                                                                                    "label": "Score",
+                                                                                    "definition": {
+                                                                                        "placeholder": 0
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "element": {
+                                                                                "type": 9,
+                                                                                "definition": {
+                                                                                    "placeholder": 0,
+                                                                                    "fields": [
+                                                                                        {
+                                                                                            "type": 0,
+                                                                                            "name": "value",
+                                                                                            "label": "Value",
+                                                                                            "definition": {
+                                                                                                "placeholder": 0
+                                                                                            },
+                                                                                            "order": 0
+                                                                                        },
+                                                                                        {
+                                                                                            "type": 0,
+                                                                                            "name": "label",
+                                                                                            "label": "Label",
+                                                                                            "definition": {
+                                                                                                "placeholder": 0
+                                                                                            },
+                                                                                            "order": 1
+                                                                                        },
+                                                                                        {
+                                                                                            "type": 0,
+                                                                                            "name": "points",
+                                                                                            "label": "Points",
+                                                                                            "definition": {
+                                                                                                "placeholder": 0
+                                                                                            },
+                                                                                            "order": 2
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "order": 2,
+                                                                        "hideCondition": "parent.response_type != \"multiple_choice\""
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": "0",
+                                                            "name": "trait",
+                                                            "label": "Trait",
+                                                            "definition": {
+                                                                "placeholder": "0"
+                                                            }
                                                         }
+                                                    ]
+                                                }
+                                            },
+                                            "fields": [
+                                                {
+                                                    "type": 3,
+                                                    "name": "response_type",
+                                                    "label": "Response Type",
+                                                    "definition": {
+                                                        "placeholder": 0,
+                                                        "options": [
+                                                            {
+                                                                "value": "open_text",
+                                                                "label": "Open text",
+                                                                "order": 2
+                                                            },
+                                                            {
+                                                                "value": "multiple_choice",
+                                                                "label": "Multiple choice",
+                                                                "order": 1
+                                                            }
+                                                        ]
                                                     },
-                                                    {
-                                                        "type": "0",
-                                                        "name": "trait",
-                                                        "label": "Trait",
-                                                        "definition": {
-                                                            "placeholder": "0"
-                                                        }
-                                                    }
-                                                ]
-                                            }
+                                                    "order": 0
+                                                },
+                                                {
+                                                    "type": 0,
+                                                    "name": "correct_answer",
+                                                    "label": "Correct Answer",
+                                                    "definition": {
+                                                        "placeholder": 0
+                                                    },
+                                                    "hideCondition": "parent.type != \"open_text\"",
+                                                    "order": 1
+                                                },
+                                                {
+                                                    "type": 9,
+                                                    "name": "response_options",
+                                                    "label": "Response Options",
+                                                    "definition": {
+                                                        "placeholder": 0,
+                                                        "fields": [
+                                                            {
+                                                                "type": 0,
+                                                                "name": "name",
+                                                                "label": "Name",
+                                                                "definition": {
+                                                                    "placeholder": 0
+                                                                },
+                                                                "order": 0
+                                                            },
+                                                            {
+                                                                "type": 0,
+                                                                "name": "label",
+                                                                "label": "Label",
+                                                                "definition": {
+                                                                    "placeholder": 0
+                                                                },
+                                                                "order": 1
+                                                            },
+                                                            {
+                                                                "type": 0,
+                                                                "name": "points",
+                                                                "label": "Points",
+                                                                "definition": {
+                                                                    "placeholder": 0
+                                                                },
+                                                                "order": 2
+                                                            }
+                                                        ]
+                                                    },
+                                                    "order": 2,
+                                                    "hideCondition": "parent.type != \"multiple_choice\""
+                                                }
+                                            ]
                                         },
-                                        "fields": [
-                                            {
-                                                "type": 3,
-                                                "name": "response_type",
-                                                "label": "Response Type",
-                                                "definition": {
-                                                    "placeholder": 0,
-                                                    "options": [
-                                                        {
-                                                            "value": "open_text",
-                                                            "label": "Open text",
-                                                            "order": 2
-                                                        },
-                                                        {
-                                                            "value": "multiple_choice",
-                                                            "label": "Multiple choice",
-                                                            "order": 1
-                                                        }
-                                                    ]
-                                                },
-                                                "order": 0
-                                            },
-                                            {
-                                                "type": 0,
-                                                "name": "correct_answer",
-                                                "label": "Correct Answer",
-                                                "definition": {
-                                                    "placeholder": 0
-                                                },
-                                                "hideCondition": "parent.type != \"open_text\"",
-                                                "order": 1
-                                            },
-                                            {
-                                                "type": 9,
-                                                "name": "response_options",
-                                                "label": "Response Options",
-                                                "definition": {
-                                                    "placeholder": 0,
-                                                    "fields": [
-                                                        {
-                                                            "type": 0,
-                                                            "name": "name",
-                                                            "label": "Name",
-                                                            "definition": {
-                                                                "placeholder": 0
-                                                            },
-                                                            "order": 0
-                                                        },
-                                                        {
-                                                            "type": 0,
-                                                            "name": "label",
-                                                            "label": "Label",
-                                                            "definition": {
-                                                                "placeholder": 0
-                                                            },
-                                                            "order": 1
-                                                        },
-                                                        {
-                                                            "type": 0,
-                                                            "name": "points",
-                                                            "label": "Points",
-                                                            "definition": {
-                                                                "placeholder": 0
-                                                            },
-                                                            "order": 2
-                                                        }
-                                                    ]
-                                                },
-                                                "order": 2,
-                                                "hideCondition": "parent.type != \"multiple_choice\""
-                                            }
-                                        ]
+                                        "hideCondition": "parent.table_type != \"direct\"",
+                                        "order": 2
                                     },
-                                    "hideCondition": "parent.table_type != \"direct\"",
-                                    "order": 2
-                                },
-                                {
-                                    "type": 12,
-                                    "name": "custom_table",
-                                    "label": "Custom table",
-                                    "definition": {
-                                        "placeholder": "0",
-                                        "cols": [
-                                            {
-                                                "name": "question",
-                                                "label": "Question",
-                                                "tooltip": "Question column"
-                                            },
-                                            {
-                                                "name": "order",
-                                                "label": "Order",
-                                                "tooltip": "Order column"
-                                            },
-                                            {
-                                                "name": "response_options",
-                                                "label": "Response options",
-                                                "tooltip": "Response options column"
-                                            },
-                                            {
-                                                "name": "correct",
-                                                "label": "Correct",
-                                                "tooltip": "Correct column"
-                                            },
-                                            {
-                                                "name": "trait",
-                                                "label": "Trait",
-                                                "tooltip": "Trait column"
-                                            },
-                                            {
-                                                "name": "data_set_id",
-                                                "label": "Data set id",
-                                                "tooltip": "Data set id column"
-                                            }
-                                        ]
+                                    {
+                                        "type": 12,
+                                        "name": "custom_table",
+                                        "label": "Custom table",
+                                        "definition": {
+                                            "placeholder": "0",
+                                            "cols": [
+                                                {
+                                                    "name": "question",
+                                                    "label": "Question",
+                                                    "tooltip": "Question column"
+                                                },
+                                                {
+                                                    "name": "order",
+                                                    "label": "Order",
+                                                    "tooltip": "Order column"
+                                                },
+                                                {
+                                                    "name": "response_options",
+                                                    "label": "Response options",
+                                                    "tooltip": "Response options column"
+                                                },
+                                                {
+                                                    "name": "correct",
+                                                    "label": "Correct",
+                                                    "tooltip": "Correct column"
+                                                },
+                                                {
+                                                    "name": "trait",
+                                                    "label": "Trait",
+                                                    "tooltip": "Trait column"
+                                                },
+                                                {
+                                                    "name": "data_set_id",
+                                                    "label": "Data set id",
+                                                    "tooltip": "Data set id column"
+                                                }
+                                            ]
+                                        },
+                                        "hideCondition": "parent.table_type != \"custom\"",
+                                        "order": 3
                                     },
-                                    "hideCondition": "parent.table_type != \"custom\"",
-                                    "order": 3
-                                },
-                                {
-                                    "type": 0,
-                                    "name": "data_set_id",
-                                    "label": "Data set id",
-                                    "definition": {
-                                        "placeholder": 0
-                                    },
-                                    "hideCondition": "parent.table_type == \"direct\"",
-                                    "order": 1
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 170,
-                        "label": "Randomize response options",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 4,
-                        "passableThroughUrl": "0",
-                        "value": "1",
-                        "testVariable": 329,
-                        "name": "randomized_response_options",
-                        "wizardStep": 55,
-                        "stepTitle": "Items and navigation",
-                        "order": 2,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 171,
-                        "label": "Can go back?",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 4,
-                        "passableThroughUrl": "0",
-                        "value": "1",
-                        "testVariable": 336,
-                        "name": "can_go_back",
-                        "wizardStep": 55,
-                        "stepTitle": "Items and navigation",
-                        "order": 3,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 172,
-                        "label": "Next button label",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "next",
-                        "testVariable": 323,
-                        "name": "next_button_label",
-                        "wizardStep": 55,
-                        "stepTitle": "Items and navigation",
-                        "order": 4,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 173,
-                        "label": "Previous button label",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "previous",
-                        "testVariable": 324,
-                        "name": "previous_button_label",
-                        "wizardStep": 55,
-                        "stepTitle": "Items and navigation",
-                        "order": 5,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    }
-                ]
-            },
-            {
-                "class_name": "TestWizardStep",
-                "id": 56,
-                "title": "Stopping rules",
-                "description": "",
-                "orderNum": 2,
-                "colsNum": 0,
-                "wizard": 15,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 174,
-                        "label": "Time-based stopping rule",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 9,
-                        "passableThroughUrl": "0",
-                        "value": "{\"enabled\":\"0\",\"time_limit\":\"\",\"type\":null}",
-                        "testVariable": 327,
-                        "name": "stopping_time",
-                        "wizardStep": 56,
-                        "stepTitle": "Stopping rules",
-                        "order": 1,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0",
-                            "fields": [
-                                {
-                                    "type": 3,
-                                    "name": "type",
-                                    "label": "Type",
-                                    "definition": {
-                                        "placeholder": 0,
-                                        "options": [
-                                            {
-                                                "value": "test",
-                                                "label": "test wide",
-                                                "order": "1"
-                                            },
-                                            {
-                                                "value": "item",
-                                                "label": "item",
-                                                "order": "0"
-                                            }
-                                        ]
+                                    {
+                                        "type": 0,
+                                        "name": "data_set_id",
+                                        "label": "Data set id",
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
+                                        "hideCondition": "parent.table_type == \"direct\"",
+                                        "order": 1
                                     }
-                                },
-                                {
-                                    "type": 0,
-                                    "name": "time_limit",
-                                    "label": "Time limit (seconds)",
-                                    "definition": {
-                                        "placeholder": 0
-                                    },
-                                    "hideCondition": "!parent.type"
-                                }
-                            ]
+                                ]
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 178,
+                            "label": "Randomize response options",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 4,
+                            "passableThroughUrl": "0",
+                            "value": "1",
+                            "testVariable": 337,
+                            "name": "randomized_response_options",
+                            "wizardStep": 58,
+                            "stepTitle": "Items and navigation",
+                            "order": 2,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 179,
+                            "label": "Can go back?",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 4,
+                            "passableThroughUrl": "0",
+                            "value": "1",
+                            "testVariable": 344,
+                            "name": "can_go_back",
+                            "wizardStep": 58,
+                            "stepTitle": "Items and navigation",
+                            "order": 3,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 180,
+                            "label": "Next button label",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "next",
+                            "testVariable": 331,
+                            "name": "next_button_label",
+                            "wizardStep": 58,
+                            "stepTitle": "Items and navigation",
+                            "order": 4,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 181,
+                            "label": "Previous button label",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "previous",
+                            "testVariable": 332,
+                            "name": "previous_button_label",
+                            "wizardStep": 58,
+                            "stepTitle": "Items and navigation",
+                            "order": 5,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
                         }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 175,
-                        "label": "Item count-based stopping rule",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 9,
-                        "passableThroughUrl": "0",
-                        "value": "{\"enabled\":\"0\",\"count\":\"\"}",
-                        "testVariable": 328,
-                        "name": "stopping_item_count",
-                        "wizardStep": 56,
-                        "stepTitle": "Stopping rules",
-                        "order": 0,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0",
-                            "fields": [
-                                {
-                                    "type": "4",
-                                    "name": "enabled",
-                                    "label": "Enabled",
-                                    "definition": {
-                                        "placeholder": "0"
+                    ]
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 59,
+                    "title": "Stopping rules",
+                    "description": "",
+                    "orderNum": 2,
+                    "colsNum": 0,
+                    "wizard": 15,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 182,
+                            "label": "Time-based stopping rule",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 9,
+                            "passableThroughUrl": "0",
+                            "value": "{\"enabled\":\"0\",\"time_limit\":\"\",\"type\":null}",
+                            "testVariable": 335,
+                            "name": "stopping_time",
+                            "wizardStep": 59,
+                            "stepTitle": "Stopping rules",
+                            "order": 1,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0",
+                                "fields": [
+                                    {
+                                        "type": 3,
+                                        "name": "type",
+                                        "label": "Type",
+                                        "definition": {
+                                            "placeholder": 0,
+                                            "options": [
+                                                {
+                                                    "value": "test",
+                                                    "label": "test wide",
+                                                    "order": "1"
+                                                },
+                                                {
+                                                    "value": "item",
+                                                    "label": "item",
+                                                    "order": "0"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": 0,
+                                        "name": "time_limit",
+                                        "label": "Time limit (seconds)",
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
+                                        "hideCondition": "!parent.type"
                                     }
-                                },
-                                {
-                                    "type": "0",
-                                    "name": "count",
-                                    "label": "Max item count",
-                                    "hideCondition": "parent.enabled != \"1\""
-                                }
-                            ]
-                        }
-                    }
-                ]
-            },
-            {
-                "class_name": "TestWizardStep",
-                "id": 57,
-                "title": "Response bank",
-                "description": "",
-                "orderNum": 3,
-                "colsNum": 0,
-                "wizard": 15,
-                "params": [
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 176,
-                        "label": "Response bank",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 9,
-                        "passableThroughUrl": "0",
-                        "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_trait_column\":{},\"custom_correct_column\":{},\"custom_session_id_column\":{},\"custom_time_taken_column\":{}}",
-                        "testVariable": 326,
-                        "name": "response_bank",
-                        "wizardStep": 57,
-                        "stepTitle": "Response bank",
-                        "order": 0,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0",
-                            "fields": [
-                                {
-                                    "type": "3",
-                                    "name": "table_type",
-                                    "label": "Table type",
-                                    "definition": {
-                                        "placeholder": "0",
-                                        "options": [
-                                            {
-                                                "value": "default",
-                                                "label": "default"
-                                            },
-                                            {
-                                                "value": "custom",
-                                                "label": "custom"
-                                            }
-                                        ]
+                                ]
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 183,
+                            "label": "Item count-based stopping rule",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 9,
+                            "passableThroughUrl": "0",
+                            "value": "{\"enabled\":\"0\",\"count\":\"\"}",
+                            "testVariable": 336,
+                            "name": "stopping_item_count",
+                            "wizardStep": 59,
+                            "stepTitle": "Stopping rules",
+                            "order": 0,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0",
+                                "fields": [
+                                    {
+                                        "type": "4",
+                                        "name": "enabled",
+                                        "label": "Enabled",
+                                        "definition": {
+                                            "placeholder": "0"
+                                        }
                                     },
-                                    "order": 0
-                                },
-                                {
-                                    "type": 12,
-                                    "name": "custom_table",
-                                    "label": "Custom table",
-                                    "definition": {
-                                        "placeholder": "0",
-                                        "cols": [
-                                            {
-                                                "name": "item_id",
-                                                "label": "Item id",
-                                                "tooltip": "Item id column"
-                                            },
-                                            {
-                                                "name": "response",
-                                                "label": "Response",
-                                                "tooltip": "Response column"
-                                            },
-                                            {
-                                                "name": "trait",
-                                                "label": "Trait",
-                                                "tooltip": "Trait column"
-                                            },
-                                            {
-                                                "name": "correct",
-                                                "label": "Correct",
-                                                "tooltip": "Correct column"
-                                            },
-                                            {
-                                                "name": "session_id",
-                                                "label": "Session id",
-                                                "tooltip": "Session id column"
-                                            },
-                                            {
-                                                "name": "time_taken",
-                                                "label": "Time taken",
-                                                "tooltip": "Time taken column"
-                                            },
-                                            {
-                                                "name": "data_set_id",
-                                                "label": "Data set id",
-                                                "tooltip": "Data set id column"
-                                            }
-                                        ]
+                                    {
+                                        "type": "0",
+                                        "name": "count",
+                                        "label": "Max item count",
+                                        "hideCondition": "parent.enabled != \"1\""
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 60,
+                    "title": "Response bank",
+                    "description": "",
+                    "orderNum": 3,
+                    "colsNum": 0,
+                    "wizard": 15,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 184,
+                            "label": "Response bank",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 9,
+                            "passableThroughUrl": "0",
+                            "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_item_id_column\":{},\"custom_response_column\":{},\"custom_trait_column\":{},\"custom_correct_column\":{},\"custom_session_id_column\":{},\"custom_time_taken_column\":{}}",
+                            "testVariable": 334,
+                            "name": "response_bank",
+                            "wizardStep": 60,
+                            "stepTitle": "Response bank",
+                            "order": 0,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0",
+                                "fields": [
+                                    {
+                                        "type": "3",
+                                        "name": "table_type",
+                                        "label": "Table type",
+                                        "definition": {
+                                            "placeholder": "0",
+                                            "options": [
+                                                {
+                                                    "value": "default",
+                                                    "label": "default"
+                                                },
+                                                {
+                                                    "value": "custom",
+                                                    "label": "custom"
+                                                }
+                                            ]
+                                        },
+                                        "order": 0
                                     },
-                                    "hideCondition": "parent.table_type != \"custom\"",
-                                    "order": 2
-                                },
-                                {
-                                    "type": 0,
-                                    "name": "data_set_id",
-                                    "label": "Data set id",
-                                    "definition": {
-                                        "placeholder": 0
+                                    {
+                                        "type": 12,
+                                        "name": "custom_table",
+                                        "label": "Custom table",
+                                        "definition": {
+                                            "placeholder": "0",
+                                            "cols": [
+                                                {
+                                                    "name": "item_id",
+                                                    "label": "Item id",
+                                                    "tooltip": "Item id column"
+                                                },
+                                                {
+                                                    "name": "response",
+                                                    "label": "Response",
+                                                    "tooltip": "Response column"
+                                                },
+                                                {
+                                                    "name": "trait",
+                                                    "label": "Trait",
+                                                    "tooltip": "Trait column"
+                                                },
+                                                {
+                                                    "name": "correct",
+                                                    "label": "Correct",
+                                                    "tooltip": "Correct column"
+                                                },
+                                                {
+                                                    "name": "session_id",
+                                                    "label": "Session id",
+                                                    "tooltip": "Session id column"
+                                                },
+                                                {
+                                                    "name": "time_taken",
+                                                    "label": "Time taken",
+                                                    "tooltip": "Time taken column"
+                                                },
+                                                {
+                                                    "name": "data_set_id",
+                                                    "label": "Data set id",
+                                                    "tooltip": "Data set id column"
+                                                }
+                                            ]
+                                        },
+                                        "hideCondition": "parent.table_type != \"custom\"",
+                                        "order": 2
                                     },
-                                    "order": 1
-                                }
-                            ]
+                                    {
+                                        "type": 0,
+                                        "name": "data_set_id",
+                                        "label": "Data set id",
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
+                                        "order": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 185,
+                            "label": "Response required",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 4,
+                            "passableThroughUrl": "0",
+                            "value": "0",
+                            "testVariable": 341,
+                            "name": "response_required",
+                            "wizardStep": 60,
+                            "stepTitle": "Response bank",
+                            "order": 1,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 186,
+                            "label": "No response alert",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 342,
+                            "name": "no_response_alert",
+                            "wizardStep": 60,
+                            "stepTitle": "Response bank",
+                            "order": 2,
+                            "wizard": 15,
+                            "definition": {
+                                "placeholder": "0"
+                            }
                         }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 177,
-                        "label": "Response required",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 4,
-                        "passableThroughUrl": "0",
-                        "value": "0",
-                        "testVariable": 333,
-                        "name": "response_required",
-                        "wizardStep": 57,
-                        "stepTitle": "Response bank",
-                        "order": 1,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    },
-                    {
-                        "class_name": "TestWizardParam",
-                        "id": 178,
-                        "label": "No response alert",
-                        "description": "",
-                        "hideCondition": "",
-                        "type": 0,
-                        "passableThroughUrl": "0",
-                        "value": "",
-                        "testVariable": 334,
-                        "name": "no_response_alert",
-                        "wizardStep": 57,
-                        "stepTitle": "Response bank",
-                        "order": 2,
-                        "wizard": 15,
-                        "definition": {
-                            "placeholder": "0"
-                        }
-                    }
-                ]
-            }
-        ],
-        "test": 28,
-        "testName": "source_linear_test",
-        "updatedOn": "2016-11-08 20:41:02",
-        "updatedByName": "",
-        "owner": 1,
-        "groups": "",
-        "starterContent": true,
-        "rev": 7,
-        "hash": "02b3cc227dd92e191ac2b6f6083c12fcb241ad0c"
-    }
-]
+                    ]
+                }
+            ],
+            "test": 29,
+            "testName": "source_linear_test",
+            "updatedOn": "2016-11-21 19:41:08",
+            "updatedByName": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 8,
+            "hash": "81332b10f37aaf07dbe32578e693aaaa52463149"
+        }
+    ]
+}
