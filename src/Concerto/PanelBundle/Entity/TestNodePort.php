@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Concerto\PanelBundle\Entity\TestNode;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
+use Concerto\PanelBundle\Entity\TestWizardParam;
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -240,6 +241,18 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     }
 
     public function jsonSerialize(&$dependencies = array()) {
+        $wizard = $this->variable->getTest()->getSourceWizard();
+        if ($wizard) {
+            foreach ($wizard->getParams() as $param) {
+                if ($this->variable->getParentVariable() == null)
+                    continue;
+                if ($param->getVariable()->getId() == $this->variable->getParentVariable()->getId()) {
+                    TestWizardParam::getParamValueDependencies($this->value, $param->getDefinition(), $param->getType(), $dependencies);
+                    break;
+                }
+            }
+        }
+
         return array(
             "class_name" => "TestNodePort",
             "id" => $this->id,

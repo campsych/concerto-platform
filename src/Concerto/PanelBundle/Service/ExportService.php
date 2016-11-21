@@ -56,6 +56,15 @@ class ExportService {
             $entity = $section_service->get($object_id);
             $entity->jsonSerialize($dependencies);
 
+            if (array_key_exists("ids", $dependencies)) {
+                foreach ($dependencies["ids"] as $k => $v) {
+                    $ids_service = $this->serviceMap[$k];
+                    foreach ($v as $id) {
+                        $ids_service->get($id)->jsonSerialize($dependencies);
+                    }
+                }
+            }
+
             if (array_key_exists("collection", $dependencies)) {
                 foreach ($dependencies["collection"] as $elem) {
                     $export_elem = $elem;
@@ -91,6 +100,15 @@ class ExportService {
                 }
             }
             $test->jsonSerialize($dependencies);
+        }
+
+        if (array_key_exists("ids", $dependencies)) {
+            foreach ($dependencies["ids"] as $k => $v) {
+                $ids_service = $this->serviceMap[$k];
+                foreach ($v as $id) {
+                    $ids_service->get($id)->jsonSerialize($dependencies);
+                }
+            }
         }
 
         $result = array();

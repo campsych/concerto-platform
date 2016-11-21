@@ -86,7 +86,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
 
         $this->description = "";
         $this->ports = new ArrayCollection();
-        $this->params =  new ArrayCollection();
+        $this->params = new ArrayCollection();
     }
 
     public function getOwner() {
@@ -340,6 +340,18 @@ class TestVariable extends AEntity implements \JsonSerializable {
     }
 
     public function jsonSerialize(&$dependencies = array()) {
+        $wizard = $this->getTest()->getSourceWizard();
+        if ($wizard) {
+            foreach ($wizard->getParams() as $param) {
+                if ($this->getParentVariable() == null)
+                    continue;
+                if ($param->getVariable()->getId() == $this->getParentVariable()->getId()) {
+                    TestWizardParam::getParamValueDependencies($this->value, $param->getDefinition(), $param->getType(), $dependencies);
+                    break;
+                }
+            }
+        }
+
         return array(
             "class_name" => "TestVariable",
             "id" => $this->getId(),

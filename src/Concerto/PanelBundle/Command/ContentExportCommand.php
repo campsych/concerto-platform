@@ -41,6 +41,15 @@ class ContentExportCommand extends ContainerAwareCommand {
                 $ent = $class_service->get($ent->getId(), false, false);
                 $ent->jsonSerialize($dependencies);
 
+                if (array_key_exists("ids", $dependencies)) {
+                    foreach ($dependencies["ids"] as $k => $v) {
+                        $ids_service = $importService->serviceMap[$k];
+                        foreach ($v as $id) {
+                            $ids_service->get($id)->jsonSerialize($dependencies);
+                        }
+                    }
+                }
+
                 $result = array();
                 if (array_key_exists("collection", $dependencies)) {
                     foreach ($dependencies["collection"] as $elem) {

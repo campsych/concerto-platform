@@ -30,7 +30,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="text")
      */
     private $description;
-    
+
     /**
      *
      * @var string
@@ -96,12 +96,12 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      */
     public function __construct() {
         parent::__construct();
-        
+
         $this->description = "";
         $this->hideCondition = "";
         $this->order = 0;
     }
-    
+
     public function getOwner() {
         return $this->getWizard()->getOwner();
     }
@@ -147,7 +147,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     public function getDescription() {
         return $this->description;
     }
-    
+
     /**
      * Set hide condition
      *
@@ -252,7 +252,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     public function getOrder() {
         return $this->order;
     }
-    
+
     /**
      * Set test variable
      *
@@ -333,10 +333,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      *
      * @return array
      */
-    public function getDefiniton() {
+    public function getDefinition() {
         return $this->definition;
     }
-    
+
     public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["testVariable"]);
@@ -347,7 +347,81 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
+    public static function getParamValueDependencies($val, $def, $type, &$dependencies = array()) {
+        if (!array_key_exists("ids", $dependencies))
+            $dependencies["ids"] = array();
+        switch ($type) {
+            case 5: {
+                    if ($val) {
+                        if (!array_key_exists("ViewTemplate", $dependencies["ids"]))
+                            $dependencies["ids"]["ViewTemplate"] = array();
+                        if (!in_array($val, $dependencies["ids"]["ViewTemplate"]))
+                            array_push($dependencies["ids"]["ViewTemplate"], $val);
+                    }
+                    break;
+                }
+            case 6: {
+                    if ($val) {
+                        if (!array_key_exists("DataTable", $dependencies["ids"]))
+                            $dependencies["ids"]["DataTable"] = array();
+                        if (!in_array($val, $dependencies["ids"]["DataTable"]))
+                            array_push($dependencies["ids"]["DataTable"], $val);
+                    }
+                    break;
+                }
+            case 7: {
+                    if ($val["table"]) {
+                        if (!array_key_exists("DataTable", $dependencies["ids"]))
+                            $dependencies["ids"]["DataTable"] = array();
+                        if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
+                            array_push($dependencies["ids"]["DataTable"], $val["table"]);
+                    }
+                    break;
+                }
+            case 8: {
+                    if ($val) {
+                        if (!array_key_exists("Test", $dependencies["ids"]))
+                            $dependencies["ids"]["Test"] = array();
+                        if (!in_array($val, $dependencies["ids"]["Test"]))
+                            array_push($dependencies["ids"]["Test"], $val);
+                    }
+                    break;
+                }
+            case 9: {
+                    if (!is_array($val))
+                        $val = json_decode($val, true);
+                    foreach ($def["fields"] as $field) {
+                        if (array_key_exists($field["name"], $val) && $val[$field["name"]]) {
+                            $has_definition = array_key_exists("definition", $field);
+                            self::getParamValueDependencies($val[$field["name"]], $has_definition ? $field["definition"] : array(), $field["type"], $dependencies);
+                        }
+                    }
+                    break;
+                }
+            case 10: {
+                    if (!is_array($val))
+                        $val = json_decode($val, true);
+                    foreach ($val as $row) {
+                        $has_definition = array_key_exists("definition", $def["element"]);
+                        self::getParamValueDependencies($row, $has_definition ? $def["element"]["definition"] : array(), $def["element"]["type"], $dependencies);
+                    }
+                    break;
+                }
+            case 12: {
+                    if ($val["table"]) {
+                        if (!array_key_exists("DataTable", $dependencies["ids"]))
+                            $dependencies["ids"]["DataTable"] = array();
+                        if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
+                            array_push($dependencies["ids"]["DataTable"], $val["table"]);
+                    }
+                    break;
+                }
+        }
+    }
+
     public function jsonSerialize(&$dependencies = array()) {
+        self::getParamValueDependencies($this->value, $this->definition, $this->type, $dependencies);
+
         return array(
             "class_name" => "TestWizardParam",
             "id" => $this->id,
