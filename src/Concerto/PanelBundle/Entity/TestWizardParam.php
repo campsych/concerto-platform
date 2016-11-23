@@ -390,6 +390,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
             case 9: {
                     if (!is_array($val))
                         $val = json_decode($val, true);
+                    if (!$val)
+                        return;
                     foreach ($def["fields"] as $field) {
                         if (array_key_exists($field["name"], $val) && $val[$field["name"]]) {
                             $has_definition = array_key_exists("definition", $field);
