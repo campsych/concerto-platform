@@ -1,25 +1,25 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.169",
     "collection": [
         {
             "class_name": "ViewTemplate",
-            "id": 15,
+            "id": 18,
             "name": "polyCAT_content",
             "description": "",
             "accessibility": 0,
             "protected": "1",
             "archived": "0",
             "head": "",
-            "css": ".polyCAT-response-table {\n  border: 0 none;\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.polyCAT-response-table td {\n  padding: 0 5px 0 0;\n}\n.polyCAT-response-button-cell {\n  padding-right: 5px;\n}\n\n.polyCAT-question-cell {\n  width: 250px;\n}\n.polyCAT-header-cell {\n  text-align: center;\n  background-color: #b9d979;\n  font-weight: 500; \n}",
+            "css": ".polyCAT-response-table {\n  border: 0 none;\n  width: 100%;\n  table-layout: fixed;\n}\n.polyCAT-response-table td {\n  padding: 0 5px 0 0;\n}\n.polyCAT-response-button-cell {\n  text-align: center;\n}\n.polyCAT-header-cell {\n  text-align: center;\n  background-color: #b9d979;\n  font-weight: 500; \n}",
             "js": "testRunner.controllerProvider.register(\"polyCAT\", function($scope) {\n  $scope.responseOptions = {{options}};\n})",
-            "html": "{{paragraph}}\n<table class=\"polyCAT-response-table\" ng-controller=\"polyCAT\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"polyCAT-header-cell\">&nbsp;<\/th>\n\t\t\t<th class=\"polyCAT-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions track by $index\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr>\n\t\t\t<td class=\"polyCAT-question-cell\">{{question}}<\/td>\n\t\t\t<td class=\"polyCAT-response-button-cell\" ng-repeat=\"option in responseOptions track by $index\"><input id=\"input_response_[[$index+1]]\" name=\"response\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2016-11-21 19:41:12",
-            "updatedByName": "",
+            "html": "{{paragraph}}\n<p class=\"polyCat-question\">{{question}}<\/p>\n<table class=\"polyCAT-response-table\" ng-controller=\"polyCAT\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"polyCAT-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions track by $index\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr>\n\t\t\t<td class=\"polyCAT-response-button-cell\" ng-repeat=\"option in responseOptions track by $index\"><input id=\"input_response_[[$index+1]]\" name=\"response\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
+            "updatedOn": "2016-11-24 19:24:55",
+            "updatedByName": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "245ad882f023f5c5325747d4e680e32b2c5128f6"
+            "rev": 3,
+            "hash": "631b4db92db98bfd17d8e9a738c9c2ac1b6ac2fb"
         }
     ]
 }
