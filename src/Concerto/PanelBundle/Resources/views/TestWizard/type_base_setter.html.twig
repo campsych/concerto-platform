@@ -7,8 +7,8 @@
         <h4 ng-bind="param.label" class="carouselParamHeader" ng-if="mode == 'outer'"></h4>
         <p ng-bind-html="param.description | trustedHtml" ng-if="mode == 'outer'"></p>
 
-        <div ng-if="mode=='dialog' || !isSetterComplex">{% block setter %}{% endblock %}</div>
-        <div ng-if="mode!='dialog' && isSetterComplex">
+        <div ng-show="mode=='dialog' || !isSetterComplex">{% block setter %}{% endblock %}</div>
+        <div ng-show="mode!='dialog' && isSetterComplex">
             <i class='glyphicon glyphicon-align-justify clickable' ng-click='launchSetterDialog(param, output, parent, values, wizardObject)' uib-tooltip-html='"{{ 'param.form.field.setter.icon.tooltip'|trans }}"' tooltip-append-to-body='true'></i>
             <span class="wizardParamSummary">{%verbatim%}{{summary}}{%endverbatim%}</span>
         </div>

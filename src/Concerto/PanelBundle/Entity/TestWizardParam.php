@@ -370,7 +370,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
                     break;
                 }
             case 7: {
-                    if ($val["table"]) {
+                    if (is_array($val) && $val["table"]) {
                         if (!array_key_exists("DataTable", $dependencies["ids"]))
                             $dependencies["ids"]["DataTable"] = array();
                         if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
@@ -410,7 +410,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
                     break;
                 }
             case 12: {
-                    if ($val["table"]) {
+                    if (is_array($val) && $val["table"]) {
                         if (!array_key_exists("DataTable", $dependencies["ids"]))
                             $dependencies["ids"]["DataTable"] = array();
                         if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
