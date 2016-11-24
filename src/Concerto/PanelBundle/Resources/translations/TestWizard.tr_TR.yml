@@ -63,8 +63,6 @@ step:
             clear.confirm: Seçili sihirbaz adımlarını temizlemek istediğinizden emin misiniz?
             
 param:
-    move_up.tooltip: Parametreyi yukarı taşı
-    move_down.tooltip: Parametreyi aşağı taşı
     fieldset:
         legend: Test sihirbazı parametreleri
         legend.tooltip: Sihirbaz parametrelerini tanımlayınız
@@ -174,8 +172,6 @@ param:
         group.field.add: Yeni alan ekle
         group.field.remove.selected: Seçili alanları sil
         group.field.remove.all: Tüm alanları sil
-        group.field.move_up.tooltip: Alanı yukarı taşı
-        group.field.move_down.tooltip: Alanı aşağı taşı
         group.list.field.name: Adı
         group.list.field.label: Etiket
         group.list.field.type: Tür

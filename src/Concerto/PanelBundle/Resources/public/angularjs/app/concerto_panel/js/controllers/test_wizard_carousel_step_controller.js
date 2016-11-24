@@ -14,39 +14,6 @@ function TestWizardCarouselStepController($scope, $http, $filter, TestWizardPara
         }
     };
 
-    $scope.moveParamDown = function (index) {
-        var params = $filter('orderBy')($scope.step.params, "order");
-        for (var i = 0; i < params.length; i++) {
-            var param = params[i];
-            if (param.order !== i) {
-                param.order = i;
-            }
-            if (index === i) {
-                params[i - 1].order++;
-                param.order--;
-            }
-        }
-    };
-
-    $scope.moveParamUp = function (index) {
-        var params = $filter('orderBy')($scope.step.params, "order");
-        var paramFound = false;
-        for (var i = 0; i < params.length; i++) {
-            var param = params[i];
-            if (param.order !== i) {
-                param.order = i;
-            }
-            if (paramFound) {
-                param.order--;
-                params[i - 1].order++;
-                paramFound = false;
-            }
-            if (index === i) {
-                paramFound = true;
-            }
-        }
-    };
-
     $scope.mapParamsValue();
 }
 

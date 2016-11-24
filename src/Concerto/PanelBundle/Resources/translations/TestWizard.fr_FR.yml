@@ -63,8 +63,6 @@ step:
             clear.confirm: Êtes-vous sûr de vouloir effacer toutes les étapes de l'assistant de création de tests ?
             
 param:
-    move_up.tooltip: Monter le paramètre
-    move_down.tooltip: Descendre le paramètre
     fieldset:
         legend: Paramètres de l'assistant
         legend.tooltip: Déclarer des paramètres de l\'assistant de création de tests
@@ -149,8 +147,6 @@ param:
         group.field.add: Ajouter un nouveau champ
         group.field.remove.selected: Enlever les champs sélectionnés
         group.field.remove.all: Enlever tous les champs
-        group.field.move_up.tooltip: Monter le champ
-        group.field.move_down.tooltip: Descendre le champ
         group.list.field.name: Nom
         group.list.field.label: Libellé
         group.list.field.type: Type

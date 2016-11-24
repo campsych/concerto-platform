@@ -63,8 +63,6 @@ step:
             clear.confirm: Jesteś pewien, że chcesz usunąć wszystkie kroki wizarda testu?
             
 param:
-    move_up.tooltip: Przesuń parametr do góry
-    move_down.tooltip: Przesuń parametr na dół
     fieldset:
         legend: Parametry wizarda testu
         legend.tooltip: Deklaracja parametrów wizarda testu
@@ -174,8 +172,6 @@ param:
         group.field.add: Dodaj nowe pole
         group.field.remove.selected: Usuń wybrane pola
         group.field.remove.all: Usuń wszystkie pola
-        group.field.move_up.tooltip: Przesuń pole do góry
-        group.field.move_down.tooltip: Przesuń pole w dół
         group.list.field.name: Nazwa
         group.list.field.label: Etykieta
         group.list.field.type: Typ

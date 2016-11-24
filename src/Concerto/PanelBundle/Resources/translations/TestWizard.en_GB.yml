@@ -63,8 +63,6 @@ step:
             clear.confirm: Are you sure you want to clear all test wizard steps?
             
 param:
-    move_up.tooltip: Move parameter up
-    move_down.tooltip: Move parameter down
     fieldset:
         legend: Test wizard params
         legend.tooltip: Declare test wizards params
@@ -174,8 +172,6 @@ param:
         group.field.add: Add new field
         group.field.remove.selected: Remove selected fields
         group.field.remove.all: Remove all fields
-        group.field.move_up.tooltip: Move field up
-        group.field.move_down.tooltip: Move field down
         group.list.field.name: Name
         group.list.field.label: Label
         group.list.field.type: Type

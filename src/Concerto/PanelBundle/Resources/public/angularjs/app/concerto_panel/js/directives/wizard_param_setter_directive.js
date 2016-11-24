@@ -230,37 +230,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.moveElementDown = function (index) {
                     scope.output.splice(index - 1, 0, scope.output.splice(index, 1)[0]);
                 };
-                scope.moveFieldUp = function (index) {
-                    var params = $filter('orderBy')(scope.param.definition.fields, "order");
-                    var paramFound = false;
-                    for (var i = 0; i < params.length; i++) {
-                        var param = params[i];
-                        if (param.order !== i) {
-                            param.order = i;
-                        }
-                        if (paramFound) {
-                            param.order--;
-                            params[i - 1].order++;
-                            paramFound = false;
-                        }
-                        if (index === i) {
-                            paramFound = true;
-                        }
-                    }
-                };
-                scope.moveFieldDown = function (index) {
-                    var params = $filter('orderBy')(scope.param.definition.fields, "order");
-                    for (var i = 0; i < params.length; i++) {
-                        var param = params[i];
-                        if (param.order !== i) {
-                            param.order = i;
-                        }
-                        if (index === i) {
-                            params[i - 1].order++;
-                            param.order--;
-                        }
-                    }
-                };
+                
                 scope.addElement = function () {
                     if (scope.param.definition.element.type == 4) {
                         scope.output.push({value: null});
