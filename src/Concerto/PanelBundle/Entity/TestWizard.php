@@ -193,6 +193,14 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
         return $this->params;
     }
 
+    public function getParamByName($name) {
+        foreach ($this->params as $param) {
+            if ($param->getVariable()->getName() == $name)
+                return $param;
+        }
+        return null;
+    }
+
     /**
      * Add test wizard step
      *
