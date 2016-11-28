@@ -25,6 +25,9 @@ class TestWizardUpdateService extends AUpdateService {
         if ($src_map) {
             $src_map_parts = explode("::", $src_map);
             foreach ($src_map_parts as $key) {
+                if(!array_key_exists($key, $decoded_value)) {
+                    return $dst_value;
+                }
                 $decoded_value = $decoded_value[$key];
             }
         }
