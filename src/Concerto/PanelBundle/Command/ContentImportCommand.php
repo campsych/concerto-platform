@@ -16,7 +16,13 @@ use Concerto\PanelBundle\Security\UserVoter;
 class ContentImportCommand extends ContainerAwareCommand {
 
     protected function configure() {
+        $files_dir = __DIR__ . DIRECTORY_SEPARATOR .
+                ".." . DIRECTORY_SEPARATOR .
+                "Resources" . DIRECTORY_SEPARATOR .
+                "starter_content" . DIRECTORY_SEPARATOR;
+
         $this->setName("concerto:content:import")->setDescription("Imports starter content");
+        $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
     }
 
@@ -25,10 +31,7 @@ class ContentImportCommand extends ContainerAwareCommand {
 
         $convert = $input->getOption("convert");
 
-        $files_dir = __DIR__ . DIRECTORY_SEPARATOR .
-                ".." . DIRECTORY_SEPARATOR .
-                "Resources" . DIRECTORY_SEPARATOR .
-                "starter_content" . DIRECTORY_SEPARATOR;
+        $files_dir = $input->getArgument("input");
         $importService = $this->getContainer()->get('concerto_panel.import_service');
 
         $finder = new Finder();
@@ -36,10 +39,6 @@ class ContentImportCommand extends ContainerAwareCommand {
 
         foreach ($finder as $f) {
             $importService->reset();
-            if (!$convert && $this->alreadyExistAny($f)) {
-                $output->writeln("skipping objects in " . $f->getFileName());
-                continue;
-            }
             $output->writeln("importing " . $f->getFileName() . "...");
 
             $instructions = $importService->getPreImportStatusFromFile($f->getRealpath())["status"];
@@ -66,22 +65,6 @@ class ContentImportCommand extends ContainerAwareCommand {
         }
 
         $output->writeln("starter content importing finished");
-    }
-
-    protected function alreadyExistAny($file) {
-        $content = $file->getContents();
-        $array = json_decode($content, true);
-        if (count($array) == 0) {
-            return false;
-        }
-        $em = $this->getContainer()->get("doctrine")->getManager();
-        foreach ($array as $obj) {
-            $repo = $em->getRepository("ConcertoPanelBundle:" . $obj["class_name"]);
-            if ($repo->findOneBy(array("name" => $obj["name"]))) {
-                return true;
-            }
-        }
-        return false;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {

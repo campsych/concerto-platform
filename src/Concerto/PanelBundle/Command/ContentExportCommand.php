@@ -18,7 +18,7 @@ class ContentExportCommand extends ContainerAwareCommand {
                 "starter_content" . DIRECTORY_SEPARATOR;
 
         $this->setName("concerto:content:export")->setDescription("Exports starter content");
-        $this->addArgument("output", InputArgument::OPTIONAL, "Output path", $files_dir);
+        $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
         $this->addOption("set-protected", null, InputOption::VALUE_NONE, "Set all starter content objects as protected (except for data tables)");
     }
 
