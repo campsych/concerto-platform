@@ -56,28 +56,33 @@ class ExportService {
         $section_service = $this->serviceMap[$class];
         foreach ($object_ids as $object_id) {
             $entity = $section_service->get($object_id);
+            if (!$entity)
+                continue;
             $entity->jsonSerialize($dependencies);
 
             if (array_key_exists("ids", $dependencies)) {
                 foreach ($dependencies["ids"] as $k => $v) {
                     $ids_service = $this->serviceMap[$k];
                     foreach ($v as $id) {
-                        $ids_service->get($id)->jsonSerialize($dependencies);
+                        $ent = $ids_service->get($id);
+                        if ($ent)
+                            $ent->jsonSerialize($dependencies);
                     }
                 }
             }
+        }
 
-            if (array_key_exists("collection", $dependencies)) {
-                foreach ($dependencies["collection"] as $elem) {
-                    $export_elem = $elem;
-                    $elem_service = $this->serviceMap[$elem["class_name"]];
-                    $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
-                    $export_elem["hash"] = $elem_class::getArrayHash($elem);
-                    $export_elem = $elem_service->convertToExportable($export_elem);
-                    array_push($collection, $export_elem);
-                }
+        if (array_key_exists("collection", $dependencies)) {
+            foreach ($dependencies["collection"] as $elem) {
+                $export_elem = $elem;
+                $elem_service = $this->serviceMap[$elem["class_name"]];
+                $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
+                $export_elem["hash"] = $elem_class::getArrayHash($elem);
+                $export_elem = $elem_service->convertToExportable($export_elem);
+                array_push($collection, $export_elem);
             }
         }
+
         $result = array("version" => $this->version, "collection" => $collection);
         if ($format === self::FORMAT_COMPRESSED)
             return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
