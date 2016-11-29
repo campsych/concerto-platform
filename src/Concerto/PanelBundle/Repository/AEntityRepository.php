@@ -5,8 +5,10 @@ namespace Concerto\PanelBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 abstract class AEntityRepository extends EntityRepository {
-    
-    public function refresh($entity){
+
+    static $batchModifications = false;
+
+    public function refresh($entity) {
         $this->getEntityManager()->refresh($entity);
     }
 
@@ -18,7 +20,8 @@ abstract class AEntityRepository extends EntityRepository {
         } else {
             $this->getEntityManager()->persist($entities);
         }
-        $this->getEntityManager()->flush();
+        if (!self::$batchModifications)
+            $this->getEntityManager()->flush();
     }
 
     public function delete($entities) {
@@ -29,7 +32,8 @@ abstract class AEntityRepository extends EntityRepository {
         } else {
             $this->getEntityManager()->remove($entities);
         }
-        $this->getEntityManager()->flush();
+        if (!self::$batchModifications)
+            $this->getEntityManager()->flush();
     }
 
     public function deleteById($object_ids) {
@@ -37,14 +41,16 @@ abstract class AEntityRepository extends EntityRepository {
             $entity = $this->find($object_id);
             $this->getEntityManager()->remove($entity);
         }
-        $this->getEntityManager()->flush();
+        if (!self::$batchModifications)
+            $this->getEntityManager()->flush();
     }
 
     public function deleteAll() {
         foreach ($this->findAll() as $object) {
             $this->getEntityManager()->remove($object);
         }
-        $this->getEntityManager()->flush();
+        if (!self::$batchModifications)
+            $this->getEntityManager()->flush();
     }
 
 }

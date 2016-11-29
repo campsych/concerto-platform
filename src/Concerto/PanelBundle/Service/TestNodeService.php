@@ -131,19 +131,17 @@ class TestNodeService extends ASectionService {
         if (!array_key_exists("TestNode", $map))
             $map["TestNode"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestNode"])) {
-            return array("errors" => null, "entity" => $this->get($map["TestNode"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestNode"]["id" . $obj["id"]]);
         }
 
         $flowTest = null;
-        if (array_key_exists("Test", $map)) {
-            $flowTest_id = $map["Test"]["id" . $obj["flowTest"]];
-            $flowTest = $this->testRepository->find($flowTest_id);
+        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["flowTest"], $map["Test"])) {
+            $flowTest = $map["Test"]["id" . $obj["flowTest"]];
         }
 
         $sourceTest = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["sourceTest"], $map["Test"])) {
-            $sourceTest_id = $map["Test"]["id" . $obj["sourceTest"]];
-            $sourceTest = $this->testRepository->find($sourceTest_id);
+            $sourceTest = $map["Test"]["id" . $obj["sourceTest"]];
         }
         if (!$sourceTest) {
             foreach ($queue as $elem) {
@@ -165,7 +163,7 @@ class TestNodeService extends ASectionService {
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestNode"]["id" . $obj["id"]] = $src_ent->getId();
+            $map["TestNode"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $flowTest, $sourceTest);
@@ -206,7 +204,7 @@ class TestNodeService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestNode"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestNode"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 

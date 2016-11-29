@@ -183,7 +183,8 @@ class DataTableControllerTest extends AFunctionalTest {
                     "action" => "0",
                     "rev" => 0,
                     "starter_content" => false,
-                    "existing_object" => null
+                    "existing_object_rev" => null,
+                    "existing_object_name" => null
                 )
             ))
         ));
@@ -209,7 +210,9 @@ class DataTableControllerTest extends AFunctionalTest {
                     "action" => "0",
                     "rev" => 0,
                     "starter_content" => false,
-                    "existing_object" => self::$repository->find(1)
+                    "existing_object" => true,
+                    "existing_object_rev" => 0,
+                    "existing_object_name" => "main_table"
                 )
             ))
         ));

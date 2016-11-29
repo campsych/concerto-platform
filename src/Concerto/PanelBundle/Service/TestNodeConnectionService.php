@@ -144,31 +144,27 @@ class TestNodeConnectionService extends ASectionService {
         if (!array_key_exists("TestNodeConnection", $map))
             $map["TestNodeConnection"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestNodeConnection"]))
-            return array("errors" => null, "entity" => $this->get($map["TestNodeConnection"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestNodeConnection"]["id" . $obj["id"]]);
 
         $flowTest = null;
-        if (array_key_exists("Test", $map)) {
-            $flowTest_id = $map["Test"]["id" . $obj["flowTest"]];
-            $flowTest = $this->testRepository->find($flowTest_id);
+        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["flowTest"], $map["Test"])) {
+            $flowTest = $map["Test"]["id" . $obj["flowTest"]];
         }
 
         $sourceNode = null;
-        if (array_key_exists("TestNode", $map)) {
-            $sourceNode_id = $map["TestNode"]["id" . $obj["sourceNode"]];
-            $sourceNode = $this->testNodeRepository->find($sourceNode_id);
+        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["sourceNode"], $map["TestNode"])) {
+            $sourceNode = $map["TestNode"]["id" . $obj["sourceNode"]];
         }
 
         $destinationNode = null;
-        if (array_key_exists("TestNode", $map)) {
-            $destinationNode_id = $map["TestNode"]["id" . $obj["destinationNode"]];
-            $destinationNode = $this->testNodeRepository->find($destinationNode_id);
+        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["destinationNode"], $map["TestNode"])) {
+            $destinationNode = $map["TestNode"]["id" . $obj["destinationNode"]];
         }
 
         $sourcePort = null;
         if ($obj["sourcePort"]) {
             if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["sourcePort"], $map["TestNodePort"])) {
-                $sourcePort_id = $map["TestNodePort"]["id" . $obj["sourcePort"]];
-                $sourcePort = $this->testNodePortRepository->find($sourcePort_id);
+                $sourcePort = $map["TestNodePort"]["id" . $obj["sourcePort"]];
             }
             if (!$sourcePort) {
                 array_push($pre_queue, $obj["sourcePortObject"]);
@@ -178,8 +174,7 @@ class TestNodeConnectionService extends ASectionService {
         $destinationPort = null;
         if ($obj["destinationPort"]) {
             if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["destinationPort"], $map["TestNodePort"])) {
-                $destinationPort_id = $map["TestNodePort"]["id" . $obj["destinationPort"]];
-                $destinationPort = $this->testNodePortRepository->find($destinationPort_id);
+                $destinationPort = $map["TestNodePort"]["id" . $obj["destinationPort"]];
             }
             if (!$destinationPort) {
                 array_push($pre_queue, $obj["destinationPortObject"]);
@@ -197,7 +192,7 @@ class TestNodeConnectionService extends ASectionService {
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestNodeConnection"]["id" . $obj["id"]] = $src_ent->getId();
+            $map["TestNodeConnection"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
@@ -205,10 +200,10 @@ class TestNodeConnectionService extends ASectionService {
     }
 
     protected function findConversionSource($obj, $map) {
-        $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]];
+        $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]]->getId();
         $destinationPortId = null;
         if ($obj["destinationPort"])
-            $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]];
+            $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]]->getId();
         $ent = $this->repository->findByPorts($sourcePortId, $destinationPortId);
         if (!$ent)
             return null;
@@ -237,7 +232,7 @@ class TestNodeConnectionService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestNodeConnection"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestNodeConnection"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 

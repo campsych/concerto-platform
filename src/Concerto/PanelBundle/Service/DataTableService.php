@@ -377,19 +377,19 @@ class DataTableService extends AExportableSectionService {
         if (!array_key_exists("DataTable", $map))
             $map["DataTable"] = array();
         if (array_key_exists("id" . $obj["id"], $map["DataTable"]))
-            return array("errors" => null, "entity" => $this->get($map["DataTable"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["DataTable"]["id" . $obj["id"]]);
         if (count($pre_queue) > 0)
             return array("pre_queue" => $pre_queue);
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
-        $old_name = $instruction["existing_object"] ? $instruction["existing_object"]["name"] : null;
+        $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($instruction["action"] == 1 && $src_ent)
+        if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
-        else if ($instruction["action"] == 2 && $src_ent) {
-            $map["DataTable"]["id" . $obj["id"]] = $src_ent->getId();
+        } else if ($instruction["action"] == 2 && $src_ent) {
+            $map["DataTable"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue);
@@ -419,7 +419,7 @@ class DataTableService extends AExportableSectionService {
             return array("errors" => $db_errors, "entity" => null, "source" => $obj);
 
         $this->repository->save($ent);
-        $map["DataTable"]["id" . $obj["id"]] = $ent->getId();
+        $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         return array("errors" => null, "entity" => $ent);
     }
@@ -476,7 +476,7 @@ class DataTableService extends AExportableSectionService {
         }
 
         $this->repository->save($ent);
-        $map["DataTable"]["id" . $obj["id"]] = $ent->getId();
+        $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         $this->onConverted($user, $ent, $old_ent);
 

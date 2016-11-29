@@ -138,12 +138,11 @@ class TestWizardService extends AExportableSectionService {
         if (!array_key_exists("TestWizard", $map))
             $map["TestWizard"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestWizard"]))
-            return array("errors" => null, "entity" => $this->get($map["TestWizard"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestWizard"]["id" . $obj["id"]]);
 
         $test = null;
         if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
-            $test_id = $map["Test"]["id" . $obj["test"]];
-            $test = $this->testService->repository->find($test_id);
+            $test = $map["Test"]["id" . $obj["test"]];
             if (!$test) {
                 foreach ($queue as $elem) {
                     if ($elem["class_name"] == "Test" && $elem["id"] == $obj["test"]) {
@@ -158,14 +157,15 @@ class TestWizardService extends AExportableSectionService {
         }
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
-        $old_name = $instruction["existing_object"] ? $instruction["existing_object"]["name"] : null;
+        $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($instruction["action"] == 1 && $src_ent)
+        if ($instruction["action"] == 1 && $src_ent){
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
-        else if ($instruction["action"] == 2 && $src_ent) {
-            $map["TestWizard"]["id" . $obj["id"]] = $src_ent->getId();
+        } else if ($instruction["action"] == 2 && $src_ent) {
+            $src_ent = $this->findConversionSource($obj, $map);
+            $map["TestWizard"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue, $test);
@@ -195,7 +195,7 @@ class TestWizardService extends AExportableSectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestWizard"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestWizard"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -226,7 +226,7 @@ class TestWizardService extends AExportableSectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestWizard"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestWizard"]["id" . $obj["id"]] = $ent;
 
         $this->onConverted($user, $ent, $old_ent);
 

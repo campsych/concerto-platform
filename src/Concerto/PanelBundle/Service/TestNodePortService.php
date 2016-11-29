@@ -128,20 +128,18 @@ class TestNodePortService extends ASectionService {
         if (!array_key_exists("TestNodePort", $map))
             $map["TestNodePort"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestNodePort"])) {
-            return array("errors" => null, "entity" => $this->get($map["TestNodePort"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestNodePort"]["id" . $obj["id"]]);
         }
 
         $node = null;
-        if (array_key_exists("TestNode", $map)) {
-            $node_id = $map["TestNode"]["id" . $obj["node"]];
-            $node = $this->testNodeRepository->find($node_id);
+        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["node"], $map["TestNode"])) {
+            $node = $map["TestNode"]["id" . $obj["node"]];
         }
 
         $variable = null;
         if ($obj["variable"]) {
             if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["variable"], $map["TestVariable"])) {
-                $variable_id = $map["TestVariable"]["id" . $obj["variable"]];
-                $variable = $this->testVariableRepository->find($variable_id);
+                $variable = $map["TestVariable"]["id" . $obj["variable"]];
             }
             if (!$variable) {
                 array_push($pre_queue, $obj["variableObject"]);
@@ -155,7 +153,7 @@ class TestNodePortService extends ASectionService {
         $imported_parent_id = $node->getFlowTest()->getId();
         $exported_parent_id = null;
         foreach ($map["Test"] as $k => $v) {
-            if ($v == $imported_parent_id) {
+            if ($v->getId() == $imported_parent_id) {
                 $exported_parent_id = substr($k, 2);
                 break;
             }
@@ -167,7 +165,7 @@ class TestNodePortService extends ASectionService {
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map, $node);
         if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestNodePort"]["id" . $obj["id"]] = $src_ent->getId();
+            $map["TestNodePort"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $node, $variable);
@@ -175,7 +173,7 @@ class TestNodePortService extends ASectionService {
     }
 
     protected function findConversionSource($obj, $map, TestNode $node) {
-        $nodeId = $map["TestNode"]["id" . $obj["node"]];
+        $nodeId = $map["TestNode"]["id" . $obj["node"]]->getId();
         $variableId = null;
         foreach ($node->getPorts() as $port) {
             $var = $port->getVariable();
@@ -209,7 +207,7 @@ class TestNodePortService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestNodePort"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestNodePort"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 

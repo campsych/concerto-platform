@@ -193,7 +193,7 @@ services:
 #   ImportService
   concerto_panel.import_service:
       class: Concerto\PanelBundle\Service\ImportService
-      arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.Test_service", "@concerto_panel.TestNode_service", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.TestVariable_service", "@concerto_panel.TestWizard_service", "@concerto_panel.TestWizardStep_service", "@concerto_panel.TestWizardParam_service", "@concerto_panel.ViewTemplate_service", "%version%"]
+      arguments: ["@doctrine.orm.entity_manager", "@concerto_panel.DataTable_service", "@concerto_panel.Test_service", "@concerto_panel.TestNode_service", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.TestVariable_service", "@concerto_panel.TestWizard_service", "@concerto_panel.TestWizardStep_service", "@concerto_panel.TestWizardParam_service", "@concerto_panel.ViewTemplate_service", "%version%"]
       
 #   ExportService
   concerto_panel.export_service:

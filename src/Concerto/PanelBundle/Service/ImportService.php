@@ -3,6 +3,8 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\User;
+use Concerto\PanelBundle\Repository\AEntityRepository;
+use Doctrine\ORM\EntityManager;
 
 class ImportService {
 
@@ -21,9 +23,11 @@ class ImportService {
     private $queue;
     private $map;
     private $version;
+    private $entityManager;
     public $serviceMap;
 
-    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version) {
+    public function __construct(EntityManager $entityManager, DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version) {
+        $this->entityManager = $entityManager;
         $this->dataTableService = $dataTableService;
         $this->testService = $testService;
         $this->testNodeService = $testNodeService;
@@ -166,7 +170,9 @@ class ImportService {
                 "rename" => $imported_object["name"],
                 "rev" => $new_revision,
                 "starter_content" => $imported_object["starterContent"],
-                "existing_object" => $existing_entity,
+                "existing_object" => $existing_entity ? true : false,
+                "existing_object_rev" => $existing_entity ? $existing_entity->getRevision() : null,
+                "existing_object_name" => $existing_entity ? $existing_entity->getName() : null,
                 "can_ignore" => $can_ignore
             );
             array_push($result, $obj_status);
@@ -197,10 +203,12 @@ class ImportService {
     public function import(User $user, $instructions, $data) {
         $result = array("result" => 0, "import" => array());
         $this->queue = $data;
+        AEntityRepository::$batchModifications = true;
         while (count($this->queue) > 0) {
             $obj = $this->queue[0];
             if (array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
+                $time_start = microtime(true);
                 $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->queue);
                 if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
                     array_push($result["import"], $last_result);
@@ -215,6 +223,8 @@ class ImportService {
                 }
             }
         }
+        $this->entityManager->flush();
+        AEntityRepository::$batchModifications = false;
         return $result;
     }
 

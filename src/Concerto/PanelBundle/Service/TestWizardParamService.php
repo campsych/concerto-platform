@@ -117,25 +117,22 @@ class TestWizardParamService extends ASectionService {
         if (!array_key_exists("TestWizardParam", $map))
             $map["TestWizardParam"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
-            return array("errors" => null, "entity" => $this->get($map["TestWizardParam"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestWizardParam"]["id" . $obj["id"]]);
         }
 
         $variable = null;
-        if (array_key_exists("TestVariable", $map)) {
-            $variable_id = $map["TestVariable"]["id" . $obj["testVariable"]];
-            $variable = $this->testVariableService->get($variable_id);
+        if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["testVariable"], $map["TestVariable"])) {
+            $variable = $map["TestVariable"]["id" . $obj["testVariable"]];
         }
 
         $wizard = null;
-        if (array_key_exists("TestWizard", $map)) {
-            $wizard_id = $map["TestWizard"]["id" . $obj["wizard"]];
-            $wizard = $this->testWizardRepository->find($wizard_id);
+        if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["wizard"], $map["TestWizard"])) {
+            $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
         }
 
         $step = null;
-        if (array_key_exists("TestWizardStep", $map)) {
-            $step_id = $map["TestWizardStep"]["id" . $obj["wizardStep"]];
-            $step = $this->testWizardStepRepository->find($step_id);
+        if (array_key_exists("TestWizardStep", $map) && array_key_exists("id" . $obj["wizardStep"], $map["TestWizardStep"])) {
+            $step = $map["TestWizardStep"]["id" . $obj["wizardStep"]];
         }
 
         if (count($pre_queue) > 0) {
@@ -148,10 +145,10 @@ class TestWizardParamService extends ASectionService {
                         ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($parent_instruction["action"] == 1 && $src_ent)
+        if ($parent_instruction["action"] == 1 && $src_ent){
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
-        else if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestWizardParam"]["id" . $obj["id"]] = $src_ent->getId();
+        } else if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestWizardParam"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
@@ -183,7 +180,7 @@ class TestWizardParamService extends ASectionService {
         $this->repository->save($ent);
         $this->onObjectSaved($user, $ent, null);
 
-        $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -223,7 +220,7 @@ class TestWizardParamService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestWizardParam"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
 
         $this->onObjectSaved($user, $ent, $old_ent);
         $this->onConverted($ent, $old_ent);

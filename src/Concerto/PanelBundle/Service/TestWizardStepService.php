@@ -83,12 +83,11 @@ class TestWizardStepService extends ASectionService {
         if (!array_key_exists("TestWizardStep", $map))
             $map["TestWizardStep"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestWizardStep"]))
-            return array("errors" => null, "entity" => $this->get($map["TestWizardStep"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestWizardStep"]["id" . $obj["id"]]);
 
         $wizard = null;
-        if (array_key_exists("TestWizard", $map)) {
-            $wizard_id = $map["TestWizard"]["id" . $obj["wizard"]];
-            $wizard = $this->testWizardRepository->find($wizard_id);
+        if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["wizard"], $map["TestWizard"])) {
+            $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
         }
 
         if (count($pre_queue) > 0) {
@@ -102,7 +101,7 @@ class TestWizardStepService extends ASectionService {
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestWizardStep"]["id" . $obj["id"]] = $src_ent->getId();
+            $map["TestWizardStep"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $wizard);
@@ -113,8 +112,8 @@ class TestWizardStepService extends ASectionService {
     }
 
     protected function findConversionSource($obj, $map) {
-        $wizardId = $map["TestWizard"]["id" . $obj["wizard"]];
-        $ent = $this->repository->findOneBy(array("wizard" => $wizardId, "title" => $obj["title"]));
+        $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
+        $ent = $this->repository->findOneBy(array("wizard" => $wizard, "title" => $obj["title"]));
         if ($ent == null)
             return null;
         return $this->get($ent->getId());
@@ -136,7 +135,7 @@ class TestWizardStepService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestWizardStep"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestWizardStep"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 

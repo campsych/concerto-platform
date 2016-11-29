@@ -188,21 +188,19 @@ class TestVariableService extends ASectionService {
         if (!array_key_exists("TestVariable", $map))
             $map["TestVariable"] = array();
         if (array_key_exists("id" . $obj["id"], $map["TestVariable"])) {
-            return array("errors" => null, "entity" => $this->get($map["TestVariable"]["id" . $obj["id"]]));
+            return array("errors" => null, "entity" => $map["TestVariable"]["id" . $obj["id"]]);
         }
 
         $test = null;
         if ($obj["test"]) {
             if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
-                $test_id = $map["Test"]["id" . $obj["test"]];
-                $test = $this->testRepository->find($test_id);
+                $test = $map["Test"]["id" . $obj["test"]];
             }
         }
 
         $parentVariable = null;
         if (array_key_exists("TestVariable", $map) && $obj["parentVariable"]) {
-            $parentVariable_id = $map["TestVariable"]["id" . $obj["parentVariable"]];
-            $parentVariable = $this->repository->find($parentVariable_id);
+            $parentVariable = $map["TestVariable"]["id" . $obj["parentVariable"]];
         }
 
         if (count($pre_queue) > 0) {
@@ -215,10 +213,10 @@ class TestVariableService extends ASectionService {
                         ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($parent_instruction["action"] == 1 && $src_ent)
+        if ($parent_instruction["action"] == 1 && $src_ent){
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
-        else if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestVariable"]["id" . $obj["id"]] = $src_ent->getId();
+        } else if ($parent_instruction["action"] == 2 && $src_ent) {
+            $map["TestVariable"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
@@ -244,7 +242,7 @@ class TestVariableService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestVariable"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestVariable"]["id" . $obj["id"]] = $ent;
         $this->onObjectSaved($user, $ent, true);
         return array("errors" => null, "entity" => $ent);
     }
@@ -284,7 +282,7 @@ class TestVariableService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent);
-        $map["TestVariable"]["id" . $obj["id"]] = $ent->getId();
+        $map["TestVariable"]["id" . $obj["id"]] = $ent;
 
         $this->onObjectSaved($user, $ent, false);
         $this->onConverted($ent, $old_ent);

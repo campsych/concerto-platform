@@ -14,15 +14,14 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     };
     $scope.colExistsContent = function (entity) {
         var revision = "";
-        if (entity.existing_object != null && entity.existing_object.rev != 0)
-            revision += " (rev" + entity.existing_object.rev + ")";
-        var result = entity.existing_object != null ? ('<i class="glyphicon glyphicon-ok green"></i>' + revision) : '<i class="glyphicon glyphicon-remove red"></i>';
+        if (entity.existing_object && entity.existing_object_rev != 0)
+            revision += " (rev" + entity.existing_object_rev + ")";
+        var result = entity.existing_object ? ('<i class="glyphicon glyphicon-ok green"></i>' + revision) : '<i class="glyphicon glyphicon-remove red"></i>';
         return result;
     };
     $scope.colSafeContent = function (entity) {
         var safe = true;
         if (entity.action == 1) {
-            //if (entity.rev == 0 || entity.starter_conent == 0 || entity.existing_object.rev == 0 || entity.existing_object.starter_content == 0)
             safe = false;
         }
         var result = '<i class="glyphicon glyphicon-ok green"></i>';
@@ -80,7 +79,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                         '<div class="ui-grid-cell-contents">' +
                         '<select ng-model="row.entity.action" style="width: 100%;">' +
                         "<option value='0'>" + Trans.IMPORT_ACTION_NEW + "</option>" +
-                        "<option value='1' ng-show='row.entity.existing_object!=null'>" + Trans.IMPORT_ACTION_CONVERT + "</option>" +
+                        "<option value='1' ng-show='row.entity.existing_object'>" + Trans.IMPORT_ACTION_CONVERT + "</option>" +
                         "<option value='2' ng-show='row.entity.can_ignore'>" + Trans.IMPORT_ACTION_IGNORE + "</option>" +
                         '</select>' +
                         '</div>'

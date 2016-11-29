@@ -16,6 +16,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
 class TestNodePort extends AEntity implements \JsonSerializable {
 
     /**
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="TestNode", inversedBy="ports")
      */
     private $node;
