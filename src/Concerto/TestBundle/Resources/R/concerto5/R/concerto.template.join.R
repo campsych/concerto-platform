@@ -9,11 +9,11 @@ concerto.template.join = function(html="",css="",js="",templateId=NULL,params=li
   }
   result = ""
   if(css != "") {
-    result = paste0("<style>",concerto.template.insertParams(css,params),"</style>")
+    result = paste0("<style>",concerto.template.insertParams(css,params,F),"</style>")
   }
   if(js != "") {
-    result = paste0(result, "<script>",concerto.template.insertParams(js,params),"</script>")
+    result = paste0(result, "<script>",concerto.template.insertParams(js,params,F),"</script>")
   }
-  result = paste0(result, concerto.template.insertParams(html,params))
+  result = paste0(result, concerto.template.insertParams(html,params,F))
   return(result)
 }

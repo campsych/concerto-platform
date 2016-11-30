@@ -1,6 +1,5 @@
-concerto.template.insertParams = function(html,params=list()){
+concerto.template.insertParams = function(html,params=list(),removeMissing=T){
   matches <- unlist(regmatches(html,gregexpr("\\{\\{[^\\}\\}]*\\}\\}",html)))
-  matches <- matches[!matches == '{{timeLeft}}'] 
   offset = 0
   while(length(matches)>offset){
     index <- 1
@@ -11,13 +10,15 @@ concerto.template.insertParams = function(html,params=list()){
         html <- gsub(matches[index], toString(params[[value]]), html, fixed=TRUE)
       }
       else {
-        #html <- gsub(matches[index], "", html, fixed=TRUE)
-        offset=offset+1
+        if(removeMissing) {
+            html <- gsub(matches[index], "", html, fixed=TRUE)
+        } else {
+            offset=offset+1
+        }
       }
       index=index+1
     }
     matches <- unlist(regmatches(html,gregexpr("\\{\\{[^\\}\\}]*\\}\\}",html)))
-    matches <- matches[!matches == '{{timeLeft}}'] 
   }
   return(html)
 }

@@ -7,7 +7,7 @@ Template helper function.
 Fills template HTML with given parameters.
 }
 \usage{
-concerto.template.insertParams(html, params = list())
+concerto.template.insertParams(html, params = list(), removeMissing=T)
 }
 \arguments{
   \item{html}{
@@ -15,6 +15,9 @@ HTML template.
 }
   \item{params}{
 Named list with parameters.
+}
+  \item{removeMissing}{
+Should missing insert params be cleared?
 }
 }
 \details{
