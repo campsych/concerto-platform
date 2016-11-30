@@ -104,8 +104,6 @@ class TestVariableService extends ASectionService {
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object);
-        $this->repository->refresh($object);
-        $object = $this->get($object->getId());
         $this->onObjectSaved($user, $object, $is_new);
         return array("object" => $object, "errors" => $errors);
     }
