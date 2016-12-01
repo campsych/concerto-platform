@@ -2,6 +2,8 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
+use Concerto\PanelBundle\Tests\AFunctionalTest;
+
 class FileBrowserControllerTest extends AFunctionalTest {
 
     public function testFileListAction() {
@@ -14,7 +16,7 @@ class FileBrowserControllerTest extends AFunctionalTest {
         $this->assertArrayHasKey("result", $result);
         $this->assertEquals(0, $result["result"]);
         $this->assertArrayHasKey("files", $result);
-        $this->assertCount(5, $result["files"]);
+        $this->assertCount(9, $result["files"]);
 
         $elems = array(
             array("name" => "csv_table.csv", "url" => "/bundles/concertopanel/files/csv_table.csv"),

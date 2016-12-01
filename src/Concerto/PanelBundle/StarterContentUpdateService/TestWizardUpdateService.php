@@ -55,7 +55,6 @@ class TestWizardUpdateService extends AUpdateService {
     private function updateTestWizardParam(TestWizard $wizard, TestWizardService $service, $src_name, $src_map, $dst_name, $dst_map) {
         foreach ($wizard->getResultingTests() as $test) {
             foreach ($test->getSourceForNodes() as $node) {
-                $service->repository->refresh($node);
                 $src_port = null;
                 foreach ($node->getPorts() as $port) {
                     $var = $port->getVariable();

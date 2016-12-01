@@ -2,6 +2,8 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
+use Concerto\PanelBundle\Tests\AFunctionalTest;
+
 class PanelControllerTest extends AFunctionalTest {
 
     public function testIndexAction() {

@@ -91,8 +91,6 @@ class TestWizardService extends AExportableSectionService {
         }
         $this->repository->save($object);
         $this->updateParamValues($user, $serializedSteps);
-        $this->repository->refresh($object);
-        $object = $this->get($object->getId());
         return array("object" => $object, "errors" => $errors);
     }
 
@@ -235,7 +233,7 @@ class TestWizardService extends AExportableSectionService {
 
     protected function onConverted($user, $new_ent, $old_ent) {
         $this->testWizardStepService->clear($old_ent->getId());
-        $this->testWizardUpdateService->update($user, $this, $new_ent, $old_ent);
+        //$this->testWizardUpdateService->update($user, $this, $new_ent, $old_ent);
     }
 
 }

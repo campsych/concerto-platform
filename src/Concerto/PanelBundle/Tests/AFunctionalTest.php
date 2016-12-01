@@ -1,6 +1,6 @@
 <?php
 
-namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
+namespace Concerto\PanelBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
@@ -12,7 +12,7 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 
 abstract class AFunctionalTest extends WebTestCase {
-
+ 
     protected static $encoderFactory;
     protected static $entityManager;
 

@@ -568,6 +568,7 @@ class Test extends ATopEntity implements \JsonSerializable {
         unset($arr["logs"]);
         unset($arr["slug"]);
         unset($arr["sourceWizard"]);
+        unset($arr["sourceWizardTest"]);
         for ($i = 0; $i < count($arr["nodes"]); $i++) {
             $arr["nodes"][$i] = TestNode::getArrayHash($arr["nodes"][$i]);
         }
@@ -577,6 +578,10 @@ class Test extends ATopEntity implements \JsonSerializable {
 
         $json = json_encode($arr);
         return sha1($json);
+    }
+
+    public function __toString() {
+        return "Test (name:" . $this->getName() . ")";
     }
 
     public function jsonSerialize(&$dependencies = array()) {

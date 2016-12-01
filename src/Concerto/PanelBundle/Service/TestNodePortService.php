@@ -104,7 +104,8 @@ class TestNodePortService extends ASectionService {
                 }
             }
             if (!$found) {
-                $this->save($user, 0, $node, $variable, true, $variable->getValue(), true);
+                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true);
+                $node->addPort($result["object"]);
             }
         }
     }
@@ -163,8 +164,10 @@ class TestNodePortService extends ASectionService {
                     "id" => $exported_parent_id
                         ), $instructions);
         $result = array();
-        $src_ent = $this->findConversionSource($obj, $map, $node);
-        if ($parent_instruction["action"] == 2 && $src_ent) {
+        $src_ent = $this->findConversionSource($obj, $map);
+        if ($parent_instruction["action"] == 1 && $src_ent) {
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $node, $variable);
+        } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNodePort"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
@@ -172,19 +175,31 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    protected function findConversionSource($obj, $map, TestNode $node) {
-        $nodeId = $map["TestNode"]["id" . $obj["node"]]->getId();
-        $variableId = null;
-        foreach ($node->getPorts() as $port) {
-            $var = $port->getVariable();
-            if ($var->getType() != $obj["variableObject"]["type"])
-                continue;
-            if ($var->getName() != $obj["variableObject"]["name"])
-                continue;
-            $variableId = $var->getId();
-            break;
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $node, $variable) {
+        $old_ent = clone $src_ent;
+        $ent = $src_ent;
+        $ent->setNode($node);
+        $ent->setValue($obj["value"]);
+        $ent->setVariable($variable);
+        $ent->setDefaultValue($obj["defaultValue"]);
+        $ent->setString($obj["string"] == "1");
+        $ent_errors = $this->validator->validate($ent);
+        $ent_errors_msg = array();
+        foreach ($ent_errors as $err) {
+            array_push($ent_errors_msg, $err->getMessage());
         }
-        $ent = $this->repository->findOneBy(array("node" => $nodeId, "variable" => $variableId));
+        if (count($ent_errors_msg) > 0) {
+            return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
+        }
+        $this->repository->save($ent);
+        $map["TestNodePort"]["id" . $obj["id"]] = $ent;
+        return array("errors" => null, "entity" => $ent);
+    }
+
+    protected function findConversionSource($obj, $map) {
+        $node = $map["TestNode"]["id" . $obj["node"]];
+        $variable = $map["TestVariable"]["id" . $obj["variable"]];
+        $ent = $this->repository->findOneBy(array("node" => $node, "variable" => $variable));
         if (!$ent) {
             return null;
         }

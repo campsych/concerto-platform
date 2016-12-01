@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
+use Concerto\PanelBundle\Tests\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestSessionLog;

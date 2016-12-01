@@ -52,7 +52,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     private $sourceTest;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="node", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="node", cascade={"remove"}, orphanRemoval=true)
      */
     private $ports;
 
@@ -311,10 +311,14 @@ class TestNode extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
+    public function __toString() {
+        return "TestNode (title:" . ($this->getTitle() ? $this->getTitle() : $this->getSourceTest()->getName()) . ")";
+    }
+
     public function jsonSerialize(&$dependencies = array()) {
         if ($this->sourceTest != null)
             $this->sourceTest->jsonSerialize($dependencies);
-        
+
         return array(
             "class_name" => "TestNode",
             "id" => $this->id,

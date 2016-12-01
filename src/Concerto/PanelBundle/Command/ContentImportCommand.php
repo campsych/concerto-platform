@@ -21,13 +21,13 @@ class ContentImportCommand extends ContainerAwareCommand {
                 "Resources" . DIRECTORY_SEPARATOR .
                 "starter_content" . DIRECTORY_SEPARATOR;
 
-        $this->setName("concerto:content:import")->setDescription("Imports starter content");
+        $this->setName("concerto:content:import")->setDescription("Imports content");
         $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
     }
 
     protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user) {
-        $output->writeln("importing starter content...");
+        $output->writeln("importing content...");
 
         $convert = $input->getOption("convert");
 
@@ -53,7 +53,8 @@ class ContentImportCommand extends ContainerAwareCommand {
                 if ($res["errors"]) {
                     $success = false;
                     $output->writeln("importing " . $f->getFileName() . " failed!");
-                    $output->writeln("starter content importing failed!");
+                    $output->writeln("content importing failed!");
+                    var_dump($res["errors"]);
                     break;
                 }
             }
@@ -64,7 +65,7 @@ class ContentImportCommand extends ContainerAwareCommand {
             }
         }
 
-        $output->writeln("starter content importing finished");
+        $output->writeln("content importing finished");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {

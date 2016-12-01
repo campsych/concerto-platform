@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
 
+use Concerto\PanelBundle\Tests\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
@@ -547,7 +548,12 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
 
         $client->request("POST", "/admin/Test/1/update");
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         self::$entityManager->clear();
         $this->assertEquals(self::$repository->find(1)->getCode(), self::$repository->find(2)->getCode());

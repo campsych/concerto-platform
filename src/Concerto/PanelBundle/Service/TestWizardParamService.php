@@ -79,8 +79,6 @@ class TestWizardParamService extends ASectionService {
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object);
-        $this->repository->refresh($object);
-        $object = $this->get($object->getId());
         $this->onObjectSaved($user, $object, $old_obj);
 
         return array("object" => $object, "errors" => $errors);

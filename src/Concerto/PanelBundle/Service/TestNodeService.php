@@ -71,13 +71,10 @@ class TestNodeService extends ASectionService {
 
         $this->savePorts($user, $object, $type, $sourceTest);
 
-        $this->repository->refresh($object);
-        $object = $this->get($object->getId());
-
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function savePorts(User $user, $object, $type, Test $sourceTest) {
+    public function savePorts(User $user, TestNode $node, $type, Test $sourceTest) {
         switch ($type) {
             case self::TYPE_BEGIN_TEST:
                 $params = array();
@@ -104,9 +101,10 @@ class TestNodeService extends ASectionService {
                 if ($value) {
                     $value = '"' . addslashes($var->getValue()) . '"';
                 }
-                $port = $this->testNodePortService->getOneByNodeAndVariable($object, $var);
+                $port = $this->testNodePortService->getOneByNodeAndVariable($node, $var);
                 if (!$port) {
-                    $this->testNodePortService->save($user, 0, $object, $var, "1", $var->getValue(), "1");
+                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1");
+                    $node->addPort($result["object"]);
                 }
             }
         }

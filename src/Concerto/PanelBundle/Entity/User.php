@@ -269,6 +269,10 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     public function isEnabled() {
         return !$this->archived;
     }
+    
+    public function __toString() {
+        return "User (username:" . $this->getUsername() . ")";
+    }
 
     public function jsonSerialize(&$dependencies = array()) {
         return array(

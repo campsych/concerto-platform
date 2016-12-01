@@ -203,12 +203,10 @@ class ImportService {
     public function import(User $user, $instructions, $data) {
         $result = array("result" => 0, "import" => array());
         $this->queue = $data;
-        AEntityRepository::$batchModifications = true;
         while (count($this->queue) > 0) {
             $obj = $this->queue[0];
-            if (array_key_exists("class_name", $obj)) {
+            if (is_array($obj) && array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
-                $time_start = microtime(true);
                 $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->queue);
                 if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
                     array_push($result["import"], $last_result);
@@ -223,8 +221,7 @@ class ImportService {
                 }
             }
         }
-        $this->entityManager->flush();
-        AEntityRepository::$batchModifications = false;
+        $this->reset();
         return $result;
     }
 

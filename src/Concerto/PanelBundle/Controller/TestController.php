@@ -38,7 +38,7 @@ class TestController extends AExportableTabController {
     public function updateDependentAction($object_id) {
         $result = $this->service->updateDependentTests(
                 $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id
+                $this->service->get($object_id)
         );
         $errors = array();
         foreach ($result as $r) {
