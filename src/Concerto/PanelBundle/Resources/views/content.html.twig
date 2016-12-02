@@ -79,6 +79,10 @@ endif %}'">
                 {% endif %}
             </uib-tabset>
 
+            <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
+                <div ng-bind-html="RDocumentation.html"></div>
+            </div>
+
             <!-- wizard param setters -->
             {% for i in 0..12 %}
                 {{ include("ConcertoPanelBundle:TestWizard:type_" ~ i ~ "_setter.html.twig") }}

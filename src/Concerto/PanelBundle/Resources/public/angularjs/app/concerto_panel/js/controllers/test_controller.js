@@ -366,17 +366,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         ]
     };
 
-    $scope.showDocumentationHelp = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "r_documentation_generation_help.html",
-            controller: RDocumentationGenerationHelpController,
-            scope: $scope,
-            resolve: {
-            },
-            size: "lg"
-        });
-    };
-
     $scope.codeOptions = {
         lineWrapping: true,
         lineNumbers: true,

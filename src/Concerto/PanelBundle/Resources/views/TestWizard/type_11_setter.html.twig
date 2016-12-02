@@ -7,9 +7,7 @@
                 {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.setter.titles.r.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
-                        <div ng-bind-html="RDocumentation.html"></div>
-                    </div>
+                    {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
                     <ui-codemirror ng-model="output" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-disabled="wizardObject.initProtected == '1'" ng-change="onPrimitiveValueChange(output)"></ui-codemirror>
                 {% endblock %}
             {% endembed %}    

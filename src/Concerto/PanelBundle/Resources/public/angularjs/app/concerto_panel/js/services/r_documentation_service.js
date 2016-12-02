@@ -9,6 +9,15 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
         html: false,
         rCacheDirectory: Paths.R_CACHE_DIRECTORY,
         functionIndex: null,
+        showDocumentationHelp: function () {
+            $uibModal.open({
+                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "r_documentation_generation_help.html",
+                controller: RDocumentationGenerationHelpController,
+                resolve: {
+                },
+                size: "lg"
+            });
+        },
         autocompletionWizardMapping: {
             'concerto.table.query': {
                 template: 'concerto_table_query_wizard_dialog.html',

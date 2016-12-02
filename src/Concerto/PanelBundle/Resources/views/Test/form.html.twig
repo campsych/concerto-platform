@@ -126,10 +126,6 @@
     {% endblock %}
 
     {% block sections %}
-        <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
-            <div ng-bind-html="RDocumentation.html"></div>
-        </div>
-
         <uib-accordion-group is-open="tabAccordion.input.open" ng-if="object.type != 1">
             <uib-accordion-heading>
                 <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'variables.input.fieldset.legend.tooltip'|trans }}'"></i>
