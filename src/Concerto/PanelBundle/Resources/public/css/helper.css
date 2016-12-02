@@ -1,8 +1,13 @@
 .CodeMirror-fullscreen {
     display: block;
     position: fixed !important;
-    top: 0; left: 0;
     z-index: 9999;
+    margin: 0;
+}
+
+.modal-dialog {
+    transform: none !important;
+    -webkit-transform: none !important;
 }
 
 .red {
