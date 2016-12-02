@@ -7,9 +7,6 @@
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.definer.titles.r_code.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">
-                        <div ng-bind-html="RDocumentation.html"></div>
-                    </div>
                     <ui-codemirror ng-model="param.definition.defvalue" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-disabled="wizardObject.initProtected == '1'"></ui-codemirror>
                 {% endblock %}
             {% endembed %} 

@@ -101,7 +101,7 @@ table.listPanel {
 }
 
 .CodeMirror-hints {
-    z-index: 1051;
+    z-index: 2000;
 }
 
 /** R documentation box**/
@@ -115,7 +115,7 @@ table.listPanel {
     right: 10px;
     width: 50%;
     opacity: 0.90;
-    z-index: 1052;
+    z-index: 2001;
 }
 
 
