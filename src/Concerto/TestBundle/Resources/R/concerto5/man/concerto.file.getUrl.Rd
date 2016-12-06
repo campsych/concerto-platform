@@ -7,11 +7,14 @@ Files URL
 Gets URL of filename in public directory.
 }
 \usage{
-concerto.file.getUrl(filename)
+concerto.file.getUrl(filename, noCache=F)
 }
 \arguments{
   \item{filename}{
 File name
+}
+  \item{noCache}{
+Should not try to use cache?
 }
 }
 \details{

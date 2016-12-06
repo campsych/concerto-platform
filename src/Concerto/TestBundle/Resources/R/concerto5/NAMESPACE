@@ -1,4 +1,4 @@
-import("session","rjson")
+import("session")
 export(
 concerto.file.getPublicPath,
 concerto.file.getUrl,

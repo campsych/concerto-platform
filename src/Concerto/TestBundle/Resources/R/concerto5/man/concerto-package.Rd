@@ -11,8 +11,8 @@ Contains all required functions by Concerto platform.
 \tabular{ll}{
 Package: \tab concerto5\cr
 Type: \tab Package\cr
-Version: \tab 0.10.4\cr
-Date: \tab 2016-11-30\cr
+Version: \tab 0.10.5\cr
+Date: \tab 2016-12-04\cr
 License: \tab GNU GPL v2\cr
 }
 

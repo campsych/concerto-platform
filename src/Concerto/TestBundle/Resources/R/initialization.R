@@ -1,7 +1,26 @@
+if(Sys.info()['sysname'] != "Windows") {
+    options(encoding='UTF-8')	
+    Sys.setlocale("LC_ALL","en_US.utf8")
+} else {
+    Sys.setlocale("LC_ALL","English")
+}
 require(concerto5)
 
-options(encoding='UTF-8')
-Sys.setlocale("LC_ALL","en_US.utf8")
+fromJSON = function(txt, simplifyVector = FALSE, simplifyDataFrame = simplifyVector,
+  simplifyMatrix = simplifyVector, flatten = FALSE, ...){
+  result = jsonlite::fromJSON(txt, simplifyVector, simplifyDataFrame, simplifyMatrix, flatten, ...)
+  return(result)
+}
+
+toJSON = function(x, dataframe = c("rows", "columns", "values"), matrix = c("rowmajor",
+  "columnmajor"), Date = c("ISO8601", "epoch"), POSIXt = c("string",
+  "ISO8601", "epoch", "mongo"), factor = c("string", "integer"),
+  complex = c("string", "list"), raw = c("base64", "hex", "mongo"),
+  null = c("list", "null"), na = c("null", "string"), auto_unbox = TRUE,
+  digits = 4, pretty = FALSE, force = FALSE, ...) {
+  result = jsonlite::toJSON(x, dataframe, matrix, Date, POSIXt, factor, complex, raw, null, na, auto_unbox, digits, pretty, force, ...)
+  return(result)
+}
 
 SOURCE_CLIENT = 0
 SOURCE_PROCESS = 1

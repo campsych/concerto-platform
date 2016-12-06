@@ -7,7 +7,11 @@ concerto.template.insertParams = function(html,params=list(),removeMissing=T){
       value <- gsub("\\{\\{", "", matches[index])
       value <- gsub("\\}\\}", "", value)
       if(!is.null(params[[value]])){
-        html <- gsub(matches[index], toString(params[[value]]), html, fixed=TRUE)
+        insert = as.character(params[[value]])
+        if(Sys.info()['sysname'] == "Windows") {
+            if(Encoding(insert) == "UTF-8") { insert = enc2native(insert) }
+        }
+        html <- gsub(matches[index], insert, html, fixed=TRUE)
       }
       else {
         if(removeMissing) {
