@@ -138,9 +138,17 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 return "";
             switch (parseInt(param.type)) {
                 case 1:
-                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_TEXTAREA.pf(output);
+                    var summary = output;
+                    if (summary.length > 100) {
+                        summary = summary.substring(0, 97) + "...";
+                    }
+                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_TEXTAREA.pf(summary);
                 case 2:
-                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_HTML.pf(output);
+                    var summary = output;
+                    if (summary.length > 100) {
+                        summary = summary.substring(0, 97) + "...";
+                    }
+                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_HTML.pf(summary);
                 case 7:
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_COLUMN.pf(output.table, output.column);
                 case 9:
@@ -148,7 +156,11 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 case 10:
                     return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_LIST.pf(output.length);
                 case 11:
-                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_R.pf(output);
+                    var summary = output;
+                    if (summary.length > 100) {
+                        summary = summary.substring(0, 97) + "...";
+                    }
+                    return Trans.TEST_WIZARD_PARAM_SETTER_SUMMARIES_R.pf(summary);
                 case 12:
                     if (!param.definition.cols)
                         return "";
