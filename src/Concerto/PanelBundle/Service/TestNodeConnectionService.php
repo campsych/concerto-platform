@@ -79,27 +79,31 @@ class TestNodeConnectionService extends ASectionService {
 
     public function onObjectSaved(User $user, $is_new, TestNodeConnection $object) {
         if ($is_new) {
-            if ($object->getSourcePort()->getVariable()->getType() == 2) {
-                $srcNode = $object->getSourceNode();
-                $dstNode = $object->getDestinationNode();
+            $this->addSameInputReturnConnection($user, $object);
+        }
+    }
 
-                foreach ($srcNode->getPorts() as $srcPort) {
-                    $srcVar = $srcPort->getVariable();
-                    if (!$srcVar) {
-                        continue;
-                    }
+    private function addSameInputReturnConnection(User $user, TestNodeConnection $object) {
+        if ($object->getSourcePort()->getVariable()->getType() == 2) {
+            $srcNode = $object->getSourceNode();
+            $dstNode = $object->getDestinationNode();
 
-                    if ($srcVar->getType() == 1) {
-                        foreach ($dstNode->getPorts() as $dstPort) {
-                            $dstVar = $dstPort->getVariable();
-                            if (!$dstVar) {
-                                continue;
-                            }
+            foreach ($srcNode->getPorts() as $srcPort) {
+                $srcVar = $srcPort->getVariable();
+                if (!$srcVar) {
+                    continue;
+                }
 
-                            if ($dstVar->getType() == 0 && $srcPort->getVariable()->getName() == $dstPort->getVariable()->getName()) {
-                                $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getVariable()->getName(), true, true);
-                                break;
-                            }
+                if ($srcVar->getType() == 1) {
+                    foreach ($dstNode->getPorts() as $dstPort) {
+                        $dstVar = $dstPort->getVariable();
+                        if (!$dstVar) {
+                            continue;
+                        }
+
+                        if ($dstVar->getType() == 0 && $srcPort->getVariable()->getName() == $dstPort->getVariable()->getName()) {
+                            $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getVariable()->getName(), true, true);
+                            break;
                         }
                     }
                 }

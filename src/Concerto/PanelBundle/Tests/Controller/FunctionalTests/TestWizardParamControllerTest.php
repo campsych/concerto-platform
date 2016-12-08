@@ -264,7 +264,12 @@ class TestWizardParamControllerTest extends AFunctionalTest {
             "hideCondition" => "",
             "serializedDefinition" => json_encode(array("placeholder" => 0))
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
             "result" => 0,
@@ -316,5 +321,4 @@ class TestWizardParamControllerTest extends AFunctionalTest {
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
-
 }

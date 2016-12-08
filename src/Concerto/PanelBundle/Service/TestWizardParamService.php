@@ -14,6 +14,7 @@ use Concerto\PanelBundle\Security\ObjectVoter;
 
 class TestWizardParamService extends ASectionService {
 
+    public static $simpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
     private $validator;
     private $testVariableService;
     private $testWizardRepository;
@@ -143,7 +144,7 @@ class TestWizardParamService extends ASectionService {
                         ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($parent_instruction["action"] == 1 && $src_ent){
+        if ($parent_instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestWizardParam"]["id" . $obj["id"]] = $src_ent;
@@ -230,21 +231,144 @@ class TestWizardParamService extends ASectionService {
         //TODO 
     }
 
-    private function onObjectSaved(User $user, TestWizardParam $newObj, $oldObj) {
-        if ($oldObj === null)
-            return;
-        $tests = $newObj->getWizard()->getResultingTests();
-        foreach ($tests as $test) {
-            $vars = $test->getVariables();
-            foreach ($vars as $var) {
+    private function onObjectSaved(User $user, TestWizardParam $newParam, $oldParam) {
+        $this->updateValues($user, $newParam, $oldParam);
+    }
+
+    private function updateValues(User $user, TestWizardParam $newParam, $oldParam) {
+        $newDef = $newParam->getDefinition();
+        $oldDef = null;
+        $newVal = $newParam->getValue();
+        $oldVal = null;
+        $newType = $newParam->getType();
+        $oldType = null;
+        if (!in_array($newParam->getType(), self::$simpleTypes)) {
+            $newVal = json_decode($newVal, true);
+        }
+        if ($oldParam != null) {
+            $oldDef = $oldParam->getDefinition();
+            $oldVal = $oldParam->getValue();
+            $oldType = $oldParam->getType();
+            if (!in_array($oldParam->getType(), self::$simpleTypes)) {
+                $oldVal = json_decode($oldVal, true);
+            }
+        }
+
+        //param update
+        $this->getChildrenMergedValue($user, $newType, $oldType, $newDef, $oldDef, $newVal, $oldVal, $newVal, true, true);
+        $val = $newVal;
+        if (!in_array($newParam->getType(), self::$simpleTypes)) {
+            $val = json_encode($val);
+        }
+        $newParam->setValue($val);
+        $this->repository->save($newParam);
+
+        //resulting tests variables update
+        foreach ($newParam->getWizard()->getResultingTests() as $test) {
+            foreach ($test->getVariables() as $var) {
                 $pvar = $var->getParentVariable();
-                if ($newObj->getVariable()->getId() == $pvar->getId()) {
-                    if ($oldObj->getValue() == $var->getValue()) {
-                        $var->setValue($newObj->getValue());
-                        $this->testVariableService->update($user, $var);
+                if ($newParam->getVariable()->getId() == $pvar->getId()) {
+                    $dstVal = $var->getValue();
+                    if (!in_array($oldType, self::$simpleTypes)) {
+                        $dstVal = json_decode($dstVal, true);
                     }
-                    continue;
+                    $this->getChildrenMergedValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $dstVal);
+                    $val = $dstVal;
+                    if (!in_array($newType, self::$simpleTypes)) {
+                        $val = json_encode($val);
+                    }
+                    $var->setValue($val);
+                    $this->testVariableService->update($user, $var);
                 }
+            }
+        }
+    }
+
+    private function getChildrenMergedValue(User $user, $newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$dstVal, $default = true, $dstIsParam = false) {
+        //type change
+        $newField = $oldType === null;
+        $typeChanged = $newType != $oldType;
+
+        $typesCompatible = true;
+        $newTypeSimple = in_array($newType, self::$simpleTypes);
+        if ($newField || ($typeChanged && in_array($newType, self::$simpleTypes) != in_array($oldType, self::$simpleTypes))) {
+            $typesCompatible = false;
+        }
+
+        if ($newTypeSimple) {
+            //new type simple
+            if ($typeChanged && !$typesCompatible) {
+                switch ((int) $newType) {
+                    case 4:
+                        $dstVal = "0";
+                        break;
+                    default:
+                        $dstVal = "";
+                        break;
+                }
+            }
+
+            //check if should use default value when simple
+            $default &= $typeChanged || $oldVal === null || ($newTypeSimple && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
+            if ($default && array_key_exists("defvalue", $newDef)) {
+                $dstVal = $newDef["defvalue"];
+            }
+        } else {
+            //new type complex
+            $default &= $typeChanged || ($oldVal == $dstVal);
+            if ($typeChanged)
+                $dstVal = array();
+            if ($default && !$dstIsParam) {
+                $dstVal = $newVal;
+                return;
+            }
+
+            //complex type recursion
+            switch ((int) $newType) {
+                //group type
+                case 9:
+                    foreach ($newDef["fields"] as $field) {
+                        if (!array_key_exists($field["name"], $dstVal)) {
+                            $dstVal[$field["name"]] = null;
+                        }
+                        $dstFieldVal = &$dstVal[$field["name"]];
+                        $newFieldVal = &$newVal[$field["name"]];
+                        $oldFieldType = null;
+                        $oldFieldDef = null;
+                        $oldFieldVal = null;
+                        if (!$typeChanged) {
+                            foreach ($oldDef["fields"] as $oldField) {
+                                if ($oldField["name"] == $field["name"]) {
+                                    $oldFieldType = $oldField["type"];
+                                    $oldFieldDef = $oldField["definition"];
+                                    if (array_key_exists($oldField["name"], $oldVal))
+                                        $oldFieldVal = $oldVal[$oldField["name"]];
+                                    break;
+                                }
+                            }
+                        }
+                        $this->getChildrenMergedValue($user, $field["type"], $oldFieldType, $field["definition"], $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $default);
+                    }
+                    break;
+                //list type
+                case 10:
+                    for ($i = 0; $i < count($dstVal); $i++) {
+                        $oldElemType = null;
+                        $oldElemDef = null;
+                        $oldElemVal = null;
+                        if (!$typeChanged) {
+                            $oldElemType = $oldDef["element"]["type"];
+                            $oldElemDef = $oldDef["element"]["definition"];
+                            $oldElemVal = null;
+                            if (count($oldVal) > $i)
+                                $oldElemVal = $oldVal[$i];
+                            $newElemVal = null;
+                            if (count($newVal) > $i)
+                                $newElemVal = $newVal[$i];
+                        }
+                        $this->getChildrenMergedValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $dstVal[$i], $default);
+                    }
+                    break;
             }
         }
     }

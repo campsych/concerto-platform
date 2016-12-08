@@ -156,9 +156,11 @@ class TestVariableService extends ASectionService {
     }
 
     private function onObjectSaved(User $user, TestVariable $object, $is_new) {
-        $this->updateChildVariables($user, $object);
+        if (!$is_new)
+            $this->updateChildVariables($user, $object);
         $this->testNodePortService->onTestVariableSaved($user, $object, $is_new);
-        $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new);
+        if (!$is_new)
+            $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new);
     }
 
     public function delete($object_ids, $secure = true) {
@@ -211,7 +213,7 @@ class TestVariableService extends ASectionService {
                         ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($parent_instruction["action"] == 1 && $src_ent){
+        if ($parent_instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestVariable"]["id" . $obj["id"]] = $src_ent;
