@@ -156,8 +156,7 @@ class TestVariableService extends ASectionService {
     }
 
     private function onObjectSaved(User $user, TestVariable $object, $is_new) {
-        if (!$is_new)
-            $this->updateChildVariables($user, $object);
+        $this->updateChildVariables($user, $object);
         $this->testNodePortService->onTestVariableSaved($user, $object, $is_new);
         if (!$is_new)
             $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new);
