@@ -132,7 +132,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         var ex = scope.selectionRectanglePoints.ex;
                         var sy = scope.selectionRectanglePoints.sy;
                         var ey = scope.selectionRectanglePoints.ey;
-                        if (node.posX >= sx && node.posX <= ex && node.posY >= sy && node.posY <= ey && node.type === 0)
+                        if (node.posX >= sx && node.posX <= ex && node.posY >= sy && node.posY <= ey && node.type == 0)
                             result.push(node.id);
                     }
                     return result;
@@ -275,7 +275,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         return false;
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
-                        if (port.variableObject !== null && port.variableObject.type === 2)
+                        if (port.variableObject !== null && port.variableObject.type == 2)
                             return false;
                     }
                     return true;
@@ -284,7 +284,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.isNodeCollapsable = function (node) {
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
-                        if (port.variableObject && (port.variableObject.type === 0 || port.variableObject.type === 1))
+                        if (port.variableObject && (port.variableObject.type == 0 || port.variableObject.type == 1))
                             return true;
                     }
                     return false;
@@ -302,7 +302,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var title = "";
                     var nodeClass = "";
                     var description = scope.collectionService.getNode(node.id).sourceTestDescription;
-                    if (parseInt(node.type) === 1) {
+                    if (node.type == 1) {
                         fullName = Trans.TEST_FLOW_NODE_NAME_START;
                         if (node.title != "")
                             title = scope.truncateNodeTitle(node.title);
@@ -310,7 +310,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             title = scope.truncateNodeTitle(fullName);
                         description = Trans.TEST_FLOW_NODE_DESCRIPTION_START;
                         nodeClass = "nodeStart";
-                    } else if (parseInt(node.type) === 2) {
+                    } else if (node.type == 2) {
                         fullName = Trans.TEST_FLOW_NODE_NAME_END;
                         if (node.title != "")
                             title = scope.truncateNodeTitle(node.title);
@@ -318,7 +318,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             title = scope.truncateNodeTitle(fullName);
                         description = Trans.TEST_FLOW_NODE_DESCRIPTION_END;
                         nodeClass = "nodeEnd";
-                    } else if (parseInt(node.type) === 0) {
+                    } else if (node.type == 0) {
                         fullName = node.sourceTestName;
                         if (node.title != "")
                             title = scope.truncateNodeTitle(node.title);
@@ -332,7 +332,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                     var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + "); setLastActiveNodeId(" + node.id + ");'>";
                     var headerIcons = "";
-                    if (node.type === 1 || node.type === 2) {
+                    if (node.type == 1 || node.type == 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
                     } else {
                         headerIcons = "<div class='node-header-icons'>" +
@@ -383,7 +383,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     if (node.type !== 2) {
                         for (var i = 0; i < node.ports.length; i++) {
                             var port = node.ports[i];
-                            if (port.variableObject.type === 2) { //branches
+                            if (port.variableObject.type == 2) { //branches
 
                                 var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
                                 $compile(overlayElem)(scope);
@@ -408,7 +408,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
-                        if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 0) || (node.type === 2 && port.variableObject.type === 1))) { //input param
+                        if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1))) { //input param
 
                             var overlayElem = $("<div " +
                                     "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}' " +
@@ -453,7 +453,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 }
                             });
                             leftCount++;
-                        } else if (scope.isPortVisible(node, port) && ((node.type === 0 && port.variableObject.type === 1) || (node.type === 1 && port.variableObject.type === 0))) { //return vars
+                        } else if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0))) { //return vars
 
                             var overlayElem = $("<div>" +
                                     "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>" +
@@ -1006,7 +1006,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var params = jspConnection.getParameters();
                     if (params.targetPort)
                         $("#divPortControl" + params.targetPort.id).hide();
-                    if ((params.sourceNode.type === 1 && params.sourcePort.variableObject.type === 0) || (params.sourceNode.type === 0 && params.sourcePort.variableObject.type === 1)) {
+                    if ((params.sourceNode.type == 1 && params.sourcePort.variableObject.type == 0) || (params.sourceNode.type == 0 && params.sourcePort.variableObject.type == 1)) {
                         if (jspConnection.getOverlay("overlayConnection" + params.concertoConnection.id))
                             return;
                         jspConnection.addOverlay(
@@ -1024,7 +1024,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         location: 0.5,
                                         id: "overlayConnection" + params.concertoConnection.id
                                     }]);
-                    } else if (params.sourcePort.variableObject.type === 2) {
+                    } else if (params.sourcePort.variableObject.type == 2) {
                         jspConnection.addOverlay(
                                 ["Arrow", {location: 0.5, paintStyle: {fillStyle: "orange", strokeStyle: "grey"}}]);
                     }
@@ -1056,12 +1056,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 scope.isPortVisible = function (node, port) {
                     //input
-                    if ((node.type === 0 && port.variableObject.type === 0) || (node.type === 2 && port.variableObject.type === 1)) {
+                    if ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1)) {
                         if (node.expanded || scope.isPortConnected(port))
                             return true;
                     }
                     //returns
-                    if ((node.type === 0 && port.variableObject.type === 1) || (node.type === 1 && port.variableObject.type === 0)) {
+                    if ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0)) {
                         if (node.expanded || scope.isPortConnected(port))
                             return true;
                     }
@@ -1102,12 +1102,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             targetPortType = targetParams.targetPort.variableObject.type;
                         var sourceNodeType = sourceParams.sourceNode.type;
                         var targetNodeType = targetParams.targetNode.type;
-                        if (sourceNodeType === 1) {
-                            if (sourcePortType === 0)
+                        if (sourceNodeType == 1) {
+                            if (sourcePortType == 0)
                                 sourcePortType = 1;
                         }
-                        if (targetNodeType === 2) {
-                            if (targetPortType === 1)
+                        if (targetNodeType == 2) {
+                            if (targetPortType == 1)
                                 targetPortType = 0;
                         }
 
