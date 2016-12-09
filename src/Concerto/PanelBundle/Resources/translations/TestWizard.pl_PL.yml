@@ -1,5 +1,9 @@
 breadcrumb:
     list: Wszystkie wizardy
+    
+alerts:
+    no_steps: Nie zdefiniowano kroków kreatora!
+    no_params: Nie zdefiniowano parametrów kreatora w tym kroku!
 
 form:
   title:

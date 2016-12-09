@@ -1,5 +1,9 @@
 breadcrumb:
     list: All wizards
+    
+alerts:
+    no_steps: No test wizard steps defined!
+    no_params: No test wizard params defined in this step!
 
 form:
   title:

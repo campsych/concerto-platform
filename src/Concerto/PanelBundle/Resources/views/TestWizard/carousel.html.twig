@@ -2,6 +2,10 @@
 {% trans_default_domain "TestWizard" %}
 
 {% block content %}
+    <uib-alert type="warning" ng-if="object.steps == 0">
+        <i class="glyphicon glyphicon-exclamation-sign"></i>
+        {{ 'alerts.no_steps'|trans }}
+    </uib-alert>
     <wizard class="testWizard" edit-mode="true" steps-collection="object.steps" hide-indicators="object.steps.length<=1">
         <div ng-controller="TestWizardCarouselStepController" ng-repeat="step in object.steps">
             <wz-step wz-title="{%verbatim%}{{step.title}}{%endverbatim%}" step-uid="{%verbatim%}{{step.id}}{%endverbatim%}">
@@ -13,6 +17,10 @@
                     <h3 ng-bind="step.title"></h3>
                     <p ng-bind-html="step.description | trustedHtml"></p>
                 </div>
+                <uib-alert type="warning" ng-if="step.params == 0">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                    {{ 'alerts.no_params'|trans }}
+                </uib-alert>
                 <div ng-repeat="param in step.params | orderBy: 'order' track by $index">
                     <wizard-param-setter param="param" parent="null" output="param.output" mode="outer" wizard-mode="{{wizard_mode}}" values="values" wizard-object="object" under-list="false"></wizard-param-setter>
                 </div>
