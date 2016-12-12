@@ -279,7 +279,6 @@ flow:
         paste_nodes: Coller les nœuds
         remove_node: Enlever le nœud
         reset_to_default: Rétablir par défaut
-        toggle_collapse: Réduire/développer les balises non connectées
         zoom_in: Aggrandir
         zoom_out: Réduire
     tags:

@@ -176,12 +176,12 @@
     text-decoration: underline;
 }
 
-.portValueDefault {
-    color: #86F40B;
+.port-value-default {
+    color: #1bd334;
 }
 
 .return-function-default {
-    color: #86F40B;
+    color: #1bd334;
 }
 
 .connectionLabel {

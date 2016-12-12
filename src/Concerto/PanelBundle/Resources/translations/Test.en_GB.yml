@@ -285,7 +285,6 @@ flow:
         remove_node: Remove node
         remove_nodes: Remove nodes
         reset_to_default: Reset to default
-        toggle_collapse: Collapse/Expand unconnected ports
         zoom_in: Zoom in
         zoom_out: Zoom out
         maximize: Toggle full-screen view

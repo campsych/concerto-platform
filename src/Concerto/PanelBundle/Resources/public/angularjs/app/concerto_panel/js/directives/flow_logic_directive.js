@@ -333,6 +333,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var portTopMargin = 20;
                     var portElemMargin = 30;
                     var portBottomMargin = -10;
+                    var flowEndpoint = ["Rectangle", {width: 25, height: 25}];
+                    var varEndpoint = ["Dot", {radius: 12.5}];
                     /* SETTINGS END */
 
                     node.ports = $filter('orderBy')(node.ports, "variableObject.name");
@@ -380,7 +382,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }
                     var collapseHtml = "";
                     if (scope.isNodeCollapsable(node)) {
-                        collapseHtml = "<div style='width: 100%; text-align: center;'><button class='btn btn-default btn-xs btn-block' ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")' tooltip-placement='bottom' tooltip-append-to-body='false' uib-tooltip='" + Trans.TEST_FLOW_BUTTONS_TOGGLE_COLLAPSE_TOOLTIP + "'>" +
+                        collapseHtml = "<div style='width: 100%; text-align: center;'><button class='btn btn-default btn-xs btn-block' ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")'>" +
                                 "<i class='glyphicon' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
                                 "></i></button></div>" +
                                 "</div>";
@@ -407,7 +409,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             uuid: "node" + node.id + "-ep_entry",
                             isTarget: true,
                             maxConnections: -1,
-                            endpoint: "Rectangle",
+                            endpoint: flowEndpoint,
                             anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                             paintStyle: {fillStyle: "white", strokeStyle: "grey"},
                             parameters: {
@@ -431,7 +433,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     uuid: "node" + node.id + "-ep" + port.id,
                                     isSource: true,
                                     maxConnections: 1,
-                                    endpoint: "Rectangle",
+                                    endpoint: flowEndpoint,
                                     anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
                                     paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
                                     parameters: {
@@ -459,7 +461,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 uuid: "node" + node.id + "-ep" + port.id,
                                 maxConnections: -1,
                                 isTarget: true,
-                                endpoint: "Dot",
+                                endpoint: varEndpoint,
                                 anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
                                 paintStyle: {fillStyle: "blue", strokeStyle: "grey"},
                                 overlays: [[
@@ -476,7 +478,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                                 }
 
                                                 var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
-                                                        "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"portValueDefault\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
+                                                        "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"port-value-default\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
                                                         "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
                                                         "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
                                                 $compile(overlayElem)(scope);
@@ -504,7 +506,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 uuid: "node" + node.id + "-ep" + port.id,
                                 isSource: true,
                                 maxConnections: -1,
-                                endpoint: "Dot",
+                                endpoint: varEndpoint,
                                 anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
                                 paintStyle: {fillStyle: "red", strokeStyle: "grey"},
                                 parameters: {

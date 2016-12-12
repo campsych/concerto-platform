@@ -285,7 +285,6 @@ flow:
         remove_node: Bağı kaldır
         remove_nodes: Bağları kaldır
         reset_to_default: Varsayılana sıfırla
-        toggle_collapse: Bağlı olmayan portları göster/gizle
         zoom_in: Yaklaştır
         zoom_out: Uzaklaştır
         maximize: Tam ekran görünümünü aç/kapat
