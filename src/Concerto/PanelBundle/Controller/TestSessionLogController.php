@@ -35,7 +35,7 @@ class TestSessionLogController extends ASectionController {
 
     public function clearAction($test_id) {
         $this->service->clear($test_id);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $test_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

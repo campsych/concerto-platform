@@ -34,7 +34,6 @@ class TestSessionLogControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $log = new TestSessionLog();
         $log->setBrowser("gecko");
@@ -50,7 +49,7 @@ class TestSessionLogControllerTest extends AFunctionalTest {
         $client = self::createLoggedClient();
 
         $log = self::$repository->find(1);
-        
+
         $client->request('POST', '/admin/TestSessionLog/Test/1/collection');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $expected = array(
@@ -64,10 +63,9 @@ class TestSessionLogControllerTest extends AFunctionalTest {
                 "test_id" => 1,
                 "created" => $log->getCreated()->format("Y-m-d H:i:s")
             )
-        
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-        
+
         $client->request('POST', '/admin/TestSessionLog/Test/2/collection');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertCount(0, json_decode($client->getResponse()->getContent(), true));
@@ -84,16 +82,17 @@ class TestSessionLogControllerTest extends AFunctionalTest {
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
     }
-    
+
     public function testClearAction() {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestSessionLog/Test/1/clear");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
     }
+
 }

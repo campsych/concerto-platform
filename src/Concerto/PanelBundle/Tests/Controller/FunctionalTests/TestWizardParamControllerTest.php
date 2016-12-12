@@ -30,7 +30,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "login",
@@ -41,7 +40,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(2, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizard/-1/save", array(
             "name" => "wizard",
@@ -52,7 +50,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizardStep/-1/save", array(
             "title" => "step1",
@@ -63,7 +60,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizardParam/-1/save", array(
             "label" => "param1",
@@ -80,7 +76,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
     }
 
     public function testWizardCollectionAction() {
@@ -191,7 +186,7 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestWizardParam/TestWizard/1/clear");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(0, self::$repository->findAll());
     }
 
@@ -207,7 +202,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(3, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizardParam/-1/save", array(
             "label" => "type",
@@ -226,7 +220,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "TestWizardParam",
                 "id" => 2,
@@ -274,7 +267,6 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "TestWizardParam",
                 "id" => 1,
@@ -321,4 +313,5 @@ class TestWizardParamControllerTest extends AFunctionalTest {
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
+
 }

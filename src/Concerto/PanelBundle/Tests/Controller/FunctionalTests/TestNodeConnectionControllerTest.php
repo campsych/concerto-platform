@@ -30,7 +30,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test_s1",
@@ -43,7 +42,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(2, $content["object_id"]);
 
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test_s2",
@@ -56,7 +54,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(3, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "response",
@@ -67,7 +64,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(4, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "params",
@@ -78,7 +74,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(5, $content["object_id"]);
 
         $client->request("POST", "/admin/TestNode/-1/save", array(
             "flowTest" => 1,
@@ -91,7 +86,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(3, $content["object_id"]);
 
         $client->request("POST", "/admin/TestNode/-1/save", array(
             "flowTest" => 1,
@@ -104,7 +98,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(4, $content["object_id"]);
 
         $client->request("POST", "/admin/TestNodeConnection/-1/save", array(
             "flowTest" => 1,
@@ -116,7 +109,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
     }
 
     public function testCollectionAction() {
@@ -244,7 +236,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => $expected
                 ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
@@ -301,7 +292,6 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => $expected
                 ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());

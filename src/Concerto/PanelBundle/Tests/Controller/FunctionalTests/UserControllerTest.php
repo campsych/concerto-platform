@@ -145,7 +145,6 @@ class UserControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "User",
                 "id" => 2,
@@ -189,7 +188,6 @@ class UserControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "User",
                 "id" => 1,
@@ -233,7 +231,6 @@ class UserControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "User",
                 "id" => 1,
@@ -277,7 +274,6 @@ class UserControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "User",
                 "id" => 2,

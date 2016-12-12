@@ -34,7 +34,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/DataTable/1/row/insert");
         $client->request("POST", "/admin/DataTable/1/row/1/update", array(
@@ -196,7 +195,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertNotNull($new_entity);
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $decoded_response["result"]);
-        $this->assertEquals(2, $decoded_response["object_id"]);
     }
 
     public function testImportNewSameNameAction() {
@@ -223,7 +221,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $decoded_response["result"]);
-        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(1, self::$repository->findBy(array("name" => "main_table_1")));
     }
 
@@ -239,7 +236,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 2,
@@ -272,7 +268,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 1,
@@ -305,7 +300,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 1,
@@ -338,7 +332,6 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 2,
@@ -440,7 +433,7 @@ class DataTableControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/DataTable/1/column/temp/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -454,7 +447,7 @@ class DataTableControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/DataTable/1/row/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $expected = array(
             "content" => array(
@@ -477,7 +470,7 @@ class DataTableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 0), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -554,7 +547,7 @@ class DataTableControllerTest extends AFunctionalTest {
             return;
         }
 
-        $this->assertEquals(array("result" => 0, "object_id" => "temp"), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -571,7 +564,7 @@ class DataTableControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/DataTable/1/row/insert");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $expected = array(
             "content" => array(
@@ -595,7 +588,7 @@ class DataTableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $expected = array(
             "content" => array(
@@ -618,7 +611,7 @@ class DataTableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $expected = array(
             "content" => array(
@@ -641,7 +634,7 @@ class DataTableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_id" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $expected = array(
             "content" => array(

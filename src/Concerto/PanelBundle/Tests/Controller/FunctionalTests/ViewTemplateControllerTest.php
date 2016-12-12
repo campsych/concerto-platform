@@ -31,7 +31,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
     }
 
     public function testCollectionAction() {
@@ -155,7 +154,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $decoded_response["result"]);
-        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(2, self::$repository->findAll());
     }
 
@@ -183,7 +181,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $decoded_response["result"]);
-        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(1, self::$repository->findBy(array("name" => "view_1")));
     }
 
@@ -199,7 +196,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "ViewTemplate",
                 "id" => 2,
@@ -239,7 +235,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "ViewTemplate",
                 "id" => 1,
@@ -279,7 +274,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "ViewTemplate",
                 "id" => 1,
@@ -314,7 +308,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "ViewTemplate",
                 "id" => 2,

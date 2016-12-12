@@ -98,21 +98,21 @@ class DataTableController extends AExportableTabController {
 
     public function deleteColumnAction($table_id, $column_names) {
         $this->service->deleteColumns($table_id, $column_names);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     public function deleteRowAction($table_id, $row_ids) {
         $this->service->deleteRows($table_id, $row_ids);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     public function truncateAction($table_id) {
         $this->service->truncate($table_id);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -126,7 +126,7 @@ class DataTableController extends AExportableTabController {
                 }
                 $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
             } else {
-                $response = new Response(json_encode(array("result" => 0, "object_id" => $column_name)));
+                $response = new Response(json_encode(array("result" => 0)));
             }
         } catch (DAOUnsupportedOperationException $exc) {
             $response = new Response(json_encode(array("result" => 2, "errors" => array($this->translator->trans('errors.table.column.conversion')))));
@@ -137,14 +137,14 @@ class DataTableController extends AExportableTabController {
 
     public function insertRowAction($table_id) {
         $this->service->insertRow($table_id);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     public function updateRowAction($table_id, $row_id, $prefixed = 0) {
         $this->service->updateRow($table_id, $row_id, $this->request->get("values"), $prefixed == 1);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -160,11 +160,11 @@ class DataTableController extends AExportableTabController {
                     "files" . DIRECTORY_SEPARATOR .
                     $this->request->get("file"), $restructure === "1", $header === "1", $delimiter, $enclosure);
         } catch (\Exception $ex) {
-            $response = new Response(json_encode(array("result" => 1, "object_id" => $table_id, "errors" => array($ex->getMessage()))));
+            $response = new Response(json_encode(array("result" => 1, "errors" => array($ex->getMessage()))));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $table_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

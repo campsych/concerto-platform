@@ -67,7 +67,7 @@ class TestWizardParamController extends ASectionController {
 
     public function clearAction($wizard_id) {
         $this->service->clear($wizard_id);
-        $response = new Response(json_encode(array("result" => 0, "object_id" => $wizard_id)));
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

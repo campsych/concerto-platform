@@ -85,12 +85,13 @@ class TestController extends AExportableTabController {
                 $this->request->get("posY"), //
                 $this->service->get($this->request->get("flowTest")), //
                 $this->service->get($this->request->get("sourceTest")), //
-                true);
+                false);
         return $this->getSaveResponse($result);
     }
 
     public function removeNodeAction($node_ids) {
-        $result = $this->service->removeFlowNode($node_ids, true);
+        $collections = false;
+        $result = $this->service->removeFlowNode($node_ids, $collections);
 
         $errors = array();
         for ($a = 0; $a < count($result["results"]); $a++) {
@@ -100,9 +101,15 @@ class TestController extends AExportableTabController {
         }
 
         if (count($errors) > 0) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => $errors, "collections" => $result["collections"])));
+            $response_array = array("result" => 1, "errors" => $errors);
+            if ($collections)
+                $response_array["collections"] = $result["collections"];
+            $response = new Response(json_encode($response_array));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object_ids" => $node_ids, "collections" => $result["collections"])));
+            $response_array = array("result" => 0, "object_ids" => $node_ids);
+            if ($collections)
+                $response_array["collections"] = $result["collections"];
+            $response = new Response(json_encode($response_array));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -119,21 +126,28 @@ class TestController extends AExportableTabController {
                 $this->request->get("returnFunction"), //
                 false, //
                 $this->request->get("default") == "1", //
-                true);
+                false);
         return $this->getSaveResponse($result);
     }
 
     public function removeNodeConnectionAction($connection_id) {
-        $result = $this->service->removeFlowConnection($connection_id, true);
+        $collections = false;
+        $result = $this->service->removeFlowConnection($connection_id, $collections);
 
         $errors = array();
         for ($i = 0; $i < count($result['errors']); $i++) {
             $errors[] = "#" . $result["object"]->getId() . ": " . $result["object"]->getName() . " - " . $this->translator->trans($result['errors'][$i]);
         }
         if (count($errors) > 0) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => $errors, "collections" => $result["collections"])));
+            $response_array = array("result" => 1, "errors" => $errors);
+            if ($collections)
+                $response_array["collections"] = $result["collections"];
+            $response = new Response(json_encode($response_array));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object_ids" => $connection_id, "collections" => $result["collections"])));
+            $response_array = array("result" => 0, "object_ids" => $connection_id);
+            if ($collections)
+                $response_array["collections"] = $result["collections"];
+            $response = new Response(json_encode($response_array));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -153,7 +167,7 @@ class TestController extends AExportableTabController {
                 $this->securityTokenStorage->getToken()->getUser(), //
                 $this->service->get($object_id), //
                 json_decode($this->request->get("nodes"), true), //
-                true);
+                false);
         return $this->getSaveResponse($result);
     }
 

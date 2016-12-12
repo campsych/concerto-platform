@@ -352,6 +352,9 @@ class TestService extends AExportableSectionService {
         $result = $this->testNodeConnectionService->save($user, 0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default);
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
+        } else {
+            $result["collections"] = array();
+            $result["collections"]["newNodesConnections"] = $this->testNodeConnectionService->repository->findByNodes($sourceNode, $destinationNode);
         }
         return $result;
     }
@@ -374,9 +377,14 @@ class TestService extends AExportableSectionService {
 
     public function pasteNodes(User $user, Test $flowTest, $nodes, $return_collections = false) {
         $node_map = array();
+        $result = array(
+            "errors" => array(),
+            "collections" => array("newNodes" => array(), "newNodesConnections" => array())
+        );
         foreach ($nodes as $node) {
-            $result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), false);
-            $new_node = $result["object"];
+            $node_result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), false);
+            $new_node = $node_result["object"];
+            array_push($result["collections"]["newNodes"], $new_node);
             $node_map["id" . $node["id"]] = $new_node->getId();
 
             foreach ($node["ports"] as $src_port) {
@@ -434,11 +442,20 @@ class TestService extends AExportableSectionService {
                 }
             }
 
-            $this->addFlowConnection($user, $flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->isAutomatic(), $copied_connection->hasDefaultReturnFunction(), false);
+            $connection_result = $this->addFlowConnection($user, $flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->isAutomatic(), $copied_connection->hasDefaultReturnFunction(), false);
+            $new_connection = $connection_result["object"];
+            array_push($result["collections"]["newNodesConnections"], $new_connection);
         }
 
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
+        } else {
+            foreach ($result["collections"]["newNodes"] as $node) {
+                $this->repository->refresh($node);
+            }
+            foreach ($result["collections"]["newNodesConnections"] as $connection) {
+                $this->repository->refresh($connection);
+            }
         }
         return $result;
     }

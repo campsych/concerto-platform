@@ -30,7 +30,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "response",
@@ -41,7 +40,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(2, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "param",
@@ -53,7 +51,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(3, $content["object_id"]);
     }
 
     public function testCollectionByTestAction() {
@@ -177,7 +174,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 4,
             "object" => array(
                 "class_name" => "TestVariable",
                 "id" => 4,
@@ -208,7 +204,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "TestVariable",
                 "id" => 1,
@@ -239,7 +234,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 3,
             "object" => array(
                 "class_name" => "TestVariable",
                 "id" => 3,
@@ -270,7 +264,6 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 4,
             "object" => array(
                 "class_name" => "TestVariable",
                 "id" => 4,

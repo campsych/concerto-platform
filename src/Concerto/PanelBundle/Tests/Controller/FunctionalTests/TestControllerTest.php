@@ -32,7 +32,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
     }
 
     public function testCollectionAction() {
@@ -205,7 +204,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertNotNull($new_entity);
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $decoded_response["result"]);
-        $this->assertEquals(2, $decoded_response["object_id"]);
     }
 
     public function testImportNewSameNameAction() {
@@ -232,7 +230,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertCount(2, self::$repository->findAll());
         $decoded_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $decoded_response["result"]);
-        $this->assertEquals(2, $decoded_response["object_id"]);
         $this->assertCount(1, self::$repository->findBy(array("name" => "test_1")));
     }
 
@@ -250,7 +247,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "Test",
                 "id" => 2,
@@ -314,7 +310,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "Test",
                 "id" => 1,
@@ -376,7 +371,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "Test",
                 "id" => 1,
@@ -437,7 +431,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "Test",
                 "id" => 2,
@@ -519,7 +512,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test2",
@@ -533,7 +525,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(2, $content["object_id"]);
 
         $client->request("POST", "/admin/Test/1/save", array(
             "name" => "wizard test",

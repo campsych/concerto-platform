@@ -33,7 +33,6 @@ abstract class ASectionController {
             $response = new Response(json_encode($result));
         } else {
             $result["result"] = 0;
-            $result["object_id"] = $result["object"]->getId();
             $response = new Response(json_encode($result));
         }
         $response->headers->set('Content-Type', 'application/json');

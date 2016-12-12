@@ -34,7 +34,6 @@ class TestSessionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $session = new TestSession();
         $session->setTest(self::$testRepository->find(1));

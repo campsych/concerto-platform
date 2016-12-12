@@ -35,7 +35,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizard/-1/save", array(
             "name" => "wizard",
@@ -46,7 +45,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "login",
@@ -57,7 +55,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(2, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizardStep/-1/save", array(
             "title" => "step1",
@@ -68,7 +65,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/TestWizardParam/-1/save", array(
             "label" => "param1",
@@ -85,7 +81,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
     }
 
     public function testCollectionAction() {
@@ -189,7 +184,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "TestWizard",
                 "id" => 2,
@@ -225,7 +219,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "TestWizard",
                 "id" => 1,
@@ -290,7 +283,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 1,
             "object" => array(
                 "class_name" => "TestWizard",
                 "id" => 1,
@@ -355,7 +347,6 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 2,
             "object" => array(
                 "class_name" => "TestWizard",
                 "id" => 2,

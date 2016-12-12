@@ -32,7 +32,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(1, $content["object_id"]);
 
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test_s1",
@@ -45,7 +44,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(2, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "response",
@@ -56,7 +54,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(3, $content["object_id"]);
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "params",
@@ -67,7 +64,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(4, $content["object_id"]);
 
         $client->request("POST", "/admin/TestNode/-1/save", array(
             "flowTest" => 1,
@@ -80,7 +76,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
-        $this->assertEquals(3, $content["object_id"]);
     }
 
     public function testCollectionAction() {
@@ -453,7 +448,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 4,
             "object" => $expected
                 ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(4, self::$repository->findAll());
@@ -551,7 +545,6 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
-            "object_id" => 3,
             "object" => $expected
                 ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(3, self::$repository->findAll());

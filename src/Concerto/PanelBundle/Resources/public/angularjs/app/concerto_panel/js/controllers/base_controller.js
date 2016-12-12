@@ -346,7 +346,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                                 if ($scope.reloadOnModification) {
                                     location.reload();
                                 } else {
-                                    $scope.edit(response.data.object_id);
+                                    $scope.edit(response.data.object.id);
                                     $scope.object.initProtected = $scope.object.protected;
                                 }
                             });

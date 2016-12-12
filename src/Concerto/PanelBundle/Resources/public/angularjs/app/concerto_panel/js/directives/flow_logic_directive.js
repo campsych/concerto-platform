@@ -22,6 +22,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.selectionDisabled = false;
                 scope.maximized = false;
                 scope.lastActiveNodeId = null;
+                scope.jsPlumbEventsEnabled = true;
 
                 scope.updateSelectionRectangle = function () {
                     scope.selectionRectanglePoints.sx = Math.min(scope.selectionRectanglePoints.x1, scope.selectionRectanglePoints.x2);
@@ -290,7 +291,44 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     return false;
                 };
 
+                scope.refreshNode = function (node) {
+                    scope.jsPlumbEventsEnabled = false;
+                    jsPlumb.setSuspendDrawing(true);
+                    jsPlumb.remove("node" + node.id);
+                    scope.drawNode(node);
+                    scope.jsPlumbEventsEnabled = true;
+                    for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                        var connection = scope.object.nodesConnections[i];
+                        if (connection.sourceNode == node.id || connection.destinationNode == node.id) {
+                            scope.connect(connection);
+                        }
+                    }
+                    jsPlumb.setSuspendDrawing(false, true);
+                }
+
+                scope.refreshConnections = function (nodesIds, manualDrawingResume) {
+                    scope.jsPlumbEventsEnabled = false;
+                    jsPlumb.setSuspendDrawing(true);
+                    for (var i = 0; i < scope.object.nodes.length; i++) {
+                        var node = scope.object.nodes[i];
+                        if (nodesIds.indexOf(node.id) !== -1) {
+                            jsPlumb.remove("node" + node.id);
+                            scope.drawNode(node);
+                        }
+                    }
+                    scope.jsPlumbEventsEnabled = true;
+                    for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                        var connection = scope.object.nodesConnections[i];
+                        if (nodesIds.indexOf(connection.sourceNode) !== -1 || nodesIds.indexOf(connection.destinationNode) !== -1) {
+                            scope.connect(connection);
+                        }
+                    }
+                    if (!manualDrawingResume)
+                        jsPlumb.setSuspendDrawing(false, true);
+                }
+
                 scope.drawNode = function (node) {
+
                     /* SETTINGS START */
                     var portTopMargin = 20;
                     var portElemMargin = 30;
@@ -408,6 +446,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
+
                         if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1))) { //input param
 
                             var overlayElem = $("<div " +
@@ -483,7 +522,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         drag: function (event, ui) {
                             scope.movingActive = true;
                             scope.selectionDisabled = true;
-                            scope.$apply();
+                            //scope.$apply();
                             if (scope.selectedNodeIds.indexOf(node.id) === -1)
                                 return;
                             var offset = {
@@ -662,7 +701,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             "title": response
                         }).success(function (data) {
                             node.title = data.object.title;
-                            scope.refreshFlow();
+                            scope.refreshNode(node);
                         });
                     }, function () {
                         node.title = oldTitle;
@@ -746,10 +785,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         "title": ""
                     }).success(function (data) {
                         if (data.result === 0) {
-                            //scope.drawNode(data.object);
-
-                            scope.object.nodes = data.collections.nodes;
-                            scope.object.nodesConnections = data.collections.nodesConnections;
+                            scope.object.nodes.push(data.object);
+                            scope.drawNode(data.object);
 
                             var sourceTest = angular.copy(TestCollectionService.get(data.object.sourceTest));
 
@@ -829,8 +866,17 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $http.post(Paths.TEST_FLOW_NODE_PASTE_COLLECTION.pf(scope.object.id), {
                         nodes: serializedNodes
                     }).success(function (data) {
-                        scope.object.nodes = data.collections.nodes;
-                        scope.object.nodesConnections = data.collections.nodesConnections;
+                        var nodeIds = [];
+                        for (var i = 0; i < data.collections.newNodes.length; i++) {
+                            var node = data.collections.newNodes[i];
+                            scope.object.nodes.push(node);
+                            nodeIds.push(node.id);
+                        }
+                        for (var i = 0; i < data.collections.newNodesConnections.length; i++) {
+                            var connection = data.collections.newNodesConnections[i];
+                            scope.object.nodesConnections.push(connection);
+                        }
+                        scope.refreshConnections(nodeIds);
                     });
                 };
 
@@ -872,9 +918,19 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }).success(function (data) {
                             if (data.result === 0) {
                                 jsPlumb.remove("node" + id);
-
-                                scope.object.nodes = data.collections.nodes;
-                                scope.object.nodesConnections = data.collections.nodesConnections;
+                                for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
+                                    var node = scope.object.nodes[i];
+                                    if (node.id == id) {
+                                        scope.object.nodes.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                                for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
+                                    var connection = scope.object.nodesConnections[i];
+                                    if (connection.sourceNode == id || connection.destinationNode == id) {
+                                        scope.object.nodesConnections.splice(i, 1);
+                                    }
+                                }
                             }
                         });
                     });
@@ -918,10 +974,21 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 for (var a = 0; a < scope.selectedNodeIds.length; a++) {
                                     var id = scope.selectedNodeIds[a];
                                     jsPlumb.remove("node" + id);
-                                }
 
-                                scope.object.nodes = data.collections.nodes;
-                                scope.object.nodesConnections = data.collections.nodesConnections;
+                                    for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
+                                        var node = scope.object.nodes[i];
+                                        if (node.id == id) {
+                                            scope.object.nodes.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                    for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
+                                        var connection = scope.object.nodesConnections[i];
+                                        if (connection.sourceNode == id || connection.destinationNode == id) {
+                                            scope.object.nodesConnections.splice(i, 1);
+                                        }
+                                    }
+                                }
                             }
                         });
                     });
@@ -938,9 +1005,21 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         "default": "1"
                     }).success(function (data) {
                         if (data.result === 0) {
-                            scope.object.nodesConnections = data.collections.nodesConnections;
-                            jspConnection.setParameter("concertoConnection", data.object);
-                            scope.setUpConnection(jspConnection);
+                            for (var i = 0; i < data.collections.newNodesConnections.length; i++) {
+                                var newConnection = data.collections.newNodesConnections[i];
+                                var found = false;
+                                for (var j = 0; j < scope.object.nodesConnections.length; j++) {
+                                    var connection = scope.object.nodesConnections[j];
+                                    if (connection.id == newConnection.id) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    scope.object.nodesConnections.push(newConnection);
+                                }
+                            }
+                            scope.refreshConnections([params.sourceNode.id, params.targetNode.id]);
                         }
                     });
                 };
@@ -979,7 +1058,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.getConnectionStrokeStyle = function (automatic, type) {
-                    switch (type) {
+                    switch (parseInt(type)) {
                         //in - out
                         case 2:
                             return "#858C8F";
@@ -991,7 +1070,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.getConnectionLineWidth = function (type) {
-                    switch (type) {
+                    switch (parseInt(type)) {
                         //in - out
                         case 2:
                             return 3;
@@ -1042,16 +1121,23 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }).success(function (data) {
                         if (data.result === 0) {
                             $("#overlayConnection" + id).remove();
-                            scope.object.nodesConnections = data.collections.nodesConnections;
+                            for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                                var connection = scope.object.nodesConnections[i];
+                                if (connection.id == id) {
+                                    scope.object.nodesConnections.splice(i, 1);
+                                    break;
+                                }
+                            }
                         }
                     });
                 };
 
                 scope.toggleUnconnectedPortsCollapse = function (nodeId) {
-                    var expanded = !scope.collectionService.getNode(nodeId).expanded;
-                    scope.collectionService.getNode(nodeId).expanded = expanded;
+                    var node = scope.collectionService.getNode(nodeId);
+                    var expanded = !node.expanded;
+                    node.expanded = expanded;
 
-                    scope.refreshFlow();
+                    scope.refreshNode(node);
                 };
 
                 scope.isPortVisible = function (node, port) {
@@ -1091,6 +1177,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $("#flowContainer .node").remove();
 
                     jsPlumb.bind("beforeDrop", function (info) {
+                        if (!scope.jsPlumbEventsEnabled)
+                            return;
                         if (!info.dropEndpoint || info.connection.endpoints.length === 0)
                             return false;
 
@@ -1111,7 +1199,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 targetPortType = 0;
                         }
 
-                        switch (sourcePortType) {
+                        switch (parseInt(sourcePortType)) {
                             //return
                             case 1:
                                 if (targetPortType !== 0)
@@ -1127,6 +1215,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
 
                     jsPlumb.bind("connection", function (info) {
+                        if (!scope.jsPlumbEventsEnabled)
+                            return;
                         var params = info.connection.getParameters();
                         if (!params.concertoConnection) {
                             scope.addConnection(params.concertoConnection, info.connection);
@@ -1136,11 +1226,15 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     });
 
                     jsPlumb.bind("connectionMoved", function (info) {
+                        if (!scope.jsPlumbEventsEnabled)
+                            return;
                         var params = info.connection.getParameters();
                         scope.saveConnection(params.concertoConnection, info.connection);
                     });
 
                     jsPlumb.bind("connectionDetached", function (info) {
+                        if (!scope.jsPlumbEventsEnabled)
+                            return;
                         var params = info.connection.getParameters();
                         if (!params.concertoConnection)
                             return;
@@ -1181,17 +1275,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }).focus();
                 });
 
-                scope.$watchCollection(
-                        "[ object.nodes, object.nodesConnections ]",
-                        function () {
-                            if (scope.object.nodes.length > 0) {
-                                scope.refreshFlow();
-                            }
-                        }
-                );
-
                 scope.$watch("object.id", function () {
                     scope.initialized = false;
+                    if (scope.object.nodes.length > 0) {
+                        scope.refreshFlow();
+                    }
                 });
 
                 scope.$on('$locationChangeStart', function (event, toUrl, fromUrl) {
