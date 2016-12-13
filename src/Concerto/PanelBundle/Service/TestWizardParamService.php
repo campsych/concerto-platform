@@ -310,7 +310,7 @@ class TestWizardParamService extends ASectionService {
 
             //check if should use default value when simple
             $default &= $typeChanged || $oldVal === null || ($newTypeSimple && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
-            if ($default && array_key_exists("defvalue", $newDef)) {
+            if ($default && is_array($newDef) && array_key_exists("defvalue", $newDef)) {
                 $dstVal = $newDef["defvalue"];
             }
         } else {
@@ -333,6 +333,9 @@ class TestWizardParamService extends ASectionService {
                         }
                         $dstFieldVal = &$dstVal[$field["name"]];
                         $newFieldVal = &$newVal[$field["name"]];
+                        $newFieldDef = null;
+                        if (array_key_exists("definition", $field))
+                            $newFieldDef = $field["definition"];
                         $oldFieldType = null;
                         $oldFieldDef = null;
                         $oldFieldVal = null;
@@ -347,7 +350,7 @@ class TestWizardParamService extends ASectionService {
                                 }
                             }
                         }
-                        $this->getChildrenMergedValue($user, $field["type"], $oldFieldType, $field["definition"], $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $default);
+                        $this->getChildrenMergedValue($user, $field["type"], $oldFieldType, $newFieldDef, $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $default);
                     }
                     break;
                 //list type

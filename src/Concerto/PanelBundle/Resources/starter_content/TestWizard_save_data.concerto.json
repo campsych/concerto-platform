@@ -1,73 +1,73 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.177",
     "collection": [
         {
             "class_name": "Test",
-            "id": 22,
+            "id": 21,
             "name": "source_save_data",
             "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
-            "code": "db = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\ndata_set_id_column = \"data_set_id\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table$table\n  session_id_column = db$custom_table$columns$session_id\n  name_column = db$custom_table$columns$name\n  value_column = db$custom_table$columns$value\n  data_set_id_column = db$custom_table$columns$data_set_id\n}\n\nsession_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_id = session$id\n} else {\n  session_id = paste0(\"i\",concerto$session$id)\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session_id, \n    name_column=name_column, \n    name=name,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_id_column}} = '{{session_id}}', {{name_column}} = '{{name}}', `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  }\n}",
+            "code": "if(!is.list(new_data) || length(new_data) != length(names(new_data))) {\n  stop(\"new_data parameter must be of type 'list' and contain key=value pairs as its elements!\")\n}\n\ndb = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\ndata_set_id_column = \"data_set_id\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table$table\n  session_id_column = db$custom_table$columns$session_id\n  name_column = db$custom_table$columns$name\n  value_column = db$custom_table$columns$value\n  data_set_id_column = db$custom_table$columns$data_set_id\n}\n\nsession_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_id = session$id\n} else {\n  session_id = paste0(\"i\",concerto$session$id)\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session_id, \n    name_column=name_column, \n    name=name,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_id_column}} = '{{session_id}}', {{name_column}} = '{{name}}', `{{data_set_id_column}}`='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  }\n}",
             "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 216,
+                    "id": 243,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 22,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 217,
+                    "id": 244,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 218,
+                    "id": 245,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 219,
+                    "id": 246,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 220,
+                    "id": 247,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
+                    "test": 21,
                     "parentVariable": null
                 }
             ],
@@ -75,16 +75,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2016-11-21 19:40:52",
-            "updatedByName": "",
+            "updatedOn": "2016-12-13 20:22:49",
+            "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "rev": 5,
-            "hash": "5beca546f631a8691571baefb66702710cc9a3ce"
+            "rev": 6,
+            "hash": "b3d71a4c25303e0007cdad6f805e7f21acbf9b2f"
         },
         {
             "class_name": "TestWizard",
@@ -97,7 +97,7 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 52,
+                    "id": 53,
                     "title": "Data bank",
                     "description": "<p>Session data bank definition<\/p>\n",
                     "orderNum": 0,
@@ -106,16 +106,16 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 162,
+                            "id": 200,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
-                            "testVariable": 217,
+                            "value": "{\"table_type\":\"\",\"custom_table\":[],\"data_set_id\":null}",
+                            "testVariable": 244,
                             "name": "data_bank",
-                            "wizardStep": 52,
+                            "wizardStep": 53,
                             "stepTitle": "Data bank",
                             "order": 0,
                             "wizard": 12,
@@ -187,15 +187,15 @@
                     ]
                 }
             ],
-            "test": 22,
+            "test": 21,
             "testName": "source_save_data",
-            "updatedOn": "2016-11-21 19:40:52",
+            "updatedOn": "2016-12-13 19:52:20",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 5,
-            "hash": "37ef15ad9158f3b7c80ba3a25a9e523c19c0ff85"
+            "rev": 6,
+            "hash": "af644bcdbaab6e46cfa976e9d3030ad6d71eeb14"
         }
     ]
 }
