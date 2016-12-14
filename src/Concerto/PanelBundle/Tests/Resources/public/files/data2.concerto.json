@@ -1,0 +1,63 @@
+{
+    "version": "5.0.beta.2.178",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 1,
+            "name": "data",
+            "description": "",
+            "accessibility": 0,
+            "protected": "0",
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "name",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "val",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "val2",
+                    "type": "float",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2016-12-14 16:23:48",
+            "updatedByName": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": false,
+            "rev": 0,
+            "hash": "5003270a9a1fd3bf5c84a5c2011dd77b32c0859c",
+            "data": [
+                {
+                    "id": "1",
+                    "name": "aaa",
+                    "val": "1",
+                    "val2": "5"
+                },
+                {
+                    "id": "2",
+                    "name": "ccc",
+                    "val": "3",
+                    "val2": "6"
+                },
+                {
+                    "id": "3",
+                    "name": "ddd",
+                    "val": "4",
+                    "val2": "7"
+                }
+            ]
+        }
+    ]
+}

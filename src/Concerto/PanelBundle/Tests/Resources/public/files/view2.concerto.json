@@ -1,0 +1,25 @@
+{
+    "version": "5.0.beta.2.178",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 1,
+            "name": "view",
+            "description": "",
+            "accessibility": 0,
+            "protected": "0",
+            "archived": "0",
+            "head": "xxx",
+            "css": "yyy",
+            "js": "zzz",
+            "html": "qqq",
+            "updatedOn": "2016-12-14 16:17:43",
+            "updatedByName": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": false,
+            "rev": 0,
+            "hash": "3f6563f7c7fb7c4d827b7e4887d3970f80c0f715"
+        }
+    ]
+}

@@ -16,6 +16,23 @@ class ImportServiceTest extends AFunctionalTest {
     private static $testNodeRepository;
     private static $testNodePortRepository;
     private static $testNodeConnectionRepository;
+    private static $viewTemplateRepository;
+    private static $dataTableRepository;
+
+    private function dropTable($name) {
+        $fromSchema = static::$entityManager->getConnection()->getSchemaManager()->createSchema();
+        $toSchema = clone $fromSchema;
+        try {
+            $toSchema->dropTable($name);
+
+            $sql = $fromSchema->getMigrateToSql($toSchema, static::$entityManager->getConnection()->getDatabasePlatform());
+            foreach ($sql as $query) {
+                static::$entityManager->getConnection()->executeQuery($query);
+            }
+        } catch (\Exception $ex) {
+            
+        }
+    }
 
     public static function setUpBeforeClass() {
         parent::setUpBeforeClass();
@@ -27,6 +44,9 @@ class ImportServiceTest extends AFunctionalTest {
         self::$testNodeRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNode");
         self::$testNodePortRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNodePort");
         self::$testNodeConnectionRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNodeConnection");
+        self::$testNodeConnectionRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNodeConnection");
+        self::$viewTemplateRepository = static::$entityManager->getRepository("ConcertoPanelBundle:ViewTemplate");
+        self::$dataTableRepository = static::$entityManager->getRepository("ConcertoPanelBundle:DataTable");
     }
 
     protected function setUp() {
@@ -39,6 +59,9 @@ class ImportServiceTest extends AFunctionalTest {
         self::truncateClass("ConcertoPanelBundle:TestNode");
         self::truncateClass("ConcertoPanelBundle:TestNodeConnection");
         self::truncateClass("ConcertoPanelBundle:TestNodePort");
+        self::truncateClass("ConcertoPanelBundle:ViewTemplate");
+        self::truncateClass("ConcertoPanelBundle:DataTable");
+        $this->dropTable("data");
     }
 
     public function testFlowConvertRenamedSourceVariable() {
@@ -345,6 +368,179 @@ class ImportServiceTest extends AFunctionalTest {
             $new_var_ports_count += $var->getPorts()->count();
         }
         $this->assertEquals(1, $new_var_ports_count, "More than one new_var port!");
+    }
+
+    public function testViewTemplateConvert() {
+        $client = self::createLoggedClient();
+
+        /* IMPORT NEW VIEW TEMPLATE */
+
+        $client->request("POST", "/admin/ViewTemplate/import", array(
+            "file" => "view1.concerto.json",
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "ViewTemplate",
+                    "id" => 1,
+                    "rename" => "view",
+                    "action" => "0",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => false,
+                    "existing_object_rev" => null,
+                    "existing_object_name" => null,
+                    "can_ignore" => false
+                )
+            ))
+        ));
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        //objects count
+        $this->assertEquals(1, count(self::$viewTemplateRepository->findAll()));
+
+        //object properties
+        $this->assertEquals(1, count(self::$viewTemplateRepository->findBy(array("name" => "view", "head" => "aaa", "css" => "bbb", "js" => "ccc", "html" => "ddd"))));
+
+        /* IMPORT CONVERT VIEW TEMPLATE */
+
+        $client->request("POST", "/admin/ViewTemplate/import", array(
+            "file" => "view2.concerto.json",
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "ViewTemplate",
+                    "id" => 1,
+                    "rename" => "view",
+                    "action" => "1",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => true,
+                    "existing_object_rev" => 0,
+                    "existing_object_name" => "view",
+                    "can_ignore" => false
+                )
+            ))
+        ));
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        //objects count
+        $this->assertEquals(1, count(self::$viewTemplateRepository->findAll()));
+
+        //changed objects
+        $this->assertEquals(1, count(self::$viewTemplateRepository->findBy(array("name" => "view", "head" => "xxx", "css" => "yyy", "js" => "zzz", "html" => "qqq"))));
+    }
+
+    public function testDataTableConvert() {
+        $client = self::createLoggedClient();
+
+        /* IMPORT NEW DATA TABLE */
+
+        $client->request("POST", "/admin/DataTable/import", array(
+            "file" => "data1.concerto.json",
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "DataTable",
+                    "id" => 1,
+                    "rename" => "data",
+                    "action" => "0",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => false,
+                    "existing_object_rev" => null,
+                    "existing_object_name" => null,
+                    "can_ignore" => false
+                )
+            ))
+        ));
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        //objects count
+        $this->assertEquals(1, count(self::$dataTableRepository->findAll()));
+
+        //check data
+        $client->request("GET", "/admin/DataTable/1/data/collection");
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+        $this->assertEquals(array(
+            "content" => array(
+                array("id" => 1, "name" => "aaa", "val" => 1),
+                array("id" => 2, "name" => "bbb", "val" => 2)
+            ),
+            "count" => 2), json_decode($client->getResponse()->getContent(), true));
+
+        /* IMPORT CONVERT DATA TABLE */
+
+        $client->request("POST", "/admin/DataTable/import", array(
+            "file" => "data2.concerto.json",
+            "instructions" => json_encode(array(
+                array(
+                    "class_name" => "DataTable",
+                    "id" => 1,
+                    "rename" => "data",
+                    "action" => "1",
+                    "rev" => 0,
+                    "starter_content" => false,
+                    "existing_object" => true,
+                    "existing_object_rev" => 0,
+                    "existing_object_name" => "data",
+                    "can_ignore" => false
+                )
+            ))
+        ));
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        //objects count
+        $this->assertEquals(1, count(self::$dataTableRepository->findAll()));
+
+        //check data
+        $client->request("GET", "/admin/DataTable/1/data/collection");
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+        //same data, data not converted
+        $this->assertEquals(array(
+            "content" => array(
+                array("id" => 1, "name" => "aaa", "val" => 1, "val2" => 0),
+                array("id" => 2, "name" => "bbb", "val" => 2, "val2" => 0)
+            ),
+            "count" => 2), json_decode($client->getResponse()->getContent(), true));
     }
 
 }
