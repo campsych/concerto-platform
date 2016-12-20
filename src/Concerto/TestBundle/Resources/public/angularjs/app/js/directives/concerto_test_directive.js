@@ -63,8 +63,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             testRunner.R = {};
 
             scope.$watch('html', function (newValue) {
-                angular.element("#testHtml").empty().append(newValue);
-                $compile(element.contents())(scope);
+                try {
+                    angular.element("#testHtml").empty().append(newValue);
+                    $compile(element.contents())(scope);
+                } catch (e) {
+                    $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
+                        node_id: settings.nodeId,
+                        error: e.toString()
+                    })
+                    console.error(e);
+                }
 
                 if (displayState === DISPLAY_VIEW_SHOWN && lastResponse != null && lastResponse.code === RESPONSE_VIEW_TEMPLATE) {
                     initializeTimer();
@@ -335,6 +343,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     if (head != null && head !== "") {
                         angular.element("head").append($compile(head)(scope));
                     }
+
                     scope.html = joinHtml(css, js, html);
                 }
             }

@@ -295,12 +295,12 @@ class TestSessionService {
         return $response;
     }
 
-    private function saveRErrorLog(TestSession $session) {
+    private function saveErrorLog(TestSession $session, $error, $type) {
         $log = new TestSessionLog();
         $log->setBrowser($session->getClientBrowser());
         $log->setIp($session->getClientIp());
-        $log->setMessage($session->getError());
-        $log->setType(TestSessionLog::TYPE_R);
+        $log->setMessage($error);
+        $log->setType($type);
         $log->setTest($session->getTest());
         $this->testSessionLogRepository->save($log);
     }
@@ -312,7 +312,7 @@ class TestSessionService {
         if ($session !== null) {
 
             if ($decoded_response["code"] === self::RESPONSE_ERROR) {
-                $this->saveRErrorLog($session);
+                $this->saveErrorLog($session, $session->getError(), TestSessionLog::TYPE_R);
             }
 
             switch ($decoded_response["code"]) {
@@ -445,6 +445,26 @@ class TestSessionService {
             usleep(10000);
         } while (true);
         socket_close($sock);
+        return $response;
+    }
+
+    public function logError($r_server_node_hash, $session_hash, $calling_node_ip, $error, $type) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $calling_node_ip, $type");
+        $this->logger->info($error);
+        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
+
+        $response = array();
+        if ($r_server_node) {
+            $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
+            if ($session !== null) {
+                $this->saveErrorLog($session, $error, $type);
+                $response = array("result" => 0);
+            } else {
+                $response = array("result" => -1);
+            }
+        } else {
+            $response = array("result" => -1);
+        }
         return $response;
     }
 

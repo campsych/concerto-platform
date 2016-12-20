@@ -40,3 +40,8 @@ test_runner_upload_file:
     path: /test/session/{session_hash}/upload
     defaults: { _controller: concerto_test.test_runner_controller:uploadFileAction }
     methods:  [POST]
+    
+test_runner_log_error:
+    path: /test/session/{session_hash}/log
+    defaults: { _controller: concerto_test.test_runner_controller:logErrorAction }
+    methods:  [POST]

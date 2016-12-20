@@ -182,4 +182,24 @@ class TestRunnerService {
         return $response;
     }
 
+    public function logError($session_hash, $node_id, $error, $type) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $type");
+        $this->logger->info($error);
+
+        $test_server_node = $this->getNodeById($node_id);
+        $r_server_node = $this->getRServerNode($test_server_node);
+
+        $response = array();
+        if ($test_server_node["id"] != "local") {
+            //TODO
+            $response = array("result" => -2);
+        } else {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
+            $response = $this->sessionService->logError($r_server_node["hash"], $session_hash, false, $error, $type);
+        }
+        $response = json_encode($response);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
+    }
+
 }

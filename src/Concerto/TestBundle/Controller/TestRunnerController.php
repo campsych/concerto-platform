@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Concerto\PanelBundle\Entity\TestSessionLog;
 
 class TestRunnerController {
 
@@ -123,6 +124,19 @@ class TestRunnerController {
                 $this->request->get("node_id"), //
                 $this->request->files, //
                 $this->request->get("name")
+        );
+        $response = new Response($result);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function logErrorAction($session_hash) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
+        $result = $this->testRunnerService->logError(
+                $session_hash, //
+                $this->request->get("node_id"), //
+                $this->request->get("error"), //
+                TestSessionLog::TYPE_JS
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
