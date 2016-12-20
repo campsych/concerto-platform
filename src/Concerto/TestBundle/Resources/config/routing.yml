@@ -35,3 +35,8 @@ test_runner_session_results:
     path: /test/session/{session_hash}/results
     defaults: { _controller: concerto_test.test_runner_controller:resultsFromSessionAction }
     methods:  [POST]
+    
+test_runner_upload_file:
+    path: /test/session/{session_hash}/upload
+    defaults: { _controller: concerto_test.test_runner_controller:uploadFileAction }
+    methods:  [POST]

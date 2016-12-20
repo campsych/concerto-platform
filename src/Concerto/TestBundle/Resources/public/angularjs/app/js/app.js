@@ -3,7 +3,8 @@
 var testRunner = angular.module('testRunner', [
     'ui.bootstrap',
     'ngCookies',
-    'ngSanitize'
+    'ngSanitize',
+    'angularFileUpload'
 ]).config(function ($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     var param = function (obj) {

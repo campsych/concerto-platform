@@ -1,7 +1,7 @@
 'use strict';
 
-testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', '$compile', '$templateCache', 'dateFilter',
-    function ($http, $interval, $timeout, $sce, $compile, $templateCache, dateFilter) {
+testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', '$compile', '$templateCache', 'dateFilter', 'FileUploader',
+    function ($http, $interval, $timeout, $sce, $compile, $templateCache, dateFilter, FileUploader) {
         function link(scope, element, attrs) {
 
             var DISPLAY_UNKNOWN = -1;
@@ -58,6 +58,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             scope.timeLeft = "";
 
             scope.html = settings.loaderHtml;
+            scope.fileUploader = new FileUploader();
             scope.R = {};
             testRunner.R = {};
 
@@ -149,7 +150,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     lastResponse = response;
                     lastResponseTime = new Date();
                     isViewReady = true;
-                    
+
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
                         case RESPONSE_VIEW_FINAL_TEMPLATE:
@@ -161,7 +162,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             break;
                         }
                     }
-                    
+
                     showView();
                     if (settings.callback != null) {
                         settings.callback.call(this, response, settings.hash);
@@ -179,12 +180,28 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 removeSubmitEvents()
                 clearTimer();
                 var values = getControlsValues();
+                hideView();
+                if (scope.fileUploader.queue.length > 0) {
+                    scope.fileUploader.onCompleteAll = function () {
+                        submitViewPostValueGetter(btnName, isTimeout, passedVals, values);
+                    }
+                    scope.fileUploader.onSuccessItem = function (item, response, status, headers) {
+                        if (response.result == 0) {
+                            addPairToValues(values, response.name, response.file_path);
+                        }
+                    }
+                    scope.fileUploader.uploadAll();
+                } else {
+                    submitViewPostValueGetter(btnName, isTimeout, passedVals, values);
+                }
+            }
+
+            function submitViewPostValueGetter(btnName, isTimeout, passedVals, values) {
                 values["buttonPressed"] = btnName;
                 values["isTimeout"] = isTimeout ? 1 : 0;
                 if (passedVals) {
                     angular.merge(values, passedVals);
                 }
-                hideView();
                 $http.post(settings.directory + "test/session/" + settings.hash + "/submit", {
                     node_id: settings.nodeId,
                     values: values
@@ -230,7 +247,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();
-                    
+
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
                         case RESPONSE_VIEW_FINAL_TEMPLATE:
@@ -361,24 +378,42 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 var vars = {
                     timeTaken: ((new Date()).getTime() - lastResponseTime.getTime()) / 1000
                 };
-                element.find("input:text, input[type='range'], input[type='hidden'], input:password, textarea, select, input:checkbox:checked, input:radio:checked").each(function () {
+                element.find("input:text, input[type='range'], input[type='file'], input[type='hidden'], input:password, textarea, select, input:checkbox:checked, input:radio:checked").each(function () {
                     var name = $(this).attr("name");
                     var value = $(this).val();
-                    var found = false;
-                    for (var k in vars) {
-                        if (k === name) {
-                            found = true;
-                            if (vars[k] instanceof Array)
-                                vars[k].push(value);
-                            else
-                                vars[k] = [vars[k], value];
-                        }
+                    if ($(this).attr("type") == "file") {
+                        if ($(this)[0].files.length == 0)
+                            return;
+                        var file = $(this)[0].files[0];
+                        scope.fileUploader.url = settings.directory + "test/session/" + settings.hash + "/upload";
+                        scope.fileUploader.formData = [{
+                                node_id: settings.nodeId
+                            }, {
+                                name: name
+                            }];
+                        scope.fileUploader.addToQueue(file);
+                        return;
                     }
-
-                    if (!found) {
-                        vars[name] = value;
-                    }
+                    addPairToValues(vars, name, value);
                 });
+                return vars;
+            }
+
+            function addPairToValues(vars, name, value) {
+                var found = false;
+                for (var k in vars) {
+                    if (k === name) {
+                        found = true;
+                        if (vars[k] instanceof Array)
+                            vars[k].push(value);
+                        else
+                            vars[k] = [vars[k], value];
+                    }
+                }
+
+                if (!found) {
+                    vars[name] = value;
+                }
                 return vars;
             }
 

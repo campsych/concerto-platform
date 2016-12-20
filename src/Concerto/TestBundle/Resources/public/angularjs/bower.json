@@ -12,6 +12,7 @@
     "angular-mocks": "1.5.5",
     "angular-cookies": "1.5.5",
     "angular-sanitize": "1.5.5",
+    "angular-file-upload": "1.1.x",
     "html5-boilerplate": "5.2.x",
     "angular-bootstrap": "1.2.x",
     "bootstrap": "3.x",

@@ -10,7 +10,7 @@ class FileService {
         $this->environment = $environment;
     }
 
-    protected function getUploadDirectory() {
+    public function getUploadDirectory() {
         return dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . ($this->environment === "test" ? ("Tests" . DIRECTORY_SEPARATOR) : "") . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR;
     }
 

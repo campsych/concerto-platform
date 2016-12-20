@@ -50,7 +50,7 @@ class TestRunnerController {
                     "directory" => ($node == null ? "/" : $node["dir"]) . ($this->environment === "dev" ? "app_dev.php/" : ""),
                     "test_slug" => $test_slug,
                     "node_id" => $node == null ? "local" : $node["id"],
-                    "params" => addcslashes($params, "'"), 
+                    "params" => addcslashes($params, "'"),
                     "keep_alive_interval" => $this->settings["keep_alive_interval_time"],
                     "debug" => $debug,
                     "browser_valid" => $browser_valid
@@ -110,6 +110,19 @@ class TestRunnerController {
 
         $result = $this->testRunnerService->resultsFromSession(
                 $session_hash, $this->request->get("node_id")
+        );
+        $response = new Response($result);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function uploadFileAction($session_hash) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
+        $result = $this->testRunnerService->uploadFile(
+                $session_hash, //
+                $this->request->get("node_id"), //
+                $this->request->files, //
+                $this->request->get("name")
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');

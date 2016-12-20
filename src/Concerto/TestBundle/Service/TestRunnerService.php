@@ -4,6 +4,7 @@ namespace Concerto\TestBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Service\TestSessionService;
+use Concerto\PanelBundle\Service\FileService;
 
 class TestRunnerService {
 
@@ -68,7 +69,7 @@ class TestRunnerService {
             return $response;
         }
     }
-    
+
     public function keepAliveSession($session_hash, $node_id, $client_ip) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $client_ip");
 
@@ -160,6 +161,25 @@ class TestRunnerService {
         } else {
             return true;
         }
+    }
+
+    public function uploadFile($session_hash, $node_id, $files, $name) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $name");
+
+        $test_server_node = $this->getNodeById($node_id);
+        $r_server_node = $this->getRServerNode($test_server_node);
+
+        $response = array();
+        if ($test_server_node["id"] != "local") {
+            //TODO
+            $response = array("result" => -2);
+        } else {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
+            $response = $this->sessionService->uploadFile($r_server_node["hash"], $session_hash, false, $files, $name);
+        }
+        $response = json_encode($response);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
     }
 
 }

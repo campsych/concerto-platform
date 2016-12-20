@@ -9,6 +9,7 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Concerto\TestBundle\Service\RRunnerService;
+use Concerto\PanelBundle\Service\FileService;
 
 class TestSessionService {
 
@@ -40,8 +41,9 @@ class TestSessionService {
     private $environment;
     private $secret;
     private $rRunnerService;
+    private $fileService;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $nodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService) {
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $nodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService) {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
         $this->testRepository = $testRepository;
@@ -50,6 +52,7 @@ class TestSessionService {
         $this->secret = $secret;
         $this->logger = $logger;
         $this->rRunnerService = $rRunnerService;
+        $this->fileService = $fileService;
     }
 
     private function getTestServerNode() {
@@ -263,6 +266,33 @@ class TestSessionService {
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
+    }
+
+    public function uploadFile($r_server_node_hash, $session_hash, $calling_node_ip, $files, $name) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $calling_node_ip, $name");
+        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
+
+        $response = array();
+        if ($r_server_node) {
+
+            $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
+            if ($session !== null) {
+                foreach ($files as $file) {
+                    $upload_result = $this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName() . ".upload");
+                    if ($upload_result)
+                        $response = array("result" => 0, "file_path" => $this->fileService->getUploadDirectory() . $file->getClientOriginalName() . ".upload", "name" => $name);
+                    else {
+                        $response = array("result" => -3);
+                        return $response;
+                    }
+                }
+            } else {
+                $response = array("result" => -1);
+            }
+        } else {
+            $response = array("result" => -1);
+        }
+        return $response;
     }
 
     private function saveRErrorLog(TestSession $session) {
