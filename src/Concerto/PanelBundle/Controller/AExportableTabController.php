@@ -99,8 +99,8 @@ abstract class AExportableTabController extends ASectionController {
         );
         $errors = array();
         $show_index = 0;
-        for ($j = 0; $j < count($result); $j++) {
-            $r = $result[$j];
+        for ($j = 0; $j < count($result["import"]); $j++) {
+            $r = $result["import"][$j];
 
             if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
                 $show_index = $j;
@@ -114,7 +114,7 @@ abstract class AExportableTabController extends ASectionController {
         if (count($errors) > 0) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object" => $result[$show_index]['entity'], "object_id" => $result[$show_index]['entity']->getId())));
+            $response = new Response(json_encode(array("result" => 0, "object" => $result["import"][$show_index]['entity'], "object_id" => $result["import"][$show_index]['entity']->getId())));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;

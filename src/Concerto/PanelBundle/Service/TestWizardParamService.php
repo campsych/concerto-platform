@@ -328,7 +328,7 @@ class TestWizardParamService extends ASectionService {
                 //group type
                 case 9:
                     foreach ($newDef["fields"] as $field) {
-                        if (!array_key_exists($field["name"], $dstVal)) {
+                        if (!is_array($dstVal) || !array_key_exists($field["name"], $dstVal)) {
                             $dstVal[$field["name"]] = null;
                         }
                         $dstFieldVal = &$dstVal[$field["name"]];
@@ -344,7 +344,7 @@ class TestWizardParamService extends ASectionService {
                                 if ($oldField["name"] == $field["name"]) {
                                     $oldFieldType = $oldField["type"];
                                     $oldFieldDef = $oldField["definition"];
-                                    if (array_key_exists($oldField["name"], $oldVal))
+                                    if (is_array($oldVal) && array_key_exists($oldField["name"], $oldVal))
                                         $oldFieldVal = $oldVal[$oldField["name"]];
                                     break;
                                 }

@@ -230,7 +230,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.moveElementDown = function (index) {
                     scope.output.splice(index - 1, 0, scope.output.splice(index, 1)[0]);
                 };
-
+                
                 scope.addElement = function () {
                     if (scope.param.definition.element.type == 4) {
                         scope.output.push({value: null});
@@ -259,6 +259,41 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.removeAllElements = function () {
                     scope.output = [];
                 };
+                scope.$watch('param.type', function (newValue, oldValue) {
+                    if (!scope.param)
+                        return;
+                    if (newValue === null || newValue === undefined)
+                        return;
+
+                    switch (parseInt(newValue)) {
+                        case 7:
+                        case 9:
+                        case 12:
+                            if (scope.output === null || scope.output === undefined || typeof scope.output !== 'object' || scope.output.constructor === Array || newValue != oldValue) {
+                                scope.output = {};
+                            }
+                            break;
+                        case 10:
+                            if (scope.output === null || scope.output === undefined || scope.output.constructor !== Array || newValue != oldValue) {
+                                scope.output = [];
+                            }
+                            break;
+                        default:
+                            if (scope.output === undefined || typeof scope.output === 'object' || newValue != oldValue) {
+                                scope.output = null;
+                            }
+                            break;
+                    }
+
+                    if (newValue == 10) {
+                        scope.initializeListColumnDefs();
+                    }
+                    scope.updateSeterComplexity();
+                    scope.updateTitle();
+                    scope.updateSummary();
+                    element.html($templateCache.get("type_" + newValue + "_setter.html"));
+                    $compile(element.contents())(scope);
+                });
 
                 scope.onColumnMapTableChange = function () {
                     var tabCols = scope.dataTableCollectionService.getBy('name', scope.output.table).columns;
@@ -276,9 +311,25 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     }
                 };
 
+                scope.$watch('param.definition.element.type', function (newValue, oldValue) {
+                    if (newValue === null || newValue === undefined)
+                        return;
+                    if (newValue != oldValue) {
+                        if (scope.param.type == 10) {
+                            if (scope.output === null || scope.output === undefined || scope.output.constructor !== Array || newValue !== oldValue) {
+                                scope.output = [];
+                            }
+                        }
+                    }
+                });
                 scope.$watch('output', function (newValue) {
                     scope.updateSummary();
                 }, true);
+                scope.$watch("param.definition.defvalue", function (newValue, oldValue) {
+                    if (scope.output === null || (scope.wizardMode == "dev" && newValue != null && newValue != undefined && !scope.underList)) {
+                        scope.output = newValue;
+                    }
+                });
 
                 if ((scope.output === undefined || scope.output == null) && scope.param.definition != undefined) {
                     switch (parseInt(scope.param.type)) {
@@ -312,15 +363,6 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                             break;
                     }
                 }
-
-                if (scope.param.type == 10) {
-                    scope.initializeListColumnDefs();
-                }
-                scope.updateSeterComplexity();
-                scope.updateTitle();
-                scope.updateSummary();
-                element.html($templateCache.get("type_" + scope.param.type + "_setter.html"));
-                $compile(element.contents())(scope);
             }
         };
     }]);

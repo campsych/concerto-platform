@@ -59,6 +59,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             scope.html = settings.loaderHtml;
             scope.fileUploader = new FileUploader();
+            scope.fileUploader.removeAfterUpload = true;
             scope.R = {};
             testRunner.R = {};
 
