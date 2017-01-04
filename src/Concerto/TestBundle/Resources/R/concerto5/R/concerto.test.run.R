@@ -1,5 +1,5 @@
 concerto.test.run <-
-  function(testId, params=list(), mainTest=FALSE){
+  function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1){
     print(paste("running test #",testId,"...",sep=''))
     
     test <- concerto.test.get(testId)
@@ -34,6 +34,15 @@ concerto.test.run <-
         concerto5:::concerto.session.unserialize()
       }
     }
+
+    flowIndex = length(concerto$flow)+1
+    if(ongoingResumeFlowIndex != -1) {
+        flowIndex = ongoingResumeFlowIndex
+    } else {
+        concerto$flow[[flowIndex]] <<- list()
+        concerto$flow[[flowIndex]]$id <<- test$id
+        concerto$flow[[flowIndex]]$type <<- test$type
+    }
     
     if(test$type != 2) {
       eval(parse(text=test$code), envir=testenv)
@@ -52,40 +61,40 @@ concerto.test.run <-
       }
     } else {
       #persist flow
-      flowIndex = length(concerto$flow)+1
-      concerto$flow[[flowIndex]] <<- list()
-      concerto$flow[[flowIndex]]$nodes <<- list()
-      concerto$flow[[flowIndex]]$connections <<- list()
-      concerto$flow[[flowIndex]]$ports <<- list()
+      if(ongoingResumeFlowIndex == -1) {
+        concerto$flow[[flowIndex]]$nodes <<- list()
+        concerto$flow[[flowIndex]]$connections <<- list()
+        concerto$flow[[flowIndex]]$ports <<- list()
 
-      if(dim(test$nodes)[1] > 0) {
-        for(i in 1:(dim(test$nodes)[1])) {
-          concerto$flow[[flowIndex]]$nodes[[as.character(test$nodes[i,"id"])]] <<- as.list(test$nodes[i,])
+        if(dim(test$nodes)[1] > 0) {
+          for(i in 1:(dim(test$nodes)[1])) {
+            concerto$flow[[flowIndex]]$nodes[[as.character(test$nodes[i,"id"])]] <<- as.list(test$nodes[i,])
+          }
         }
-      }
-      if(dim(test$connections)[1] > 0) {
-        for(i in 1:(dim(test$connections)[1])) {
-          concerto$flow[[flowIndex]]$connections[[as.character(test$connections[i,"id"])]] <<- as.list(test$connections[i,])           
+        if(dim(test$connections)[1] > 0) {
+          for(i in 1:(dim(test$connections)[1])) {
+            concerto$flow[[flowIndex]]$connections[[as.character(test$connections[i,"id"])]] <<- as.list(test$connections[i,])           
+          }
         }
-      }
-      if(dim(test$ports)[1] > 0) {
-        for(i in 1:(dim(test$ports)[1])) {
-          concerto$flow[[flowIndex]]$ports[[as.character(test$ports[i,"id"])]] <<- as.list(test$ports[i,])
+        if(dim(test$ports)[1] > 0) {
+          for(i in 1:(dim(test$ports)[1])) {
+            concerto$flow[[flowIndex]]$ports[[as.character(test$ports[i,"id"])]] <<- as.list(test$ports[i,])
+          }
         }
-      }
 
-      #find begin and finish nodes
-      beginNode = NULL
-      finishNode = NULL
-      if(dim(test$nodes)[1] > 0) {
-        for(i in 1:(dim(test$nodes)[1])) {
-          if(test$nodes[i,"type"] == 1) { beginNode = as.list(test$nodes[i,]) }
-          if(test$nodes[i,"type"] == 2) { finishNode = as.list(test$nodes[i,]) }
+        #find begin and finish nodes
+        beginNode = NULL
+        finishNode = NULL
+        if(dim(test$nodes)[1] > 0) {
+          for(i in 1:(dim(test$nodes)[1])) {
+            if(test$nodes[i,"type"] == 1) { beginNode = as.list(test$nodes[i,]) }
+            if(test$nodes[i,"type"] == 2) { finishNode = as.list(test$nodes[i,]) }
+          }
         }
-      }
 
-      concerto$flow[[flowIndex]]$currentNode <<- NULL
-      concerto$flow[[flowIndex]]$nextNode <<- beginNode
+        concerto$flow[[flowIndex]]$currentNode <<- NULL
+        concerto$flow[[flowIndex]]$nextNode <<- beginNode
+      }
 
       isGetterNode = function(node){
         if(node$type != 0) return(F)
@@ -134,7 +143,11 @@ concerto.test.run <-
         
         #EXECUTION, RETURNS
         if(node$type == 0) {
-          node_returns = concerto.test.run(node$sourceTest_id, params = node_params)
+          if(ongoingResumeFlowIndex != -1 && length(concerto$flow) > flowIndex && concerto$flow[[flowIndex + 1]]$type == 2 && concerto$flow[[flowIndex + 1]]$id == node$sourceTest_id) {
+            node_returns = concerto.test.run(node$sourceTest_id, params = node_params, ongoingResumeFlowIndex = flowIndex + 1)
+          } else {
+            node_returns = concerto.test.run(node$sourceTest_id, params = node_params)
+          }
           
           for (port_id in ls(concerto$flow[[flowIndex]]$ports)){
             port = concerto$flow[[flowIndex]]$ports[[port_id]]
@@ -207,6 +220,9 @@ concerto.test.run <-
         }
       }
       
+      if(ongoingResumeFlowIndex != -1) {
+        concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$currentNode
+      }
       while(!is.null(concerto$flow[[flowIndex]]$nextNode)) {
         node = concerto$flow[[flowIndex]]$nextNode
         
@@ -215,9 +231,8 @@ concerto.test.run <-
         
         runNode(node)
       }
-
-      concerto$flow[[flowIndex]] <<- NULL
     }
+    concerto$flow[[flowIndex]] <<- NULL
     
     print(paste("test #",testId," finished",sep=''))
     return(r)

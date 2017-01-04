@@ -28,6 +28,10 @@ concerto.template.show = function(
     }
     concerto$session$templateParams <<- toJSON(concerto$templateParams)
 
+    if(exists("concerto.onBeforeTemplateShow")) {
+        do.call("concerto.onBeforeTemplateShow",list(params=concerto$templateParams), envir = .GlobalEnv)
+    }
+
     if(finalize) {
         concerto$session$status <<- STATUS_FINALIZED
     } else {

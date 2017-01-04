@@ -49,7 +49,7 @@ concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Y
 #DEFAULTS END
 
 concerto$workingDir <- commandArgs(TRUE)[6]
-concerto$sessionFile <- paste(concerto$workingDir,"session.Rs",sep="")
+concerto$sessionFile <- paste0(concerto$workingDir,"session.Rs")
 concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
 

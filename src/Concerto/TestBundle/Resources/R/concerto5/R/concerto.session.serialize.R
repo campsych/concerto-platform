@@ -1,7 +1,7 @@
 concerto.session.serialize <-
 function(){
   print("serializing session...")
-  if(exists("onSerialize")) do.call("onSerialize",list(),envir=.GlobalEnv);
+  if(exists("concerto.onSerialize")) do.call("concerto.onSerialize",list(),envir=.GlobalEnv);
   
   if(concerto$mainTest$resumable == 1) {
     save.session(concerto$sessionFile)

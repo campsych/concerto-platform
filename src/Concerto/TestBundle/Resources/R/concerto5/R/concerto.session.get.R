@@ -12,7 +12,8 @@ concerto.session.get = function(sessionHash){
                                                     returns,
                                                     error,
                                                     clientIp,
-                                                    clientBrowser
+                                                    clientBrowser,
+                                                    hash
                                                     FROM TestSession WHERE hash='%s'",sessionHash))
   response <- fetch(result,n=-1)
   return(response)

@@ -2,6 +2,7 @@ import("session")
 export(
 concerto.file.getPublicPath,
 concerto.file.getUrl,
+concerto.session.restoreFlow,
 concerto.table.get,
 concerto.table.insertParams,
 concerto.table.lastInsertId,
