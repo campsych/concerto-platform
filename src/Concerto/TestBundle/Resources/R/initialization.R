@@ -19,6 +19,7 @@ toJSON = function(x, dataframe = c("rows", "columns", "values"), matrix = c("row
   null = c("list", "null"), na = c("null", "string"), auto_unbox = TRUE,
   digits = 4, pretty = FALSE, force = FALSE, ...) {
   result = jsonlite::toJSON(x, dataframe, matrix, Date, POSIXt, factor, complex, raw, null, na, auto_unbox, digits, pretty, force, ...)
+  result = as.character(result)
   return(result)
 }
 
