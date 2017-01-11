@@ -50,7 +50,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             var colDef = {
                 field: col.name,
                 displayName: col.name,
-                enableCellEdit: col.name !== "id"
+                enableCellEdit: col.name !== "id",
+                type: "string"
             };
             switch (col.type) {
                 case "boolean":
@@ -67,6 +68,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                             "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
                             "</div>";
                     colDef.enableCellEdit = false;
+                    colDef.type = "date";
                     break;
                 case "text":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
