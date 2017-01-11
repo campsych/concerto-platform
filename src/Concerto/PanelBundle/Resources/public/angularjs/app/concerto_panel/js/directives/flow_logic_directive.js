@@ -272,7 +272,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.isGetterNode = function (node) {
-                    if (node.type !== 0)
+                    if (node.type != 0)
                         return false;
                     for (var i = 0; i < node.ports.length; i++) {
                         var port = node.ports[i];
@@ -399,7 +399,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var leftCount = 0;
                     var rightCount = 0;
                     //in port
-                    if (node.type !== 1 && !scope.isGetterNode(node)) {
+                    if (node.type != 1 && !scope.isGetterNode(node)) {
                         var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
                         var overlayElem = $("<div class='portLabel portLabelIn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</div>");
                         $compile(overlayElem)(scope);
@@ -420,7 +420,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         leftCount++;
                     }
 
-                    if (node.type !== 2) {
+                    if (node.type != 2) {
                         for (var i = 0; i < node.ports.length; i++) {
                             var port = node.ports[i];
                             if (port.variableObject.type == 2) { //branches
