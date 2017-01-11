@@ -3,7 +3,7 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
         collectionInitialized: false,
         collectionPath: "",
         collection: [],
-        fetchObjectCollection: function (params) {
+        fetchObjectCollection: function (params, callback) {
             var obj = this;
             $http({
                 url: obj.collectionPath,
@@ -13,6 +13,8 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
             }).success(function (c) {
                 obj.collection = c;
                 obj.collectionInitialized = true;
+                if (callback)
+                    callback.call(this);
             });
         },
         get: function (id) {

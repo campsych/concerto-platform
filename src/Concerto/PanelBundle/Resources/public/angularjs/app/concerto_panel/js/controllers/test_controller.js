@@ -694,8 +694,19 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.collectionService.fetchObjectCollection();
             $scope.testWizardCollectionService.fetchObjectCollection();
+
+            //if flow
+            if ($scope.object.type == 2) {
+                //refresh flow
+                $scope.collectionService.fetchObjectCollection(null, function () {
+                    var id = $scope.object.id;
+                    $scope.resetObject();
+                    $scope.edit(id);
+                });
+            } else {
+                $scope.collectionService.fetchObjectCollection();
+            }
         }, function () {
         });
     };
