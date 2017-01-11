@@ -1046,6 +1046,14 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 var connection = scope.object.nodesConnections[j];
                                 if (connection.id == data.object.id) {
                                     scope.object.nodesConnections[j] = data.object;
+
+                                    for (var k = 0; k < scope.object.nodes.length; k++) {
+                                        var node = scope.object.nodes[k];
+                                        if (node.id == connection.destinationNode) {
+                                            scope.refreshNode(node);
+                                            break;
+                                        }
+                                    }
                                     break;
                                 }
                             }
