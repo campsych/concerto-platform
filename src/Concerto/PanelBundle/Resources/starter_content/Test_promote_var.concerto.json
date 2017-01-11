@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.181",
     "collection": [
         {
             "class_name": "Test",
-            "id": 14,
+            "id": 13,
             "name": "promote_var",
             "accessibility": 2,
             "protected": "1",
@@ -17,46 +17,46 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 143,
+                    "id": 177,
                     "name": "name",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 14,
+                    "test": 13,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 144,
+                    "id": 178,
                     "name": "value",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 14,
+                    "test": 13,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 145,
+                    "id": 179,
                     "name": "value",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 14,
+                    "test": 13,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 146,
+                    "id": 180,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 14,
+                    "test": 13,
                     "parentVariable": null
                 }
             ],
@@ -64,7 +64,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2016-11-21 19:40:47",
+            "updatedOn": "2017-01-11 14:33:05",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -73,7 +73,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "6237ee0414e08b165cc93851209d8cc20de181da"
+            "hash": "17fa443fbc474d8924911b6840d9d10af499af40"
         }
     ]
 }

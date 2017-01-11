@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.181",
     "collection": [
         {
             "class_name": "DataTable",
@@ -56,14 +56,81 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2016-11-21 19:40:55",
+            "updatedOn": "2017-01-11 14:33:07",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
             "hash": "615f92031118cc3f1616dcc96c1cfb5410e0d716",
-            "data": []
+            "data": [
+                {
+                    "id": "1",
+                    "item_id": "2",
+                    "response": "200",
+                    "time_taken": "1.646",
+                    "session_id": "i13",
+                    "correct": "1",
+                    "theta": "0.505643029131394",
+                    "sem": "0.789606833742505",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "2",
+                    "item_id": "3",
+                    "response": "2000",
+                    "time_taken": "8.122",
+                    "session_id": "i13",
+                    "correct": "1",
+                    "theta": "1.39634034475193",
+                    "sem": "0.748161724186015",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "3",
+                    "item_id": "1",
+                    "response": "20",
+                    "time_taken": "1.51",
+                    "session_id": "i13",
+                    "correct": "1",
+                    "theta": "1.39927389319168",
+                    "sem": "0.746227557330405",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "4",
+                    "item_id": "2",
+                    "response": "200",
+                    "time_taken": "1.415",
+                    "session_id": "1",
+                    "correct": "1",
+                    "theta": "0.505643029131394",
+                    "sem": "0.789606833742505",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "5",
+                    "item_id": "3",
+                    "response": "4000",
+                    "time_taken": "2.109",
+                    "session_id": "1",
+                    "correct": "0",
+                    "theta": "0.436772828586342",
+                    "sem": "0.743629122466523",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "6",
+                    "item_id": "1",
+                    "response": "40",
+                    "time_taken": "1.947",
+                    "session_id": "1",
+                    "correct": "0",
+                    "theta": "-0.451107421304214",
+                    "sem": "0.735200963790284",
+                    "data_set_id": ""
+                }
+            ]
         }
     ]
 }

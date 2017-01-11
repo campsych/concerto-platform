@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.181",
     "collection": [
         {
             "class_name": "DataTable",
@@ -46,14 +46,24 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2016-11-21 19:40:42",
+            "updatedOn": "2017-01-11 14:33:00",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 3,
             "hash": "9ce70661aeb64561ccc78fda34c79c26065a11de",
-            "data": []
+            "data": [
+                {
+                    "id": "1",
+                    "login": "admin",
+                    "password": "admin",
+                    "encryption": "plain",
+                    "data_set_id": "",
+                    "email": "",
+                    "enabled": "1"
+                }
+            ]
         }
     ]
 }

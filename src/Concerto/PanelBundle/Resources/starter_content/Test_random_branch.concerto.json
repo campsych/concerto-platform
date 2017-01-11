@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.181",
     "collection": [
         {
             "class_name": "Test",
-            "id": 20,
+            "id": 21,
             "name": "source_random_branch",
             "accessibility": 2,
             "protected": "1",
@@ -17,134 +17,134 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 192,
+                    "id": 245,
                     "name": "number_branches",
                     "type": 0,
                     "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "8",
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 193,
+                    "id": 246,
                     "name": "branch_chosen",
                     "type": 0,
                     "description": "<p>By default the branch will be chosen randomly. If you want to override that behaviour and set the branch using a variable from elsewhere then you can enter it here. It should be an integer between 1 and 8. If you want to keep the default random behaviour then set it to 0.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 194,
+                    "id": 247,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>The branch chosen. Will be a character string like so: &quot;branch_1&quot; until &quot;branch_8&quot;<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 195,
+                    "id": 248,
                     "name": "branch_1",
                     "type": 2,
                     "description": "<p>Branch 1<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 196,
+                    "id": 249,
                     "name": "branch_2",
                     "type": 2,
                     "description": "<p>Branch 2<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 197,
+                    "id": 250,
                     "name": "branch_3",
                     "type": 2,
                     "description": "<p>Branch 3<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 198,
+                    "id": 251,
                     "name": "branch_4",
                     "type": 2,
                     "description": "<p>Branch 4<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 199,
+                    "id": 252,
                     "name": "branch_5",
                     "type": 2,
                     "description": "<p>Branch 5<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 200,
+                    "id": 253,
                     "name": "branch_6",
                     "type": 2,
                     "description": "<p>Branch 6<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 201,
+                    "id": 254,
                     "name": "branch_7",
                     "type": 2,
                     "description": "<p>Branch 7<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 202,
+                    "id": 255,
                     "name": "branch_8",
                     "type": 2,
                     "description": "<p>Branch 8<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 203,
+                    "id": 256,
                     "name": "branch_chosen",
                     "type": 1,
                     "description": "<p>An integer between 1 and 8 representing the branch chosen.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 21,
                     "parentVariable": null
                 }
             ],
@@ -152,7 +152,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2016-11-21 19:40:50",
+            "updatedOn": "2017-01-11 14:33:06",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -161,11 +161,11 @@
             "groups": "",
             "starterContent": false,
             "rev": 2,
-            "hash": "81b2d21405ed33dff9f153b87e87899a22fb2779"
+            "hash": "f62237409bc3fb84336e315d22aa418f3b0f11eb"
         },
         {
             "class_name": "TestWizard",
-            "id": 11,
+            "id": 12,
             "name": "random_branch",
             "description": "",
             "accessibility": 2,
@@ -174,28 +174,28 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 67,
+                    "id": 71,
                     "title": "How many branches?",
                     "description": "",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 11,
+                    "wizard": 12,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 207,
+                            "id": 281,
                             "label": "Number of branches",
                             "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "8",
-                            "testVariable": 192,
+                            "testVariable": 245,
                             "name": "number_branches",
-                            "wizardStep": 67,
+                            "wizardStep": 71,
                             "stepTitle": "How many branches?",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 12,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -203,9 +203,9 @@
                     ]
                 }
             ],
-            "test": 20,
+            "test": 21,
             "testName": "source_random_branch",
-            "updatedOn": "2016-11-21 19:40:51",
+            "updatedOn": "2017-01-11 14:33:06",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -215,7 +215,7 @@
         },
         {
             "class_name": "Test",
-            "id": 21,
+            "id": 22,
             "name": "random_branch",
             "accessibility": 2,
             "protected": "1",
@@ -229,142 +229,142 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 204,
+                    "id": 257,
                     "name": "number_branches",
                     "type": 0,
                     "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "8",
-                    "test": 21,
-                    "parentVariable": 192
+                    "test": 22,
+                    "parentVariable": 245
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 205,
+                    "id": 258,
                     "name": "branch_chosen",
                     "type": 0,
                     "description": "<p>By default the branch will be chosen randomly. If you want to override that behaviour and set the branch using a variable from elsewhere then you can enter it here. It should be an integer between 1 and 8. If you want to keep the default random behaviour then set it to 0.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 21,
-                    "parentVariable": 193
+                    "test": 22,
+                    "parentVariable": 246
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 206,
+                    "id": 259,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>The branch chosen. Will be a character string like so: &quot;branch_1&quot; until &quot;branch_8&quot;<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 194
+                    "test": 22,
+                    "parentVariable": 247
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 207,
+                    "id": 260,
                     "name": "branch_1",
                     "type": 2,
                     "description": "<p>Branch 1<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 195
+                    "test": 22,
+                    "parentVariable": 248
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 208,
+                    "id": 261,
                     "name": "branch_2",
                     "type": 2,
                     "description": "<p>Branch 2<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 196
+                    "test": 22,
+                    "parentVariable": 249
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 209,
+                    "id": 262,
                     "name": "branch_3",
                     "type": 2,
                     "description": "<p>Branch 3<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 197
+                    "test": 22,
+                    "parentVariable": 250
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 210,
+                    "id": 263,
                     "name": "branch_4",
                     "type": 2,
                     "description": "<p>Branch 4<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 198
+                    "test": 22,
+                    "parentVariable": 251
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 211,
+                    "id": 264,
                     "name": "branch_5",
                     "type": 2,
                     "description": "<p>Branch 5<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 199
+                    "test": 22,
+                    "parentVariable": 252
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 212,
+                    "id": 265,
                     "name": "branch_6",
                     "type": 2,
                     "description": "<p>Branch 6<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 200
+                    "test": 22,
+                    "parentVariable": 253
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 213,
+                    "id": 266,
                     "name": "branch_7",
                     "type": 2,
                     "description": "<p>Branch 7<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 201
+                    "test": 22,
+                    "parentVariable": 254
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 214,
+                    "id": 267,
                     "name": "branch_8",
                     "type": 2,
                     "description": "<p>Branch 8<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 202
+                    "test": 22,
+                    "parentVariable": 255
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 215,
+                    "id": 268,
                     "name": "branch_chosen",
                     "type": 1,
                     "description": "<p>An integer between 1 and 8 representing the branch chosen.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
-                    "parentVariable": 203
+                    "test": 22,
+                    "parentVariable": 256
                 }
             ],
-            "sourceWizard": 11,
+            "sourceWizard": 12,
             "sourceWizardName": "random_branch",
-            "sourceWizardTest": 20,
+            "sourceWizardTest": 21,
             "sourceWizardTestName": "source_random_branch",
-            "updatedOn": "2016-11-21 19:41:30",
+            "updatedOn": "2017-01-11 14:33:13",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -373,7 +373,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "e9263658ee43d3b19b540025554c6639d4ee69de"
+            "hash": "d8c52448f77c103daacec85cab172b512e58b190"
         }
     ]
 }

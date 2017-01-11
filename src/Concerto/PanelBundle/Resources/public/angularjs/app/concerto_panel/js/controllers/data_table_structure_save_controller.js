@@ -18,6 +18,7 @@ function DataTableStructureSaveController($scope, $uibModalInstance, $http, tabl
         {label: "boolean", value: "boolean"},
         {label: "decimal", value: "decimal"},
         {label: "date", value: "date"},
+        {label: "datetime", value: "datetime"},
         {label: "text", value: "text"},
         {label: "float", value: "float"},
         {label: "json_array", value: "json_array"}

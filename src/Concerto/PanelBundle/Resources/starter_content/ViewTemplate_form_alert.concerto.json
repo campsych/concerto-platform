@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.181",
     "collection": [
         {
             "class_name": "ViewTemplate",
-            "id": 19,
+            "id": 2,
             "name": "form_alert",
             "description": "",
             "accessibility": 0,
@@ -13,7 +13,7 @@
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2016-11-21 19:41:35",
+            "updatedOn": "2017-01-11 14:33:01",
             "updatedByName": "",
             "owner": 1,
             "groups": "",

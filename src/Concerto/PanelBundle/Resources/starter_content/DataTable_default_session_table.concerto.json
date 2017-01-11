@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.168",
+    "version": "5.0.beta.2.181",
     "collection": [
         {
             "class_name": "DataTable",
@@ -29,15 +29,25 @@
                     "name": "test_id",
                     "type": "bigint",
                     "nullable": false
+                },
+                {
+                    "name": "last_activity_time",
+                    "type": "datetime",
+                    "nullable": false
+                },
+                {
+                    "name": "finished",
+                    "type": "boolean",
+                    "nullable": false
                 }
             ],
-            "updatedOn": "2016-11-21 19:41:07",
+            "updatedOn": "2017-01-11 14:33:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "0d1d95396f20dd50395a6b299d1f036f392ce647",
+            "rev": 3,
+            "hash": "4e0cd9545c4e3bd1cac9f17ad8250e6c0800bb5e",
             "data": []
         }
     ]
