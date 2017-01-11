@@ -309,7 +309,7 @@ class TestWizardParamService extends ASectionService {
             }
 
             //check if should use default value when simple
-            $default &= $typeChanged || $oldVal === null || ($newTypeSimple && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
+            $default &= $typeChanged || $oldVal === null || $oldDef === null || ($newTypeSimple && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
             if ($default && is_array($newDef) && array_key_exists("defvalue", $newDef)) {
                 $dstVal = $newDef["defvalue"];
             }
@@ -343,7 +343,8 @@ class TestWizardParamService extends ASectionService {
                             foreach ($oldDef["fields"] as $oldField) {
                                 if ($oldField["name"] == $field["name"]) {
                                     $oldFieldType = $oldField["type"];
-                                    $oldFieldDef = $oldField["definition"];
+                                    if (is_array($oldField) && array_key_exists("definition", $oldField))
+                                        $oldFieldDef = $oldField["definition"];
                                     if (is_array($oldVal) && array_key_exists($oldField["name"], $oldVal))
                                         $oldFieldVal = $oldVal[$oldField["name"]];
                                     break;
@@ -361,8 +362,8 @@ class TestWizardParamService extends ASectionService {
                         $oldElemVal = null;
                         if (!$typeChanged) {
                             $oldElemType = $oldDef["element"]["type"];
-                            $oldElemDef = $oldDef["element"]["definition"];
-                            $oldElemVal = null;
+                            if (array_key_exists("definition", $oldDef["element"]))
+                                $oldElemDef = $oldDef["element"]["definition"];
                             if (count($oldVal) > $i)
                                 $oldElemVal = $oldVal[$i];
                             $newElemVal = null;
