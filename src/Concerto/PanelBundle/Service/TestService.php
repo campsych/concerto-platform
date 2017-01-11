@@ -315,8 +315,8 @@ class TestService extends AExportableSectionService {
         $this->clearNodes($old_ent->getId());
     }
 
-    public function addFlowNode(User $user, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $return_collections = false) {
-        $result = $this->testNodeService->save($user, 0, $type, $posX, $posY, $flowTest, $sourceTest, "");
+    public function addFlowNode(User $user, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false) {
+        $result = $this->testNodeService->save($user, 0, $type, $posX, $posY, $flowTest, $sourceTest, $title);
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
         }
@@ -382,7 +382,7 @@ class TestService extends AExportableSectionService {
             "collections" => array("newNodes" => array(), "newNodesConnections" => array())
         );
         foreach ($nodes as $node) {
-            $node_result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), false);
+            $node_result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), $node["title"], false);
             $new_node = $node_result["object"];
             array_push($result["collections"]["newNodes"], $new_node);
             $node_map["id" . $node["id"]] = $new_node->getId();
@@ -392,6 +392,7 @@ class TestService extends AExportableSectionService {
                     if ($src_port["variable"] !== null && $src_port["variable"] == $dest_port->getVariable()->getId()) {
                         $dest_port->setValue($src_port["value"]);
                         $dest_port->setString($src_port["string"]);
+                        $dest_port->setDefaultValue($src_port["defaultValue"]);
                         $this->testNodePortService->repository->save($dest_port);
                         break;
                     }

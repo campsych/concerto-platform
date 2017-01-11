@@ -85,6 +85,7 @@ class TestController extends AExportableTabController {
                 $this->request->get("posY"), //
                 $this->service->get($this->request->get("flowTest")), //
                 $this->service->get($this->request->get("sourceTest")), //
+                "", //
                 false);
         return $this->getSaveResponse($result);
     }
