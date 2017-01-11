@@ -1042,6 +1042,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }).success(function (data) {
                         if (data.result === 0) {
                             jspConnection.setParameter("concertoConnection", data.object);
+                            for (var j = 0; j < scope.object.nodesConnections.length; j++) {
+                                var connection = scope.object.nodesConnections[j];
+                                if (connection.id == data.object.id) {
+                                    scope.object.nodesConnections[j] = data.object;
+                                    break;
+                                }
+                            }
                         }
                     });
                 };
@@ -1186,6 +1193,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                         var sourceParams = info.connection.endpoints[0].getParameters();
                         var targetParams = info.dropEndpoint.getParameters();
+
+                        if (!sourceParams.sourcePort || !sourceParams.sourcePort.variableObject)
+                            return false;
+
                         var sourcePortType = sourceParams.sourcePort.variableObject.type;
                         var targetPortType = null;
                         if (targetParams.targetPort && targetParams.targetPort.variableObject)
