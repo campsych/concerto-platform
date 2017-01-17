@@ -2,7 +2,6 @@
 {% trans_default_domain "panel" %}
 
 {% block content %}
-    {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
     {% if accordion_internal is defined and accordion_internal == false %}
         <uib-accordion close-others="false">
         {% endif %}
