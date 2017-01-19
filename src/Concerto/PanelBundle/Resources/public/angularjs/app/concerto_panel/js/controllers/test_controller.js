@@ -417,7 +417,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             function () {
                 $timeout(function () {
                     $scope.codemirrorForceRefresh++;
-                    //jsPlumb.repaintEverything();
                 }, 20);
             }
     );

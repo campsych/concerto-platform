@@ -188,10 +188,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.onKeyUp = function (event) {
                     if (!scope.cntrlIsPressed)
                         return;
+                    //ctrl + c
                     if (scope.selectedNodeIds.length > 0 && event.which === 67) {
                         scope.copySelectedNodes();
                         return;
                     }
+                    //ctrl + v
                     if (scope.copiedNodes.length > 0 && event.which === 86) {
                         scope.pasteNodes(scope.currentMouseEvent);
                         return;
@@ -1263,7 +1265,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (params.targetPort)
                             $("#divPortControl" + params.targetPort.id).show();
                     });
-
+                    
                     $timeout(function () {
                         if (!scope.object.nodes)
                             return;
@@ -1286,6 +1288,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 $(function () {
                     $("#flowContainerScroll").flow();
+                    $("#flowContainer").blur(function() {
+                        scope.cntrlIsPressed = false;
+                    });
                     $('#flowContainer').mousewheel(function (event) {
                         scope.setZoom(event.deltaY);
                         return false;
