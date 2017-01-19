@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "Test",
@@ -17,7 +17,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 269,
+                    "id": 274,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +28,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 270,
+                    "id": 275,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
@@ -39,7 +39,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 271,
+                    "id": 276,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
@@ -50,7 +50,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 272,
+                    "id": 277,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
@@ -61,7 +61,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 273,
+                    "id": 278,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
@@ -75,7 +75,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 14:33:07",
+            "updatedOn": "2017-01-19 16:57:34",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -106,14 +106,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 219,
+                            "id": 220,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"\",\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 270,
+                            "testVariable": 275,
                             "name": "data_bank",
                             "wizardStep": 55,
                             "stepTitle": "Data bank",
@@ -189,7 +189,7 @@
             ],
             "test": 23,
             "testName": "source_save_data",
-            "updatedOn": "2017-01-11 14:33:07",
+            "updatedOn": "2017-01-19 16:57:34",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -213,65 +213,65 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 274,
+                    "id": 279,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 24,
-                    "parentVariable": 269
+                    "parentVariable": 274
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 275,
+                    "id": 280,
                     "name": "data_bank",
                     "type": 0,
                     "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
                     "test": 24,
-                    "parentVariable": 270
+                    "parentVariable": 275
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 276,
+                    "id": 281,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 24,
-                    "parentVariable": 271
+                    "parentVariable": 276
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 277,
+                    "id": 282,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 24,
-                    "parentVariable": 272
+                    "parentVariable": 277
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 278,
+                    "id": 283,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 24,
-                    "parentVariable": 273
+                    "parentVariable": 278
                 }
             ],
             "sourceWizard": 13,
             "sourceWizardName": "save_data",
             "sourceWizardTest": 23,
             "sourceWizardTestName": "source_save_data",
-            "updatedOn": "2017-01-11 14:33:09",
+            "updatedOn": "2017-01-19 16:57:37",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],

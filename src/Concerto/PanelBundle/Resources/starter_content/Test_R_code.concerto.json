@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "Test",
@@ -17,7 +17,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 127,
+                    "id": 132,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +28,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 128,
+                    "id": 133,
                     "name": "code",
                     "type": 0,
                     "description": "",
@@ -39,7 +39,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 129,
+                    "id": 134,
                     "name": "result",
                     "type": 1,
                     "description": "",
@@ -50,7 +50,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 130,
+                    "id": 135,
                     "name": "arg1",
                     "type": 0,
                     "description": "",
@@ -61,7 +61,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 131,
+                    "id": 136,
                     "name": "arg2",
                     "type": 0,
                     "description": "",
@@ -72,7 +72,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 132,
+                    "id": 137,
                     "name": "arg3",
                     "type": 0,
                     "description": "",
@@ -83,7 +83,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 133,
+                    "id": 138,
                     "name": "arg4",
                     "type": 0,
                     "description": "",
@@ -94,7 +94,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 134,
+                    "id": 139,
                     "name": "arg5",
                     "type": 0,
                     "description": "",
@@ -108,7 +108,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 14:33:04",
+            "updatedOn": "2017-01-19 16:57:32",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -139,14 +139,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 65,
+                            "id": 66,
                             "label": "R code",
                             "description": "<p>R code to execute.<\/p>\n",
                             "hideCondition": "",
                             "type": 11,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 128,
+                            "testVariable": 133,
                             "name": "code",
                             "wizardStep": 17,
                             "stepTitle": "Code",
@@ -161,7 +161,7 @@
             ],
             "test": 8,
             "testName": "source_R_code",
-            "updatedOn": "2017-01-11 14:33:04",
+            "updatedOn": "2017-01-19 16:57:32",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -185,76 +185,21 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 135,
+                    "id": 140,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 9,
-                    "parentVariable": 127
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 136,
-                    "name": "code",
-                    "type": 0,
-                    "description": "<p>R code to execute.<\/p>\n",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 9,
-                    "parentVariable": 128
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 137,
-                    "name": "result",
-                    "type": 1,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 9,
-                    "parentVariable": 129
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 138,
-                    "name": "arg1",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 9,
-                    "parentVariable": 130
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 139,
-                    "name": "arg2",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 9,
-                    "parentVariable": 131
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 140,
-                    "name": "arg3",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 9,
                     "parentVariable": 132
                 },
                 {
                     "class_name": "TestVariable",
                     "id": 141,
-                    "name": "arg4",
+                    "name": "code",
                     "type": 0,
-                    "description": "",
+                    "description": "<p>R code to execute.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 9,
@@ -263,20 +208,75 @@
                 {
                     "class_name": "TestVariable",
                     "id": 142,
+                    "name": "result",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 134
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 143,
+                    "name": "arg1",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 135
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 144,
+                    "name": "arg2",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 136
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 145,
+                    "name": "arg3",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 137
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 146,
+                    "name": "arg4",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": 138
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 147,
                     "name": "arg5",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 9,
-                    "parentVariable": 134
+                    "parentVariable": 139
                 }
             ],
             "sourceWizard": 5,
             "sourceWizardName": "R_code",
             "sourceWizardTest": 8,
             "sourceWizardTestName": "source_R_code",
-            "updatedOn": "2017-01-11 14:33:05",
+            "updatedOn": "2017-01-19 16:57:32",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],

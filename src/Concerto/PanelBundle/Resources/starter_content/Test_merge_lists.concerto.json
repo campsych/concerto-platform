@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "Test",
@@ -17,7 +17,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 467,
+                    "id": 472,
                     "name": "merged_list",
                     "type": 1,
                     "description": "",
@@ -28,7 +28,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 468,
+                    "id": 473,
                     "name": "list1",
                     "type": 0,
                     "description": "",
@@ -39,7 +39,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 469,
+                    "id": 474,
                     "name": "list2",
                     "type": 0,
                     "description": "",
@@ -50,7 +50,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 470,
+                    "id": 475,
                     "name": "list3",
                     "type": 0,
                     "description": "",
@@ -61,7 +61,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 471,
+                    "id": 476,
                     "name": "list4",
                     "type": 0,
                     "description": "",
@@ -72,7 +72,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 472,
+                    "id": 477,
                     "name": "list5",
                     "type": 0,
                     "description": "",
@@ -86,7 +86,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 14:33:13",
+            "updatedOn": "2017-01-19 16:57:40",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],

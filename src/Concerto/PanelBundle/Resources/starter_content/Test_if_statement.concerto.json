@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "Test",
@@ -17,7 +17,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 190,
+                    "id": 195,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
@@ -28,7 +28,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 191,
+                    "id": 196,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
@@ -39,7 +39,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 192,
+                    "id": 197,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
@@ -50,7 +50,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 193,
+                    "id": 198,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
@@ -61,7 +61,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 194,
+                    "id": 199,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
@@ -75,7 +75,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 14:33:05",
+            "updatedOn": "2017-01-19 16:57:33",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -106,14 +106,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 224,
+                            "id": 225,
                             "label": "Condition to be evaluated",
                             "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                             "hideCondition": "",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "TRUE == TRUE",
-                            "testVariable": 191,
+                            "testVariable": 196,
                             "name": "if_condition",
                             "wizardStep": 57,
                             "stepTitle": "Condition",
@@ -128,7 +128,7 @@
             ],
             "test": 15,
             "testName": "source_if",
-            "updatedOn": "2017-01-11 14:33:05",
+            "updatedOn": "2017-01-19 16:57:33",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -152,65 +152,65 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 195,
+                    "id": 200,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 16,
-                    "parentVariable": 190
+                    "parentVariable": 195
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 196,
+                    "id": 201,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "TRUE == TRUE",
                     "test": 16,
-                    "parentVariable": 191
+                    "parentVariable": 196
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 197,
+                    "id": 202,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "if_true",
                     "test": 16,
-                    "parentVariable": 192
+                    "parentVariable": 197
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 198,
+                    "id": 203,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 16,
-                    "parentVariable": 193
+                    "parentVariable": 198
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 199,
+                    "id": 204,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 16,
-                    "parentVariable": 194
+                    "parentVariable": 199
                 }
             ],
             "sourceWizard": 10,
             "sourceWizardName": "if_statement",
             "sourceWizardTest": 15,
             "sourceWizardTestName": "source_if",
-            "updatedOn": "2017-01-11 14:33:09",
+            "updatedOn": "2017-01-19 16:57:37",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],

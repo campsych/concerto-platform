@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -10,16 +10,16 @@
             "protected": "1",
             "archived": "0",
             "head": "",
-            "css": ".questionnaire-response-cell {\n  width: 12%;\n  text-align: center;\n  border-left: 1px solid #d1d1d1;\n}\n.questionnaire-header-cell {\n  text-align: center;\n  background-color: #b9d979;\n  font-weight: 500;\n}\n.questionnaire-response-table {\n  border: 1px solid #d1d1d1;\n  margin-top: 20px;\n}\n.questionnaire-response-table tr:nth-child(even) {\n  background-color: #f1e1ed;\n}\n.questionnaire-response-table tr:nth-child(odd) {\n}",
+            "css": ".questionnaire-question-cell {\n}\n\n.questionnaire-response-cell {\n  width: 12%;\n  text-align: center;\n  border-left: 1px solid #d1d1d1;\n  border-right: 1px solid #d1d1d1;\n}\n.questionnaire-header-cell {\n  text-align: center;\n  background-color: #b9d979;\n  font-weight: 500;\n}\n.questionnaire-response-table {\n  border: 1px solid #d1d1d1;\n  margin-top: 20px;\n}\n.questionnaire-response-table tr:nth-child(even) {\n  background-color: #f1e1ed;\n}\n.questionnaire-response-table tr:nth-child(odd) {\n}",
             "js": "testRunner.controllerProvider.register(\"questionnaire\", function($scope) {\n  $scope.responseOptions = {{options}};\n  $scope.questions = {{questions}}\n});",
-            "html": "{{paragraph}}\n<table class=\"questionnaire-response-table\" ng-controller=\"questionnaire\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"questionnaire-header-cell\">&nbsp;<\/th>\n\t\t\t<th class=\"questionnaire-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr ng-class=\"{'validationHighlight': question.noAnswer}\" ng-repeat=\"question in questions\">\n\t\t\t<td class=\"questionnaireQuestionCell\" ng-bind-html=\"question.question\">&nbsp;<\/td>\n\t\t\t<td class=\"questionnaire-response-cell\" ng-repeat=\"option in responseOptions\"><input name=\"q[[question.id]]\" ng-model=\"question.answer\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2017-01-11 14:33:08",
-            "updatedByName": "",
+            "html": "{{paragraph}}\n<table class=\"questionnaire-response-table\" ng-controller=\"questionnaire\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"questionnaire-header-cell\">&nbsp;<\/th>\n\t\t\t<th class=\"questionnaire-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr ng-class=\"{'validationHighlight': question.noAnswer}\" ng-repeat=\"question in questions\">\n\t\t\t<td class=\"questionnaire-question-cell\" ng-bind-html=\"question.question\">&nbsp;<\/td>\n\t\t\t<td class=\"questionnaire-response-cell\" ng-repeat=\"option in responseOptions\"><input name=\"q[[question.id]]\" ng-model=\"question.answer\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
+            "updatedOn": "2017-01-19 17:12:18",
+            "updatedByName": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "5efe6acc835e3c894334a930ebd10599d9fee1d5"
+            "rev": 3,
+            "hash": "68551d2e6f528903cc90b12b5d4b24b5d2e2e247"
         }
     ]
 }

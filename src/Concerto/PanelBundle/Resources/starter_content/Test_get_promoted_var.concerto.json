@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "Test",
@@ -17,7 +17,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 465,
+                    "id": 470,
                     "name": "name",
                     "type": 0,
                     "description": "",
@@ -28,7 +28,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 466,
+                    "id": 471,
                     "name": "value",
                     "type": 1,
                     "description": "",
@@ -42,8 +42,8 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 14:55:19",
-            "updatedByName": "admin",
+            "updatedOn": "2017-01-19 16:57:38",
+            "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "_concerto_core",

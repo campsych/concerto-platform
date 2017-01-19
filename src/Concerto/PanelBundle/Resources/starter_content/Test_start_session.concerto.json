@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.181",
+    "version": "5.0.beta.2.184",
     "collection": [
         {
             "class_name": "Test",
@@ -17,7 +17,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 48,
+                    "id": 49,
                     "name": "success",
                     "type": 2,
                     "description": "<p>Authorization successful<\/p>\n",
@@ -28,7 +28,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 49,
+                    "id": 50,
                     "name": "type",
                     "type": 0,
                     "description": "",
@@ -39,7 +39,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 50,
+                    "id": 51,
                     "name": "user",
                     "type": 1,
                     "description": "<p>Returned user object list:<\/p>\n\n<ul>\n\t<li><strong>user$id<\/strong>&nbsp;- user unique id<\/li>\n\t<li><strong>user$login&nbsp;<\/strong>- user login<\/li>\n<\/ul>\n",
@@ -50,7 +50,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 51,
+                    "id": 52,
                     "name": "user_bank",
                     "type": 0,
                     "description": "",
@@ -61,7 +61,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 52,
+                    "id": 53,
                     "name": "user_bank",
                     "type": 1,
                     "description": "",
@@ -72,7 +72,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 53,
+                    "id": 54,
                     "name": "session_bank",
                     "type": 0,
                     "description": "",
@@ -83,7 +83,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 54,
+                    "id": 55,
                     "name": "session",
                     "type": 1,
                     "description": "",
@@ -94,7 +94,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 55,
+                    "id": 56,
                     "name": "session_bank",
                     "type": 1,
                     "description": "",
@@ -105,7 +105,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 56,
+                    "id": 57,
                     "name": "registration",
                     "type": 0,
                     "description": "",
@@ -116,7 +116,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 57,
+                    "id": 58,
                     "name": "ecuid",
                     "type": 0,
                     "description": "<p>Email confirmation user id<\/p>\n",
@@ -127,7 +127,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 58,
+                    "id": 59,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -138,7 +138,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 59,
+                    "id": 60,
                     "name": "login_form",
                     "type": 0,
                     "description": "",
@@ -149,7 +149,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 60,
+                    "id": 61,
                     "name": "registration_enabled",
                     "type": 0,
                     "description": "",
@@ -160,7 +160,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 61,
+                    "id": 62,
                     "name": "registration_form",
                     "type": 0,
                     "description": "",
@@ -171,7 +171,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 62,
+                    "id": 63,
                     "name": "email_conf_request_page",
                     "type": 0,
                     "description": "",
@@ -182,7 +182,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 63,
+                    "id": 64,
                     "name": "email_conf_success_page",
                     "type": 0,
                     "description": "",
@@ -193,7 +193,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 64,
+                    "id": 65,
                     "name": "email_confirmation",
                     "type": 0,
                     "description": "",
@@ -204,7 +204,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 65,
+                    "id": 66,
                     "name": "new_session",
                     "type": 2,
                     "description": "",
@@ -215,7 +215,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 66,
+                    "id": 67,
                     "name": "resume_session",
                     "type": 0,
                     "description": "",
@@ -226,7 +226,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 473,
+                    "id": 68,
                     "name": "direct_user",
                     "type": 0,
                     "description": "",
@@ -237,7 +237,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 476,
+                    "id": 69,
                     "name": "resume_session_time_limit",
                     "type": 0,
                     "description": "",
@@ -251,8 +251,8 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 15:27:18",
-            "updatedByName": "admin",
+            "updatedOn": "2017-01-19 16:57:31",
+            "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
@@ -282,14 +282,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 256,
+                            "id": 257,
                             "label": "Session bank",
                             "description": "<p>Session table definition:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default session table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own session table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"table_type\":\"default\",\"custom_table\":[],\"custom_user_id_login\":{\"table\":null},\"custom_test_id_column\":[]}",
-                            "testVariable": 53,
+                            "value": "{\"table_type\":\"default\",\"custom_table\":[]}",
+                            "testVariable": 54,
                             "name": "session_bank",
                             "wizardStep": 65,
                             "stepTitle": "Session",
@@ -359,14 +359,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 257,
+                            "id": 258,
                             "label": "Resume session?",
                             "description": "<p>If there is previous session&nbsp;available for authorised user, should it be used instead of creating a new one?<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 66,
+                            "testVariable": 67,
                             "name": "resume_session",
                             "wizardStep": 65,
                             "stepTitle": "Session",
@@ -379,14 +379,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 303,
+                            "id": 259,
                             "label": "Resume session time limit.",
                             "description": "<p>Resume session time limit in seconds.<br \/>\n0 for unlimited.<\/p>\n",
                             "hideCondition": "values.resume_session == \"0\"",
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 476,
+                            "testVariable": 69,
                             "name": "resume_session_time_limit",
                             "wizardStep": 65,
                             "stepTitle": "Session",
@@ -410,14 +410,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 258,
+                            "id": 260,
                             "label": "Type",
                             "description": "<p>Authorization type<\/p>\n\n<ul>\n\t<li><strong>user table<\/strong>&nbsp;- predefined user bank that let&#39;s users log in using login\/password combination<\/li>\n\t<li><strong>direct user<\/strong>&nbsp;- user passed by&nbsp;<strong>direct_user<\/strong>&nbsp;parameter will be used<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "table",
-                            "testVariable": 49,
+                            "testVariable": 50,
                             "name": "type",
                             "wizardStep": 66,
                             "stepTitle": "Authorization",
@@ -442,14 +442,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 259,
+                            "id": 261,
                             "label": "User bank",
                             "description": "<p style=\"line-height: 20.8px;\">User bank table type:<\/p>\n\n<ul style=\"line-height: 20.8px;\">\n\t<li><strong>default&nbsp;<\/strong>- uses default Concerto table; user needs to be inserted first<\/li>\n\t<li><strong>direct<\/strong>&nbsp;- can be defined directly in wizard form<\/li>\n\t<li><strong>custom<\/strong>&nbsp;- used to define your own table that you want to use as user bank<\/li>\n<\/ul>\n",
                             "hideCondition": "values.type != \"table\"",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"table_type\":\"default\",\"direct_table\":[],\"custom_table\":[],\"custom_login_column\":[],\"custom_password_column\":[],\"custom_encryption_column\":[],\"custom_test_id_column\":[],\"data_set_id\":\"\"}",
-                            "testVariable": 51,
+                            "value": "{\"table_type\":\"default\",\"direct_table\":[],\"custom_table\":[],\"data_set_id\":null}",
+                            "testVariable": 52,
                             "name": "user_bank",
                             "wizardStep": 66,
                             "stepTitle": "Authorization",
@@ -637,14 +637,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 260,
+                            "id": 262,
                             "label": "Public registration",
                             "description": "",
                             "hideCondition": "values.registration_enabled == '0'",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"email_confirmation\":\"0\",\"ec_smtp\":[],\"form_test\":\"form\",\"ec_link\":\"http:\\\/\\\/domain.com\\\/test\\\/slug?ecuid={{ecuid}}\"}",
-                            "testVariable": 56,
+                            "testVariable": 57,
                             "name": "registration",
                             "wizardStep": 67,
                             "stepTitle": "Registration",
@@ -718,14 +718,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 261,
+                            "id": 263,
                             "label": "Enabled",
                             "description": "<p>Is public registration enabled?<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 60,
+                            "testVariable": 61,
                             "name": "registration_enabled",
                             "wizardStep": 67,
                             "stepTitle": "Registration",
@@ -749,14 +749,14 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 262,
+                            "id": 264,
                             "label": "Login form",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"title\":\"DEMO TEST\",\"paragraph\":\"<p>Please log in:<\\\/p>\\n\",\"button_label\":\"log in\",\"failed_alert\":\"Authorization failed!\",\"form_field\":\"form_field\",\"form_field_input\":\"form_field_input\",\"buttons_template\":\"buttons_start_session_login\",\"login_button_label\":\"log in\",\"register_button_label\":\"register\",\"alert_template\":\"form_alert\"}",
-                            "testVariable": 59,
+                            "value": "{\"title\":\"DEMO TEST\",\"paragraph\":\"<p>Please log in:<\\\/p>\\n\",\"login_button_label\":\"log in\",\"failed_alert\":\"Authorization failed!\",\"form_field\":\"form_field\",\"form_field_input\":\"form_field_input\",\"buttons_template\":\"buttons_start_session_login\",\"register_button_label\":\"register\",\"alert_template\":\"form_alert\"}",
+                            "testVariable": 60,
                             "name": "login_form",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -859,14 +859,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 263,
+                            "id": 265,
                             "label": "Registration form",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"paragraph\":\"<p>Please fill the form below:<\\\/p>\\n\",\"login_label\":\"Login\",\"login_alert\":\"Invalid login!\",\"password_label\":\"Password\",\"password_alert\":\"Invalid password!\",\"password_confirmation_label\":\"Password confirmation\",\"password_confirmation_alert\":\"Password confirmation and password doesn't match!\",\"email_label\":\"Email\",\"email_alert\":\"Invalid email!\",\"register_button_label\":\"register\",\"login_exists_alert\":\"Login already exists!\",\"title\":\"REGISTRATION\"}",
-                            "testVariable": 61,
+                            "testVariable": 62,
                             "name": "registration_form",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -999,14 +999,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 264,
+                            "id": 266,
                             "label": "Email confirmation request page",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"title\":\"EMAIL CONFIRMATION\",\"content\":\"<p>Email has been sent to your address. Please follow the link in the email to confirm your address.<\\\/p>\\n\"}",
-                            "testVariable": 62,
+                            "testVariable": 63,
                             "name": "email_conf_request_page",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1037,14 +1037,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 265,
+                            "id": 267,
                             "label": "Email confirmation success page",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"title\":\"EMAIL CONFIRMATION\",\"content\":\"<p>Your email address has been successfully verified. Please refresh the page to log in.<\\\/p>\\n\"}",
-                            "testVariable": 63,
+                            "testVariable": 64,
                             "name": "email_conf_success_page",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1075,14 +1075,14 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 266,
+                            "id": 268,
                             "label": "Confirmation email",
                             "description": "",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"sender\":\"concerto@domain.com\",\"subject\":\"email confirmation\",\"paragraph\":\"<p>To verify your email address please click <a href=\\\"{{url}}\\\">HERE<\\\/a>.<\\\/p>\\n\",\"template\":\"start_session_confirmation_mail\"}",
-                            "testVariable": 64,
+                            "testVariable": 65,
                             "name": "email_confirmation",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1138,13 +1138,13 @@
             ],
             "test": 3,
             "testName": "source_start_session",
-            "updatedOn": "2017-01-11 15:03:33",
-            "updatedByName": "admin",
+            "updatedOn": "2017-01-19 16:57:31",
+            "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 9,
-            "hash": "e533d3fef494fea2b8a25f40ec7c96bb98060be7"
+            "hash": "8a7b30d85d2f3656cfadd8612169534a88b5b5ee"
         },
         {
             "class_name": "Test",
@@ -1162,85 +1162,74 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 67,
+                    "id": 70,
                     "name": "success",
                     "type": 2,
                     "description": "<p>Authorization successful<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 4,
-                    "parentVariable": 48
+                    "parentVariable": 49
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 68,
+                    "id": 71,
                     "name": "type",
                     "type": 0,
                     "description": "<p>Authorization type<\/p>\n\n<ul>\n\t<li><strong>user table<\/strong>&nbsp;- predefined user bank that let&#39;s users log in using login\/password combination<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": "table",
                     "test": 4,
-                    "parentVariable": 49
+                    "parentVariable": 50
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 69,
+                    "id": 72,
                     "name": "user",
                     "type": 1,
                     "description": "<p>Returned user object list:<\/p>\n\n<ul>\n\t<li><strong>user$id<\/strong>&nbsp;- user unique id<\/li>\n\t<li><strong>user$login&nbsp;<\/strong>- user login<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 4,
-                    "parentVariable": 50
+                    "parentVariable": 51
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 70,
+                    "id": 73,
                     "name": "user_bank",
                     "type": 0,
                     "description": "<p style=\"line-height: 20.8px;\">User bank table type:<\/p>\n\n<ul style=\"line-height: 20.8px;\">\n\t<li><strong>default&nbsp;<\/strong>- uses default Concerto table; user needs to be inserted first<\/li>\n\t<li><strong>direct<\/strong>&nbsp;- can be defined directly in wizard form<\/li>\n\t<li><strong>custom<\/strong>&nbsp;- used to define your own table that you want to use as user bank<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"default\",\"direct_table\":[],\"custom_table\":[],\"custom_login_column\":[],\"custom_password_column\":[],\"custom_encryption_column\":[],\"custom_test_id_column\":[],\"data_set_id\":\"\"}",
                     "test": 4,
-                    "parentVariable": 51
+                    "parentVariable": 52
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 71,
+                    "id": 74,
                     "name": "user_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 4,
-                    "parentVariable": 52
+                    "parentVariable": 53
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 72,
+                    "id": 75,
                     "name": "session_bank",
                     "type": 0,
                     "description": "<p>Session table definition:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default session table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own session table<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"default\",\"custom_table\":[],\"custom_user_id_login\":{\"table\":null},\"custom_test_id_column\":[]}",
                     "test": 4,
-                    "parentVariable": 53
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 73,
-                    "name": "session",
-                    "type": 1,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 4,
                     "parentVariable": 54
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 74,
-                    "name": "session_bank",
+                    "id": 76,
+                    "name": "session",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
@@ -1250,32 +1239,32 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 75,
+                    "id": 77,
+                    "name": "session_bank",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 4,
+                    "parentVariable": 56
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 78,
                     "name": "registration",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"email_confirmation\":\"0\",\"ec_smtp\":[],\"form_test\":\"form\",\"ec_link\":\"http:\\\/\\\/domain.com\\\/test\\\/slug?ecuid={{ecuid}}\"}",
                     "test": 4,
-                    "parentVariable": 56
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 76,
-                    "name": "ecuid",
-                    "type": 0,
-                    "description": "<p>Email confirmation user id<\/p>\n",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 4,
                     "parentVariable": 57
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 77,
-                    "name": "template_def",
+                    "id": 79,
+                    "name": "ecuid",
                     "type": 0,
-                    "description": "",
+                    "description": "<p>Email confirmation user id<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 4,
@@ -1283,109 +1272,120 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 78,
+                    "id": 80,
+                    "name": "template_def",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 4,
+                    "parentVariable": 59
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 81,
                     "name": "login_form",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"title\":\"DEMO TEST\",\"paragraph\":\"<p>Please log in:<\\\/p>\\n\",\"button_label\":\"log in\",\"failed_alert\":\"Authorization failed!\",\"form_field\":\"form_field\",\"form_field_input\":\"form_field_input\",\"buttons_template\":\"buttons_start_session_login\",\"login_button_label\":\"log in\",\"register_button_label\":\"register\",\"alert_template\":\"form_alert\"}",
                     "test": 4,
-                    "parentVariable": 59
+                    "parentVariable": 60
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 79,
+                    "id": 82,
                     "name": "registration_enabled",
                     "type": 0,
                     "description": "<p>Is public registration enabled?<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 4,
-                    "parentVariable": 60
+                    "parentVariable": 61
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 80,
+                    "id": 83,
                     "name": "registration_form",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"paragraph\":\"<p>Please fill the form below:<\\\/p>\\n\",\"login_label\":\"Login\",\"login_alert\":\"Invalid login!\",\"password_label\":\"Password\",\"password_alert\":\"Invalid password!\",\"password_confirmation_label\":\"Password confirmation\",\"password_confirmation_alert\":\"Password confirmation and password doesn't match!\",\"email_label\":\"Email\",\"email_alert\":\"Invalid email!\",\"register_button_label\":\"register\",\"login_exists_alert\":\"Login already exists!\",\"title\":\"REGISTRATION\"}",
                     "test": 4,
-                    "parentVariable": 61
+                    "parentVariable": 62
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 81,
+                    "id": 84,
                     "name": "email_conf_request_page",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"title\":\"EMAIL CONFIRMATION\",\"content\":\"<p>Email has been sent to your address. Please follow the link in the email to confirm your address.<\\\/p>\\n\"}",
                     "test": 4,
-                    "parentVariable": 62
+                    "parentVariable": 63
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 82,
+                    "id": 85,
                     "name": "email_conf_success_page",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"title\":\"EMAIL CONFIRMATION\",\"content\":\"<p>Your email address has been successfully verified. Please refresh the page to log in.<\\\/p>\\n\"}",
                     "test": 4,
-                    "parentVariable": 63
+                    "parentVariable": 64
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 83,
+                    "id": 86,
                     "name": "email_confirmation",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"sender\":\"concerto@domain.com\",\"subject\":\"email confirmation\",\"paragraph\":\"<p>To verify your email address please click <a href=\\\"{{url}}\\\">HERE<\\\/a>.<\\\/p>\\n\",\"template\":\"start_session_confirmation_mail\"}",
                     "test": 4,
-                    "parentVariable": 64
+                    "parentVariable": 65
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 474,
+                    "id": 87,
                     "name": "direct_user",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 4,
-                    "parentVariable": 473
+                    "parentVariable": 68
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 477,
+                    "id": 88,
                     "name": "resume_session_time_limit",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 4,
-                    "parentVariable": 476
+                    "parentVariable": 69
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 478,
+                    "id": 89,
                     "name": "resume_session",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 4,
-                    "parentVariable": 66
+                    "parentVariable": 67
                 }
             ],
             "sourceWizard": 3,
             "sourceWizardName": "start_session",
             "sourceWizardTest": 3,
             "sourceWizardTestName": "source_start_session",
-            "updatedOn": "2017-01-11 15:27:18",
+            "updatedOn": "2017-01-19 16:57:40",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -1643,7 +1643,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 84,
+                    "id": 22,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -1657,7 +1657,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-01-11 14:33:00",
+            "updatedOn": "2017-01-19 16:57:30",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -1688,7 +1688,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 267,
+                            "id": 269,
                             "label": "Submit button label",
                             "description": "<p>Submit button label<\/p>\n",
                             "hideCondition": "",
@@ -1708,7 +1708,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 268,
+                            "id": 270,
                             "label": "Paragraph",
                             "description": "<p>Form page paragraph<\/p>\n",
                             "hideCondition": "",
@@ -1727,7 +1727,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 269,
+                            "id": 271,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
@@ -1746,7 +1746,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 270,
+                            "id": 272,
                             "label": "Form field template",
                             "description": "",
                             "hideCondition": "",
@@ -1766,7 +1766,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 271,
+                            "id": 273,
                             "label": "Form alert template",
                             "description": "",
                             "hideCondition": "",
@@ -1786,7 +1786,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 272,
+                            "id": 274,
                             "label": "Form field checkbox template",
                             "description": "",
                             "hideCondition": "",
@@ -1806,7 +1806,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 273,
+                            "id": 275,
                             "label": "Form field file tmplate",
                             "description": "",
                             "hideCondition": "",
@@ -1826,7 +1826,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 274,
+                            "id": 276,
                             "label": "Form field input template",
                             "description": "",
                             "hideCondition": "",
@@ -1846,7 +1846,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 275,
+                            "id": 277,
                             "label": "Form field multiline template",
                             "description": "",
                             "hideCondition": "",
@@ -1866,7 +1866,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 276,
+                            "id": 278,
                             "label": "Form field select template",
                             "description": "",
                             "hideCondition": "",
@@ -1886,7 +1886,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 277,
+                            "id": 279,
                             "label": "Form field slider template",
                             "description": "",
                             "hideCondition": "",
@@ -1906,7 +1906,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 278,
+                            "id": 280,
                             "label": "Custom button #1",
                             "description": "",
                             "hideCondition": "",
@@ -1943,7 +1943,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 279,
+                            "id": 281,
                             "label": "Buttons template",
                             "description": "",
                             "hideCondition": "",
@@ -1974,7 +1974,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 280,
+                            "id": 282,
                             "label": "Form fields",
                             "description": "<p>Form fields list<\/p>\n",
                             "hideCondition": "",
@@ -2217,7 +2217,7 @@
             ],
             "test": 1,
             "testName": "source_form",
-            "updatedOn": "2017-01-11 14:33:01",
+            "updatedOn": "2017-01-19 16:57:30",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2241,18 +2241,18 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 85,
+                    "id": 90,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 5,
-                    "parentVariable": 84
+                    "parentVariable": 22
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 86,
+                    "id": 91,
                     "name": "form",
                     "type": 0,
                     "description": "<p>Form fields list<\/p>\n",
@@ -2263,7 +2263,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 87,
+                    "id": 92,
                     "name": "button_label",
                     "type": 0,
                     "description": "<p>Continue button label<\/p>\n",
@@ -2274,7 +2274,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 88,
+                    "id": 93,
                     "name": "paragraph",
                     "type": 0,
                     "description": "<p>Form page paragraph<\/p>\n",
@@ -2285,7 +2285,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 89,
+                    "id": 94,
                     "name": "response",
                     "type": 1,
                     "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
@@ -2296,7 +2296,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 90,
+                    "id": 95,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -2307,7 +2307,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 91,
+                    "id": 96,
                     "name": "warning_msg",
                     "type": 0,
                     "description": "",
@@ -2318,7 +2318,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 92,
+                    "id": 97,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -2329,7 +2329,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 93,
+                    "id": 98,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -2340,7 +2340,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 94,
+                    "id": 99,
                     "name": "form_field_template",
                     "type": 0,
                     "description": "",
@@ -2351,7 +2351,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 95,
+                    "id": 100,
                     "name": "form_field_input_template",
                     "type": 0,
                     "description": "",
@@ -2362,7 +2362,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 96,
+                    "id": 101,
                     "name": "form_field_multiline_template",
                     "type": 0,
                     "description": "",
@@ -2373,7 +2373,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 97,
+                    "id": 102,
                     "name": "form_field_select_template",
                     "type": 0,
                     "description": "",
@@ -2384,7 +2384,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 98,
+                    "id": 103,
                     "name": "form_field_checkbox_template",
                     "type": 0,
                     "description": "",
@@ -2395,7 +2395,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 99,
+                    "id": 104,
                     "name": "form_field_slider_template",
                     "type": 0,
                     "description": "",
@@ -2406,7 +2406,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 100,
+                    "id": 105,
                     "name": "form_alert_template",
                     "type": 0,
                     "description": "",
@@ -2417,7 +2417,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 101,
+                    "id": 106,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -2428,7 +2428,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 102,
+                    "id": 107,
                     "name": "submit",
                     "type": 2,
                     "description": "",
@@ -2439,7 +2439,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 103,
+                    "id": 108,
                     "name": "form_field_file_template",
                     "type": 0,
                     "description": "",
@@ -2450,7 +2450,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 104,
+                    "id": 109,
                     "name": "custom_button_1",
                     "type": 0,
                     "description": "",
@@ -2461,7 +2461,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 105,
+                    "id": 110,
                     "name": "custom_button_1",
                     "type": 2,
                     "description": "",
@@ -2472,7 +2472,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 106,
+                    "id": 111,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
@@ -2486,7 +2486,7 @@
             "sourceWizardName": "form",
             "sourceWizardTest": 1,
             "sourceWizardTestName": "source_form",
-            "updatedOn": "2017-01-11 14:33:13",
+            "updatedOn": "2017-01-19 16:57:40",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -2509,7 +2509,7 @@
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-01-11 14:33:01",
+            "updatedOn": "2017-01-19 16:57:30",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2529,7 +2529,7 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-01-11 14:33:01",
+            "updatedOn": "2017-01-19 16:57:30",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2549,7 +2549,7 @@
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n<ul>\n\t<li><button name=\"login\">{{label_login}}<\/button><\/li>\n\t<li><button name=\"register\" ng-show=\"{{show_register}}\">{{label_register}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2017-01-11 14:33:04",
+            "updatedOn": "2017-01-19 16:57:32",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2569,7 +2569,7 @@
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-01-11 14:33:01",
+            "updatedOn": "2017-01-19 16:57:30",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2589,7 +2589,7 @@
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2017-01-11 14:33:04",
+            "updatedOn": "2017-01-19 16:57:32",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
