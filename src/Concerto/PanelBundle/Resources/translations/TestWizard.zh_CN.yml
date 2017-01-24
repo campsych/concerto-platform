@@ -71,7 +71,7 @@ param:
         legend: 测验向导参数
         legend.tooltip: 说明测验向导参数
     form: 
-        fieldset: 	
+        fieldset:
             legend.tooltip: 请输入测验向导参数属性
         field: 
             label: 标注
