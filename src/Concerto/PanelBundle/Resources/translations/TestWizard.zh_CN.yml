@@ -1,0 +1,236 @@
+breadcrumb:   
+    list: 所有向导
+
+alerts:
+    no_steps: 没有定义测验向导步骤！
+    no_params: 在本步骤没有定义测验向导参数！
+ 
+form:   
+  title:    
+    add: 创建新测验向导
+    edit: '编辑测验向导#{0}'     
+  field:   
+    name: 名称
+    name.tooltip: 测验名称 
+    accessibility: 访问权限
+    accessibility.tooltip: 测验向导访问权限
+    protected: 保护文件
+    protected.tooltip: 该测验向导为保护文件吗？
+    archived: 归档
+    archived.tooltip: 该测验向导为归档文件吗？
+    test: 测验
+    test.tooltip: "支持向导的测验。之后无法更改。"  
+    owner: 所有者
+    owner.tooltip: 对象所有者
+    groups: 群组
+    groups.tooltip: 对象所属的逗号分隔群组列表
+      
+list:   
+  field:  
+    name: 名称
+    test: 测验
+      
+step:    
+    fieldset:    
+        legend: 测验向导步骤
+        legend.tooltip: 说明测验向导步骤
+    form:  
+        fieldset:   
+            legend.tooltip: 请输入测验向导步骤属性
+        field:  
+            title: 标题
+            title.tooltip: 测验向导步骤标题
+            description: 描述
+            description.tooltip: 测验向导步骤描述
+            order: 顺序
+            order.tooltip: 测验向导步骤顺序
+    list: 
+        button:  
+            add: 增加新步骤
+            delete.all: 删除所有步骤
+            delete.checked: 删除选中步骤
+            delete: 删除
+            edit: 编辑
+        field: 
+            id: 编号
+            info: 信息
+            title: 标题
+            order: 顺序
+    dialog: 
+        title: 
+            add: 添加新的测验向导步骤
+            edit: 编辑测验向导步骤
+            delete: 移除测验向导步骤
+            clear: 清空测验向导步骤
+        message:  
+            delete.confirm: 确认删除被选中的测验向导步骤吗?
+            clear.confirm: 确认清空所有测验向导步骤吗？ 
+              
+param:  
+    fieldset:  
+        legend: 测验向导参数
+        legend.tooltip: 说明测验向导参数
+    form: 
+        fieldset: 	
+            legend.tooltip: 请输入测验向导参数属性
+        field: 
+            label: 标注
+            label.tooltip: 测验向导参数标注
+            description: 描述
+            description.tooltip: 测验向导参数描述
+            url: 可通过URL传递
+            url.tooltip: 若参数值可通过URL设置请点击此处
+            order: 顺序
+            order.tooltip: "向导步骤中的参数顺序索引" 
+            variable: 测验变量
+            variable.tooltip: 测验参数
+            step: 向导步骤
+            step.tooltip: 为参数选择测验向导步骤
+            definition: 定义
+            definition.tooltip: 参数定义
+            definition.icon.tooltip: 设置参数定义
+            type: 类型
+            type.tooltip: 测验向导参数类型
+            type.single_line_text: 单行文本
+            type.multi_line_text: 多行文本
+            type.html: HTML
+            type.r: R 代码
+            type.select: 下拉列表
+            type.view: 模板
+            type.test: 测验
+            type.table: 表格
+            type.column: 表格列
+            type.checkbox: 复选框
+            type.group: 群组
+            type.list: 列表
+            type.column_map: 表格列示意图
+            hide_condition: 隐藏条件
+            hide_condition.tooltip: '隐藏条件。采用javascript语法。当前参数值集合对象为<strong>values</ strong>。可使用<strong>parent</ strong>访问当前参数上级作用域.例如: <strong>values.param.subparam != ""</strong>' 
+            setter.icon.tooltip: 启动设置对话框
+    list:  
+        button:  
+            add: 添加新参数
+            delete.all: 删除所有参数
+            delete.checked: 删除被选中的参数
+            delete: 删除
+            edit: 编辑
+        field: 
+            id: 编号
+            info: 信息
+            label: 题目
+            step: 步骤
+            variable: 测验参数
+            type: 类型
+            order: 顺序
+    dialog:   
+        title:
+            add: 添加新的测验向导参数
+            edit: 编辑测验向导参数
+            delete: 移除测验向导参数
+            clear: 清空测验向导参数
+        message:  
+            delete.confirm: 确认删除被选中的测验向导参数吗？
+            clear.confirm: 确认清空所有测验向导参数吗？
+    definer:  
+        titles:  
+            select: "{0} – 定义选项" 
+            select.tooltip: 设定当前参数选项 
+            group: "{0} -定义群组字段" 
+            group.tooltip: 设置当前参数群组字段
+            list: "{0} -定义列表元素类型" 
+            list.tooltip: 设置当前参数列表元素类型 
+            single_line: "{0} – 设置默认值" 
+            single_line.tooltip: 参数默认值
+            multi_line: "{0} – 设置默认值" 
+            multi_line.tooltip: 参数默认值
+            html: "{0} – 设置默认值" 
+            html.tooltip: 参数默认值
+            checkbox: "{0} – 设置默认值" 
+            checkbox.tooltip: 参数默认值 
+            test: "{0} – 设置默认值" 
+            test.tooltip: 参数默认值
+            table: "{0} – 设置默认值" 
+            table.tooltip: 参数默认值  
+            template: "{0} – 设置默认值"
+            template.tooltip: 参数默认值
+            r_code: "{0} – 设置默认值" 
+            r_code.tooltip: 参数默认值  
+            column_map: "{0} – 定义必需列"
+            column_map.tooltip: 列示意图
+        summaries: 
+            select: "选项计数: {0}"  
+            group: "字段计数: {0}"   
+            list: "元素类型: {0}"   
+            column_map: "列: {0}"    
+        select.options: 选项
+        select.options.tooltip: 定义选项
+        select.default: 默认
+        select.default.tooltip: 选择默认值 
+        select.option.add: 添加新选项
+        select.option.remove.selected: 移除选中选项
+        select.option.remove.all: 移除全部选项
+        select.list.field.order: 顺序
+        select.list.field.label: 标注
+        select.list.field.value: 数值
+        select.list.button.delete: 删除
+        group.field.add: 添加新字段
+        group.field.remove.selected: 移除选中字段
+        group.field.remove.all: 移除所有字段
+        group.list.field.name: 名称
+        group.list.field.label: 标注
+        group.list.field.type: 类型
+        group.list.field.hide_condition: 隐藏条件
+        group.list.field.definition: 定义
+        group.list.field.order: 顺序
+        column_map.list.field.name: 名称	
+        column_map.list.field.label: 标注
+        column_map.list.field.tooltip: 提示信息
+        column_map.list.button.delete: 删除
+        column_map.columns: 列
+        column_map.columns.tooltip: 列示意图
+        column_map.column.add: 添加新的列
+        column_map.column.remove.selected: 移除选中列
+        column_map.column.remove.all: 移除所有列
+    setter:   
+        titles: 
+            textarea: "{0} – 多行文本"
+            textarea.tooltip: 设置当前参数文本
+            html: "{0} - HTML" 
+            html.tooltip: 设置当前参数HTML
+            column: "{0} – 表格列" 
+            column.tooltip: 设置当前参数表格列
+            group: "{0} – 群组字段" 
+            group.tooltip: 设置当前群组字段参数值
+            list: "{0} – 列表元素" 
+            list.tooltip: 设置当前参数列表元素
+            r: "{0} – R代码" 
+            r.tooltip: R代码
+            column_map: "{0} – 列示意图" 
+            column_map.tooltip: 列示意图
+        summaries:     
+            textarea: "{0}"    
+            html: "{0}"      
+            column: "表格: {0},列: {1}"    
+            group: "{0}"    
+            list: "元素计数: {0}"   
+            r: "{0}"   
+            column_map: "{0}"  
+        column.table: 表格
+        column.table.tooltip: 请选择稍后所需列所在的表格
+        column: 列
+        column.tooltip: 选择表格列
+        list.element.add: 添加新元素
+        list.element.remove.selected: 移除选中元素
+        list.element.remove.all: 移除全部元素
+        list.element.remove: 删除
+        list.column.element: 元素
+        column_map.table: 表格
+        column_map.table.tooltip: 表格示意图
+              
+preview:    
+    fieldset:    
+        legend: 测验向导预览
+        legend.tooltip: 测验向导预览。你可以重新安排每一步中的参数
+    buttons:   
+        next: 下一步
+        previous: 上一步

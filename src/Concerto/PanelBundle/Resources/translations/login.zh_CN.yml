@@ -1,0 +1,12 @@
+form: 
+  legend: 请输入登录信息
+  legend.tooltip: 输入用户名和密码
+  field: 
+    login: 用户名
+    login.tooltip: 请输入用户名
+    password: 密码
+    password.tooltip: 请输入密码
+  button.login: 登录
+  
+'Bad credentials.': 用户名或密码错误
+'User account is disabled.': 该用户已归档！

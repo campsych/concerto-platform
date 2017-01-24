@@ -1,0 +1,26 @@
+breadcrumb: 
+    manager: 文件管理中心
+ 
+uploader: 
+    alerts: 
+        upload_failed: 
+            title: 上传文件
+            message: 文件上传失败！
+    library: 
+        title: 文件库
+        empty: 文件库目前为空。
+        buttons: 
+            use: 使用
+            remove: 移除
+            open: 打开
+    queue: 
+        title: 上传队列
+        droparea: 将文件拖拽到此处
+        progress: 总进程
+        buttons: 
+            upload: 上传
+            cancel: 取消
+            remove: 移除
+            uploadall: 上传全部
+            cancelall: 取消全部
+            removeall: 移除全部

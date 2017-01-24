@@ -1,0 +1,43 @@
+breadcrumb: 
+    list: 所有用户
+ 
+form: 
+  title: 
+    add: 创建新用户
+    edit: '编辑用户 #{0}'
+  field: 
+    login: 用户名
+    login.tooltip: 输入唯一的用户名
+    password: 密码
+    password.tooltip: 输入密码
+    passwordConfirmation: 密码确认
+    passwordConfirmation.tooltip: 重新输入密码
+    email: 邮箱
+    email.tooltip: 输入邮件地址
+    accessibility: 访问权限
+    accessibility.tooltip: 用户访问权限
+    protected: 保护用户
+    protected.tooltip: 该用户为保护用户吗？
+    archived: Archived 归档
+    archived.tooltip: 该用户为归档用户吗？
+    role_super_admin: 超级管理员
+    role_super_admin.tooltip: 授予用户访问用户管理界面和所有其他界面的权限
+    role_test: 测验访问权限
+    role_test.tooltip: 授予用户访问测验界面的权限
+    role_template: 模板访问权限
+    role_template.tooltip: 授予用户访问模板界面的权限
+    role_table: 表格访问权限
+    role_table.tooltip: 授予用户访问表格界面的权限
+    role_file: 文件访问权限
+    role_file.tooltip: 授予用户访问文件管理界面的权限
+    role_wizard: 测验向导访问权限
+    role_wizard.tooltip: 授予用户访问测验向导界面的权限
+    owner: 所有者
+    owner.tooltip: 对象所有者
+    groups: 群组
+    groups.tooltip: 对象所属的逗号分隔群组列表
+      
+list: 
+  field: 
+    username: 用户名
+    email: 邮箱

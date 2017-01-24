@@ -1,0 +1,297 @@
+breadcrumb:
+    list: 所有测验
+  
+form: 
+  title: 
+    add: 创建新测验
+    edit: '编辑测验 #{0}' 
+  field: 
+    name: 名称
+    name.tooltip: 测验名称
+    accessibility: 访问权限
+    accessibility.tooltip: 测验访问权限
+    protected: 保护文件
+    protected.tooltip: 此测验为保护文件吗？
+    archived: 归档文件
+    archived.tooltip: 此测验为归档文件吗？
+    slug: URL名称
+    slug.tooltip: URL名称为测验网址中可定制的部分，用于更好的描述测验的性质。
+    visibility: 访问权限
+    visibility.tooltip: 测验访问权限
+    visibility.subtest: 分测验
+    visibility.regular: 正常
+    visibility.featured: 特殊
+    type: 类型
+    type.tooltip: 测验类型
+    type.code: 代码
+    type.wizard: 向导
+    type.flow: 流程图
+    resumable: 可恢复
+    resumable.tooltip: 是否允许可恢复测试对话框？
+    wizard: 向导
+    wizard.tooltip: 选择一个创建测验的测验向导
+    wizard.none: <没有选中>
+    owner: 所有者
+    owner.tooltip: 对象所有者
+    groups: 群组
+    groups.tooltip: 对象所属的逗号分隔群组列表
+  button: 
+      run: 运行测验
+      debug: 调试测验
+      update: 更新所有相关测验
+  dialog: 
+      title: 
+          update: 更新相关测验
+      message: 
+          update.successful: 更新完毕。
+      
+list:  
+  field: 
+    name: 名称
+    wizard: 向导
+    wizard.source: 源测验
+  tooltips: 
+    outdated: 有新版本源测验可供使用，请重新保存当前测验进行更新。
+    uptodate: 使用最新版本源测验
+      
+variables: 
+    form: 
+        field: 
+            name: 名称
+            name.tooltip: 唯一的变量名称
+            description: 说明
+            description.tooltip: 变量说明
+            url: URL
+            url.tooltip: 该参数是否可以通过URL进行传递？
+            value: 默认值
+            value.tooltip: 变量默认值
+    dialog: 
+        tooltip: 定义测验变量
+      
+    input: 
+        fieldset: 
+            legend: 测验输入
+            legend.tooltip: 测验输入变量。
+        parameters: 
+            list: 
+                add: 添加输入参数
+                delete.checked: 移除选中参数
+                edit: 编辑
+                delete: 删除
+                field: 
+                    info: 信息
+                    name: 名称
+                    url: URL 
+                    url.yes: 是
+                    url.no: 否
+                    value: 默认值
+            dialog: 
+                title: 
+                    add: 添加新输入参数
+                    edit: 编辑输入参数
+                    delete: 移除输入参数
+                message: 
+                    delete.confirm: 确认删除选中的输入参数吗？
+    output: 
+        fieldset: 
+            legend: 测验输出
+            legend.tooltip: 测验输出变量。
+        returns: 
+            legend: 返回变量
+            legend.tooltip: 定义测验返回变量
+            list: 
+                add: 添加返回变量
+                delete.checked: 移除选中返回变量
+                edit: 编辑
+                delete: 删除
+                field: 
+                    info: 信息
+                    name: 名称
+                    value: 默认值
+            dialog: 
+                title: 
+                    add: 添加新返回变量
+                    edit: 编辑返回变量
+                    delete: 移除返回变量
+                message: 
+                    delete.confirm: 确认删除选中的返回变量吗？
+        branches: 
+            legend: 分支
+            legend.tooltip: 定义分测验
+            list: 
+                add: 添加分支
+                delete.checked: 移除选中分支
+                edit: 编辑
+                delete: 删除
+                field: 
+                    info: 信息
+                    name: 名称
+                    value: 默认值
+            dialog: 
+                title: 
+                    add: 添加新分支
+                    edit: 编辑分支
+                    delete: 移除分支
+                message: 
+                    delete.confirm: 确认删除选中的分支吗？
+      
+log: 
+    dialog: 
+        title: 
+            delete: 移除记录
+            clear: 清理记录
+        message: 
+            delete.confirm: 确认移除选中的记录吗？
+            clear.confirm: 确认清空所有记录吗？
+    fieldset: 
+        legend: 错误记录
+        legend.tooltip: 测验错误记录
+    list: 
+        button:  
+            delete.all: 删除全部
+            delete.checked: 删除选中部分
+            delete: 删除
+            refresh: 刷新
+        field: 
+            date: 日期
+            type: 类型
+            type.R: R 
+            type.javascript: Javascript 
+            message: 消息
+            browser: 浏览器
+            ip: IP 
+              
+logic: 
+    convert: 
+        title: 把测验转为R代码
+        confirmation: 确认把该测验转为R代码吗？此操作不可恢复。
+        buttons: 
+            convert: 转为R代码
+    code: 
+        fieldset: 
+            legend: 测验逻辑
+            legend.tooltip: 测验逻辑代码
+              
+completion: 
+    wizard: 
+        default: 
+            autoformat: 自动模式
+            insertcomments: 插入注释
+         
+        sql: 
+            selection: 
+                empty: 
+                    column: -- 选择列 -- 
+                    table: -- 选择表格 -- 
+            options: 
+                wizard: 向导
+                code: SQL代码
+            parameters:  
+                label: 参数
+                tooltip: 定义AQL代码参数。
+            fetchcount:  
+                label: 读数
+                tooltip: 反应记录数返回值。所有记-1，无记0。
+            table: 
+                label: 选择表格
+                tooltip: 选择需进行操作的表格。
+            type: 
+                label: 查询类型
+                tooltip: 选择查询类型。
+            update: 
+                label: 设置
+                tooltip: 设置记录值。
+                empty: 设置语句为空，在所更新行中不会发生任何变化。
+            select: 
+                label: 选择
+                tooltip: 选择需要选中的列
+            where: 
+                label: 位于
+                tooltip: 说明条件语句。
+                empty: 位置语句为空，不会进行筛选。
+                logic: 
+                    or: 或
+                    and: 和
+                operators: 
+                    equal: 等于
+                    notequal: 不等于
+                    greater: 大于
+                    equalgreater: 大于等于
+                    lesser: 小于
+                    equallesser: 小于等于
+                    like: 类似于
+                    notlike: 不类似于
+            order: 
+                label: 排序
+                tooltip: 选择排序。
+                empty: 排序语句为空，不会进行排序。
+                directions: 
+                    ascending: 递增
+                    descending: 递减
+            insert: 
+                label: 插入
+                tooltip: 设置插入值。
+                empty:  插入语句为空，记录将会添加默认值
+    documentation: 
+        help: 
+            title: R语言自动生成文件-生成指令
+            intro: 在使用康测通平台中的R语言自动生成功能时，你需要确认基于R语言结构的R语言文件已经生成。
+            info: 
+                directory: > 
+                    为生成此文件，你需要打开打开操作应用（Windows系统- “cmd”，Linux系统的“xterm”、“konsole”或“gnome-terminal”），并定位到康测通系统安装目录。
+                console: 在此目录下，你将可以使用Symfony控制板。你需要运行“concerto:r:cache”操作
+                console.more: 点击来获取更多关于Symfony控制板的信息
+                output: R运行此指令可显示你的系统中所有的R语言功能，并准备所需文件。编辑R语言资源时需重新加载或打开Concerto页面。
+ 
+flow: 
+    fieldset: 
+        legend: 测验流程
+        legend.tooltip: 测验流程
+        return_function.tooltip: 返回功能。
+    nodes: 
+        names: 
+            test_start: 开始测验
+            test_end: 结束测验
+        descriptions: 
+            test_start: 测验开始节点。测验流程从这里开始。它可以返回测验输入参数。
+            test_end: 这是设置测验返回变量值的节点。
+        dialog: 
+            delete: 
+                title: 移除节点
+                message: 确认移除此节点吗？
+            selection_delete: 
+                title: 移除选中节点
+                message: 确认移除选中的节点吗？
+            title: 
+                title: 编辑节点标题
+                tooltip: 节点标题会显示在节点页面题头
+    ports: 
+        names: 
+            in: 位于
+        descriptions: 
+            in: 节点输入位置。
+        dialog: 
+            fields: 
+                string: 是否为字符串？
+                string.tooltip: 若选中，端口值将被视为字符串。否则会被视为R代码。
+                value: 值
+                value.tooltip: 此端口的变量值
+    buttons: 
+        reset_view: 重置视图
+        rename_node: 重命名节点
+        copy_node: 复制节点
+        copy_nodes: 复制节点
+        paste_nodes: 粘贴节点
+        remove_node: 移除节点
+        remove_nodes: 移除节点
+        reset_to_default: 恢复默认设置
+        toggle_collapse: 折叠/展开未连接端口
+        zoom_in: 放大
+        zoom_out: 缩小
+        maximize: 切换全屏视图
+        node_menu: 点击展开节点目录
+        export_test: 导出测验
+        export_tests: 导出测验
+    tags: 
+        all: 全部
+ 

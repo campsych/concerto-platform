@@ -1,0 +1,15 @@
+session.resuming: 恢复测验
+session.resuming.question: 已开始测验，但未完成。 单击OK返回或勾选此框重新开始测验。
+session.resuming.start_new_checkbox_label: 重新开始测验
+OK: OK 
+ignition.noscript: 您的浏览器不支持javascript。请启用JavaScript并刷新您的浏览器。
+ignition.ip: "IP:" 
+ignition.browser: "浏览器:"
+ignition.time: "时间:" 
+ignition.browser.notsupported: 浏览器版本不予支持。 请将浏览器升级到Internet Explorer 9或更高版本，或切换到其他浏览器，例如Chrome或Firefox。
+ignition.browser.potentionallynotsupported: 如果此消息不会立即消失，您可能需要使用其他浏览器。
+default.template: 
+    error: 遇到错误。停止运行。
+    finished: 测验完成。
+    loading: 请等待……
+    unresumable: 测验超时。请刷新页面重新开始。

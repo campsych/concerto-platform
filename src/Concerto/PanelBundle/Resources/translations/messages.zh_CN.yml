@@ -1,0 +1,72 @@
+validate: 
+    protected.mod: 尝试修改保护对象
+    
+    user: 
+      username.unique: 该用户名已被使用
+      username.min: 用户名至少应包含3个字符
+      username.max: 用户名不能超过25个字符
+      username.blank: 用户名不可为空
+      password.min: 密码至少应包含4个字符
+      password.max: 密码不能超过40个字符
+      password.match: 验证密码不匹配
+      password.blank: 密码不可为空 
+      email: 邮箱地址不正确
+      email.unique: 系统中已存在该邮箱地址
+      email.max: 邮箱地址不能超过60个字符
+      email.blank: 邮箱地址不可为空
+    
+    table: 
+      name.unique: 系统中已存在该名称
+      name.min: 名称至少包含1个字符
+      name.max: 名称不能超过60个字符
+      name.blank: 名称不可为空
+      name.incorrect: 无效名称
+      column.name.unique: 表格中已存在该列
+      column.name.blank: 名称不可为空
+      column.name.incorrect: 无效名称
+    
+    template: 
+      name.unique: 系统中已存在该名称
+      name.min: 名称至少包含1个字符
+      name.max: 名称不能超过64个字符
+      name.blank: 名称不可为空
+    
+    test: 
+      name.unique: 系统中已存在该名称
+      name.min: 名称至少包含1个字符
+      name.max: 名称不能超过64个字符
+      name.blank: 名称不可为空
+      wizard.source: 选择源向导以确定测验向导类型
+    
+      variables: 
+        unique: 测验中已存在相同名称与类型的变量
+        name.min: 名称至少包含1个字符
+        name.max: 名称不能超过64个字符
+        name.blank: 名称不可为空
+        name.incorrect: 无效名称
+        
+      wizards: 
+        name.unique: 系统中已存在该名称
+        name.min: 名称至少包含1个字符
+        name.max: 名称不能超过64个字符
+        name.blank: 名称不可为空
+        test.null: 必须选择测验
+      
+        params: 
+            label.min: 标注至少包含1个字符
+            label.max: 标注不能超过64个字符
+            label.blank: 标注不可为空
+            variable.null: 必须选择测验变量
+            variable.unique: 测验参数只能加载一个向导参数
+            step.null: 必须选择测验向导步骤
+      
+        steps: 
+            unique: 步骤标题必须是唯一的
+            title.min: 标题至少包含1个字符
+            title.max: 标题不能超过64个字符
+            title.blank: 标题不可为空
+         
+errors: 
+    title: 系统错误
+    table: 
+        column.conversion: 数据库驱动配置无法支持所选中的类型转换

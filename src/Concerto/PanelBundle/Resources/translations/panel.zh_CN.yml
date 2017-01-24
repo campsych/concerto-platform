@@ -1,0 +1,158 @@
+header: 
+  logged.user: '已登录用户: {0}' 
+  logout: 登出
+ 
+tab: 
+  wizards: 测验向导
+  wizards.tooltip: 测验向导标签
+  tests: 测验
+  tests.tooltip: 测验标签
+  templates: 模板
+  templates.tooltip: 模板标签
+  tables: 表格
+  tables.tooltip: 表格标签
+  files: 文件
+  files.tooltip: 文件管理标签
+  users: 用户
+  users.tooltip: 用户管理标签
+ 
+list: 
+  accessibility: 
+      public: 公开
+      group: 群组
+      private: 个人
+  field: 
+    id: 编号
+    info: 信息
+    updated.on: 最近一次更新时间
+    updated.by: 最近一次更新操作者
+    protected: 保护文件
+    type: 类型
+    exists: 已存在
+    action: 操作
+    rename: 重命名
+    safe: 安全
+  edit: 编辑
+  delete: 删除
+  export: 导出
+  button: 
+    toggle_filters: 切换筛选
+    refresh: 刷新
+    delete.checked: 删除选中项
+    export.checked: 导出选中项
+    add: 添加
+    import: 导入
+    download: 下载
+    upload: 上传CSV
+ 
+form: 
+  validation.failed: 验证失败
+  button: 
+    save.new: 复制
+    delete: 删除
+    export: 导出
+    save: 保存
+    cancel: 取消
+    yes: 是
+    no: 否
+    change: 修改
+    ok: OK
+    apply: 应用
+    upload: 上传
+ 
+dialog: 
+  title: 
+    save: 保存对象
+    delete: 删除对象
+    csv: CSV 
+  message: 
+    failed: 操作失败，请验证数据并再次尝试。
+    saved: 对象已保存
+    confirm.delete: 确认删除选中的对象吗？
+    confirm.unsafe_import: 即将导入的不安全内容可能会导致数据丢失。强烈建议在继续之前备份数据。确认继续吗？
+    leaving: 确认继续吗？所有未保存的修改将会丢失。
+  
+please.wait: 请等待……
+none.choosen: 未选中
+none: 无 
+ 
+description: 
+    tooltip: 修改描述
+    fieldset: 
+        legend: 描述
+        legend.tooltip: 对象描述
+          
+save_new: 
+    dialog: 
+        title: 新对象名称
+        title_main: 复制对象
+        message.copied: 对象已复制
+    fieldset:
+        legend.tooltip: > 
+            "请输入复制对象的名称。若留空将保留原名称。若想插入原始课题编号或者名称，可以使用\\{\\{id\\}\\} 或者 \\{\\{name\\}\\}。" 
+  
+import: 
+    action: 
+        new: 新建
+        convert: 转换
+        ignore: 忽略
+    dialog: 
+        title: 导入对象
+        description_warning: 导入时转换当前对象的功能仍处于试验阶段，可能会导致数据丢失。当前对象版本和导入对象之间有差异时也会导致不可避免的数据丢失。强烈建议在继续前备份数据。
+        message: 
+            imported: 对象已导入
+            incompatible_version: 导出文件已过期，无法在当前康测通平台上使用！      
+    fieldset: 
+        legend.tooltip: 从导出文件中导入新对象
+    form: 
+        field: 
+            file: 文件
+            file.tooltip: 选择导入文件
+            instructions: 指令
+            instructions.tooltip: "导入指令。重命名时，可以插入导入对象名称、编号、所有者用户名、编号等变量，如: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b>。" 
+ 
+export: 
+    dialog: 
+        title: 导出数据
+        error: 
+            empty.content: 导出时请在下方表格中至少选择一个条目。
+        format: 
+            info: 请选择导出文件的格式。压缩格式能够节省磁盘空间和带宽，但是打开过程较困难。文本格式便于查看和编辑，但是生成的文件会占用较多空间。
+            compressed: 压缩
+            plaintext: 文本
+       
+download_list: 
+    dialog: 
+        title: 下载网格
+        tooltip: 选择网格选项
+        field: 
+            format: 格式
+            format.tooltip: 下载文件格式
+            format.csv: CSV 
+            format.pdf: PDF 
+            cols: 列
+            cols.tooltip: 显示列
+            cols.all: 全部
+            cols.visible: 可见
+            rows: 行
+            rows.tooltip: 显示行
+            rows.all: 全部
+            rows.visible: 可见
+            rows.selected: 选中项
+              
+upload_list: 
+    dialog: 
+        title: 上传CSV网格
+        tooltip: 选择CSV网格文件
+        description: 新数据将被添加在现有数据之后。
+        fields: 
+            file: 文件
+            file.tooltip: 选择上传文件
+      
+code: 
+    F11: 全屏模式
+    shift.tab: 格式选择代码
+    ctrl.space: 自动生成
+    documentation: 
+        error.info: 无法加载自动生成数据！
+        error.solve: 解决
