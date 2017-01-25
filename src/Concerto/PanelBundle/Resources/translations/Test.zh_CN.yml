@@ -285,7 +285,6 @@ flow:
         remove_node: 移除节点
         remove_nodes: 移除节点
         reset_to_default: 恢复默认设置
-        toggle_collapse: 折叠/展开未连接端口
         zoom_in: 放大
         zoom_out: 缩小
         maximize: 切换全屏视图

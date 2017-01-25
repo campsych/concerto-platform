@@ -19,7 +19,7 @@ form:
     groups: 群组
     groups.tooltip: 对象所属的逗号分隔群组列表
   button: 
-      import.csv:上传CSV文件
+      import.csv: 上传CSV文件
  
 list:  
   field: 
