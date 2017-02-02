@@ -4,21 +4,22 @@ concerto.template.show = function(
   head="", 
   params=list(),
   timeLimit=0,
-  finalize=F) {
+  finalize=F,
+  removeMissingParams=T) {
     if(!is.list(params)) stop("'params' must be a list!")
   
     if(templateId==-1 && html=="") stop("templateId or html must be declared")
    
     if(html!=""){
-      concerto$session$templateHead <<- concerto.template.insertParams(head,params)
-      concerto$session$templateHtml <<- concerto.template.insertParams(html,params)
+      concerto$session$templateHead <<- concerto.template.insertParams(head,params,removeMissing=removeMissingParams)
+      concerto$session$templateHtml <<- concerto.template.insertParams(html,params,removeMissing=removeMissingParams)
     } else {
       template <- concerto.template.get(templateId)
       if(dim(template)[1]==0) stop(paste("Template #",templateId," not found!",sep=''))
-      concerto$session$templateHead <<- concerto.template.insertParams(template$head,params)
-      concerto$session$templateCss <<- concerto.template.insertParams(template$css,params)
-      concerto$session$templateJs <<- concerto.template.insertParams(template$js,params)
-      concerto$session$templateHtml <<- concerto.template.insertParams(template$html,params)
+      concerto$session$templateHead <<- concerto.template.insertParams(template$head,params,removeMissing=removeMissingParams)
+      concerto$session$templateCss <<- concerto.template.insertParams(template$css,params,removeMissing=removeMissingParams)
+      concerto$session$templateJs <<- concerto.template.insertParams(template$js,params,removeMissing=removeMissingParams)
+      concerto$session$templateHtml <<- concerto.template.insertParams(template$html,params,removeMissing=removeMissingParams)
       concerto$session$template_id <<- template$id
     }
     concerto$session$timeLimit <<- timeLimit

@@ -4,7 +4,6 @@ namespace Concerto\TestBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Service\TestSessionService;
-use Concerto\PanelBundle\Service\FileService;
 
 class TestRunnerService {
 
