@@ -1,5 +1,5 @@
 parameters:
     panel_nodes:
-        - { id: local, protocol: http, ip: 127.0.0.1, host: localhost, dir: /, connection: local, hash: someRandomHash }
+        - { id: local, protocol: http, host: localhost, dir: /, connection: local, hash: someRandomHash }
     test_nodes:
-        - { id: local, protocol: http, ip: 127.0.0.1, host: localhost, dir: /, connection: local, hash: someRandomHash }
+        - { id: local, protocol: http, host: localhost, dir: /, connection: local, hash: someRandomHash }

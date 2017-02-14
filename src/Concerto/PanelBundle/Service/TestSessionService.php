@@ -80,7 +80,7 @@ class TestSessionService {
         $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
         if ($debug || $test_node) {
             $panel_node = $this->getPanelNode();
-            if (($panel_node_sock = $this->createListenerSocket($panel_node["ip"])) === false) {
+            if (($panel_node_sock = $this->createListenerSocket(gethostbyname($panel_node["host"]))) === false) {
                 return false;
             }
             $panel_node_host = "";
@@ -142,7 +142,7 @@ class TestSessionService {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             $panel_node = $this->getPanelNode();
             if ($session !== null) {
-                if (($client_sock = $this->createListenerSocket($panel_node["ip"])) === false) {
+                if (($client_sock = $this->createListenerSocket(gethostbyname($panel_node["host"]))) === false) {
                     return false;
                 }
                 socket_getsockname($client_sock, $panel_node_ip, $panel_node_port);
@@ -353,13 +353,13 @@ class TestSessionService {
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, $test_node["ip"], $test_node_port) === false) {
+        if (socket_connect($sock, gethostbyname($test_node["host"]), $test_node_port) === false) {
             return false;
         }
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_SUBMIT,
-                    "panelNode" => array("ip" => $panel_node["ip"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
+                    "panelNode" => array("host" => $panel_node["host"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
                     "values" => $values
                 )) . "\n");
         socket_close($sock);
@@ -370,24 +370,24 @@ class TestSessionService {
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, $test_node["ip"], $test_node_port) === false) {
+        if (socket_connect($sock, gethostbyname($test_node["host"]), $test_node_port) === false) {
             return false;
         }
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_KEEPALIVE_CHECKIN,
-                    "panelNode" => array("ip" => $panel_node["ip"], "client_ip" => $client_ip)
+                    "panelNode" => array("host" => $panel_node["host"], "client_ip" => $client_ip)
                 )) . "\n");
         socket_close($sock);
     }
 
-    private function createListenerSocket($host) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $host");
+    private function createListenerSocket($ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $ip");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_create() failed: reason: " . socket_strerror(socket_last_error()));
             return false;
         }
-        if (socket_bind($sock, $host) === false) {
+        if (socket_bind($sock, $ip) === false) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_bind() failed: reason: " . socket_strerror(socket_last_error($sock)));
             return false;
         }
