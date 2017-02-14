@@ -39,9 +39,9 @@ class TestSessionControllerTest extends AFunctionalTest {
         $session->setTest(self::$testRepository->find(1));
         $session->setClientIp("192.168.0.100");
         $session->setClientBrowser("Gecko");
-        $session->setRServerNodeId("local");
-        $session->setTestServerNodeId("local");
-        $session->setTestServerNodePort("8888");
+        $session->setTestNodeId("local");
+        $session->setPanelNodeId("local");
+        $session->setPanelNodePort("8888");
         $session->setDebug(false);
         $session->setParams(json_encode(array()));
         $session->setHash(sha1("secret1"));
@@ -57,7 +57,7 @@ class TestSessionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -71,7 +71,7 @@ class TestSessionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -81,12 +81,12 @@ class TestSessionControllerTest extends AFunctionalTest {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
         $client->request("POST", "/TestSession/abc123/submit", array(
-            "r_server_node_hash" => "someHash"
+            "test_node_hash" => "someHash"
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_ERROR
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -100,7 +100,7 @@ class TestSessionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -110,12 +110,12 @@ class TestSessionControllerTest extends AFunctionalTest {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
         $client->request("POST", "/TestSession/abc123/resume", array(
-            "r_server_node_hash" => "someHash"
+            "test_node_hash" => "someHash"
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_ERROR
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -128,12 +128,12 @@ class TestSessionControllerTest extends AFunctionalTest {
         $session = self::$repository->find(1);
 
         $client->request("POST", "/TestSession/" . $session->getHash() . "/resume", array(
-            "r_server_node_hash" => "someHash"
+            "test_node_hash" => "someHash"
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_VIEW_TEMPLATE,
             "results" => $session->getReturns(),
             "timeLimit" => $session->getTimeLimit(),
@@ -161,7 +161,7 @@ class TestSessionControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -172,12 +172,12 @@ class TestSessionControllerTest extends AFunctionalTest {
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
 
         $client->request("POST", "/TestSession/abc123/results", array(
-            "r_server_node_hash" => "someHash"
+            "test_node_hash" => "someHash"
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_ERROR
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -189,12 +189,12 @@ class TestSessionControllerTest extends AFunctionalTest {
 
         $session = self::$repository->find(1);
         $client->request("POST", "/TestSession/" . $session->getHash() . "/results", array(
-            "r_server_node_hash" => "someHash"
+            "test_node_hash" => "someHash"
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $expected = array(
-            "source" => TestSessionService::SOURCE_TEST_SERVER,
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_RESULTS,
             "results" => $session->getReturns(),
             "debug" => ""

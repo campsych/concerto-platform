@@ -2,10 +2,6 @@ concerto_api:
     resource: "@ConcertoAPIBundle/Resources/config/routing.yml"
     prefix:   /
 
-concerto_minimal_remote_test:
-    resource: "@ConcertoMinimalRemoteTestBundle/Resources/config/routing.yml"
-    prefix:   /
-
 concerto_test:
     resource: "@ConcertoTestBundle/Resources/config/routing.yml"
     prefix:   /
@@ -77,6 +73,10 @@ concerto_panel_file_browser:
 concerto_panel_dialog:
     resource: "@ConcertoPanelBundle/Resources/config/Dialog/routing.yml"
     prefix:   /admin/
+    
+concerto_panel_test_runner:
+    resource: "@ConcertoPanelBundle/Resources/config/TestRunner/routing.yml"
+    prefix:   /
 
 remove_trailing_slash:
     path: /{url}

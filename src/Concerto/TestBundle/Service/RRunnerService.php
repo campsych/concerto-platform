@@ -12,21 +12,23 @@ class RRunnerService {
     const OS_LINUX = 1;
 
     private $root;
-    private $nodes;
+    private $panelNodes;
+    private $testNodes;
     private $settings;
     private $doctrine;
     private $logger;
 
-    public function __construct($root, $nodes, $settings, Registry $doctrine, LoggerInterface $logger) {
+    public function __construct($root, $panelNodes, $testNodes, $settings, Registry $doctrine, LoggerInterface $logger) {
         $this->root = $root;
-        $this->nodes = $nodes;
+        $this->panelNodes = $panelNodes;
+        $this->testNodes = $testNodes;
         $this->settings = $settings;
         $this->doctrine = $doctrine;
         $this->logger = $logger;
     }
 
-    private function authenticateNode($node_ip, $node_hash) {
-        foreach ($this->nodes as $node) {
+    private function authenticatePanelNode($node_ip, $node_hash) {
+        foreach ($this->panelNodes as $node) {
             if ($node_hash == $node["hash"]) {
                 return $node;
             }
@@ -34,24 +36,24 @@ class RRunnerService {
         return false;
     }
 
-    private function getRServerNode() {
-        return $this->nodes[0];
+    private function getTestNode() {
+        return $this->testNodes[0];
     }
 
-    public function startR($test_server_node_hash, $test_server_node_port, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip, $debug) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_server_node_hash, $test_server_node_port, $session_hash, $values, $client_ip, $client_browser, $debug");
+    public function startR($panel_node_hash, $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip, $debug) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_hash, $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $debug");
 
-        if ($test_server_node = $this->authenticateNode($calling_node_ip, $test_server_node_hash)) {
-            $test_server_node_connection = $this->getSerializedConnection($test_server_node);
+        if ($panel_node = $this->authenticatePanelNode($calling_node_ip, $panel_node_hash)) {
+            $panel_node_connection = $this->getSerializedConnection($panel_node);
             $client = json_encode(array(
                 "ip" => $client_ip,
                 "browser" => $client_browser
             ));
-            $test_server_node["port"] = $test_server_node_port;
-            $test_server = json_encode($test_server_node);
-            return $this->startProcess($test_server, $test_server_node_connection, $client, $session_hash, $values, $debug);
+            $panel_node["port"] = $panel_node_port;
+            $panel_node = json_encode($panel_node);
+            return $this->startProcess($panel_node, $panel_node_connection, $client, $session_hash, $values, $debug);
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $calling_node_ip / $test_server_node_hash AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $calling_node_ip / $panel_node_hash AUTHENTICATION FAILED!");
         }
     }
 
@@ -123,7 +125,7 @@ class RRunnerService {
             $renviron = "--r_environ=\"" . addcslashes($this->settings["r_environ_path"], "\\") . "\"";
         }
         $decoded_test_server = json_decode($test_server, true);
-        $decoded_r_server_node = $this->getRServerNode();
+        $decoded_r_server_node = $this->getTestNode();
         $r_server_node = json_encode($decoded_r_server_node);
         switch ($this->getOS()) {
             case self::OS_WIN:

@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new Concerto\PanelBundle\ConcertoPanelBundle(),
             new Concerto\TestBundle\ConcertoTestBundle(), 
             new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
-            new Concerto\MinimalRemoteTestBundle\ConcertoMinimalRemoteTestBundle(),
             new Concerto\APIBundle\ConcertoAPIBundle(),
         );
 

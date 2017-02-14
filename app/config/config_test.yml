@@ -3,7 +3,9 @@ imports:
 
 parameters:
     secret: secret
-    nodes:
+    panel_nodes:
+        - { id: local, ip: 192.168.0.1, host: some.domain.com, dir: /, connection: local, hash: someHash }
+    test_nodes:
         - { id: local, ip: 192.168.0.1, host: some.domain.com, dir: /, connection: local, hash: someHash }
 
 framework:

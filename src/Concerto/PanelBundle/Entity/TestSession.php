@@ -22,25 +22,25 @@ class TestSession extends AEntity {
      *
      * @ORM\Column(type="string")
      */
-    private $testServerNodeId;
+    private $panelNodeId;
 
     /**
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $testServerNodePort;
+    private $panelNodePort;
 
     /**
      *
      * @ORM\Column(type="string")
      */
-    private $rServerNodeId;
+    private $testNodeId;
 
     /**
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $rServerNodePort;
+    private $testNodePort;
 
     /**
      *
@@ -176,87 +176,87 @@ class TestSession extends AEntity {
     }
 
     /**
-     * Set test server node id
+     * Set panel node id
      *
-     * @param string $testServerNodeId
+     * @param string $panelNodeId
      * @return TestSession
      */
-    public function setTestServerNodeId($testServerNodeId) {
-        $this->testServerNodeId = $testServerNodeId;
+    public function setPanelNodeId($panelNodeId) {
+        $this->panelNodeId = $panelNodeId;
 
         return $this;
     }
 
     /**
-     * Get test server node if
+     * Get panel node id
      *
      * @return string 
      */
-    public function getTestServerNodeId() {
-        return $this->testServerNodeId;
+    public function getPanelNodeId() {
+        return $this->panelNodeId;
     }
 
     /**
-     * Set test server node port
+     * Set panel node port
      *
-     * @param integer $testServerNodePort
+     * @param integer $panelNodePort
      * @return TestSession
      */
-    public function setTestServerNodePort($testServerNodePort) {
-        $this->testServerNodePort = $testServerNodePort;
+    public function setPanelNodePort($panelNodePort) {
+        $this->panelNodePort = $panelNodePort;
 
         return $this;
     }
 
     /**
-     * Get test server node port
+     * Get panel node port
      *
      * @return integer 
      */
-    public function getTestServerNodePort() {
-        return $this->testServerNodePort;
+    public function getPanelNodePort() {
+        return $this->panelNodePort;
     }
 
     /**
-     * Set R server node id
+     * Set test node id
      *
-     * @param string $rServerNodeId
+     * @param string $testNodeId
      * @return TestSession
      */
-    public function setRServerNodeId($rServerNodeId) {
-        $this->rServerNodeId = $rServerNodeId;
+    public function setTestNodeId($testNodeId) {
+        $this->testNodeId = $testNodeId;
 
         return $this;
     }
 
     /**
-     * Get R server node id
+     * Get test node id
      *
      * @return string 
      */
-    public function getRServerNodeId() {
-        return $this->rServerNodeId;
+    public function getTestNodeId() {
+        return $this->testNodeId;
     }
 
     /**
-     * Set R server node port
+     * Set test node port
      *
-     * @param integer $rServerNodePort
+     * @param integer $testNodePort
      * @return TestSession
      */
-    public function setRServerNodePort($rServerNodePort) {
-        $this->rServerNodePort = $rServerNodePort;
+    public function setTestNodePort($testNodePort) {
+        $this->testNodePort = $testNodePort;
 
         return $this;
     }
 
     /**
-     * Get R server node port
+     * Get test node port
      *
      * @return integer 
      */
-    public function getRServerNodePort() {
-        return $this->rServerNodePort;
+    public function getTestNodePort() {
+        return $this->testNodePort;
     }
 
     /**

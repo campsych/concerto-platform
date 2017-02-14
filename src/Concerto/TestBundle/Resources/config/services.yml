@@ -5,17 +5,10 @@ services:
         class: Concerto\TestBundle\Command\StartProcessCommand
         tags:
             -  { name: console.command }
-    concerto_test.test_runner_service:
-        class: Concerto\TestBundle\Service\TestRunnerService
-        arguments: ["%kernel.environment%","%nodes%","@logger","@concerto_panel.TestSession_service"]
-    concerto_test.test_runner_controller:
-        class: Concerto\TestBundle\Controller\TestRunnerController
-        arguments: ["%kernel.environment%","@templating","@concerto_test.test_runner_service", "@request", "@logger", "%test_runner_settings%"]
-        scope: request
         
     concerto_test.r_runner_service:
         class: Concerto\TestBundle\Service\RRunnerService
-        arguments: ["%kernel.root_dir%","%nodes%","%test_runner_settings%","@doctrine", "@logger"]
+        arguments: ["%kernel.root_dir%","%panel_nodes%","%test_nodes%","%test_runner_settings%","@doctrine", "@logger"]
     concerto_test.r_runner_controller:
         class: Concerto\TestBundle\Controller\RRunnerController
         arguments: ["@templating","@concerto_test.r_runner_service", "@request", "@logger"]

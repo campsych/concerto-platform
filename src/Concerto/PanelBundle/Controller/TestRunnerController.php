@@ -1,8 +1,8 @@
 <?php
 
-namespace Concerto\TestBundle\Controller;
+namespace Concerto\PanelBundle\Controller;
 
-use Concerto\TestBundle\Service\TestRunnerService;
+use Concerto\PanelBundle\Service\TestRunnerService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
@@ -46,7 +46,7 @@ class TestRunnerController {
         $params = json_encode($params);
 
         $browser_valid = $this->testRunnerService->isBrowserValid($this->request->headers->get('User-Agent'));
-        $node = $this->testRunnerService->getNodeById($this->request->get("node_id"));
+        $node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         return $this->templating->renderResponse("ConcertoTestBundle::index.html.twig", array(
                     "directory" => ($node == null ? "/" : $node["dir"]) . ($this->environment === "dev" ? "app_dev.php/" : ""),
                     "test_slug" => $test_slug,

@@ -1,3 +1,0 @@
-concerto_minimal_remote_test_homepage:
-    path:     /remote/{node_id}/{test_slug}/{params}
-    defaults: { _controller: ConcertoMinimalRemoteTestBundle:Default:index, params: "{}" }

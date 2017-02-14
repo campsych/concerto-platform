@@ -34,9 +34,9 @@ class TestSessionController {
         $client_ip = $this->request->get("client_ip");
         $client_browser = $this->request->get("client_browser");
         $calling_node_ip = $this->request->getClientIp();
-        $r_server_node_hash = $this->request->get("r_server_node_hash");
+        $test_node_hash = $this->request->get("test_node_hash");
         
-        $result = $this->service->startNewSession($r_server_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug);
+        $result = $this->service->startNewSession($test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug);
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -61,16 +61,16 @@ class TestSessionController {
         $client_ip = $this->request->get("client_ip");
         $client_browser = $this->request->get("client_browser");
         $calling_node_ip = $this->request->getClientIp();
-        $r_server_node_hash = $this->request->get("r_server_node_hash");
-        return new Response($this->service->submit($r_server_node_hash, $session_hash, $this->request->get("values"), $client_ip, $client_browser, $calling_node_ip));
+        $test_node_hash = $this->request->get("test_node_hash");
+        return new Response($this->service->submit($test_node_hash, $session_hash, $this->request->get("values"), $client_ip, $client_browser, $calling_node_ip));
     }
     
     public function keepAliveAction($session_hash) {
         $client_ip = $this->request->get("client_ip");
         $calling_node_ip = $this->request->getClientIp();
-        $r_server_node_hash = $this->request->get("r_server_node_hash");
+        $test_node_hash = $this->request->get("test_node_hash");
         
-        $result = $this->service->keepAlive($r_server_node_hash, $session_hash, $client_ip, $calling_node_ip);
+        $result = $this->service->keepAlive($test_node_hash, $session_hash, $client_ip, $calling_node_ip);
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -84,9 +84,9 @@ class TestSessionController {
      */
     public function resumeAction($session_hash) {
         $calling_node_ip = $this->request->getClientIp();
-        $r_server_node_hash = $this->request->get("r_server_node_hash");
+        $test_node_hash = $this->request->get("test_node_hash");
         
-        $result = $this->service->resume($r_server_node_hash, $session_hash, $calling_node_ip);
+        $result = $this->service->resume($test_node_hash, $session_hash, $calling_node_ip);
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -100,9 +100,9 @@ class TestSessionController {
      */
     public function resultsAction($session_hash) {
         $calling_node_ip = $this->request->getClientIp();
-        $r_server_node_hash = $this->request->get("r_server_node_hash");
+        $test_node_hash = $this->request->get("test_node_hash");
         
-        $result = $this->service->results($r_server_node_hash, $session_hash, $calling_node_ip);
+        $result = $this->service->results($test_node_hash, $session_hash, $calling_node_ip);
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
         return $response;

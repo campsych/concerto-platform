@@ -13,7 +13,7 @@ use Concerto\PanelBundle\Service\FileService;
 
 class TestSessionService {
 
-    const SOURCE_TEST_SERVER = 0;
+    const SOURCE_PANEL_NODE = 0;
     const SOURCE_PROCESS = 1;
     const RESPONSE_VIEW_TEMPLATE = 0;
     const RESPONSE_FINISHED = 1;
@@ -37,30 +37,32 @@ class TestSessionService {
     private $testRepository;
     private $testSessionLogRepository;
     private $logger;
-    private $nodes;
+    private $panelNodes;
+    private $testNodes;
     private $environment;
     private $secret;
     private $rRunnerService;
     private $fileService;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $nodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService) {
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $testNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService) {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
         $this->testRepository = $testRepository;
         $this->testSessionLogRepository = $testSessionLogRepository;
-        $this->nodes = $nodes;
+        $this->panelNodes = $panelNodes;
+        $this->testNodes = $testNodes;
         $this->secret = $secret;
         $this->logger = $logger;
         $this->rRunnerService = $rRunnerService;
         $this->fileService = $fileService;
     }
 
-    private function getTestServerNode() {
-        return $this->nodes[0];
+    private function getPanelNode() {
+        return $this->panelNodes[0];
     }
 
-    private function authenticateNode($node_ip, $node_hash) {
-        foreach ($this->nodes as $node) {
+    private function authenticateTestNode($node_ip, $node_hash) {
+        foreach ($this->testNodes as $node) {
             if ($node_hash == $node["hash"]) {
                 return $node;
             }
@@ -72,30 +74,30 @@ class TestSessionService {
         return sha1($this->secret . $session_id);
     }
 
-    public function startNewSession($r_server_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug");
+    public function startNewSession($test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug");
 
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
-        if ($debug || $r_server_node) {
-            $test_server_node = $this->getTestServerNode();
-            if (($test_server_node_sock = $this->createListenerSocket($test_server_node["ip"])) === false) {
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
+        if ($debug || $test_node) {
+            $panel_node = $this->getPanelNode();
+            if (($panel_node_sock = $this->createListenerSocket($panel_node["ip"])) === false) {
                 return false;
             }
-            $test_server_node_host = "";
-            $test_server_node_port = 0;
-            socket_getsockname($test_server_node_sock, $test_server_node_host, $test_server_node_port);
+            $panel_node_host = "";
+            $panel_node_port = 0;
+            socket_getsockname($panel_node_sock, $panel_node_host, $panel_node_port);
 
             if ($debug) {
-                $r_server_node = $this->getOptimalRServerNode();
+                $test_node = $this->getTestNode();
             }
 
             $session = new TestSession();
             $session->setTest($this->testRepository->findOneBySlug($test_slug));
             $session->setClientIp($client_ip);
             $session->setClientBrowser($client_browser);
-            $session->setTestServerNodeId($test_server_node["id"]);
-            $session->setTestServerNodePort($test_server_node_port);
-            $session->setRServerNodeId($r_server_node["id"]);
+            $session->setPanelNodeId($panel_node["id"]);
+            $session->setPanelNodePort($panel_node_port);
+            $session->setTestNodeId($test_node["id"]);
             $session->setDebug($debug);
             $session->setParams($this->validateParams($session, $params));
             $this->testSessionRepository->save($session);
@@ -103,14 +105,14 @@ class TestSessionService {
             $this->testSessionRepository->save($session);
             $this->testSessionRepository->clear();
 
-            $this->initiateRServerNode($session->getHash(), $test_server_node, $test_server_node_port, $r_server_node, $client_ip, $client_browser, $debug);
-            $response = $this->startListener($test_server_node_sock);
+            $this->initiateRServerNode($session->getHash(), $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug);
+            $response = $this->startListener($panel_node_sock);
 
             return $this->prepareResponse($session->getHash(), $response);
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $r_server_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $test_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
-                "source" => self::SOURCE_TEST_SERVER,
+                "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
@@ -132,22 +134,22 @@ class TestSessionService {
         return json_encode($result);
     }
 
-    public function submit($r_server_node_hash, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip");
+    public function submit($test_node_hash, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip");
 
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
-        if ($r_server_node) {
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
+        if ($test_node) {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-            $test_server_node = $this->getTestServerNode();
+            $panel_node = $this->getPanelNode();
             if ($session !== null) {
-                if (($client_sock = $this->createListenerSocket($test_server_node["ip"])) === false) {
+                if (($client_sock = $this->createListenerSocket($panel_node["ip"])) === false) {
                     return false;
                 }
-                socket_getsockname($client_sock, $test_server_node_ip, $test_server_node_port);
+                socket_getsockname($client_sock, $panel_node_ip, $panel_node_port);
 
-                $r_server_node_port = $session->getRServerNodePort();
+                $test_node_port = $session->getTestNodePort();
 
-                $session->setTestServerNodePort($test_server_node_port);
+                $session->setPanelNodePort($panel_node_port);
                 $session->setClientIp($client_ip);
                 $session->setClientBrowser($client_browser);
                 $session->setUpdated();
@@ -155,125 +157,125 @@ class TestSessionService {
                 $this->testSessionRepository->clear();
 
                 if ($session->getStatus() === self::STATUS_SERIALIZED) {
-                    $this->initiateRServerNode($session_hash, $test_server_node, $test_server_node_port, $r_server_node, $client_ip, $client_browser, $session->isDebug(), $values);
+                    $this->initiateRServerNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $session->isDebug(), $values);
                 } else {
-                    $this->submitToRServer($r_server_node, $r_server_node_port, $test_server_node, $test_server_node_port, $client_ip, $client_browser, $values);
+                    $this->submitToRServer($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
                 }
                 $response = $this->startListener($client_sock);
                 return $this->prepareResponse($session_hash, $response);
             } else {
                 $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - SESSION $session_hash NOT FOUND!");
                 return json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_ERROR
                 ));
             }
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $r_server_node_hash  $calling_node_ip AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $test_node_hash  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
-                "source" => self::SOURCE_TEST_SERVER,
+                "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
     }
 
-    public function keepAlive($r_server_node_hash, $session_hash, $client_ip, $calling_node_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $client_ip, $calling_node_ip");
+    public function keepAlive($test_node_hash, $session_hash, $client_ip, $calling_node_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $session_hash, $client_ip, $calling_node_ip");
 
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
-        if ($r_server_node) {
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
+        if ($test_node) {
             $this->testSessionRepository->clear();
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-            $test_server_node = $this->getTestServerNode();
+            $panel_node = $this->getPanelNode();
             if ($session !== null) {
-                $r_server_node_port = $session->getRServerNodePort();
+                $test_node_port = $session->getTestNodePort();
 
                 if ($session->getStatus() !== self::STATUS_SERIALIZED) {
-                    $this->keepAliveRServer($r_server_node, $r_server_node_port, $test_server_node, $client_ip);
+                    $this->keepAliveRServer($test_node, $test_node_port, $panel_node, $client_ip);
                 }
                 return $this->prepareResponse($session_hash, json_encode(array(
-                            "source" => self::SOURCE_TEST_SERVER,
+                            "source" => self::SOURCE_PANEL_NODE,
                             "code" => self::RESPONSE_KEEPALIVE_CHECKIN
                 )));
             } else {
                 $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - SESSION $session_hash NOT FOUND!");
                 return json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_ERROR
                 ));
             }
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $r_server_node_hash  $calling_node_ip AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $test_node_hash  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
-                "source" => self::SOURCE_TEST_SERVER,
+                "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
     }
 
-    public function resume($r_server_node_hash, $session_hash, $calling_node_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $calling_node_ip");
+    public function resume($test_node_hash, $session_hash, $calling_node_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $session_hash, $calling_node_ip");
 
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
-        if ($r_server_node) {
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
+        if ($test_node) {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             if ($session !== null) {
                 $response = json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => $session->getStatus() == self::STATUS_FINALIZED ? self::RESPONSE_VIEW_FINAL_TEMPLATE : self::RESPONSE_VIEW_TEMPLATE
                 ));
                 return $this->prepareResponse($session_hash, $response);
             } else {
                 $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - SESSION $session_hash NOT FOUND!");
                 $response = json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_ERROR
                 ));
                 return $response;
             }
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $r_server_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $test_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
-                "source" => self::SOURCE_TEST_SERVER,
+                "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
     }
 
-    public function results($r_server_node_hash, $session_hash, $calling_node_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $calling_node_ip");
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
-        if ($r_server_node) {
+    public function results($test_node_hash, $session_hash, $calling_node_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $session_hash, $calling_node_ip");
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
+        if ($test_node) {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             if ($session !== null) {
                 $response = json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_RESULTS
                 ));
                 return $this->prepareResponse($session_hash, $response);
             } else {
                 $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - SESSION $session_hash NOT FOUND!");
                 $response = json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_ERROR
                 ));
                 return $response;
             }
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $r_server_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $test_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
-                "source" => self::SOURCE_TEST_SERVER,
+                "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
     }
 
-    public function uploadFile($r_server_node_hash, $session_hash, $calling_node_ip, $files, $name) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $calling_node_ip, $name");
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
+    public function uploadFile($test_node_hash, $session_hash, $calling_node_ip, $files, $name) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $session_hash, $calling_node_ip, $name");
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
 
         $response = array();
-        if ($r_server_node) {
+        if ($test_node) {
 
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             if ($session !== null) {
@@ -346,35 +348,35 @@ class TestSessionService {
         return json_encode($decoded_response);
     }
 
-    private function submitToRServer($r_server_node, $r_server_node_port, $test_server_node, $test_server_node_port, $client_ip, $client_browser, $values) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($r_server_node) . ", $r_server_node_port, " . json_encode($test_server_node) . ", $test_server_node_port, $client_ip, $client_browser, $values");
+    private function submitToRServer($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $panel_node_port, $client_ip, $client_browser, $values");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, $r_server_node["ip"], $r_server_node_port) === false) {
+        if (socket_connect($sock, $test_node["ip"], $test_node_port) === false) {
             return false;
         }
         socket_write($sock, json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_SUBMIT,
-                    "testServer" => array("ip" => $test_server_node["ip"], "port" => $test_server_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
+                    "testServer" => array("ip" => $panel_node["ip"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
                     "values" => $values
                 )) . "\n");
         socket_close($sock);
     }
 
-    private function keepAliveRServer($r_server_node, $r_server_node_port, $test_server_node, $client_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($r_server_node) . ", $r_server_node_port, " . json_encode($test_server_node) . ", $client_ip");
+    private function keepAliveRServer($test_node, $test_node_port, $panel_node, $client_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $client_ip");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, $r_server_node["ip"], $r_server_node_port) === false) {
+        if (socket_connect($sock, $test_node["ip"], $test_node_port) === false) {
             return false;
         }
         socket_write($sock, json_encode(array(
-                    "source" => self::SOURCE_TEST_SERVER,
+                    "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_KEEPALIVE_CHECKIN,
-                    "testServer" => array("ip" => $test_server_node["ip"], "client_ip" => $client_ip)
+                    "testServer" => array("ip" => $panel_node["ip"], "client_ip" => $client_ip)
                 )) . "\n");
         socket_close($sock);
     }
@@ -396,23 +398,22 @@ class TestSessionService {
         return $sock;
     }
 
-    private function getOptimalRServerNode() {
-        return $this->nodes[0];
+    private function getTestNode() {
+        return $this->testNodes[0];
     }
 
-    private function initiateRServerNode($session_hash, $test_server_node, $test_server_node_port, $r_server_node, $client_ip, $client_browser, $debug, $values = null) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($test_server_node) . ", " . json_encode($r_server_node) . ", $client_ip, $client_browser, $debug, $values");
+    private function initiateRServerNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
 
-        if ($r_server_node["id"] != "local") {
+        if ($test_node["id"] != "local") {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $r_server_node["protocol"] . "://" . $r_server_node["host"] . $r_server_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
+            curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["host"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "test_server_node_hash=" . urlencode($test_server_node["hash"]) . "&test_server_node_port=" . urlencode($test_server_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
-            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "panel_node_hash=" . urlencode($panel_node["hash"]) . "&test_server_node_port=" . urlencode($panel_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
             curl_exec($ch);
             curl_close($ch);
         } else {
-            $this->rRunnerService->startR($test_server_node["hash"], $test_server_node_port, $session_hash, $values, $client_ip, $client_browser, false, $debug ? 1 : 0);
+            $this->rRunnerService->startR($panel_node["hash"], $panel_node_port, $session_hash, $values, $client_ip, $client_browser, false, $debug ? 1 : 0);
         }
     }
 
@@ -448,13 +449,13 @@ class TestSessionService {
         return $response;
     }
 
-    public function logError($r_server_node_hash, $session_hash, $calling_node_ip, $error, $type) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $r_server_node_hash, $session_hash, $calling_node_ip, $type");
+    public function logError($test_node_hash, $session_hash, $calling_node_ip, $error, $type) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $session_hash, $calling_node_ip, $type");
         $this->logger->info($error);
-        $r_server_node = $this->authenticateNode($calling_node_ip, $r_server_node_hash);
+        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
 
         $response = array();
-        if ($r_server_node) {
+        if ($test_node) {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             if ($session !== null) {
                 $this->saveErrorLog($session, $error, $type);

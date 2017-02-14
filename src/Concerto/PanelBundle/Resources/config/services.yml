@@ -188,7 +188,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestSession_metadata"]
   concerto_panel.TestSession_service:
     class: Concerto\PanelBundle\Service\TestSessionService
-    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service"]
+    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%", "%test_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service"]
     
 #   ImportService
   concerto_panel.import_service:
@@ -207,6 +207,10 @@ services:
 #   Configuration verifier service
   concerto_panel.system_check_service:
     class: Concerto\PanelBundle\Service\SystemCheckService
+    
+  concerto_panel.test_runner_service:
+    class: Concerto\PanelBundle\Service\TestRunnerService
+    arguments: ["%kernel.environment%","%panel_nodes%","%test_nodes%","@logger","@concerto_panel.TestSession_service"]
     
 #   Controllers
   concerto_panel.DataTable_controller:
@@ -276,6 +280,11 @@ services:
   concerto_panel.Dialog_controller:
     class: Concerto\PanelBundle\Controller\DialogController
     arguments: ["@templating","@concerto_panel.panel_service","@request","%kernel.root_dir%"]
+    scope: request
+    
+  concerto_panel.test_runner_controller:
+    class: Concerto\PanelBundle\Controller\TestRunnerController
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.test_runner_service", "@request", "@logger", "%test_runner_settings%"]
     scope: request
     
 #starter content update services

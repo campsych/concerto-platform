@@ -54,9 +54,9 @@ concerto$sessionFile <- paste0(concerto$workingDir,"session.Rs")
 concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
 
-r_server <- fromJSON(commandArgs(TRUE)[2])
-concerto$r_server.host <- r_server$host
-concerto$r_server.port <- r_server$port
+test_node <- fromJSON(commandArgs(TRUE)[2])
+concerto$test_node.host <- test_node$host
+concerto$test_node.port <- test_node$port
 submitter <- fromJSON(commandArgs(TRUE)[3])
 concerto$submitter.host <- submitter$host
 concerto$submitter.port <- submitter$port
