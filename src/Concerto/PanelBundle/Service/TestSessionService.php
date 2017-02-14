@@ -105,7 +105,7 @@ class TestSessionService {
             $this->testSessionRepository->save($session);
             $this->testSessionRepository->clear();
 
-            $this->initiateRServerNode($session->getHash(), $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug);
+            $this->initiateTestNode($session->getHash(), $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug);
             $response = $this->startListener($panel_node_sock);
 
             return $this->prepareResponse($session->getHash(), $response);
@@ -157,9 +157,9 @@ class TestSessionService {
                 $this->testSessionRepository->clear();
 
                 if ($session->getStatus() === self::STATUS_SERIALIZED) {
-                    $this->initiateRServerNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $session->isDebug(), $values);
+                    $this->initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $session->isDebug(), $values);
                 } else {
-                    $this->submitToRServer($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
+                    $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
                 }
                 $response = $this->startListener($client_sock);
                 return $this->prepareResponse($session_hash, $response);
@@ -191,7 +191,7 @@ class TestSessionService {
                 $test_node_port = $session->getTestNodePort();
 
                 if ($session->getStatus() !== self::STATUS_SERIALIZED) {
-                    $this->keepAliveRServer($test_node, $test_node_port, $panel_node, $client_ip);
+                    $this->keepAliveTestNode($test_node, $test_node_port, $panel_node, $client_ip);
                 }
                 return $this->prepareResponse($session_hash, json_encode(array(
                             "source" => self::SOURCE_PANEL_NODE,
@@ -348,7 +348,7 @@ class TestSessionService {
         return json_encode($decoded_response);
     }
 
-    private function submitToRServer($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values) {
+    private function submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $panel_node_port, $client_ip, $client_browser, $values");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
@@ -359,13 +359,13 @@ class TestSessionService {
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_SUBMIT,
-                    "testServer" => array("ip" => $panel_node["ip"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
+                    "panelNode" => array("ip" => $panel_node["ip"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
                     "values" => $values
                 )) . "\n");
         socket_close($sock);
     }
 
-    private function keepAliveRServer($test_node, $test_node_port, $panel_node, $client_ip) {
+    private function keepAliveTestNode($test_node, $test_node_port, $panel_node, $client_ip) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $client_ip");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
@@ -376,7 +376,7 @@ class TestSessionService {
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_KEEPALIVE_CHECKIN,
-                    "testServer" => array("ip" => $panel_node["ip"], "client_ip" => $client_ip)
+                    "panelNode" => array("ip" => $panel_node["ip"], "client_ip" => $client_ip)
                 )) . "\n");
         socket_close($sock);
     }
@@ -402,14 +402,14 @@ class TestSessionService {
         return $this->testNodes[0];
     }
 
-    private function initiateRServerNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
+    private function initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
 
         if ($test_node["id"] != "local") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["host"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "panel_node_hash=" . urlencode($panel_node["hash"]) . "&test_server_node_port=" . urlencode($panel_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "panel_node_hash=" . urlencode($panel_node["hash"]) . "&panel_node_port=" . urlencode($panel_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
             curl_exec($ch);
             curl_close($ch);
         } else {

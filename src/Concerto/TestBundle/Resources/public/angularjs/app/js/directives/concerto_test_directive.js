@@ -26,9 +26,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var RESPONSE_KEEPALIVE_CHECKIN = 10;
             var RESPONSE_UNRESUMABLE = 11;
             var RESPONSE_ERROR = -1;
-            var SOURCE_TEST_SERVER = 0;
+            var SOURCE_PANEL_NODE = 0;
             var SOURCE_PROCESS = 1;
-            var SOURCE_R_SERVER = 2;
+            var SOURCE_TEST_NODE = 2;
             var settings = angular.extend({
                 debug: false,
                 clientDebug: false,
@@ -138,7 +138,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (settings.clientDebug)
                     console.log("start");
                 if (settings.callback != null) {
-                    if (!settings.callback.call(this, {'source': SOURCE_TEST_SERVER, 'code': RESPONSE_STARTING}))
+                    if (!settings.callback.call(this, {'source': SOURCE_PANEL_NODE, 'code': RESPONSE_STARTING}))
                         return;
                 }
                 showLoader();

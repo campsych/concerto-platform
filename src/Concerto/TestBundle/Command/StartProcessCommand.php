@@ -12,9 +12,9 @@ use Symfony\Component\Process\Process;
 
 class StartProcessCommand extends Command {
 
-    const SOURCE_TEST_SERVER = 0;
+    const SOURCE_PANEL_NODE = 0;
     const SOURCE_PROCESS = 1;
-    const SOURCE_R_SERVER = 2;
+    const SOURCE_TEST_NODE = 2;
     const RESPONSE_VIEW_TEMPLATE = 0;
     const RESPONSE_FINISHED = 1;
     const RESPONSE_SUBMIT = 2;
@@ -29,7 +29,7 @@ class StartProcessCommand extends Command {
     const RESPONSE_UNRESUMABLE = 11;
     const RESPONSE_ERROR = -1;
 
-    private $testServer;
+    private $panelNode;
     private $output;
     private $lastProcessTime;   //for max execution timeout
     private $lastClientTime;    //for idle timeout
@@ -54,10 +54,10 @@ class StartProcessCommand extends Command {
         $this->setName("concerto:r:start")->setDescription("Starts new R session.");
         $this->addArgument("rscript_exec_path", InputArgument::REQUIRED, "Rscript executable file path");
         $this->addArgument("ini_path", InputArgument::REQUIRED, "initialization file path");
-        $this->addArgument("r_server", InputArgument::REQUIRED, "R server json serialized data");
-        $this->addArgument("test_server", InputArgument::REQUIRED, "test server json serialized data");
+        $this->addArgument("test_node", InputArgument::REQUIRED, "test node json serialized data");
+        $this->addArgument("panel_node", InputArgument::REQUIRED, "panel node json serialized data");
         $this->addArgument("test_session_id", InputArgument::REQUIRED, "test session id");
-        $this->addArgument("test_server_connection", InputArgument::REQUIRED, "test server connection json serialized data");
+        $this->addArgument("panel_node_connection", InputArgument::REQUIRED, "panel node connection json serialized data");
         $this->addArgument("client", InputArgument::REQUIRED, "client json serialized data");
         $this->addArgument("working_directory", InputArgument::REQUIRED, "session working directory");
         $this->addArgument("public_directory", InputArgument::REQUIRED, "public directory");
@@ -88,12 +88,12 @@ class StartProcessCommand extends Command {
         return $sock;
     }
 
-    private function createTestServerResponseSocket() {
+    private function createPanelNodeResponseSocket() {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__, true);
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, $this->testServer->ip, $this->testServer->port) === false) {
+        if (socket_connect($sock, $this->panelNode->ip, $this->panelNode->port) === false) {
             $this->output->write("socket_connect failed: " . socket_strerror(socket_last_error()), true);
             return false;
         }
@@ -131,8 +131,8 @@ class StartProcessCommand extends Command {
     private function checkExecutionTimeout() {
         if (time() - $this->lastProcessTime > $this->maxExecTime && $this->isWaitingForProcess) {
             $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : execution timeout reached", true);
-            $this->respondToTestServer(json_encode(array(
-                "source" => self::SOURCE_R_SERVER,
+            $this->respondToPanelNode(json_encode(array(
+                "source" => self::SOURCE_TEST_NODE,
                 "code" => self::RESPONSE_ERROR
             )));
             return true;
@@ -146,7 +146,7 @@ class StartProcessCommand extends Command {
             $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : idle timeout reached", true);
             $this->isSerializing = true;
             $this->respondToProcess($submitter_sock, json_encode(array(
-                "source" => self::SOURCE_R_SERVER,
+                "source" => self::SOURCE_TEST_NODE,
                 "code" => self::RESPONSE_SERIALIZE
             )));
             return true;
@@ -160,7 +160,7 @@ class StartProcessCommand extends Command {
             $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : keep alive timeout reached", true);
             $this->isSerializing = true;
             $this->respondToProcess($submitter_sock, json_encode(array(
-                "source" => self::SOURCE_R_SERVER,
+                "source" => self::SOURCE_TEST_NODE,
                 "code" => self::RESPONSE_SERIALIZE
             )));
             return true;
@@ -176,19 +176,19 @@ class StartProcessCommand extends Command {
             case self::SOURCE_PROCESS: {
                     return $this->interpretProcessMessage($message);
                 }
-            case self::SOURCE_TEST_SERVER: {
-                    return $this->interpretTestServerMessage($submitter_sock, $message);
+            case self::SOURCE_PANEL_NODE: {
+                    return $this->interpretPanelNodeMessage($submitter_sock, $message);
                 }
         }
     }
 
-    private function interpretTestServerMessage($submitter_sock, $message) {
+    private function interpretPanelNodeMessage($submitter_sock, $message) {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " - $message", true);
         $msg = json_decode($message);
         switch ($msg->code) {
             case self::RESPONSE_SUBMIT: {
                     $this->isWaitingForProcess = true;
-                    $this->testServer = $msg->testServer;
+                    $this->panelNode = $msg->panelNode;
                     $this->lastClientTime = time();
                     $this->lastKeepAliveTime = time();
                     $this->respondToProcess($submitter_sock, $message);
@@ -208,14 +208,14 @@ class StartProcessCommand extends Command {
         $msg = json_decode($message, true);
         switch ($msg["code"]) {
             case self::RESPONSE_VIEW_TEMPLATE: {
-                    $this->respondToTestServer($message);
+                    $this->respondToPanelNode($message);
                     return false;
                 }
             case self::RESPONSE_UNRESUMABLE:
             case self::RESPONSE_ERROR:
             case self::RESPONSE_FINISHED:
             case self::RESPONSE_VIEW_FINAL_TEMPLATE: {
-                    $this->respondToTestServer($message);
+                    $this->respondToPanelNode($message);
                     return true;
                 }
             case self::RESPONSE_SERIALIZATION_FINISHED: {
@@ -238,13 +238,13 @@ class StartProcessCommand extends Command {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : submitter ended", true);
     }
 
-    private function respondToTestServer($response) {
+    private function respondToPanelNode($response) {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__, true);
         if ($this->isDebug) {
             $response = $this->appendDebugDataToResponse($response);
         }
         $this->output->write($response, true);
-        $resp_sock = $this->createTestServerResponseSocket();
+        $resp_sock = $this->createPanelNodeResponseSocket();
         socket_write($resp_sock, $response . "\n");
         socket_close($resp_sock);
     }
@@ -269,13 +269,13 @@ class StartProcessCommand extends Command {
         }
     }
 
-    private function getCommand($rscript_exec, $ini_path, $test_server_connection, $r_server, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
+    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
         switch ($this->getOS()) {
             case RRunnerService::OS_LINUX:
                 return $rscript_exec . " --no-save --no-restore --quiet "
                         . "'$ini_path' "
-                        . "'$test_server_connection' "
-                        . "'$r_server' "
+                        . "'$panel_node_connection' "
+                        . "'$test_node' "
                         . "'$submitter' "
                         . "'$client' "
                         . "$test_session_id "
@@ -293,8 +293,8 @@ class StartProcessCommand extends Command {
                 $client = str_replace(")", "^)", $client);
                 $cmd = "\"$rscript_exec\" --no-save --no-restore --quiet "
                         . "\"" . addcslashes($ini_path, '\\') . "\" "
-                        . "\"" . addcslashes($test_server_connection, '"\\') . "\" "
-                        . "\"" . addcslashes($r_server, '"\\') . "\" "
+                        . "\"" . addcslashes($panel_node_connection, '"\\') . "\" "
+                        . "\"" . addcslashes($test_node, '"\\') . "\" "
                         . "\"" . addcslashes($submitter, '"\\') . "\" "
                         . "\"" . addcslashes($client, '"\\') . "\" "
                         . "$test_session_id "
@@ -321,9 +321,9 @@ class StartProcessCommand extends Command {
         $this->output = $output;
         $this->output->write(__CLASS__ . ":" . __FUNCTION__, true);
         $rscript_exec = $input->getArgument("rscript_exec_path");
-        $test_server = $input->getArgument("test_server");
-        $this->testServer = json_decode($test_server);
-        $test_server_connection = $input->getArgument("test_server_connection");
+        $panel_node = $input->getArgument("panel_node");
+        $this->panelNode = json_decode($panel_node);
+        $panel_node_connection = $input->getArgument("panel_node_connection");
         $client = $input->getArgument("client");
         $ini_path = $input->getArgument("ini_path");
         $test_session_id = $input->getArgument("test_session_id");
@@ -343,20 +343,20 @@ class StartProcessCommand extends Command {
         $this->keepAliveToleranceTime = $input->getArgument("keep_alive_tolerance_time");
         $this->rEnviron = $input->getOption("r_environ");
 
-        $r_server = $input->getArgument("r_server");
-        $decoded_r_server = json_decode($r_server, true);
+        $test_node = $input->getArgument("test_node");
+        $decoded_test_node = json_decode($test_node, true);
 
-        $r_server_sock = $this->createListenerSocket($decoded_r_server["ip"]);
-        socket_getsockname($r_server_sock, $r_server_ip, $r_server_port);
-        $decoded_r_server = json_decode($r_server, true);
-        $decoded_r_server["port"] = $r_server_port;
-        $r_server = json_encode($decoded_r_server);
+        $test_node_sock = $this->createListenerSocket($decoded_test_node["ip"]);
+        socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
+        $decoded_test_node = json_decode($test_node, true);
+        $decoded_test_node["port"] = $test_node_port;
+        $test_node = json_encode($decoded_test_node);
 
-        $submitter_sock = $this->createListenerSocket($r_server_ip);
+        $submitter_sock = $this->createListenerSocket($test_node_ip);
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
-        $cmd = $this->getCommand($rscript_exec, $ini_path, $test_server_connection, $r_server, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values);
+        $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values);
         $this->output->write($cmd, true);
 
         $process = new Process($cmd);
@@ -367,9 +367,9 @@ class StartProcessCommand extends Command {
         }
         $process->start();
         $this->isWaitingForProcess = true;
-        $this->startListener($r_server_sock, $submitter_sock);
+        $this->startListener($test_node_sock, $submitter_sock);
         socket_close($submitter_sock);
-        socket_close($r_server_sock);
+        socket_close($test_node_sock);
     }
 
 }

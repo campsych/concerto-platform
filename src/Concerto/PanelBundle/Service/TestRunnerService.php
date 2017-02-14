@@ -143,8 +143,8 @@ class TestRunnerService {
         }
     }
 
-    private function getTestNode($test_server_node) {
-        return $test_server_node;
+    private function getTestNode($test_node) {
+        return $test_node;
     }
 
     public function getPanelNodeById($node_id) {
