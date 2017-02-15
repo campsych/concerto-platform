@@ -27,23 +27,9 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if (!$panel_node["local"]) {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/Test/$test_slug/start/" . urlencode($params);
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node URL : " . $url);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "test_node_hash=" . urlencode($test_node["hash"]) . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            return $response;
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $params, $client_ip, $client_browser, false, false);
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
-            return $response;
-        }
+        $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $params, $client_ip, $client_browser, false, false);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
     }
 
     public function submitToSession($session_hash, $node_id, $values, $client_ip, $client_browser) {
@@ -53,22 +39,9 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if (!$panel_node["local"]) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/submit");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "test_node_hash=" . urlencode($test_node["hash"]) . "&values=" . urlencode($values) . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            return $response;
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->submit($test_node["hash"], $session_hash, $values, $client_ip, $client_browser, false);
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
-            return $response;
-        }
+        $response = $this->sessionService->submit($test_node["hash"], $session_hash, $values, $client_ip, $client_browser, false);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
     }
 
     public function keepAliveSession($session_hash, $node_id, $client_ip) {
@@ -77,22 +50,9 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if (!$panel_node["local"]) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/keepalive");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "test_node_hash=" . urlencode($test_node["hash"]) . "&client_ip=" . urlencode($client_ip));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            return $response;
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->keepAlive($test_node["hash"], $session_hash, $client_ip, false);
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
-            return $response;
-        }
+        $response = $this->sessionService->keepAlive($test_node["hash"], $session_hash, $client_ip, false);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
     }
 
     public function resumeSession($session_hash, $node_id) {
@@ -101,22 +61,9 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if (!$panel_node["local"]) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/resume");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "test_node_hash=" . urlencode($test_node["hash"]));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            return $response;
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->resume($test_node["hash"], $session_hash, false);
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
-            return $response;
-        }
+        $response = $this->sessionService->resume($test_node["hash"], $session_hash, false);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
     }
 
     public function resultsFromSession($session_hash, $node_id) {
@@ -125,22 +72,9 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if (!$panel_node["local"]) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/results");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "test_node_hash=" . urlencode($test_node["hash"]));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            return $response;
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->results($test_node["hash"], $session_hash, false);
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
-            return $response;
-        }
+        $response = $this->sessionService->results($test_node["hash"], $session_hash, false);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
     }
 
     private function getTestNode($test_node) {
@@ -190,20 +124,7 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        $response = array();
-        if (!$panel_node["local"]) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/log");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "node_id=" . urlencode($node_id) . "&error=" . urlencode($error));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->logError($test_node["hash"], $session_hash, false, $error, $type);
-        }
+        $response = $this->sessionService->logError($test_node["hash"], $session_hash, false, $error, $type);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
