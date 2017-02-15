@@ -78,7 +78,7 @@ class StartProcessCommand extends Command {
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_bind($sock, $ip) === false) {
+        if (socket_bind($sock, "0.0.0.0") === false) {
             return false;
         }
         if (socket_listen($sock, SOMAXCONN) === false) {

@@ -68,7 +68,7 @@ class TestRunnerController {
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
-        if ($panel_node["local"]) {
+        if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->startNewSession(
                     $test_slug, $this->request->get("node_id"), $params, $this->request->getClientIp(), $this->request->server->get('HTTP_USER_AGENT')
             );
@@ -87,7 +87,7 @@ class TestRunnerController {
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
-        if ($panel_node["local"]) {
+        if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->submitToSession(
                     $session_hash, $this->request->get("node_id"), $this->request->get("values"), $this->request->getClientIp(), $this->request->server->get('HTTP_USER_AGENT')
             );
@@ -106,7 +106,7 @@ class TestRunnerController {
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
-        if ($panel_node["local"]) {
+        if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->keepAliveSession(
                     $session_hash, $this->request->get("node_id"), $this->request->getClientIp()
             );
@@ -125,7 +125,7 @@ class TestRunnerController {
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
-        if ($panel_node["local"]) {
+        if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->resumeSession(
                     $session_hash, $this->request->get("node_id")
             );
@@ -144,7 +144,7 @@ class TestRunnerController {
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
-        if ($panel_node["local"]) {
+        if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->resultsFromSession(
                     $session_hash, $this->request->get("node_id")
             );
@@ -176,7 +176,7 @@ class TestRunnerController {
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
-        if ($panel_node["local"]) {
+        if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->logError(
                     $session_hash, //
                     $this->request->get("node_id"), //

@@ -77,8 +77,8 @@ class TestRunnerService {
         return $response;
     }
 
-    private function getTestNode($test_node) {
-        return $test_node;
+    private function getTestNode($panel_node) {
+        return $this->testNodes[0];
     }
 
     public function getPanelNodeById($node_id) {
@@ -105,7 +105,7 @@ class TestRunnerService {
         $test_node = $this->getTestNode($panel_node);
 
         $response = array();
-        if (!$panel_node["local"]) {
+        if ($panel_node["local"] != "true") {
             //TODO
             $response = array("result" => -2);
         } else {

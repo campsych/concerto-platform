@@ -59,7 +59,7 @@ class TestSessionService {
 
     private function getLocalPanelNode() {
         foreach($this->panelNodes as $node){
-            if($node["local"]) return $node;
+            if($node["local"] == "true") return $node;
         }
         return $this->panelNodes[0];
     }
@@ -390,7 +390,7 @@ class TestSessionService {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_create() failed: reason: " . socket_strerror(socket_last_error()));
             return false;
         }
-        if (socket_bind($sock, $ip) === false) {
+        if (socket_bind($sock, "0.0.0.0") === false) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_bind() failed: reason: " . socket_strerror(socket_last_error($sock)));
             return false;
         }
@@ -408,7 +408,7 @@ class TestSessionService {
     private function initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
 
-        if (!$test_node["local"]) {
+        if ($test_node["local"] != "true") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["host"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);
