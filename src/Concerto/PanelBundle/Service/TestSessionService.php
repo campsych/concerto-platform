@@ -57,11 +57,14 @@ class TestSessionService {
         $this->fileService = $fileService;
     }
 
-    private function getPanelNode() {
+    private function getLocalPanelNode() {
+        foreach($this->panelNodes as $node){
+            if($node["local"]) return $node;
+        }
         return $this->panelNodes[0];
     }
 
-    private function authenticateTestNode($node_ip, $node_hash) {
+    private function authenticateTestNode($calling_node_ip, $node_hash) {
         foreach ($this->testNodes as $node) {
             if ($node_hash == $node["hash"]) {
                 return $node;
@@ -79,7 +82,7 @@ class TestSessionService {
 
         $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
         if ($debug || $test_node) {
-            $panel_node = $this->getPanelNode();
+            $panel_node = $this->getLocalPanelNode();
             if (($panel_node_sock = $this->createListenerSocket(gethostbyname($panel_node["host"]))) === false) {
                 return false;
             }
@@ -140,7 +143,7 @@ class TestSessionService {
         $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
         if ($test_node) {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-            $panel_node = $this->getPanelNode();
+            $panel_node = $this->getLocalPanelNode();
             if ($session !== null) {
                 if (($client_sock = $this->createListenerSocket(gethostbyname($panel_node["host"]))) === false) {
                     return false;
@@ -186,7 +189,7 @@ class TestSessionService {
         if ($test_node) {
             $this->testSessionRepository->clear();
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-            $panel_node = $this->getPanelNode();
+            $panel_node = $this->getLocalPanelNode();
             if ($session !== null) {
                 $test_node_port = $session->getTestNodePort();
 
@@ -405,7 +408,7 @@ class TestSessionService {
     private function initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
 
-        if ($test_node["id"] != "local") {
+        if (!$test_node["local"]) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["host"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);

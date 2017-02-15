@@ -27,7 +27,7 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/Test/$test_slug/start/" . urlencode($params);
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node URL : " . $url);
             $ch = curl_init();
@@ -53,7 +53,7 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/submit");
@@ -77,7 +77,7 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/keepalive");
@@ -101,7 +101,7 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/resume");
@@ -125,7 +125,7 @@ class TestRunnerService {
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->getTestNode($panel_node);
 
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/results");
@@ -171,7 +171,7 @@ class TestRunnerService {
         $test_node = $this->getTestNode($panel_node);
 
         $response = array();
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             //TODO
             $response = array("result" => -2);
         } else {
@@ -191,7 +191,7 @@ class TestRunnerService {
         $test_node = $this->getTestNode($panel_node);
 
         $response = array();
-        if ($panel_node["id"] != "local") {
+        if (!$panel_node["local"]) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - remote node");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/log");
