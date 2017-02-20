@@ -75,7 +75,7 @@ class TestRunnerController {
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/Test/$test_slug/start/" . urlencode($params);
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/Test/$test_slug/start/" . urlencode($params);
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -94,7 +94,7 @@ class TestRunnerController {
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/submit";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/submit";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -113,7 +113,7 @@ class TestRunnerController {
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/keepalive";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/keepalive";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -132,7 +132,7 @@ class TestRunnerController {
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/resume";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/resume";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -151,7 +151,7 @@ class TestRunnerController {
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/results";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/results";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -186,7 +186,7 @@ class TestRunnerController {
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["host"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/log";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/log";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }

@@ -58,8 +58,9 @@ class TestSessionService {
     }
 
     private function getLocalPanelNode() {
-        foreach($this->panelNodes as $node){
-            if($node["local"] == "true") return $node;
+        foreach ($this->panelNodes as $node) {
+            if ($node["local"] == "true")
+                return $node;
         }
         return $this->panelNodes[0];
     }
@@ -83,7 +84,7 @@ class TestSessionService {
         $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
         if ($debug || $test_node) {
             $panel_node = $this->getLocalPanelNode();
-            if (($panel_node_sock = $this->createListenerSocket(gethostbyname($panel_node["host"]))) === false) {
+            if (($panel_node_sock = $this->createListenerSocket(gethostbyname($panel_node["sock_host"]))) === false) {
                 return false;
             }
             $panel_node_host = "";
@@ -145,7 +146,7 @@ class TestSessionService {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             $panel_node = $this->getLocalPanelNode();
             if ($session !== null) {
-                if (($client_sock = $this->createListenerSocket(gethostbyname($panel_node["host"]))) === false) {
+                if (($client_sock = $this->createListenerSocket(gethostbyname($panel_node["sock_host"]))) === false) {
                     return false;
                 }
                 socket_getsockname($client_sock, $panel_node_ip, $panel_node_port);
@@ -356,13 +357,13 @@ class TestSessionService {
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, gethostbyname($test_node["host"]), $test_node_port) === false) {
+        if (socket_connect($sock, gethostbyname($test_node["sock_host"]), $test_node_port) === false) {
             return false;
         }
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_SUBMIT,
-                    "panelNode" => array("host" => $panel_node["host"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
+                    "panelNode" => array("sock_host" => $panel_node["sock_host"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
                     "values" => $values
                 )) . "\n");
         socket_close($sock);
@@ -373,13 +374,13 @@ class TestSessionService {
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, gethostbyname($test_node["host"]), $test_node_port) === false) {
+        if (socket_connect($sock, gethostbyname($test_node["sock_host"]), $test_node_port) === false) {
             return false;
         }
         socket_write($sock, json_encode(array(
                     "source" => self::SOURCE_PANEL_NODE,
                     "code" => self::RESPONSE_KEEPALIVE_CHECKIN,
-                    "panelNode" => array("host" => $panel_node["host"], "client_ip" => $client_ip)
+                    "panelNode" => array("sock_host" => $panel_node["sock_host"], "client_ip" => $client_ip)
                 )) . "\n");
         socket_close($sock);
     }
@@ -410,7 +411,7 @@ class TestSessionService {
 
         if ($test_node["local"] != "true") {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["host"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
+            curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["web_host"] . ":" . $test_node["web_port"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, "panel_node_hash=" . urlencode($panel_node["hash"]) . "&panel_node_port=" . urlencode($panel_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
             curl_exec($ch);

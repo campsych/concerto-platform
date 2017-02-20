@@ -55,7 +55,7 @@ concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
 
 test_node <- fromJSON(commandArgs(TRUE)[2])
-concerto$test_node.host <- test_node$host
+concerto$test_node.host <- test_node$sock_host
 concerto$test_node.port <- test_node$port
 submitter <- fromJSON(commandArgs(TRUE)[3])
 concerto$submitter.host <- submitter$host

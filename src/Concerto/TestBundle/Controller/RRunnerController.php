@@ -28,7 +28,16 @@ class RRunnerController {
         $client_ip = $this->request->get("client_ip");
         $client_browser = $this->request->get("client_browser");
         $calling_node_ip = $this->request->getClientIp();
-        return new Response($this->rRunnerService->startR($this->request->get("panel_node_hash"), $this->request->get("panel_node_port"), $session_hash, $this->request->get("values"), $client_ip, $client_browser, $calling_node_ip, $this->request->get("debug")));
+        return new Response($this->rRunnerService->startR(
+                        $this->request->get("panel_node_hash"), //
+                        $this->request->get("panel_node_port"), //
+                        $session_hash, //
+                        $this->request->get("values"), //
+                        $client_ip, //
+                        $client_browser, // 
+                        $calling_node_ip, //
+                        $this->request->get("debug") //
+        ));
     }
 
 }

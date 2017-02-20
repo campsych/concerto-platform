@@ -93,7 +93,7 @@ class StartProcessCommand extends Command {
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
-        if (socket_connect($sock, gethostbyname($this->panelNode->host), $this->panelNode->port) === false) {
+        if (socket_connect($sock, gethostbyname($this->panelNode->sock_host), $this->panelNode->port) === false) {
             $this->output->write("socket_connect failed: " . socket_strerror(socket_last_error()), true);
             return false;
         }
@@ -346,7 +346,7 @@ class StartProcessCommand extends Command {
         $test_node = $input->getArgument("test_node");
         $decoded_test_node = json_decode($test_node, true);
 
-        $test_node_sock = $this->createListenerSocket(gethostbyname($decoded_test_node["host"]));
+        $test_node_sock = $this->createListenerSocket(gethostbyname($decoded_test_node["sock_host"]));
         socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
         $decoded_test_node = json_decode($test_node, true);
         $decoded_test_node["port"] = $test_node_port;
