@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.184",
+    "version": "5.0.beta.2.187",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -13,7 +13,7 @@
             "css": "",
             "js": "testRunner.controllerProvider.register(\"feedbackTrait\", function($scope) {\n  $scope.feedback = {{feedback}};\n});",
             "html": "<div ng-controller=\"feedbackTrait\">\n  <div ng-repeat=\"trait in feedback\">\n    <div class=\"feedbackTraitLabel\" ng-bind-html=\"trait.label\">&nbsp;<\/div>\n\n    <div class=\"feedbackTraitDescription\" ng-bind-html=\"trait.description\">&nbsp;<\/div>\n\n    <div class=\"feedbackTraitFeedback\" ng-bind-html=\"trait.feedback\">&nbsp;<\/div>\n  <\/div>\n<\/div>\n",
-            "updatedOn": "2017-01-19 16:57:32",
+            "updatedOn": "2017-02-21 16:02:33",
             "updatedByName": "",
             "owner": 1,
             "groups": "",

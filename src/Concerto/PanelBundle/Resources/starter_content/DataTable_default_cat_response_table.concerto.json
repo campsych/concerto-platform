@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.184",
+    "version": "5.0.beta.2.187",
     "collection": [
         {
             "class_name": "DataTable",
@@ -56,7 +56,7 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-01-19 16:57:35",
+            "updatedOn": "2017-02-21 16:02:37",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -128,6 +128,28 @@
                     "correct": "0",
                     "theta": "-0.451107421304214",
                     "sem": "0.735200963790284",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "7",
+                    "item_id": "1",
+                    "response": "ax",
+                    "time_taken": "5.202",
+                    "session_id": "i2",
+                    "correct": "0",
+                    "theta": "-1.30227214877584",
+                    "sem": "0.811657559651115",
+                    "data_set_id": ""
+                },
+                {
+                    "id": "8",
+                    "item_id": "3",
+                    "response": "zxc",
+                    "time_taken": "1.206",
+                    "session_id": "i2",
+                    "correct": "0",
+                    "theta": "-1.30633679884805",
+                    "sem": "0.808390237378004",
                     "data_set_id": ""
                 }
             ]
