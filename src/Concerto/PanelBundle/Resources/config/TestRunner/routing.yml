@@ -11,6 +11,11 @@ test_runner_session_start:
     defaults: { _controller: concerto_panel.test_runner_controller:startNewSessionAction, params: "{}" }
     methods:  [POST]
     
+test_runner_session_start_debug:
+    path: /admin/test/{test_slug}/session/start/debug/{params}
+    defaults: { _controller: concerto_panel.test_runner_controller:startNewDebugSessionAction, params: "{}" }
+    methods:  [POST]
+    
 test_runner_session_submit:
     path: /test/session/{session_hash}/submit
     defaults: { _controller: concerto_panel.test_runner_controller:submitToSessionAction }

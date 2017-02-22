@@ -71,7 +71,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
                         node_id: settings.nodeId,
                         error: e.toString()
-                    })
+                    });
                     console.error(e);
                 }
 
@@ -144,7 +144,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 showLoader();
                 var path = "";
                 if (settings.debug) {
-                    path = settings.directory + "admin/TestSession/Test/" + settings.testId + "/debug/start/" + encodeURIComponent(settings.params);
+                    path = settings.directory + "admin/test/" + settings.testId + "/session/start/debug/" + encodeURIComponent(settings.params);
                 } else {
                     path = settings.directory + "test/" + settings.testId + "/session/start/" + encodeURIComponent(settings.params);
                 }

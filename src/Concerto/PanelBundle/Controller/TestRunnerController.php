@@ -47,11 +47,11 @@ class TestRunnerController {
         $params = json_encode($params);
 
         $browser_valid = $this->testRunnerService->isBrowserValid($this->request->headers->get('User-Agent'));
-        $node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
+        $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         return $this->templating->renderResponse("ConcertoTestBundle::index.html.twig", array(
-                    "directory" => $node["dir"] . ($this->environment === "dev" ? "app_dev.php/" : ""),
+                    "directory" => $panel_node["dir"] . ($this->environment === "dev" ? "app_dev.php/" : ""),
                     "test_slug" => $test_slug,
-                    "node_id" => $node["id"],
+                    "node_id" => $panel_node["id"],
                     "params" => addcslashes($params, "'"),
                     "keep_alive_interval" => $this->settings["keep_alive_interval_time"],
                     "debug" => $debug,
@@ -63,23 +63,38 @@ class TestRunnerController {
         return $this->startNewTestAction($test_slug, $params, true);
     }
 
-    public function startNewSessionAction($test_slug, $params = "{}") {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $params");
+    public function startNewSessionAction($test_slug, $params = "{}", $debug = false) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $params, $debug");
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
         if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->startNewSession(
-                    $test_slug, $this->request->get("node_id"), $params, $this->request->getClientIp(), $this->request->server->get('HTTP_USER_AGENT')
+                    $test_slug, //
+                    $this->request->get("node_id"), //
+                    $params, //
+                    $this->request->getClientIp(), //
+                    $this->request->server->get('HTTP_USER_AGENT'), //
+                    $debug //
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/Test/$test_slug/start/" . urlencode($params);
+            if ($debug) {
+                //$url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "admin/test/$test_slug/session/start/debug/" . urlencode($params);
+                return new Response("", 403);
+            }
+
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/$test_slug/session/start/" . urlencode($params);
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
         return $response;
+    }
+
+    public function startNewDebugSessionAction($test_slug, $params = "{}") {
+        return $this->startNewSessionAction($test_slug, $params, true);
     }
 
     public function submitToSessionAction($session_hash) {
@@ -89,12 +104,17 @@ class TestRunnerController {
         $response = null;
         if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->submitToSession(
-                    $session_hash, $this->request->get("node_id"), $this->request->get("values"), $this->request->getClientIp(), $this->request->server->get('HTTP_USER_AGENT')
+                    $session_hash, //
+                    $this->request->get("node_id"), //
+                    $this->request->get("values"), //
+                    $this->request->getClientIp(), //
+                    $this->request->server->get('HTTP_USER_AGENT') //
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/submit";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/submit";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -112,8 +132,9 @@ class TestRunnerController {
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/keepalive";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/keepalive";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -131,8 +152,9 @@ class TestRunnerController {
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/resume";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/resume";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -150,8 +172,9 @@ class TestRunnerController {
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/results";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/results";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -160,14 +183,24 @@ class TestRunnerController {
 
     public function uploadFileAction($session_hash) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
-        $result = $this->testRunnerService->uploadFile(
-                $session_hash, //
-                $this->request->get("node_id"), //
-                $this->request->files, //
-                $this->request->get("name")
-        );
-        $response = new Response($result);
-        $response->headers->set('Content-Type', 'application/json');
+
+        $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
+        $response = null;
+        if ($panel_node["local"] == "true") {
+            $result = $this->testRunnerService->uploadFile(
+                    $session_hash, //
+                    $this->request->get("node_id"), //
+                    $this->request->files, //
+                    $this->request->get("name")
+            );
+            $response = new Response($result);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+        } else {
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/upload";
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
+            $response = new RedirectResponse($url, 307);
+        }
         return $response;
     }
 
@@ -185,8 +218,9 @@ class TestRunnerController {
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":".$panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "TestSession/$session_hash/log";
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/log";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }

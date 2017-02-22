@@ -21,13 +21,13 @@ class TestRunnerService {
         $this->sessionService = $sessionService;
     }
 
-    public function startNewSession($test_slug, $node_id, $params, $client_ip, $client_browser) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $node_id, $params, $client_ip, $client_browser");
+    public function startNewSession($test_slug, $node_id, $params, $client_ip, $client_browser, $debug) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $node_id, $params, $client_ip, $client_browser, $debug");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
+        $test_node = $this->getOptimalTestNode($panel_node);
 
-        $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $params, $client_ip, $client_browser, false, false);
+        $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $params, $client_ip, $client_browser, false, $debug);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
     }
@@ -37,9 +37,8 @@ class TestRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $values, $client_ip, $client_browser");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
 
-        $response = $this->sessionService->submit($test_node["hash"], $session_hash, $values, $client_ip, $client_browser, false);
+        $response = $this->sessionService->submit($session_hash, $values, $client_ip, $client_browser, false);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
     }
@@ -48,9 +47,8 @@ class TestRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $client_ip");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
 
-        $response = $this->sessionService->keepAlive($test_node["hash"], $session_hash, $client_ip, false);
+        $response = $this->sessionService->keepAlive($session_hash, $client_ip, false);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
     }
@@ -59,9 +57,8 @@ class TestRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
 
-        $response = $this->sessionService->resume($test_node["hash"], $session_hash, false);
+        $response = $this->sessionService->resume($session_hash, false);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
     }
@@ -70,14 +67,13 @@ class TestRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
 
-        $response = $this->sessionService->results($test_node["hash"], $session_hash, false);
+        $response = $this->sessionService->results($session_hash, false);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
     }
 
-    private function getTestNode($panel_node) {
+    private function getOptimalTestNode($panel_node) {
         return $this->testNodes[0];
     }
 
@@ -102,16 +98,9 @@ class TestRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $name");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
 
-        $response = array();
-        if ($panel_node["local"] != "true") {
-            //TODO
-            $response = array("result" => -2);
-        } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - local node");
-            $response = $this->sessionService->uploadFile($test_node["hash"], $session_hash, false, $files, $name);
-        }
+        $response = $this->sessionService->uploadFile($session_hash, false, $files, $name);
+        
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
@@ -122,9 +111,8 @@ class TestRunnerService {
         $this->logger->info($error);
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getTestNode($panel_node);
 
-        $response = $this->sessionService->logError($test_node["hash"], $session_hash, false, $error, $type);
+        $response = $this->sessionService->logError($session_hash, false, $error, $type);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
