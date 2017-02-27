@@ -44,4 +44,4 @@ test_runner_log_error:
 test_runner_upload_file:
     path: /test/session/{session_hash}/upload
     defaults: { _controller: concerto_panel.test_runner_controller:uploadFileAction }
-    methods:  [POST]
+    methods:  [POST,OPTIONS]

@@ -198,4 +198,25 @@ class RRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": process initiation finished");
     }
 
+    public function getUploadDirectory() {
+        return dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'PanelBundle' . DIRECTORY_SEPARATOR . ($this->environment === "test" ? ("Tests" . DIRECTORY_SEPARATOR) : "") . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR;
+    }
+
+    public function uploadFile($session_hash, $calling_node_ip, $files, $name) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $calling_node_ip, $name");
+
+        $response = array("result" => -1);
+        foreach ($files as $file) {
+            $upload_path = $this->getUploadDirectory() . $file->getClientOriginalName() . ".upload";
+            $upload_result = move_uploaded_file($file->getRealPath(), $upload_path);
+            if ($upload_result)
+                $response = array("result" => 0, "file_path" => $this->getUploadDirectory() . $file->getClientOriginalName() . ".upload", "name" => $name);
+            else {
+                $response = array("result" => -1);
+                break;
+            }
+        }
+        return json_encode($response);
+    }
+
 }

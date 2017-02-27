@@ -333,7 +333,7 @@ class TestSessionService {
                 "code" => self::RESPONSE_AUTHENTICATION_FAILED
             ));
         }
-        
+
         $response = array("result" => -1);
         foreach ($files as $file) {
             $upload_result = $this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName() . ".upload");
@@ -456,12 +456,26 @@ class TestSessionService {
         return null;
     }
 
+    public function getTestNodeBySessionHash($hash) {
+        $node_id = null;
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $hash));
+        if ($session) {
+            $node_id = $session->getTestNodeId();
+        }
+        return $this->getTestNodeById($node_id);
+    }
+
     private function initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
 
         if ($test_node["local"] != "true") {
+            $web_host = $test_node["web_host"];
+            if (array_key_exists("internal_web_host", $test_node)) {
+                $web_host = $test_node["internal_web_host"];
+            }
+
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://" . $test_node["web_host"] . ":" . $test_node["web_port"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
+            curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://$web_host:" . $test_node["web_port"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, "panel_node_hash=" . urlencode($panel_node["hash"]) . "&panel_node_port=" . urlencode($panel_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
             curl_exec($ch);

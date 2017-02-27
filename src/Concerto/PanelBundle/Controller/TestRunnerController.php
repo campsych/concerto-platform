@@ -187,15 +187,21 @@ class TestRunnerController {
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
         if ($panel_node["local"] == "true") {
-            $result = $this->testRunnerService->uploadFile(
-                    $session_hash, //
-                    $this->request->get("node_id"), //
-                    $this->request->files, //
-                    $this->request->get("name")
-            );
-            $response = new Response($result);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $test_node = $this->testRunnerService->sessionService->getTestNodeBySessionHash($session_hash);
+            if ($test_node["local"] == "true") {
+                $result = $this->testRunnerService->uploadFile(
+                        $session_hash, //
+                        $this->request->files, //
+                        $this->request->get("name")
+                );
+                $response = new Response($result);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->headers->set('Access-Control-Allow-Origin', '*');
+            } else {
+                $url = $test_node["protocol"] . "://" . $test_node["web_host"] . ":" . $test_node["web_port"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/r/session/$session_hash/upload";
+                $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
+                $response = new RedirectResponse($url, 307);
+            }
         } else {
             $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/upload";
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);

@@ -40,4 +40,18 @@ class RRunnerController {
         ));
     }
 
+    public function uploadFileAction($session_hash) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
+
+        $result = $this->rRunnerService->uploadFile(
+                $session_hash, //
+                $this->request->getClientIp(), //
+                $this->request->files, //
+                $this->request->get("name")
+        );
+        $response = new Response($result);
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
+    }
 }
