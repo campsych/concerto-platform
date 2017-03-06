@@ -1,10 +1,6 @@
 parameters:
-#    concerto_panel.example.class: Concerto\PanelBundle\Example
 
 services:
-#    concerto_panel.example:
-#        class: %concerto_panel.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
   concerto_panel.locale_subscriber:
     class: Concerto\PanelBundle\EventSubscriber\LocaleSubscriber
     arguments: ["%kernel.default_locale%"]
@@ -18,7 +14,7 @@ services:
             
 #   DataTable
   concerto_panel.DataTable_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\DataTable"]
   concerto_panel.DataTable_repository:
     class: Concerto\PanelBundle\Repository\DataTableRepository
@@ -52,7 +48,7 @@ services:
     
 #   Test
   concerto_panel.Test_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\Test"]
   concerto_panel.Test_repository:
     class: Concerto\PanelBundle\Repository\TestRepository
@@ -63,7 +59,7 @@ services:
     
 #   TestNode
   concerto_panel.TestNode_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestNode"]
   concerto_panel.TestNode_repository:
     class: Concerto\PanelBundle\Repository\TestNodeRepository
@@ -74,7 +70,7 @@ services:
     
 #   TestNodePort
   concerto_panel.TestNodePort_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestNodePort"]
   concerto_panel.TestNodePort_repository:
     class: Concerto\PanelBundle\Repository\TestNodePortRepository
@@ -85,7 +81,7 @@ services:
     
 #   TestNodeConnection
   concerto_panel.TestNodeConnection_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestNodeConnection"]
   concerto_panel.TestNodeConnection_repository:
     class: Concerto\PanelBundle\Repository\TestNodeConnectionRepository
@@ -96,7 +92,7 @@ services:
     
 #   TestWizard
   concerto_panel.TestWizard_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestWizard"]
   concerto_panel.TestWizard_repository:
     class: Concerto\PanelBundle\Repository\TestWizardRepository
@@ -107,7 +103,7 @@ services:
     
 #   TestWizardStep
   concerto_panel.TestWizardStep_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestWizardStep"]
   concerto_panel.TestWizardStep_repository:
     class: Concerto\PanelBundle\Repository\TestWizardStepRepository
@@ -118,7 +114,7 @@ services:
     
 #   TestWizardParam
   concerto_panel.TestWizardParam_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestWizardParam"]
   concerto_panel.TestWizardParam_repository:
     class: Concerto\PanelBundle\Repository\TestWizardParamRepository
@@ -129,7 +125,7 @@ services:
     
 #   TestSessionLog
   concerto_panel.TestSessionLog_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestSessionLog"]
   concerto_panel.TestSessionLog_repository:
     class: Concerto\PanelBundle\Repository\TestSessionLogRepository
@@ -140,7 +136,7 @@ services:
     
 #   TestVariable
   concerto_panel.TestVariable_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestVariable"]
   concerto_panel.TestVariable_repository:
     class: Concerto\PanelBundle\Repository\TestVariableRepository
@@ -151,7 +147,7 @@ services:
  
 #   Role
   concerto_panel.Role_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\Role"]
   concerto_panel.Role_repository:
     class: Concerto\PanelBundle\Repository\RoleRepository
@@ -159,7 +155,7 @@ services:
     
 #   User
   concerto_panel.User_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\User"]
   concerto_panel.User_repository:
     class: Concerto\PanelBundle\Repository\UserRepository
@@ -170,7 +166,7 @@ services:
     
 #   ViewTemplate
   concerto_panel.ViewTemplate_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\ViewTemplate"]
   concerto_panel.ViewTemplate_repository:
     class: Concerto\PanelBundle\Repository\ViewTemplateRepository
@@ -181,7 +177,7 @@ services:
     
 #   TestSession
   concerto_panel.TestSession_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetaData
+    class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\TestSession"]
   concerto_panel.TestSession_repository:
     class: Concerto\PanelBundle\Repository\TestSessionRepository

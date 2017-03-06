@@ -23,6 +23,17 @@ endif %}'">
                         </div>
                     </uib-tab>
                 {% endif %}
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_WIZARD')) %}
+                    <uib-tab ng-click="setTab('wizards')" index="5" ng-init="setFirstActiveTab(5, 'wizards')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.wizards.tooltip"|trans }}'">{{ "tab.wizards"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="TestWizardController">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewTestWizard" class="center"></div>
+                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"TestWizard"}) }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
                 {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TEMPLATE')) %}
                     <uib-tab ng-click="setTab('templates')" index="1" ng-init="setFirstActiveTab(1, 'templates')">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.templates.tooltip"|trans }}'">{{ "tab.templates"|trans }}</uib-tab-heading>
@@ -64,17 +75,6 @@ endif %}'">
                             <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewUser" class="center"></div>
                             {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"User"}) }}
-                        </div>
-                    </uib-tab>
-                {% endif %}
-                {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_WIZARD')) %}
-                    <uib-tab ng-click="setTab('wizards')" index="5" ng-init="setFirstActiveTab(5, 'wizards')">
-                        <uib-tab-heading uib-tooltip-html="'{{ "tab.wizards.tooltip"|trans }}'">{{ "tab.wizards"|trans }}</uib-tab-heading>
-
-                        <div ng-controller="TestWizardController">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
-                            <div ui-view="tabViewTestWizard" class="center"></div>
-                            {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"TestWizard"}) }}
                         </div>
                     </uib-tab>
                 {% endif %}

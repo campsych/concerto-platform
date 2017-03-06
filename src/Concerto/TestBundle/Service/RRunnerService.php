@@ -81,7 +81,7 @@ class RRunnerService {
     }
 
     //TODO proper OS detection
-    private function getOS() {
+    public function getOS() {
         if (strpos(strtolower(PHP_OS), "win") !== false) {
             return self::OS_WIN;
         } else {
@@ -89,7 +89,7 @@ class RRunnerService {
         }
     }
 
-    private function getIniFilePath() {
+    public function getIniFilePath() {
         return $this->root . "/../src/Concerto/TestBundle/Resources/R/initialization.R";
     }
 
