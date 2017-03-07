@@ -172,6 +172,16 @@ concertoPanel.config(function ($interpolateProvider) {
                     label: '#{{object.id}}: {{object.name}}',
                     parent: 'wizards'
                 }
+            })
+            .state('administration', {
+                url: '/administration',
+                views: {
+                    "tabViewAdministration": {
+                    }
+                },
+                ncyBreadcrumb: {
+                    label: Trans.ADMINISTRATION_BREADCRUMB
+                }
             });
 });
 

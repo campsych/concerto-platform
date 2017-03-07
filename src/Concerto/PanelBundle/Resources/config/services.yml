@@ -186,6 +186,17 @@ services:
     class: Concerto\PanelBundle\Service\TestSessionService
     arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%", "%test_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service"]
     
+# AdministrationSetting
+  concerto_panel.AdministrationSetting_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments: ["Concerto\\PanelBundle\\Entity\\AdministrationSetting"]
+  concerto_panel.AdministrationSetting_repository:
+    class: Concerto\PanelBundle\Repository\AdministrationSettingRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.AdministrationSetting_metadata"]
+  concerto_panel.Administration_service:
+    class: Concerto\PanelBundle\Service\AdministrationService
+    arguments: ["@concerto_panel.AdministrationSetting_repository","@security.authorization_checker","%administration%"]
+    
 #   ImportService
   concerto_panel.import_service:
       class: Concerto\PanelBundle\Service\ImportService
@@ -277,7 +288,10 @@ services:
     class: Concerto\PanelBundle\Controller\DialogController
     arguments: ["@templating","@concerto_panel.panel_service","@request","%kernel.root_dir%"]
     scope: request
-    
+  concerto_panel.Administration_controller:
+    class: Concerto\PanelBundle\Controller\AdministrationController
+    arguments: ["@templating","@concerto_panel.Administration_service","@request"]
+    scope: request
   concerto_panel.test_runner_controller:
     class: Concerto\PanelBundle\Controller\TestRunnerController
     arguments: ["%kernel.environment%","@templating","@concerto_panel.test_runner_service", "@request", "@logger", "%test_runner_settings%"]

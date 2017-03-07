@@ -78,6 +78,17 @@ endif %}'">
                         </div>
                     </uib-tab>
                 {% endif %}
+                {% if app.user and (is_granted('ROLE_SUPER_ADMIN')) %}
+                    <uib-tab ng-click="setTab('administration')" index="6" ng-init="setFirstActiveTab(6, 'administration')">
+                        <uib-tab-heading uib-tooltip-html="'{{ "tab.administration.tooltip"|trans }}'">{{ "tab.administration"|trans }}</uib-tab-heading>
+
+                        <div ng-controller="AdministrationController" id="administration-tab">
+                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div ui-view="tabViewAdministration" class="center"></div>
+                            {{ include("ConcertoPanelBundle:Administration:form.html.twig") }}
+                        </div>
+                    </uib-tab>
+                {% endif %}
             </uib-tabset>
 
             <div ng-if="RDocumentation.html && RDocumentation.active" class="codemirrorRDocsWindow">

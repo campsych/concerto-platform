@@ -10,6 +10,7 @@ parameters:
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml } 
+    - { resource: parameters_administration.yml }
     - { resource: parameters_nodes.yml }
     - { resource: parameters_test_runner.yml }
     - { resource: parameters_uio.yml }

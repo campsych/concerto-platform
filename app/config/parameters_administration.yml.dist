@@ -1,0 +1,6 @@
+parameters:
+    administration:
+        session_limit: 0 #0 for none
+        session_limit_overridable: true
+        api_enabled: true
+        api_enabled_overridable: true

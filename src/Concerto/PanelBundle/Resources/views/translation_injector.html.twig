@@ -137,6 +137,9 @@
     Paths.TEST_RUNNER_START = "{{ path("test_runner_start",{"test_slug":"{0}"}) }}";
 
     Paths.DIALOG_TEMPLATE_ROOT = "{{ path("Dialog_root") }}";
+    
+    Paths.ADMINISTRATION_SETTINGS_MAP = "{{ path("AdministrationSetting_map") }}";
+    Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE = "{{ path("AdministrationSetting_map_update") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -392,4 +395,7 @@
         Trans.FILE_BROWSER_BREADCRUMB_MANAGER = "{{ "breadcrumb.manager"|trans }}";
         Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE = "{{ "uploader.alerts.upload_failed.title"|trans }}";
         Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE = "{{ "uploader.alerts.upload_failed.message"|trans }}";
+        
+    {% trans_default_domain "Administration" %}
+        Trans.ADMINISTRATION_BREADCRUMB = "{{ "breadcrumb"|trans }}";
 </script>

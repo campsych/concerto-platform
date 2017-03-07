@@ -35,7 +35,8 @@
         "ng-context-menu-concerto": "1.0.x",
         "jquery-mousewheel": "3.1.x",
         "pdfmake": "0.1.x",
-        "csv-js": "1.1.x"
+        "csv-js": "1.1.x",
+        "angular-chart.js": "1.1.x"
     },
     "resolutions": {
         "angular": "1.5.5",

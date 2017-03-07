@@ -1,9 +1,6 @@
-function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploader, $http, $state, $filter) {
+function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploader, $http) {
     $scope.tabStateName = "files";
     $scope.tabIndex = 3;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state);
-    $scope.exportable = false;
-    $scope.reloadOnModification = true;
 
     $scope.delete_url = Paths.FILE_UPLOAD_DELETE;
     $scope.list_url = Paths.FILE_UPLOAD_LIST;
@@ -97,12 +94,18 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
         $scope.showErrorAlert();
     };
 
+    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name === $scope.tabStateName) {
+            $scope.tab.activeIndex = $scope.tabIndex;
+        }
+    });
+
     // Workaround for issue with files not showing up after reopening popup from CKEditor.
     $timeout(function () {
         $scope.loadFiles();
     }, 100);
 
-    var controller = $scope.controller = {
+    $scope.controller = {
         isImage: function (name, type) {
             if (type)
                 return (/(gif|jpg|jpeg|tiff|png|bmp)$/i).test(name);
@@ -112,5 +115,4 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
     };
 }
 
-FileBrowserController.prototype = Object.create(BaseController.prototype);
-concertoPanel.controller('FileBrowserController', ["$scope", "$uibModal", "$window", "$timeout", "FileUploader", "$http", "$state", "$filter", FileBrowserController]);
+concertoPanel.controller('FileBrowserController', ["$scope", "$uibModal", "$window", "$timeout", "FileUploader", "$http", FileBrowserController]);

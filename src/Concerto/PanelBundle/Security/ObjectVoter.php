@@ -17,6 +17,7 @@ class ObjectVoter extends AbstractVoter {
 
     protected function getSupportedClasses() {
         return array(
+            'Concerto\PanelBundle\Entity\AdministrationSetting',
             'Concerto\PanelBundle\Entity\DataTable',
             'Concerto\PanelBundle\Entity\Test',
             'Concerto\PanelBundle\Entity\TestNode',
@@ -42,7 +43,7 @@ class ObjectVoter extends AbstractVoter {
                 if ($user->hasRoleName(User::ROLE_SUPER_ADMIN)) {
                     return true;
                 }
-                 //public
+                //public
                 if ($obj->getAccessibility() == ATopEntity::ACCESS_PUBLIC) {
                     return true;
                 }

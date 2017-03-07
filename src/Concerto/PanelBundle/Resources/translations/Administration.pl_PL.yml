@@ -1,0 +1,13 @@
+breadcrumb: Administracja
+form:
+    title: Ustawienia
+    settings:
+        session_limit: Limit sesji
+        session_limit.tooltip: Maksymalna dostępna liczba równoczesnych sesji testów.
+        api_enabled: API włączone
+        api_enabled.tooltip: Włącz API
+        
+usage_charts:
+    fieldset:
+        legend: Wykresy użycia
+        legend.tooltip: Wykresy użycia

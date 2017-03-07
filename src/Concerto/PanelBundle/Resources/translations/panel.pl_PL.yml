@@ -15,6 +15,8 @@ tab:
   users.tooltip: To jest okno z użytkownikami
   files: Pliki
   files.tooltip: Okno z menadżerem plików
+  administration: Administracja
+  administration.tooltip: To jest okno administracyjne
   
 list:
   accessibility:

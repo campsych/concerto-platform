@@ -77,6 +77,10 @@ concerto_panel_dialog:
 concerto_panel_test_runner:
     resource: "@ConcertoPanelBundle/Resources/config/TestRunner/routing.yml"
     prefix:   /
+    
+concerto_panel_administration:
+    resource: "@ConcertoPanelBundle/Resources/config/Administration/routing.yml"
+    prefix:   /admin/
 
 remove_trailing_slash:
     path: /{url}
