@@ -12,4 +12,15 @@ class SessionCountRepository extends EntityRepository {
         $this->getEntityManager()->flush();
     }
 
+    public function findByFilter($filter) {
+        $qb = $this->createQueryBuilder('sc');
+        if (array_key_exists("min", $filter)) {
+            $qb = $qb->where("sc.created >= :min")->setParameter("min", $filter["min"]);
+        }
+        if (array_key_exists("max", $filter)) {
+            $qb = $qb->where("sc.created <= :max")->setParameter("max", $filter["max"]);
+        }
+        return $qb->getQuery()->getResult();
+    }
+
 }

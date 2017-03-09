@@ -6,3 +6,7 @@ AdministrationSetting_map_update:
     path: /AdministrationSetting/map/update
     defaults: { _controller: concerto_panel.Administration_controller:updateSettingsMapAction}
     methods:  [POST]
+    
+Administration_session_count_collection:
+    path: /Administration/SessionCount/{filter}/collection
+    defaults: { _controller: concerto_panel.Administration_controller:sessionCountCollectionAction, filter: "{}"}

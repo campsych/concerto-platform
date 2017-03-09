@@ -85,9 +85,8 @@ class SessionCount implements \JsonSerializable {
 
     public function jsonSerialize() {
         $serialized = array(
-            "id" => $this->id,
-            "created" => $this->created->format("Y-m-d H:i:s"),
-            "count" => $this->count
+            "x" => $this->created->getTimestamp(),
+            "y" => $this->count
         );
         return $serialized;
     }

@@ -290,7 +290,7 @@ services:
     scope: request
   concerto_panel.Administration_controller:
     class: Concerto\PanelBundle\Controller\AdministrationController
-    arguments: ["@templating","@concerto_panel.Administration_service","@request"]
+    arguments: ["@templating","@concerto_panel.Administration_service","@concerto_test.SessionCount_service","@request"]
     scope: request
   concerto_panel.test_runner_controller:
     class: Concerto\PanelBundle\Controller\TestRunnerController
