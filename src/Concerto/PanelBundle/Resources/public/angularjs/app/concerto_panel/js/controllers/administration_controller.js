@@ -33,6 +33,11 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
 
     $scope.chart = {
         data: [[]],
+        datasets: [
+            {
+                lineTension: 0
+            }
+        ],
         options: {
             scales: {
                 xAxes: [{

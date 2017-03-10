@@ -3,11 +3,11 @@
 namespace Concerto\TestBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Concerto\TestBundle\Entity\SessionCount;
+use Concerto\TestBundle\Entity\TestSessionCount;
 
-class SessionCountRepository extends EntityRepository {
+class TestSessionCountRepository extends EntityRepository {
 
-    public function save(SessionCount $entity) {
+    public function save(TestSessionCount $entity) {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
@@ -21,6 +21,10 @@ class SessionCountRepository extends EntityRepository {
             $qb = $qb->where("sc.created <= :max")->setParameter("max", $filter["max"]);
         }
         return $qb->getQuery()->getResult();
+    }
+
+    public function findLast() {
+        return $this->findOneBy(array(), array('id' => 'DESC'));
     }
 
 }

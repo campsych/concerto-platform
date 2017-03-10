@@ -7,19 +7,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Concerto\TestBundle\Service\RRunnerService;
-use Concerto\TestBundle\Entity\SessionCount;
-use Concerto\TestBundle\Service\SessionCountService;
+use Concerto\TestBundle\Entity\TestSessionCount;
+use Concerto\TestBundle\Service\TestSessionCountService;
 
 class LogSessionCountCommand extends Command {
 
-    private $rRunnerService;
     private $sessionCountService;
 
-    public function __construct(RRunnerService $rRunnerService, SessionCountService $sessionCountService) {
+    public function __construct(TestSessionCountService $sessionCountService) {
         parent::__construct();
-        
-        $this->rRunnerService = $rRunnerService;
+
         $this->sessionCountService = $sessionCountService;
     }
 
@@ -28,16 +25,7 @@ class LogSessionCountCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $os = $this->rRunnerService->getOS();
-        if ($os !== RRunnerService::OS_LINUX)
-            return;
-
-        $count = system("ps -F -C R | grep '" . $this->rRunnerService->getIniFilePath() . "' | wc -l", $retVal);
-        if ($retVal === 0) {
-            $sc = new SessionCount();
-            $sc->setCount($count);
-            $this->sessionCountService->save($sc);
-        }
+        $this->sessionCountService->updateCountRecord();
     }
 
 }

@@ -7,9 +7,9 @@ use DateTime;
 
 /**
  * @ORM\Table
- * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestRepository") 
+ * @ORM\Entity(repositoryClass="Concerto\TestBundle\Repository\TestSessionCountRepository") 
  */
-class SessionCount implements \JsonSerializable {
+class TestSessionCount implements \JsonSerializable {
 
     /**
      * @var integer

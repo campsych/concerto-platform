@@ -5,7 +5,7 @@ namespace Concerto\PanelBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
-use Concerto\TestBundle\Service\SessionCountService;
+use Concerto\TestBundle\Service\TestSessionCountService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -21,7 +21,7 @@ class AdministrationController {
     private $service;
     private $sessionCountService;
 
-    public function __construct(EngineInterface $templating, AdministrationService $service, SessionCountService $sessionCountService, Request $request) {
+    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, Request $request) {
         $this->templating = $templating;
         $this->service = $service;
         $this->sessionCountService = $sessionCountService;

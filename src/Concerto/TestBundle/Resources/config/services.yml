@@ -1,20 +1,15 @@
 parameters:
 
-services:
-    concerto_test.command.start_process_command:
-        class: Concerto\TestBundle\Command\StartProcessCommand
-        tags:
-            -  { name: console.command }
-            
-    concerto_test.SessionCount_metadata:
+services:        
+    concerto_test.TestSessionCount_metadata:
         class: Doctrine\ORM\Mapping\ClassMetadata
-        arguments: ["Concerto\\TestBundle\\Entity\\SessionCount"]
-    concerto_test.SessionCount_repository:
-        class: Concerto\TestBundle\Repository\SessionCountRepository
-        arguments: ["@doctrine.orm.entity_manager","@concerto_test.SessionCount_metadata"]
-    concerto_test.SessionCount_service:
-        class: Concerto\TestBundle\Service\SessionCountService
-        arguments: ["@concerto_test.SessionCount_repository"]
+        arguments: ["Concerto\\TestBundle\\Entity\\TestSessionCount"]
+    concerto_test.TestSessionCount_repository:
+        class: Concerto\TestBundle\Repository\TestSessionCountRepository
+        arguments: ["@doctrine.orm.entity_manager","@concerto_test.TestSessionCount_metadata"]
+    concerto_test.TestSessionCount_service:
+        class: Concerto\TestBundle\Service\TestSessionCountService
+        arguments: ["@concerto_test.TestSessionCount_repository","@concerto_test.r_runner_service"]
         
     concerto_test.r_runner_service:
         class: Concerto\TestBundle\Service\RRunnerService
@@ -26,6 +21,11 @@ services:
         
     concerto_test.command.log_session_count_command:
         class: Concerto\TestBundle\Command\LogSessionCountCommand
-        arguments: ["@concerto_test.r_runner_service","@concerto_test.SessionCount_service"]
+        arguments: ["@concerto_test.TestSessionCount_service"]
+        tags:
+            -  { name: console.command }
+    concerto_test.command.start_process_command:
+        class: Concerto\TestBundle\Command\StartProcessCommand
+        arguments: ["@concerto_test.TestSessionCount_service"]
         tags:
             -  { name: console.command }
