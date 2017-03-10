@@ -4,6 +4,7 @@ namespace Concerto\TestBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Concerto\TestBundle\Entity\TestSessionCount;
+use DateTime;
 
 class TestSessionCountRepository extends EntityRepository {
 
@@ -15,16 +16,24 @@ class TestSessionCountRepository extends EntityRepository {
     public function findByFilter($filter) {
         $qb = $this->createQueryBuilder('sc');
         if (array_key_exists("min", $filter)) {
-            $qb = $qb->where("sc.created >= :min")->setParameter("min", $filter["min"]);
+            $min = new DateTime();
+            $min->setTimestamp((int) $filter["min"]);
+            $qb = $qb->where("sc.created >= :min")->setParameter("min", $min);
         }
         if (array_key_exists("max", $filter)) {
-            $qb = $qb->where("sc.created <= :max")->setParameter("max", $filter["max"]);
+            $max = new DateTime();
+            $max->setTimestamp((int) $filter["max"]);
+            $qb = $qb->andWhere("sc.created <= :max")->setParameter("max", $max);
         }
         return $qb->getQuery()->getResult();
     }
 
     public function findLast() {
         return $this->findOneBy(array(), array('id' => 'DESC'));
+    }
+
+    public function clear() {
+        return $this->getEntityManager()->createQueryBuilder()->delete("Concerto\TestBundle\Entity\TestSessionCount", "sc")->getQuery()->execute();
     }
 
 }

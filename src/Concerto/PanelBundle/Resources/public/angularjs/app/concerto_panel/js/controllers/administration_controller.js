@@ -31,7 +31,19 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     };
 
+    $scope.formatTimestamp = function (timestamp) {
+        var d = new Date(timestamp * 1000);
+        var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" +
+                d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+        return datestring;
+    };
+
     $scope.chart = {
+        filter: {
+            id: 1,
+            minDate: new Date(),
+            maxDate: new Date()
+        },
         data: [[]],
         datasets: [
             {
@@ -45,10 +57,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                         position: 'bottom',
                         ticks: {
                             callback: function (value) {
-                                var d = new Date(value * 1000);
-                                var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" +
-                                        d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-                                return datestring;
+                                return $scope.formatTimestamp(value);
                             }
                         }
                     }]
@@ -56,20 +65,68 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             tooltips: {
                 callbacks: {
                     title: function (tooltipItem, data) {
-                        var d = new Date(tooltipItem[0].xLabel * 1000);
-                        var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" +
-                                d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-                        return datestring;
+                        return $scope.formatTimestamp(tooltipItem[0].xLabel);
                     }
                 }
             }
         }
     };
+    $scope.usageChartFilters = [
+        {
+            id: 1,
+            label: Trans.ADMINISTRATION_USAGE_DATA_FILTER_TODAY
+        }, {
+            id: 2,
+            label: Trans.ADMINISTRATION_USAGE_DATA_FILTER_SPECIFIC_DATE
+        }, {
+            id: 3,
+            label: Trans.ADMINISTRATION_USAGE_DATA_FILTER_DATE_RANGE
+        }
+    ];
     $scope.refreshUsageChart = function () {
-        SessionCountCollectionService.fetchObjectCollection({}, function () {
+        var filter = {};
+        switch ($scope.chart.filter.id) {
+            case 2:
+            {
+                filter.min = Math.round($scope.chart.filter.minDate.getTime() / 1000) - 86399;
+                filter.max = filter.min + 86399;
+                break;
+            }
+            case 3:
+            {
+                filter.min = Math.round($scope.chart.filter.minDate.getTime() / 1000) - 86399;
+                filter.max = Math.round($scope.chart.filter.maxDate.getTime() / 1000);
+                break;
+            }
+        }
+
+        SessionCountCollectionService.fetchObjectCollection(filter, function () {
             $scope.chart.data[0] = SessionCountCollectionService.collection;
         });
     };
+
+    $scope.clearUsageDate = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.ADMINISTRATION_DIALOG_TITLE_CLEAR;
+                },
+                content: function () {
+                    return Trans.ADMINISTRATION_DIALOG_CONFIRM_CLEAR;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post(Paths.ADMINISTRATION_SESSION_COUNT_CLEAR, {}).then(function () {
+                $scope.refreshUsageChart();
+            });
+        }, function () {
+        });
+    }
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name === $scope.tabStateName) {

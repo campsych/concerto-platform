@@ -11,3 +11,18 @@ usage_charts:
     fieldset:
         legend: Usage charts
         legend.tooltip: Usage charts
+    buttons: 
+        refresh: Refresh
+        clear: Clear data
+    dialog:
+        title:
+            clear: Clearing usage data
+        confirm:
+            clear: Are you sure you want to clear usage data?
+    filter:
+        today: Today
+        specific_date: Specific date
+        date_range: Date range
+        
+alerts:
+    no_usage_data: There is no usage data available currently.

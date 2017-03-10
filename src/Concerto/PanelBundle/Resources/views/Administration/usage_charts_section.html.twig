@@ -1,2 +1,19 @@
-<canvas class="chart chart-line" chart-data="chart.data" chart-options="chart.options" chart-dataset-override="chart.datasets">
+{% trans_default_domain "Administration" %}
+
+<div class="center">
+    <table class="padded">
+        <tr>
+            <td class="padded"><select ng-model="chart.filter.id" ng-options="f.id as f.label for f in usageChartFilters" class='form-control'></select></td>
+            <td class="padded" ng-show="chart.filter.id > 1"><input type="date" ng-model="chart.filter.minDate" class='form-control' ng-model-options='{ updateOn: "blur" }' /></td>
+            <td class="padded" ng-show="chart.filter.id == 3"><input type="date" ng-model="chart.filter.maxDate" class='form-control' ng-model-options='{ updateOn: "blur" }' /></td>
+            <td><button ng-click="refreshUsageChart();" class="btn btn-default btn-sm btn-list-refresh">{{ "usage_charts.buttons.refresh"|trans }}</button></td>
+            <td><button ng-click="clearUsageDate();" class="btn btn-danger btn-sm">{{ "usage_charts.buttons.clear"|trans }}</button></td>
+        </tr>
+    </table>
+</div>
+<uib-alert type="warning" ng-if="chart.data[0].length == 0">
+    <i class="glyphicon glyphicon-exclamation-sign"></i>
+    {{ 'alerts.no_usage_data'|trans }}
+</uib-alert>
+<canvas class="chart chart-line" chart-data="chart.data" chart-options="chart.options" chart-dataset-override="chart.datasets" ng-if="chart.data[0].length > 0">
 </canvas>

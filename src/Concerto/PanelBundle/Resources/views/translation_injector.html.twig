@@ -141,6 +141,7 @@
     Paths.ADMINISTRATION_SETTINGS_MAP = "{{ path("AdministrationSetting_map") }}";
     Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE = "{{ path("AdministrationSetting_map_update") }}";
     Paths.ADMINISTRATION_SESSION_COUNT_COLLECTION = "{{ path("Administration_session_count_collection", {'filter':"{0}"}) }}";
+    Paths.ADMINISTRATION_SESSION_COUNT_CLEAR = "{{ path("AdministrationSetting_session_count_clear") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -399,4 +400,9 @@
 
     {% trans_default_domain "Administration" %}
         Trans.ADMINISTRATION_BREADCRUMB = "{{ "breadcrumb"|trans }}";
+        Trans.ADMINISTRATION_DIALOG_TITLE_CLEAR = "{{ "usage_charts.dialog.title.clear"|trans }}";
+        Trans.ADMINISTRATION_DIALOG_CONFIRM_CLEAR = "{{ "usage_charts.dialog.confirm.clear"|trans }}";
+        Trans.ADMINISTRATION_USAGE_DATA_FILTER_TODAY = "{{ "usage_charts.filter.today"|trans }}";
+        Trans.ADMINISTRATION_USAGE_DATA_FILTER_SPECIFIC_DATE = "{{ "usage_charts.filter.specific_date"|trans }}";
+        Trans.ADMINISTRATION_USAGE_DATA_FILTER_DATE_RANGE = "{{ "usage_charts.filter.date_range"|trans }}";
 </script>

@@ -255,3 +255,7 @@ ul.breadcrumb li {
 .code-mirror-info {
     font-size: 0.8em;
 }
+
+.padded {
+    padding: 5px;
+}

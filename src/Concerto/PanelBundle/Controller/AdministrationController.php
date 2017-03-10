@@ -49,4 +49,12 @@ class AdministrationController {
         ));
     }
 
+    public function clearSessionCountAction() {
+        $this->sessionCountService->clear();
+        $result = array("result" => 0);
+        $response = new Response(json_encode($result));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

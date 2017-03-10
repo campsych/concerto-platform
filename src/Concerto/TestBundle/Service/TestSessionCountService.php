@@ -58,4 +58,8 @@ class TestSessionCountService {
         }
     }
 
+    public function clear() {
+        $this->sessionCountRepo->clear();
+    }
+
 }

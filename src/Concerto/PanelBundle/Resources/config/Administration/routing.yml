@@ -10,3 +10,8 @@ AdministrationSetting_map_update:
 Administration_session_count_collection:
     path: /Administration/SessionCount/{filter}/collection
     defaults: { _controller: concerto_panel.Administration_controller:sessionCountCollectionAction, filter: "{}"}
+    
+AdministrationSetting_session_count_clear:
+    path: /AdministrationSetting/SessionCount/clear
+    defaults: { _controller: concerto_panel.Administration_controller:clearSessionCountAction}
+    methods:  [POST]

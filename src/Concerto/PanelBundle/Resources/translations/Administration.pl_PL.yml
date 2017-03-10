@@ -11,3 +11,18 @@ usage_charts:
     fieldset:
         legend: Wykresy użycia
         legend.tooltip: Wykresy użycia
+    buttons: 
+        refresh: Odśwież
+        clear: Wyczyść dane
+    dialog:
+        title:
+            clear: Usuwanie danych użycia
+        confirm:
+            clear: Jesteś pewien, że chcesz usunąć wszystkie dane użycia?
+    filter:
+        today: Dzisiaj
+        specific_date: Wybrana data
+        date_range: Zakres dat
+        
+alerts:
+    no_usage_data: Obecnie brak danych użycia.
