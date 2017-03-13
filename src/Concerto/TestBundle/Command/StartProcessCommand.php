@@ -10,27 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Concerto\TestBundle\Service\TestSessionCountService;
-use Concerto\PanelBundle\Service\AdministrationService;
+use Concerto\PanelBundle\Service\TestSessionService;
 
 class StartProcessCommand extends Command {
-
-    const SOURCE_PANEL_NODE = 0;
-    const SOURCE_PROCESS = 1;
-    const SOURCE_TEST_NODE = 2;
-    const RESPONSE_VIEW_TEMPLATE = 0;
-    const RESPONSE_FINISHED = 1;
-    const RESPONSE_SUBMIT = 2;
-    const RESPONSE_SERIALIZE = 3;
-    const RESPONSE_SERIALIZATION_FINISHED = 4;
-    const RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-    const RESPONSE_VIEW_RESUME = 6;
-    const RESPONSE_RESULTS = 7;
-    const RESPONSE_AUTHENTICATION_FAILED = 8;
-    const RESPONSE_STARTING = 9;
-    const RESPONSE_KEEPALIVE_CHECKIN = 10;
-    const RESPONSE_UNRESUMABLE = 11;
-    const RESPONSE_ERROR = -1;
-
     private $panelNode;
     private $output;
     private $lastProcessTime;   //for max execution timeout
@@ -48,13 +30,11 @@ class StartProcessCommand extends Command {
     private $rLogPath;
     private $rEnviron;
     private $sessionCountService;
-    private $administrationService;
 
-    public function __construct(TestSessionCountService $sessionCountService, AdministrationService $administrationService) {
+    public function __construct(TestSessionCountService $sessionCountService) {
         parent::__construct();
 
         $this->sessionCountService = $sessionCountService;
-        $this->administrationService = $administrationService;
     }
 
     protected function configure() {
@@ -143,8 +123,8 @@ class StartProcessCommand extends Command {
         if (time() - $this->lastProcessTime > $this->maxExecTime && $this->isWaitingForProcess) {
             $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : execution timeout reached", true);
             $this->respondToPanelNode(json_encode(array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             )));
             return true;
         } else {
@@ -157,8 +137,8 @@ class StartProcessCommand extends Command {
             $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : idle timeout reached", true);
             $this->isSerializing = true;
             $this->respondToProcess($submitter_sock, json_encode(array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_SERIALIZE
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SERIALIZE
             )));
             return true;
         } else {
@@ -171,8 +151,8 @@ class StartProcessCommand extends Command {
             $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " : keep alive timeout reached", true);
             $this->isSerializing = true;
             $this->respondToProcess($submitter_sock, json_encode(array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_SERIALIZE
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SERIALIZE
             )));
             return true;
         } else {
@@ -184,10 +164,10 @@ class StartProcessCommand extends Command {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " - $message", true);
         $msg = json_decode($message);
         switch ($msg->source) {
-            case self::SOURCE_PROCESS: {
+            case TestSessionService::SOURCE_PROCESS: {
                     return $this->interpretProcessMessage($message);
                 }
-            case self::SOURCE_PANEL_NODE: {
+            case TestSessionService::SOURCE_PANEL_NODE: {
                     return $this->interpretPanelNodeMessage($submitter_sock, $message);
                 }
         }
@@ -197,7 +177,7 @@ class StartProcessCommand extends Command {
         $this->output->write(__CLASS__ . ":" . __FUNCTION__ . " - $message", true);
         $msg = json_decode($message);
         switch ($msg->code) {
-            case self::RESPONSE_SUBMIT: {
+            case TestSessionService::RESPONSE_SUBMIT: {
                     $this->isWaitingForProcess = true;
                     $this->panelNode = $msg->panelNode;
                     $this->lastClientTime = time();
@@ -205,7 +185,7 @@ class StartProcessCommand extends Command {
                     $this->respondToProcess($submitter_sock, $message);
                     return false;
                 }
-            case self::RESPONSE_KEEPALIVE_CHECKIN: {
+            case TestSessionService::RESPONSE_KEEPALIVE_CHECKIN: {
                     $this->lastKeepAliveTime = time();
                     return false;
                 }
@@ -218,19 +198,19 @@ class StartProcessCommand extends Command {
         $this->lastProcessTime = time();
         $msg = json_decode($message, true);
         switch ($msg["code"]) {
-            case self::RESPONSE_VIEW_TEMPLATE: {
+            case TestSessionService::RESPONSE_VIEW_TEMPLATE: {
                     $this->respondToPanelNode($message);
                     return false;
                 }
-            case self::RESPONSE_UNRESUMABLE:
-            case self::RESPONSE_ERROR:
-            case self::RESPONSE_FINISHED:
-            case self::RESPONSE_VIEW_FINAL_TEMPLATE: {
+            case TestSessionService::RESPONSE_UNRESUMABLE:
+            case TestSessionService::RESPONSE_ERROR:
+            case TestSessionService::RESPONSE_FINISHED:
+            case TestSessionService::RESPONSE_VIEW_FINAL_TEMPLATE: {
                     $this->sessionCountService->updateCountRecord();
                     $this->respondToPanelNode($message);
                     return true;
                 }
-            case self::RESPONSE_SERIALIZATION_FINISHED: {
+            case TestSessionService::RESPONSE_SERIALIZATION_FINISHED: {
                     $this->sessionCountService->updateCountRecord();
                     return true;
                 }
@@ -325,12 +305,6 @@ class StartProcessCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $session_limit = $this->administrationService->getSessionLimit();
-        $session_count = $this->sessionCountService->getCurrentCount();
-        if ($session_limit > 0 && $session_limit < $session_count + 1) {
-            return -1;
-        }
-
         if ($this->getOS() == RRunnerService::OS_LINUX) {
             if (posix_getpid() != posix_getsid(getmypid())) {
                 posix_setsid();

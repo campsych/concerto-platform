@@ -13,3 +13,4 @@ default.template:
     finished: Test finished.
     loading: Please wait...
     unresumable: Test timed out. Refresh the page to start again.
+    session_limit_reached: Session limit reached.

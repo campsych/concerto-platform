@@ -4,6 +4,9 @@ namespace Concerto\TestBundle\Service;
 
 use Symfony\Component\Process\Process;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Concerto\PanelBundle\Service\TestSessionService;
+use Concerto\PanelBundle\Service\AdministrationService;
+use Concerto\TestBundle\Service\TestSessionCountService;
 use Psr\Log\LoggerInterface;
 
 class RRunnerService {
@@ -17,14 +20,18 @@ class RRunnerService {
     private $settings;
     private $doctrine;
     private $logger;
+    private $administrationService;
+    private $testSessionCountService;
 
-    public function __construct($root, $panelNodes, $testNodes, $settings, Registry $doctrine, LoggerInterface $logger) {
+    public function __construct($root, $panelNodes, $testNodes, $settings, Registry $doctrine, LoggerInterface $logger, AdministrationService $administrationService, TestSessionCountService $testSessionCountService) {
         $this->root = $root;
         $this->panelNodes = $panelNodes;
         $this->testNodes = $testNodes;
         $this->settings = $settings;
         $this->doctrine = $doctrine;
         $this->logger = $logger;
+        $this->administrationService = $administrationService;
+        $this->testSessionCountService = $testSessionCountService;
     }
 
     private function authenticatePanelNode($node_ip, $node_hash) {
@@ -43,7 +50,15 @@ class RRunnerService {
     public function startR($panel_node_hash, $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip, $debug) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_hash, $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $debug");
 
+        $response = array("source" => TestSessionService::SOURCE_PROCESS, "code" => TestSessionService::RESPONSE_STARTING);
         if ($panel_node = $this->authenticatePanelNode($calling_node_ip, $panel_node_hash)) {
+            $session_limit = $this->administrationService->getSessionLimit();
+            $session_count = $this->testSessionCountService->getCurrentCount();
+            if ($session_limit > 0 && $session_limit < $session_count + 1) {
+                $response["code"] = TestSessionService::RESPONSE_SESSION_LIMIT_REACHED;
+                return $response;
+            }
+
             $panel_node_connection = $this->getSerializedConnection($panel_node);
             $client = json_encode(array(
                 "ip" => $client_ip,
@@ -51,10 +66,12 @@ class RRunnerService {
             ));
             $panel_node["port"] = $panel_node_port;
             $panel_node = json_encode($panel_node);
-            return $this->startProcess($panel_node, $panel_node_connection, $client, $session_hash, $values, $debug);
+            $this->startProcess($panel_node, $panel_node_connection, $client, $session_hash, $values, $debug);
         } else {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $calling_node_ip / $panel_node_hash AUTHENTICATION FAILED!");
+            $response["code"] = TestSessionService::RESPONSE_SESSION_LIMIT_REACHED;
         }
+        return $response;
     }
 
     private function getSerializedConnection($node) {
@@ -196,11 +213,8 @@ class RRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": status: " . $process->getStatus() . " / " . $process->getExitCode());
 
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": process initiation finished");
-        
-        //session count limit reached
-        if($process->getExitCode() === -1) {
-            //@TODO
-        }
+
+        return $process->getExitCode();
     }
 
     public function getUploadDirectory() {

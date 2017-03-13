@@ -25,6 +25,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var RESPONSE_STARTING = 9;
             var RESPONSE_KEEPALIVE_CHECKIN = 10;
             var RESPONSE_UNRESUMABLE = 11;
+            var RESPONSE_SESSION_LIMIT_REACHED = 12;
             var RESPONSE_ERROR = -1;
             var SOURCE_PANEL_NODE = 0;
             var SOURCE_PROCESS = 1;
@@ -40,6 +41,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 unresumableHtml: $templateCache.get("unresumable_template.html"),
                 finishedHtml: $templateCache.get("finished_template.html"),
                 errorHtml: $templateCache.get("error_template.html"),
+                sessionLimitReachedHtml: $templateCache.get("session_limit_reached.html"),
                 loaderHtml: $templateCache.get("loading_template.html"),
                 timeFormat: "HH:mm:ss",
                 callback: null,
@@ -332,6 +334,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             break;
                         case RESPONSE_UNRESUMABLE:
                             html = settings.unresumableHtml;
+                            break;
+                        case RESPONSE_SESSION_LIMIT_REACHED:
+                            html = settings.sessionLimitReachedHtml;
                             break;
                     }
                     displayState = DISPLAY_VIEW_SHOWN;

@@ -9,11 +9,18 @@ use Concerto\TestBundle\Repository\TestSessionCountRepository;
 class TestSessionCountService {
 
     private $sessionCountRepo;
-    private $rRunnerService;
 
-    public function __construct(TestSessionCountRepository $sessionCountRepo, RRunnerService $rRunnerService) {
+    public function __construct(TestSessionCountRepository $sessionCountRepo) {
         $this->sessionCountRepo = $sessionCountRepo;
-        $this->rRunnerService = $rRunnerService;
+    }
+    
+    //TODO proper OS detection
+    public function getOS() {
+        if (strpos(strtolower(PHP_OS), "win") !== false) {
+            return RRunnerService::OS_WIN;
+        } else {
+            return RRunnerService::OS_LINUX;
+        }
     }
 
     public function save(TestSessionCount $entity) {
@@ -33,11 +40,11 @@ class TestSessionCountService {
     }
 
     public function getCurrentCount() {
-        $os = $this->rRunnerService->getOS();
+        $os = $this->getOS();
         if ($os !== RRunnerService::OS_LINUX)
             return false;
 
-        $count = system("ps -F -C R | grep '" . $this->rRunnerService->getIniFilePath() . "' | wc -l", $retVal);
+        $count = exec("ps -F -C R | grep '/Resources/R/initialization.R ' | wc -l", $arr, $retVal);
         if ($retVal === 0) {
             return (int) $count;
         }

@@ -86,6 +86,11 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.refreshUsageChart = function () {
         var filter = {};
         switch ($scope.chart.filter.id) {
+            case 1:
+            {
+                filter.min = Math.round(Date.now() / 1000) - 86399;
+                break;
+            }
             case 2:
             {
                 filter.min = Math.round($scope.chart.filter.minDate.getTime() / 1000) - 86399;

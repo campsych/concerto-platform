@@ -27,6 +27,7 @@ class TestSessionService {
     const RESPONSE_STARTING = 9;
     const RESPONSE_KEEPALIVE_CHECKIN = 10;
     const RESPONSE_UNRESUMABLE = 11;
+    const RESPONSE_SESSION_LIMIT_REACHED = 12;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
     const STATUS_SERIALIZED = 1;
@@ -112,8 +113,19 @@ class TestSessionService {
         $this->testSessionRepository->save($session);
         $this->testSessionRepository->clear();
 
-        $this->initiateTestNode($session->getHash(), $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug);
-        $response = $this->startListener($panel_node_sock);
+        $rresult = $this->initiateTestNode($session->getHash(), $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug);
+        $response = null;
+        switch ($rresult["code"]) {
+            case self::RESPONSE_AUTHENTICATION_FAILED:
+            case self::RESPONSE_SESSION_LIMIT_REACHED: {
+                    $response = json_encode($rresult);
+                    break;
+                }
+            default: {
+                    $response = $this->startListener($panel_node_sock);
+                    break;
+                }
+        }
 
         return $this->prepareResponse($session->getHash(), $response);
     }
@@ -180,7 +192,14 @@ class TestSessionService {
         $this->testSessionRepository->clear();
 
         if ($session->getStatus() === self::STATUS_SERIALIZED) {
-            $this->initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $session->isDebug(), $values);
+            $rresult = $this->initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $session->isDebug(), $values);
+            switch ($rresult["code"]) {
+                case self::RESPONSE_AUTHENTICATION_FAILED:
+                case self::RESPONSE_SESSION_LIMIT_REACHED: {
+                        return $this->prepareResponse($session_hash, json_encode($rresult));
+                        break;
+                    }
+            }
         } else {
             $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
         }
@@ -477,11 +496,13 @@ class TestSessionService {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $test_node["protocol"] . "://$web_host:" . $test_node["web_port"] . $test_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/start");
             curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, "panel_node_hash=" . urlencode($panel_node["hash"]) . "&panel_node_port=" . urlencode($panel_node_port) . ($values ? "&values=" . urlencode($values) : "") . "&client_ip=" . urlencode($client_ip) . "&client_browser=" . urlencode($client_browser) . "&debug=" . urlencode($debug ? 1 : 0));
-            curl_exec($ch);
+            $result = json_decode(curl_exec($ch), true);
             curl_close($ch);
+            return $result;
         } else {
-            $this->rRunnerService->startR($panel_node["hash"], $panel_node_port, $session_hash, $values, $client_ip, $client_browser, false, $debug ? 1 : 0);
+            return $this->rRunnerService->startR($panel_node["hash"], $panel_node_port, $session_hash, $values, $client_ip, $client_browser, false, $debug ? 1 : 0);
         }
     }
 

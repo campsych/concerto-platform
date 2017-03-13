@@ -9,11 +9,11 @@ services:
         arguments: ["@doctrine.orm.entity_manager","@concerto_test.TestSessionCount_metadata"]
     concerto_test.TestSessionCount_service:
         class: Concerto\TestBundle\Service\TestSessionCountService
-        arguments: ["@concerto_test.TestSessionCount_repository","@concerto_test.r_runner_service"]
+        arguments: ["@concerto_test.TestSessionCount_repository"]
         
     concerto_test.r_runner_service:
         class: Concerto\TestBundle\Service\RRunnerService
-        arguments: ["%kernel.root_dir%","%panel_nodes%","%test_nodes%","%test_runner_settings%","@doctrine", "@logger"]
+        arguments: ["%kernel.root_dir%","%panel_nodes%","%test_nodes%","%test_runner_settings%","@doctrine","@logger","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service"]
     concerto_test.r_runner_controller:
         class: Concerto\TestBundle\Controller\RRunnerController
         arguments: ["@templating","@concerto_test.r_runner_service", "@request", "@logger"]
@@ -26,6 +26,6 @@ services:
             -  { name: console.command }
     concerto_test.command.start_process_command:
         class: Concerto\TestBundle\Command\StartProcessCommand
-        arguments: ["@concerto_test.TestSessionCount_service","@concerto_panel.Administration_service"]
+        arguments: ["@concerto_test.TestSessionCount_service"]
         tags:
             -  { name: console.command }
