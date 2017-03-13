@@ -31,6 +31,24 @@ class AdministrationService {
         return $map;
     }
 
+    public function getSettingValue($key) {
+        $map = $this->getSettingsMap();
+        if (array_key_exists($key, $map)) {
+            return $map[$key];
+        }
+        return null;
+    }
+
+    public function isApiEnabled() {
+        $enabled = $this->getSettingValue("api_enabled");
+        return $enabled == "1";
+    }
+
+    public function getSessionLimit() {
+        $limit = $this->getSettingValue("session_limit");
+        return (int) $limit;
+    }
+
     public function setSettings($map) {
         foreach ($map as $k => $v) {
             if (strpos($k, "_overridable") !== false)

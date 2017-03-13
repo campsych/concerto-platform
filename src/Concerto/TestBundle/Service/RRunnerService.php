@@ -190,12 +190,17 @@ class RRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ":command: $command");
 
         $process = new Process($command);
-        $process->mustRun();
+        $process->run();
         $this->logger->info($process->getOutput());
         $this->logger->info($process->getErrorOutput());
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": status: " . $process->getStatus() . " / " . $process->getExitCode());
 
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": process initiation finished");
+        
+        //session count limit reached
+        if($process->getExitCode() === -1) {
+            //@TODO
+        }
     }
 
     public function getUploadDirectory() {

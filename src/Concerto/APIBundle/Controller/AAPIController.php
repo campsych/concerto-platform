@@ -5,6 +5,7 @@ namespace Concerto\APIBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Concerto\APIBundle\Service\AModelService;
+use Concerto\PanelBundle\Service\AdministrationService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,10 +13,12 @@ abstract class AAPIController {
 
     protected $request;
     protected $service;
+    protected $administrationService;
 
-    public function __construct(Request $request, AModelService $service) {
+    public function __construct(Request $request, AModelService $service, AdministrationService $administrationService) {
         $this->request = $request;
         $this->service = $service;
+        $this->administrationService = $administrationService;
     }
 
     /**
@@ -23,6 +26,9 @@ abstract class AAPIController {
      * @Method({"GET","POST","PUT"})
      */
     public function collectionAction() {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         switch ($this->request->getMethod()) {
             case "GET": return $this->getCollection();
             case "PUT":
@@ -35,6 +41,9 @@ abstract class AAPIController {
      * @Method({"GET","POST","PUT","DELETE"})
      */
     public function objectAction($id) {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+        
         switch ($this->request->getMethod()) {
             case "GET": return $this->getObject($id);
             case "PUT":

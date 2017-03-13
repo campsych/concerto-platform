@@ -7,18 +7,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\APIBundle\Service\DataRecordService;
+use Concerto\PanelBundle\Service\AdministrationService;
 
 /**
  * @Route("/api/data/{table_id}", service="API.DataRecord_controller")
  */
 class DataRecordController {
 
-    protected $request;
-    protected $service;
+    private $request;
+    private $service;
+    private $administrationService; 
 
-    public function __construct(Request $request, DataRecordService $service) {
+    public function __construct(Request $request, DataRecordService $service, AdministrationService $administrationService) {
         $this->request = $request;
         $this->service = $service;
+        $this->administrationService = $administrationService;
     }
 
     /**
@@ -26,6 +29,9 @@ class DataRecordController {
      * @Method({"GET","POST","PUT"})
      */
     public function dataCollectionAction($table_id) {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         switch ($this->request->getMethod()) {
             case "GET": return $this->getDataCollection($table_id);
             case "PUT":
@@ -38,6 +44,9 @@ class DataRecordController {
      * @Method({"GET","POST","PUT","DELETE"})
      */
     public function dataObjectAction($table_id, $id) {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         switch ($this->request->getMethod()) {
             case "GET": return $this->getDataObject($table_id, $id);
             case "PUT":

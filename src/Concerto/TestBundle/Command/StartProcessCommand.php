@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Concerto\TestBundle\Service\TestSessionCountService;
+use Concerto\PanelBundle\Service\AdministrationService;
 
 class StartProcessCommand extends Command {
 
@@ -47,11 +48,13 @@ class StartProcessCommand extends Command {
     private $rLogPath;
     private $rEnviron;
     private $sessionCountService;
+    private $administrationService;
 
-    public function __construct(TestSessionCountService $sessionCountService) {
+    public function __construct(TestSessionCountService $sessionCountService, AdministrationService $administrationService) {
         parent::__construct();
 
         $this->sessionCountService = $sessionCountService;
+        $this->administrationService = $administrationService;
     }
 
     protected function configure() {
@@ -322,6 +325,12 @@ class StartProcessCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        $session_limit = $this->administrationService->getSessionLimit();
+        $session_count = $this->sessionCountService->getCurrentCount();
+        if ($session_limit > 0 && $session_limit < $session_count + 1) {
+            return -1;
+        }
+
         if ($this->getOS() == RRunnerService::OS_LINUX) {
             if (posix_getpid() != posix_getsid(getmypid())) {
                 posix_setsid();
