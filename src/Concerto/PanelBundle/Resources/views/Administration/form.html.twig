@@ -30,6 +30,14 @@
 {% endblock %}
 
 {% block sections %}
+    <uib-accordion-group is-open="tabAccordion.messages.open">
+        <uib-accordion-heading>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'messages.fieldset.legend.tooltip'|trans }}'"></i>
+            {{ 'messages.fieldset.legend'|trans }}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.messages.open, 'glyphicon-chevron-right': !tabAccordion.messages.open}"></i>
+        </uib-accordion-heading>
+        {{ include("ConcertoPanelBundle:Administration:messages.html.twig", {'class_name':"Administration"}) }}
+    </uib-accordion-group>
     <uib-accordion-group is-open="tabAccordion.usageCharts.open">
         <uib-accordion-heading>
             <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'usage_charts.fieldset.legend.tooltip'|trans }}'"></i>

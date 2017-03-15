@@ -7,6 +7,21 @@ form:
         api_enabled: API włączone
         api_enabled.tooltip: Włącz API
         
+messages:
+    fieldset:
+        legend: Wiadomości
+        legend.tooltip: Wiadomości
+    list:
+        fields: 
+            time: Czas
+            category: Kategoria
+            message: Wiadomość
+        buttons:
+            refresh: Odśwież
+            delete_selected: Usuń wybrane
+            clear: Wyczyść wszystkie
+            delete: Usuń
+        
 usage_charts:
     fieldset:
         legend: Wykresy użycia

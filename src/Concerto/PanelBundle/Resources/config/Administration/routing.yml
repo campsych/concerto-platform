@@ -15,3 +15,7 @@ AdministrationSetting_session_count_clear:
     path: /AdministrationSetting/SessionCount/clear
     defaults: { _controller: concerto_panel.Administration_controller:clearSessionCountAction}
     methods:  [POST]
+    
+Administration_messages_collection:
+    path: /Administration/Messages/collection
+    defaults: { _controller: concerto_panel.Administration_controller:messagesCollectionAction }

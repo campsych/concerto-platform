@@ -33,6 +33,12 @@ class AdministrationController {
                     'collection' => $this->service->getSettingsMap()
         ));
     }
+    
+    public function messagesCollectionAction() {
+        return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
+                    'collection' => $this->service->getMessagesCollection()
+        ));
+    }
 
     public function updateSettingsMapAction() {
         $this->service->setSettings(json_decode($this->request->get("map")));

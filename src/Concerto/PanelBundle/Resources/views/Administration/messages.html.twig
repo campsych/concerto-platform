@@ -1,0 +1,8 @@
+{% trans_default_domain "Administration" %}
+
+<div class="center">
+    <button ng-click="refreshMessages();" class="btn btn-default btn-sm btn-list-refresh">{{ "messages.list.buttons.refresh"|trans }}</button>
+    <button ng-click="deleteSelectedMessages();" class="btn btn-danger btn-sm">{{ "messages.list.buttons.delete_selected"|trans }}</button>
+    <button ng-click="deleteAllMessages();" class="btn btn-danger btn-sm">{{ "messages.list.buttons.clear"|trans }}</button>
+</div>
+<div ui-grid="messageOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid collectionTable"></div>

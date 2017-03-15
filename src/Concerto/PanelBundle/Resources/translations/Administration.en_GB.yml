@@ -7,6 +7,21 @@ form:
         api_enabled: API enabled
         api_enabled.tooltip: Enable API requests
         
+messages:
+    fieldset:
+        legend: Messages
+        legend.tooltip: Messages
+    list: 
+        fields: 
+            time: Time
+            category: Category
+            message: Message
+        buttons:
+            refresh: Refresh
+            delete_selected: Delete selected
+            clear: Clear messages
+            delete: Delete
+        
 usage_charts:
     fieldset:
         legend: Usage charts

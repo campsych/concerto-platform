@@ -3,19 +3,32 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\AdministrationSetting;
+use Concerto\PanelBundle\Entity\Message;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
+use Concerto\PanelBundle\Repository\MessageRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class AdministrationService {
 
-    private $repository;
+    private $settingsRepository;
+    private $messagesRepository;
     private $authorizationChecker;
     private $configSettings;
 
-    public function __construct(AdministrationSettingRepository $repository, AuthorizationChecker $authorizationChecker, $configSettings) {
-        $this->repository = $repository;
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings) {
+        $this->settingsRepository = $settingsRepository;
+        $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
         $this->configSettings = $configSettings;
+    }
+
+    public function fetchMessagesCollection() {
+        //@TODO
+    }
+
+    public function getMessagesCollection() {
+        $this->fetchMessagesCollection();
+        return $this->messagesRepository->findAll();
     }
 
     public function getSettingsMap() {
@@ -23,7 +36,7 @@ class AdministrationService {
         foreach ($map as $k => $v) {
             $map[$k] = (string) $v;
         }
-        foreach ($this->repository->findAll() as $setting) {
+        foreach ($this->settingsRepository->findAll() as $setting) {
             if (array_key_exists($setting->getKey() . "_overridable", $this->configSettings) && $this->configSettings[$setting->getKey() . "_overridable"] === "1") {
                 $map[$setting->getKey()] = $setting->getValue();
             }
@@ -55,16 +68,16 @@ class AdministrationService {
                 continue;
             if (array_key_exists($k . "_overridable", $this->configSettings) && $this->configSettings[$k . "_overridable"] === "0")
                 continue;
-            $setting = $this->repository->findKey($k);
+            $setting = $this->settingsRepository->findKey($k);
             if ($setting) {
                 $setting->setValue($v);
                 $setting->setUpdated();
-                $this->repository->save($setting);
+                $this->settingsRepository->save($setting);
             } else {
                 $setting = new AdministrationSetting();
                 $setting->setKey($k);
                 $setting->setValue($v);
-                $this->repository->save($setting);
+                $this->settingsRepository->save($setting);
             }
         }
     }

@@ -142,6 +142,7 @@
     Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE = "{{ path("AdministrationSetting_map_update") }}";
     Paths.ADMINISTRATION_SESSION_COUNT_COLLECTION = "{{ path("Administration_session_count_collection", {'filter':"{0}"}) }}";
     Paths.ADMINISTRATION_SESSION_COUNT_CLEAR = "{{ path("AdministrationSetting_session_count_clear") }}";
+    Paths.ADMINISTRATION_MESSAGES_COLLECTION = "{{ path("Administration_messages_collection") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -405,4 +406,8 @@
         Trans.ADMINISTRATION_USAGE_DATA_FILTER_TODAY = "{{ "usage_charts.filter.today"|trans }}";
         Trans.ADMINISTRATION_USAGE_DATA_FILTER_SPECIFIC_DATE = "{{ "usage_charts.filter.specific_date"|trans }}";
         Trans.ADMINISTRATION_USAGE_DATA_FILTER_DATE_RANGE = "{{ "usage_charts.filter.date_range"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_TIME = "{{ "messages.list.fields.time"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_CATEGORY = "{{ "messages.list.fields.category"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_MESSAGE = "{{ "messages.list.fields.message"|trans }}";
+        Trans.MESSAGES_LIST_BUTTONS_DELETE = "{{ "messages.list.buttons.delete"|trans }}";
 </script>

@@ -186,16 +186,22 @@ services:
     class: Concerto\PanelBundle\Service\TestSessionService
     arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%", "%test_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service"]
     
-# AdministrationSetting
+# Administration
   concerto_panel.AdministrationSetting_metadata:
     class: Doctrine\ORM\Mapping\ClassMetadata
     arguments: ["Concerto\\PanelBundle\\Entity\\AdministrationSetting"]
   concerto_panel.AdministrationSetting_repository:
     class: Concerto\PanelBundle\Repository\AdministrationSettingRepository
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.AdministrationSetting_metadata"]
+  concerto_panel.Message_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments: ["Concerto\\PanelBundle\\Entity\\Message"]
+  concerto_panel.Message_repository:
+    class: Concerto\PanelBundle\Repository\MessageRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.Message_metadata"]
   concerto_panel.Administration_service:
     class: Concerto\PanelBundle\Service\AdministrationService
-    arguments: ["@concerto_panel.AdministrationSetting_repository","@security.authorization_checker","%administration%"]
+    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%"]
     
 #   ImportService
   concerto_panel.import_service:
