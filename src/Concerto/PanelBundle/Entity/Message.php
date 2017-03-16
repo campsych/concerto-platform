@@ -10,13 +10,13 @@ use DateTime;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\MessageRepository")
  */
 class Message implements \JsonSerializable {
-    
+
     const CATEGORY_SYSTEM = 0;
     const CATEGORY_TEST = 1;
     const CATEGORY_GLOBAL = 2;
     const CATEGORY_LOCAL = 3;
     const CATEGORY_CHANGELOG = 4;
-    
+
     /**
      * @var integer
      * @ORM\Column(type="integer")
@@ -44,14 +44,19 @@ class Message implements \JsonSerializable {
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
+    private $subject;
+
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $message;
 
     public function __construct() {
-        parent::__construct();
-        
         $this->time = new DateTime("now");
     }
-    
+
     /**
      * Get id
      *
@@ -114,6 +119,27 @@ class Message implements \JsonSerializable {
     }
 
     /**
+     * Set subject
+     *
+     * @param string $subject
+     * @return Message
+     */
+    public function setSubject($subject) {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string 
+     */
+    public function getSubject() {
+        return $this->subject;
+    }
+
+    /**
      * Set message
      *
      * @param string $message
@@ -142,6 +168,7 @@ class Message implements \JsonSerializable {
             "id" => $this->getId(),
             "time" => $this->getTime()->format("Y-m-d H:i:s"),
             "category" => $this->getCategory(),
+            "subject" => $this->getSubject(),
             "message" => $this->getMessage()
         );
     }

@@ -8,7 +8,7 @@ use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Service\TestSessionService;
 
-class TestSessionControllerTest extends AFunctionalTest {
+class TestRunnerControllerTest extends AFunctionalTest {
 
     private static $repository;
     private static $testRepository;
@@ -50,40 +50,18 @@ class TestSessionControllerTest extends AFunctionalTest {
         self::$entityManager->flush();
     }
 
-    public function testStartNewActionUnauthorizedNode() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.2");
-        $client->request("POST", "/TestSession/Test/1/start");
-        $this->assertTrue($client->getResponse()->isSuccessful());
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
-    public function testSubmitActionUnauthorizedNode() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.2");
-        $session = self::$repository->find(1);
-        $client->request("POST", "/TestSession/" . $session->getHash() . "/submit");
-        $this->assertTrue($client->getResponse()->isSuccessful());
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
     public function testSubmitActionNotExistantSession() {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
-        $client->request("POST", "/TestSession/abc123/submit", array(
+        $client->request("POST", "/test/session/abc123/submit", array(
             "test_node_hash" => "someHash"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
 
         $expected = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -92,27 +70,18 @@ class TestSessionControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testResumeActionUnauthorizedNode() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.2");
-        $session = self::$repository->find(1);
-        $client->request("POST", "/TestSession/" . $session->getHash() . "/resume");
-        $this->assertTrue($client->getResponse()->isSuccessful());
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
     public function testResumeActionNonExistantSession() {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
-        $client->request("POST", "/TestSession/abc123/resume", array(
+        $client->request("POST", "/test/session/abc123/resume", array(
             "test_node_hash" => "someHash"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
 
         $expected = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -127,10 +96,15 @@ class TestSessionControllerTest extends AFunctionalTest {
 
         $session = self::$repository->find(1);
 
-        $client->request("POST", "/TestSession/" . $session->getHash() . "/resume", array(
+        $client->request("POST", "/test/session/" . $session->getHash() . "/resume", array(
             "test_node_hash" => "someHash"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
 
         $expected = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -147,22 +121,7 @@ class TestSessionControllerTest extends AFunctionalTest {
             "loaderCss" => $session->getLoaderCss(),
             "loaderJs" => $session->getLoaderJs(),
             "loaderHtml" => $session->getLoaderHtml(),
-            "isResumable" => false,
-            "debug" => ""
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
-    public function testResultsActionUnauthorizedNode() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.2");
-        $session = self::$repository->find(1);
-        $client->request("POST", "/TestSession/" . $session->getHash() . "/results");
-        $this->assertTrue($client->getResponse()->isSuccessful());
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_AUTHENTICATION_FAILED
+            "isResumable" => false
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
@@ -171,10 +130,15 @@ class TestSessionControllerTest extends AFunctionalTest {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
 
-        $client->request("POST", "/TestSession/abc123/results", array(
+        $client->request("POST", "/test/session/abc123/results", array(
             "test_node_hash" => "someHash"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
 
         $expected = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -188,16 +152,20 @@ class TestSessionControllerTest extends AFunctionalTest {
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
 
         $session = self::$repository->find(1);
-        $client->request("POST", "/TestSession/" . $session->getHash() . "/results", array(
+        $client->request("POST", "/test/session/" . $session->getHash() . "/results", array(
             "test_node_hash" => "someHash"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
 
         $expected = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_RESULTS,
-            "results" => $session->getReturns(),
-            "debug" => ""
+            "results" => $session->getReturns()
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }

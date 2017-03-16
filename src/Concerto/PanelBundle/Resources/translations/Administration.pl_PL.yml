@@ -15,12 +15,25 @@ messages:
         fields: 
             time: Czas
             category: Kategoria
+            category.system: Systemowe
+            category.test: Testu
+            category.global: Globalne
+            category.local: Localne
+            category.changelog: Changelog
+            subject: Temat
             message: Wiadomość
         buttons:
             refresh: Odśwież
             delete_selected: Usuń wybrane
             clear: Wyczyść wszystkie
             delete: Usuń
+    dialogs:
+        title:
+            delete: Usuwanie wiadomości
+            clear: Usuwanie wszystkich wiadomości
+        message:
+            delete: Jesteś pewien, że chcesz usunąć wybrane wiadomości?
+            clear: Jesteś pewien, że chcesz usunąć wszystkie wiadomości?
         
 usage_charts:
     fieldset:

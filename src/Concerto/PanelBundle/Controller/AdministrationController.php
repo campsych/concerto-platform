@@ -33,7 +33,7 @@ class AdministrationController {
                     'collection' => $this->service->getSettingsMap()
         ));
     }
-    
+
     public function messagesCollectionAction() {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
                     'collection' => $this->service->getMessagesCollection()
@@ -59,6 +59,20 @@ class AdministrationController {
         $this->sessionCountService->clear();
         $result = array("result" => 0);
         $response = new Response(json_encode($result));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function deleteMessageAction($object_ids) {
+        $result = $this->service->deleteMessage($object_ids);
+        $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function clearMessagesAction() {
+        $this->service->clearMessages();
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

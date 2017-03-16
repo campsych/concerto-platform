@@ -166,7 +166,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         columnDefs: [
             {
                 displayName: Trans.TEST_LOG_LIST_FIELD_DATE,
-                field: "created"
+                field: "created",
+                sort: { direction: 'desc', priority: 0 }
             }, {
                 displayName: Trans.TEST_LOG_LIST_FIELD_BROWSER,
                 field: "browser"

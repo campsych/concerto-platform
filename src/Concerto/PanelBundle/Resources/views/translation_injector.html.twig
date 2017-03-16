@@ -143,6 +143,8 @@
     Paths.ADMINISTRATION_SESSION_COUNT_COLLECTION = "{{ path("Administration_session_count_collection", {'filter':"{0}"}) }}";
     Paths.ADMINISTRATION_SESSION_COUNT_CLEAR = "{{ path("AdministrationSetting_session_count_clear") }}";
     Paths.ADMINISTRATION_MESSAGES_COLLECTION = "{{ path("Administration_messages_collection") }}";
+    Paths.ADMINISTRATION_MESSAGES_DELETE = "{{ path("Administration_messages_delete", {'object_ids':"{0}"}) }}";
+    Paths.ADMINISTRATION_MESSAGES_CLEAR = "{{ path("Administration_messages_clear") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -408,6 +410,16 @@
         Trans.ADMINISTRATION_USAGE_DATA_FILTER_DATE_RANGE = "{{ "usage_charts.filter.date_range"|trans }}";
         Trans.MESSAGES_LIST_FIELD_TIME = "{{ "messages.list.fields.time"|trans }}";
         Trans.MESSAGES_LIST_FIELD_CATEGORY = "{{ "messages.list.fields.category"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_CATEGORY_SYSTEM = "{{ "messages.list.fields.category.system"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_CATEGORY_GLOBAL = "{{ "messages.list.fields.category.global"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_CATEGORY_LOCAL = "{{ "messages.list.fields.category.local"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_CATEGORY_TEST = "{{ "messages.list.fields.category.test"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_CATEGORY_CHANGELOG = "{{ "messages.list.fields.category.changelog"|trans }}";
+        Trans.MESSAGES_LIST_FIELD_SUBJECT = "{{ "messages.list.fields.subject"|trans }}";
         Trans.MESSAGES_LIST_FIELD_MESSAGE = "{{ "messages.list.fields.message"|trans }}";
         Trans.MESSAGES_LIST_BUTTONS_DELETE = "{{ "messages.list.buttons.delete"|trans }}";
+        Trans.MESSAGES_DIALOGS_TITLE_DELETE = "{{ "messages.dialogs.title.delete"|trans }}";
+        Trans.MESSAGES_DIALOGS_MESSAGE_DELETE = "{{ "messages.dialogs.message.delete"|trans }}";
+        Trans.MESSAGES_DIALOGS_TITLE_CLEAR = "{{ "messages.dialogs.title.clear"|trans }}";
+        Trans.MESSAGES_DIALOGS_MESSAGE_CLEAR = "{{ "messages.dialogs.message.clear"|trans }}";
 </script>

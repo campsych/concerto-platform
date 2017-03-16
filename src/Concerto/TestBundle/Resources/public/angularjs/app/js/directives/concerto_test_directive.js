@@ -156,7 +156,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }).success(function (response) {
                     if (settings.clientDebug)
                         console.log(response);
-                    if (settings.debug)
+                    if (settings.debug && response.debug)
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();
@@ -219,7 +219,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }).success(function (response) {
                     if (settings.clientDebug)
                         console.log(response);
-                    if (settings.debug)
+                    if (settings.debug && response.debug)
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();
@@ -254,7 +254,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }).success(function (response) {
                     if (settings.clientDebug)
                         console.log(response);
-                    if (settings.debug)
+                    if (settings.debug && response.debug)
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();
@@ -287,7 +287,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }).success(function (response) {
                     if (settings.clientDebug)
                         console.log(response);
-                    if (settings.debug)
+                    if (settings.debug && response.debug)
                         console.log(response.debug);
                     lastResponse = response;
                     lastResponseTime = new Date();

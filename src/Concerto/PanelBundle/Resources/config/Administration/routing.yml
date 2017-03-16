@@ -19,3 +19,11 @@ AdministrationSetting_session_count_clear:
 Administration_messages_collection:
     path: /Administration/Messages/collection
     defaults: { _controller: concerto_panel.Administration_controller:messagesCollectionAction }
+    
+Administration_messages_delete:
+    path: /Administration/Messages/{object_ids}/delete
+    defaults: { _controller: concerto_panel.Administration_controller:deleteMessageAction }
+    
+Administration_messages_clear:
+    path: /Administration/Messages/clear
+    defaults: { _controller: concerto_panel.Administration_controller:clearMessagesAction }

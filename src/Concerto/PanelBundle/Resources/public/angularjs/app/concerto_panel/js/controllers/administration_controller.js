@@ -2,7 +2,31 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.tabStateName = "administration";
     $scope.tabIndex = 6;
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
+    $scope.deleteMessagePath = Paths.ADMINISTRATION_MESSAGES_DELETE;
+    $scope.clearMessagePath = Paths.ADMINISTRATION_MESSAGES_CLEAR;
     $scope.settingsMap = {};
+
+    $scope.showSingleTextareaModal = function (value, readonly, title, tooltip) {
+        return $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "textarea_dialog.html",
+            controller: TextareaController,
+            resolve: {
+                readonly: function () {
+                    return readonly;
+                },
+                value: function () {
+                    return value;
+                },
+                title: function () {
+                    return title;
+                },
+                tooltip: function () {
+                    return tooltip;
+                }
+            },
+            size: "lg"
+        });
+    };
 
     $scope.persistSettings = function () {
         $http.post($scope.updateSettingsMapPath, {
@@ -174,17 +198,22 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         columnDefs: [
             {
                 displayName: Trans.MESSAGES_LIST_FIELD_TIME,
-                field: "time"
+                field: "time",
+                sort: {direction: 'desc', priority: 0}
             }, {
                 displayName: Trans.MESSAGES_LIST_FIELD_CATEGORY,
-                field: "category"
+                field: "category",
+                cellTemplate: "<div class='ui-grid-cell-contents'>{{grid.appScope.getMessageCategoryLabel(row.entity.category)}}</div>"
+            }, {
+                displayName: Trans.MESSAGES_LIST_FIELD_SUBJECT,
+                field: "subject"
             }, {
                 displayName: Trans.MESSAGES_LIST_FIELD_MESSAGE,
                 field: "message",
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.showSingleTextareaModal(COL_FIELD, true, \'' + Trans.MESSAGES_LIST_FIELD_MESSAGE + '\',\'' + Trans.MESSAGES_LIST_FIELD_MESSAGE + '\')"></i>' +
+                        '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.showSingleTextareaModal(COL_FIELD, true, row.entity.subject, grid.appScope.getMessageCategoryLabel(row.entity.category))"></i>' +
                         "</div>"
             }, {
                 displayName: "",
@@ -192,10 +221,25 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 enableSorting: false,
                 enableFiltering: false,
                 exporterSuppressExport: true,
-                cellTemplate: '<div class="ui-grid-cell-contents" align="center"><button type="button" class="btn btn-danger btn-xs" ng-click="deleteMessage(row.entity.id);">' + Trans.MESSAGES_LIST_BUTTONS_DELETE + '</button></div>',
+                cellTemplate: '<div class="ui-grid-cell-contents" align="center"><button type="button" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteMessage(row.entity.id);">' + Trans.MESSAGES_LIST_BUTTONS_DELETE + '</button></div>',
                 width: 60
             }
         ]
+    };
+
+    $scope.getMessageCategoryLabel = function (id) {
+        switch (id) {
+            case 0:
+                return Trans.MESSAGES_LIST_FIELD_CATEGORY_SYSTEM;
+            case 1:
+                return Trans.MESSAGES_LIST_FIELD_CATEGORY_TEST;
+            case 2:
+                return Trans.MESSAGES_LIST_FIELD_CATEGORY_GLOBAL;
+            case 3:
+                return Trans.MESSAGES_LIST_FIELD_CATEGORY_LOCAL;
+            case 4:
+                return Trans.MESSAGES_LIST_FIELD_CATEGORY_CHANGELOG;
+        }
     };
 
     $scope.refreshMessages = function () {
@@ -204,16 +248,64 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     };
 
-    $scope.deleteMessage = function (id) {
-        //@TODO
+    $scope.deleteMessage = function (ids) {
+        if (!(ids instanceof Array)) {
+            ids = [ids];
+        }
+
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.MESSAGES_DIALOGS_TITLE_DELETE;
+                },
+                content: function () {
+                    return Trans.MESSAGES_DIALOGS_MESSAGE_DELETE;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post($scope.deleteMessagePath.pf(ids), {
+            }).success(function (data) {
+                $scope.refreshMessages();
+            });
+        }, function () {
+        });
     };
 
     $scope.deleteSelectedMessages = function () {
-        //@TODO
+        var ids = [];
+        for (var i = 0; i < $scope.messageGridApi.selection.getSelectedRows().length; i++) {
+            ids.push($scope.messageGridApi.selection.getSelectedRows()[i].id);
+        }
+        $scope.deleteMessage(ids);
     };
 
     $scope.deleteAllMessages = function () {
-        //@TODO
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.MESSAGES_DIALOGS_TITLE_CLEAR;
+                },
+                content: function () {
+                    return Trans.MESSAGES_DIALOGS_MESSAGE_CLEAR;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post($scope.clearMessagePath, {
+            }).success(function (data) {
+                $scope.refreshMessages();
+            });
+        }, function () {
+        });
     };
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

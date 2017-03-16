@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Concerto\TestBundle\Service\RRunnerService;
 use Concerto\PanelBundle\Service\FileService;
+use Concerto\PanelBundle\Service\AdministrationService;
 
 class TestSessionService {
 
@@ -33,6 +34,7 @@ class TestSessionService {
     const STATUS_SERIALIZED = 1;
     const STATUS_FINALIZED = 2;
     const STATUS_ERROR = 3;
+    const STATUS_REJECTED = 4;
 
     private $testSessionRepository;
     private $testRepository;
@@ -44,8 +46,9 @@ class TestSessionService {
     private $secret;
     private $rRunnerService;
     private $fileService;
+    private $administrationService;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $testNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService) {
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $testNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService) {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
         $this->testRepository = $testRepository;
@@ -56,6 +59,7 @@ class TestSessionService {
         $this->logger = $logger;
         $this->rRunnerService = $rRunnerService;
         $this->fileService = $fileService;
+        $this->administrationService = $administrationService;
     }
 
     private function getLocalPanelNode() {
@@ -109,24 +113,37 @@ class TestSessionService {
         $session->setDebug($debug);
         $session->setParams($this->validateParams($session, $params));
         $this->testSessionRepository->save($session);
-        $session->setHash($this->generateSessionHash($session->getId()));
+        $hash = $this->generateSessionHash($session->getId());
+        $session->setHash($hash);
         $this->testSessionRepository->save($session);
-        $this->testSessionRepository->clear();
 
         $rresult = $this->initiateTestNode($session->getHash(), $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug);
+        $this->testSessionRepository->clear();
+
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $hash));
         $response = null;
         switch ($rresult["code"]) {
-            case self::RESPONSE_AUTHENTICATION_FAILED:
+            case self::RESPONSE_AUTHENTICATION_FAILED: {
+                    $response = json_encode($rresult);
+                    $session->setStatus(self::STATUS_REJECTED);
+                    $this->testSessionRepository->save($session);
+                    break;
+                }
             case self::RESPONSE_SESSION_LIMIT_REACHED: {
                     $response = json_encode($rresult);
+                    $session->setStatus(self::STATUS_REJECTED);
+                    $this->testSessionRepository->save($session);
+
+                    $this->administrationService->insertSessionLimitMessage($session);
+
                     break;
                 }
             default: {
                     $response = $this->startListener($panel_node_sock);
+                    $this->testSessionRepository->clear();
                     break;
                 }
         }
-
         return $this->prepareResponse($session->getHash(), $response);
     }
 
@@ -409,9 +426,6 @@ class TestSessionService {
                     $decoded_response["isResumable"] = $session->getTest()->isResumable();
                     $decoded_response["templateParams"] = $session->getTemplateParams();
                     break;
-            }
-            if (!$session->isDebug()) {
-                $decoded_response["debug"] = "";
             }
         }
         return json_encode($decoded_response);

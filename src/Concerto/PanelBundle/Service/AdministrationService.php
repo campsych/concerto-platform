@@ -7,6 +7,8 @@ use Concerto\PanelBundle\Entity\Message;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
 use Concerto\PanelBundle\Repository\MessageRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Templating\EngineInterface;
+use Concerto\PanelBundle\Entity\TestSession;
 
 class AdministrationService {
 
@@ -14,12 +16,25 @@ class AdministrationService {
     private $messagesRepository;
     private $authorizationChecker;
     private $configSettings;
+    private $templating;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings) {
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, EngineInterface $templating) {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
         $this->configSettings = $configSettings;
+        $this->templating = $templating;
+    }
+
+    public function insertSessionLimitMessage(TestSession $session) {
+        $msg = new Message();
+        $msg->setCagegory(Message::CATEGORY_SYSTEM);
+        $msg->setSubject("Session limit reached.");
+        $content = $this->templating->render("ConcertoPanelBundle:Administration:msg_session_limit.html.twig", array(
+            "limit" => $this->getSessionLimit()
+        ));
+        $msg->setMessage($content);
+        $this->messagesRepository->save($msg);
     }
 
     public function fetchMessagesCollection() {
@@ -29,6 +44,15 @@ class AdministrationService {
     public function getMessagesCollection() {
         $this->fetchMessagesCollection();
         return $this->messagesRepository->findAll();
+    }
+
+    public function deleteMessage($object_ids) {
+        $object_ids = explode(",", $object_ids);
+        $this->messagesRepository->deleteById($object_ids);
+    }
+
+    public function clearMessages() {
+        $this->messagesRepository->deleteAll();
     }
 
     public function getSettingsMap() {

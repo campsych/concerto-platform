@@ -4,9 +4,9 @@ imports:
 parameters:
     secret: secret
     panel_nodes:
-        - { id: local, ip: 192.168.0.1, host: some.domain.com, dir: /, connection: local, hash: someHash }
+        - { id: local, local: true, protocol: http, sock_host: localhost, web_host: localhost, web_port: 80, dir: /, connection: local, hash: someHash }
     test_nodes:
-        - { id: local, ip: 192.168.0.1, host: some.domain.com, dir: /, connection: local, hash: someHash }
+        - { id: local, local: true, protocol: http, sock_host: localhost, web_host: localhost, web_port: 80, dir: /, connection: local, hash: someHash }
 
 framework:
     test: ~

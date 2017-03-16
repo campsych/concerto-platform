@@ -32,7 +32,7 @@ class TestSessionCountRepository extends EntityRepository {
         return $this->findOneBy(array(), array('id' => 'DESC'));
     }
 
-    public function clear() {
+    public function deleteAll() {
         return $this->getEntityManager()->createQueryBuilder()->delete("Concerto\TestBundle\Entity\TestSessionCount", "sc")->getQuery()->execute();
     }
 

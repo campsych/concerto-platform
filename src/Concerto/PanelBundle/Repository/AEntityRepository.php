@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 abstract class AEntityRepository extends EntityRepository {
 
     public function refresh($entity) {
-        $this->getEntityManager()->clear();
+        $this->getEntityManager()->refresh($entity);
     }
 
     public function flush() {
