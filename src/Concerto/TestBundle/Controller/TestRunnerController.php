@@ -48,7 +48,7 @@ class TestRunnerController {
         $browser_valid = $this->testRunnerService->isBrowserValid($this->request->headers->get('User-Agent'));
         $node = $this->testRunnerService->getNodeById($this->request->get("node_id"));
         return $this->templating->renderResponse("ConcertoTestBundle::index.html.twig", array(
-                    "directory" => ($node == null ? "/" : $node["dir"]) . ($this->environment === "dev" ? "app_dev.php/" : ""),
+                    "directory" => ($node == null ? "/" : $node["dir"]) . ($this->environment === "dev" ? "app_dev.php/" : "app.php/"),
                     "test_slug" => $test_slug,
                     "node_id" => $node == null ? "local" : $node["id"],
                     "params" => addcslashes($params, "'"),
