@@ -11,6 +11,8 @@ use Symfony\Component\Templating\EngineInterface;
 use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
 use Concerto\PanelBundle\Entity\TestSessionLog;
+use Symfony\Component\Yaml\Yaml;
+use DateTime;
 
 class AdministrationService {
 
@@ -64,14 +66,42 @@ class AdministrationService {
         }
     }
 
+    private function fetchFeed($url, $start_time) {
+        $raw_feed = file_get_contents($url);
+        $feed = Yaml::parse($raw_feed);
+        foreach ($feed["entries"] as $entry) {
+            if ($entry["time"] <= $start_time)
+                break;
+
+            $msg = new Message();
+            $dt = new DateTime();
+            $dt->setTimestamp($entry["time"]);
+            $msg->setTime($dt);
+            $msg->setCagegory(Message::CATEGORY_GLOBAL);
+            $msg->setSubject($entry["subject"]);
+            $content = $this->templating->render("ConcertoPanelBundle:Administration:msg_feed.html.twig", array(
+                "message" => $entry["message"]
+            ));
+            $msg->setMessage($content);
+            $this->messagesRepository->save($msg);
+        }
+    }
+
     public function fetchMessagesCollection() {
+        $this_fetch_time = time();
         $last_fetch_time = $this->getLastMessageFetchTime();
         if ($last_fetch_time === null)
             $last_fetch_time = 0;
 
         $this->fetchTestSessionLogs($last_fetch_time);
+        $global_feed_url = $this->getGlobalFeedUrl();
+        if ($global_feed_url)
+            $this->fetchFeed($global_feed_url, $last_fetch_time);
+        $local_feed_url = $this->getLocalFeedUrl();
+        if ($local_feed_url)
+            $this->fetchFeed($local_feed_url, $last_fetch_time);
 
-        $this->setSettings(array("last_message_fetch_time" => time()));
+        $this->setSettings(array("last_message_fetch_time" => $this_fetch_time));
     }
 
     public function getMessagesCollection() {
@@ -125,6 +155,14 @@ class AdministrationService {
     public function getSessionLimit() {
         $limit = $this->getSettingValue("session_limit");
         return (int) $limit;
+    }
+
+    public function getGlobalFeedUrl() {
+        return $this->getSettingValue("global_feed");
+    }
+
+    public function getLocalFeedUrl() {
+        return $this->getSettingValue("local_feed");
     }
 
     public function setSettings($map) {
