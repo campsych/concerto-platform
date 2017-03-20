@@ -1,0 +1,38 @@
+version: 5.0.beta.3.0
+changelog:
+    - version: 5.0.beta.3.0
+      description: >
+        This update is focused on adding administration tab to the panel that provides user with information about running instance and about Concerto Platform in general. Associated changelog might not include all changes included in this update.
+      categories:
+          - label: New features
+            changes:
+                - administration tab
+                - system messages in administration tab
+                - global messages in administration tab
+                - test error messages also in administration tab
+                - live ongoing session number charts (Linux only for now)
+                - added app/config/parameters_administration.yml containing administration settings
+                - max ongoing session limit can now be set in config file (app/config/parameters_administration.yml) and/or in administration tab (Linux only for now)
+                - concerto:sessions:log command to update current ongoing sessions count
+                - API can be enabled/disabled in config file (app/config/parameters_administration.yml) and/or in administration tab
+                - in-test file upload uploads file to test node
+          - label: Improvements
+            changes:
+                - 307 redirections to remote panel nodes
+                - socket_bind accepts connection from anywhere now
+                - test runner refactorization
+          - label: R concerto5 package
+            changes: 
+                - concerto.template.show accepts removeMissingParams argument
+          - label: Non backwards compatible
+            changes:
+                - >
+                  app/config/parameters_administration.yml file added (see dist file)
+                - >
+                  app/config/parameters_nodes.yml: nodes field split into 'panel_nodes' and 'test_nodes' (see dist file)
+                - >
+                  app/config/parameters_nodes.yml: added 'local' field to nodes (see dist file)
+                - >
+                  app/config/parameters_nodes.yml: 'host' field renamed to 'sock_host' (see dist file)
+                - >
+                  app/config/parameters_nodes.yml: added 'web_host' and 'web_port' fields (see dist file)

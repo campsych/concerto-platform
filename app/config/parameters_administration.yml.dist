@@ -1,5 +1,9 @@
 parameters:
     administration:
+        global_feed: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/global.yml
+        local_feed: null
+        latest_platform_meta: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/platform_meta.yml
+        latest_content_meta: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/content_meta.yml
         session_limit: 0 #0 for none
         session_limit_overridable: true
         api_enabled: true

@@ -67,7 +67,7 @@ class AdministrationService {
     public function fetchMessagesCollection() {
         $last_fetch_time = $this->getLastMessageFetchTime();
         if ($last_fetch_time === null)
-            $last_fetch_time = time() - 60 * 60 * 24 * 7;
+            $last_fetch_time = 0;
 
         $this->fetchTestSessionLogs($last_fetch_time);
 

@@ -1,0 +1,10 @@
+version: 1.0
+changelog:
+    - version: 1.0
+      description: >
+        Bug fixes and cleaning.
+      categories:
+          - label: Fixes
+            changes:
+                - >
+                  'CAT' now allows open text responses again
