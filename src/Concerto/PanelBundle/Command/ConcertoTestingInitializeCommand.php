@@ -10,7 +10,7 @@ use Concerto\PanelBundle\Entity\Role;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-class TestingInitializationCommand extends ContainerAwareCommand {
+class ConcertoTestingInitializeCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this->setName("concerto:testing:initialize")->setDescription("Initializes Protractor test db");

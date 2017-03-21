@@ -165,6 +165,54 @@ class AdministrationService {
         return $this->getSettingValue("local_feed");
     }
 
+    public function getInstalledContentVersion() {
+        return $this->getSettingValue("installed_content_version");
+    }
+
+    public function setInstalledContentVersion($version) {
+        $this->setSettings(array("installed_content_version" => $version));
+    }
+
+    public function getBackupPlatformVersion() {
+        return $this->getSettingValue("backup_platform_version");
+    }
+
+    public function setBackupPlatformVersion($version) {
+        $this->setSettings(array("backup_platform_version" => $version));
+    }
+
+    public function getBackupPlatformPath() {
+        return $this->getSettingValue("backup_platform_path");
+    }
+
+    public function setBackupPlatformPath($path) {
+        $this->setSettings(array("backup_platform_path" => $path));
+    }
+
+    public function getBackupDatabasePath() {
+        return $this->getSettingValue("backup_db_path");
+    }
+
+    public function setBackupDatabasePath($path) {
+        $this->setSettings(array("backup_db_path" => $path));
+    }
+
+    public function getBackupContentVersion() {
+        return $this->getSettingValue("backup_content_version");
+    }
+
+    public function setBackupContentVersion($version) {
+        $this->setSettings(array("backup_content_version" => $version));
+    }
+
+    public function getBackupTime() {
+        return $this->getSettingValue("backup_time");
+    }
+
+    public function setBackupTime(DateTime $time) {
+        $this->setSettings(array("backup_time" => $time->getTimestamp()));
+    }
+
     public function setSettings($map) {
         foreach ($map as $k => $v) {
             if (strpos($k, "_overridable") !== false)

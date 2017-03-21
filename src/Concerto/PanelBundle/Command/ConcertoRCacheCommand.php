@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\DomCrawler\Crawler;
 
-class GenerateRDocumentationCommand extends ContainerAwareCommand {
+class ConcertoRCacheCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this->setName("concerto:r:cache")->setDescription("Caches R functions documentation.");

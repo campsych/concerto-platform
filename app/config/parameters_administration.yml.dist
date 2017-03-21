@@ -4,6 +4,8 @@ parameters:
         local_feed: null
         latest_platform_meta: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/platform_meta.yml
         latest_content_meta: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/content_meta.yml
+        backup_directory: /tmp #must be above Concerto Platform root directory
+        upgrade_connection: local #only works with MySQL driver
         session_limit: 0 #0 for none
         session_limit_overridable: true
         api_enabled: true

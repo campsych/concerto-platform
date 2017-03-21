@@ -13,7 +13,7 @@ use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Concerto\PanelBundle\Service\SystemCheckService;
 
-class SetupCommand extends ContainerAwareCommand {
+class ConcertoSetupCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this->setName("concerto:setup")->setDescription("Sets up Concerto.");
