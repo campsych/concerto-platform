@@ -35,21 +35,21 @@ class Message implements \JsonSerializable {
     /**
      *
      * @var integer
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $category;
 
     /**
      *
      * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      */
     private $subject;
 
     /**
      *
      * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      */
     private $message;
 
@@ -112,7 +112,7 @@ class Message implements \JsonSerializable {
     /**
      * Get category
      *
-     * @return string 
+     * @return integer 
      */
     public function getCategory() {
         return $this->category;

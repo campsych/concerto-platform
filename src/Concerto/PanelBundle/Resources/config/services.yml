@@ -199,6 +199,12 @@ services:
   concerto_panel.Message_repository:
     class: Concerto\PanelBundle\Repository\MessageRepository
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.Message_metadata"]
+  concerto_panel.ScheduledTask_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments: ["Concerto\\PanelBundle\\Entity\\ScheduledTask"]
+  concerto_panel.ScheduledTask_repository:
+    class: Concerto\PanelBundle\Repository\ScheduledTaskRepository
+    arguments: ["@doctrine.orm.entity_manager","@concerto_panel.ScheduledTask_metadata"]
   concerto_panel.Administration_service:
     class: Concerto\PanelBundle\Service\AdministrationService
     arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","@templating","@concerto_panel.TestSessionLog_repository"]
