@@ -11,7 +11,7 @@ services:
     class: Concerto\PanelBundle\EventSubscriber\EntitySubscriber
     tags:
       - { name: doctrine.event_subscriber }       
-            
+           
 #   DataTable
   concerto_panel.DataTable_metadata:
     class: Doctrine\ORM\Mapping\ClassMetadata
@@ -207,7 +207,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.ScheduledTask_metadata"]
   concerto_panel.Administration_service:
     class: Concerto\PanelBundle\Service\AdministrationService
-    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","@templating","@concerto_panel.TestSessionLog_repository"]
+    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository"]
     
 #   ImportService
   concerto_panel.import_service:

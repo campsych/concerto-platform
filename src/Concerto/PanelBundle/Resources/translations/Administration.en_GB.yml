@@ -52,5 +52,21 @@ usage_charts:
         specific_date: Specific date
         date_range: Date range
         
+tasks:
+    fieldset:
+        legend: Scheduled tasks
+        legend.tooltip: Sheduled system tasks
+    current_platform_v: 'Current platform version:'
+    available_platform_v: 'Available platform version:'
+    current_content_v: 'Current content version:'
+    available_content_v: 'Available content version:'
+    backup_platform_v: 'Backup platform version:'
+    backup_content_v: 'Backup content version:'
+    version_none: none
+    buttons:
+        upgrade: Upgrade
+        backup: Backup
+        restore: Restore
+        
 alerts:
     no_usage_data: There is no usage data available currently.

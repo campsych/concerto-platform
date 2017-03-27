@@ -11,4 +11,12 @@ class AdministrationSettingRepository extends AEntityRepository {
         return $this->findOneBy(array("skey" => $key));
     }
 
+    public function findAllExposed() {
+        return $this->findBy(array("exposed" => true));
+    }
+
+    public function findAllInternal() {
+        return $this->findBy(array("exposed" => false));
+    }
+
 }

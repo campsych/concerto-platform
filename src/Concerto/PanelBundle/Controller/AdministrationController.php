@@ -30,7 +30,10 @@ class AdministrationController {
 
     public function settingsMapAction() {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
-                    'collection' => $this->service->getSettingsMap()
+                    'collection' => array(
+                        "exposed" => $this->service->getExposedSettingsMap(),
+                        "internal" => $this->service->getInternalSettingsMap(true)
+                    )
         ));
     }
 
@@ -41,7 +44,7 @@ class AdministrationController {
     }
 
     public function updateSettingsMapAction() {
-        $this->service->setSettings(json_decode($this->request->get("map")));
+        $this->service->setSettings(json_decode($this->request->get("map")), true);
         $result = array("result" => 0);
         $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');

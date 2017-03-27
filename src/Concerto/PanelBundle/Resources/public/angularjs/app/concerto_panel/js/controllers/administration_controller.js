@@ -4,7 +4,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
     $scope.deleteMessagePath = Paths.ADMINISTRATION_MESSAGES_DELETE;
     $scope.clearMessagePath = Paths.ADMINISTRATION_MESSAGES_CLEAR;
-    $scope.settingsMap = {};
+    $scope.exposedSettingsMap = {};
+    $scope.internalSettingsMap = {};
 
     $scope.showSingleTextareaModal = function (value, readonly, title, tooltip) {
         return $uibModal.open({
@@ -30,7 +31,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
 
     $scope.persistSettings = function () {
         $http.post($scope.updateSettingsMapPath, {
-            map: angular.toJson($scope.settingsMap)
+            map: angular.toJson($scope.exposedSettingsMap)
         }).then(function (response) {
             switch (response.data.result) {
                 case 0:
@@ -308,15 +309,107 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     };
 
+    $scope.currentPlatformVersion = null;
+    $scope.availablePlatformVersion = null;
+    $scope.currentContentVersion = null;
+    $scope.availableContentVersion = null;
+    $scope.backupPlatformVersion = null;
+    $scope.backupContentVersion = null;
+
+    $scope.isPlatformUpgradePossible = function () {
+        var key = "version";
+        var cv = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
+        var key = "available_platform_version";
+        var av = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
+        if (av === null)
+            return false;
+        if (cv === null)
+            return true;
+
+        var cvs = cv.split(".");
+        var avs = av.split(".");
+        for (var i = 0; i < cvs.length && i < avs.length; i++) {
+            if ((!isNaN(parseInt(cvs[i])) && !isNaN(parseInt(avs[i])) && cvs[i] > avs[i]) || (isNaN(parseInt(avs[i])) && !isNaN(parseInt(cvs[i]))))
+                return false;
+            if ((!isNaN(parseInt(cvs[i])) && !isNaN(parseInt(avs[i])) && avs[i] > cvs[i]) || (isNaN(parseInt(cvs[i])) && !isNaN(parseInt(avs[i]))))
+                return true;
+        }
+        return false;
+    };
+
+    $scope.upgradePlatform = function () {
+        //@TODO
+    };
+
+    $scope.isContentUpgradePossible = function () {
+        var key = "current_content_version";
+        var cv = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
+        var key = "available_content_version";
+        var av = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
+        if (av === null)
+            return false;
+        if (cv === null)
+            return true;
+
+        var cvs = cv.split(".");
+        var avs = av.split(".");
+        for (var i = 0; i < cvs.length && i < avs.length; i++) {
+            if (cvs[i] > avs[i])
+                return fals;
+            if (avs[i] > cvs[i])
+                return true;
+        }
+        return false;
+    };
+
+    $scope.upgradeContent = function () {
+        //@TODO
+    };
+
+    $scope.backup = function () {
+        //@TODO
+    };
+
+    $scope.isRestorePossible = function () {
+        //@TODO
+    };
+
+    $scope.restore = function () {
+        //@TODO  
+    };
+
+    $scope.refreshSettings = function () {
+        AdministrationSettingsService.fetchSettingsMap(null, function () {
+            $scope.exposedSettingsMap = AdministrationSettingsService.exposedSettingsMap;
+            $scope.internalSettingsMap = AdministrationSettingsService.internalSettingsMap;
+
+            var key = "version";
+            $scope.currentPlatformVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+
+            var key = "current_content_version";
+            $scope.currentContentVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+
+            var key = "available_platform_version";
+            $scope.availablePlatformVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+
+            var key = "available_content_version";
+            $scope.availableContentVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+
+            var key = "backup_platform_version";
+            $scope.backupPlatformVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+
+            var key = "backup_content_version";
+            $scope.backupContentVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+        });
+    };
+
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name === $scope.tabStateName) {
             $scope.tab.activeIndex = $scope.tabIndex;
         }
     });
 
-    AdministrationSettingsService.fetchSettingsMap(null, function () {
-        $scope.settingsMap = AdministrationSettingsService.settingsMap;
-    });
+    $scope.refreshSettings();
     $scope.refreshUsageChart();
     $scope.refreshMessages();
 }

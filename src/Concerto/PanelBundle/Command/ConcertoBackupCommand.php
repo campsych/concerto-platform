@@ -19,15 +19,9 @@ class ConcertoBackupCommand extends ContainerAwareCommand {
     private function check(OutputInterface $output) {
         $output->writeln("checking...");
 
-        if (strpos(strtolower(PHP_OS), "win") !== false) {
-            $output->writeln("Windows OS is not supported by this command!");
-            return false;
-        }
-        $doctrine = $this->getContainer()->get('doctrine');
-        $upgrade_connection = $this->getContainer()->getParameter("administration")["upgrade_connection"];
-        $connection = $doctrine->getConnection($upgrade_connection);
-        if ($connection->getDriver()->getName() !== "pdo_mysql") {
-            $output->writeln("only MySQL database driver is supported by this command!");
+        $result = $this->getContainer()->get("concerto_panel.Administration_service")->isUpdatePossible($error);
+        if (!$result) {
+            $output->writeln($error);
             return false;
         }
         $output->writeln("checks passed");
@@ -35,18 +29,18 @@ class ConcertoBackupCommand extends ContainerAwareCommand {
     }
 
     private function getFileBackupPath() {
-        return $this->getContainer()->getParameter("administration")["backup_directory"] . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
+        return realpath($this->getContainer()->getParameter("administration")["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
     }
 
     private function getDatabaseBackupPath() {
-        return $this->getContainer()->getParameter("administration")["backup_directory"] . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
+        return realpath($this->getContainer()->getParameter("administration")["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
     }
 
     private function backUpFiles(OutputInterface $output) {
         $output->writeln("backing up files...");
         $backup_path = $this->getFileBackupPath();
-        $concerto_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "..";
-        $cmd = "zip -r $backup_path $concerto_path";
+        $concerto_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "..");
+        $cmd = "zip -FSrq $backup_path $concerto_path";
         system($cmd, $return_var);
         $success = $return_var === 0;
         if (!$success) {
@@ -82,7 +76,6 @@ class ConcertoBackupCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->check($output))
             return 1;
-
         if (!$this->backUpFiles($output)) {
             return 1;
         }

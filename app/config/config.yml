@@ -1,5 +1,5 @@
 parameters:
-    version: 5.0.beta.3.0
+    version: "5.0.beta.3.0"
     available_locales:
         en_GB: english
         zh_CN: 中文

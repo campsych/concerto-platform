@@ -52,5 +52,21 @@ usage_charts:
         specific_date: Wybrana data
         date_range: Zakres dat
         
+tasks:
+    fieldset:
+        legend: Zaplanowane zadania
+        legend.tooltip: Zaplanowane systemowe zadania
+    current_platform_v: 'Obecna wersja platformy:'
+    available_platform_v: 'Dostępna wersja platformy:'
+    current_content_v: 'Obecna wersja zawartości:'
+    available_content_v: 'Dostępna wersja zawartości:'
+    backup_platform_v: 'Wersja kopii platformy:'
+    backup_content_v: 'Wersja kopii zawartości:'
+    version_none: żadna
+    buttons:
+        upgrade: Aktualizuj
+        backup: Kopia zapasowa
+        restore: Przywróć kopie
+        
 alerts:
     no_usage_data: Obecnie brak danych użycia.

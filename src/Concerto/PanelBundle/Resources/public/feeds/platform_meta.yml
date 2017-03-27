@@ -1,6 +1,6 @@
-version: 5.0.beta.3.0
+version: "5.0.beta.3.0"
 changelog:
-    - version: 5.0.beta.3.0
+    - version: "5.0.beta.3.0"
       description: >
         This update is focused on adding administration tab to the panel that provides user with information about running instance and about Concerto Platform in general. Associated changelog might not include all changes included in this update.
       categories:

@@ -259,3 +259,12 @@ ul.breadcrumb li {
 .padded {
     padding: 5px;
 }
+
+.tasks-info-table {
+
+}
+
+.tasks-info-table td {
+    height: 40px;
+    padding-right: 25px;
+}

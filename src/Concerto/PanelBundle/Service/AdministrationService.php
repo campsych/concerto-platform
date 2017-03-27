@@ -12,7 +12,10 @@ use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Symfony\Component\Yaml\Yaml;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use DateTime;
+use Concerto\PanelBundle\Entity\ScheduledTask;
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 
 class AdministrationService {
 
@@ -22,14 +25,21 @@ class AdministrationService {
     private $configSettings;
     private $templating;
     private $testSessionLogRepository;
+    private $doctrine;
+    private $scheduledTaskRepository;
+    private $rootDir;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository) {
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository) {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
         $this->configSettings = $configSettings;
+        $this->configSettings["internal"]["version"] = $version;
         $this->templating = $templating;
         $this->testSessionLogRepository = $testSessionLogRepository;
+        $this->doctrine = $doctrine;
+        $this->scheduledTaskRepository = $scheduledTaskRepository;
+        $this->rootDir = $rootDir;
     }
 
     public function insertSessionLimitMessage(TestSession $session) {
@@ -101,7 +111,7 @@ class AdministrationService {
         if ($local_feed_url)
             $this->fetchFeed($local_feed_url, $last_fetch_time);
 
-        $this->setSettings(array("last_message_fetch_time" => $this_fetch_time));
+        $this->setSettings(array("last_message_fetch_time" => $this_fetch_time), false);
     }
 
     public function getMessagesCollection() {
@@ -118,13 +128,13 @@ class AdministrationService {
         $this->messagesRepository->deleteAll();
     }
 
-    public function getSettingsMap() {
-        $map = $this->configSettings;
+    public function getExposedSettingsMap() {
+        $map = $this->configSettings["exposed"];
         foreach ($map as $k => $v) {
             $map[$k] = (string) $v;
         }
-        foreach ($this->settingsRepository->findAll() as $setting) {
-            if (array_key_exists($setting->getKey() . "_overridable", $this->configSettings) && $this->configSettings[$setting->getKey() . "_overridable"] === "0") {
+        foreach ($this->settingsRepository->findAllExposed() as $setting) {
+            if (array_key_exists($setting->getKey() . "_overridable", $map) && $map[$setting->getKey() . "_overridable"] === "0") {
                 continue;
             }
             $map[$setting->getKey()] = $setting->getValue();
@@ -132,8 +142,28 @@ class AdministrationService {
         return $map;
     }
 
+    public function getInternalSettingsMap($full = false) {
+        $map = $this->configSettings["internal"];
+        foreach ($map as $k => $v) {
+            $map[$k] = (string) $v;
+        }
+        if ($full) {
+            $map["available_content_version"] = $this->getAvailableContentVersion();
+            $map["available_platform_version"] = $this->getAvailablePlatformVersion();
+        }
+        foreach ($this->settingsRepository->findAllInternal() as $setting) {
+            $map[$setting->getKey()] = $setting->getValue();
+        }
+        return $map;
+    }
+
+    public function getAllSettingsMap() {
+        $map = array_merge($this->getExposedSettingsMap(), $this->getInternalSettingsMap());
+        return $map;
+    }
+
     public function getSettingValue($key) {
-        $map = $this->getSettingsMap();
+        $map = $this->getAllSettingsMap();
         if (array_key_exists($key, $map)) {
             return $map[$key];
         }
@@ -170,7 +200,7 @@ class AdministrationService {
     }
 
     public function setInstalledContentVersion($version) {
-        $this->setSettings(array("installed_content_version" => $version));
+        $this->setSettings(array("installed_content_version" => $version), false);
     }
 
     public function getBackupPlatformVersion() {
@@ -178,7 +208,7 @@ class AdministrationService {
     }
 
     public function setBackupPlatformVersion($version) {
-        $this->setSettings(array("backup_platform_version" => $version));
+        $this->setSettings(array("backup_platform_version" => $version), false);
     }
 
     public function getBackupPlatformPath() {
@@ -186,7 +216,7 @@ class AdministrationService {
     }
 
     public function setBackupPlatformPath($path) {
-        $this->setSettings(array("backup_platform_path" => $path));
+        $this->setSettings(array("backup_platform_path" => $path), false);
     }
 
     public function getBackupDatabasePath() {
@@ -194,7 +224,7 @@ class AdministrationService {
     }
 
     public function setBackupDatabasePath($path) {
-        $this->setSettings(array("backup_db_path" => $path));
+        $this->setSettings(array("backup_db_path" => $path), false);
     }
 
     public function getBackupContentVersion() {
@@ -202,7 +232,7 @@ class AdministrationService {
     }
 
     public function setBackupContentVersion($version) {
-        $this->setSettings(array("backup_content_version" => $version));
+        $this->setSettings(array("backup_content_version" => $version), false);
     }
 
     public function getBackupTime() {
@@ -210,10 +240,64 @@ class AdministrationService {
     }
 
     public function setBackupTime(DateTime $time) {
-        $this->setSettings(array("backup_time" => $time->getTimestamp()));
+        $this->setSettings(array("backup_time" => $time->getTimestamp()), false);
     }
 
-    public function setSettings($map) {
+    public function getAvailableContentVersion() {
+        $url = realpath($this->rootDir . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "PanelBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "feeds") . DIRECTORY_SEPARATOR . "content_meta.yml";
+        $raw_feed = file_get_contents($url);
+        $feed = Yaml::parse($raw_feed);
+        return $feed["version"];
+    }
+
+    public function getAvailablePlatformVersion() {
+        if (!$this->isOnline())
+            return null;
+        $url = $this->getSettingValue("latest_platform_meta");
+        $raw_feed = file_get_contents($url);
+        $feed = Yaml::parse($raw_feed);
+        return $feed["version"];
+    }
+
+    public function isOnline() {
+        return $this->getSettingValue("online");
+    }
+
+    public function isUpdatePossible(&$error_message) {
+        //check if not Windows OS
+        if (strpos(strtolower(PHP_OS), "win") !== false) {
+            $error_message = "Windows OS is not supported by this command!";
+            return false;
+        }
+
+        //check if MySQL database driver
+        $upgrade_connection = $this->getSettingValue("upgrade_connection");
+        $connection = $this->doctrine->getConnection($upgrade_connection);
+        if ($connection->getDriver()->getName() !== "pdo_mysql") {
+            $error_message = "only MySQL database driver is supported by this command!";
+            return false;
+        }
+
+        //check if zip exists
+        $cmd = 'command -v zip >/dev/null 2>&1 || { exit 1; }';
+        system($cmd, $return_var);
+        if ($return_var !== 0) {
+            $error_message = "no zip found!";
+            return false;
+        }
+
+        //check if unzip exists
+        $cmd = 'command -v unzip >/dev/null 2>&1 || { exit 1; }';
+        system($cmd, $return_var);
+        if ($return_var !== 0) {
+            $error_message = "no unzip found!";
+            return false;
+        }
+
+        return true;
+    }
+
+    public function setSettings($map, $exposed) {
         foreach ($map as $k => $v) {
             if (strpos($k, "_overridable") !== false)
                 continue;
@@ -228,9 +312,26 @@ class AdministrationService {
                 $setting = new AdministrationSetting();
                 $setting->setKey($k);
                 $setting->setValue($v);
+                $setting->setExposed($exposed);
                 $this->settingsRepository->save($setting);
             }
         }
+    }
+
+    /**
+     * 
+     * @return ScheduledTask
+     */
+    public function createRestoreTask() {
+        $task = new ScheduledTask();
+        $task->setType(ScheduledTask::TYPE_RESTORE_BACKUP);
+        $desc = $this->templating->render("ConcertoPanelBundle:Administration:task_restore.html.twig", array(
+            "backup_platform_version" => $this->getBackupPlatformVersion(),
+            "backup_content_version" => $this->getBackupContentVersion()
+        ));
+        $task->setDescription($desc);
+        $this->scheduledTaskRepository->save($task);
+        return $task;
     }
 
 }

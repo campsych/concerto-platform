@@ -25,6 +25,13 @@ class AdministrationSetting extends AEntity implements \JsonSerializable {
     private $svalue;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $exposed;
+
+    /**
      * Set key
      *
      * @param string $skey
@@ -66,6 +73,27 @@ class AdministrationSetting extends AEntity implements \JsonSerializable {
         return $this->svalue;
     }
 
+    /**
+     * Set exposed
+     *
+     * @param boolean $exposed
+     * @return AdministrationSetting
+     */
+    public function setExposed($exposed) {
+        $this->exposed = $exposed;
+
+        return $this;
+    }
+
+    /**
+     * Is exposed?
+     *
+     * @return boolean 
+     */
+    public function isExposed() {
+        return $this->exposed;
+    }
+
     public function getOwner() {
         return null;
     }
@@ -76,7 +104,8 @@ class AdministrationSetting extends AEntity implements \JsonSerializable {
             "id" => $this->getId(),
             "created" => $this->getCreated()->format("Y-m-d H:i:s"),
             "skey" => $this->skey,
-            "svalue" => $this->svalue
+            "svalue" => $this->svalue,
+            "exposed" => $this->exposed
         );
     }
 

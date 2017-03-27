@@ -73,6 +73,7 @@ class ScheduledTask implements \JsonSerializable {
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
         $this->status = self::STATUS_PENDING;
+        $this->output = "";
     }
 
     /**
