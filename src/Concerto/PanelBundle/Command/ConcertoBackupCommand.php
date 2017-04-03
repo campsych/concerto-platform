@@ -2,98 +2,74 @@
 
 namespace Concerto\PanelBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
+use Concerto\PanelBundle\Entity\ScheduledTask;
 use DateTime;
 
-class ConcertoBackupCommand extends ContainerAwareCommand {
+class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
 
     const FILES_BACKUP_FILENAME = "c5_files_backup.zip";
     const DB_BACKUP_FILENAME = "c5_db_backup.sql";
 
     protected function configure() {
         $this->setName("concerto:backup")->setDescription("Backs up Concerto Platform.");
+
+        parent::configure();
     }
-
-    private function check(OutputInterface $output) {
-        $output->writeln("checking...");
-
-        $result = $this->getContainer()->get("concerto_panel.Administration_service")->isUpdatePossible($error);
-        if (!$result) {
-            $output->writeln($error);
-            return false;
-        }
-        $output->writeln("checks passed");
-        return true;
-    }
-
+    
     private function getFileBackupPath() {
-        return realpath($this->getContainer()->getParameter("administration")["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
+        return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
     }
 
     private function getDatabaseBackupPath() {
-        return realpath($this->getContainer()->getParameter("administration")["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
+        return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
     }
 
-    private function backUpFiles(OutputInterface $output) {
-        $output->writeln("backing up files...");
-        $backup_path = $this->getFileBackupPath();
-        $concerto_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "..");
-        $cmd = "zip -FSrq $backup_path $concerto_path";
-        system($cmd, $return_var);
-        $success = $return_var === 0;
-        if (!$success) {
-            $output->writeln("files back up failed!");
-            return false;
-        }
-        $output->writeln("files back up completed");
-        return true;
-    }
-
-    private function backUpDatabase(OutputInterface $output) {
-        $output->writeln("backing up database...");
-        $backup_path = $this->getDatabaseBackupPath();
-
+    public function getCommand(ScheduledTask $task) {
+        $concerto_path = $this->getConcertoPath();
+        $files_backup_path = $this->getFileBackupPath();
+        $db_backup_path = $this->getDatabaseBackupPath();
         $doctrine = $this->getContainer()->get('doctrine');
-        $upgrade_connection = $this->getContainer()->getParameter("administration")["upgrade_connection"];
+        $upgrade_connection = $this->getContainer()->getParameter("administration")["internal"]["upgrade_connection"];
         $connection = $doctrine->getConnection($upgrade_connection);
-        $user = $connection->getUsername();
-        $pass = $connection->getPassword();
-        $name = $connection->getDatabase();
+        $db_user = $connection->getUsername();
+        $db_pass = $connection->getPassword();
+        $db_name = $connection->getDatabase();
+        $task_result_file = $this->getTaskResultFile($task);
+        $task_output_file = $this->getTaskOutputFile($task);
 
-        $cmd = "mysqldump -u$user -p$pass $name > $backup_path";
-        system($cmd, $return_var);
-        $success = $return_var === 0;
-        if (!$success) {
-            $output->writeln("database back up failed!");
-            return false;
-        }
-        $output->writeln("database back up completed");
-        return true;
+        $cmd = "nohup sh -c \"sleep 3 ";
+        $cmd .= "&& zip -FSrq $files_backup_path $concerto_path ";
+        $cmd .= "&& mysqldump -u$db_user -p$db_pass $db_name > $db_backup_path ";
+        $cmd .= "&& echo $? > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
+        return $cmd;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        if (!$this->check($output))
-            return 1;
-        if (!$this->backUpFiles($output)) {
-            return 1;
-        }
-        if (!$this->backUpDatabase($output)) {
-            return 1;
-        }
-
+    public function getTaskDescription(ScheduledTask $task) {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        $service->setBackupPlatformVersion($this->getContainer()->getParameter("version"));
-        $service->setBackupPlatformPath($this->getFileBackupPath());
-        $service->setBackupDatabasePath($this->getDatabaseBackupPath());
-        $content_version = $service->getInstalledContentVersion();
-        if ($content_version === null)
-            $content_version = "";
-        $service->setBackupContentVersion($content_version);
-        $service->setBackupTime(new DateTime("now"));
+        $desc = $this->getContainer()->get('templating')->render("ConcertoPanelBundle:Administration:task_backup.html.twig", array(
+            "current_platform_version" => $this->getContainer()->getParameter("version"),
+            "current_content_version" => $service->getInstalledContentVersion()
+        ));
+        return $desc;
+    }
 
-        $output->writeln("backup completed successfuly");
+    public function getTaskInfo(ScheduledTask $task) {
+        $service = $this->getContainer()->get("concerto_panel.Administration_service");
+        $info = array(
+            "backup_platform_version" => $this->getContainer()->getParameter("version"),
+            "backup_platform_path" => $this->getFileBackupPath(),
+            "backup_database_path" => $this->getDatabaseBackupPath(),
+            "backup_content_version" => $service->getInstalledContentVersion(),
+            "backup_time" => time(),
+            "task_output_path" => $this->getTaskOutputFile($task),
+            "task_result_path" => $this->getTaskResultFile($task)
+        );
+        return $info;
     }
 
 }

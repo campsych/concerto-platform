@@ -67,6 +67,26 @@ tasks:
         upgrade: Upgrade
         backup: Backup
         restore: Restore
+    list:
+        fields:
+            updated: Updated
+            type: Type
+            type.platform_upgrade: Platform Upgrade
+            type.content_upgrade: Content Upgrade
+            type.restore_backup: Restore Backup
+            type.backup: Backup
+            status: Status
+            status.pending: Pending
+            status.ongoing: Ongoing
+            status.completed: Completed
+            status.failed: Failed
+            description: Description
+            output: Output
+    dialog:
+        title:
+            backup: Backup
+        confirm: 
+            backup: Are you sure you want to backup Concerto Platform? It will replace any previous backup that was made.
         
 alerts:
     no_usage_data: There is no usage data available currently.

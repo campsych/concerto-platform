@@ -1,4 +1,4 @@
-function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService) {
+function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService) {
     $scope.tabStateName = "administration";
     $scope.tabIndex = 6;
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
@@ -309,6 +309,81 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     };
 
+    $scope.tasksCollection = [];
+    $scope.tasksOptions = {
+        enableFiltering: false,
+        enableGridMenu: true,
+        exporterMenuCsv: false,
+        exporterMenuPdf: false,
+        data: "tasksCollection",
+        exporterCsvFilename: 'export.csv',
+        showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.tasksOptions.enableFiltering = !$scope.tasksOptions.enableFiltering;
+                    $scope.tasksGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
+        onRegisterApi: function (gridApi) {
+            $scope.tasksGridApi = gridApi;
+        },
+        columnDefs: [
+            {
+                displayName: Trans.TASKS_LIST_FIELD_UPDATED,
+                field: "updated",
+                sort: {direction: 'desc', priority: 0}
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_TYPE,
+                field: "type",
+                cellTemplate: "<div class='ui-grid-cell-contents'>{{grid.appScope.getTasksTypeLabel(row.entity.type)}}</div>"
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_STATUS,
+                field: "status",
+                cellTemplate: "<div class='ui-grid-cell-contents'>{{grid.appScope.getTasksStatusLabel(row.entity.status)}}</div>"
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_DESCRIPTION,
+                field: "description"
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_OUTPUT,
+                field: "output",
+                enableSorting: false,
+                exporterSuppressExport: true,
+                cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
+                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.showSingleTextareaModal(COL_FIELD, true, row.entity.updated, grid.appScope.getTasksStatusLabel(row.entity.status))"></i>' +
+                        "</div>"
+            }
+        ]
+    };
+
+    $scope.getTasksTypeLabel = function (id) {
+        switch (id) {
+            case 0:
+                return Trans.TASKS_LIST_FIELD_TYPE_PLATFORM_UPGRADE;
+            case 1:
+                return Trans.TASKS_LIST_FIELD_TYPE_CONTENT_UPGRADE;
+            case 2:
+                return Trans.TASKS_LIST_FIELD_TYPE_RESTORE_BACKUP;
+            case 3:
+                return Trans.TASKS_LIST_FIELD_TYPE_BACKUP;
+        }
+    };
+
+    $scope.getTasksStatusLabel = function (id) {
+        switch (id) {
+            case 0:
+                return Trans.TASKS_LIST_FIELD_STATUS_PENDING;
+            case 1:
+                return Trans.TASKS_LIST_FIELD_STATUS_ONGOING;
+            case 2:
+                return Trans.TASKS_LIST_FIELD_STATUS_COMPLETED;
+            case 3:
+                return Trans.TASKS_LIST_FIELD_STATUS_FAILED;
+        }
+    };
+
     $scope.currentPlatformVersion = null;
     $scope.availablePlatformVersion = null;
     $scope.currentContentVersion = null;
@@ -367,15 +442,43 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.backup = function () {
-        //@TODO
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.TASKS_DIALOG_TITLE_BACKUP;
+                },
+                content: function () {
+                    return Trans.TASKS_DIALOG_CONFIRM_BACKUP;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post(Paths.ADMINISTRATION_TASKS_BACKUP, {}).then(function () {
+                $scope.refreshTasks();
+                $scope.refreshSettings();
+                $scope.refreshMessages();
+            });
+        }, function () {
+        });
     };
 
     $scope.isRestorePossible = function () {
-        //@TODO
+        var key = "backup_platform_version";
+        return key in $scope.internalSettingsMap && $scope.internalSettingsMap[key];
     };
 
     $scope.restore = function () {
         //@TODO  
+    };
+
+    $scope.refreshTasks = function () {
+        ScheduledTasksCollectionService.fetchObjectCollection(function () {
+            $scope.tasksCollection = ScheduledTasksCollectionService.collection;
+        });
     };
 
     $scope.refreshSettings = function () {
@@ -384,22 +487,22 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             $scope.internalSettingsMap = AdministrationSettingsService.internalSettingsMap;
 
             var key = "version";
-            $scope.currentPlatformVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+            $scope.currentPlatformVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
             var key = "current_content_version";
-            $scope.currentContentVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+            $scope.currentContentVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
             var key = "available_platform_version";
             $scope.availablePlatformVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
             var key = "available_content_version";
-            $scope.availableContentVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+            $scope.availableContentVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
             var key = "backup_platform_version";
-            $scope.backupPlatformVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+            $scope.backupPlatformVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
             var key = "backup_content_version";
-            $scope.backupContentVersion = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+            $scope.backupContentVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
         });
     };
 
@@ -412,6 +515,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.refreshSettings();
     $scope.refreshUsageChart();
     $scope.refreshMessages();
+    $scope.refreshTasks();
 }
 
-concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", AdministrationController]);
+concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", AdministrationController]);

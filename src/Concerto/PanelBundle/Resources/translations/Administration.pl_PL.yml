@@ -67,6 +67,26 @@ tasks:
         upgrade: Aktualizuj
         backup: Kopia zapasowa
         restore: Przywróć kopie
+    list:
+        fields:
+            updated: Zaktualizowane
+            type: Typ
+            type.platform_upgrade: Aktualizacja Platformy
+            type.content_upgrade: Aktualizacja Zawartości
+            type.restore_backup: Odtwórz Kopię
+            type.backup: Kopia Zapasowa
+            status: Status
+            status.pending: W kolejce
+            status.ongoing: Trwa
+            status.completed: Zakończony
+            status.failed: Nieudany
+            description: Opis
+            output: Wyjście
+    dialog:
+        title:
+            backup: Kopia Zapasowa
+        confirm: 
+            backup: Jesteś pewien, że chcesz dokonać kopii zapasowej Concerto Platform? Jakalowiek poprzednia kopia zapasowa zostanie bezpowrotnie zastąpiona.
         
 alerts:
     no_usage_data: Obecnie brak danych użycia.

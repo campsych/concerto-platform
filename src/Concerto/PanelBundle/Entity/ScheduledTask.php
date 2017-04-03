@@ -14,6 +14,7 @@ class ScheduledTask implements \JsonSerializable {
     const TYPE_PLATFORM_UPGRADE = 0;
     const TYPE_CONTENT_UPGRADE = 1;
     const TYPE_RESTORE_BACKUP = 2;
+    const TYPE_BACKUP = 3;
     const STATUS_PENDING = 0;
     const STATUS_ONGOING = 1;
     const STATUS_COMPLETED = 2;
@@ -65,15 +66,23 @@ class ScheduledTask implements \JsonSerializable {
     /**
      *
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
     private $output;
+
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $info;
 
     public function __construct() {
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
         $this->status = self::STATUS_PENDING;
         $this->output = "";
+        $this->info = "";
     }
 
     /**
@@ -206,6 +215,31 @@ class ScheduledTask implements \JsonSerializable {
      */
     public function getOutput() {
         return $this->output;
+    }
+
+    public function appendOutput($output) {
+        $this->output .= PHP_EOL . $output;
+    }
+
+    /**
+     * Set info
+     *
+     * @param string $info
+     * @return ScheduledTask
+     */
+    public function setInfo($info) {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    /**
+     * Get info
+     *
+     * @return string 
+     */
+    public function getInfo() {
+        return $this->info;
     }
 
     public function jsonSerialize(&$dependencies = array()) {

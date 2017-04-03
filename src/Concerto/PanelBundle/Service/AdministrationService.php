@@ -16,6 +16,10 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use DateTime;
 use Concerto\PanelBundle\Entity\ScheduledTask;
 use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class AdministrationService {
 
@@ -28,8 +32,9 @@ class AdministrationService {
     private $doctrine;
     private $scheduledTaskRepository;
     private $rootDir;
+    private $kernel;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository) {
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel) {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
@@ -40,6 +45,7 @@ class AdministrationService {
         $this->doctrine = $doctrine;
         $this->scheduledTaskRepository = $scheduledTaskRepository;
         $this->rootDir = $rootDir;
+        $this->kernel = $kernel;
     }
 
     public function insertSessionLimitMessage(TestSession $session) {
@@ -318,6 +324,10 @@ class AdministrationService {
         }
     }
 
+    public function getTasksCollection() {
+        return $this->scheduledTaskRepository->findAll();
+    }
+
     /**
      * 
      * @return ScheduledTask
@@ -332,6 +342,17 @@ class AdministrationService {
         $task->setDescription($desc);
         $this->scheduledTaskRepository->save($task);
         return $task;
+    }
+
+    public function scheduleBackupTask() {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $input = new ArrayInput(array(
+            "command" => "concerto:backup"
+        ));
+        $output = new BufferedOutput();
+        $return_code = $app->run($input, $output);
+        return $return_code;
     }
 
 }

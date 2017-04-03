@@ -80,4 +80,16 @@ class AdministrationController {
         return $response;
     }
 
+    public function tasksCollectionAction() {
+        return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
+                    'collection' => $this->service->getTasksCollection()
+        ));
+    }
+
+    public function taskBackupAction() {
+        $this->service->scheduleBackupTask();
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

@@ -145,6 +145,8 @@
     Paths.ADMINISTRATION_MESSAGES_COLLECTION = "{{ path("Administration_messages_collection") }}";
     Paths.ADMINISTRATION_MESSAGES_DELETE = "{{ path("Administration_messages_delete", {'object_ids':"{0}"}) }}";
     Paths.ADMINISTRATION_MESSAGES_CLEAR = "{{ path("Administration_messages_clear") }}";
+    Paths.ADMINISTRATION_TASKS_COLLECTION = "{{ path("Administration_tasks_collection") }}";
+    Paths.ADMINISTRATION_TASKS_BACKUP = "{{ path("Administration_tasks_backup") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -423,4 +425,19 @@
         Trans.MESSAGES_DIALOGS_MESSAGE_DELETE = "{{ "messages.dialogs.message.delete"|trans }}";
         Trans.MESSAGES_DIALOGS_TITLE_CLEAR = "{{ "messages.dialogs.title.clear"|trans }}";
         Trans.MESSAGES_DIALOGS_MESSAGE_CLEAR = "{{ "messages.dialogs.message.clear"|trans }}";
+        Trans.TASKS_LIST_FIELD_UPDATED = "{{ "tasks.list.fields.updated"|trans }}";
+        Trans.TASKS_LIST_FIELD_TYPE = "{{ "tasks.list.fields.type"|trans }}";
+        Trans.TASKS_LIST_FIELD_TYPE_PLATFORM_UPGRADE = "{{ "tasks.list.fields.type.platform_upgrade"|trans }}";
+        Trans.TASKS_LIST_FIELD_TYPE_CONTENT_UPGRADE = "{{ "tasks.list.fields.type.content_upgrade"|trans }}";
+        Trans.TASKS_LIST_FIELD_TYPE_RESTORE_BACKUP = "{{ "tasks.list.fields.type.restore_backup"|trans }}";
+        Trans.TASKS_LIST_FIELD_TYPE_BACKUP = "{{ "tasks.list.fields.type.backup"|trans }}";
+        Trans.TASKS_LIST_FIELD_STATUS = "{{ "tasks.list.fields.status"|trans }}";
+        Trans.TASKS_LIST_FIELD_STATUS_PENDING = "{{ "tasks.list.fields.status.pending"|trans }}";
+        Trans.TASKS_LIST_FIELD_STATUS_ONGOING = "{{ "tasks.list.fields.status.ongoing"|trans }}";
+        Trans.TASKS_LIST_FIELD_STATUS_COMPLETED = "{{ "tasks.list.fields.status.completed"|trans }}";
+        Trans.TASKS_LIST_FIELD_STATUS_FAILED = "{{ "tasks.list.fields.status.failed"|trans }}";
+        Trans.TASKS_LIST_FIELD_DESCRIPTION = "{{ "tasks.list.fields.description"|trans }}";
+        Trans.TASKS_LIST_FIELD_OUTPUT = "{{ "tasks.list.fields.output"|trans }}";
+        Trans.TASKS_DIALOG_TITLE_BACKUP = "{{ "tasks.dialog.title.backup"|trans }}";
+        Trans.TASKS_DIALOG_CONFIRM_BACKUP = "{{ "tasks.dialog.confirm.backup"|trans }}";
 </script>

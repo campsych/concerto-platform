@@ -27,3 +27,11 @@ Administration_messages_delete:
 Administration_messages_clear:
     path: /Administration/Messages/clear
     defaults: { _controller: concerto_panel.Administration_controller:clearMessagesAction }
+    
+Administration_tasks_collection:
+    path: /Administration/ScheduledTask/collection
+    defaults: { _controller: concerto_panel.Administration_controller:tasksCollectionAction }
+    
+Administration_tasks_backup:
+    path: /Administration/ScheduledTask/backup
+    defaults: { _controller: concerto_panel.Administration_controller:taskBackupAction }
