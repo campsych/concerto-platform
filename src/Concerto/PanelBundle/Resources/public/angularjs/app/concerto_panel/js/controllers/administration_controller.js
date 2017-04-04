@@ -472,7 +472,28 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.restore = function () {
-        //@TODO  
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.TASKS_DIALOG_TITLE_RESTORE;
+                },
+                content: function () {
+                    return Trans.TASKS_DIALOG_CONFIRM_RESTORE;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post(Paths.ADMINISTRATION_TASKS_RESTORE, {}).then(function () {
+                $scope.refreshTasks();
+                $scope.refreshSettings();
+                $scope.refreshMessages();
+            });
+        }, function () {
+        });
     };
 
     $scope.refreshTasks = function () {

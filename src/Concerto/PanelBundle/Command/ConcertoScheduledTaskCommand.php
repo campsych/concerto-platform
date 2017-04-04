@@ -19,16 +19,8 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
         $this->addOption("task", null, InputOption::VALUE_OPTIONAL, "Task id", null);
     }
 
-    protected function check(OutputInterface $output) {
-        $output->writeln("checking...");
-
-        $result = $this->getContainer()->get("concerto_panel.Administration_service")->isUpdatePossible($error);
-        if (!$result) {
-            $output->writeln($error);
-            return false;
-        }
-        $output->writeln("checks passed");
-        return true;
+    protected function check(&$error) {
+        return $this->getContainer()->get("concerto_panel.Administration_service")->isUpdatePossible($error);
     }
 
     protected function getTaskResultFile(ScheduledTask $task) {
@@ -43,15 +35,28 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
         return realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "..");
     }
 
-    abstract public function getCommand(ScheduledTask $task);
+    abstract protected function getCommand(ScheduledTask $task);
 
     abstract public function getTaskDescription(ScheduledTask $task);
 
-    abstract public function getTaskInfo(ScheduledTask $task);
+    public function getTaskInfo(ScheduledTask $task) {
+        $service = $this->getContainer()->get("concerto_panel.Administration_service");
+        $info = array( 
+            "task_output_path" => $this->getTaskOutputFile($task),
+            "task_result_path" => $this->getTaskResultFile($task)
+        );
+        return $info;
+    }
+    
+    abstract public function getTaskType();
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        if (!$this->check($output))
+        $output->writeln("checking...");
+        if (!$this->check($error)) {
+            $output->writeln($error);
             return 1;
+        }
+        $output->writeln("checks passed");
 
         $task_id = $input->getOption("task");
 
@@ -81,7 +86,7 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
             //SCHEDULE TASK
 
             $task = new ScheduledTask();
-            $task->setType(ScheduledTask::TYPE_BACKUP);
+            $task->setType($this->getTaskType());
             $task->setDescription($this->getTaskDescription($task));
             $tasksRepo->save($task);
             $task->setInfo(json_encode($this->getTaskInfo($task)));

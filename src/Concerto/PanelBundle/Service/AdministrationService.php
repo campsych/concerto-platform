@@ -328,20 +328,15 @@ class AdministrationService {
         return $this->scheduledTaskRepository->findAll();
     }
 
-    /**
-     * 
-     * @return ScheduledTask
-     */
-    public function createRestoreTask() {
-        $task = new ScheduledTask();
-        $task->setType(ScheduledTask::TYPE_RESTORE_BACKUP);
-        $desc = $this->templating->render("ConcertoPanelBundle:Administration:task_restore.html.twig", array(
-            "backup_platform_version" => $this->getBackupPlatformVersion(),
-            "backup_content_version" => $this->getBackupContentVersion()
+    public function scheduleRestoreTask() {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $input = new ArrayInput(array(
+            "command" => "concerto:restore"
         ));
-        $task->setDescription($desc);
-        $this->scheduledTaskRepository->save($task);
-        return $task;
+        $output = new BufferedOutput();
+        $return_code = $app->run($input, $output);
+        return $return_code;
     }
 
     public function scheduleBackupTask() {

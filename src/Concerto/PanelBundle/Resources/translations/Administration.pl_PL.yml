@@ -84,9 +84,11 @@ tasks:
             output: Wyjście
     dialog:
         title:
-            backup: Kopia Zapasowa
+            backup: Kopia zapasowa
+            restore: Przywracanie kopii zapasowej
         confirm: 
             backup: Jesteś pewien, że chcesz dokonać kopii zapasowej Concerto Platform? Jakalowiek poprzednia kopia zapasowa zostanie bezpowrotnie zastąpiona.
+            restore: Jesteś pewien, że chcesz przywrócić kopię zapasową? Zostanie przywrócony stan platformy z momentu dokonania kopii zapasowej zastępując obecny. Ta operacja jest nieodwracalna.
         
 alerts:
     no_usage_data: Obecnie brak danych użycia.

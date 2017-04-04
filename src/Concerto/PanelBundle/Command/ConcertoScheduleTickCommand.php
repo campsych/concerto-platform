@@ -49,7 +49,6 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
             }
             break;
         }
-
         return 0;
     }
 
@@ -64,6 +63,8 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
 
         $output_content = file_get_contents($output_file);
         $result_content = file_get_contents($result_file);
+        unlink($output_file);
+        unlink($result_file);
 
         $task->appendOutput($output_content);
         $task->setStatus($result_content == 0 ? ScheduledTask::STATUS_COMPLETED : ScheduledTask::STATUS_FAILED);
@@ -81,15 +82,16 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         return true;
     }
 
-    private function onPostTask(ScheduledTask $task, OutputInterface $output) {
-        switch ($task->getType()) {
-            case ScheduledTask::TYPE_BACKUP: return $this->onPostBackupTask($task, $output);
-        }
-    }
-
     private function executeTask(ScheduledTask $task, OutputInterface $output) {
         switch ($task->getType()) {
             case ScheduledTask::TYPE_BACKUP: return $this->executeBackupTask($task, $output);
+            case ScheduledTask::TYPE_RESTORE_BACKUP: return $this->executeRestoreTask($task, $output);
+        }
+    }
+    
+    private function onPostTask(ScheduledTask $task, OutputInterface $output) {
+        switch ($task->getType()) {
+            case ScheduledTask::TYPE_BACKUP: return $this->onPostBackupTask($task, $output);
         }
     }
 
@@ -97,6 +99,25 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         $app = $this->getApplication()->find("concerto:backup");
         $input = new ArrayInput(array(
             "command" => "concerto:backup",
+            "--task" => $task->getId()
+        ));
+        $bo = new BufferedOutput();
+        $return_code = $app->run($input, $bo);
+        $response = $bo->fetch();
+
+        $output->writeln($response);
+        $em = $this->getContainer()->get("doctrine")->getManager();
+        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
+        $task->appendOutput($response);
+        $tasksRepo->save($task);
+
+        return $return_code;
+    }
+
+    private function executeRestoreTask(ScheduledTask $task, OutputInterface $output) {
+        $app = $this->getApplication()->find("concerto:restore");
+        $input = new ArrayInput(array(
+            "command" => "concerto:restore",
             "--task" => $task->getId()
         ));
         $bo = new BufferedOutput();
@@ -127,5 +148,4 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         $dt->setTimestamp($info["backup_time"]);
         $service->setBackupTime($dt);
     }
-
 }

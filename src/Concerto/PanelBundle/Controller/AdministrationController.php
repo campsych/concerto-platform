@@ -92,4 +92,11 @@ class AdministrationController {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+    
+    public function taskRestoreAction() {
+        $this->service->scheduleRestoreTask();
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

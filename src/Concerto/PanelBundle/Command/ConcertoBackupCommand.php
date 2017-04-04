@@ -20,7 +20,7 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
 
         parent::configure();
     }
-    
+
     private function getFileBackupPath() {
         return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
     }
@@ -29,7 +29,7 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
     }
 
-    public function getCommand(ScheduledTask $task) {
+    protected function getCommand(ScheduledTask $task) {
         $concerto_path = $this->getConcertoPath();
         $files_backup_path = $this->getFileBackupPath();
         $db_backup_path = $this->getDatabaseBackupPath();
@@ -44,8 +44,8 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
 
         $cmd = "nohup sh -c \"sleep 3 ";
         $cmd .= "&& zip -FSrq $files_backup_path $concerto_path ";
-        $cmd .= "&& mysqldump -u$db_user -p$db_pass $db_name > $db_backup_path ";
-        $cmd .= "&& echo $? > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
+        $cmd .= "&& mysqldump -u$db_user -p$db_pass $db_name --ignore-table=$db_name.ScheduledTask > $db_backup_path ";
+        $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
         return $cmd;
     }
 
@@ -60,16 +60,18 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
 
     public function getTaskInfo(ScheduledTask $task) {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        $info = array(
+        $info = array_merge(parent::getTaskInfo($task), array(
             "backup_platform_version" => $this->getContainer()->getParameter("version"),
             "backup_platform_path" => $this->getFileBackupPath(),
             "backup_database_path" => $this->getDatabaseBackupPath(),
             "backup_content_version" => $service->getInstalledContentVersion(),
-            "backup_time" => time(),
-            "task_output_path" => $this->getTaskOutputFile($task),
-            "task_result_path" => $this->getTaskResultFile($task)
-        );
+            "backup_time" => time()
+        ));
         return $info;
+    }
+
+    public function getTaskType() {
+        return ScheduledTask::TYPE_BACKUP;
     }
 
 }

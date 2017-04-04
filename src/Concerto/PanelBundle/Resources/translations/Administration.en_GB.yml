@@ -85,8 +85,10 @@ tasks:
     dialog:
         title:
             backup: Backup
+            restore: Backup restore
         confirm: 
             backup: Are you sure you want to backup Concerto Platform? It will replace any previous backup that was made.
+            restore: Are you sure you want to restore your backup? This will replace your current platform state with the state at the time of backup. This operation is irreversible.
         
 alerts:
     no_usage_data: There is no usage data available currently.
