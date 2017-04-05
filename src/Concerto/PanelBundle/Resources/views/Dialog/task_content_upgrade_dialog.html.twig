@@ -1,0 +1,33 @@
+{% trans_default_domain "Administration" %}
+<div type="text/ng-template" id="task_content_upgrade_dialog.html">
+    <div class="modal-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ "tasks.dialog.title.content_upgrade"|trans }}</div>
+            <div class="panel-body">
+
+                {% verbatim %}
+                    <div ng-repeat="version in changelog" class="changelog">
+                        <h2>{{version.version}}</h2>
+                        <p>{{version.description}}</p>
+                        <div ng-repeat="category in version.categories">
+                            <p><strong>{{category.label}}:</strong></p>
+                            <ul>
+                                <li ng-repeat="change in category.changes">{{change}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endverbatim %}
+
+                <uib-alert type="warning">{{ "tasks.dialog.confirm.content_upgrade"|trans }}</uib-alert>
+                <p>
+                    <input type="checkbox" ng-model="backup" id="chxBackup" />
+                    <label for="chxBackup">{{ "tasks.dialog.fields.backup"|trans }}</label>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="ok()">{{ 'form.button.yes'|trans({},"panel") }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.no'|trans({},"panel") }}</button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{% for update in changelog %}
+    <div class="changelog">
+        <h2>{{update.version}}</h2>
+        <p>{{update.description}}</p>
+        {% for category in update.categories %}
+            <div>
+                <p><strong>{{category.label}}:</strong></p>
+                <ul>
+                    {% for change in category.changes %}<li>{{change}}</li>{% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

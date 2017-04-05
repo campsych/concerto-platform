@@ -11,6 +11,7 @@ use Concerto\PanelBundle\Command\ConcertoBackupCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Application;
+use Concerto\PanelBundle\Entity\Message;
 use DateTime;
 
 class ConcertoScheduleTickCommand extends ContainerAwareCommand {
@@ -77,7 +78,7 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
         $tasksRepo->save($task);
 
-        $this->onPostTask($task, $output);
+        $this->onTaskFinished($task, $output);
 
         return true;
     }
@@ -86,12 +87,34 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         switch ($task->getType()) {
             case ScheduledTask::TYPE_BACKUP: return $this->executeBackupTask($task, $output);
             case ScheduledTask::TYPE_RESTORE_BACKUP: return $this->executeRestoreTask($task, $output);
+            case ScheduledTask::TYPE_CONTENT_UPGRADE: return $this->executeContentUpgradeTask($task, $output);
         }
     }
-    
-    private function onPostTask(ScheduledTask $task, OutputInterface $output) {
+
+    private function onTaskFinished(ScheduledTask $task, OutputInterface $output) {
+        $info = json_decode($task->getInfo(), true);
+        if ($task->getStatus() == ScheduledTask::STATUS_FAILED) {
+            if ($info["cancel_pending_on_fail"]) {
+                $em = $this->getContainer()->get("doctrine")->getManager();
+                $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
+                $tasksRepo->cancelPending();
+            }
+            if ($info["restore_backup_on_fail"]) {
+                $app = $this->getApplication()->find("concerto:restore");
+                $in = new ArrayInput(array(
+                    "command" => "concerto:content:restore"
+                ));
+                $out = new BufferedOutput();
+                $return_code = $app->run($in, $out);
+                $response = $out->fetch();
+
+                $output->writeln($response);
+            }
+        }
+
         switch ($task->getType()) {
-            case ScheduledTask::TYPE_BACKUP: return $this->onPostBackupTask($task, $output);
+            case ScheduledTask::TYPE_BACKUP: return $this->onBackupTaskFinished($task, $output);
+            case ScheduledTask::TYPE_CONTENT_UPGRADE: return $this->onContentUpgradeTaskFinished($task, $output);
         }
     }
 
@@ -133,7 +156,29 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         return $return_code;
     }
 
-    private function onPostBackupTask(ScheduledTask $task, OutputInterface $output) {
+    private function executeContentUpgradeTask(ScheduledTask $task, OutputInterface $output) {
+        $app = $this->getApplication()->find("concerto:content:upgrade");
+        $input = new ArrayInput(array(
+            "command" => "concerto:content:upgrade",
+            "--task" => $task->getId()
+        ));
+        $bo = new BufferedOutput();
+        $return_code = $app->run($input, $bo);
+        $response = $bo->fetch();
+
+        $output->writeln($response);
+        $em = $this->getContainer()->get("doctrine")->getManager();
+        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
+        $task->appendOutput($response);
+        $tasksRepo->save($task);
+
+        return $return_code;
+    }
+
+    private function onBackupTaskFinished(ScheduledTask $task, OutputInterface $output) {
+        if ($task->getStatus() != ScheduledTask::STATUS_COMPLETED)
+            return;
+
         $info = json_decode($task->getInfo(), true);
 
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
@@ -148,4 +193,27 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         $dt->setTimestamp($info["backup_time"]);
         $service->setBackupTime($dt);
     }
+
+    private function onContentUpgradeTaskFinished(ScheduledTask $task, OutputInterface $output) {
+        if ($task->getStatus() != ScheduledTask::STATUS_COMPLETED)
+            return;
+
+        $info = json_decode($task->getInfo(), true);
+
+        $service = $this->getContainer()->get("concerto_panel.Administration_service");
+        $service->setInstalledContentVersion($info["version"]);
+
+        $msg = new Message();
+        $msg->setCagegory(Message::CATEGORY_CHANGELOG);
+        $msg->setSubject("Content upgraded to v" . $info["version"]);
+        $content = $this->getContainer()->get("templating")->render("ConcertoPanelBundle:Administration:msg_content_upgrade.html.twig", array(
+            "version" => $info["version"],
+            "changelog" => json_decode($info["changelog"], true)
+        ));
+        $msg->setMessage($content);
+        $em = $this->getContainer()->get("doctrine")->getManager();
+        $msgRepo = $em->getRepository("ConcertoPanelBundle:Message");
+        $msgRepo->save($msg);
+    }
+
 }

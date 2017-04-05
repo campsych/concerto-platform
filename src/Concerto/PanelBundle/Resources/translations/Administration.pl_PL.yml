@@ -78,17 +78,22 @@ tasks:
             status: Status
             status.pending: W kolejce
             status.ongoing: Trwa
-            status.completed: Zakończony
-            status.failed: Nieudany
+            status.completed: Zakończone
+            status.failed: Nieudane
+            status.canceled: Anulowane
             description: Opis
             output: Wyjście
     dialog:
         title:
             backup: Kopia zapasowa
             restore: Przywracanie kopii zapasowej
+            content_upgrade: Aktualzacja zawartości
         confirm: 
             backup: Jesteś pewien, że chcesz dokonać kopii zapasowej Concerto Platform? Jakalowiek poprzednia kopia zapasowa zostanie bezpowrotnie zastąpiona.
             restore: Jesteś pewien, że chcesz przywrócić kopię zapasową? Zostanie przywrócony stan platformy z momentu dokonania kopii zapasowej zastępując obecny. Ta operacja jest nieodwracalna.
+            content_upgrade: Jesteś pewien, że chcesz dokonać aktualizacji zawartości?
+        fields:
+            backup: Zrób kopię zapasową i użyj jej jako punktu przywrócenia w wypadku gdy to zadanie się nie powiedzie.
         
 alerts:
     no_usage_data: Obecnie brak danych użycia.

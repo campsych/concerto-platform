@@ -39,3 +39,7 @@ Administration_tasks_backup:
 Administration_tasks_restore:
     path: /Administration/ScheduledTask/restore
     defaults: { _controller: concerto_panel.Administration_controller:taskRestoreAction }
+    
+Administration_tasks_content_upgrade:
+    path: /Administration/ScheduledTask/content_upgrade
+    defaults: { _controller: concerto_panel.Administration_controller:taskContentUpgradeAction }

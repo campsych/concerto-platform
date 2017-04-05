@@ -87,16 +87,25 @@ class AdministrationController {
     }
 
     public function taskBackupAction() {
-        $this->service->scheduleBackupTask();
-        $response = new Response(json_encode(array("result" => 0)));
+        $return = $this->service->scheduleBackupTask($out);
+        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
+
     public function taskRestoreAction() {
-        $this->service->scheduleRestoreTask();
-        $response = new Response(json_encode(array("result" => 0)));
+        $return = $this->service->scheduleRestoreTask($out);
+        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    public function taskContentUpgradeAction() {
+        $backup = $this->request->get("backup");
+        $return = $this->service->scheduleContentUpgradeTask($out, $backup);
+        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

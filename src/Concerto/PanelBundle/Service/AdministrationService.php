@@ -156,6 +156,7 @@ class AdministrationService {
         if ($full) {
             $map["available_content_version"] = $this->getAvailableContentVersion();
             $map["available_platform_version"] = $this->getAvailablePlatformVersion();
+            $map["incremental_content_changelog"] = $this->getIncrementalContentChangelog();
         }
         foreach ($this->settingsRepository->findAllInternal() as $setting) {
             $map[$setting->getKey()] = $setting->getValue();
@@ -256,6 +257,35 @@ class AdministrationService {
         return $feed["version"];
     }
 
+    public function getIncrementalContentChangelog() {
+        $url = realpath($this->rootDir . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "PanelBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "feeds") . DIRECTORY_SEPARATOR . "content_meta.yml";
+        $raw_feed = file_get_contents($url);
+        $feed = Yaml::parse($raw_feed);
+
+        $changelog = array();
+        foreach ($feed["changelog"] as $version) {
+            if (self::isContentVersionNewer($this->getInstalledContentVersion(), $version["version"])) {
+                array_push($changelog, $version);
+            } else {
+                break;
+            }
+        }
+        return $changelog;
+    }
+
+    private static function isContentVersionNewer($base_v, $compared_v) {
+        $cvs = explode(".", $compared_v);
+        $bvs = explode(".", $base_v);
+
+        for ($i = 0; $i < count($bvs) && $i < count($cvs); $i++) {
+            if ($bvs[$i] > $cvs[$i])
+                return false;
+            if ($cvs[$i] > $bvs[$i])
+                return true;
+        }
+        return false;
+    }
+
     public function getAvailablePlatformVersion() {
         if (!$this->isOnline())
             return null;
@@ -328,25 +358,40 @@ class AdministrationService {
         return $this->scheduledTaskRepository->findAll();
     }
 
-    public function scheduleRestoreTask() {
+    public function scheduleRestoreTask(&$output) {
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
-        $input = new ArrayInput(array(
+        $in = new ArrayInput(array(
             "command" => "concerto:restore"
         ));
-        $output = new BufferedOutput();
-        $return_code = $app->run($input, $output);
+        $out = new BufferedOutput();
+        $return_code = $app->run($in, $out);
+        $output = $out->fetch();
         return $return_code;
     }
 
-    public function scheduleBackupTask() {
+    public function scheduleBackupTask(&$output) {
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
-        $input = new ArrayInput(array(
+        $in = new ArrayInput(array(
             "command" => "concerto:backup"
         ));
-        $output = new BufferedOutput();
-        $return_code = $app->run($input, $output);
+        $out = new BufferedOutput();
+        $return_code = $app->run($in, $out);
+        $output = $out->fetch();
+        return $return_code;
+    }
+
+    public function scheduleContentUpgradeTask(&$output, $backup) {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:content:upgrade",
+            "--backup" => true
+        ));
+        $out = new BufferedOutput();
+        $return_code = $app->run($in, $out);
+        $output = $out->fetch();
         return $return_code;
     }
 

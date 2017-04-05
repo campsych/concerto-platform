@@ -175,6 +175,29 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     }
 
+    $scope.showAlert = function (title, content, type, size) {
+        if (type === null)
+            type = "info";
+        if (size === null)
+            size = "lg";
+        $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+            controller: AlertController,
+            size: size,
+            resolve: {
+                title: function () {
+                    return title;
+                },
+                content: function () {
+                    return content;
+                },
+                type: function () {
+                    return type;
+                }
+            }
+        });
+    };
+
     $scope.messageCollection = [];
     $scope.messageOptions = {
         enableFiltering: false,
@@ -214,7 +237,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.showSingleTextareaModal(COL_FIELD, true, row.entity.subject, grid.appScope.getMessageCategoryLabel(row.entity.category))"></i>' +
+                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.showAlert(row.entity.subject, COL_FIELD)"></i>' +
                         "</div>"
             }, {
                 displayName: "",
@@ -381,6 +404,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 return Trans.TASKS_LIST_FIELD_STATUS_COMPLETED;
             case 3:
                 return Trans.TASKS_LIST_FIELD_STATUS_FAILED;
+            case 4:
+                return Trans.TASKS_LIST_FIELD_STATUS_CANCELED;
         }
     };
 
@@ -417,28 +442,54 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.isContentUpgradePossible = function () {
-        var key = "current_content_version";
-        var cv = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
-        var key = "available_content_version";
-        var av = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
-        if (av === null)
+        var key = "incremental_content_changelog";
+        var cl = key in $scope.internalSettingsMap ? $scope.internalSettingsMap[key] : null;
+        if (!cl || cl.length == 0)
             return false;
-        if (cv === null)
-            return true;
-
-        var cvs = cv.split(".");
-        var avs = av.split(".");
-        for (var i = 0; i < cvs.length && i < avs.length; i++) {
-            if (cvs[i] > avs[i])
-                return fals;
-            if (avs[i] > cvs[i])
-                return true;
-        }
-        return false;
+        return true;
     };
 
     $scope.upgradeContent = function () {
-        //@TODO
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'task_content_upgrade_dialog.html',
+            controller: TaskUpgradeController,
+            size: "lg",
+            resolve: {
+                changelog: function () {
+                    return $scope.internalSettingsMap["incremental_content_changelog"];
+                }
+            }
+        });
+
+        modalInstance.result.then(function (answer) {
+            $http.post(Paths.ADMINISTRATION_TASKS_CONTENT_UPGRADE, {
+                backup: answer
+            }).then(function (response) {
+                $scope.refreshTasks();
+                $scope.refreshSettings();
+                $scope.refreshMessages();
+
+                if (response.data.result !== 0) {
+                    $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+                        controller: AlertController,
+                        size: "lg",
+                        resolve: {
+                            title: function () {
+                                return Trans.TASKS_DIALOG_TITLE_CONTENT_UPGRADE;
+                            },
+                            content: function () {
+                                return response.data.out;
+                            },
+                            type: function () {
+                                return "danger";
+                            }
+                        }
+                    });
+                }
+            });
+        }, function () {
+        });
     };
 
     $scope.backup = function () {
@@ -456,11 +507,30 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             }
         });
 
-        modalInstance.result.then(function (response) {
-            $http.post(Paths.ADMINISTRATION_TASKS_BACKUP, {}).then(function () {
+        modalInstance.result.then(function (answer) {
+            $http.post(Paths.ADMINISTRATION_TASKS_BACKUP, {}).then(function (response) {
                 $scope.refreshTasks();
                 $scope.refreshSettings();
                 $scope.refreshMessages();
+
+                if (response.data.result !== 0) {
+                    $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+                        controller: AlertController,
+                        size: "lg",
+                        resolve: {
+                            title: function () {
+                                return Trans.TASKS_DIALOG_TITLE_BACKUP;
+                            },
+                            content: function () {
+                                return response.data.out;
+                            },
+                            type: function () {
+                                return "danger";
+                            }
+                        }
+                    });
+                }
             });
         }, function () {
         });
@@ -486,11 +556,30 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             }
         });
 
-        modalInstance.result.then(function (response) {
-            $http.post(Paths.ADMINISTRATION_TASKS_RESTORE, {}).then(function () {
+        modalInstance.result.then(function (answer) {
+            $http.post(Paths.ADMINISTRATION_TASKS_RESTORE, {}).then(function (response) {
                 $scope.refreshTasks();
                 $scope.refreshSettings();
                 $scope.refreshMessages();
+
+                if (response.data.result !== 0) {
+                    $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+                        controller: AlertController,
+                        size: "lg",
+                        resolve: {
+                            title: function () {
+                                return Trans.TASKS_DIALOG_TITLE_RESTORE;
+                            },
+                            content: function () {
+                                return response.data.out;
+                            },
+                            type: function () {
+                                return "danger";
+                            }
+                        }
+                    });
+                }
             });
         }, function () {
         });
@@ -510,7 +599,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             var key = "version";
             $scope.currentPlatformVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
-            var key = "current_content_version";
+            var key = "installed_content_version";
             $scope.currentContentVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
 
             var key = "available_platform_version";

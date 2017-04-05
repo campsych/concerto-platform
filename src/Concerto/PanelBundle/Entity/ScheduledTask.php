@@ -19,6 +19,7 @@ class ScheduledTask implements \JsonSerializable {
     const STATUS_ONGOING = 1;
     const STATUS_COMPLETED = 2;
     const STATUS_FAILED = 3;
+    const STATUS_CANCELED = 4;
 
     /**
      * @var integer

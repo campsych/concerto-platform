@@ -268,3 +268,7 @@ ul.breadcrumb li {
     height: 40px;
     padding-right: 25px;
 }
+
+.changelog {
+    margin-bottom: 32px;
+}

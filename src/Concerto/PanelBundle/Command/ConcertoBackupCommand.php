@@ -58,9 +58,9 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task) {
+    public function getTaskInfo(ScheduledTask $task, InputInterface $input) {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        $info = array_merge(parent::getTaskInfo($task), array(
+        $info = array_merge(parent::getTaskInfo($task, $input), array(
             "backup_platform_version" => $this->getContainer()->getParameter("version"),
             "backup_platform_path" => $this->getFileBackupPath(),
             "backup_database_path" => $this->getDatabaseBackupPath(),

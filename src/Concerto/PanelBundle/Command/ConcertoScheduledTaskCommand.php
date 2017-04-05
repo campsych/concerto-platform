@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Concerto\PanelBundle\Entity\ScheduledTask;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Input\ArrayInput;
 use DateTime;
 
 abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
@@ -17,6 +19,8 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this->addOption("task", null, InputOption::VALUE_OPTIONAL, "Task id", null);
+        $this->addOption("cancel-pending-on-fail", null, InputOption::VALUE_NONE, "Cancels all other pending tasks when this task fails", null);
+        $this->addOption("backup", null, InputOption::VALUE_NONE, "Perform backup and use it as restore point when content upgrade task will fail.", null);
     }
 
     protected function check(&$error) {
@@ -39,16 +43,35 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
 
     abstract public function getTaskDescription(ScheduledTask $task);
 
-    public function getTaskInfo(ScheduledTask $task) {
+    public function getTaskInfo(ScheduledTask $task, InputInterface $input) {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        $info = array( 
+        $info = array(
             "task_output_path" => $this->getTaskOutputFile($task),
-            "task_result_path" => $this->getTaskResultFile($task)
+            "task_result_path" => $this->getTaskResultFile($task),
+            "cancel_pending_on_fail" => $input->getOption("cancel-pending-on-fail"),
+            "restore_backup_on_fail" => $input->getOption("backup")
         );
         return $info;
     }
-    
+
     abstract public function getTaskType();
+
+    protected function onBeforeTaskCreate(InputInterface $input, OutputInterface $output) {
+        $backup = $input->getOption("backup");
+        if ($backup) {
+            $output->writeln("restore point creation requested");
+
+            $app = $this->getApplication()->find('concerto:backup');
+            $in = new ArrayInput(array(
+                'command' => 'concerto:backup',
+                '--cancel-pending-on-fail' => true
+            ));
+            $out = new BufferedOutput();
+            $return_code = $app->run($in, $out);
+            $response = $out->fetch();
+            $output->writeln($response);
+        }
+    }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $output->writeln("checking...");
@@ -85,11 +108,13 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
         } else {
             //SCHEDULE TASK
 
+            $this->onBeforeTaskCreate($input, $output);
+
             $task = new ScheduledTask();
             $task->setType($this->getTaskType());
             $task->setDescription($this->getTaskDescription($task));
             $tasksRepo->save($task);
-            $task->setInfo(json_encode($this->getTaskInfo($task)));
+            $task->setInfo(json_encode($this->getTaskInfo($task, $input)));
             $tasksRepo->save($task);
 
             $output->writeln("task #" . $task->getId() . " scheduled");
