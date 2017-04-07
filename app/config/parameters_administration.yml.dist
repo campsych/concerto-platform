@@ -9,6 +9,7 @@ parameters:
             online: true
             global_feed: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/global.yml
             local_feed: null
+            git_branch: master
             latest_platform_meta: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/platform_meta.yml
             backup_directory: /tmp #must be above Concerto Platform root directory
             upgrade_connection: local #only works with MySQL driver

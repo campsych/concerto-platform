@@ -108,4 +108,11 @@ class AdministrationController {
         return $response;
     }
 
+    public function taskPlatformUpgradeAction() {
+        $backup = $this->request->get("backup");
+        $return = $this->service->schedulePlatformUpgradeTask($out, $backup);
+        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

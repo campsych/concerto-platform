@@ -438,7 +438,46 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.upgradePlatform = function () {
-        //@TODO
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'task_platform_upgrade_dialog.html',
+            controller: TaskUpgradeController,
+            size: "lg",
+            resolve: {
+                changelog: function () {
+                    return $scope.internalSettingsMap["incremental_platform_changelog"];
+                }
+            }
+        });
+
+        modalInstance.result.then(function (answer) {
+            $http.post(Paths.ADMINISTRATION_TASKS_PLATFORM_UPGRADE, {
+                backup: answer
+            }).then(function (response) {
+                $scope.refreshTasks();
+                $scope.refreshSettings();
+                $scope.refreshMessages();
+
+                if (response.data.result !== 0) {
+                    $uibModal.open({
+                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
+                        controller: AlertController,
+                        size: "lg",
+                        resolve: {
+                            title: function () {
+                                return Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE;
+                            },
+                            content: function () {
+                                return response.data.out;
+                            },
+                            type: function () {
+                                return "danger";
+                            }
+                        }
+                    });
+                }
+            });
+        }, function () {
+        });
     };
 
     $scope.isContentUpgradePossible = function () {

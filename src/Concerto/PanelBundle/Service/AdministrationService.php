@@ -157,6 +157,7 @@ class AdministrationService {
             $map["available_content_version"] = $this->getAvailableContentVersion();
             $map["available_platform_version"] = $this->getAvailablePlatformVersion();
             $map["incremental_content_changelog"] = $this->getIncrementalContentChangelog();
+            $map["incremental_platform_changelog"] = $this->getIncrementalPlatformChangelog();
         }
         foreach ($this->settingsRepository->findAllInternal() as $setting) {
             $map[$setting->getKey()] = $setting->getValue();
@@ -198,12 +199,24 @@ class AdministrationService {
         return $this->getSettingValue("global_feed");
     }
 
+    public function getLatestPlatformMeta() {
+        return "https://raw.githubusercontent.com/campsych/concerto-platform/" . $this->getGitBranch() . "/src/Concerto/PanelBundle/Resources/public/feeds/platform_meta.yml";
+    }
+
+    public function getGitBranch() {
+        return $this->configSettings["internal"]["git_branch"];
+    }
+
     public function getLocalFeedUrl() {
         return $this->getSettingValue("local_feed");
     }
 
     public function getInstalledContentVersion() {
         return $this->getSettingValue("installed_content_version");
+    }
+
+    public function getInstalledPlatformVersion() {
+        return $this->configSettings["internal"]["version"];
     }
 
     public function setInstalledContentVersion($version) {
@@ -273,6 +286,37 @@ class AdministrationService {
         return $changelog;
     }
 
+    public function getIncrementalPlatformChangelog() {
+        if (!$this->isOnline())
+            return null;
+
+        $url = $this->getLatestPlatformMeta();
+        $raw_feed = file_get_contents($url);
+        $feed = Yaml::parse($raw_feed);
+
+        $changelog = array();
+        foreach ($feed["changelog"] as $version) {
+            if (self::isPlatformVersionNewer($this->getInstalledPlatformVersion(), $version["version"])) {
+                array_push($changelog, $version);
+            } else {
+                break;
+            }
+        }
+        return $changelog;
+    }
+
+    private static function isPlatformVersionNewer($base_v, $compared_v) {
+        $bvs = explode(".", $base_v);
+        $cvs = explode(".", $compared_v);
+        for ($i = 0; $i < count($bvs) && $i < count($cvs); $i++) {
+            if ((is_numeric($bvs[$i]) && is_numeric($cvs[$i]) && $bvs[$i] > $cvs[$i]) || (!is_numeric($cvs[$i]) && is_numeric($bvs[$i])))
+                return false;
+            if ((is_numeric($bvs[$i]) && is_numeric($cvs[$i]) && $cvs[$i] > $bvs[$i]) || (!is_numeric($bvs[$i]) && is_numeric($cvs[$i])))
+                return true;
+        }
+        return false;
+    }
+
     private static function isContentVersionNewer($base_v, $compared_v) {
         $cvs = explode(".", $compared_v);
         $bvs = explode(".", $base_v);
@@ -289,7 +333,8 @@ class AdministrationService {
     public function getAvailablePlatformVersion() {
         if (!$this->isOnline())
             return null;
-        $url = $this->getSettingValue("latest_platform_meta");
+
+        $url = $this->getLatestPlatformMeta();
         $raw_feed = file_get_contents($url);
         $feed = Yaml::parse($raw_feed);
         return $feed["version"];
@@ -387,6 +432,19 @@ class AdministrationService {
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
             "command" => "concerto:content:upgrade",
+            "--backup" => true
+        ));
+        $out = new BufferedOutput();
+        $return_code = $app->run($in, $out);
+        $output = $out->fetch();
+        return $return_code;
+    }
+
+    public function schedulePlatformUpgradeTask(&$output, $backup) {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:upgrade",
             "--backup" => true
         ));
         $out = new BufferedOutput();
