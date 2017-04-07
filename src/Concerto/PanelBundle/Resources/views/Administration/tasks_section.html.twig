@@ -22,4 +22,7 @@
         </tr>
     </table>
 </div>
+<div class="center">
+    <button ng-click="refreshTasks();" class="btn btn-default btn-sm btn-list-refresh">{{ "messages.list.buttons.refresh"|trans }}</button>
+</div>
 <div ui-grid="tasksOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid collectionTable"></div>
