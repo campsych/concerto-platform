@@ -86,14 +86,20 @@ tasks:
     dialog:
         title:
             backup: Backup
+            backup.failed: Backup failed
             restore: Backup restore
+            restore.failed: Restore failed
             content_upgrade: Upgrade content
+            content_upgrade.failed: Content upgrade failed
             platform_upgrade: Upgrade platform
+            platform_upgrade.failed: Platform upgrade failed
         confirm: 
             backup: Are you sure you want to backup Concerto Platform? It will replace any previous backup that was made.
             restore: Are you sure you want to restore your backup? This will replace your current platform state with the state at the time of backup. This operation is irreversible.
             content_upgrade: Are you sure you want to perform content upgrade?
             platform_upgrade: Are you sure you want to perfrom platform upgrade?
+        content:
+            busy: There are already pending or ongoing scheduled tasks.
         fields:
             backup: Perform a backup and use it as a restore point in case when this task will fail.
         

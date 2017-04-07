@@ -87,14 +87,14 @@ class AdministrationController {
     }
 
     public function taskBackupAction() {
-        $return = $this->service->scheduleBackupTask($out);
+        $return = $this->service->scheduleBackupTask($out, true);
         $response = new Response(json_encode(array("result" => $return, "out" => $out)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     public function taskRestoreAction() {
-        $return = $this->service->scheduleRestoreTask($out);
+        $return = $this->service->scheduleRestoreTask($out, true);
         $response = new Response(json_encode(array("result" => $return, "out" => $out)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -102,7 +102,7 @@ class AdministrationController {
 
     public function taskContentUpgradeAction() {
         $backup = $this->request->get("backup");
-        $return = $this->service->scheduleContentUpgradeTask($out, $backup);
+        $return = $this->service->scheduleContentUpgradeTask($out, $backup, true);
         $response = new Response(json_encode(array("result" => $return, "out" => $out)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -110,7 +110,7 @@ class AdministrationController {
 
     public function taskPlatformUpgradeAction() {
         $backup = $this->request->get("backup");
-        $return = $this->service->schedulePlatformUpgradeTask($out, $backup);
+        $return = $this->service->schedulePlatformUpgradeTask($out, $backup, true);
         $response = new Response(json_encode(array("result" => $return, "out" => $out)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

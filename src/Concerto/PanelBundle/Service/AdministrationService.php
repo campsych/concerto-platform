@@ -403,7 +403,18 @@ class AdministrationService {
         return $this->scheduledTaskRepository->findAll();
     }
 
-    public function scheduleRestoreTask(&$output) {
+    public function scheduleRestoreTask(&$output, $busy_check) {
+        if ($busy_check) {
+            $pending = $this->scheduledTaskRepository->findAllPending();
+            if (count($pending) > 0)
+                return -1;
+
+            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+            if (count($ongoing) > 0) {
+                return -1;
+            }
+        }
+
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
@@ -415,7 +426,18 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function scheduleBackupTask(&$output) {
+    public function scheduleBackupTask(&$output, $busy_check) {
+        if ($busy_check) {
+            $pending = $this->scheduledTaskRepository->findAllPending();
+            if (count($pending) > 0)
+                return -1;
+
+            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+            if (count($ongoing) > 0) {
+                return -1;
+            }
+        }
+        
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
@@ -427,7 +449,18 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function scheduleContentUpgradeTask(&$output, $backup) {
+    public function scheduleContentUpgradeTask(&$output, $backup, $busy_check) {
+        if ($busy_check) {
+            $pending = $this->scheduledTaskRepository->findAllPending();
+            if (count($pending) > 0)
+                return -1;
+
+            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+            if (count($ongoing) > 0) {
+                return -1;
+            }
+        }
+        
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
@@ -440,7 +473,18 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function schedulePlatformUpgradeTask(&$output, $backup) {
+    public function schedulePlatformUpgradeTask(&$output, $backup, $busy_check) {
+        if ($busy_check) {
+            $pending = $this->scheduledTaskRepository->findAllPending();
+            if (count($pending) > 0)
+                return -1;
+
+            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+            if (count($ongoing) > 0) {
+                return -1;
+            }
+        }
+        
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(

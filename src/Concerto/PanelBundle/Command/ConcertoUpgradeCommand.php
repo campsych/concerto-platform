@@ -68,8 +68,8 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
 
         $cmd = "nohup sh -c \"sleep 3 ";
         $cmd .= "&& cd $concerto_path ";
-        $cmd .= "&& git fetch ";
-        $cmd .= "&& git checkout $git_branch ";
+        $cmd .= "&& git fetch origin ";
+        $cmd .= "&& git reset --hard origin/$git_branch ";
         $cmd .= "&& curl -s http://getcomposer.org/installer | php ";
         $cmd .= "&& $php_exec -dmemory_limit=1G composer.phar install --no-interaction ";
         $cmd .= "&& cd $panel_bower_path ";
@@ -77,9 +77,10 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $cmd .= "&& cd $test_bower_path ";
         $cmd .= "&& bower install --allow-root ";
         $cmd .= "&& R CMD INSTALL $concerto_rlib_path ";
-        $cmd .= "&& $php_exec $console_path concerto:setup $web_path ";
-        $cmd .= "&& $php_exec $console_path concerto:r:cache $web_path ";
-        $cmd .= "&& $php_exec $console_path cache:clear $web_path ";
+        $cmd .= "&& $php_exec $console_path concerto:setup ";
+        $cmd .= "&& $php_exec $console_path concerto:r:cache ";
+        $cmd .= "&& $php_exec $console_path cache:clear ";
+        $cmd .= "&& $php_exec $console_path assets:install --symlink $web_path";
         $cmd .= "&& chown -R $web_user:$web_group $concerto_path ";
         $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
         return $cmd;

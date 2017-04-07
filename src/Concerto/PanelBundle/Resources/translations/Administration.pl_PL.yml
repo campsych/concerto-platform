@@ -86,14 +86,20 @@ tasks:
     dialog:
         title:
             backup: Kopia zapasowa
+            backup.failed: Kopia zapawowa zakończona niepowodzeniem
             restore: Przywracanie kopii zapasowej
+            restore.failed: Przewracanie kopii zapasowej zakończone niepowodzeniem
             content_upgrade: Aktualzacja zawartości
+            content_upgrade.failed: Aktualizacja zawartości zakończona niepowodzeniem
             platform_upgrade: Aktualizacja platformy
+            platform_upgrade.failed: Aktualizacja platformy zakończona niepowodzeniem
         confirm: 
             backup: Jesteś pewien, że chcesz dokonać kopii zapasowej Concerto Platform? Jakalowiek poprzednia kopia zapasowa zostanie bezpowrotnie zastąpiona.
             restore: Jesteś pewien, że chcesz przywrócić kopię zapasową? Zostanie przywrócony stan platformy z momentu dokonania kopii zapasowej zastępując obecny. Ta operacja jest nieodwracalna.
             content_upgrade: Jesteś pewien, że chcesz dokonać aktualizacji zawartości?
             platform_upgrade: Jesteś pewien, że chcesz dokonać aktualizacji platformy?
+        content:
+            busy: Obecnie już trwają lub są zaplanowane zadania.
         fields:
             backup: Zrób kopię zapasową i użyj jej jako punktu przywrócenia w wypadku gdy to zadanie się nie powiedzie.
         

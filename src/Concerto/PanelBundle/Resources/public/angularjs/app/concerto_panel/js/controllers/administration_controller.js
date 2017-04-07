@@ -464,10 +464,10 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                         size: "lg",
                         resolve: {
                             title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE;
+                                return Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE_FAILED;
                             },
                             content: function () {
-                                return response.data.out;
+                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
                             },
                             type: function () {
                                 return "danger";
@@ -515,10 +515,10 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                         size: "lg",
                         resolve: {
                             title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_CONTENT_UPGRADE;
+                                return Trans.TASKS_DIALOG_TITLE_CONTENT_UPGRADE_FAILED;
                             },
                             content: function () {
-                                return response.data.out;
+                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
                             },
                             type: function () {
                                 return "danger";
@@ -559,10 +559,10 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                         size: "lg",
                         resolve: {
                             title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_BACKUP;
+                                return Trans.TASKS_DIALOG_TITLE_BACKUP_FAILED;
                             },
                             content: function () {
-                                return response.data.out;
+                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
                             },
                             type: function () {
                                 return "danger";
@@ -608,10 +608,10 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                         size: "lg",
                         resolve: {
                             title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_RESTORE;
+                                return Trans.TASKS_DIALOG_TITLE_RESTORE_FAILED;
                             },
                             content: function () {
-                                return response.data.out;
+                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
                             },
                             type: function () {
                                 return "danger";
