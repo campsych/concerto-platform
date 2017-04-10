@@ -115,4 +115,31 @@ class AdministrationController {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    public function apiClientCollectionAction() {
+        return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
+                    'collection' => $this->service->getApiClientsCollection()
+        ));
+    }
+
+    public function deleteApiClientAction($object_ids) {
+        $result = $this->service->deleteApiClient($object_ids);
+        $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function clearApiClientAction() {
+        $this->service->clearApiClients();
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function addApiClientAction() {
+        $this->service->addApiClient();
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

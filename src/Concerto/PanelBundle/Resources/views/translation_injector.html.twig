@@ -150,6 +150,10 @@
     Paths.ADMINISTRATION_TASKS_RESTORE = "{{ path("Administration_tasks_restore") }}";
     Paths.ADMINISTRATION_TASKS_CONTENT_UPGRADE = "{{ path("Administration_tasks_content_upgrade") }}";
     Paths.ADMINISTRATION_TASKS_PLATFORM_UPGRADE = "{{ path("Administration_tasks_platform_upgrade") }}";
+    Paths.ADMINISTRATION_API_CLIENTS_COLLECTION = "{{ path("Administration_api_clients_collection") }}";
+    Paths.ADMINISTRATION_API_CLIENTS_DELETE = "{{ path("Administration_api_clients_delete", {'object_ids':"{0}"}) }}";
+    Paths.ADMINISTRATION_API_CLIENTS_CLEAR = "{{ path("Administration_api_clients_clear") }}";
+    Paths.ADMINISTRATION_API_CLIENTS_ADD = "{{ path("Administration_api_clients_add") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -453,4 +457,11 @@
         Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE = "{{ "tasks.dialog.title.platform_upgrade"|trans }}";
         Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE_FAILED = "{{ "tasks.dialog.title.platform_upgrade.failed"|trans }}";
         Trans.TASKS_DIALOG_CONTENT_BUSY = "{{ "tasks.dialog.content.busy"|trans }}";
+        Trans.API_CLIENTS_LIST_FIELD_ID = "{{ "api_clients.list.fields.id"|trans }}";
+        Trans.API_CLIENTS_LIST_FIELD_SECRET = "{{ "api_clients.list.fields.secret"|trans }}";
+        Trans.API_CLIENTS_LIST_BUTTONS_DELETE = "{{ "api_clients.list.buttons.delete"|trans }}";
+        Trans.API_CLIENTS_DIALOGS_TITLE_DELETE = "{{ "api_clients.dialogs.title.delete"|trans }}";
+        Trans.API_CLIENTS_DIALOGS_MESSAGE_DELETE = "{{ "api_clients.dialogs.message.delete"|trans }}";
+        Trans.API_CLIENTS_DIALOGS_TITLE_CLEAR = "{{ "api_clients.dialogs.title.clear"|trans }}";
+        Trans.API_CLIENTS_DIALOGS_MESSAGE_CLEAR = "{{ "api_clients.dialogs.message.clear"|trans }}";
 </script>

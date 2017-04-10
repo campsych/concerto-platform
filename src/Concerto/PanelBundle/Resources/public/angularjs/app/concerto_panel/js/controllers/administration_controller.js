@@ -1,9 +1,12 @@
-function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService) {
+function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService) {
     $scope.tabStateName = "administration";
     $scope.tabIndex = 6;
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
     $scope.deleteMessagePath = Paths.ADMINISTRATION_MESSAGES_DELETE;
     $scope.clearMessagePath = Paths.ADMINISTRATION_MESSAGES_CLEAR;
+    $scope.deleteApiClientsPath = Paths.ADMINISTRATION_API_CLIENTS_DELETE;
+    $scope.clearApiClientsPath = Paths.ADMINISTRATION_API_CLIENTS_CLEAR;
+    $scope.addApiClientPath = Paths.ADMINISTRATION_API_CLIENTS_ADD;
     $scope.exposedSettingsMap = {};
     $scope.internalSettingsMap = {};
 
@@ -624,6 +627,118 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     };
 
+    $scope.apiClientsCollection = [];
+    $scope.apiClientsOptions = {
+        enableFiltering: false,
+        enableGridMenu: true,
+        exporterMenuCsv: false,
+        exporterMenuPdf: false,
+        data: "apiClientsCollection",
+        exporterCsvFilename: 'export.csv',
+        showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.apiClientsOptions.enableFiltering = !$scope.apiClientsOptions.enableFiltering;
+                    $scope.apiClientsGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
+        onRegisterApi: function (gridApi) {
+            $scope.apiClientsGridApi = gridApi;
+        },
+        columnDefs: [
+            {
+                displayName: Trans.API_CLIENTS_LIST_FIELD_ID,
+                field: "fullId"
+            }, {
+                displayName: Trans.API_CLIENTS_LIST_FIELD_SECRET,
+                field: "secret"
+            }, {
+                displayName: "",
+                name: "_action",
+                enableSorting: false,
+                enableFiltering: false,
+                exporterSuppressExport: true,
+                cellTemplate: '<div class="ui-grid-cell-contents" align="center"><button type="button" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteApiClient(row.entity.id);">' + Trans.API_CLIENTS_LIST_BUTTONS_DELETE + '</button></div>',
+                width: 60
+            }
+        ]
+    };
+
+    $scope.deleteApiClient = function (ids) {
+        if (!(ids instanceof Array)) {
+            ids = [ids];
+        }
+
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.API_CLIENTS_DIALOGS_TITLE_DELETE;
+                },
+                content: function () {
+                    return Trans.API_CLIENTS_DIALOGS_MESSAGE_DELETE;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post($scope.deleteApiClientsPath.pf(ids), {
+            }).success(function (data) {
+                $scope.refreshApiClients();
+            });
+        }, function () {
+        });
+    };
+
+    $scope.deleteSelectedApiClients = function () {
+        var ids = [];
+        for (var i = 0; i < $scope.apiClientsGridApi.selection.getSelectedRows().length; i++) {
+            ids.push($scope.apiClientsGridApi.selection.getSelectedRows()[i].id);
+        }
+        $scope.deleteApiClient(ids);
+    };
+
+    $scope.deleteAllApiClients = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
+            controller: ConfirmController,
+            size: "sm",
+            resolve: {
+                title: function () {
+                    return Trans.API_CLIENTS_DIALOGS_TITLE_CLEAR;
+                },
+                content: function () {
+                    return Trans.API_CLIENTS_DIALOGS_MESSAGE_CLEAR;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (response) {
+            $http.post($scope.clearApiClientsPath, {
+            }).success(function (data) {
+                $scope.refreshApiClients();
+            });
+        }, function () {
+        });
+    };
+
+    $scope.addApiClient = function () {
+        $http.post($scope.addApiClientPath, {}).then(function (response) {
+            $scope.refreshApiClients();
+        });
+    };
+
+    $scope.refreshApiClients = function () {
+        ApiClientsCollectionService.fetchObjectCollection(function () {
+            $scope.apiClientsCollection = ApiClientsCollectionService.collection;
+        });
+    };
+
     $scope.refreshTasks = function () {
         ScheduledTasksCollectionService.fetchObjectCollection(function () {
             $scope.tasksCollection = ScheduledTasksCollectionService.collection;
@@ -665,6 +780,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.refreshUsageChart();
     $scope.refreshMessages();
     $scope.refreshTasks();
+    $scope.refreshApiClients();
 }
 
-concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", AdministrationController]);
+concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", AdministrationController]);

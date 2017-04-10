@@ -1,5 +1,12 @@
 services:
     
+  API.Client_metadata:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    arguments: ["Concerto\\APIBundle\\Entity\\Client"]
+  API.Client_repository:
+    class: Concerto\APIBundle\Repository\ClientRepository
+    arguments: ["@doctrine.orm.entity_manager","@API.Client_metadata"]
+    
   API.DataRecord_service:
     class: Concerto\APIBundle\Service\DataRecordService
     arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.db_data_dao", "@concerto_panel.db_structure_dao"] 

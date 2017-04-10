@@ -102,6 +102,29 @@ tasks:
             busy: There are already pending or ongoing scheduled tasks.
         fields:
             backup: Perform a backup and use it as a restore point in case when this task will fail.
+            
+api_clients:
+    fieldset:
+        legend: API clients
+        legend.tooltip: API clients
+    list: 
+        fields: 
+            id: Id
+            secret: Secret
+        buttons:
+            refresh: Refresh
+            add: Add new
+            delete_selected: Delete selected
+            clear: Clear clients
+            delete: Delete
+    dialogs:
+        title:
+            delete: Removing API client
+            clear: Clearing API clients
+        message:
+            delete: Are you sure you want to remove selected API client?
+            clear: Are you sure you want to remove all API clients?
         
 alerts:
     no_usage_data: There is no usage data available currently.
+    api_disabled: API is currently disabled.

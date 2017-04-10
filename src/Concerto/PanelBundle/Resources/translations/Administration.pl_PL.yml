@@ -103,5 +103,28 @@ tasks:
         fields:
             backup: Zrób kopię zapasową i użyj jej jako punktu przywrócenia w wypadku gdy to zadanie się nie powiedzie.
         
+api_clients:
+    fieldset:
+        legend: klienci API
+        legend.tooltip: klienci API
+    list: 
+        fields: 
+            id: Id
+            secret: Sekret
+        buttons:
+            refresh: Odśwież
+            add: Dodaj nowego
+            delete_selected: Usuń wybrane
+            clear: Wczyść klientów
+            delete: Usuń
+    dialogs:
+        title:
+            delete: Usuwanie klienta API
+            clear: Usuwanie wszystkich klientów API
+        message:
+            delete: Jesteś pewien, że chcesz usunąć wybranych klientów API?
+            clear: Jesteś pewien, że chcesz usunąc wszystkich klientów API?
+
 alerts:
     no_usage_data: Obecnie brak danych użycia.
+    api_disabled: API jest obecnie wyłączone.

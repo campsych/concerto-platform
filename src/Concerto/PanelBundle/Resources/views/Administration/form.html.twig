@@ -54,6 +54,14 @@
         </uib-accordion-heading>
         {{ include("ConcertoPanelBundle:Administration:tasks_section.html.twig", {'class_name':"Administration"}) }}
     </uib-accordion-group>
+    <uib-accordion-group is-open="tabAccordion.apiClients.open">
+        <uib-accordion-heading>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'api_clients.fieldset.legend.tooltip'|trans }}'"></i>
+            {{ 'api_clients.fieldset.legend'|trans }}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.apiClients.open, 'glyphicon-chevron-right': !tabAccordion.apiClients.open}"></i>
+        </uib-accordion-heading>
+        {{ include("ConcertoPanelBundle:Administration:api_clients_section.html.twig", {'class_name':"Administration"}) }}
+    </uib-accordion-group>
 {% endblock %}
 
 {% block floatingBarExtraButtons %}

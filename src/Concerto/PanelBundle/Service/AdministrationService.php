@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Concerto\APIBundle\Repository\ClientRepository;
 
 class AdministrationService {
 
@@ -33,8 +34,9 @@ class AdministrationService {
     private $scheduledTaskRepository;
     private $rootDir;
     private $kernel;
+    private $apiClientRepository;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel) {
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel, ClientRepository $clientRepository) {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
@@ -46,6 +48,7 @@ class AdministrationService {
         $this->scheduledTaskRepository = $scheduledTaskRepository;
         $this->rootDir = $rootDir;
         $this->kernel = $kernel;
+        $this->apiClientRepository = $clientRepository;
     }
 
     public function insertSessionLimitMessage(TestSession $session) {
@@ -437,7 +440,7 @@ class AdministrationService {
                 return -1;
             }
         }
-        
+
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
@@ -460,7 +463,7 @@ class AdministrationService {
                 return -1;
             }
         }
-        
+
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
@@ -484,12 +487,38 @@ class AdministrationService {
                 return -1;
             }
         }
-        
+
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
             "command" => "concerto:upgrade",
             "--backup" => true
+        ));
+        $out = new BufferedOutput();
+        $return_code = $app->run($in, $out);
+        $output = $out->fetch();
+        return $return_code;
+    }
+
+    public function getApiClientsCollection() {
+        return $this->apiClientRepository->findAll();
+    }
+
+    public function deleteApiClient($object_ids) {
+        $object_ids = explode(",", $object_ids);
+        $this->apiClientRepository->deleteById($object_ids);
+    }
+
+    public function clearApiClients() {
+        $this->apiClientRepository->deleteAll();
+    }
+
+    public function addApiClient() {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "oauth-server:client:create",
+            "--grant-type" => array("token","client_credentials")
         ));
         $out = new BufferedOutput();
         $return_code = $app->run($in, $out);

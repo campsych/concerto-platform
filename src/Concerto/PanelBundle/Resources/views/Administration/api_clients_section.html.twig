@@ -1,0 +1,14 @@
+{% trans_default_domain "Administration" %}
+
+<uib-alert type="warning" ng-if="exposedSettingsMap['api_enabled'] == 0">
+    <i class="glyphicon glyphicon-exclamation-sign"></i>
+    {{ 'alerts.api_disabled'|trans }}
+</uib-alert>
+
+<div class="center">
+    <button ng-click="refreshApiClients();" class="btn btn-default btn-sm btn-list-refresh">{{ "api_clients.list.buttons.refresh"|trans }}</button>
+    <button ng-click="addApiClient();" class="btn btn-success btn-sm">{{ "api_clients.list.buttons.add"|trans }}</button>
+    <button ng-click="deleteSelectedApiClients();" class="btn btn-danger btn-sm">{{ "api_clients.list.buttons.delete_selected"|trans }}</button>
+    <button ng-click="deleteAllApiClients();" class="btn btn-danger btn-sm">{{ "api_clients.list.buttons.clear"|trans }}</button>
+</div>
+<div ui-grid="apiClientsOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid collectionTable"></div>
