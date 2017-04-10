@@ -15,4 +15,5 @@ parameters:
             upgrade_connection: local #only works with MySQL driver
             web_user: www-data
             web_group: www-data
+            r_lib_path: null
             

@@ -63,6 +63,7 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $concerto_rlib_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "TestBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "R" . DIRECTORY_SEPARATOR . "concerto5");
         $web_user = $this->getContainer()->getParameter("administration")["internal"]["web_user"];
         $web_group = $this->getContainer()->getParameter("administration")["internal"]["web_group"];
+        $r_lib_path = $this->getContainer()->getParameter("administration")["internal"]["r_lib_path"];
         $task_result_file = $this->getTaskResultFile($task);
         $task_output_file = $this->getTaskOutputFile($task);
 
@@ -76,7 +77,7 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $cmd .= "&& bower install --allow-root ";
         $cmd .= "&& cd $test_bower_path ";
         $cmd .= "&& bower install --allow-root ";
-        $cmd .= "&& R CMD INSTALL $concerto_rlib_path ";
+        $cmd .= "&& R CMD INSTALL $concerto_rlib_path " . ($r_lib_path ? "-l $r_lib_path" : "");
         $cmd .= "&& $php_exec $console_path concerto:setup ";
         $cmd .= "&& $php_exec $console_path concerto:r:cache ";
         $cmd .= "&& $php_exec $console_path cache:clear ";
