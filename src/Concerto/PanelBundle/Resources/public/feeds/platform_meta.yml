@@ -2,7 +2,7 @@ version: "5.0.beta.3.0"
 changelog:
     - version: "5.0.beta.3.0"
       description: >
-        This update is focused on adding administration tab to the panel that provides user with information about running instance and about Concerto Platform in general. Associated changelog might not include all changes included in this update.
+        This update is focused on adding administration tab to the panel.
       categories:
           - label: New features
             changes:
@@ -11,9 +11,20 @@ changelog:
                 - global messages in administration tab
                 - test error messages also in administration tab
                 - live ongoing session number charts (Linux only for now)
+                - scheduled tasks in administration tab (Linux only for now)
+                - API clients management from within administration tab
+                - backup scheduled task (Linux only for now)
+                - restore scheduled task (Linux only for now)
+                - content upgrade scheduled task (Linux only for now)
+                - plaform upgrade scheduled task (Linux only for now)
                 - added app/config/parameters_administration.yml containing administration settings
                 - max ongoing session limit can now be set in config file (app/config/parameters_administration.yml) and/or in administration tab (Linux only for now)
                 - concerto:sessions:log command to update current ongoing sessions count
+                - concerto:backup command to schedule a full backup task (Linux only for now)
+                - concerto:restore command to schedule a backup restore task (Linux only for now)
+                - concerto:content:upgrade command to schedule a starter content upgrade task (Linux only for now)
+                - concerto:upgrade command to schedule platform upgrade task (Linux only for now)
+                - concerto:schedule:tick command to process scheduled tasks (Linux only for now)
                 - API can be enabled/disabled in config file (app/config/parameters_administration.yml) and/or in administration tab
                 - in-test file upload uploads file to test node
           - label: Improvements
