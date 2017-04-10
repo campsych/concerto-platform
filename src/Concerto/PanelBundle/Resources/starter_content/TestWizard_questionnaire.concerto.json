@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.187",
+    "version": "5.0.beta.3.0",
     "collection": [
         {
             "class_name": "Test",
@@ -262,7 +262,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-02-21 16:02:37",
+            "updatedOn": "2017-04-10 19:32:51",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -832,7 +832,7 @@
             ],
             "test": 27,
             "testName": "source_questionnaire",
-            "updatedOn": "2017-02-21 16:02:37",
+            "updatedOn": "2017-04-10 19:32:51",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -852,7 +852,7 @@
             "css": ".questionnaire-question-cell {\n}\n\n.questionnaire-response-cell {\n  width: 12%;\n  text-align: center;\n  border-left: 1px solid #d1d1d1;\n  border-right: 1px solid #d1d1d1;\n}\n.questionnaire-header-cell {\n  text-align: center;\n  background-color: #b9d979;\n  font-weight: 500;\n}\n.questionnaire-response-table {\n  border: 1px solid #d1d1d1;\n  margin-top: 20px;\n}\n.questionnaire-response-table tr:nth-child(even) {\n  background-color: #f1e1ed;\n}\n.questionnaire-response-table tr:nth-child(odd) {\n}",
             "js": "testRunner.controllerProvider.register(\"questionnaire\", function($scope) {\n  $scope.responseOptions = {{options}};\n  $scope.questions = {{questions}}\n});",
             "html": "{{paragraph}}\n<table class=\"questionnaire-response-table\" ng-controller=\"questionnaire\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"questionnaire-header-cell\">&nbsp;<\/th>\n\t\t\t<th class=\"questionnaire-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr ng-class=\"{'validationHighlight': question.noAnswer}\" ng-repeat=\"question in questions\">\n\t\t\t<td class=\"questionnaire-question-cell\" ng-bind-html=\"question.question\">&nbsp;<\/td>\n\t\t\t<td class=\"questionnaire-response-cell\" ng-repeat=\"option in responseOptions\"><input name=\"q[[question.id]]\" ng-model=\"question.answer\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2017-02-21 16:02:38",
+            "updatedOn": "2017-04-10 19:32:51",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -872,7 +872,7 @@
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"previous\" ng-show=\"{{show_previous}}\">{{label_previous}}<\/button><\/li>\n    <li ng-if=\"{{show_pager}}\">page {{current_page}} of {{page_count}}<\/li>\n    <li><button name=\"next\">{{label_next}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
-            "updatedOn": "2017-02-21 16:02:38",
+            "updatedOn": "2017-04-10 19:32:51",
             "updatedByName": "",
             "owner": 1,
             "groups": "",

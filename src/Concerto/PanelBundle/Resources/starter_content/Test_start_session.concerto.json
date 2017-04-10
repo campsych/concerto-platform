@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.187",
+    "version": "5.0.beta.3.0",
     "collection": [
         {
             "class_name": "Test",
@@ -251,7 +251,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-02-21 16:02:32",
+            "updatedOn": "2017-04-10 19:32:46",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -1138,7 +1138,7 @@
             ],
             "test": 3,
             "testName": "source_start_session",
-            "updatedOn": "2017-02-21 16:02:32",
+            "updatedOn": "2017-04-10 19:32:46",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -1385,7 +1385,7 @@
             "sourceWizardName": "start_session",
             "sourceWizardTest": 3,
             "sourceWizardTestName": "source_start_session",
-            "updatedOn": "2017-02-21 16:02:42",
+            "updatedOn": "2017-04-10 19:32:55",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -1640,33 +1640,22 @@
                     "value": null,
                     "test": 1,
                     "parentVariable": null
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 22,
-                    "name": "out",
-                    "type": 2,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "0",
-                    "test": 1,
-                    "parentVariable": null
                 }
             ],
             "sourceWizard": null,
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-02-21 16:02:31",
-            "updatedByName": "",
+            "updatedOn": "2017-04-10 19:34:18",
+            "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "rev": 4,
-            "hash": "6c96ab9edd90e8fb87ff5dc31ea819ffcaa9bbeb"
+            "rev": 5,
+            "hash": "226233bfff9960c5af6b2ff8d5683d5a678cb61c"
         },
         {
             "class_name": "TestWizard",
@@ -2217,13 +2206,13 @@
             ],
             "test": 1,
             "testName": "source_form",
-            "updatedOn": "2017-02-21 16:02:31",
+            "updatedOn": "2017-04-10 19:32:45",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
-            "hash": "5dfcae9cd0fbfa5f90da77d58ce13a2ff317aef7"
+            "rev": 5,
+            "hash": "42cc36fbd6e3b474c60c9e44129423a87b8a20e9"
         },
         {
             "class_name": "Test",
@@ -2239,17 +2228,6 @@
             "outdated": "0",
             "description": "",
             "variables": [
-                {
-                    "class_name": "TestVariable",
-                    "id": 90,
-                    "name": "out",
-                    "type": 2,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "0",
-                    "test": 5,
-                    "parentVariable": 22
-                },
                 {
                     "class_name": "TestVariable",
                     "id": 91,
@@ -2486,7 +2464,7 @@
             "sourceWizardName": "form",
             "sourceWizardTest": 1,
             "sourceWizardTestName": "source_form",
-            "updatedOn": "2017-02-21 16:02:42",
+            "updatedOn": "2017-04-10 19:34:18",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -2494,8 +2472,8 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
-            "hash": "675f374ff610ef177fcc3bd5bfeb9086d6897535"
+            "rev": 5,
+            "hash": "7b93f809dc2ad752126b8e78bcfcc595f91f7c89"
         },
         {
             "class_name": "ViewTemplate",
@@ -2509,7 +2487,7 @@
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-02-21 16:02:32",
+            "updatedOn": "2017-04-10 19:32:45",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2529,7 +2507,7 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-02-21 16:02:32",
+            "updatedOn": "2017-04-10 19:32:45",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2549,7 +2527,7 @@
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n<ul>\n\t<li><button name=\"login\">{{label_login}}<\/button><\/li>\n\t<li><button name=\"register\" ng-show=\"{{show_register}}\">{{label_register}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2017-02-21 16:02:33",
+            "updatedOn": "2017-04-10 19:32:47",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2569,7 +2547,7 @@
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-02-21 16:02:32",
+            "updatedOn": "2017-04-10 19:32:45",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
@@ -2589,7 +2567,7 @@
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2017-02-21 16:02:33",
+            "updatedOn": "2017-04-10 19:32:47",
             "updatedByName": "",
             "owner": 1,
             "groups": "",

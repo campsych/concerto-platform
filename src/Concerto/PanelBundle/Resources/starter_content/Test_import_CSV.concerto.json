@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.187",
+    "version": "5.0.beta.3.0",
     "collection": [
         {
             "class_name": "Test",
@@ -97,7 +97,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-02-21 16:02:34",
+            "updatedOn": "2017-04-10 19:32:47",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -113,7 +113,7 @@
             "id": 6,
             "name": "import_CSV",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "steps": [
@@ -170,19 +170,19 @@
             ],
             "test": 10,
             "testName": "source_import_CSV",
-            "updatedOn": "2017-02-21 16:02:34",
+            "updatedOn": "2017-04-10 19:32:47",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "e73f4ec16e4f98e43493dfde366068b4327936d0"
+            "hash": "4e21624c9dbbc3f37ff07db0a1fb57c3b34aa107"
         },
         {
             "class_name": "Test",
             "id": 20,
             "name": "import_CSV",
-            "accessibility": 0,
+            "accessibility": 2,
             "protected": "1",
             "archived": "0",
             "visibility": 2,
@@ -274,7 +274,7 @@
             "sourceWizardName": "import_CSV",
             "sourceWizardTest": 10,
             "sourceWizardTestName": "source_import_CSV",
-            "updatedOn": "2017-02-21 16:02:35",
+            "updatedOn": "2017-04-10 19:32:49",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -283,7 +283,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "9dc8f2497eb56727e65407835f4e93cdc75de28a"
+            "hash": "e36c00e94a31bd372aef6c449558d3e70d403959"
         }
     ]
 }

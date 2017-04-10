@@ -8,3 +8,5 @@ changelog:
             changes:
                 - >
                   'CAT' now allows open text responses again
+                - >
+                  removed leftover 'out' port from 'form' node
