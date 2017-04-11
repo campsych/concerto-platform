@@ -64,6 +64,9 @@ class AdministrationService {
 
     private function fetchTestSessionLogs($start_time) {
         foreach ($this->testSessionLogRepository->findAllNewerThan($start_time) as $log) {
+            if ($log->getTest() === null)
+                continue;
+            
             $msg = new Message();
             $msg->setTime($log->getCreated());
             $msg->setCagegory(Message::CATEGORY_TEST);
@@ -518,7 +521,7 @@ class AdministrationService {
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
             "command" => "oauth-server:client:create",
-            "--grant-type" => array("token","client_credentials")
+            "--grant-type" => array("token", "client_credentials")
         ));
         $out = new BufferedOutput();
         $return_code = $app->run($in, $out);

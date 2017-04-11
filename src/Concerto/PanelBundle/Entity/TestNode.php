@@ -299,6 +299,22 @@ class TestNode extends AEntity implements \JsonSerializable {
         return $this->destinationForConnections;
     }
 
+    public function getAccessibility() {
+        return $this->getFlowTest()->getAccessibility();
+    }
+
+    public function hasAnyFromGroup($other_groups) {
+        $groups = $this->getFlowTest()->getGroupsArray();
+        foreach ($groups as $group) {
+            foreach ($other_groups as $other_group) {
+                if ($other_group == $group) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["flowTest"]);

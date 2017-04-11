@@ -17,7 +17,6 @@ class ObjectVoter extends AbstractVoter {
 
     protected function getSupportedClasses() {
         return array(
-            'Concerto\PanelBundle\Entity\AdministrationSetting',
             'Concerto\PanelBundle\Entity\DataTable',
             'Concerto\PanelBundle\Entity\Test',
             'Concerto\PanelBundle\Entity\TestNode',

@@ -32,6 +32,9 @@ changelog:
                 - 307 redirections to remote panel nodes
                 - socket_bind accepts connection from anywhere now
                 - test runner refactorization
+          - label: Fixes
+            changes:
+                - Non super-admin users permissions fixed
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument

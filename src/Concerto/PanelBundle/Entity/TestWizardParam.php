@@ -337,6 +337,22 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return $this->definition;
     }
 
+    public function getAccessibility() {
+        return $this->getWizard()->getAccessibility();
+    }
+
+    public function hasAnyFromGroup($other_groups) {
+        $groups = $this->getWizard()->getGroupsArray();
+        foreach ($groups as $group) {
+            foreach ($other_groups as $other_group) {
+                if ($other_group == $group) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["testVariable"]);

@@ -11,7 +11,15 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table
  * @ORM\Entity
  */
-class Role extends AEntity implements RoleInterface {
+class Role implements RoleInterface {
+    
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
     /**
      * @ORM\Column(name="name", type="string", length=30)
@@ -29,13 +37,26 @@ class Role extends AEntity implements RoleInterface {
     private $users;
 
     public function __construct() {
-        parent::__construct();
-        
         $this->users = new ArrayCollection();
     }
     
-    public function getOwner() {
-        return null;
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set id
+     * @param integer $id
+     * @return AdministrationSetting;
+     */
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
     }
 
     /**

@@ -700,4 +700,19 @@ class TestSession extends AEntity {
         return $this->debug;
     }
 
+    public function getAccessibility() {
+        return $this->getTest()->getAccessibility();
+    }
+
+    public function hasAnyFromGroup($other_groups) {
+        $groups = $this->getTest()->getGroupsArray();
+        foreach ($groups as $group) {
+            foreach ($other_groups as $other_group) {
+                if ($other_group == $group) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

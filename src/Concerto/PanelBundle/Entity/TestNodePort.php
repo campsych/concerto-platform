@@ -230,6 +230,22 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     public function setDefaultValue($defaultValue) {
         $this->defaultValue = $defaultValue;
     }
+    
+    public function getAccessibility() {
+        return $this->getNode()->getFlowTest()->getAccessibility();
+    }
+
+    public function hasAnyFromGroup($other_groups) {
+        $groups = $this->getNode()->getFlowTest()->getGroupsArray();
+        foreach ($groups as $group) {
+            foreach ($other_groups as $other_group) {
+                if ($other_group == $group) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public static function getArrayHash($arr) {
         unset($arr["id"]);

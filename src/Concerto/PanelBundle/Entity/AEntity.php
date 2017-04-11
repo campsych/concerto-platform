@@ -183,4 +183,6 @@ abstract class AEntity {
     }
 
     public abstract function getOwner();
+    public abstract function getAccessibility();
+    public abstract function hasAnyFromGroup($other_groups);
 }

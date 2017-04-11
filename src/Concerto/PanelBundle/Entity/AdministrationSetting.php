@@ -8,7 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\AdministrationSettingRepository")
  */
-class AdministrationSetting extends AEntity implements \JsonSerializable {
+class AdministrationSetting implements \JsonSerializable {
+    
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
     /**
      *
@@ -30,6 +38,25 @@ class AdministrationSetting extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="boolean")
      */
     private $exposed;
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set id
+     * @param integer $id
+     * @return AdministrationSetting;
+     */
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * Set key
@@ -94,15 +121,10 @@ class AdministrationSetting extends AEntity implements \JsonSerializable {
         return $this->exposed;
     }
 
-    public function getOwner() {
-        return null;
-    }
-
     public function jsonSerialize(&$dependencies = array()) {
         return array(
             "class_name" => "AdministrationSetting",
             "id" => $this->getId(),
-            "created" => $this->getCreated()->format("Y-m-d H:i:s"),
             "skey" => $this->skey,
             "svalue" => $this->svalue,
             "exposed" => $this->exposed

@@ -206,6 +206,22 @@ class TestWizardStep extends AEntity implements \JsonSerializable {
     public function getParams() {
         return $this->params;
     }
+    
+    public function getAccessibility() {
+        return $this->getWizard()->getAccessibility();
+    }
+
+    public function hasAnyFromGroup($other_groups) {
+        $groups = $this->getWizard()->getGroupsArray();
+        foreach ($groups as $group) {
+            foreach ($other_groups as $other_group) {
+                if ($other_group == $group) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public static function getArrayHash($arr) {
         unset($arr["id"]);
