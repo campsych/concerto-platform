@@ -46,6 +46,14 @@
         </uib-accordion-heading>
         {{ include("ConcertoPanelBundle:Administration:usage_charts_section.html.twig", {'class_name':"Administration"}) }}
     </uib-accordion-group>
+    <uib-accordion-group is-open="tabAccordion.packages.open">
+        <uib-accordion-heading>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'packages.fieldset.legend.tooltip'|trans }}'"></i>
+            {{ 'packages.fieldset.legend'|trans }}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.packages.open, 'glyphicon-chevron-right': !tabAccordion.packages.open}"></i>
+        </uib-accordion-heading>
+        {{ include("ConcertoPanelBundle:Administration:packages_section.html.twig", {'class_name':"Administration"}) }}
+    </uib-accordion-group>
     <uib-accordion-group is-open="tabAccordion.tasks.open">
         <uib-accordion-heading>
             <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'tasks.fieldset.legend.tooltip'|trans }}'"></i>

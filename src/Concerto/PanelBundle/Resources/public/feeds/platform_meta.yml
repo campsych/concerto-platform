@@ -13,6 +13,7 @@ changelog:
                 - live ongoing session number charts (Linux only for now)
                 - scheduled tasks in administration tab (Linux only for now)
                 - API clients management from within administration tab
+                - R packages installation and status report from within administration tab (Linux only for now)
                 - backup scheduled task (Linux only for now)
                 - restore scheduled task (Linux only for now)
                 - content upgrade scheduled task (Linux only for now)

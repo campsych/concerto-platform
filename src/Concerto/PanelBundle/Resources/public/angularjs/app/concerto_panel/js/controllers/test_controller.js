@@ -1,7 +1,7 @@
-function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation) {
+function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation) {
     $scope.tabStateName = "tests";
     $scope.tabIndex = 0;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_DELETE;
@@ -167,7 +167,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             {
                 displayName: Trans.TEST_LOG_LIST_FIELD_DATE,
                 field: "created",
-                sort: { direction: 'desc', priority: 0 }
+                sort: {direction: 'desc', priority: 0}
             }, {
                 displayName: Trans.TEST_LOG_LIST_FIELD_BROWSER,
                 field: "browser"
@@ -180,7 +180,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.showSingleTextareaModal(COL_FIELD, true, \'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\',\'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\')"></i>' +
+                        '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.dialogsService.textareaDialog(\'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\', COL_FIELD, \'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\', true)"></i>' +
                         "</div>"
             }, {
                 displayName: Trans.TEST_LOG_LIST_FIELD_TYPE,
@@ -477,27 +477,16 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     }
 
     $scope.deleteAllLogs = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_LOG_DIALOG_TITLE_CLEAR;
-                },
-                content: function () {
-                    return Trans.TEST_LOG_DIALOG_MESSAGE_CLEAR_CONFIRM;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_LOG_DIALOG_TITLE_CLEAR,
+                Trans.TEST_LOG_DIALOG_MESSAGE_CLEAR_CONFIRM,
+                function (response) {
+                    $http.post($scope.deleteAllLogsPath.pf($scope.object.id), {
+                    }).success(function (data) {
+                        $scope.refreshLogs();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteAllLogsPath.pf($scope.object.id), {
-            }).success(function (data) {
-                $scope.refreshLogs();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.deleteSelectedLogs = function () {
@@ -513,27 +502,16 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_LOG_DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.TEST_LOG_DIALOG_MESSAGE_DELETE_CONFIRM;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_LOG_DIALOG_TITLE_DELETE,
+                Trans.TEST_LOG_DIALOG_MESSAGE_DELETE_CONFIRM,
+                function (response) {
+                    $http.post($scope.deleteLogPath.pf(ids), {
+                    }).success(function (data) {
+                        $scope.refreshLogs();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteLogPath.pf(ids), {
-            }).success(function (data) {
-                $scope.refreshLogs();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.deleteSelectedVariables = function (type) {
@@ -578,29 +556,18 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 break;
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return confirmationTitle;
-                },
-                content: function () {
-                    return confirmationMessage;
+        $scope.dialogsService.confirmDialog(
+                confirmationTitle,
+                confirmationMessage,
+                function (response) {
+                    $http.post($scope.deleteVariablePath.pf(ids), {
+                    }).success(function (data) {
+                        $scope.setWorkingCopyObject();
+                        $scope.collectionService.fetchObjectCollection();
+                        $scope.testWizardCollectionService.fetchObjectCollection();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteVariablePath.pf(ids), {
-            }).success(function (data) {
-                $scope.setWorkingCopyObject();
-                $scope.collectionService.fetchObjectCollection();
-                $scope.testWizardCollectionService.fetchObjectCollection();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.updateDependent = function () {
@@ -620,45 +587,24 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             }
             $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
-            var modalInstance = $uibModal.open({
-                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                controller: AlertController,
-                size: "sm",
-                resolve: {
-                    title: function () {
-                        return Trans.TEST_DIALOG_TITLE_UDPATE;
-                    },
-                    content: function () {
-                        return Trans.TEST_DIALOG_MESSAGE_UDPATE_SUCCESSFUL;
-                    },
-                    type: function () {
-                        return "success";
-                    }
-                }
-            });
+
+            $scope.dialogsService.alertDialog(
+                    Trans.TEST_DIALOG_TITLE_UDPATE,
+                    Trans.TEST_DIALOG_MESSAGE_UDPATE_SUCCESSFUL,
+                    "success"
+                    );
         });
     };
 
     $scope.convertToR = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_LOGIC_CONVERT_TITLE;
-                },
-                content: function () {
-                    return Trans.TEST_LOGIC_CONVERT_CONFIRMATION;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_LOGIC_CONVERT_TITLE,
+                Trans.TEST_LOGIC_CONVERT_CONFIRMATION,
+                function (response) {
+                    $scope.object.type = 0;
+                    $scope.object.sourceWizard = null;
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $scope.object.type = 0;
-            $scope.object.sourceWizard = null;
-        }, function () {
-        });
+        );
     };
 
     $scope.addVariable = function (type) {
@@ -749,4 +695,4 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.fetchObjectCollection();
 }
 
-concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", TestController]);
+concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", TestController]);

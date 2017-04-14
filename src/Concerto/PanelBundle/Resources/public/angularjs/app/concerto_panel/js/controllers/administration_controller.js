@@ -1,4 +1,4 @@
-function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService) {
+function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService, DialogsService) {
     $scope.tabStateName = "administration";
     $scope.tabIndex = 6;
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
@@ -7,30 +7,10 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.deleteApiClientsPath = Paths.ADMINISTRATION_API_CLIENTS_DELETE;
     $scope.clearApiClientsPath = Paths.ADMINISTRATION_API_CLIENTS_CLEAR;
     $scope.addApiClientPath = Paths.ADMINISTRATION_API_CLIENTS_ADD;
+    $scope.packageReportPath = Paths.ADMINISTRATION_PACKAGES_STATUS;
     $scope.exposedSettingsMap = {};
     $scope.internalSettingsMap = {};
-
-    $scope.showSingleTextareaModal = function (value, readonly, title, tooltip) {
-        return $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "textarea_dialog.html",
-            controller: TextareaController,
-            resolve: {
-                readonly: function () {
-                    return readonly;
-                },
-                value: function () {
-                    return value;
-                },
-                title: function () {
-                    return title;
-                },
-                tooltip: function () {
-                    return tooltip;
-                }
-            },
-            size: "lg"
-        });
-    };
+    $scope.dialogsService = DialogsService;
 
     $scope.persistSettings = function () {
         $http.post($scope.updateSettingsMapPath, {
@@ -38,22 +18,11 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         }).then(function (response) {
             switch (response.data.result) {
                 case 0:
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "sm",
-                        resolve: {
-                            title: function () {
-                                return Trans.DIALOG_TITLE_SAVE;
-                            },
-                            content: function () {
-                                return Trans.DIALOG_MESSAGE_SAVED;
-                            },
-                            type: function () {
-                                return "success";
-                            }
-                        }
-                    });
+                    $scope.dialogsService.alertDialog(
+                            Trans.DIALOG_TITLE_SAVE,
+                            Trans.DIALOG_MESSAGE_SAVED,
+                            "success"
+                            );
                     break;
             }
         });
@@ -156,50 +125,16 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.clearUsageDate = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.ADMINISTRATION_DIALOG_TITLE_CLEAR;
-                },
-                content: function () {
-                    return Trans.ADMINISTRATION_DIALOG_CONFIRM_CLEAR;
+        $scope.dialogsService.confirmDialog(
+                Trans.ADMINISTRATION_DIALOG_TITLE_CLEAR,
+                Trans.ADMINISTRATION_DIALOG_CONFIRM_CLEAR,
+                function (response) {
+                    $http.post(Paths.ADMINISTRATION_SESSION_COUNT_CLEAR, {}).then(function () {
+                        $scope.refreshUsageChart();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post(Paths.ADMINISTRATION_SESSION_COUNT_CLEAR, {}).then(function () {
-                $scope.refreshUsageChart();
-            });
-        }, function () {
-        });
+        );
     }
-
-    $scope.showAlert = function (title, content, type, size) {
-        if (type === null)
-            type = "info";
-        if (size === null)
-            size = "lg";
-        $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-            controller: AlertController,
-            size: size,
-            resolve: {
-                title: function () {
-                    return title;
-                },
-                content: function () {
-                    return content;
-                },
-                type: function () {
-                    return type;
-                }
-            }
-        });
-    };
 
     $scope.messageCollection = [];
     $scope.messageOptions = {
@@ -240,7 +175,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.showAlert(row.entity.subject, COL_FIELD)"></i>' +
+                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.alertDialog(row.entity.subject, COL_FIELD, \'info\',\'lg\')"></i>' +
                         "</div>"
             }, {
                 displayName: "",
@@ -280,27 +215,16 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.MESSAGES_DIALOGS_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.MESSAGES_DIALOGS_MESSAGE_DELETE;
+        $scope.dialogsService.confirmDialog(
+                Trans.MESSAGES_DIALOGS_TITLE_DELETE,
+                Trans.MESSAGES_DIALOGS_MESSAGE_DELETE,
+                function (response) {
+                    $http.post($scope.deleteMessagePath.pf(ids), {
+                    }).success(function (data) {
+                        $scope.refreshMessages();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteMessagePath.pf(ids), {
-            }).success(function (data) {
-                $scope.refreshMessages();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.deleteSelectedMessages = function () {
@@ -312,27 +236,16 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.deleteAllMessages = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.MESSAGES_DIALOGS_TITLE_CLEAR;
-                },
-                content: function () {
-                    return Trans.MESSAGES_DIALOGS_MESSAGE_CLEAR;
+        $scope.dialogsService.confirmDialog(
+                Trans.MESSAGES_DIALOGS_TITLE_CLEAR,
+                Trans.MESSAGES_DIALOGS_MESSAGE_CLEAR,
+                function (response) {
+                    $http.post($scope.clearMessagePath, {
+                    }).success(function (data) {
+                        $scope.refreshMessages();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.clearMessagePath, {
-            }).success(function (data) {
-                $scope.refreshMessages();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.tasksCollection = [];
@@ -378,7 +291,52 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.showSingleTextareaModal(COL_FIELD, true, row.entity.updated, grid.appScope.getTasksStatusLabel(row.entity.status))"></i>' +
+                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.textareaDialog(row.entity.updated, COL_FIELD, grid.appScope.getTasksStatusLabel(row.entity.status), true)"></i>' +
+                        "</div>"
+            }
+        ]
+    };
+
+    $scope.packagesTasksCollection = [];
+    $scope.packagesTasksOptions = {
+        enableFiltering: false,
+        enableGridMenu: true,
+        exporterMenuCsv: false,
+        exporterMenuPdf: false,
+        data: "tasksCollection",
+        exporterCsvFilename: 'export.csv',
+        showGridFooter: true,
+        gridMenuCustomItems: [
+            {
+                title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
+                action: function ($event) {
+                    $scope.packagesTasksOptions.enableFiltering = !$scope.packagesTasksOptions.enableFiltering;
+                    $scope.packagesTasksGridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                }
+            }
+        ],
+        onRegisterApi: function (gridApi) {
+            $scope.packagesTasksGridApi = gridApi;
+        },
+        columnDefs: [
+            {
+                displayName: Trans.TASKS_LIST_FIELD_UPDATED,
+                field: "updated",
+                sort: {direction: 'desc', priority: 0}
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_STATUS,
+                field: "status",
+                cellTemplate: "<div class='ui-grid-cell-contents'>{{grid.appScope.getTasksStatusLabel(row.entity.status)}}</div>"
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_DESCRIPTION,
+                field: "description"
+            }, {
+                displayName: Trans.TASKS_LIST_FIELD_OUTPUT,
+                field: "output",
+                enableSorting: false,
+                exporterSuppressExport: true,
+                cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
+                        '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.textareaDialog(row.entity.updated, COL_FIELD, grid.appScope.getTasksStatusLabel(row.entity.status), true)"></i>' +
                         "</div>"
             }
         ]
@@ -394,6 +352,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 return Trans.TASKS_LIST_FIELD_TYPE_RESTORE_BACKUP;
             case 3:
                 return Trans.TASKS_LIST_FIELD_TYPE_BACKUP;
+            case 4:
+                return Trans.TASKS_LIST_FIELD_TYPE_R_PACKAGE_INSTALL;
         }
     };
 
@@ -461,22 +421,12 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 $scope.refreshMessages();
 
                 if (response.data.result !== 0) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "lg",
-                        resolve: {
-                            title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE_FAILED;
-                            },
-                            content: function () {
-                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
-                        }
-                    });
+                    $scope.dialogsService.alertDialog(
+                            Trans.TASKS_DIALOG_TITLE_PLATFORM_UPGRADE_FAILED,
+                            response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out,
+                            "danger",
+                            "lg"
+                            );
                 }
             });
         }, function () {
@@ -512,22 +462,12 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 $scope.refreshMessages();
 
                 if (response.data.result !== 0) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "lg",
-                        resolve: {
-                            title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_CONTENT_UPGRADE_FAILED;
-                            },
-                            content: function () {
-                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
-                        }
-                    });
+                    $scope.dialogsService.alertDialog(
+                            Trans.TASKS_DIALOG_TITLE_CONTENT_UPGRADE_FAILED,
+                            response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out,
+                            "danger",
+                            "lg"
+                            );
                 }
             });
         }, function () {
@@ -535,47 +475,26 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.backup = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TASKS_DIALOG_TITLE_BACKUP;
-                },
-                content: function () {
-                    return Trans.TASKS_DIALOG_CONFIRM_BACKUP;
-                }
-            }
-        });
+        $scope.dialogsService.confirmDialog(
+                Trans.TASKS_DIALOG_TITLE_BACKUP,
+                Trans.TASKS_DIALOG_CONFIRM_BACKUP,
+                function (response) {
+                    $http.post(Paths.ADMINISTRATION_TASKS_BACKUP, {}).then(function (response) {
+                        $scope.refreshTasks();
+                        $scope.refreshSettings();
+                        $scope.refreshMessages();
 
-        modalInstance.result.then(function (answer) {
-            $http.post(Paths.ADMINISTRATION_TASKS_BACKUP, {}).then(function (response) {
-                $scope.refreshTasks();
-                $scope.refreshSettings();
-                $scope.refreshMessages();
-
-                if (response.data.result !== 0) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "lg",
-                        resolve: {
-                            title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_BACKUP_FAILED;
-                            },
-                            content: function () {
-                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
+                        if (response.data.result !== 0) {
+                            $scope.dialogsService.alertDialog(
+                                    Trans.TASKS_DIALOG_TITLE_BACKUP_FAILED,
+                                    response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out,
+                                    "danger",
+                                    "lg"
+                                    );
                         }
                     });
                 }
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.isRestorePossible = function () {
@@ -584,47 +503,26 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.restore = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TASKS_DIALOG_TITLE_RESTORE;
-                },
-                content: function () {
-                    return Trans.TASKS_DIALOG_CONFIRM_RESTORE;
-                }
-            }
-        });
+        $scope.dialogsService.confirmDialog(
+                Trans.TASKS_DIALOG_TITLE_RESTORE,
+                Trans.TASKS_DIALOG_CONFIRM_RESTORE,
+                function (answer) {
+                    $http.post(Paths.ADMINISTRATION_TASKS_RESTORE, {}).then(function (response) {
+                        $scope.refreshTasks();
+                        $scope.refreshSettings();
+                        $scope.refreshMessages();
 
-        modalInstance.result.then(function (answer) {
-            $http.post(Paths.ADMINISTRATION_TASKS_RESTORE, {}).then(function (response) {
-                $scope.refreshTasks();
-                $scope.refreshSettings();
-                $scope.refreshMessages();
-
-                if (response.data.result !== 0) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "lg",
-                        resolve: {
-                            title: function () {
-                                return Trans.TASKS_DIALOG_TITLE_RESTORE_FAILED;
-                            },
-                            content: function () {
-                                return response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
+                        if (response.data.result !== 0) {
+                            $scope.dialogsService.alertDialog(
+                                    Trans.TASKS_DIALOG_TITLE_RESTORE_FAILED,
+                                    response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out,
+                                    "danger",
+                                    "lg"
+                                    );
                         }
                     });
                 }
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.apiClientsCollection = [];
@@ -672,27 +570,16 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.API_CLIENTS_DIALOGS_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.API_CLIENTS_DIALOGS_MESSAGE_DELETE;
+        $scope.dialogsService.confirmDialog(
+                Trans.API_CLIENTS_DIALOGS_TITLE_DELETE,
+                Trans.API_CLIENTS_DIALOGS_MESSAGE_DELETE,
+                function (response) {
+                    $http.post($scope.deleteApiClientsPath.pf(ids), {
+                    }).success(function (data) {
+                        $scope.refreshApiClients();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteApiClientsPath.pf(ids), {
-            }).success(function (data) {
-                $scope.refreshApiClients();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.deleteSelectedApiClients = function () {
@@ -704,33 +591,46 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.deleteAllApiClients = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.API_CLIENTS_DIALOGS_TITLE_CLEAR;
-                },
-                content: function () {
-                    return Trans.API_CLIENTS_DIALOGS_MESSAGE_CLEAR;
+        $scope.dialogsService.confirmDialog(
+                Trans.API_CLIENTS_DIALOGS_TITLE_CLEAR,
+                Trans.API_CLIENTS_DIALOGS_MESSAGE_CLEAR,
+                function (response) {
+                    $http.post($scope.clearApiClientsPath, {
+                    }).success(function (data) {
+                        $scope.refreshApiClients();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.clearApiClientsPath, {
-            }).success(function (data) {
-                $scope.refreshApiClients();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.addApiClient = function () {
         $http.post($scope.addApiClientPath, {}).then(function (response) {
             $scope.refreshApiClients();
         });
+    };
+
+    $scope.packagesReport = function () {
+        $http.post($scope.packageReportPath, {}).then(function (response) {
+            switch (response.data.result) {
+                case 0:
+                    $scope.dialogsService.preDialog(
+                            Trans.PACKAGES_DIALOG_TITLE_REPORT,
+                            Trans.PACKAGES_DIALOG_TITLE_REPORT_TOOLTIP,
+                            response.data.output
+                            );
+                    break;
+                default:
+                    $scope.dialogsService.alertDialog(
+                            Trans.PACKAGES_DIALOG_TITLE_REPORT,
+                            Trans.PACKAGES_DIALOG_CONTENT_REPORT_FAILED,
+                            "danger")
+                    break;
+            }
+        });
+    };
+
+    $scope.installPackage = function () {
+        //@TODO
     };
 
     $scope.refreshApiClients = function () {
@@ -742,6 +642,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.refreshTasks = function () {
         ScheduledTasksCollectionService.fetchObjectCollection(function () {
             $scope.tasksCollection = ScheduledTasksCollectionService.collection;
+            $scope.packagesTasksCollection = ScheduledTasksCollectionService.packagesCollection;
         });
     };
 
@@ -783,4 +684,4 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.refreshApiClients();
 }
 
-concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", AdministrationController]);
+concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", "DialogsService", AdministrationController]);

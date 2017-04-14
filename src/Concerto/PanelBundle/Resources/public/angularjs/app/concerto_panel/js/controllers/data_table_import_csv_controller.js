@@ -1,4 +1,4 @@
-function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $http, $uibModal, object) {
+function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $http, $uibModal, object, DialogsService) {
     $scope.importCsvPath = Paths.DATA_TABLE_IMPORT_CSV;
 
     $scope.object = object;
@@ -7,6 +7,7 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
     $scope.headerRow = false;
     $scope.delimiter = ",";
     $scope.enclosure = '"';
+    $scope.dialogsService = DialogsService;
 
     $scope.getFileName = function () {
         return $scope.item.file.name;
@@ -31,39 +32,17 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
             file: $scope.item.file.name
         }).success(function (response) {
             if (response.result === 0) {
-                $uibModal.open({
-                    templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                    controller: AlertController,
-                    size: "sm",
-                    resolve: {
-                        title: function () {
-                            return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
-                        },
-                        content: function () {
-                            return Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED;
-                        },
-                        type: function () {
-                            return "success";
-                        }
-                    }
-                });
+                $scope.dialogsService.alertDialog(
+                        Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
+                        Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED,
+                        "success"
+                        );
             } else {
-                $uibModal.open({
-                    templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                    controller: AlertController,
-                    size: "sm",
-                    resolve: {
-                        title: function () {
-                            return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
-                        },
-                        content: function () {
-                            return response.errors[0];
-                        },
-                        type: function () {
-                            return "danger";
-                        }
-                    }
-                });
+                $scope.dialogsService.alertDialog(
+                        Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
+                        response.errors[0],
+                        "danger"
+                        );
             }
             $uibModalInstance.close($scope.item.file.name);
         }).error(function (data, status, headers, config) {
@@ -72,22 +51,11 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
     };
 
     $scope.showErrorAlert = function () {
-        $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-            controller: AlertController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT;
-                },
-                content: function () {
-                    return Trans.DATA_TABLE_IO_DIALOG_MESSAGE_ERROR;
-                },
-                type: function () {
-                    return "danger";
-                }
-            }
-        });
+        $scope.dialogsService.alertDialog(
+                Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
+                Trans.DATA_TABLE_IO_DIALOG_MESSAGE_ERROR,
+                "danger"
+                );
         $uibModalInstance.dismiss(0);
     };
 

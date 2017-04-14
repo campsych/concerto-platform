@@ -1,7 +1,7 @@
-function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam) {
+function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam) {
     $scope.tabStateName = "wizards";
     $scope.tabIndex = 5;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_WIZARD_DELETE;
@@ -41,7 +41,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.step = null;
     $scope.param = null;
     $scope.params = [];
-    
+
     $scope.getTypeName = function (type) {
         return TestWizardParam.getTypeName(type);
     };
@@ -238,29 +238,18 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     };
 
     $scope.deleteAllSteps = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR;
-                },
-                content: function () {
-                    return Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_CLEAR_CONFIRM;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR,
+                Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_CLEAR_CONFIRM,
+                function (response) {
+                    $http.post($scope.deleteAllStepsPath.pf($scope.object.id), {
+                    }).success(function (data) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchObjectCollection();
+                        $scope.testCollectionService.fetchObjectCollection();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteAllStepsPath.pf($scope.object.id), {
-            }).success(function (data) {
-                $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
-                $scope.testCollectionService.fetchObjectCollection();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.deleteSelectedSteps = function () {
@@ -276,54 +265,32 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_DELETE_CONFIRM;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE,
+                Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_DELETE_CONFIRM,
+                function (response) {
+                    $http.post($scope.deleteStepPath.pf(ids), {
+                    }).success(function (data) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchObjectCollection();
+                        $scope.testCollectionService.fetchObjectCollection();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteStepPath.pf(ids), {
-            }).success(function (data) {
-                $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
-                $scope.testCollectionService.fetchObjectCollection();
-            });
-        }, function () {
-        });
+        );
     };
     $scope.deleteAllParams = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR;
-                },
-                content: function () {
-                    return Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_CLEAR_CONFIRM;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR,
+                Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_CLEAR_CONFIRM,
+                function (response) {
+                    $http.post($scope.deleteAllParamsPath.pf($scope.object.id), {
+                    }).success(function (data) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchObjectCollection();
+                        $scope.testCollectionService.fetchObjectCollection();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteAllParamsPath.pf($scope.object.id), {
-            }).success(function (data) {
-                $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
-                $scope.testCollectionService.fetchObjectCollection();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.deleteSelectedParams = function () {
@@ -339,29 +306,18 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_DELETE_CONFIRM;
+        $scope.dialogsService.confirmDialog(
+                Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE,
+                Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_DELETE_CONFIRM,
+                function (response) {
+                    $http.post($scope.deleteParamPath.pf(ids), {
+                    }).success(function (data) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchObjectCollection();
+                        $scope.testCollectionService.fetchObjectCollection();
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteParamPath.pf(ids), {
-            }).success(function (data) {
-                $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
-                $scope.testCollectionService.fetchObjectCollection();
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.launchStepDialog = function (step) {
@@ -439,8 +395,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             }
         }
     };
-    
-    $scope.onAfterPersist = function(){
+
+    $scope.onAfterPersist = function () {
         $scope.testCollectionService.fetchObjectCollection();
     };
 
@@ -481,4 +437,4 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.fetchObjectCollection();
 }
 
-concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", TestWizardController]);
+concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", TestWizardController]);

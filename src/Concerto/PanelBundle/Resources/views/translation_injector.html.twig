@@ -154,6 +154,7 @@
     Paths.ADMINISTRATION_API_CLIENTS_DELETE = "{{ path("Administration_api_clients_delete", {'object_ids':"{0}"}) }}";
     Paths.ADMINISTRATION_API_CLIENTS_CLEAR = "{{ path("Administration_api_clients_clear") }}";
     Paths.ADMINISTRATION_API_CLIENTS_ADD = "{{ path("Administration_api_clients_add") }}";
+    Paths.ADMINISTRATION_PACKAGES_STATUS = "{{ path("Administration_packages_status") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}"
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
@@ -438,6 +439,7 @@
         Trans.TASKS_LIST_FIELD_TYPE_CONTENT_UPGRADE = "{{ "tasks.list.fields.type.content_upgrade"|trans }}";
         Trans.TASKS_LIST_FIELD_TYPE_RESTORE_BACKUP = "{{ "tasks.list.fields.type.restore_backup"|trans }}";
         Trans.TASKS_LIST_FIELD_TYPE_BACKUP = "{{ "tasks.list.fields.type.backup"|trans }}";
+        Trans.TASKS_LIST_FIELD_TYPE_R_PACKAGE_INSTALL = "{{ "tasks.list.fields.type.r_package_install"|trans }}";
         Trans.TASKS_LIST_FIELD_STATUS = "{{ "tasks.list.fields.status"|trans }}";
         Trans.TASKS_LIST_FIELD_STATUS_PENDING = "{{ "tasks.list.fields.status.pending"|trans }}";
         Trans.TASKS_LIST_FIELD_STATUS_ONGOING = "{{ "tasks.list.fields.status.ongoing"|trans }}";
@@ -464,4 +466,7 @@
         Trans.API_CLIENTS_DIALOGS_MESSAGE_DELETE = "{{ "api_clients.dialogs.message.delete"|trans }}";
         Trans.API_CLIENTS_DIALOGS_TITLE_CLEAR = "{{ "api_clients.dialogs.title.clear"|trans }}";
         Trans.API_CLIENTS_DIALOGS_MESSAGE_CLEAR = "{{ "api_clients.dialogs.message.clear"|trans }}";
+        Trans.PACKAGES_DIALOG_TITLE_REPORT = "{{ "packages.dialog.title.report"|trans }}";
+        Trans.PACKAGES_DIALOG_TITLE_REPORT_TOOLTIP = "{{ "packages.dialog.title.report.tooltip"|trans }}";
+        Trans.PACKAGES_DIALOG_CONTENT_REPORT_FAILED = "{{ "packages.dialog.content.report_failed"|trans }}";
 </script>

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$timeout', '$uibModal', '$filter', 'TestCollectionService', function ($http, $compile, $timeout, $uibModal, $filter, TestCollectionService) {
+angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$timeout', '$uibModal', '$filter', 'TestCollectionService', 'DialogsService', function ($http, $compile, $timeout, $uibModal, $filter, TestCollectionService, DialogsService) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs, controllers) {
@@ -23,6 +23,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 scope.maximized = false;
                 scope.lastActiveNodeId = null;
                 scope.jsPlumbEventsEnabled = true;
+                scope.dialogsService = DialogsService;
 
                 scope.updateSelectionRectangle = function () {
                     scope.selectionRectanglePoints.sx = Math.min(scope.selectionRectanglePoints.x1, scope.selectionRectanglePoints.x2);
@@ -890,112 +891,92 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         return;
                     }
 
-                    var modalInstance = $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-                        controller: ConfirmController,
-                        size: "sm",
-                        resolve: {
-                            title: function () {
-                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE;
-                            },
-                            content: function () {
-                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_MESSAGE;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (response) {
-                        var node = null;
-                        for (var i = 0; i < scope.object.nodes.length; i++) {
-                            if (id === scope.object.nodes[i].id)
-                                node = scope.object.nodes[i];
-                        }
-
-                        for (var i = 0; i < scope.object.nodesConnections.length; i++) {
-                            var connection = scope.object.nodesConnections[i];
-                            if (id === connection.sourceNode || id === connection.destinationNode) {
-                                connection.removed = true;
-                            }
-                        }
-
-                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {
-                        }).success(function (data) {
-                            if (data.result === 0) {
-                                jsPlumb.remove("node" + id);
-                                for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
-                                    var node = scope.object.nodes[i];
-                                    if (node.id == id) {
-                                        scope.object.nodes.splice(i, 1);
-                                        break;
-                                    }
+                    scope.dialogsService.confirmDialog(
+                            Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE,
+                            Trans.TEST_FLOW_DIALOG_NODE_REMOVE_MESSAGE,
+                            function (response) {
+                                var node = null;
+                                for (var i = 0; i < scope.object.nodes.length; i++) {
+                                    if (id === scope.object.nodes[i].id)
+                                        node = scope.object.nodes[i];
                                 }
-                                for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
+
+                                for (var i = 0; i < scope.object.nodesConnections.length; i++) {
                                     var connection = scope.object.nodesConnections[i];
-                                    if (connection.sourceNode == id || connection.destinationNode == id) {
-                                        scope.object.nodesConnections.splice(i, 1);
+                                    if (id === connection.sourceNode || id === connection.destinationNode) {
+                                        connection.removed = true;
                                     }
                                 }
+
+                                $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {
+                                }).success(function (data) {
+                                    if (data.result === 0) {
+                                        jsPlumb.remove("node" + id);
+                                        for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
+                                            var node = scope.object.nodes[i];
+                                            if (node.id == id) {
+                                                scope.object.nodes.splice(i, 1);
+                                                break;
+                                            }
+                                        }
+                                        for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
+                                            var connection = scope.object.nodesConnections[i];
+                                            if (connection.sourceNode == id || connection.destinationNode == id) {
+                                                scope.object.nodesConnections.splice(i, 1);
+                                            }
+                                        }
+                                    }
+                                });
                             }
-                        });
-                    });
+                    );
                 };
 
                 scope.removeSelectedNodes = function () {
-                    var modalInstance = $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-                        controller: ConfirmController,
-                        size: "sm",
-                        resolve: {
-                            title: function () {
-                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE;
-                            },
-                            content: function () {
-                                return Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_MESSAGE;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (response) {
-                        for (var a = 0; a < scope.selectedNodeIds.length; a++) {
-                            var id = scope.selectedNodeIds[a];
-                            var node = null;
-                            for (var i = 0; i < scope.object.nodes.length; i++) {
-                                if (id === scope.object.nodes[i].id)
-                                    node = scope.object.nodes[i];
-                            }
-
-                            for (var i = 0; i < scope.object.nodesConnections.length; i++) {
-                                var connection = scope.object.nodesConnections[i];
-                                if (id === connection.sourceNode || id === connection.destinationNode) {
-                                    connection.removed = true;
-                                }
-                            }
-                        }
-
-                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {
-                        }).success(function (data) {
-                            if (data.result === 0) {
+                    scope.dialogsService.confirmDialog(
+                            Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE,
+                            Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_MESSAGE,
+                            function (response) {
                                 for (var a = 0; a < scope.selectedNodeIds.length; a++) {
                                     var id = scope.selectedNodeIds[a];
-                                    jsPlumb.remove("node" + id);
-
-                                    for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
-                                        var node = scope.object.nodes[i];
-                                        if (node.id == id) {
-                                            scope.object.nodes.splice(i, 1);
-                                            break;
-                                        }
+                                    var node = null;
+                                    for (var i = 0; i < scope.object.nodes.length; i++) {
+                                        if (id === scope.object.nodes[i].id)
+                                            node = scope.object.nodes[i];
                                     }
-                                    for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
+
+                                    for (var i = 0; i < scope.object.nodesConnections.length; i++) {
                                         var connection = scope.object.nodesConnections[i];
-                                        if (connection.sourceNode == id || connection.destinationNode == id) {
-                                            scope.object.nodesConnections.splice(i, 1);
+                                        if (id === connection.sourceNode || id === connection.destinationNode) {
+                                            connection.removed = true;
                                         }
                                     }
                                 }
+
+                                $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {
+                                }).success(function (data) {
+                                    if (data.result === 0) {
+                                        for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                                            var id = scope.selectedNodeIds[a];
+                                            jsPlumb.remove("node" + id);
+
+                                            for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
+                                                var node = scope.object.nodes[i];
+                                                if (node.id == id) {
+                                                    scope.object.nodes.splice(i, 1);
+                                                    break;
+                                                }
+                                            }
+                                            for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
+                                                var connection = scope.object.nodesConnections[i];
+                                                if (connection.sourceNode == id || connection.destinationNode == id) {
+                                                    scope.object.nodesConnections.splice(i, 1);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
                             }
-                        });
-                    });
+                    );
                 };
 
                 scope.addConnection = function (concertoConnection, jspConnection) {
@@ -1265,7 +1246,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (params.targetPort)
                             $("#divPortControl" + params.targetPort.id).show();
                     });
-                    
+
                     $timeout(function () {
                         if (!scope.object.nodes)
                             return;
@@ -1288,7 +1269,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 $(function () {
                     $("#flowContainerScroll").flow();
-                    $("#flowContainer").blur(function() {
+                    $("#flowContainer").blur(function () {
                         scope.cntrlIsPressed = false;
                     });
                     $('#flowContainer').mousewheel(function (event) {

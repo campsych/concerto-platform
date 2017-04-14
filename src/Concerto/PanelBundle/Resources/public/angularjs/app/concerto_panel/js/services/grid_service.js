@@ -1,24 +1,13 @@
-concertoPanel.factory('GridService', function ($uibModal) {
+concertoPanel.factory('GridService', function ($uibModal, DialogsService) {
     CSV.error = function (err) {
         var msg = CSV.dump(err);
         CSV.reset();
 
-        $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-            controller: AlertController,
-            size: "lg",
-            resolve: {
-                title: function () {
-                    return Trans.DIALOG_TITLE_CSV;
-                },
-                content: function () {
-                    return msg;
-                },
-                type: function () {
-                    return "danger";
-                }
-            }
-        });
+        DialogsService.alertDialog(
+                Trans.DIALOG_TITLE_CSV,
+                msg,
+                "danger"
+                );
     };
 
     return {

@@ -15,6 +15,7 @@ class ScheduledTask implements \JsonSerializable {
     const TYPE_CONTENT_UPGRADE = 1;
     const TYPE_RESTORE_BACKUP = 2;
     const TYPE_BACKUP = 3;
+    const TYPE_R_PACKAGE_INSTALL = 4;
     const STATUS_PENDING = 0;
     const STATUS_ONGOING = 1;
     const STATUS_COMPLETED = 2;

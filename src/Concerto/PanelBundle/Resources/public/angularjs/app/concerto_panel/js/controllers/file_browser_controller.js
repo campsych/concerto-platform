@@ -1,10 +1,12 @@
-function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploader, $http) {
+function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploader, $http, DialogsService) {
     $scope.tabStateName = "files";
     $scope.tabIndex = 3;
 
     $scope.delete_url = Paths.FILE_UPLOAD_DELETE;
     $scope.list_url = Paths.FILE_UPLOAD_LIST;
     $scope.upload_url = Paths.FILE_UPLOAD;
+
+    $scope.dialogsService = DialogsService;
 
     /**
      * Saves the selected file into CKEditor.
@@ -18,53 +20,30 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
     };
 
     $scope.showErrorAlert = function () {
-        $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-            controller: AlertController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE;
-                },
-                content: function () {
-                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
-                },
-                type: function () {
-                    return "danger";
-                }
-            }
-        });
+        $scope.dialogsService.alertDialog(
+                Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE,
+                Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE,
+                "danger"
+                );
     };
 
     $scope.remove = function (file) {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.DIALOG_MESSAGE_CONFIRM_DELETE;
+        $scope.dialogsService.confirmDialog(
+                Trans.DIALOG_TITLE_DELETE,
+                Trans.DIALOG_MESSAGE_CONFIRM_DELETE,
+                function (response) {
+                    $http.post($scope.delete_url + file.name, {}).success(function (data) {
+                        if (data.result == 0) {
+                            $scope.loadFiles();
+                        }
+                    });
                 }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-            $http.post($scope.delete_url + file.name, {}).success(function (data) {
-                if (data.result == 0)
-                {
-                    $scope.loadFiles();
-                }
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.loadFiles = function () {
         var stamp = new Date().getTime();
-        var httpRequest = $http({
+        $http({
             method: 'GET',
             url: $scope.list_url,
         }).success(function (data, status) {
@@ -115,4 +94,4 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
     };
 }
 
-concertoPanel.controller('FileBrowserController', ["$scope", "$uibModal", "$window", "$timeout", "FileUploader", "$http", FileBrowserController]);
+concertoPanel.controller('FileBrowserController', ["$scope", "$uibModal", "$window", "$timeout", "FileUploader", "$http", "DialogsService", FileBrowserController]);

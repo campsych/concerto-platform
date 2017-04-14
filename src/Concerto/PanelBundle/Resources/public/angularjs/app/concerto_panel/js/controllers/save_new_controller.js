@@ -1,8 +1,9 @@
-function SaveNewController($scope, $uibModalInstance, $http, $uibModal, name, saveNewPath) {
+function SaveNewController($scope, $uibModalInstance, $http, $uibModal, name, saveNewPath, DialogsService) {
 
     $scope.saveNewPath = saveNewPath;
     $scope.object.validationErrors = [];
     $scope.name = name;
+    $scope.dialogsService = DialogsService;
 
     $scope.persistNew = function () {
         $scope.object.validationErrors = [];
@@ -14,22 +15,11 @@ function SaveNewController($scope, $uibModalInstance, $http, $uibModal, name, sa
                     switch (response.data.result) {
                         case BaseController.RESULT_OK:
                         {
-                            $uibModal.open({
-                                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                                controller: AlertController,
-                                size: "sm",
-                                resolve: {
-                                    title: function () {
-                                        return Trans.SAVE_NEW_DIALOG_TITLE_MAIN;
-                                    },
-                                    content: function () {
-                                        return Trans.SAVE_NEW_DIALOG_MESSAGE_COPIED;
-                                    },
-                                    type: function () {
-                                        return "success";
-                                    }
-                                }
-                            });
+                            $scope.dialogsService.alertDialog(
+                                    Trans.SAVE_NEW_DIALOG_TITLE_MAIN,
+                                    Trans.SAVE_NEW_DIALOG_MESSAGE_COPIED,
+                                    "success"
+                                    );
 
                             $uibModalInstance.close(response.data.object);
                             break;
@@ -42,22 +32,11 @@ function SaveNewController($scope, $uibModalInstance, $http, $uibModal, name, sa
                     }
                 },
                 function errorCallback(response) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "sm",
-                        resolve: {
-                            title: function () {
-                                return Trans.SAVE_NEW_DIALOG_TITLE_MAIN;
-                            },
-                            content: function () {
-                                return Trans.DIALOG_MESSAGE_FAILED;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
-                        }
-                    });
+                    $scope.dialogsService.alertDialog(
+                            Trans.SAVE_NEW_DIALOG_TITLE_MAIN,
+                            Trans.DIALOG_MESSAGE_FAILED,
+                            "danger"
+                            );
                 });
     };
 

@@ -1,0 +1,8 @@
+{% trans_default_domain "Administration" %}
+
+<div class="center">
+    <button ng-click="packagesReport();" class="btn btn-default btn-sm">{{ "packages.list.buttons.report"|trans }}</button>
+    <button ng-click="refreshTasks();" class="btn btn-default btn-sm btn-list-refresh">{{ "packages.list.buttons.refresh"|trans }}</button>
+    <button ng-click="installPackage();" class="btn btn-success btn-sm">{{ "packages.list.buttons.install"|trans }}</button>
+</div>
+<div ui-grid="packagesTasksOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid collectionTable"></div>

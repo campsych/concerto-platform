@@ -1,10 +1,12 @@
-function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploader, importPath, preImportStatusPath, uiGridConstants) {
+function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploader, importPath, preImportStatusPath, uiGridConstants, DialogsService) {
     $scope.item = null;
     $scope.object.validationErrors = [];
     $scope.importPath = importPath;
     $scope.preImportStatusPath = preImportStatusPath;
 
     $scope.preImportStatus = [];
+    $scope.dialogsService = DialogsService;
+
     $scope.colNameContent = function (entity) {
         var result = entity.name;
         if (entity.rev != 0) {
@@ -109,22 +111,12 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
         if (content == null) {
             content = Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE;
         }
-        $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-            controller: AlertController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE;
-                },
-                content: function () {
-                    return content;
-                },
-                type: function () {
-                    return "danger";
-                }
-            }
-        });
+
+        $scope.dialogsService.alertDialog(
+                Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE,
+                content,
+                "danger"
+                );
         $uibModalInstance.dismiss(0);
     };
 
@@ -171,22 +163,11 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                     switch (response.data.result) {
                         case BaseController.RESULT_OK:
                         {
-                            $uibModal.open({
-                                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                                controller: AlertController,
-                                size: "sm",
-                                resolve: {
-                                    title: function () {
-                                        return Trans.IMPORT_DIALOG_TITLE;
-                                    },
-                                    content: function () {
-                                        return Trans.IMPORT_DIALOG_MESSAGE_IMPORTED;
-                                    },
-                                    type: function () {
-                                        return "success";
-                                    }
-                                }
-                            });
+                            $scope.dialogsService.alertDialog(
+                                    Trans.IMPORT_DIALOG_TITLE,
+                                    Trans.IMPORT_DIALOG_MESSAGE_IMPORTED,
+                                    "success"
+                                    );
 
                             $uibModalInstance.close($scope.object);
                             break;
@@ -205,44 +186,23 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                     }
                 },
                 function errorCallback(response) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "sm",
-                        resolve: {
-                            title: function () {
-                                return Trans.DIALOG_TITLE_SAVE;
-                            },
-                            content: function () {
-                                return Trans.DIALOG_MESSAGE_FAILED;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
-                        }
-                    });
+                    $scope.dialogsService.alertDialog(
+                            Trans.DIALOG_TITLE_SAVE,
+                            Trans.DIALOG_MESSAGE_FAILED,
+                            "danger"
+                            );
                 });
     };
 
     $scope.save = function () {
         if (!$scope.isImportSafe()) {
-            var modalInstance = $uibModal.open({
-                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-                controller: ConfirmController,
-                size: "sm",
-                resolve: {
-                    title: function () {
-                        return Trans.IMPORT_DIALOG_TITLE;
-                    },
-                    content: function () {
-                        return Trans.DIALOG_MESSAGE_CONFIRM_UNSAFE_IMPORT;
+            $scope.dialogsService.confirmDialog(
+                    Trans.IMPORT_DIALOG_TITLE,
+                    Trans.DIALOG_MESSAGE_CONFIRM_UNSAFE_IMPORT,
+                    function (response) {
+                        $scope.persistImport();
                     }
-                }
-            });
-
-            modalInstance.result.then(function (response) {
-                $scope.persistImport();
-            });
+            );
         } else {
             $scope.persistImport();
         }

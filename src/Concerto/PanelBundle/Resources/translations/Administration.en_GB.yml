@@ -52,6 +52,22 @@ usage_charts:
         specific_date: Specific date
         date_range: Date range
         
+packages:
+    fieldset:
+        legend: R packages
+        legend.tooltip: R packages
+    list:
+        buttons:
+            refresh: Refresh
+            report: Packages report
+            install: Install
+    dialog:
+        title: 
+            report: R packages report
+            report.tooltip: R packages report
+        content:
+            report_failed: R packages report failed.
+        
 tasks:
     fieldset:
         legend: Scheduled tasks
@@ -75,6 +91,7 @@ tasks:
             type.content_upgrade: Content Upgrade
             type.restore_backup: Restore Backup
             type.backup: Backup
+            type.r_package_install: R Package Install
             status: Status
             status.pending: Pending
             status.ongoing: Ongoing

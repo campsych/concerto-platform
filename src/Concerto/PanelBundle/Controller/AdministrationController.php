@@ -142,4 +142,12 @@ class AdministrationController {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    public function packagesStatusAction() {
+        $return_var = $this->service->packageStatus($output);
+        $response = new Response(json_encode(array("result" => $return_var ? 0 : 1, "output" => $output)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

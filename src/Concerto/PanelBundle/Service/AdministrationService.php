@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Concerto\APIBundle\Repository\ClientRepository;
+use Symfony\Component\Process\Process;
 
 class AdministrationService {
 
@@ -35,8 +36,9 @@ class AdministrationService {
     private $rootDir;
     private $kernel;
     private $apiClientRepository;
+    private $testRunnerSettings;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel, ClientRepository $clientRepository) {
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel, ClientRepository $clientRepository, $testRunnerSettings) {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
@@ -49,6 +51,7 @@ class AdministrationService {
         $this->rootDir = $rootDir;
         $this->kernel = $kernel;
         $this->apiClientRepository = $clientRepository;
+        $this->testRunnerSettings = $testRunnerSettings;
     }
 
     public function insertSessionLimitMessage(TestSession $session) {
@@ -66,7 +69,7 @@ class AdministrationService {
         foreach ($this->testSessionLogRepository->findAllNewerThan($start_time) as $log) {
             if ($log->getTest() === null)
                 continue;
-            
+
             $msg = new Message();
             $msg->setTime($log->getCreated());
             $msg->setCagegory(Message::CATEGORY_TEST);
@@ -210,7 +213,7 @@ class AdministrationService {
     }
 
     public function getGitBranch() {
-        return $this->configSettings["internal"]["git_branch"];
+        return $this->getSettingValue("git_branch");
     }
 
     public function getLocalFeedUrl() {
@@ -393,7 +396,6 @@ class AdministrationService {
             $setting = $this->settingsRepository->findKey($k);
             if ($setting) {
                 $setting->setValue($v);
-                $setting->setUpdated();
                 $this->settingsRepository->save($setting);
             } else {
                 $setting = new AdministrationSetting();
@@ -527,6 +529,25 @@ class AdministrationService {
         $return_code = $app->run($in, $out);
         $output = $out->fetch();
         return $return_code;
+    }
+
+    public function packageStatus(&$output) {
+        //check if not Windows OS
+        if (strpos(strtolower(PHP_OS), "win") !== false) {
+            $output = "Windows OS is not supported by this command!";
+            return false;
+        }
+
+        $rscript_path = $this->testRunnerSettings["rscript_exec"];
+        $lib_loc = $this->getSettingValue("r_lib_path");
+        $lib_loc_arg = $lib_loc ? "lib.loc='$lib_loc'" : "";
+
+        $cmd = "$rscript_path -e \"installed.packages($lib_loc_arg)\"";
+
+        $proc = new Process($cmd);
+        $return_var = $proc->run();
+        $output = $proc->getOutput();
+        return $return_var === 0;
     }
 
 }

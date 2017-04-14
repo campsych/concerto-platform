@@ -52,6 +52,22 @@ usage_charts:
         specific_date: Wybrana data
         date_range: Zakres dat
         
+packages:
+    fieldset:
+        legend: Pakiety R
+        legend.tooltip: Pakiety R
+    list:
+        buttons:
+            refresh: Odśwież
+            report: Raport pakietów
+            install: Instalacja
+    dialog:
+        title: 
+            report: Raport pakietów R
+            report_tooltip: Raport pakietów R
+        content:
+            report_failed: Raport pakietów R nie powiódł się.
+        
 tasks:
     fieldset:
         legend: Zaplanowane zadania
@@ -75,6 +91,7 @@ tasks:
             type.content_upgrade: Aktualizacja Zawartości
             type.restore_backup: Odtwórz Kopię
             type.backup: Kopia Zapasowa
+            type.r_package_install: Instalacja Pakietu R
             status: Status
             status.pending: W kolejce
             status.ongoing: Trwa

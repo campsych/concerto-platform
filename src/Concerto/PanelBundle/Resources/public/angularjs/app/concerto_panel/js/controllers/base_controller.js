@@ -1,4 +1,4 @@
-function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
+function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
     $scope.super = {};
     $scope.exportable = false;
 
@@ -28,6 +28,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.userCollectionService = UserCollectionService;
     $scope.viewTemplateCollectionService = ViewTemplateCollectionService;
     $scope.gridService = GridService;
+    $scope.dialogsService = DialogsService;
 
     $scope.object = {
         id: 0,
@@ -217,63 +218,40 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.DIALOG_MESSAGE_CONFIRM_DELETE;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (response) {
-
-            if ($scope.object != null && ids.indexOf($scope.object.id) !== -1 && !$scope.reloadOnModification) {
-                $scope.cancel();
-            }
-
-            $http.post($scope.deletePath.pf(ids.join(",")), {
-            }).success(function (data) {
-                switch (data.result) {
-                    case BaseController.RESULT_OK:
-                    {
-                        if ($scope.reloadOnModification)
-                            location.reload();
-                        else {
-                            $scope.fetchObjectCollection();
-                            if ($scope.onDelete)
-                                $scope.onDelete();
-                        }
-                        break;
+        $scope.dialogsService.confirmDialog(
+                Trans.DIALOG_TITLE_DELETE,
+                Trans.DIALOG_MESSAGE_CONFIRM_DELETE,
+                function (response) {
+                    if ($scope.object != null && ids.indexOf($scope.object.id) !== -1 && !$scope.reloadOnModification) {
+                        $scope.cancel();
                     }
-                    case BaseController.RESULT_VALIDATION_FAILED:
-                    {
-                        $uibModal.open({
-                            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                            controller: AlertController,
-                            size: "sm",
-                            resolve: {
-                                title: function () {
-                                    return Trans.DIALOG_TITLE_DELETE;
-                                },
-                                content: function () {
-                                    return data.errors.join("<br/>");
-                                },
-                                type: function () {
-                                    return "danger";
+
+                    $http.post($scope.deletePath.pf(ids.join(",")), {
+                    }).success(function (data) {
+                        switch (data.result) {
+                            case BaseController.RESULT_OK:
+                            {
+                                if ($scope.reloadOnModification)
+                                    location.reload();
+                                else {
+                                    $scope.fetchObjectCollection();
+                                    if ($scope.onDelete)
+                                        $scope.onDelete();
                                 }
+                                break;
                             }
-                        });
-                    }
+                            case BaseController.RESULT_VALIDATION_FAILED:
+                            {
+                                $scope.dialogsService.alertDialog(
+                                        Trans.DIALOG_TITLE_DELETE,
+                                        data.errors.join("<br/>"),
+                                        "danger"
+                                        );
+                            }
+                        }
+                    });
                 }
-            });
-        }, function () {
-        });
+        );
     };
 
     $scope.resetObject = function () {
@@ -322,34 +300,23 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                             }
                             $scope.fetchObjectCollection();
 
-                            var modalInstance = $uibModal.open({
-                                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                                controller: AlertController,
-                                size: "sm",
-                                resolve: {
-                                    title: function () {
-                                        return Trans.DIALOG_TITLE_SAVE;
-                                    },
-                                    content: function () {
-                                        return Trans.DIALOG_MESSAGE_SAVED;
-                                    },
-                                    type: function () {
-                                        return "success";
+                            $scope.dialogsService.alertDialog(
+                                    Trans.DIALOG_TITLE_SAVE,
+                                    Trans.DIALOG_MESSAGE_SAVED,
+                                    "success",
+                                    "sm",
+                                    function (r) {
+                                        if ($scope.onAfterPersist) {
+                                            $scope.onAfterPersist();
+                                        }
+                                        if ($scope.reloadOnModification) {
+                                            location.reload();
+                                        } else {
+                                            $scope.edit(response.data.object.id);
+                                            $scope.object.initProtected = $scope.object.protected;
+                                        }
                                     }
-                                }
-                            });
-
-                            modalInstance.result.then(function (r) {
-                                if ($scope.onAfterPersist) {
-                                    $scope.onAfterPersist();
-                                }
-                                if ($scope.reloadOnModification) {
-                                    location.reload();
-                                } else {
-                                    $scope.edit(response.data.object.id);
-                                    $scope.object.initProtected = $scope.object.protected;
-                                }
-                            });
+                            );
                             break;
                         }
                         case BaseController.RESULT_VALIDATION_FAILED:
@@ -361,22 +328,11 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                     }
                 },
                 function errorCallback(response) {
-                    $uibModal.open({
-                        templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                        controller: AlertController,
-                        size: "sm",
-                        resolve: {
-                            title: function () {
-                                return Trans.DIALOG_TITLE_SAVE;
-                            },
-                            content: function () {
-                                return Trans.DIALOG_MESSAGE_FAILED;
-                            },
-                            type: function () {
-                                return "danger";
-                            }
-                        }
-                    });
+                    $scope.dialogsService.alertDialog(
+                            Trans.DIALOG_TITLE_SAVE,
+                            Trans.DIALOG_MESSAGE_FAILED,
+                            "danger"
+                            );
                 });
     };
 
@@ -447,22 +403,11 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         }
 
         if (ids.length == 0) {
-            var modalInstance = $uibModal.open({
-                templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'alert_dialog.html',
-                controller: AlertController,
-                size: "sm",
-                resolve: {
-                    title: function () {
-                        return Trans.EXPORT_DIALOG_TITLE;
-                    },
-                    content: function () {
-                        return Trans.EXPORT_DIALOG_EMPTY_LIST_ERROR_CONTENT;
-                    },
-                    type: function () {
-                        return "warning";
-                    }
-                }
-            });
+            $scope.dialogsService.alertDialog(
+                    Trans.EXPORT_DIALOG_TITLE,
+                    Trans.EXPORT_DIALOG_EMPTY_LIST_ERROR_CONTENT,
+                    "warning"
+                    );
         } else {
             $scope.export(ids);
         }
@@ -501,48 +446,14 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     };
 
     $scope.editDescription = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "ckeditor_dialog.html",
-            controller: CKEditorController,
-            resolve: {
-                title: function () {
-                    return Trans.DESCRIPTION_DIALOG_TITLE;
-                },
-                tooltip: function () {
-                    return Trans.DESCRIPTION_DIALOG_TOOLTIP;
-                },
-                value: function () {
-                    return $scope.object.description;
+        $scope.dialogsService.ckeditorDialog(
+                Trans.DESCRIPTION_DIALOG_TITLE,
+                Trans.DESCRIPTION_DIALOG_TOOLTIP,
+                $scope.object.description,
+                function (newVal) {
+                    $scope.object.description = newVal;
                 }
-            },
-            size: "lg"
-        });
-
-        modalInstance.result.then(function (newVal) {
-            $scope.object.description = newVal;
-        });
-    };
-
-    $scope.showSingleTextareaModal = function (value, readonly, title, tooltip) {
-        return $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "textarea_dialog.html",
-            controller: TextareaController,
-            resolve: {
-                readonly: function () {
-                    return readonly;
-                },
-                value: function () {
-                    return value;
-                },
-                title: function () {
-                    return title;
-                },
-                tooltip: function () {
-                    return tooltip;
-                }
-            },
-            size: "lg"
-        });
+        );
     };
 
     $scope.switchTab = function (id) {

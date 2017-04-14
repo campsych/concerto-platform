@@ -63,3 +63,7 @@ Administration_api_clients_clear:
 Administration_api_clients_add:
     path: /Administration/api_clients/add
     defaults: { _controller: concerto_panel.Administration_controller:addApiClientAction }
+    
+Administration_packages_status:
+    path: /Administration/packages/status
+    defaults: { _controller: concerto_panel.Administration_controller:packagesStatusAction }

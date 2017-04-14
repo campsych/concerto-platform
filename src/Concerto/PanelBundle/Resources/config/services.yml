@@ -207,7 +207,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.ScheduledTask_metadata"]
   concerto_panel.Administration_service:
     class: Concerto\PanelBundle\Service\AdministrationService
-    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository","@kernel","@API.Client_repository"]
+    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository","@kernel","@API.Client_repository","%test_runner_settings%"]
     
 #   ImportService
   concerto_panel.import_service:

@@ -1,7 +1,7 @@
-function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
+function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
     $scope.tabStateName = "tables";
     $scope.tabIndex = 2;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
     $scope.exportable = true;
     $scope.deletePath = Paths.DATA_TABLE_DELETE;
     $scope.addFormPath = Paths.DATA_TABLE_ADD_FORM;
@@ -98,27 +98,16 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.editTextCell = function (entity, colName) {
         if ($scope.object.initProtected === '1')
             return;
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "ckeditor_dialog.html",
-            controller: CKEditorController,
-            resolve: {
-                title: function () {
-                    return Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE;
-                },
-                tooltip: function () {
-                    return Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP;
-                },
-                value: function () {
-                    return entity[colName];
+
+        $scope.dialogsService.ckeditorDialog(
+                Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
+                Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
+                entity[colName],
+                function (newVal) {
+                    entity[colName] = newVal;
+                    $scope.saveRow(entity);
                 }
-            },
-            size: "lg"
-        });
-        modalInstance.result.then(function (newVal) {
-            entity[colName] = newVal;
-            $scope.saveRow(entity);
-        }, function () {
-        });
+        );
     };
     $scope.structureOptions = {
         enableFiltering: false,
@@ -277,27 +266,19 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }).success(function (response) {
         });
     };
+
     $scope.deleteAllRows = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE;
+        $scope.dialogsService.confirmDialog(
+                Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
+                Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
+                function (response) {
+                    $http.post($scope.truncatePath.pf($scope.object.id)).success(function (data) {
+                        $scope.fetchDataCollection($scope.object.id);
+                    });
                 }
-            }
-        });
-        modalInstance.result.then(function (response) {
-            $http.post($scope.truncatePath.pf($scope.object.id)).success(function (data) {
-                $scope.fetchDataCollection($scope.object.id);
-            });
-        }, function () {
-        });
+        );
     };
+
     $scope.deleteSelectedRows = function () {
         var ids = [];
         for (var i = 0; i < $scope.dataGridApi.selection.getSelectedRows().length; i++) {
@@ -305,32 +286,24 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }
         $scope.deleteRow(ids);
     };
+
     $scope.deleteRow = function (ids) {
         if (!(ids instanceof Array)) {
             ids = [ids];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE;
+        $scope.dialogsService.confirmDialog(
+                Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
+                Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
+                function (response) {
+                    $http.post($scope.deleteDataPath.pf($scope.object.id, ids), {
+                    }).success(function (data) {
+                        $scope.fetchDataCollection($scope.object.id);
+                    });
                 }
-            }
-        });
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteDataPath.pf($scope.object.id, ids), {
-            }).success(function (data) {
-                $scope.fetchDataCollection($scope.object.id);
-            });
-        }, function () {
-        });
+        );
     };
+
     $scope.fetchDataCollection = function (tableId) {
         $scope.dataGridApi.selection.clearSelectedRows();
         $http.post($scope.dataCollectionPath.pf(tableId), {
@@ -362,33 +335,25 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }
         $scope.deleteStructure(names);
     };
+
     $scope.deleteStructure = function (names) {
         if (!(names instanceof Array)) {
             names = [names];
         }
 
-        var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'confirmation_dialog.html',
-            controller: ConfirmController,
-            size: "sm",
-            resolve: {
-                title: function () {
-                    return Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE;
-                },
-                content: function () {
-                    return Trans.DATA_TABLE_STRUCTURE_DIALOG_MESSAGE_CONFIRM_DELETE;
+        $scope.dialogsService.confirmDialog(
+                Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE,
+                Trans.DATA_TABLE_STRUCTURE_DIALOG_MESSAGE_CONFIRM_DELETE,
+                function (response) {
+                    $http.post($scope.deleteColumnPath.pf($scope.object.id, names), {
+                    }).success(function (data) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchObjectCollection();
+                    });
                 }
-            }
-        });
-        modalInstance.result.then(function (response) {
-            $http.post($scope.deleteColumnPath.pf($scope.object.id, names), {
-            }).success(function (data) {
-                $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
-            });
-        }, function () {
-        });
+        );
     };
+
     $scope.fetchColumn = function (id, column_name, callback) {
         $http.get($scope.fetchColumnObjectPath.pf(id, column_name)).success(function (object) {
             if (object !== null) {
@@ -473,4 +438,4 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.fetchObjectCollection();
 }
 
-concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", DataTableController]);
+concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", DataTableController]);
