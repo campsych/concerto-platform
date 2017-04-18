@@ -13,7 +13,7 @@ services:
         
     concerto_test.r_runner_service:
         class: Concerto\TestBundle\Service\RRunnerService
-        arguments: ["%kernel.root_dir%","%panel_nodes%","%test_nodes%","%test_runner_settings%","@doctrine","@logger","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service"]
+        arguments: ["%kernel.root_dir%","%panel_nodes%","%test_runner_settings%","@doctrine","@logger","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service","@concerto_panel.LoadBalancer_service"]
     concerto_test.r_runner_controller:
         class: Concerto\TestBundle\Controller\RRunnerController
         arguments: ["@templating","@concerto_test.r_runner_service", "@request", "@logger"]

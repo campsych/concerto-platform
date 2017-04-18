@@ -8,6 +8,7 @@ use Concerto\PanelBundle\Service\TestSessionService;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\TestBundle\Service\TestSessionCountService;
 use Psr\Log\LoggerInterface;
+use Concerto\PanelBundle\Service\LoadBalancerInterface;
 
 class RRunnerService {
 
@@ -16,25 +17,25 @@ class RRunnerService {
 
     private $root;
     private $panelNodes;
-    private $testNodes;
     private $settings;
     private $doctrine;
     private $logger;
     private $administrationService;
     private $testSessionCountService;
+    private $loadBalancerService;
 
-    public function __construct($root, $panelNodes, $testNodes, $settings, Registry $doctrine, LoggerInterface $logger, AdministrationService $administrationService, TestSessionCountService $testSessionCountService) {
+    public function __construct($root, $panelNodes, $settings, Registry $doctrine, LoggerInterface $logger, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, LoadBalancerInterface $loadBalancerService) {
         $this->root = $root;
         $this->panelNodes = $panelNodes;
-        $this->testNodes = $testNodes;
         $this->settings = $settings;
         $this->doctrine = $doctrine;
         $this->logger = $logger;
         $this->administrationService = $administrationService;
         $this->testSessionCountService = $testSessionCountService;
+        $this->loadBalancerService = $loadBalancerService;
     }
 
-    private function authenticatePanelNode($node_ip, $node_hash) {
+    private function authorizePanelNode($node_ip, $node_hash) {
         foreach ($this->panelNodes as $node) {
             if ($node_hash == $node["hash"]) {
                 return $node;
@@ -43,15 +44,11 @@ class RRunnerService {
         return false;
     }
 
-    private function getTestNode() {
-        return $this->testNodes[0];
-    }
-
     public function startR($panel_node_hash, $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $calling_node_ip, $debug) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_hash, $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $debug");
 
         $response = array("source" => TestSessionService::SOURCE_PROCESS, "code" => TestSessionService::RESPONSE_STARTING);
-        if ($panel_node = $this->authenticatePanelNode($calling_node_ip, $panel_node_hash)) {
+        if ($panel_node = $this->authorizePanelNode($calling_node_ip, $panel_node_hash)) {
             $session_limit = $this->administrationService->getSessionLimit();
             $session_count = $this->testSessionCountService->getCurrentCount();
             if ($session_limit > 0 && $session_limit < $session_count + 1) {
@@ -142,7 +139,7 @@ class RRunnerService {
             $renviron = "--r_environ=\"" . addcslashes($this->settings["r_environ_path"], "\\") . "\"";
         }
         $decoded_panel_node = json_decode($panel_node, true);
-        $decoded_test_node = $this->getTestNode();
+        $decoded_test_node = $this->loadBalancerService->getLocalTestNode();
         $test_node = json_encode($decoded_test_node);
         switch ($this->getOS()) {
             case self::OS_WIN:

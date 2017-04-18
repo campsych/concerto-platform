@@ -187,7 +187,7 @@ class TestRunnerController {
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
         if ($panel_node["local"] == "true") {
-            $test_node = $this->testRunnerService->sessionService->getTestNodeBySessionHash($session_hash);
+            $test_node = $this->testRunnerService->loadBalancerService->getTestNodeBySession($session_hash);
             if ($test_node["local"] == "true") {
                 $result = $this->testRunnerService->uploadFile(
                         $session_hash, //

@@ -11,11 +11,13 @@ use Concerto\PanelBundle\Entity\TestSessionLog;
 use Concerto\TestBundle\Service\RRunnerService;
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\AdministrationService;
+use Concerto\PanelBundle\Service\LoadBalancerInterface;
 
 class TestSessionService {
 
     const SOURCE_PANEL_NODE = 0;
     const SOURCE_PROCESS = 1;
+    const SOURCE_TEST_NODE = 2;
     const RESPONSE_VIEW_TEMPLATE = 0;
     const RESPONSE_FINISHED = 1;
     const RESPONSE_SUBMIT = 2;
@@ -41,25 +43,25 @@ class TestSessionService {
     private $testSessionLogRepository;
     private $logger;
     private $panelNodes;
-    private $testNodes;
     private $environment;
     private $secret;
     private $rRunnerService;
     private $fileService;
     private $administrationService;
+    private $loadBalancerService;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $testNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService) {
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService, LoadBalancerInterface $loadBalancerService) {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
         $this->testRepository = $testRepository;
         $this->testSessionLogRepository = $testSessionLogRepository;
         $this->panelNodes = $panelNodes;
-        $this->testNodes = $testNodes;
         $this->secret = $secret;
         $this->logger = $logger;
         $this->rRunnerService = $rRunnerService;
         $this->fileService = $fileService;
         $this->administrationService = $administrationService;
+        $this->loadBalancerService = $loadBalancerService;
     }
 
     private function getLocalPanelNode() {
@@ -70,15 +72,6 @@ class TestSessionService {
         return $this->panelNodes[0];
     }
 
-    private function authenticateTestNode($calling_node_ip, $node_hash) {
-        foreach ($this->testNodes as $node) {
-            if ($node_hash == $node["hash"]) {
-                return $node;
-            }
-        }
-        return false;
-    }
-
     private function generateSessionHash($session_id) {
         return sha1($this->secret . $session_id);
     }
@@ -86,7 +79,7 @@ class TestSessionService {
     public function startNewSession($test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug");
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node_hash);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node_hash);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $test_node_hash / $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -175,7 +168,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->getTestNodeById($session->getTestNodeId());
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
             return json_encode(array(
@@ -184,7 +177,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node["hash"]);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -236,7 +229,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->getTestNodeById($session->getTestNodeId());
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
             return json_encode(array(
@@ -245,7 +238,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node["hash"]);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -278,7 +271,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->getTestNodeById($session->getTestNodeId());
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
             return json_encode(array(
@@ -287,7 +280,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node["hash"]);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -315,7 +308,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->getTestNodeById($session->getTestNodeId());
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
             return json_encode(array(
@@ -324,7 +317,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node["hash"]);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -352,7 +345,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->getTestNodeById($session->getTestNodeId());
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
             return json_encode(array(
@@ -361,7 +354,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node["hash"]);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -481,23 +474,6 @@ class TestSessionService {
         return $sock;
     }
 
-    private function getTestNodeById($id) {
-        foreach ($this->testNodes as $node) {
-            if ($node["id"] == $id)
-                return $node;
-        }
-        return null;
-    }
-
-    public function getTestNodeBySessionHash($hash) {
-        $node_id = null;
-        $session = $this->testSessionRepository->findOneBy(array("hash" => $hash));
-        if ($session) {
-            $node_id = $session->getTestNodeId();
-        }
-        return $this->getTestNodeById($node_id);
-    }
-
     private function initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
 
@@ -565,7 +541,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->getTestNodeById($session->getTestNodeId());
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
             return json_encode(array(
@@ -574,7 +550,7 @@ class TestSessionService {
             ));
         }
 
-        $test_node = $this->authenticateTestNode($calling_node_ip, $test_node["hash"]);
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
             return json_encode(array(
@@ -587,5 +563,4 @@ class TestSessionService {
         $response = array("result" => 0);
         return $response;
     }
-
 }

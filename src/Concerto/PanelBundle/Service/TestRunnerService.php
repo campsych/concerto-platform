@@ -4,28 +4,29 @@ namespace Concerto\PanelBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Service\TestSessionService;
+use Concerto\PanelBundle\Service\LoadBalancerInterface;
 
 class TestRunnerService {
 
     private $panelNodes;
-    private $testNodes;
     private $logger;
     private $environment;
-    public $sessionService;
+    public $loadBalancerService;
+    private $sessionService;
 
-    public function __construct($environment, $panelNodes, $testNodes, LoggerInterface $logger, TestSessionService $sessionService) {
+    public function __construct($environment, $panelNodes, LoggerInterface $logger, TestSessionService $sessionService, LoadBalancerInterface $loadBalancerService) {
         $this->environment = $environment;
         $this->panelNodes = $panelNodes;
-        $this->testNodes = $testNodes;
         $this->logger = $logger;
         $this->sessionService = $sessionService;
+        $this->loadBalancerService = $loadBalancerService;
     }
 
     public function startNewSession($test_slug, $node_id, $params, $client_ip, $client_browser, $debug) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $node_id, $params, $client_ip, $client_browser, $debug");
 
         $panel_node = $this->getPanelNodeById($node_id);
-        $test_node = $this->getOptimalTestNode($panel_node);
+        $test_node = $this->loadBalancerService->getOptimalTestNode();
 
         $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $params, $client_ip, $client_browser, false, $debug);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
@@ -63,10 +64,6 @@ class TestRunnerService {
         $response = $this->sessionService->results($session_hash, false);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
-    }
-
-    private function getOptimalTestNode($panel_node) {
-        return $this->testNodes[0];
     }
 
     public function getPanelNodeById($node_id) {

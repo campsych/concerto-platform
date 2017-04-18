@@ -184,7 +184,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestSession_metadata"]
   concerto_panel.TestSession_service:
     class: Concerto\PanelBundle\Service\TestSessionService
-    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%", "%test_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service","@concerto_panel.Administration_service"]
+    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service","@concerto_panel.Administration_service", "@concerto_panel.LoadBalancer_service"]
     
 # Administration
   concerto_panel.AdministrationSetting_metadata:
@@ -209,7 +209,12 @@ services:
     class: Concerto\PanelBundle\Service\AdministrationService
     arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository","@kernel","@API.Client_repository","%test_runner_settings%"]
     
-#   ImportService
+# LoadBalancer
+  concerto_panel.LoadBalancer_service:
+    class: Concerto\PanelBundle\Service\LoadBalancerService
+    arguments: ["@concerto_panel.TestSession_repository", "%test_nodes%", "@concerto_test.TestSessionCount_service"]
+    
+# ImportService
   concerto_panel.import_service:
       class: Concerto\PanelBundle\Service\ImportService
       arguments: ["@doctrine.orm.entity_manager", "@concerto_panel.DataTable_service", "@concerto_panel.Test_service", "@concerto_panel.TestNode_service", "@concerto_panel.TestNodePort_service", "@concerto_panel.TestNodeConnection_service", "@concerto_panel.TestVariable_service", "@concerto_panel.TestWizard_service", "@concerto_panel.TestWizardStep_service", "@concerto_panel.TestWizardParam_service", "@concerto_panel.ViewTemplate_service", "%version%"]
@@ -229,7 +234,7 @@ services:
     
   concerto_panel.test_runner_service:
     class: Concerto\PanelBundle\Service\TestRunnerService
-    arguments: ["%kernel.environment%","%panel_nodes%","%test_nodes%","@logger","@concerto_panel.TestSession_service"]
+    arguments: ["%kernel.environment%","%panel_nodes%","@logger","@concerto_panel.TestSession_service", "@concerto_panel.LoadBalancer_service"]
     
 #   Controllers
   concerto_panel.DataTable_controller:
