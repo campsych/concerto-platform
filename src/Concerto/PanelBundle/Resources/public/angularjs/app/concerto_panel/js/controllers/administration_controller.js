@@ -303,7 +303,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
-        data: "tasksCollection",
+        data: "packagesTasksCollection",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
         gridMenuCustomItems: [

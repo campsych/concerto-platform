@@ -22,12 +22,11 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand {
         $concerto_path = $this->getConcertoPath();
         $php_exec = $this->getContainer()->getParameter("test_runner_settings")["php_exec"];
         $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "console");
-        $web_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "web");
         $task_result_file = $this->getTaskResultFile($task);
         $task_output_file = $this->getTaskOutputFile($task);
 
         $cmd = "nohup sh -c \"sleep 3 ";
-        $cmd .= "&& $php_exec $console_path concerto:content:import --convert $web_path ";
+        $cmd .= "&& $php_exec $console_path concerto:content:import --convert ";
         $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
         return $cmd;
     }
