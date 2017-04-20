@@ -53,6 +53,8 @@ class ConcertoRestoreCommand extends ConcertoScheduledTaskCommand {
         $user = $connection->getUsername();
         $pass = $connection->getPassword();
         $name = $connection->getDatabase();
+        $db_host = $connection->getHost();
+        $db_port = $connection->getPort();
 
         $web_user = $this->getContainer()->getParameter("administration")["internal"]["web_user"];
         $web_group = $this->getContainer()->getParameter("administration")["internal"]["web_group"];
@@ -69,7 +71,7 @@ class ConcertoRestoreCommand extends ConcertoScheduledTaskCommand {
         $cmd .= "&& $php_exec $console_path assets:install --symlink $web_path";
         $cmd .= "&& $r_exec_path CMD INSTALL $concerto_rlib_path " . ($r_lib_path ? "-l $r_lib_path " : "");
         $cmd .= "&& chown -R $web_user:$web_group $concerto_path ";
-        $cmd .= "&& mysql -u$user -p$pass $name < $db_path ";
+        $cmd .= "&& mysql -h$db_host -P$db_port -u$user -p$pass $name < $db_path ";
         $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
         return $cmd;
     }

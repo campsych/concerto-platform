@@ -39,12 +39,14 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         $db_user = $connection->getUsername();
         $db_pass = $connection->getPassword();
         $db_name = $connection->getDatabase();
+        $db_host = $connection->getHost();
+        $db_port = $connection->getPort();
         $task_result_file = $this->getTaskResultFile($task);
         $task_output_file = $this->getTaskOutputFile($task);
 
         $cmd = "nohup sh -c \"sleep 3 ";
         $cmd .= "&& zip -FSrq $files_backup_path $concerto_path ";
-        $cmd .= "&& mysqldump -u$db_user -p$db_pass $db_name --ignore-table=$db_name.ScheduledTask > $db_backup_path ";
+        $cmd .= "&& mysqldump -h$db_host -P$db_port -u$db_user -p$db_pass $db_name --ignore-table=$db_name.ScheduledTask > $db_backup_path ";
         $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
         return $cmd;
     }
