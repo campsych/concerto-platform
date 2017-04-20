@@ -39,7 +39,7 @@ class ConcertoRestoreCommand extends ConcertoScheduledTaskCommand {
         return true;
     }
 
-    protected function getCommand(ScheduledTask $task) {
+    protected function getCommand(ScheduledTask $task, InputInterface $input) {
         $concerto_path = $this->getConcertoPath();
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $pb_path = $service->getBackupPlatformPath();
@@ -61,12 +61,13 @@ class ConcertoRestoreCommand extends ConcertoScheduledTaskCommand {
         $web_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "web");
         $concerto_rlib_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "TestBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "R" . DIRECTORY_SEPARATOR . "concerto5");
         $r_lib_path = $this->getContainer()->getParameter("administration")["internal"]["r_lib_path"];
+        $r_exec_path = $this->getContainer()->getParameter("administration")["internal"]["r_exec_path"];
 
         $cmd = "nohup sh -c \"sleep 3 ";
         $cmd .= "&& rm -rf $concerto_path ";
         $cmd .= "&& unzip -q $pb_path -d / ";
         $cmd .= "&& $php_exec $console_path assets:install --symlink $web_path";
-        $cmd .= "&& R CMD INSTALL $concerto_rlib_path " . ($r_lib_path ? "-l $r_lib_path" : "");
+        $cmd .= "&& $r_exec_path CMD INSTALL $concerto_rlib_path " . ($r_lib_path ? "-l $r_lib_path " : "");
         $cmd .= "&& chown -R $web_user:$web_group $concerto_path ";
         $cmd .= "&& mysql -u$user -p$pass $name < $db_path ";
         $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";

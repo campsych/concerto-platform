@@ -1,0 +1,56 @@
+{% trans_default_domain "Administration" %}
+<div type="text/ng-template" id="r_package_installation_dialog.html">
+    <div class="modal-body">
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "Administration" %}
+            {% block legend %}{{ 'packages.dialog.title.installation'|trans }}{% endblock %}
+            {% block legend_tooltip %}{{ 'packages.dialog.title.installation.tooltip'|trans }}{% endblock %}
+            {% block elements %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Administration" %}
+                    {% block label %}{{ 'packages.dialog.fields.method'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'packages.dialog.fields.method.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <select ng-model="method" style="width:100%;" ng-options="m.value as m.label for m in methodsCollection" class='form-control'>
+                        </select>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Administration" %}
+                    {% block row %}<tr class="formRowV" ng-show="method == 0">{% endblock %}
+                        {% block label %}{{ 'packages.dialog.fields.name'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'packages.dialog.fields.name.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                        <input type="text" ng-model="name" style="width:100%;" class='form-control' />
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Administration" %}
+                    {% block row %}<tr class="formRowV" ng-show="method == 0">{% endblock %}
+                        {% block label %}{{ 'packages.dialog.fields.mirror'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'packages.dialog.fields.mirror.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                        <input type="text" ng-model="mirror" style="width:100%;" class='form-control' />
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Administration" %}
+                    {% block row %}<tr class="formRowV" ng-show="method == 1">{% endblock %}
+                        {% block label %}{{ 'packages.dialog.fields.url'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'packages.dialog.fields.url.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                        <input type="text" ng-model="url" style="width:100%;" class='form-control' />
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="install()">{{ 'packages.dialog.buttons.install'|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'packages.dialog.buttons.cancel'|trans }}</button>
+    </div>
+</div>

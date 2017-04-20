@@ -630,7 +630,29 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.installPackage = function () {
-        //@TODO
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'r_package_installation_dialog.html',
+            controller: RPackageInstallController,
+            size: "lg"
+        });
+
+        modalInstance.result.then(function (installOptions) {
+            $http.post(Paths.ADMINISTRATION_TASKS_PACKAGE_INSTALL, {
+                install_options: angular.toJson(installOptions)
+            }).then(function (response) {
+                $scope.refreshTasks();
+
+                if (response.data.result !== 0) {
+                    $scope.dialogsService.alertDialog(
+                            Trans.PACKAGES_DIALOG_TITLE_INSTALLATION_FAILED,
+                            response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out,
+                            "danger",
+                            "lg"
+                            );
+                }
+            });
+        }, function () {
+        });
     };
 
     $scope.refreshApiClients = function () {

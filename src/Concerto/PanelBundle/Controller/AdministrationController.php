@@ -115,6 +115,14 @@ class AdministrationController {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+    
+    public function taskPackageInstallAction() {
+        $install_options = json_decode($this->request->get("install_options"), true);
+        $return = $this->service->schedulePackageInstallTask($out, $install_options, true);
+        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
     public function apiClientCollectionAction() {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(

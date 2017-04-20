@@ -18,7 +18,7 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand {
         parent::configure();
     }
 
-    protected function getCommand(ScheduledTask $task) {
+    protected function getCommand(ScheduledTask $task, InputInterface $input) {
         $concerto_path = $this->getConcertoPath();
         $php_exec = $this->getContainer()->getParameter("test_runner_settings")["php_exec"];
         $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "console");

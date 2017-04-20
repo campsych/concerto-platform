@@ -89,6 +89,7 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
             case ScheduledTask::TYPE_RESTORE_BACKUP: return $this->executeRestoreTask($task, $output);
             case ScheduledTask::TYPE_CONTENT_UPGRADE: return $this->executeContentUpgradeTask($task, $output);
             case ScheduledTask::TYPE_PLATFORM_UPGRADE: return $this->executePlatformUpgradeTask($task, $output);
+            case ScheduledTask::TYPE_R_PACKAGE_INSTALL: return $this->executePackageInstallTask($task, $output);
         }
     }
 
@@ -118,6 +119,25 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
             case ScheduledTask::TYPE_CONTENT_UPGRADE: return $this->onContentUpgradeTaskFinished($task, $output);
             case ScheduledTask::TYPE_PLATFORM_UPGRADE: return $this->onPlatformUpgradeTaskFinished($task, $output);
         }
+    }
+
+    private function executePackageInstallTask(ScheduledTask $task, OutputInterface $output) {
+        $app = $this->getApplication()->find("concerto:package:install");
+        $input = new ArrayInput(array(
+            "command" => "concerto:package:install",
+            "--task" => $task->getId()
+        ));
+        $bo = new BufferedOutput();
+        $return_code = $app->run($input, $bo);
+        $response = $bo->fetch();
+
+        $output->writeln($response);
+        $em = $this->getContainer()->get("doctrine")->getManager();
+        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
+        $task->appendOutput($response);
+        $tasksRepo->save($task);
+
+        return $return_code;
     }
 
     private function executeBackupTask(ScheduledTask $task, OutputInterface $output) {
@@ -236,7 +256,7 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
         $msgRepo = $em->getRepository("ConcertoPanelBundle:Message");
         $msgRepo->save($msg);
     }
-    
+
     private function onPlatformUpgradeTaskFinished(ScheduledTask $task, OutputInterface $output) {
         if ($task->getStatus() != ScheduledTask::STATUS_COMPLETED)
             return;

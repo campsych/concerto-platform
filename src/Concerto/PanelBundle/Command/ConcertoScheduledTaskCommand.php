@@ -39,7 +39,7 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
         return realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "..");
     }
 
-    abstract protected function getCommand(ScheduledTask $task);
+    abstract protected function getCommand(ScheduledTask $task, InputInterface $input);
 
     abstract public function getTaskDescription(ScheduledTask $task);
 
@@ -98,7 +98,9 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
             $task->setStatus(ScheduledTask::STATUS_ONGOING);
             $tasksRepo->save($task);
 
-            $proc = new Process($this->getCommand($task));
+            $cmd = $this->getCommand($task, $input);
+            //$output->writeln($cmd);
+            $proc = new Process($cmd);
             $return_code = $proc->run();
             if ($return_code !== 0) {
                 $output->writeln("failed to start task #" . $task->getId() . "!");
@@ -112,9 +114,9 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
 
             $task = new ScheduledTask();
             $task->setType($this->getTaskType());
-            $task->setDescription($this->getTaskDescription($task));
             $tasksRepo->save($task);
             $task->setInfo(json_encode($this->getTaskInfo($task, $input)));
+            $task->setDescription($this->getTaskDescription($task));
             $tasksRepo->save($task);
 
             $output->writeln("task #" . $task->getId() . " scheduled");

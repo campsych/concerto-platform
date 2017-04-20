@@ -65,8 +65,25 @@ packages:
         title: 
             report: R packages report
             report.tooltip: R packages report
+            installation: R package installation
+            installation.tooltip: R package installation
+            installation_failed: R package installation failed
         content:
             report_failed: R packages report failed.
+        fields:
+            method: Method
+            method.tooltip: R package installation method
+            method.latest: Latest version
+            method.specific: Specific version
+            name: Name
+            name.tooltip: R package name
+            mirror: Mirror URL
+            mirror.tooltip: R package mirror URL
+            url: Package URL
+            url.tooltip: Package source URL
+        buttons:
+            install: Install
+            cancel: Cancel
         
 tasks:
     fieldset:

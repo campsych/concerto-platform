@@ -29,7 +29,7 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
     }
 
-    protected function getCommand(ScheduledTask $task) {
+    protected function getCommand(ScheduledTask $task, InputInterface $input) {
         $concerto_path = $this->getConcertoPath();
         $files_backup_path = $this->getFileBackupPath();
         $db_backup_path = $this->getDatabaseBackupPath();

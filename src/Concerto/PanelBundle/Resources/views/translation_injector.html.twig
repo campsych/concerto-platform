@@ -155,9 +155,10 @@
     Paths.ADMINISTRATION_API_CLIENTS_CLEAR = "{{ path("Administration_api_clients_clear") }}";
     Paths.ADMINISTRATION_API_CLIENTS_ADD = "{{ path("Administration_api_clients_add") }}";
     Paths.ADMINISTRATION_PACKAGES_STATUS = "{{ path("Administration_packages_status") }}";
+    Paths.ADMINISTRATION_TASKS_PACKAGE_INSTALL = "{{ path("Administration_tasks_package_install") }}";
 
-    Trans.LOCALE = "{{ app.request.locale }}"
-    Trans.LANGUAGE = "{{ app.request.locale[:2] }}"
+    Trans.LOCALE = "{{ app.request.locale }}";
+    Trans.LANGUAGE = "{{ app.request.locale[:2] }}";
     Trans.PLEASE_WAIT = "{{ "please.wait"|trans }}";
     Trans.NONE = "{{ "none"|trans }}";
     Trans.NONE_CHOOSEN = "{{ "none.choosen"|trans }}";
@@ -469,4 +470,7 @@
         Trans.PACKAGES_DIALOG_TITLE_REPORT = "{{ "packages.dialog.title.report"|trans }}";
         Trans.PACKAGES_DIALOG_TITLE_REPORT_TOOLTIP = "{{ "packages.dialog.title.report.tooltip"|trans }}";
         Trans.PACKAGES_DIALOG_CONTENT_REPORT_FAILED = "{{ "packages.dialog.content.report_failed"|trans }}";
+        Trans.PACKAGES_DIALOG_FIELDS_METHOD_LATEST = "{{ "packages.dialog.fields.method.latest"|trans }}";
+        Trans.PACKAGES_DIALOG_FIELDS_METHOD_SPECIFIC = "{{ "packages.dialog.fields.method.specific"|trans }}";
+        Trans.PACKAGES_DIALOG_TITLE_INSTALLATION_FAILED = "{{ "packages.dialog.title.installation_failed"|trans }}";
 </script>

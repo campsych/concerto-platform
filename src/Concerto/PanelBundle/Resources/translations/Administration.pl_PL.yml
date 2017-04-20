@@ -65,8 +65,26 @@ packages:
         title: 
             report: Raport pakietów R
             report_tooltip: Raport pakietów R
+            installation: Instalacja pakietu R
+            installation.tooltip: Instalacja pakietu R
+            installation_failed: Instalacja pakietu R nie powiodła się
         content:
             report_failed: Raport pakietów R nie powiódł się.
+        fields:
+            method: Metoda
+            method.tooltip: Metoda instalacji pakietu R
+            method:
+            method.latest: Najnowsza wersja
+            method.specific: Konkretna wersja
+            name: Nazwa
+            name.tooltip: Nazwa pakietu R
+            mirror: URL lustra
+            mirror.tooltip: URL serweru lustra pakietu R
+            url: URL pakietu
+            url.tooltip: URL źródła pakietu R
+        buttons:
+            install: Instaluj
+            cancel: Anuluj
         
 tasks:
     fieldset:

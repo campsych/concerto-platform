@@ -47,6 +47,10 @@ Administration_tasks_content_upgrade:
 Administration_tasks_platform_upgrade:
     path: /Administration/ScheduledTask/platform_upgrade
     defaults: { _controller: concerto_panel.Administration_controller:taskPlatformUpgradeAction }
+ 
+Administration_tasks_package_install:
+    path: /Administration/ScheduledTask/package_install
+    defaults: { _controller: concerto_panel.Administration_controller:taskPackageInstallAction }
     
 Administration_api_clients_collection:
     path: /Administration/api_clients/collection

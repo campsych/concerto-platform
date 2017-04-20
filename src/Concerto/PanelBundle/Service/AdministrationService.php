@@ -505,6 +505,33 @@ class AdministrationService {
         return $return_code;
     }
 
+    public function schedulePackageInstallTask(&$output, $install_options, $busy_check) {
+        if ($busy_check) {
+            $pending = $this->scheduledTaskRepository->findAllPending();
+            if (count($pending) > 0)
+                return -1;
+
+            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+            if (count($ongoing) > 0) {
+                return -1;
+            }
+        }
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:package:install",
+            "--method" => $install_options["method"],
+            "--name" => $install_options["name"],
+            "--mirror" => $install_options["mirror"],
+            "--url" => $install_options["url"]
+        ));
+        $out = new BufferedOutput();
+        $return_code = $app->run($in, $out);
+        $output = $out->fetch();
+        return $return_code;
+    }
+
     public function getApiClientsCollection() {
         return $this->apiClientRepository->findAll();
     }

@@ -85,6 +85,7 @@ class ScheduledTask implements \JsonSerializable {
         $this->status = self::STATUS_PENDING;
         $this->output = "";
         $this->info = "";
+        $this->description = "";
     }
 
     /**
