@@ -416,9 +416,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             $http.post(Paths.ADMINISTRATION_TASKS_PLATFORM_UPGRADE, {
                 backup: answer
             }).then(function (response) {
-                $scope.refreshTasks();
-                $scope.refreshSettings();
-                $scope.refreshMessages();
+                $scope.refreshAllTaskRelated();
 
                 if (response.data.result !== 0) {
                     $scope.dialogsService.alertDialog(
@@ -457,9 +455,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             $http.post(Paths.ADMINISTRATION_TASKS_CONTENT_UPGRADE, {
                 backup: answer
             }).then(function (response) {
-                $scope.refreshTasks();
-                $scope.refreshSettings();
-                $scope.refreshMessages();
+                $scope.refreshAllTaskRelated();
 
                 if (response.data.result !== 0) {
                     $scope.dialogsService.alertDialog(
@@ -480,9 +476,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 Trans.TASKS_DIALOG_CONFIRM_BACKUP,
                 function (response) {
                     $http.post(Paths.ADMINISTRATION_TASKS_BACKUP, {}).then(function (response) {
-                        $scope.refreshTasks();
-                        $scope.refreshSettings();
-                        $scope.refreshMessages();
+                        $scope.refreshAllTaskRelated();
 
                         if (response.data.result !== 0) {
                             $scope.dialogsService.alertDialog(
@@ -508,9 +502,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 Trans.TASKS_DIALOG_CONFIRM_RESTORE,
                 function (answer) {
                     $http.post(Paths.ADMINISTRATION_TASKS_RESTORE, {}).then(function (response) {
-                        $scope.refreshTasks();
-                        $scope.refreshSettings();
-                        $scope.refreshMessages();
+                        $scope.refreshAllTaskRelated();
 
                         if (response.data.result !== 0) {
                             $scope.dialogsService.alertDialog(
@@ -640,7 +632,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             $http.post(Paths.ADMINISTRATION_TASKS_PACKAGE_INSTALL, {
                 install_options: angular.toJson(installOptions)
             }).then(function (response) {
-                $scope.refreshTasks();
+                $scope.refreshAllTaskRelated();
 
                 if (response.data.result !== 0) {
                     $scope.dialogsService.alertDialog(
@@ -693,16 +685,20 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         });
     };
 
+    $scope.refreshAllTaskRelated = function () {
+        $scope.refreshSettings();
+        $scope.refreshMessages();
+        $scope.refreshTasks();
+    }
+
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name === $scope.tabStateName) {
             $scope.tab.activeIndex = $scope.tabIndex;
         }
     });
 
-    $scope.refreshSettings();
+    $scope.refreshAllTaskRelated();
     $scope.refreshUsageChart();
-    $scope.refreshMessages();
-    $scope.refreshTasks();
     $scope.refreshApiClients();
 }
 
