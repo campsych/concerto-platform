@@ -73,6 +73,9 @@ doctrine:
                 charset:     UTF8
                 path:        "%database_path%"
                 unix_socket: "%database_unix_socket%"
+                options:
+                    #PDO::MYSQL_ATTR_INIT_COMMAND
+                    1002: "SET sql_mode=''"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
