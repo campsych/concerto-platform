@@ -68,6 +68,9 @@
                 "file": "app/config/parameters_uio.yml"
             },
             {
+                "file": "app/config/parameters_administration.yml"
+            },
+            {
                 "file": "app/config/parameters.yml"
             }
         ],
