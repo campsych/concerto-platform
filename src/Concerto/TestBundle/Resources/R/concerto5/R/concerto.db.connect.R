@@ -10,7 +10,8 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
       host=host,
       unix.socket=unix_socket,
       port=as.numeric(port))
-    dbSendQuery(con, statement = 'SET NAMES \"utf8\"; SET sql_mode=\"\";')
+      dbSendQuery(con, statement = 'SET NAMES \"utf8\"')
+      dbSendQuery(con, statement = 'SET SESSION sql_mode = \"\"')
   } else if (driver=="pdo_sqlite"){
     require("RSQLite")
     stop("pdo_sqlite driver not implemented yet")
