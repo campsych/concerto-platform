@@ -1,0 +1,199 @@
+breadcrumb:
+    list: Todos los asistentes
+
+form:
+  title:
+    add: Creación de nuevos Asistentes de Pruebas
+    edit: 'Edición de los Asistentes de Test #{0}'
+  field:
+    name: Nombre
+    name.tooltip: Nombre de Prueba
+    accessibility: Accesibilidad
+    accessibility.tooltip: nivel de accesibilidad de Asistente de prueba
+    protected: Protegido
+    protected.tooltip: Asistente de prueba está protegido?
+    archived: Archivado
+    archived.tooltip: Asistente para prueba esta archivado?
+    test: Prueba
+    test.tooltip: Asistente de prueba subyacente. No se puede cambiar más adelante.
+    owner: Propietario
+    owner.tooltip: propietario del objeto
+    groups: Grupos
+    groups.tooltip: Lista separada por comas de los grupos asignado al objeto
+    
+list: 
+  field:
+    name: Nombre
+    test: Prueba
+    
+step:
+    fieldset:
+        legend: Pasos del asistente de pruebas
+        legend.tooltip: Declarar pasos del asistente de prueba.
+    form:
+        fieldset:
+            legend.tooltip: introducir las propiedades de los pasos del asistente para prueba
+        field:
+            title: Título
+            title.tooltip: Título de los pasos del asistente de pruebas
+            description: Descripción
+            description.tooltip: Descripción de los pasos del asistente de prueba
+            order: Orden
+            order.tooltip: Orden de los pasos del Asistente de pruebas
+    list:
+        button: 
+            add: Agregar nuevo paso
+            delete.all: Borrar todos los pasos
+            delete.checked: Borrar el paso seleccionado
+            delete: Borrar
+            edit: Editar
+        field:
+            id: Id
+            info: Info
+            title: Título
+            order: Orden
+    dialog:
+        title:
+            add: Adición de un nuevo paso del asistente de prueba
+            edit: Edición del paso del asistente de prueba
+            delete: Eliminación del paso del asistente de prueba
+            clear: Limpiando los pasos del asistente de prueba
+        message:
+            delete.confirm: Está seguro de que desea eliminar el paso del asistente de prueba ?
+            clear.confirm: Está seguro de que desea limpiar todos los pasos del asistente de prueba?
+            
+param:
+    move_up.tooltip: Mueva el parámetro arriba
+    move_down.tooltip: Mueva el parámetro abajo
+    fieldset:
+        legend: Parametros del asistente de prueba
+        legend.tooltip: Declarar params asistente de prueba
+    form:
+        fieldset:
+            legend.tooltip: Introducir propiedades de parametros del asistente de prueba
+        field:
+            label: Etiqueta
+            label.tooltip: Etiqueta param de asistente de prueba
+            description: Descripción
+            description.tooltip: Descripción param de asistente de prueba
+            url: transitables a través de la dirección URL
+            url.tooltip: Compruebe si el valor del parámetro se puede ajustar mediante el parámetro de URL
+            order: Orden
+            order.tooltip: Índice orden de parámetro en el paso del asistente
+            variable: Variable de prueba
+            variable.tooltip: Parámetro de prueba
+            step: Paso del asistente
+            step.tooltip: Seleccione probar los pasos del asistente para este parámetro
+            definition: Definición
+            definition.tooltip: Definición de parámetros
+            definition.icon.tooltip: Configure definición del parámetro 
+            type: Tipo
+            type.tooltip: Tipo param asistente de prueba
+            type.single_line_text: una única línea de texto
+            type.multi_line_text: texto multilínea
+            type.html: HTML
+            type.select: La lista desplegable
+            type.view: Ver plantilla
+            type.test: Prueba
+            type.table: Tabla de datos
+            type.column: Columna de tabla de datos
+            type.checkbox: Checkbox
+            type.group: Grupo
+            type.list: Lista
+            hide_condition: Ocultar el estado
+            hide_condition.tooltip: "Ocultar la condición. Utiliza la sintaxis javascript. Los valores de los parámetros actuales (objeto de colección) se llama <strong>Values</strong>. Para acceder a los parámetros actuales de ámbito principal utilice <strong>parent</strong>. Ejemplo: <strong>Valores.param1.subparam3 != "1"</strong>"
+            setter.icon.tooltip: lanzamiento del colocador de diálogo
+    list:
+        button: 
+            add: Añade nuevos param
+            delete.all: Borrar todos los params
+            delete.checked: Eliminar params seleccionados
+            delete: Eliminar
+            edit: Editar
+        field:
+            id: Id
+            info: Info
+            label: Título
+            step: El paso
+            variable: param de prueba
+            type: Tipo
+            order: Orden
+    dialog:
+        title:
+            add: Añadiendo nuevos param al asistente de prueba
+            edit: Edición param de asistente de prueba
+            delete: Eliminar param test wizard
+            clear: Limpiar params del asistente de pruebas
+        message:
+            delete.confirm: Está seguro de que desea eliminar param seleccionados del asistente de prueba?
+            clear.confirm: Está seguro de que desea limpiar todos params del asistente de prueba?
+    definer:
+        titles:
+            select: "{0} - definir posibles opciones de selección"
+            select.tooltip: Conjunto de parámetros actual seleccione Opciones
+            group: "{0} - definir campos de grupo"
+            group.tooltip: campos de grupo de parámetros actuales establecidos
+            list: "{0} - definir la lista de tipo de elemento"
+            list.tooltip: Ajuste el parámetro actual y el tipo de lista de elementos
+        summaries:
+            select: "Recuento de Opciones: {0}"
+            group: "Recuento de Campos: {0}"
+            list: "Tipo de Elementos: {0}"
+        select.option.add: Añadir nueva opción
+        select.option.remove.selected: Quitar opciones seleccionadas
+        select.option.remove.all: Quitar todas las opciones
+        select.list.field.order: Orden
+        select.list.field.label: Etiqueta
+        select.list.field.value: Valor
+        select.list.button.delete: Eliminar
+        group.field.add: Agregar nuevo campo
+        group.field.remove.selected: Quitar los campos seleccionados
+        group.field.remove.all: Quitar todos los campos
+        group.field.move_up.tooltip: Mueva el campo hacia arriba
+        group.field.move_down.tooltip: Bajar campo
+        group.list.field.name: Nombre 
+        group.list.field.label: Etiqueta
+        group.list.field.type: Tipo
+        group.list.field.hide_condition: Ocultar el estado
+        group.list.field.definition: Definición
+        group.list.field.order: Orden
+    setter:
+        titles:
+            textarea: "{0} - texto de varias líneas"
+            textarea.tooltip: valor de texto del parámetro actual establecido
+            html: "{0} - HTML"
+            html.tooltip: Ajuste el parámetro HTML actual
+            column: "{0} - columna de la tabla de datos"
+            column.tooltip: columna de conjunto de parámetros actual tabla de datos
+            group: "{0} - campos de grupo"
+            group.tooltip: Valores de ajuste de campos de grupo de parámetros actual
+            list: "{0} - elementos de la lista"
+            list.tooltip: Conjunto de elementos de la lista de parámetros actuales
+        summaries:
+            textarea: "{0}"
+            html: "{0}"
+            column: "Tabla: {0}, Columna: {1}"
+            group: "{0}"
+            list: "Recuento de Elementos: {0}"
+        column.table: Tabla de datos
+        column.table.tooltip: Elija la tabla de datos desde la que se va a seleccionar más adelante la columna
+        column: Columna
+        column.tooltip: Elija la columna de la tabla de datos
+        list.element.add: Agregar nuevo elemento
+        list.element.remove.selected: Quitar los elementos seleccionados
+        list.element.remove.all: Elimina todos los elementos
+        list.element.remove: Eliminar
+        list.column.element: Elemento
+            
+preview:
+    fieldset:
+        legend: Previsualización del asistente de prueba
+        legend.tooltip: Previsualización de Asistente para prueba. Puede reorganizar params en cada paso.
+    buttons:
+        next: Siguiente paso
+        previous: Paso anterior
+        
+alerts:
+    edit:
+        steps: Por favor, guarde los cambios realizados al asistente de prueba antes de añadir / editar / eliminar ningun paso para prevenir la pérdida de los cambios no guardados.
+        params: Por favor, guarde los cambios realizados a asistente de prueba antes de añadir / editar / eliminar cualquier parámetro para evitar la pérdida de los cambios no guardados.
