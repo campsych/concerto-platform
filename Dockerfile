@@ -6,7 +6,6 @@ ARG SHIPPABLE_BUILD_DIR=/
 
 RUN echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /etc/apt/sources.list \
  && apt-key adv --keyserver keys.gnupg.net --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 \
- && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && apt-get update -y \
  && apt-get -y install \
     cron \
@@ -20,6 +19,7 @@ RUN echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /
     npm \
     r-base \
     r-base-dev \
+ && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8"
  
 RUN docker-php-ext-install \
