@@ -32,24 +32,12 @@ build:
     - $(["$IS_GIT_TAG" == "true"] && (docker push campsych/concerto-platform:$GIT_TAG_NAME))
     - $(["$BRANCH" == "master"] && (docker push campsych/concerto-platform:latest))
   on_success:
-    - #command1
-    - #command2
   on_failure:
-    - #command1
-    - #command2
   cache:
   cache_dir_list:
-    - #dir1
   push:
 
 integrations:
-  notifications:
-    - integrationName:
-      type:
-      recipients:
-        - #recp1
-        - #recp2
-
   hub:
     - integrationName: DockerHub
       type: docker
