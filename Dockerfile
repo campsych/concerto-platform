@@ -33,7 +33,7 @@ RUN docker-php-ext-install \
 
 COPY docker/php.ini /usr/local/etc/php/
 
-ADD $SHIPPABLE_BUILD_DIR/concerto-platform /usr/src/concerto/
+ADD $SHIPPABLE_BUILD_DIR /usr/src/concerto/
 
 RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','ggplot2','base64enc','rjson'), repos='$CRAN_MIRROR')" \
  && cd /usr/src/concerto/src/Concerto/TestBundle/Resources/R \
