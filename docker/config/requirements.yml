@@ -1,0 +1,55 @@
+parameters:
+    requirements:
+        executables:
+            r:
+                # command to execute, required for any checks
+                # if it returns a non-0 status, it'll be assumed as unusable
+                command: R
+                version:
+                    # minimal required version, if it's skipped version won't be checked
+                    min: "3.0"
+                    # parser regexp, if skipped it'll look for the first string looking like a version
+                    parser: "^R version ([\\d\\.]+) \\(.*$"
+                    # parameters to pass to the executable when checking for version, if it's skipped, default "--version" will be passed
+                    flag: "--version"
+                # link to documentation related to installation
+                link: "http://cran.r-project.org/doc/manuals/r-release/R-admin.html"
+            
+            php:
+                command: php
+                version:
+                    min: "5.4.0"
+                    parser: "^PHP ([\\d\\.]+)([\\-\\w\\d\\.]*) \\(cli\\).*$"
+                link: "http://php.net/manual/en/install.php"
+            
+            bower:
+                command: bower
+                version:
+                    min: "1.3.0"
+                link: 'http://bower.io/#install-bower'
+        
+        paths:
+            bower:
+                path: "%kernel.root_dir%/../src/Concerto/PanelBundle/Resources/public/angularjs/bower_components/angular"
+                nicename: "bower dependencies for panel"
+                type: directory
+                # if there's a way to auto-fix it, try it once - if after fix error still persists,
+                # message will be displayed
+                fix:
+                    # execution path
+                    dir: "%kernel.root_dir%/../src/Concerto/PanelBundle/Resources/public/angularjs/"
+                    # shell command, or list of commands
+                    command: [bower install,bower update]
+                    # message to display in case of error
+                    message: "Unable to install required bower dependencies in your system. Please make sure they're installed manually by executing bower install command '%kernel.root_dir%/src/Concerto/PanelBundle/Resources/public/angularjs/'."
+                
+                    
+            bower_test:
+                path: "%kernel.root_dir%/../src/Concerto/TestBundle/Resources/public/angularjs/bower_components/angular"
+                nicename: "bower dependencies for tests"
+                type: directory
+                fix:
+                    dir: "%kernel.root_dir%/../src/Concerto/TestBundle/Resources/public/angularjs/"
+                    command: [bower install,bower update]
+                    message: "Unable to install required bower dependencies in your system. Please make sure they're installed manually by executing bower install command '%kernel.root_dir%/src/Concerto/TestBundle/Resources/public/angularjs/'."
+                

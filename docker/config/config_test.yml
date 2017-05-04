@@ -1,0 +1,44 @@
+imports:
+    - { resource: config_dev.yml }
+
+parameters:
+    secret: secret
+    panel_nodes:
+        - { id: local, local: true, protocol: http, sock_host: localhost, web_host: localhost, web_port: 80, dir: /, connection: local, hash: someHash }
+    test_nodes:
+        - { id: local, local: true, protocol: http, sock_host: localhost, web_host: localhost, web_port: 80, dir: /, connection: local, hash: someHash }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        enabled: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: local
+        connections:
+            local:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%test_database_name%"
+                user:     "%test_database_user%"
+                password: "%test_database_password%"
+                charset:  UTF8
+                # if using pdo_sqlite as your database driver, add the path in parameters.yml
+                # e.g. database_path: %kernel.root_dir%/data/data.db3
+                # path:     %database_path%
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true

@@ -1,0 +1,56 @@
+language: php
+
+php:
+  - 7.1
+
+services:
+
+env:
+
+matrix:
+
+build:
+
+  pre_ci:
+  pre_ci_boot:
+    image_name:
+    image_tag:
+    pull:
+    options:
+  ci:
+    - npm install -g bower
+    - cd $SHIPPABLE_BUILD_DIR
+    - curl -s http://getcomposer.org/installer | php
+    - php -dmemory_limit=1G composer.phar install --no-interaction
+    - cd $SHIPPABLE_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs
+    - bower install --allow-root
+    - $SHIPPABLE_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs
+    - bower install --allow-root
+  post_ci:
+    - docker build -t campsych/concerto-platform:$BRANCH $(["$IS_GIT_TAG" == "true"] && echo "-t campsych/concerto-platform:$GIT_TAG_NAME ") $(["$BRANCH" == "master"] && echo "-t campsych/concerto-platform:latest ")
+    - docker push campsych/concerto-platform:$BRANCH
+    - $(["$IS_GIT_TAG" == "true"] && (docker push campsych/concerto-platform:$GIT_TAG_NAME))
+    - $(["$BRANCH" == "master"] && (docker push campsych/concerto-platform:latest))
+  on_success:
+    - #command1
+    - #command2
+  on_failure:
+    - #command1
+    - #command2
+  cache:
+  cache_dir_list:
+    - #dir1
+  push:
+
+integrations:
+  notifications:
+    - integrationName:
+      type:
+      recipients:
+        - #recp1
+        - #recp2
+
+  hub:
+    - integrationName: DockerHub
+      type: docker
+      agent_only:

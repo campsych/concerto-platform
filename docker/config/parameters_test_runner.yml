@@ -1,0 +1,9 @@
+parameters:
+    test_runner_settings:
+        max_idle_time: 3900
+        max_execution_time: 30
+        keep_alive_interval_time: 120 #0 for none
+        keep_alive_tolerance_time: 490
+        r_environ_path: null
+        php_exec: /usr/local/bin/php
+        rscript_exec: /usr/bin/Rscript

@@ -1,0 +1,18 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: database
+    database_port: 3306
+    database_name: concerto
+    database_user: concerto
+    database_password: concerto
+    database_path: null
+    database_unix_socket: null
+    test_database_name: ThisIsYourTestDatabaseName #not needed for production env
+    test_database_user: ThisIsYourTestDatabaseUserName #not needed for production env
+    test_database_password: ThisIsYourTestDatabaseUserPassword #not needed for production env
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: en_GB
+    secret: ThisTokenIsNotSoSecretChangeIt
