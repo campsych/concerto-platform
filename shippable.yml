@@ -24,7 +24,7 @@ build:
     - php -dmemory_limit=1G composer.phar install --no-interaction
     - cd $SHIPPABLE_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs
     - bower install --allow-root
-    - $SHIPPABLE_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs
+    - cd $SHIPPABLE_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs
     - bower install --allow-root
   post_ci:
     - docker build -t campsych/concerto-platform:$BRANCH $(["$IS_GIT_TAG" == "true"] && echo "-t campsych/concerto-platform:$GIT_TAG_NAME ") $(["$BRANCH" == "master"] && echo "-t campsych/concerto-platform:latest ") --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR
