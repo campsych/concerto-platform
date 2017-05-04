@@ -18,7 +18,6 @@ build:
     pull:
     options:
   ci:
-    - npm update -g
     - npm install -g bower
     - cd $SHIPPABLE_BUILD_DIR
     - composer self-update
