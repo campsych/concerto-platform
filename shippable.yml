@@ -27,10 +27,11 @@ build:
     - cd $SHIPPABLE_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs
     - bower install --allow-root
   post_ci:
-    - docker build -t campsych/concerto-platform:$BRANCH $(["$IS_GIT_TAG" == "true"] && echo "-t campsych/concerto-platform:$GIT_TAG_NAME ") $(["$BRANCH" == "master"] && echo "-t campsych/concerto-platform:latest ") --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR
+    - cd $SHIPPABLE_BUILD_DIR
+    - docker build -t campsych/concerto-platform --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR .
     - docker push campsych/concerto-platform:$BRANCH
-    - $(["$IS_GIT_TAG" == "true"] && (docker push campsych/concerto-platform:$GIT_TAG_NAME))
-    - $(["$BRANCH" == "master"] && (docker push campsych/concerto-platform:latest))
+    - if ["$IS_GIT_TAG" = "true"]; then docker push campsych/concerto-platform:$GIT_TAG_NAME; fi
+    - if ["$BRANCH" = "master"]; then docker push campsych/concerto-platform:latest; fi
   on_success:
   on_failure:
   cache:
