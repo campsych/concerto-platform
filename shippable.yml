@@ -18,6 +18,8 @@ build:
     pull:
     options:
   ci:
+    - npm install -g npm
+    - npm update -g
     - npm install -g bower
     - cd $SHIPPABLE_BUILD_DIR
     - curl -s http://getcomposer.org/installer | php
