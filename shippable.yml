@@ -18,12 +18,10 @@ build:
     pull:
     options:
   ci:
-    - npm install -g npm
     - npm update -g
     - npm install -g bower
     - cd $SHIPPABLE_BUILD_DIR
-    - curl -s http://getcomposer.org/installer | php
-    - php -dmemory_limit=1G composer.phar install --no-interaction
+    - composer install --no-interaction
     - cd $SHIPPABLE_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs
     - bower install --allow-root
     - cd $SHIPPABLE_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs
