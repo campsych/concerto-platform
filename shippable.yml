@@ -21,6 +21,7 @@ build:
     - npm update -g
     - npm install -g bower
     - cd $SHIPPABLE_BUILD_DIR
+    - composer self-update
     - composer install --no-interaction
     - cd $SHIPPABLE_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs
     - bower install --allow-root
