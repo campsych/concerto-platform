@@ -30,7 +30,7 @@ RUN docker-php-ext-install \
     sockets \
     xml
 
-COPY docker/php.ini /usr/local/etc/php/
+COPY php.ini /usr/local/etc/php/
 
 COPY . /usr/src/concerto/
 

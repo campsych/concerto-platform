@@ -1,5 +1,0 @@
-parameters:
-    panel_nodes:
-        - { id: concerto, local: true, protocol: http, sock_host: concerto, web_host: localhost, web_port: 80, dir: /, connection: local, hash: concerto }
-    test_nodes:
-        - { id: concerto, local: true, protocol: http, sock_host: concerto, web_host: localhost, web_port: 80, dir: /, connection: local, hash: concerto }
