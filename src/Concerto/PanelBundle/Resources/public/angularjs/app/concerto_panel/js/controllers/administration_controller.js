@@ -378,6 +378,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.availableContentVersion = null;
     $scope.backupPlatformVersion = null;
     $scope.backupContentVersion = null;
+    $scope.tasksEnabled = false;
 
     $scope.isPlatformUpgradePossible = function () {
         var key = "version";
@@ -682,6 +683,9 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
 
             var key = "backup_content_version";
             $scope.backupContentVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
+            
+            var key = "scheduled_tasks";
+            $scope.tasksEnabled = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] === "true";
         });
     };
 

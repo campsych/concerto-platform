@@ -54,7 +54,7 @@
         </uib-accordion-heading>
         {{ include("ConcertoPanelBundle:Administration:packages_section.html.twig", {'class_name':"Administration"}) }}
     </uib-accordion-group>
-    <uib-accordion-group is-open="tabAccordion.tasks.open">
+    <uib-accordion-group is-open="tabAccordion.tasks.open" ng-show="tasksEnabled">
         <uib-accordion-heading>
             <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'tasks.fieldset.legend.tooltip'|trans }}'"></i>
             {{ 'tasks.fieldset.legend'|trans }}

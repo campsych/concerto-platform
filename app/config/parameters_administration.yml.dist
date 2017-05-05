@@ -16,4 +16,4 @@ parameters:
             web_group: www-data
             r_exec_path: R
             r_lib_path: null
-            
+            scheduled_tasks: false #experimental feature, use at your own risk
