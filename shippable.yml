@@ -28,7 +28,9 @@ build:
     - bower install --allow-root
   post_ci:
     - cd $SHIPPABLE_BUILD_DIR
-    - docker build -t campsych/concerto-platform --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR .
+    - docker build -t campsych/concerto-platform:$BRANCH --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR .
+    - if ["$IS_GIT_TAG" = "true"]; then docker build -t campsych/concerto-platform:$GIT_TAG_NAME --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR .; fi
+    - if ["$BRANCH" = "master"]; then docker build -t campsych/concerto-platform:latest --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR .; fi
     - docker push campsych/concerto-platform:$BRANCH
     - if ["$IS_GIT_TAG" = "true"]; then docker push campsych/concerto-platform:$GIT_TAG_NAME; fi
     - if ["$BRANCH" = "master"]; then docker push campsych/concerto-platform:latest; fi
