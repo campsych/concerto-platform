@@ -3,24 +3,11 @@ language: php
 php:
   - 7.1
 
-services:
-
-env:
-
-matrix:
-
 build:
-
-  pre_ci:
-  pre_ci_boot:
-    image_name:
-    image_tag:
-    pull:
-    options:
   ci:
     - npm install -g bower
-    - cd $SHIPPABLE_BUILD_DIR
     - composer self-update
+    - cd $SHIPPABLE_BUILD_DIR
     - composer install --no-interaction
     - cd $SHIPPABLE_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs
     - bower install --allow-root
@@ -28,20 +15,14 @@ build:
     - bower install --allow-root
   post_ci:
     - cd $SHIPPABLE_BUILD_DIR
-    - docker build -t campsych/concerto-platform:$BRANCH --build-arg SHIPPABLE_BUILD_DIR=$SHIPPABLE_BUILD_DIR .
+    - docker build -t campsych/concerto-platform:$BRANCH .
     - if ["$IS_GIT_TAG" = "true"]; then docker tag campsych/concerto-platform:$BRANCH campsych/concerto-platform:$GIT_TAG_NAME; fi
     - if ["$BRANCH" = "master"]; then docker tag campsych/concerto-platform:$BRANCH campsych/concerto-platform:latest; fi
     - docker push campsych/concerto-platform:$BRANCH
     - if ["$IS_GIT_TAG" = "true"]; then docker push campsych/concerto-platform:$GIT_TAG_NAME; fi
     - if ["$BRANCH" = "master"]; then docker push campsych/concerto-platform:latest; fi
-  on_success:
-  on_failure:
-  cache:
-  cache_dir_list:
-  push:
 
 integrations:
   hub:
     - integrationName: DockerHub
       type: docker
-      agent_only:
