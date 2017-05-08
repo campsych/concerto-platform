@@ -23,6 +23,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     lineWrapping: true,
                     lineNumbers: true,
                     mode: 'r',
+                    readOnly: scope.wizardObject.starterContent && !scope.administrationSettingsService.starterContentEditable,
                     viewportMargin: Infinity,
                     hintOptions: {
                         completeSingle: false,

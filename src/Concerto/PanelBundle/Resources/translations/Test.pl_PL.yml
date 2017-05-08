@@ -10,8 +10,6 @@ form:
     name.tooltip: Nazwa testu
     accessibility: Dostępność
     accessibility.tooltip: Poziom dostępności testu
-    protected: Chronione
-    protected.tooltip: Czy test jest chroniony?
     archived: Zarchiwizowane
     archived.tooltip: Czy test jest zarchiwizowany?
     slug: Nazwa w URLu

@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.definer.titles.multi_line.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <textarea ng-model="param.definition.defvalue" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-trim="false"></textarea>
+                    <textarea ng-model="param.definition.defvalue" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable" ng-trim="false"></textarea>
                 {% endblock %}
             {% endembed %} 
         {% endblock %}

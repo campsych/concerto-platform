@@ -10,8 +10,6 @@ form:
     name.tooltip: Nom de l\'assistant de création de tests
     accessibility: Accès
     accessibility.tooltip: Niveau d\'accès de l\'assistant de création de tests
-    protected: Protégé
-    protected.tooltip: L\'assistant de création de tests est-il protégé ?
     archived: Archivé
     archived.tooltip: L\'assistant de création de tests est-il archivé ?
     test: Test

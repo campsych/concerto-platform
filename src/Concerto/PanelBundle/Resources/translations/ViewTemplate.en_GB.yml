@@ -10,8 +10,6 @@ form:
     name.tooltip: View template name
     accessibility: Accessibility
     accessibility.tooltip: Accessibility level of view template
-    protected: Protected
-    protected.tooltip: Is view template protected?
     archived: Archived
     archived.tooltip: Is view template archived?
     owner: Owner

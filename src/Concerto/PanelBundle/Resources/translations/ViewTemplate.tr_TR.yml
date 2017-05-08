@@ -10,8 +10,6 @@ form:
     name.tooltip: Şablon adını görüntüle
     accessibility: Erişilebilirlik
     accessibility.tooltip: Şablonun erişilebilirlik ayarları
-    protected: Korumalı
-    protected.tooltip: Şablon korumalı mı?
     archived: Arşivlenmiş
     archived.tooltip: Görüntü Şablon arşivlenmiş mi?
     owner: Sahip

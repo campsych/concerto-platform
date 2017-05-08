@@ -14,8 +14,6 @@ form:
     name.tooltip: Test name
     accessibility: Accessibility
     accessibility.tooltip: Accessibility level of test wizard
-    protected: Protected
-    protected.tooltip: Is test wizard protected?
     archived: Archived
     archived.tooltip: Is test wizard archived?
     test: Test

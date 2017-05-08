@@ -12,7 +12,7 @@
                     {% block label %}{{ 'flow.ports.dialog.fields.string'|trans }}{% endblock%}
                     {% block tooltip %}{{ 'flow.ports.dialog.fields.string.tooltip'|trans }}{% endblock%}
                     {% block control %}
-                        <input type="checkbox" ng-model="object.string" ng-true-value='"1"' ng-false-value='"0"' />
+                        <input type="checkbox" ng-model="object.string" ng-true-value='"1"' ng-false-value='"0"' ng-disabled="!editable" />
                     {% endblock %}
                 {% endembed %}
                 
@@ -29,8 +29,8 @@
         {% endembed %}
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans({},"panel") }}</button>
-        <button class="btn btn-danger" ng-click="reset()">{{ 'flow.buttons.reset_to_default'|trans }}</button>
+        <button class="btn btn-success" ng-click="change()" ng-disabled="!editable">{{ 'form.button.change'|trans({},"panel") }}</button>
+        <button class="btn btn-danger" ng-click="reset()" ng-disabled="!editable">{{ 'flow.buttons.reset_to_default'|trans }}</button>
         <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
     </div>
 </div>

@@ -12,8 +12,8 @@
                         {{ 'variables.output.returns.legend'|trans }}
                     </h4>
                     <div class="divButtonContainer center">
-                        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class="btn btn-success btn-sm" ng-click="addVariable(1)">{{ 'variables.output.returns.list.add'|trans }}</button>
-                        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(1)">{{ 'variables.output.returns.list.delete.checked'|trans }}</button>
+                        <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class="btn btn-success btn-sm" ng-click="addVariable(1)">{{ 'variables.output.returns.list.add'|trans }}</button>
+                        <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(1)">{{ 'variables.output.returns.list.delete.checked'|trans }}</button>
                         <button ng-click="gridService.downloadList(returnsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
                     </div>
                 </div>
@@ -26,8 +26,8 @@
                         {{ 'variables.output.branches.legend'|trans }}
                     </h4>
                     <div class="divButtonContainer center">
-                        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class="btn btn-success btn-sm" ng-click="addVariable(2)">{{ 'variables.output.branches.list.add'|trans }}</button>
-                        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(2)">{{ 'variables.output.branches.list.delete.checked'|trans }}</button>
+                        <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class="btn btn-success btn-sm" ng-click="addVariable(2)">{{ 'variables.output.branches.list.add'|trans }}</button>
+                        <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(2)">{{ 'variables.output.branches.list.delete.checked'|trans }}</button>
                         <button ng-click="gridService.downloadList(branchesGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
                     </div>
                 </div>

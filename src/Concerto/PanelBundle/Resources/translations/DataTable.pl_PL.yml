@@ -10,8 +10,6 @@ form:
     name.tooltip: Nazwa tabeli danych
     accessibility: Dostępność
     accessibility.tooltip: Poziom dostępności tabeli danych
-    protected: Chronione
-    protected.tooltip: Czy tabela danych jest chroniona?
     archived: Zarchiwizowane
     archived.tooltip: Czy tabela danych jest zarchiwizowana?
     owner: Właściciel

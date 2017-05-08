@@ -10,8 +10,6 @@ form:
     name.tooltip: Testin Adı
     accessibility: Erişilebilirlik
     accessibility.tooltip: Testin erişilebilirlik düzeyi
-    protected: Korumalı
-    protected.tooltip: Test korumalı mı?
     archived: Arşivlenmiş
     archived.tooltip: Test arşivlenmiş mi?
     slug: Url adı

@@ -16,8 +16,6 @@ form:
     email.tooltip: Podaj swój email
     accessibility: Dostępność
     accessibility.tooltip: Poziom dostępności użytkownika
-    protected: Chronione
-    protected.tooltip: Czy użytkownik jest chroniony?
     archived: Zarchiwizowane
     archived.tooltip: Czy użytkownik jest zarchiwizowany?
     role_super_admin: Super administrator

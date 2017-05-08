@@ -26,7 +26,6 @@ list:
     info: Info
     updated.on: Dernière mise à jour
     updated.by: Dernier auteur
-    protected: Protégé
   edit: Editer
   delete: Supprimer
   export: Exporter

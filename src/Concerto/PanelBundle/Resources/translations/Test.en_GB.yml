@@ -10,8 +10,6 @@ form:
     name.tooltip: Test name
     accessibility: Accessibility
     accessibility.tooltip: Accessibility level of test
-    protected: Protected
-    protected.tooltip: Is test protected?
     archived: Archived
     archived.tooltip: Is test archived?
     slug: Url name

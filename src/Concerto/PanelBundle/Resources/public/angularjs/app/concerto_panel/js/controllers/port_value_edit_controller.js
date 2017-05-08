@@ -1,5 +1,28 @@
-function PortValueEditController($scope, $uibModalInstance, $timeout, object) {
+function PortValueEditController($scope, $uibModalInstance, $timeout, RDocumentation, object, editable) {
     $scope.object = object;
+    $scope.editable = editable;
+    
+    $scope.codeOptions = {
+        lineWrapping: true,
+        lineNumbers: true,
+        mode: 'r',
+        viewportMargin: Infinity,
+        readOnly: !editable,
+        hintOptions: {
+            completeSingle: false,
+            wizardService: RDocumentation
+        },
+        extraKeys: {
+            "F11": function (cm) {
+                cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen"))
+                    cm.setOption("fullScreen", false);
+            },
+            "Ctrl-Space": "autocomplete"
+        }
+    };
 
     $scope.change = function () {
         $scope.object.defaultValue = "0";

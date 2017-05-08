@@ -19,6 +19,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.formTitle = "";
     $scope.formTitleAddLabel = "";
     $scope.formTitleEditLabel = "";
+    $scope.starterContentFilter = false;
 
     $scope.filterTimeout = false;
     $scope.collectionService = BaseCollectionService;
@@ -137,7 +138,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         if ($scope.exportable) {
             cellTemplate += '<button class="btn btn-default btn-xs" ng-click="grid.appScope.export(row.entity.id);">' + Trans.LIST_EXPORT + '</button>';
         }
-        cellTemplate += '<button ng-disabled="row.entity.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
+        cellTemplate += '<button ng-disabled="row.entity.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
                 '</div>';
         $scope.columnDefs.push({
             displayName: "",
@@ -184,9 +185,20 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             }
         ],
         onRegisterApi: function (gridApi) {
+            gridApi.grid.registerRowsProcessor($scope.filterByStarterContent, 200);
             $scope.collectionGridApi = gridApi;
         }
     };
+
+    $scope.filterByStarterContent = function (renderableRows) {
+        renderableRows.forEach(function (row) {
+            if ($scope.starterContentFilter == row.entity.starterContent)
+                row.visible = true;
+            else 
+                row.visible = false;
+        });
+        return renderableRows;
+    }
 
     $scope.deleteSelected = function () {
         var ids = [];

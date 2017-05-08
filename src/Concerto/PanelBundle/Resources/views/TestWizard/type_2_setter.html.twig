@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.setter.titles.html.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <textarea ckeditor="htmlEditorOptions" ng-model="output" ng-change="onPrimitiveValueChange(output)" class='form-control' ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable"></textarea>
+                    <textarea ckeditor="htmlEditorOptions" ng-model="output" ng-change="onPrimitiveValueChange(output)" class='form-control' ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"></textarea>
                 {% endblock %}
             {% endembed %}    
         {% endblock %}

@@ -28,12 +28,14 @@ list:
     info: Info
     updated.on: Last update on
     updated.by: Last update by
-    protected: Protected
     type: Type
     exists: Exists
     action: Action
     rename: Rename
     safe: Safe
+  filter:
+      starter_content: Starter content
+      user_made: User made
   edit: Edit
   delete: Delete
   export: Export

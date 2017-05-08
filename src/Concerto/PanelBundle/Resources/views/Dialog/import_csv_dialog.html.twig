@@ -13,7 +13,7 @@
                 {% block label %}{{ 'io.dialog.fieldset.field.restructure'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'io.dialog.fieldset.field.restructure.tooltip'|trans }}{% endblock%}
                 {% block control %}
-                        <input type="checkbox" ng-model="restructure" />
+                        <input type="checkbox" ng-model="restructure" ng-disabled="!editable" />
                 {% endblock %}
             {% endembed %}
 

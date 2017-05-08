@@ -10,8 +10,6 @@ form:
     name.tooltip: 测验名称
     accessibility: 访问权限
     accessibility.tooltip: 测验访问权限
-    protected: 保护文件
-    protected.tooltip: 此测验为保护文件吗？
     archived: 归档文件
     archived.tooltip: 此测验为归档文件吗？
     slug: URL名称

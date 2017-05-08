@@ -1,7 +1,8 @@
-function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $http, $uibModal, object, DialogsService) {
+function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $http, $uibModal, DialogsService, object, editable) {
     $scope.importCsvPath = Paths.DATA_TABLE_IMPORT_CSV;
 
     $scope.object = object;
+    $scope.editable = editable;
     $scope.item = null;
     $scope.restructure = false;
     $scope.headerRow = false;

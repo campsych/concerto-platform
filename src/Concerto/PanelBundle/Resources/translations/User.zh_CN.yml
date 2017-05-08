@@ -16,8 +16,6 @@ form:
     email.tooltip: 输入邮件地址
     accessibility: 访问权限
     accessibility.tooltip: 用户访问权限
-    protected: 保护用户
-    protected.tooltip: 该用户为保护用户吗？
     archived: Archived 归档
     archived.tooltip: 该用户为归档用户吗？
     role_super_admin: 超级管理员

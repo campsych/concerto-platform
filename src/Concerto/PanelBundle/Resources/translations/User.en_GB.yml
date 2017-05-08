@@ -16,8 +16,6 @@ form:
     email.tooltip: Enter your email
     accessibility: Accessibility
     accessibility.tooltip: Accessibility level of user
-    protected: Protected
-    protected.tooltip: Is user protected?
     archived: Archived
     archived.tooltip: Is user archived?
     role_super_admin: Super admin

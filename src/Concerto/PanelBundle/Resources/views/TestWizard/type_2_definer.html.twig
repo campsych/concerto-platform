@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.definer.titles.html.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <textarea ckeditor="htmlEditorOptions" ng-model="param.definition.defvalue" class='form-control' ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable"></textarea>
+                    <textarea ckeditor="htmlEditorOptions" ng-model="param.definition.defvalue" class='form-control' ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"></textarea>
                 {% endblock %}
             {% endembed %} 
         {% endblock %}

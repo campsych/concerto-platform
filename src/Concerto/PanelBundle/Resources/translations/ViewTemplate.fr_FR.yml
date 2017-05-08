@@ -10,8 +10,6 @@ form:
     name.tooltip: Nom du modèle de vue
     accessibility: Accès
     accessibility.tooltip: Niveau d\'accès du modèle de vue
-    protected: Protégé
-    protected.tooltip: Le modèle de vue est-il protégé ?
     archived: Archivé
     archived.tooltip: Le modèle de vue est-il archivé ?
     owner: Propriétaire

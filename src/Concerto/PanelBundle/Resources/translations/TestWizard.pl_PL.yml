@@ -14,8 +14,6 @@ form:
     name.tooltip: Nazwa kreatora testu
     accessibility: Dostępność
     accessibility.tooltip: Poziom dostępności kreatora testu
-    protected: Chronione
-    protected.tooltip: Czy kreator testu jest chroniony?
     archived: Zarchiwizowane
     archived.tooltip: Czy kreator testu jest zarchiwizowany?
     test: Test

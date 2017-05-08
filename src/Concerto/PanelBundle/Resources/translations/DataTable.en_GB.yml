@@ -10,8 +10,6 @@ form:
     name.tooltip: Data table name
     accessibility: Accessibility
     accessibility.tooltip: Accessibility level of data table
-    protected: Protected
-    protected.tooltip: Is data table protected?
     archived: Archived
     archived.tooltip: Is data table archived?
     owner: Owner

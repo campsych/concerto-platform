@@ -373,7 +373,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     }
 
-                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + "); setLastActiveNodeId(" + node.id + ");'>";
+                    var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + "); setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
                     var headerIcons = "";
                     if (node.type == 1 || node.type == 2) {
                         elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
@@ -419,7 +419,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 targetNode: node,
                                 targetPort: null
                             }
-                        });
+                        }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
                         leftCount++;
                     }
 
@@ -443,7 +443,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         sourceNode: node,
                                         sourcePort: port
                                     }
-                                });
+                                }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
                                 rightCount++;
                             }
                         }
@@ -495,7 +495,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     targetNode: node,
                                     targetPort: port
                                 }
-                            });
+                            }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
                             leftCount++;
                         } else if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0))) { //return vars
 
@@ -516,76 +516,78 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     sourceNode: node,
                                     sourcePort: port
                                 }
-                            });
+                            }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
                             rightCount++;
                         }
                     }
 
                     elemContent.css("height", (portTopMargin + Math.max(leftCount, rightCount) * portElemMargin + portBottomMargin) + "px");
-                    jsPlumb.draggable(elem, {
-                        containment: true,
-                        drag: function (event, ui) {
-                            scope.movingActive = true;
-                            scope.selectionDisabled = true;
-                            //scope.$apply();
-                            if (scope.selectedNodeIds.indexOf(node.id) === -1)
-                                return;
-                            var offset = {
-                                x: elem.position().left / scope.flowScale - node.posX,
-                                y: elem.position().top / scope.flowScale - node.posY
-                            };
+                    if (!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable) {
+                        jsPlumb.draggable(elem, {
+                            containment: true,
+                            drag: function (event, ui) {
+                                scope.movingActive = true;
+                                scope.selectionDisabled = true;
+                                //scope.$apply();
+                                if (scope.selectedNodeIds.indexOf(node.id) === -1)
+                                    return;
+                                var offset = {
+                                    x: elem.position().left / scope.flowScale - node.posX,
+                                    y: elem.position().top / scope.flowScale - node.posY
+                                };
 
-                            node.posX = elem.position().left / scope.flowScale;
-                            node.posY = elem.position().top / scope.flowScale;
+                                node.posX = elem.position().left / scope.flowScale;
+                                node.posY = elem.position().top / scope.flowScale;
 
-                            for (var a = 0; a < scope.selectedNodeIds.length; a++) {
-                                var id = scope.selectedNodeIds[a];
-                                if (id == node.id)
-                                    continue;
-                                for (var i = 0; i < scope.object.nodes.length; i++) {
-                                    var n = scope.object.nodes[i];
-                                    if (n.id === id) {
-                                        n.posX += offset.x;
-                                        n.posY += offset.y;
-                                        var nelem = $("#node" + n.id);
-                                        nelem.css("top", n.posY + "px");
-                                        nelem.css("left", n.posX + "px");
-                                        jsPlumb.revalidate(nelem);
+                                for (var a = 0; a < scope.selectedNodeIds.length; a++) {
+                                    var id = scope.selectedNodeIds[a];
+                                    if (id == node.id)
+                                        continue;
+                                    for (var i = 0; i < scope.object.nodes.length; i++) {
+                                        var n = scope.object.nodes[i];
+                                        if (n.id === id) {
+                                            n.posX += offset.x;
+                                            n.posY += offset.y;
+                                            var nelem = $("#node" + n.id);
+                                            nelem.css("top", n.posY + "px");
+                                            nelem.css("left", n.posX + "px");
+                                            jsPlumb.revalidate(nelem);
+                                        }
                                     }
                                 }
-                            }
-                        },
-                        start: function (event, ui) {
-                            scope.setLastActiveNodeId(node.id);
-                        },
-                        stop: function (event, ui) {
-                            scope.movingActive = false;
-                            scope.$apply();
-                            if (scope.selectedNodeIds.indexOf(node.id) === -1) {
-                                var x = elem.position().left / scope.flowScale;
-                                var y = elem.position().top / scope.flowScale;
-                                $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
-                                    "type": node.type,
-                                    "flowTest": scope.object.id,
-                                    "sourceTest": node.sourceTest,
-                                    "posX": x,
-                                    "posY": y,
-                                    "title": node.title
-                                }).success(function (data) {
-                                    if (data.result === 0) {
-                                        node.posX = x;
-                                        node.posY = y;
-                                    }
-                                });
-                            } else {
-                                $http.post(Paths.TEST_FLOW_NODE_MOVE, {
-                                    nodes: scope.serializeSelectedNodes()
-                                }).success(function (data) {
+                            },
+                            start: function (event, ui) {
+                                scope.setLastActiveNodeId(node.id);
+                            },
+                            stop: function (event, ui) {
+                                scope.movingActive = false;
+                                scope.$apply();
+                                if (scope.selectedNodeIds.indexOf(node.id) === -1) {
+                                    var x = elem.position().left / scope.flowScale;
+                                    var y = elem.position().top / scope.flowScale;
+                                    $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
+                                        "type": node.type,
+                                        "flowTest": scope.object.id,
+                                        "sourceTest": node.sourceTest,
+                                        "posX": x,
+                                        "posY": y,
+                                        "title": node.title
+                                    }).success(function (data) {
+                                        if (data.result === 0) {
+                                            node.posX = x;
+                                            node.posY = y;
+                                        }
+                                    });
+                                } else {
+                                    $http.post(Paths.TEST_FLOW_NODE_MOVE, {
+                                        nodes: scope.serializeSelectedNodes()
+                                    }).success(function (data) {
 
-                                });
+                                    });
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                     $compile(elem)(scope);
                 };
 
@@ -656,7 +658,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             },
                             test: function () {
                                 var copiedTest = angular.copy(test);
-                                copiedTest.starterContent = "0";
+                                copiedTest.starterContent = scope.object.starterContent;
                                 return copiedTest;
                             }
                         },
@@ -722,6 +724,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         resolve: {
                             object: function () {
                                 return port;
+                            },
+                            editable: function () {
+                                return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
                             }
                         },
                         size: "prc-lg"
@@ -754,6 +759,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             },
                             title: function () {
                                 return connection.sourcePortObject.variableObject.name + "->" + connection.destinationPortObject.variableObject.name;
+                            },
+                            editable: function () {
+                                return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
                             }
                         },
                         size: "lg"
@@ -835,6 +843,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.pasteNodes = function (cursorPos) {
+                    if (scope.object.object.starterContent && !administrationSettingsService.starterContentEditable)
+                        return false;
+
                     var posX = 0;
                     var posY = 0;
                     if (!cursorPos) {

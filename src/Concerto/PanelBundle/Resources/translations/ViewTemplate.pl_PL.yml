@@ -10,8 +10,6 @@ form:
     name.tooltip: Nazwa szablonu widoku
     accessibility: Dostępność
     accessibility.tooltip: Poziom dostępności szablonu widoku
-    protected: Chronione
-    protected.tooltip: Czy szablon widoku jest chroniony?
     archived: Zarchiwizowane
     archived.tooltip: Czy szablon widoku jest zarchiwizowany?
     owner: Właściciel

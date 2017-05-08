@@ -26,7 +26,6 @@ list:
     info: 信息
     updated.on: 最近一次更新时间
     updated.by: 最近一次更新操作者
-    protected: 保护文件
     type: 类型
     exists: 已存在
     action: 操作

@@ -10,8 +10,6 @@ form:
     name.tooltip: Veri tablosu adı
     accessibility: Erişilebilirlik
     accessibility.tooltip: Veri tablosunun erişilebilirlik düzeyi
-    protected: Korumalı
-    protected.tooltip: Veri tablosu korumalı mı?
     archived: Arşivlendi
     archived.tooltip: Veri tablosu arşivlenmiş mi?
     owner: Sahip

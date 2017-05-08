@@ -16,8 +16,6 @@ form:
     email.tooltip: E-posta adresinizi girin
     accessibility: Erişilebilirlik
     accessibility.tooltip: Kullanıcının erişilebilirlik düzeyi
-    protected: Korumalı
-    protected.tooltip: Kullanıcı korumalı mı?
     archived: Arşivlenmiş
     archived.tooltip: Kullanıcı arşivlenmiş mi?
     role_super_admin: Süper Yönetici

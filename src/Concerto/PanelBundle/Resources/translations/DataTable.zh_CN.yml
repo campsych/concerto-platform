@@ -10,8 +10,6 @@ form:
     name.tooltip: 表格名称
     accessibility: 访问权限
     accessibility.tooltip: 表格访问权限
-    protected: 保护文件
-    protected.tooltip: 该表格为保护文件吗？
     archived: 归档文件
     archived.tooltip: 该表格为归档文件吗？
     owner: 所有者

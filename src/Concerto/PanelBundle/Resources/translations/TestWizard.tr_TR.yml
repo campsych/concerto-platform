@@ -9,9 +9,7 @@ form:
     name: Adı
     name.tooltip: Test adı
     accessibility: Erişilebilirlik
-    accessibility.tooltip: Test sihirbazının erişilebilirlik düzeyi 
-    protected: Korumalı
-    protected.tooltip: Test sihirbazı korumalı mı?
+    accessibility.tooltip: Test sihirbazının erişilebilirlik düzeyi
     archived: Arşivlenmiş
     archived.tooltip: Test sihirbazı arşivlenmiş mi?
     test: Test

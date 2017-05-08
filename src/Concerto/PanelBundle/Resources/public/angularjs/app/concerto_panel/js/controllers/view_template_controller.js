@@ -1,7 +1,7 @@
-function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
+function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
     $scope.tabStateName = "templates";
     $scope.tabIndex = 1;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, ViewTemplateCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, ViewTemplateCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.VIEW_TEMPLATE_DELETE;
@@ -43,6 +43,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'htmlmixed',
         viewportMargin: Infinity,
+        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -59,6 +60,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'css',
         viewportMargin: Infinity,
+        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -75,6 +77,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'javascript',
         viewportMargin: Infinity,
+        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -115,6 +118,12 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
             $(style).html($scope.object.css);
         }
     };
+    
+    $scope.onObjectChanged = function (newObject, oldObject) {
+        $scope.headCodeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.cssCodeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.jsCodeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+    };
 
     $scope.$watch("object.css", function () {
         if (CKEDITOR.instances.editor1 && CKEDITOR.instances.editor1.document && CKEDITOR.instances.editor1.document.$) {
@@ -137,4 +146,4 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
 }
 
 ViewTemplateController.prototype = Object.create(BaseController.prototype);
-concertoPanel.controller('ViewTemplateController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", ViewTemplateController]);
+concertoPanel.controller('ViewTemplateController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", ViewTemplateController]);

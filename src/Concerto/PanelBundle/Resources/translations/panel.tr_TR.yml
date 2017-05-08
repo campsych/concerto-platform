@@ -26,7 +26,6 @@ list:
     info: Bilgi
     updated.on: Son güncelleme
     updated.by: Son güncelleme
-    protected: Korumalı
     type: Tür
     exists: Varolan
     action: Eylem

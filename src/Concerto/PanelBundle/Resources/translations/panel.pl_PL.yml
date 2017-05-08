@@ -28,12 +28,14 @@ list:
     info: Info
     updated.on: Ost. akt. w
     updated.by: Ost. akt. przez
-    protected: Chronione
     type: Typ
     exists: Istnieje
     action: Akcja
     rename: Zm. nazwy
     safe: Bezpieczne
+  filter:
+      starter_content: Zawartość startowa
+      user_made: Użytkownika
   edit: Edytuj
   delete: Usuń
   export: Eksportuj

@@ -37,13 +37,13 @@
 
     <div class="formFloatingBar" align="right">
         {% if defaultButtons|default('true') == 'true' %}
-            <button class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
+            <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
             <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
             {% if exportable %}
                 <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
             {% endif %}
             <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
-            <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
+            <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
         {% endif %}
         {% block floatingBarExtraButtons %}{% endblock %}
 </div>

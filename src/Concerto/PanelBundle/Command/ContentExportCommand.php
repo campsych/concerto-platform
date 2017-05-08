@@ -32,7 +32,7 @@ class ContentExportCommand extends ContainerAwareCommand {
         $em = $this->getContainer()->get("doctrine")->getManager();
         foreach ($classes as $class_name) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $starter_content = $repo->findBy(array("starterContent" => 1));
+            $starter_content = $repo->findBy(array("starterContent" => true));
             $importService = $this->getContainer()->get('concerto_panel.import_service');
             $class_service = $importService->serviceMap[$class_name];
             foreach ($starter_content as $ent) {

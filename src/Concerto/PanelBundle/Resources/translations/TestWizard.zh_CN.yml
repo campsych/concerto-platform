@@ -14,8 +14,6 @@ form:
     name.tooltip: 测验名称 
     accessibility: 访问权限
     accessibility.tooltip: 测验向导访问权限
-    protected: 保护文件
-    protected.tooltip: 该测验向导为保护文件吗？
     archived: 归档
     archived.tooltip: 该测验向导为归档文件吗？
     test: 测验

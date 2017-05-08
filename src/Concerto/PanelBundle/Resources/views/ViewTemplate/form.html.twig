@@ -12,7 +12,7 @@
         {% block label %}{{ 'form.field.name'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.name.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input type="text" ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-model="object.name" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
+            <input type="text" ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" ng-model="object.name" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
         {% endblock %}
     {% endembed %}
 
@@ -21,7 +21,7 @@
         {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input type="checkbox" ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable"  ng-model="object.archived" ng-true-value="'1'" ng-false-value="'0'" />
+            <input type="checkbox" ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable"  ng-model="object.archived" ng-true-value="'1'" ng-false-value="'0'" />
         {% endblock %}
     {% endembed %}
 
@@ -31,7 +31,7 @@
             {% block label %}{{ 'form.field.accessibility'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.accessibility.tooltip'|trans}}{% endblock %}
             {% block control %}
-                <select ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-model="object.accessibility" style="width:100%;" ng-options="accessibility.value as accessibility.label for accessibility in accessibilities" class='form-control'>
+                <select ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" ng-model="object.accessibility" style="width:100%;" ng-options="accessibility.value as accessibility.label for accessibility in accessibilities" class='form-control'>
                 </select>
             {% endblock %}
         {% endembed %}
@@ -41,7 +41,7 @@
             {% block label %}{{ 'form.field.owner'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.owner.tooltip'|trans}}{% endblock %}
             {% block control %}
-                <select ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-model="object.owner" style="width:100%;" ng-options="owner.id as owner.username for owner in userCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'username' " class='form-control'>
+                <select ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" ng-model="object.owner" style="width:100%;" ng-options="owner.id as owner.username for owner in userCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'username' " class='form-control'>
                     <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                 </select>
             {% endblock %}
@@ -52,7 +52,7 @@
             {% block label %}{{ 'form.field.groups'|trans }}{% endblock %}
             {% block tooltip %}{{'form.field.groups.tooltip'|trans}}{% endblock %}
             {% block control %}
-                <input ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" type="text" ng-model="object.groups" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
+                <input ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" type="text" ng-model="object.groups" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
             {% endblock %}
         {% endembed %}
     {% endif %}
