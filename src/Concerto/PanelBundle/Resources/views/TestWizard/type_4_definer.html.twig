@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.definer.titles.checkbox.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <input type="checkbox" ng-model="param.definition.defvalue" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="wizardObject.initProtected == '1'" />
+                    <input type="checkbox" ng-model="param.definition.defvalue" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable" />
                 {% endblock %}
             {% endembed %} 
         {% endblock %}

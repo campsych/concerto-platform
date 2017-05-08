@@ -1,4 +1,4 @@
-angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$filter", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", "RDocumentation", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", function ($compile, $filter, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService, RDocumentation, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService) {
+angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$filter", "$templateCache", "$uibModal", "uiGridConstants", "TestWizardParam", "GridService", "RDocumentation", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", function ($compile, $filter, $templateCache, $uibModal, uiGridConstants, TestWizardParam, GridService, RDocumentation, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
         return {
             restrict: 'E',
             scope: {
@@ -13,6 +13,8 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                 scope.htmlEditorOptions = Defaults.ckeditorPanelContentOptions;
                 scope.testWizardParamService = TestWizardParam;
                 scope.gridService = GridService;
+                scope.administrationSettingsService = AdministrationSettingsService;
+                
                 scope.codeEditorOptions = {
                     lineWrapping: true,
                     lineNumbers: true,

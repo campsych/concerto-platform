@@ -1,6 +1,4 @@
 validate:
-    protected.mod: Trying to modify protected object
-    
     user:
       username.unique: This login already exists in the system
       username.min: Login field must be at least of length 3

@@ -24,7 +24,7 @@ class ViewTemplateService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $protected, $archived, $owner, $groups, $html, $head, $css, $js) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $html, $head, $css, $js) {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -50,9 +50,6 @@ class ViewTemplateService extends AExportableSectionService {
         if ($description !== null) {
             $object->setDescription($description);
         }
-        if (!$new && $object->isProtected() == $protected && $protected) {
-            array_push($errors, "validate.protected.mod");
-        }
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -60,7 +57,6 @@ class ViewTemplateService extends AExportableSectionService {
             $object->setGroups($groups);
         }
 
-        $object->setProtected($protected);
         $object->setArchived($archived);
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -80,10 +76,6 @@ class ViewTemplateService extends AExportableSectionService {
             $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
-            if ($object->isProtected() && $secure) {
-                array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
-                continue;
-            }
             $this->repository->delete($object);
             array_push($result, array("object" => $object, "errors" => array()));
         }
@@ -127,7 +119,6 @@ class ViewTemplateService extends AExportableSectionService {
             $ent->setJs($obj["js"]);
         $ent->setHtml($obj["html"]);
         $ent->setOwner($user);
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
@@ -162,7 +153,6 @@ class ViewTemplateService extends AExportableSectionService {
         if ($obj["js"])
             $ent->setJs($obj["js"]);
         $ent->setOwner($user);
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))

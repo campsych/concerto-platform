@@ -279,7 +279,6 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
             "class_name" => "User",
             "id" => $this->id,
             "accessibility" => $this->accessibility,
-            "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
             "username" => $this->username,
             "email" => $this->email,

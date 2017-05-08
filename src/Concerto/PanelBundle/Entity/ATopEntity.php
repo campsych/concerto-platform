@@ -37,13 +37,6 @@ abstract class ATopEntity extends AEntity {
      * @ORM\Column(type="boolean")
      */
     protected $archived;
-
-    /**
-     *
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
-    protected $protected;
     
     /**
      *
@@ -65,7 +58,6 @@ abstract class ATopEntity extends AEntity {
         $this->accessibility = self::ACCESS_PRIVATE;
         $this->groups = "";
         $this->archived = false;
-        $this->protected = false;
         $this->starterContent = false;
         $this->rev = 0;
     }
@@ -127,26 +119,6 @@ abstract class ATopEntity extends AEntity {
      */
     public function isArchived() {
         return $this->archived;
-    }
-
-    /**
-     * Set protected
-     *
-     * @param boolean $protected
-     */
-    public function setProtected($protected) {
-        $this->protected = $protected;
-
-        return $this;
-    }
-
-    /**
-     * Is protected
-     *
-     * @return boolean 
-     */
-    public function isProtected() {
-        return $this->protected;
     }
     
     /**

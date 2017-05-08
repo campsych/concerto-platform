@@ -1,7 +1,7 @@
-function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
+function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
     $scope.tabStateName = "tables";
     $scope.tabIndex = 2;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
     $scope.exportable = true;
     $scope.deletePath = Paths.DATA_TABLE_DELETE;
     $scope.addFormPath = Paths.DATA_TABLE_ADD_FORM;
@@ -57,13 +57,13 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 case "boolean":
                     colDef.cellTemplate =
                             "<div lass='ui-grid-cell-contents' align='center'>" +
-                            "<input ng-disabled='grid.appScope.object.initProtected == \"1\"' type='checkbox' ng-change='grid.appScope.saveRow(row.entity)' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' />" +
+                            "<input type='checkbox' ng-change='grid.appScope.saveRow(row.entity)' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' />" +
                             "</div>";
                     colDef.enableCellEdit = false;
                     break;
                 case "date":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
-                            "<input ng-disabled='grid.appScope.object.initProtected == \"1\"' type='text' ng-click='row.entity._datepicker_opened=true' ng-model='row.entity." + col.name + "' " +
+                            "<input type='text' ng-click='row.entity._datepicker_opened=true' ng-model='row.entity." + col.name + "' " +
                             "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity)' style='width:100%;' " +
                             "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
                             "</div>";
@@ -82,7 +82,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }
         $scope.dataOptions.columnDefs.push({
             cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                    "<button ng-disabled='grid.appScope.object.initProtected == \"1\"' class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
+                    "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
                     Trans.DATA_TABLE_DATA_LIST_DELETE +
                     "</button>",
             width: 60,
@@ -96,9 +96,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.fetchDataCollection($scope.object.id);
     });
     $scope.editTextCell = function (entity, colName) {
-        if ($scope.object.initProtected === '1')
-            return;
-
         $scope.dialogsService.ckeditorDialog(
                 Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
                 Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
@@ -141,8 +138,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 exporterSuppressExport: true,
                 cellTemplate:
                         "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
                         "</div>",
                 width: 100
             }
@@ -241,7 +238,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         useExternalPagination: true,
         useExternalSorting: true,
         useExternalFiltering: true,
-        enableCellEditOnFocus: $scope.object.initProtected !== "1"
+        enableCellEditOnFocus: true
     };
     $scope.refreshRows = function () {
         $scope.fetchDataCollection($scope.object.id);
@@ -438,4 +435,4 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.fetchObjectCollection();
 }
 
-concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", DataTableController]);
+concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", DataTableController]);

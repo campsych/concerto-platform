@@ -212,7 +212,6 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
             "name" => $this->name,
             "description" => $this->description,
             "accessibility" => $this->accessibility,
-            "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
             "head" => $this->head,
             "css" => $this->css,

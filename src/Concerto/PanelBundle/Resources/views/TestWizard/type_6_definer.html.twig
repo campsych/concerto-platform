@@ -7,7 +7,7 @@
                 {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
                 {% block legend_tooltip %}{{ 'param.definer.titles.table.tooltip'|trans }}{% endblock %}
                 {% block control %}
-                    <select ng-model="param.definition.defvalue" ng-disabled="wizardObject.initProtected == '1'" class='form-control'
+                    <select ng-model="param.definition.defvalue" ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable" class='form-control'
                         ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
                         <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                     </select>

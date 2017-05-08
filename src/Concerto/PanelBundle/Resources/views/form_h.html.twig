@@ -43,7 +43,7 @@
                 <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
             {% endif %}
             <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
-            <button ng-disabled="object.initProtected == '1'" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
+            <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
         {% endif %}
         {% block floatingBarExtraButtons %}{% endblock %}
 </div>

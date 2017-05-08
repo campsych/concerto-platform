@@ -120,7 +120,6 @@ class DataTable extends ATopEntity implements \JsonSerializable {
             "name" => $this->name,
             "description" => $this->description,
             "accessibility" => $this->accessibility,
-            "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
             "columns" => $this->columns,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),

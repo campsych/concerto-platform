@@ -4,9 +4,9 @@
 
 {% block content %}
     <div class="center">
-        <button ng-disabled="object.initProtected == '1'" ng-click="addStep()" class="btn btn-success btn-sm">{{ 'step.list.button.add'|trans }}</button>
-        <button ng-disabled="object.initProtected == '1'" ng-click="deleteAllSteps();" class="btn btn-danger btn-sm">{{ "step.list.button.delete.all"|trans }}</button>
-        <button ng-disabled="object.initProtected == '1'" ng-click="deleteSelectedSteps();" class="btn btn-danger btn-sm">{{ "step.list.button.delete.checked"|trans }}</button>
+        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-click="addStep()" class="btn btn-success btn-sm">{{ 'step.list.button.add'|trans }}</button>
+        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-click="deleteAllSteps();" class="btn btn-danger btn-sm">{{ "step.list.button.delete.all"|trans }}</button>
+        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-click="deleteSelectedSteps();" class="btn btn-danger btn-sm">{{ "step.list.button.delete.checked"|trans }}</button>
         <button ng-click="gridService.downloadList(stepsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
     </div>
     <div ui-grid="stepsOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>

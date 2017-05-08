@@ -1,4 +1,4 @@
-angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$templateCache", "$uibModal", "$filter", "uiGridConstants", "GridService", "RDocumentation", "$http", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", "TestWizardParam", function ($compile, $templateCache, $uibModal, $filter, uiGridConstants, GridService, RDocumentation, $http, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService, TestWizardParam) {
+angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$templateCache", "$uibModal", "$filter", "uiGridConstants", "GridService", "RDocumentation", "$http", "DataTableCollectionService", "TestCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "AdministrationSettingsService", function ($compile, $templateCache, $uibModal, $filter, uiGridConstants, GridService, RDocumentation, $http, DataTableCollectionService, TestCollectionService, ViewTemplateCollectionService, TestWizardParam, AdministrationSettingsService) {
         return {
             restrict: 'E',
             scope: {
@@ -16,6 +16,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.dataTableCollectionService = DataTableCollectionService;
                 scope.testCollectionService = TestCollectionService;
                 scope.viewTemplateCollectionService = ViewTemplateCollectionService;
+                scope.administrationSettingsService = AdministrationSettingsService;
                 scope.htmlEditorOptions = Defaults.ckeditorTestContentOptions;
 
                 scope.codeEditorOptions = {

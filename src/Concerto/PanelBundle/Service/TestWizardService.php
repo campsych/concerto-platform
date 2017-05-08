@@ -50,7 +50,7 @@ class TestWizardService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $protected, $archived, $owner, $groups, $test, $serializedSteps) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $test, $serializedSteps) {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -68,9 +68,6 @@ class TestWizardService extends AExportableSectionService {
         if ($description !== null) {
             $object->setDescription($description);
         }
-        if (!$new && $object->isProtected() == $protected && $protected) {
-            array_push($errors, "validate.protected.mod");
-        }
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -78,7 +75,6 @@ class TestWizardService extends AExportableSectionService {
             $object->setGroups($groups);
         }
 
-        $object->setProtected($protected);
         $object->setArchived($archived);
         if ($test !== null) {
             $object->setTest($test);
@@ -121,10 +117,6 @@ class TestWizardService extends AExportableSectionService {
             $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
-            if ($object->isProtected() && $secure) {
-                array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
-                continue;
-            }
             $this->repository->delete($object);
             array_push($result, array("object" => $object, "errors" => array()));
         }
@@ -179,7 +171,6 @@ class TestWizardService extends AExportableSectionService {
         $ent->setTest($test);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
@@ -208,7 +199,6 @@ class TestWizardService extends AExportableSectionService {
         $ent->setTest($test);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))

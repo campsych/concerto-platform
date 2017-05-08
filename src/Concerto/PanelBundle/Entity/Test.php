@@ -597,7 +597,6 @@ class Test extends ATopEntity implements \JsonSerializable {
             "id" => $this->id,
             "name" => $this->name,
             "accessibility" => $this->accessibility,
-            "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
             "visibility" => $this->visibility,
             "type" => $this->type,

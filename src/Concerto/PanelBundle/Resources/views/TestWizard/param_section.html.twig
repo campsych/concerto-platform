@@ -4,9 +4,9 @@
 
 {% block content %}
     <div class="center">
-        <button ng-disabled="object.initProtected == '1'" ng-click="addParam()" class="btn btn-success btn-sm">{{ 'param.list.button.add'|trans }}</button>
-        <button ng-disabled="object.initProtected == '1'" ng-click="deleteAllParams();" class="btn btn-danger btn-sm">{{ "param.list.button.delete.all"|trans }}</button>
-        <button ng-disabled="object.initProtected == '1'" ng-click="deleteSelectedParams();" class="btn btn-danger btn-sm">{{ "param.list.button.delete.checked"|trans }}</button>        
+        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-click="addParam()" class="btn btn-success btn-sm">{{ 'param.list.button.add'|trans }}</button>
+        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-click="deleteAllParams();" class="btn btn-danger btn-sm">{{ "param.list.button.delete.all"|trans }}</button>
+        <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-click="deleteSelectedParams();" class="btn btn-danger btn-sm">{{ "param.list.button.delete.checked"|trans }}</button>        
         <button ng-click="gridService.downloadList(paramsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
     </div>
     <div ui-grid="wizardParamsOptions" ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>

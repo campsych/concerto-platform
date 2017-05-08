@@ -13,7 +13,7 @@
                         {% block label %}{{ 'param.setter.column.table'|trans }}{% endblock%}
                         {% block tooltip %}{{ 'param.setter.column.table.tooltip'|trans }}{% endblock%}
                         {% block control %}
-                            <select ng-model="output.table" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
+                            <select ng-model="output.table" style="width:100%;" ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable"
                             ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
                                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                             </select>
@@ -25,7 +25,7 @@
                         {% block label %}{{ 'param.setter.column'|trans }}{% endblock%}
                         {% block tooltip %}{{ 'param.setter.column.tooltip'|trans }}{% endblock%}
                         {% block control %}
-                            <select ng-model="output.column" style="width:100%;" ng-disabled="wizardObject.initProtected == '1'"
+                            <select ng-model="output.column" style="width:100%;" ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable"
                             ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'" class='form-control'>
                                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                             </select>

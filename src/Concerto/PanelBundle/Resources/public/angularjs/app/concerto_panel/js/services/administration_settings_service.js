@@ -4,6 +4,7 @@ concertoPanel.factory('AdministrationSettingsService', function ($http) {
         settingsMapPath: Paths.ADMINISTRATION_SETTINGS_MAP,
         internalSettingsMap: {},
         exposedSettingsMap: {},
+        starterContentEditable: false,
         fetchSettingsMap: function (params, callback) {
             var obj = this;
             $http({
@@ -13,6 +14,7 @@ concertoPanel.factory('AdministrationSettingsService', function ($http) {
             }).success(function (response) {
                 obj.internalSettingsMap = response.internal;
                 obj.exposedSettingsMap = response.exposed;
+                obj.starterContentEditable = response.internal.starter_content_editable;
                 obj.settingsMapInitialized = true;
                 if (callback)
                     callback.call(this);

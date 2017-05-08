@@ -5,8 +5,8 @@
 {% block content %}
     <div class="center">
         <div class="divButtonContainer center">
-            <button ng-disabled="object.initProtected == '1'" class="btn btn-success btn-sm" ng-click="addVariable(0)">{{ 'variables.input.parameters.list.add'|trans }}</button>
-            <button ng-disabled="object.initProtected == '1'" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(0)">{{ 'variables.input.parameters.list.delete.checked'|trans }}</button>
+            <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class="btn btn-success btn-sm" ng-click="addVariable(0)">{{ 'variables.input.parameters.list.add'|trans }}</button>
+            <button ng-disabled="object.starterContent == '1' && !administrationSettingsService.starterContentEditable" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(0)">{{ 'variables.input.parameters.list.delete.checked'|trans }}</button>
             <button ng-click="gridService.downloadList(paramsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
         </div>
     </div>

@@ -259,7 +259,6 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "name" => $this->name,
             "description" => $this->description,
             "accessibility" => $this->accessibility,
-            "protected" => $this->protected ? "1" : "0",
             "archived" => $this->archived ? "1" : "0",
             "steps" => self::jsonSerializeArray($this->steps->toArray(), $dependencies),
             "test" => $this->getTest()->getId(),

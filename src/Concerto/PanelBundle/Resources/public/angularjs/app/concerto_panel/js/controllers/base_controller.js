@@ -1,4 +1,4 @@
-function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService) {
+function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
     $scope.super = {};
     $scope.exportable = false;
 
@@ -29,6 +29,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.viewTemplateCollectionService = ViewTemplateCollectionService;
     $scope.gridService = GridService;
     $scope.dialogsService = DialogsService;
+    $scope.administrationSettingsService = AdministrationSettingsService;
 
     $scope.object = {
         id: 0,
@@ -47,7 +48,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.workingCopyObject = {
             id: $scope.object.id,
             name: $scope.object.name,
-            protected: $scope.object.protected,
             archived: $scope.object.archived,
             accessibility: $scope.object.accessibility,
             owner: $scope.object.owner,
@@ -96,8 +96,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         if (!obj)
             return null;
         $scope.object = obj;
-        if (!("initProtected" in $scope.object))
-            $scope.object.initProtected = $scope.object.protected;
         return $scope.object;
     };
 
@@ -131,16 +129,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             displayName: Trans.LIST_FIELD_UPDATED_ON,
             field: "updatedOn",
         });
-        $scope.columnDefs.push({
-            displayName: Trans.LIST_FIELD_PROTECTED,
-            field: "protected",
-            filter: {
-                term: '0',
-                type: uiGridConstants.filter.SELECT,
-                selectOptions: [{value: '0', label: Trans.TEST_VARS_PARAMS_LIST_FIELD_URL_NO}, {value: '1', label: Trans.TEST_VARS_PARAMS_LIST_FIELD_URL_YES}]
-            },
-            cellTemplate: '<div class="ui-grid-cell-contents" align="center">{{COL_FIELD | logical}}</div>'
-        });
         var cellTemplate = '<div class="ui-grid-cell-contents" align="center">';
         for (var i = 0; i < $scope.additionalListButtons.length; i++) {
             cellTemplate += $scope.additionalListButtons[i];
@@ -149,7 +137,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         if ($scope.exportable) {
             cellTemplate += '<button class="btn btn-default btn-xs" ng-click="grid.appScope.export(row.entity.id);">' + Trans.LIST_EXPORT + '</button>';
         }
-        cellTemplate += '<button ng-disabled="row.entity.initProtected == \'1\'" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
+        cellTemplate += '<button ng-disabled="row.entity.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
                 '</div>';
         $scope.columnDefs.push({
             displayName: "",
@@ -313,7 +301,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                                             location.reload();
                                         } else {
                                             $scope.edit(response.data.object.id);
-                                            $scope.object.initProtected = $scope.object.protected;
                                         }
                                     }
                             );

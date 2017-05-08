@@ -1,7 +1,7 @@
-function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam) {
+function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, AdministrationSettingsService) {
     $scope.tabStateName = "wizards";
     $scope.tabIndex = 5;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_WIZARD_DELETE;
@@ -96,8 +96,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 exporterSuppressExport: true,
                 cellTemplate:
                         "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.initProtected == \'1\'" ng-click="grid.appScope.editStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT + '</button>' +
-                        '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.initProtected == \'1\'" ng-click="grid.appScope.deleteStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE + '</button>' +
+                        '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.editStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT + '</button>' +
+                        '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.deleteStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE + '</button>' +
                         "</div>",
                 width: 100
             }
@@ -164,8 +164,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 exporterSuppressExport: true,
                 cellTemplate:
                         "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.initProtected == \'1\'" ng-click="grid.appScope.editParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT + '</button>' +
-                        '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.initProtected == \'1\'" ng-click="grid.appScope.deleteParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE + '</button>' +
+                        '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.editParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT + '</button>' +
+                        '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.deleteParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE + '</button>' +
                         "</div>",
                 width: 100
             }
@@ -437,4 +437,4 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.fetchObjectCollection();
 }
 
-concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", TestWizardController]);
+concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "AdministrationSettingsService", TestWizardController]);

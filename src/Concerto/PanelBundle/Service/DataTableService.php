@@ -46,7 +46,7 @@ class DataTableService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $protected, $archived, $owner, $groups) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups) {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -63,9 +63,6 @@ class DataTableService extends AExportableSectionService {
         if ($description !== null) {
             $object->setDescription($description);
         }
-        if (!$new && $object->isProtected() == $protected && $protected) {
-            array_push($errors, "validate.protected.mod");
-        }
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -73,7 +70,6 @@ class DataTableService extends AExportableSectionService {
             $object->setGroups($groups);
         }
 
-        $object->setProtected($protected);
         $object->setArchived($archived);
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -103,10 +99,6 @@ class DataTableService extends AExportableSectionService {
             $object = $this->get($object_id, false, $secure);
             if (!$object)
                 continue;
-            if ($object->isProtected() && $secure) {
-                array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
-                continue;
-            }
             if ($object != null) {
                 $this->dbStructureService->removeTable($object->getName());
             }
@@ -401,7 +393,6 @@ class DataTableService extends AExportableSectionService {
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
@@ -434,7 +425,6 @@ class DataTableService extends AExportableSectionService {
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))

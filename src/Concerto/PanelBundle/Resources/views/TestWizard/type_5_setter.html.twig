@@ -2,7 +2,7 @@
     {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
         {% trans_default_domain "TestWizard" %}
         {% block setter %}
-            <select ng-model="output" ng-change="onPrimitiveValueChange(output)" ng-disabled="wizardObject.initProtected == '1'"
+            <select ng-model="output" ng-change="onPrimitiveValueChange(output)" ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable"
             ng-options="template.name as template.name for template in viewTemplateCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
             </select>

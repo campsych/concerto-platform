@@ -30,7 +30,6 @@ class UserController extends ASectionController {
                 $this->securityTokenStorage->getToken()->getUser(), //
                 $object_id, //
                 $this->request->get("accessibility"), //
-                $this->request->get("protected") === "1", //
                 $this->request->get("archived") === "1", //
                 $this->service->get($this->request->get("owner")), //
                 $this->request->get("groups"), //

@@ -43,7 +43,7 @@ class UserService extends ASectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $accessibility, $protected, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard) {
+    public function save(User $user, $object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard) {
         $errors = array();
         $object = $this->get($object_id);
         $validatation_groups = array("User");
@@ -57,9 +57,6 @@ class UserService extends ASectionService {
         $object->setUpdatedBy($user);
         $object->setEmail($email);
         $object->setUsername($username);
-        if (!$new && $object->isProtected() == $protected && $protected) {
-            array_push($errors, "validate.protected.mod");
-        }
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -133,7 +130,6 @@ class UserService extends ASectionService {
             }
         }
 
-        $object->setProtected($protected);
         $object->setArchived($archived);
         $encoder = $this->encoderFactory->getEncoder($object);
         if ($password != null) {
@@ -188,10 +184,6 @@ class UserService extends ASectionService {
             $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
-            if ($object->isProtected() && $secure) {
-                array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
-                continue;
-            }
             $this->repository->delete($object);
             array_push($result, array("object" => $object, "errors" => array()));
         }

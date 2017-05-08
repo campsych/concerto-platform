@@ -8,7 +8,7 @@
                 {% block legend_tooltip %}{{ 'param.setter.titles.r.tooltip'|trans }}{% endblock %}
                 {% block control %}
                     {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
-                    <ui-codemirror ng-model="output" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-disabled="wizardObject.initProtected == '1'" ng-change="onPrimitiveValueChange(output)"></ui-codemirror>
+                    <ui-codemirror ng-model="output" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-disabled="wizardObject.starterContent == '1' && !administrationSettingsService.starterContentEditable" ng-change="onPrimitiveValueChange(output)"></ui-codemirror>
                 {% endblock %}
             {% endembed %}    
         {% endblock %}

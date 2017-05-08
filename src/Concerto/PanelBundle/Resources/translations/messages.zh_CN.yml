@@ -1,6 +1,4 @@
 validate: 
-    protected.mod: 尝试修改保护对象
-    
     user: 
       username.unique: 该用户名已被使用
       username.min: 用户名至少应包含3个字符

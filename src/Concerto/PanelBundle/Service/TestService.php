@@ -64,7 +64,7 @@ class TestService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $protected, $archived, $owner, $groups, $visibility, $type, $code, $resumable, $sourceWizard, $urlslug, $serializedVariables) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $resumable, $sourceWizard, $urlslug, $serializedVariables) {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -78,9 +78,6 @@ class TestService extends AExportableSectionService {
             $object->setDescription($description);
         }
         $object->setVisibility($visibility);
-        if (!$new && $object->isProtected() == $protected && $protected) {
-            array_push($errors, "validate.protected.mod");
-        }
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -88,7 +85,6 @@ class TestService extends AExportableSectionService {
             $object->setGroups($groups);
         }
 
-        $object->setProtected($protected);
         $object->setArchived($archived);
         $object->setType($type);
         if ($code !== null) {
@@ -178,10 +174,6 @@ class TestService extends AExportableSectionService {
             if ($object === null)
                 continue;
 
-            if ($object->isProtected() && $secure) {
-                array_push($result, array("object" => $object, "errors" => array("validate.protected.mod")));
-                continue;
-            }
             $this->repository->delete($object);
             array_push($result, array("object" => $object, "errors" => array()));
         }
@@ -253,7 +245,6 @@ class TestService extends AExportableSectionService {
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
         $ent->setResumable($obj["resumable"] == "1");
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
@@ -287,7 +278,6 @@ class TestService extends AExportableSectionService {
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
         $ent->setResumable($obj["resumable"] == "1");
-        $ent->setProtected($obj["protected"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))

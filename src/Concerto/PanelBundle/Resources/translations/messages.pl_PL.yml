@@ -1,6 +1,4 @@
 validate:
-    protected.mod: Próba modyfikacji chronionego obiektu
-    
     user:
       username.unique: Ten login już istnieje w systemie
       username.min: Minimalna długość pola "login" to 3

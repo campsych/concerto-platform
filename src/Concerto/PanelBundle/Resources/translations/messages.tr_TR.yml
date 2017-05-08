@@ -1,6 +1,4 @@
 validate:
-    protected.mod: Korumalı bir nesneyi düzenlemeye çalışılıyor
-    
     user:
       username.unique: Bu kullanıcı sistemde zaten kayıtlı durumda
       username.min: Kullanıcı adı en az 3 karakter olmalı

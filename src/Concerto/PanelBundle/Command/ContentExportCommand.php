@@ -19,7 +19,6 @@ class ContentExportCommand extends ContainerAwareCommand {
 
         $this->setName("concerto:content:export")->setDescription("Exports starter content");
         $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
-        $this->addOption("set-protected", null, InputOption::VALUE_NONE, "Set all starter content objects as protected (except for data tables)");
     }
 
     protected function exportStarterContent(InputInterface $input, OutputInterface $output) {
@@ -81,33 +80,7 @@ class ContentExportCommand extends ContainerAwareCommand {
         $fs->dumpFile($file_path, $content);
     }
 
-    protected function protectStarterContent(InputInterface $input, OutputInterface $output) {
-        $output->writeln("setting starter content as protected");
-        $classes = array(
-            "Test",
-            "TestWizard",
-            "ViewTemplate"
-        );
-        $em = $this->getContainer()->get("doctrine")->getManager();
-        foreach ($classes as $class_name) {
-            $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $collection = $repo->findBy(array("starterContent" => 1));
-            foreach ($collection as $ent) {
-                if (!$ent->isProtected()) {
-                    $ent->setProtected(true);
-                    $em->persist($ent);
-                    $output->writeln("ConcertoPanelBundle:" . $class_name . ":" . $ent->getId() . ":" . $ent->getName() . " set to protected");
-                }
-            }
-        }
-        $em->flush();
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output) {
-        if ($input->getOption("set-protected")) {
-            $this->protectStarterContent($input, $output);
-        }
-
         $this->exportStarterContent($input, $output);
     }
 

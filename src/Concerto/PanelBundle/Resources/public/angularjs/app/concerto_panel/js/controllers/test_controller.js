@@ -1,7 +1,7 @@
-function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation) {
+function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation, AdministrationSettingsService) {
     $scope.tabStateName = "tests";
     $scope.tabIndex = 0;
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_DELETE;
@@ -32,7 +32,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         $scope.workingCopyObject = {
             id: $scope.object.id,
             name: $scope.object.name,
-            protected: $scope.object.protected,
             archived: $scope.object.archived,
             accessibility: $scope.object.accessibility,
             owner: $scope.object.owner,
@@ -249,8 +248,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 exporterSuppressExport: true,
                 cellTemplate:
                         "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_EDIT + '</button>' +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_DELETE + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_EDIT + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_DELETE + '</button>' +
                         '</div>',
                 width: 100
             }
@@ -304,8 +303,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 exporterSuppressExport: true,
                 cellTemplate:
                         "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_EDIT + '</button>' +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_DELETE + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_EDIT + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_DELETE + '</button>' +
                         "</div>",
                 width: 100
             }
@@ -359,8 +358,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 exporterSuppressExport: true,
                 cellTemplate:
                         "<div class='ui-grid-cell-contents' align='center'>" +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_EDIT + '</button>' +
-                        '<button ng-disabled="grid.appScope.object.initProtected == \'1\'" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_DELETE + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_EDIT + '</button>' +
+                        '<button ng-disabled="grid.appScope.object.starterContent == \'1\' && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_DELETE + '</button>' +
                         "</div>",
                 width: 100
             }
@@ -695,4 +694,4 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.fetchObjectCollection();
 }
 
-concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", TestController]);
+concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", TestController]);

@@ -41,7 +41,6 @@ class TestWizardController extends AExportableTabController {
                 $this->request->get("name"), //
                 $this->request->get("description"), //
                 $this->request->get("accessibility"), //
-                $this->request->get("protected") === "1", //
                 $this->request->get("archived") === "1", //
                 $this->userService->get($this->request->get("owner")), //
                 $this->request->get("groups"), //

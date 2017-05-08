@@ -656,7 +656,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             },
                             test: function () {
                                 var copiedTest = angular.copy(test);
-                                copiedTest.initProtected = "0";
+                                copiedTest.starterContent = "0";
                                 return copiedTest;
                             }
                         },

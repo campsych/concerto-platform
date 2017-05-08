@@ -1,6 +1,4 @@
 validate:
-    protected.mod: Essai de modification de l'objet protégé
-    
     user:
       username.unique: Cet identifiant existe déjà dans le système
       username.min: Le champ de l'identifiant doit avoir une longueur minimum de 3 caractères
