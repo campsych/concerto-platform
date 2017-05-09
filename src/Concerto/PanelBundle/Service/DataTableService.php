@@ -389,11 +389,13 @@ class DataTableService extends AExportableSectionService {
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue) {
+        $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
+        
         $ent = new DataTable();
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setOwner($user);
-        $ent->setStarterContent($obj["starterContent"]);
+        $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
             $ent->setRevision($obj["rev"]);

@@ -235,6 +235,8 @@ class TestService extends AExportableSectionService {
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $wizard) {
+        $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
+        
         $ent = new Test();
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
@@ -245,7 +247,7 @@ class TestService extends AExportableSectionService {
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
         $ent->setResumable($obj["resumable"] == "1");
-        $ent->setStarterContent($obj["starterContent"]);
+        $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
             $ent->setRevision($obj["rev"]);
