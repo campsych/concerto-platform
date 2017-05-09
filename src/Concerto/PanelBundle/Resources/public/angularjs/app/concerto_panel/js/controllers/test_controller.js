@@ -666,6 +666,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.refreshVariables = function () {
         $scope.collectionService.fetchVariablesCollection($scope.object.id);
     };
+    
+    $scope.isDelayedEditPossible = function() {
+        return $scope.collectionService.collectionInitialized && $scope.testWizardCollectionService.collectionInitialized;
+    };
 
     $scope.onDelete = function () {
         TestWizardCollectionService.fetchObjectCollection();

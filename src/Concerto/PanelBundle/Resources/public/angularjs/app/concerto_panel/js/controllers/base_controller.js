@@ -514,9 +514,13 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             $scope.resetObject();
         }
     });
+    
+    $scope.isDelayedEditPossible = function() {
+        return $scope.collectionService.collectionInitialized;
+    };
 
     $scope.delayedEdit = function (id) {
-        if (!$scope.collectionService.collectionInitialized) {
+        if (!$scope.isDelayedEditPossible()) {
             $timeout(function () {
                 $scope.delayedEdit(id);
             }, 100);
