@@ -291,6 +291,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
             "role_file" => $this->hasRoleName(self::ROLE_FILE) ? "1" : "0",
             "role_wizard" => $this->hasRoleName(self::ROLE_WIZARD) ? "1" : "0",
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
+            "starterContent" => $this->starterContent,
             "groups" => $this->groups
         );
     }
