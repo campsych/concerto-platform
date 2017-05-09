@@ -10,15 +10,15 @@
             "archived": "0",
             "head": "",
             "css": "",
-            "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}}\n});",
-            "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
-            "updatedOn": "2017-05-09 16:56:09",
-            "updatedByName": "",
+            "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}};\n  $scope.value = \"{{value}}\";\n});",
+            "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" ng-selected=\"[[option.value == value]]\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
+            "updatedOn": "2017-05-09 18:51:22",
+            "updatedByName": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "40388e52c5590fd6357465fc78dd9634a0993fa6"
+            "hash": "79f42e7705ca94b301291a303ac5634dc85a16d3"
         }
     ]
 }

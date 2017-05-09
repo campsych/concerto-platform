@@ -9,4 +9,10 @@ changelog:
                 - >
                   'CAT' now allows open text responses again
                 - >
+                  'form' node drop-down list now properly remember its value on form validation failed
+                - >
                   removed leftover 'out' port from 'form' node
+                - >
+                  'linear_test' node open text response field no longer shows javascript object output
+                - >
+                  'questionnaire' node remembers given answers when going back

@@ -1275,15 +1275,15 @@
             "archived": "0",
             "head": "",
             "css": ".linear-test-response-table {\n  border: 0 none;\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.linear-test-response-table td {\n  padding: 0 5px 0 0;\n}\n.linear-test-response-section-horizontal {\n  float: left; \n  margin: 5px;\n  display: block;\n}\n.linear-test-response-section-vertical {\n  margin: 5px;\n}\n.linear-test-response-group {\n  text-align: left;\n}\n.linear-test-response-label-cell p {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.linear-test-response-button-cell {\n  padding-right: 5px;\n}",
-            "js": "testRunner.controllerProvider.register(\"linearTest\", function($scope) {\n  $scope.currentItem = {{current_item}} - 1;\n  $scope.answers = {{answers}};\n  if($scope.answers === null) $scope.answers = [];                                       \n  if($scope.answers.constructor !== Array) $scope.answers = [$scope.answers];                                     \n  $scope.responseOptions = {{response_options}};\n  $scope.value = null;\n  if($scope.answers.length > $scope.currentItem) $scope.value = $scope.answers[$scope.currentItem];\n});",
+            "js": "testRunner.controllerProvider.register(\"linearTest\", function($scope) {\n  $scope.currentItem = {{current_item}} - 1;\n  $scope.answers = {{answers}};\n  if(typeof $scope.answers === 'object' && $scope.answers.constructor !== Array || $scope.answers === null) $scope.answers = [];                                    \n  if($scope.answers.constructor !== Array) $scope.answers = [$scope.answers];                                     \n  $scope.responseOptions = {{response_options}};\n  $scope.value = null;\n  if($scope.answers.length > $scope.currentItem) $scope.value = $scope.answers[$scope.currentItem];\n});",
             "html": "{{paragraph}}\n<div ng-controller=\"linearTest\">{{question}}\n<div class=\"linear-test-response-group\" ng-if=\"'{{response_type}}'=='multiple_choice'\">\n<div class=\"{{response_classes}}\" ng-repeat=\"option in responseOptions track by $index\" style=\"{{response_styles}}\">\n<table class=\"linear-test-response-table\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"linear-test-response-button-cell\"><label for=\"input_response_[[$index+1]]\"><input id=\"input_response_[[$index+1]]\" name=\"response\" ng-attr-checked=\"[[answers[currentItem] == option.value ? 'checked' : undefined]]\" ng-model=\"value\" type=\"radio\" value=\"[[option.value]]\" \/> <\/label><\/td>\n\t\t\t<td class=\"linear-test-response-label-cell\"><label for=\"input_response_[[$index+1]]\">[[option.label]]<\/label><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n<\/div>\n\n<div style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n\n<div ng-if=\"'{{response_type}}'=='open_text'\"><input name=\"response\" ng-model=\"value\" style=\"width:100%;\" type=\"text\" \/><\/div>\n<\/div>\n",
-            "updatedOn": "2017-05-09 16:56:15",
-            "updatedByName": "",
+            "updatedOn": "2017-05-09 19:17:50",
+            "updatedByName": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "8922042871332e1bddb8c0c2e4cc79ff6ce053ed"
+            "hash": "81cde881fe0d19f6c3295b80722e0a2f0e170253"
         },
         {
             "class_name": "ViewTemplate",
