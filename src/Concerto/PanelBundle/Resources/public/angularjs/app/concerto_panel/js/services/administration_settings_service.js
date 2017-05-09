@@ -14,7 +14,7 @@ concertoPanel.factory('AdministrationSettingsService', function ($http) {
             }).success(function (response) {
                 obj.internalSettingsMap = response.internal;
                 obj.exposedSettingsMap = response.exposed;
-                obj.starterContentEditable = response.internal.starter_content_editable;
+                obj.starterContentEditable = response.internal.editable_starter_content == "1";
                 obj.settingsMapInitialized = true;
                 if (callback)
                     callback.call(this);
