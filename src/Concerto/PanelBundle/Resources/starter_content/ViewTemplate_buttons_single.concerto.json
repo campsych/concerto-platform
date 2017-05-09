@@ -7,19 +7,18 @@
             "name": "buttons_single",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"button\">{{label}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "710ce9b1d3177f0fed1278965210375b4110346d"
+            "hash": "e1045ed534625e02aecd6813f23a883c064e9332"
         }
     ]
 }

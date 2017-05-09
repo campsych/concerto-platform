@@ -6,7 +6,6 @@
             "id": 1,
             "name": "source_form",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -251,16 +250,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:34:18",
-            "updatedByName": "admin",
+            "updatedOn": "2017-05-09 16:56:09",
+            "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 5,
-            "hash": "226233bfff9960c5af6b2ff8d5683d5a678cb61c"
+            "hash": "16edd12db49f6fdf58d62fb1eaeadcb54e7e5c4b"
         },
         {
             "class_name": "TestWizard",
@@ -268,7 +267,6 @@
             "name": "form",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -811,13 +809,13 @@
             ],
             "test": 1,
             "testName": "source_form",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 5,
-            "hash": "42cc36fbd6e3b474c60c9e44129423a87b8a20e9"
+            "hash": "66f4be4aa1601f5a30e15177b440ee3f3fc07982"
         },
         {
             "class_name": "ViewTemplate",
@@ -825,19 +823,18 @@
             "name": "form_field",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "213bf88ae55c34e7b4ce25b2ead962988729bbf9"
+            "hash": "355c637e280d9a264565235f0fc7b879ac2c369b"
         },
         {
             "class_name": "ViewTemplate",
@@ -845,19 +842,18 @@
             "name": "form_alert",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "2b4275b744fc2e4951c8064ce2c7fd7014738c90"
+            "hash": "8a673674b90226787f70d976993f22797f071ce8"
         },
         {
             "class_name": "ViewTemplate",
@@ -865,19 +861,18 @@
             "name": "form_field_checkbox",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "510fa5b6053e30f3508be063df45e503552cce56"
+            "hash": "012b6b26fe61499897a4b1a9e491534923092c75"
         },
         {
             "class_name": "ViewTemplate",
@@ -885,19 +880,18 @@
             "name": "form_field_file",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"file\" \/>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 1,
-            "hash": "ada472dc87e5665593cb8ea677b4d60a0c462b72"
+            "hash": "cb436668f48ba6b9e4a56bd9a730934aa34a14d9"
         },
         {
             "class_name": "ViewTemplate",
@@ -905,19 +899,18 @@
             "name": "form_field_input",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "4bf054a43603964cdcd391b8c4bb90f498b3ce1a"
+            "hash": "1ac20d0e9ca0f6cbb39f1d3f5d3f087cd821f590"
         },
         {
             "class_name": "ViewTemplate",
@@ -925,19 +918,18 @@
             "name": "form_field_multiline",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<textarea id=\"{{id}}\" name=\"{{name}}\">{{value}}<\/textarea>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "8ee94858d1711ba22c023a39b3bdaba5015ee536"
+            "hash": "1a5bb70d0da1d0364c86af09799baafadb23c860"
         },
         {
             "class_name": "ViewTemplate",
@@ -945,19 +937,18 @@
             "name": "form_field_select",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}}\n});",
             "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "1f53e103694e424ac8feb70779e6ca0675eff082"
+            "hash": "40388e52c5590fd6357465fc78dd9634a0993fa6"
         },
         {
             "class_name": "ViewTemplate",
@@ -965,19 +956,18 @@
             "name": "form_field_slider",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "testRunner.controllerProvider.register(\"slider{{id}}\", function($scope) {\n  $scope.definition = {{definition}};\n  $scope.value = {{value}};\n});",
             "html": "<table class=\"tableFormSlider\" ng-controller=\"slider{{id}}\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft\">[[definition.label_extreme_left]]<\/td>\n\t\t\t<td class=\"tdFormSlider\"><input id=\"{{id}}\" max=\"[[definition.max]]\" min=\"[[definition.min]]\" name=\"{{name}}\" ng-model=\"value\" step=\"[[definition.step]]\" type=\"range\" \/><\/td>\n\t\t\t<td class=\"tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight\">[[definition.label_extreme_right]]<\/td>\n\t\t<\/tr>\n\t\t<tr ng-show=\"[[definition.hide_number]] == 0\">\n\t\t\t<td>&nbsp;<\/td>\n\t\t\t<td class=\"tdFormSliderNumber\">[[definition.prefix_text]][[value]][[definition.suffix_text]]<\/td>\n\t\t\t<td>&nbsp;<\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "821276e9c1a9a0f6009c1e8ee74ba4716c1ef4af"
+            "hash": "62c8f760c822fc480fed1901d22c48bc0f51ae77"
         },
         {
             "class_name": "ViewTemplate",
@@ -985,19 +975,18 @@
             "name": "buttons_multiple",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "testRunner.controllerProvider.register(\"_buttonsMultiple\", function($scope) {\n  $scope.cb1_enabled = {{cb1_enabled}};\n});",
             "html": "<div class=\"button-group\" ng-controller=\"_buttonsMultiple\">\n<ul>\n\t<li ng-show=\"cb1_enabled == 1\"><button name=\"custom_button_1\">{{cb1_label}}<\/button><\/li>\n\t<li><button name=\"submit\">{{label}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 1,
-            "hash": "3452df60c59ffa06ad0b21abc4739c6cf85e6080"
+            "hash": "ab439acae180a130a1e01c9e0769c430453188ca"
         }
     ]
 }

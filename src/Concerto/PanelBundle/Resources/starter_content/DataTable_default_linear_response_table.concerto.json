@@ -7,7 +7,6 @@
             "name": "default_linear_response_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -51,13 +50,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:53",
+            "updatedOn": "2017-05-09 16:56:19",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "776a77f94047d9d825803e6897aed4319326e4b6",
+            "hash": "b4e28f3c7a9cba9059916a1d4480135a832538fc",
             "data": []
         }
     ]

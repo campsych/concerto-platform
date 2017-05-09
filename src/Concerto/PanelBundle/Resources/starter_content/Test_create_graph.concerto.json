@@ -6,7 +6,6 @@
             "id": 12,
             "name": "source_create_graph",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 167,
+                    "id": 165,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 168,
+                    "id": 166,
                     "name": "filename",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 169,
+                    "id": 167,
                     "name": "data",
                     "type": 0,
                     "description": "",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 170,
+                    "id": 168,
                     "name": "x_name",
                     "type": 0,
                     "description": "",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 171,
+                    "id": 169,
                     "name": "y_name",
                     "type": 0,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 172,
+                    "id": 170,
                     "name": "x_label",
                     "type": 0,
                     "description": "",
@@ -83,7 +82,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 173,
+                    "id": 171,
                     "name": "y_label",
                     "type": 0,
                     "description": "",
@@ -94,7 +93,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 174,
+                    "id": 172,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -105,7 +104,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 175,
+                    "id": 173,
                     "name": "bar_colors",
                     "type": 0,
                     "description": "",
@@ -116,7 +115,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 176,
+                    "id": 174,
                     "name": "x_numeric",
                     "type": 0,
                     "description": "",
@@ -127,7 +126,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 177,
+                    "id": 175,
                     "name": "y_numeric",
                     "type": 0,
                     "description": "",
@@ -138,7 +137,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 178,
+                    "id": 176,
                     "name": "address",
                     "type": 1,
                     "description": "<p>R list object containing three elements:<\/p>\n\n<ul>\n\t<li><strong>address$filename<\/strong><\/li>\n\t<li><strong>address$path<\/strong><\/li>\n\t<li><strong>address$url<\/strong><\/li>\n<\/ul>\n",
@@ -149,7 +148,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 179,
+                    "id": 177,
                     "name": "width",
                     "type": 0,
                     "description": "",
@@ -160,7 +159,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 180,
+                    "id": 178,
                     "name": "height",
                     "type": 0,
                     "description": "",
@@ -171,7 +170,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 181,
+                    "id": 179,
                     "name": "output",
                     "type": 0,
                     "description": "",
@@ -185,16 +184,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:48",
+            "updatedOn": "2017-05-09 16:56:12",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 3,
-            "hash": "f33b5c1db90cae850fe21826c9421c9d67576728"
+            "hash": "e0005ed001a226a889756030b6e2cbb0a2f93037"
         },
         {
             "class_name": "TestWizard",
@@ -202,7 +201,6 @@
             "name": "create_graph",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -223,7 +221,7 @@
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 169,
+                            "testVariable": 167,
                             "name": "data",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -259,7 +257,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "x",
-                            "testVariable": 170,
+                            "testVariable": 168,
                             "name": "x_name",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -278,7 +276,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "y",
-                            "testVariable": 171,
+                            "testVariable": 169,
                             "name": "y_name",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -297,7 +295,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 176,
+                            "testVariable": 174,
                             "name": "x_numeric",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -316,7 +314,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 177,
+                            "testVariable": 175,
                             "name": "y_numeric",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -335,7 +333,7 @@
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "file",
-                            "testVariable": 181,
+                            "testVariable": 179,
                             "name": "output",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -367,7 +365,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "plot.png",
-                            "testVariable": 168,
+                            "testVariable": 166,
                             "name": "filename",
                             "wizardStep": 49,
                             "stepTitle": "Data",
@@ -398,7 +396,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "Plot",
-                            "testVariable": 174,
+                            "testVariable": 172,
                             "name": "title",
                             "wizardStep": 50,
                             "stepTitle": "Presentation",
@@ -417,7 +415,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "X",
-                            "testVariable": 172,
+                            "testVariable": 170,
                             "name": "x_label",
                             "wizardStep": 50,
                             "stepTitle": "Presentation",
@@ -436,7 +434,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "Y",
-                            "testVariable": 173,
+                            "testVariable": 171,
                             "name": "y_label",
                             "wizardStep": 50,
                             "stepTitle": "Presentation",
@@ -455,7 +453,7 @@
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 175,
+                            "testVariable": 173,
                             "name": "bar_colors",
                             "wizardStep": 50,
                             "stepTitle": "Presentation",
@@ -481,7 +479,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "200",
-                            "testVariable": 179,
+                            "testVariable": 177,
                             "name": "width",
                             "wizardStep": 50,
                             "stepTitle": "Presentation",
@@ -500,7 +498,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "200",
-                            "testVariable": 180,
+                            "testVariable": 178,
                             "name": "height",
                             "wizardStep": 50,
                             "stepTitle": "Presentation",
@@ -515,20 +513,19 @@
             ],
             "test": 12,
             "testName": "source_create_graph",
-            "updatedOn": "2017-04-10 19:32:48",
+            "updatedOn": "2017-05-09 16:56:12",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "d42c435ba3d6b5688b0370ad1df339adb7803bf9"
+            "hash": "d7a3beb3b287f1e653feddcc88f7a9cd30cd9a2b"
         },
         {
             "class_name": "Test",
             "id": 29,
             "name": "create_graph",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 1,
@@ -539,175 +536,175 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 382,
+                    "id": 380,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 29,
-                    "parentVariable": 167
+                    "parentVariable": 165
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 383,
+                    "id": 381,
                     "name": "filename",
                     "type": 0,
                     "description": "<p>File name that should be used to save a file. It needs to be&nbsp;<strong>png<\/strong>&nbsp;file<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "plot.png",
                     "test": 29,
-                    "parentVariable": 168
+                    "parentVariable": 166
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 384,
+                    "id": 382,
                     "name": "data",
                     "type": 0,
                     "description": "<p>Plot data<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "[]",
                     "test": 29,
-                    "parentVariable": 169
+                    "parentVariable": 167
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 385,
+                    "id": 383,
                     "name": "x_name",
                     "type": 0,
                     "description": "<p>Name of the column from&nbsp;<strong>data<\/strong>&nbsp;that describes&nbsp;<strong>X<\/strong><\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "x",
                     "test": 29,
-                    "parentVariable": 170
+                    "parentVariable": 168
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 386,
+                    "id": 384,
                     "name": "y_name",
                     "type": 0,
                     "description": "<p><span style=\"line-height: 20.8px;\">Name of the column from&nbsp;<\/span><strong style=\"line-height: 20.8px;\">data<\/strong><span style=\"line-height: 20.8px;\">&nbsp;that describes&nbsp;<\/span><strong style=\"line-height: 20.8px;\">Y<\/strong><\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "y",
                     "test": 29,
-                    "parentVariable": 171
+                    "parentVariable": 169
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 387,
+                    "id": 385,
                     "name": "x_label",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "X",
                     "test": 29,
-                    "parentVariable": 172
+                    "parentVariable": 170
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 388,
+                    "id": 386,
                     "name": "y_label",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "Y",
                     "test": 29,
-                    "parentVariable": 173
+                    "parentVariable": 171
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 389,
+                    "id": 387,
                     "name": "title",
                     "type": 0,
                     "description": "<p>Plot title<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "Plot",
                     "test": 29,
-                    "parentVariable": 174
+                    "parentVariable": 172
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 390,
+                    "id": 388,
                     "name": "bar_colors",
                     "type": 0,
                     "description": "<p>Bar colors<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "[\"blue\"]",
                     "test": 29,
-                    "parentVariable": 175
+                    "parentVariable": 173
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 391,
+                    "id": 389,
                     "name": "x_numeric",
                     "type": 0,
                     "description": "<p>Check if&nbsp;<strong>X&nbsp;<\/strong>column of&nbsp;<strong>data<\/strong>&nbsp;is numeric<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "{\"value\":\"\"}",
                     "test": 29,
-                    "parentVariable": 176
+                    "parentVariable": 174
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 392,
+                    "id": 390,
                     "name": "y_numeric",
                     "type": 0,
                     "description": "<p><span style=\"line-height: 20.8px;\">Check if&nbsp;<\/span><strong style=\"line-height: 20.8px;\">Y&nbsp;<\/strong><span style=\"line-height: 20.8px;\">column of&nbsp;<\/span><strong style=\"line-height: 20.8px;\">data<\/strong><span style=\"line-height: 20.8px;\">&nbsp;is numeric<\/span><\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "1",
                     "test": 29,
-                    "parentVariable": 177
+                    "parentVariable": 175
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 393,
+                    "id": 391,
                     "name": "address",
                     "type": 1,
                     "description": "<p>R list object containing three elements:<\/p>\n\n<ul>\n\t<li><strong>address$filename<\/strong><\/li>\n\t<li><strong>address$path<\/strong><\/li>\n\t<li><strong>address$url<\/strong><\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 29,
-                    "parentVariable": 178
+                    "parentVariable": 176
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 394,
+                    "id": 392,
                     "name": "width",
                     "type": 0,
                     "description": "<p>Width of plot image in pixels<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "200",
                     "test": 29,
-                    "parentVariable": 179
+                    "parentVariable": 177
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 395,
+                    "id": 393,
                     "name": "height",
                     "type": 0,
                     "description": "<p><span style=\"line-height: 20.8px;\">Height of plot image in pixels<\/span><\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "200",
                     "test": 29,
-                    "parentVariable": 180
+                    "parentVariable": 178
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 396,
+                    "id": 394,
                     "name": "output",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "file",
                     "test": 29,
-                    "parentVariable": 181
+                    "parentVariable": 179
                 }
             ],
             "sourceWizard": 8,
             "sourceWizardName": "create_graph",
             "sourceWizardTest": 12,
             "sourceWizardTestName": "source_create_graph",
-            "updatedOn": "2017-04-10 19:32:51",
+            "updatedOn": "2017-05-09 16:56:17",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -716,7 +713,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "c1612c68fce86fc4ffbe9794d03aee89bc0e0aef"
+            "hash": "41877a8ae8003f17ad2196c6a90735aa5506670d"
         }
     ]
 }

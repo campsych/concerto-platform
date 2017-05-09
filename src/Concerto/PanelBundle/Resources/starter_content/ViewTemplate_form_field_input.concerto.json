@@ -7,19 +7,18 @@
             "name": "form_field_input",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "4bf054a43603964cdcd391b8c4bb90f498b3ce1a"
+            "hash": "1ac20d0e9ca0f6cbb39f1d3f5d3f087cd821f590"
         }
     ]
 }

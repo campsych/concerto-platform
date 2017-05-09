@@ -7,19 +7,18 @@
             "name": "CAT_content",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".CAT-response-table {\n  border: 0 none;\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.CAT-response-table td {\n  padding: 0 5px 0 0;\n}\n.CAT-response-section-horizontal {\n  float: left; \n  margin: 5px;\n  display: block;\n}\n.CAT-response-section-vertical {\n  margin: 5px;\n}\n.CAT-response-group {\n  text-align: left;\n}\n.CAT-question {\n  text-align: left;\n}\n.CAT-response-label-cell p {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.CAT-response-button-cell {\n  padding-right: 5px;\n}",
             "js": "testRunner.controllerProvider.register(\"cat\", function($scope) {\n  $scope.responseOptions = {{response_options}};\n});",
             "html": "{{paragraph}}\n<div ng-controller=\"cat\">\n<div class=\"CAT-question\">{{question}}<\/div>\n\n<div class=\"CAT-response-group\" ng-if=\"'{{response_type}}'=='multiple_choice'\">\n<div class=\"{{response_classes}}\" ng-repeat=\"option in responseOptions track by $index\" style=\"{{response_styles}}\">\n<table class=\"CAT-response-table\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"CAT-response-button-cell\"><input id=\"input_response_[[$index+1]]\" name=\"response\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t\t<td class=\"CAT-response-label-cell\"><label for=\"input_response_[[$index+1]]\" ng-bind-html=\"option.label\">&nbsp;<\/label><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n<\/div>\n\n<div style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n\n<div ng-if=\"'{{response_type}}'=='open_text'\"><input name=\"response\" style=\"width:100%;\" type=\"text\" \/><\/div>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:50",
+            "updatedOn": "2017-05-09 16:56:14",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "44b320fa02a36b2c481cb4fce1041f1bc9f283eb"
+            "hash": "3e166c577232fab159a7a45006e34933bf680b16"
         }
     ]
 }

@@ -6,7 +6,6 @@
             "id": 35,
             "name": "merge_lists",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 472,
+                    "id": 470,
                     "name": "merged_list",
                     "type": 1,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 473,
+                    "id": 471,
                     "name": "list1",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 474,
+                    "id": 472,
                     "name": "list2",
                     "type": 0,
                     "description": "",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 475,
+                    "id": 473,
                     "name": "list3",
                     "type": 0,
                     "description": "",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 476,
+                    "id": 474,
                     "name": "list4",
                     "type": 0,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 477,
+                    "id": 475,
                     "name": "list5",
                     "type": 0,
                     "description": "",
@@ -86,7 +85,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:56",
+            "updatedOn": "2017-05-09 16:56:21",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -95,7 +94,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "9f4409c321e7ff4e95f0471b51ca52157976235a"
+            "hash": "aae18db21409c344fb5855e1965f94e1b2fbb003"
         }
     ]
 }

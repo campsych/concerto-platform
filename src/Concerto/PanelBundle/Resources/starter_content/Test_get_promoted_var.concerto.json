@@ -6,7 +6,6 @@
             "id": 34,
             "name": "get_promoted_var",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 470,
+                    "id": 468,
                     "name": "name",
                     "type": 0,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 471,
+                    "id": 469,
                     "name": "value",
                     "type": 1,
                     "description": "",
@@ -42,7 +41,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:53",
+            "updatedOn": "2017-05-09 16:56:19",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
@@ -51,7 +50,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "87386a055ca2c925f808c62c148fb645d6a979e1"
+            "hash": "3c71cc3781042f05ce21973f6bd099cf7f866276"
         }
     ]
 }

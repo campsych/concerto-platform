@@ -7,7 +7,6 @@
             "name": "default_session_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -41,13 +40,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:52",
+            "updatedOn": "2017-05-09 16:56:17",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "4e0cd9545c4e3bd1cac9f17ad8250e6c0800bb5e",
+            "hash": "5a462f08c3bb26f05f35b1a6923e682a9d69a11b",
             "data": []
         }
     ]

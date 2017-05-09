@@ -7,7 +7,6 @@
             "name": "default_questionnaire_response_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -46,13 +45,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:55",
+            "updatedOn": "2017-05-09 16:56:21",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "ae89f466f99c4e592753d4ffa8726c712e4d70e8",
+            "hash": "c79d8a9d5a287a982a0429054a7889daf5e98a35",
             "data": []
         }
     ]

@@ -6,7 +6,6 @@
             "id": 8,
             "name": "source_R_code",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 132,
+                    "id": 130,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 133,
+                    "id": 131,
                     "name": "code",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 134,
+                    "id": 132,
                     "name": "result",
                     "type": 1,
                     "description": "",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 135,
+                    "id": 133,
                     "name": "arg1",
                     "type": 0,
                     "description": "",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 136,
+                    "id": 134,
                     "name": "arg2",
                     "type": 0,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 137,
+                    "id": 135,
                     "name": "arg3",
                     "type": 0,
                     "description": "",
@@ -83,7 +82,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 138,
+                    "id": 136,
                     "name": "arg4",
                     "type": 0,
                     "description": "",
@@ -94,7 +93,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 139,
+                    "id": 137,
                     "name": "arg5",
                     "type": 0,
                     "description": "",
@@ -108,16 +107,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 2,
-            "hash": "90864960e2d9daf92b2f292bf13a782fcd4b161b"
+            "hash": "044b5e18e0facb7ef5d807bd7f71ca48f35d6464"
         },
         {
             "class_name": "TestWizard",
@@ -125,7 +124,6 @@
             "name": "R_code",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -146,7 +144,7 @@
                             "type": 11,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 133,
+                            "testVariable": 131,
                             "name": "code",
                             "wizardStep": 17,
                             "stepTitle": "Code",
@@ -161,13 +159,13 @@
             ],
             "test": 8,
             "testName": "source_R_code",
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "9f309634ae56a24f39f10f7ecf2a40bd253fa466"
+            "hash": "572e8f9065633325bedf8d8ee1ed37bd383d6179"
         }
     ]
 }

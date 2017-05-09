@@ -7,7 +7,6 @@
             "name": "default_cat_response_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -56,13 +55,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:50",
+            "updatedOn": "2017-05-09 16:56:14",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "615f92031118cc3f1616dcc96c1cfb5410e0d716",
+            "hash": "f4562057c305d78a1c235c5a3fabc73a42604174",
             "data": [
                 {
                     "id": "1",

@@ -6,7 +6,6 @@
             "id": 3,
             "name": "source_start_session",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 49,
+                    "id": 48,
                     "name": "success",
                     "type": 2,
                     "description": "<p>Authorization successful<\/p>\n",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 50,
+                    "id": 49,
                     "name": "type",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 51,
+                    "id": 50,
                     "name": "user",
                     "type": 1,
                     "description": "<p>Returned user object list:<\/p>\n\n<ul>\n\t<li><strong>user$id<\/strong>&nbsp;- user unique id<\/li>\n\t<li><strong>user$login&nbsp;<\/strong>- user login<\/li>\n<\/ul>\n",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 52,
+                    "id": 51,
                     "name": "user_bank",
                     "type": 0,
                     "description": "",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 53,
+                    "id": 52,
                     "name": "user_bank",
                     "type": 1,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 54,
+                    "id": 53,
                     "name": "session_bank",
                     "type": 0,
                     "description": "",
@@ -83,7 +82,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 55,
+                    "id": 54,
                     "name": "session",
                     "type": 1,
                     "description": "",
@@ -94,7 +93,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 56,
+                    "id": 55,
                     "name": "session_bank",
                     "type": 1,
                     "description": "",
@@ -105,7 +104,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 57,
+                    "id": 56,
                     "name": "registration",
                     "type": 0,
                     "description": "",
@@ -116,7 +115,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 58,
+                    "id": 57,
                     "name": "ecuid",
                     "type": 0,
                     "description": "<p>Email confirmation user id<\/p>\n",
@@ -127,7 +126,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 59,
+                    "id": 58,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -138,7 +137,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 60,
+                    "id": 59,
                     "name": "login_form",
                     "type": 0,
                     "description": "",
@@ -149,7 +148,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 61,
+                    "id": 60,
                     "name": "registration_enabled",
                     "type": 0,
                     "description": "",
@@ -160,7 +159,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 62,
+                    "id": 61,
                     "name": "registration_form",
                     "type": 0,
                     "description": "",
@@ -171,7 +170,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 63,
+                    "id": 62,
                     "name": "email_conf_request_page",
                     "type": 0,
                     "description": "",
@@ -182,7 +181,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 64,
+                    "id": 63,
                     "name": "email_conf_success_page",
                     "type": 0,
                     "description": "",
@@ -193,7 +192,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 65,
+                    "id": 64,
                     "name": "email_confirmation",
                     "type": 0,
                     "description": "",
@@ -204,7 +203,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 66,
+                    "id": 65,
                     "name": "new_session",
                     "type": 2,
                     "description": "",
@@ -215,7 +214,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 67,
+                    "id": 66,
                     "name": "resume_session",
                     "type": 0,
                     "description": "",
@@ -226,7 +225,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 68,
+                    "id": 67,
                     "name": "direct_user",
                     "type": 0,
                     "description": "",
@@ -237,7 +236,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 69,
+                    "id": 68,
                     "name": "resume_session_time_limit",
                     "type": 0,
                     "description": "",
@@ -251,16 +250,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:46",
+            "updatedOn": "2017-05-09 16:56:10",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 9,
-            "hash": "f61fb1c14f67f4d4f0a82c719c6a2406a9fa5b11"
+            "hash": "e9a3bc7337ded2d317bb763f1272ddb5c448a163"
         },
         {
             "class_name": "TestWizard",
@@ -268,7 +267,6 @@
             "name": "start_session",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -289,7 +287,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"custom_table\":[]}",
-                            "testVariable": 54,
+                            "testVariable": 53,
                             "name": "session_bank",
                             "wizardStep": 65,
                             "stepTitle": "Session",
@@ -366,7 +364,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 67,
+                            "testVariable": 66,
                             "name": "resume_session",
                             "wizardStep": 65,
                             "stepTitle": "Session",
@@ -386,7 +384,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 69,
+                            "testVariable": 68,
                             "name": "resume_session_time_limit",
                             "wizardStep": 65,
                             "stepTitle": "Session",
@@ -417,7 +415,7 @@
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "table",
-                            "testVariable": 50,
+                            "testVariable": 49,
                             "name": "type",
                             "wizardStep": 66,
                             "stepTitle": "Authorization",
@@ -449,7 +447,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"direct_table\":[],\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 52,
+                            "testVariable": 51,
                             "name": "user_bank",
                             "wizardStep": 66,
                             "stepTitle": "Authorization",
@@ -644,7 +642,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"email_confirmation\":\"0\",\"ec_smtp\":[],\"form_test\":\"form\",\"ec_link\":\"http:\\\/\\\/domain.com\\\/test\\\/slug?ecuid={{ecuid}}\"}",
-                            "testVariable": 57,
+                            "testVariable": 56,
                             "name": "registration",
                             "wizardStep": 67,
                             "stepTitle": "Registration",
@@ -725,7 +723,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 61,
+                            "testVariable": 60,
                             "name": "registration_enabled",
                             "wizardStep": 67,
                             "stepTitle": "Registration",
@@ -756,7 +754,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"title\":\"DEMO TEST\",\"paragraph\":\"<p>Please log in:<\\\/p>\\n\",\"login_button_label\":\"log in\",\"failed_alert\":\"Authorization failed!\",\"form_field\":\"form_field\",\"form_field_input\":\"form_field_input\",\"buttons_template\":\"buttons_start_session_login\",\"register_button_label\":\"register\",\"alert_template\":\"form_alert\"}",
-                            "testVariable": 60,
+                            "testVariable": 59,
                             "name": "login_form",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -866,7 +864,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"paragraph\":\"<p>Please fill the form below:<\\\/p>\\n\",\"login_label\":\"Login\",\"login_alert\":\"Invalid login!\",\"password_label\":\"Password\",\"password_alert\":\"Invalid password!\",\"password_confirmation_label\":\"Password confirmation\",\"password_confirmation_alert\":\"Password confirmation and password doesn't match!\",\"email_label\":\"Email\",\"email_alert\":\"Invalid email!\",\"register_button_label\":\"register\",\"login_exists_alert\":\"Login already exists!\",\"title\":\"REGISTRATION\"}",
-                            "testVariable": 62,
+                            "testVariable": 61,
                             "name": "registration_form",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1006,7 +1004,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"title\":\"EMAIL CONFIRMATION\",\"content\":\"<p>Email has been sent to your address. Please follow the link in the email to confirm your address.<\\\/p>\\n\"}",
-                            "testVariable": 63,
+                            "testVariable": 62,
                             "name": "email_conf_request_page",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1044,7 +1042,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"title\":\"EMAIL CONFIRMATION\",\"content\":\"<p>Your email address has been successfully verified. Please refresh the page to log in.<\\\/p>\\n\"}",
-                            "testVariable": 64,
+                            "testVariable": 63,
                             "name": "email_conf_success_page",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1082,7 +1080,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"sender\":\"concerto@domain.com\",\"subject\":\"email confirmation\",\"paragraph\":\"<p>To verify your email address please click <a href=\\\"{{url}}\\\">HERE<\\\/a>.<\\\/p>\\n\",\"template\":\"start_session_confirmation_mail\"}",
-                            "testVariable": 65,
+                            "testVariable": 64,
                             "name": "email_confirmation",
                             "wizardStep": 68,
                             "stepTitle": "Presentation",
@@ -1138,20 +1136,19 @@
             ],
             "test": 3,
             "testName": "source_start_session",
-            "updatedOn": "2017-04-10 19:32:46",
+            "updatedOn": "2017-05-09 16:56:10",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 9,
-            "hash": "8a7b30d85d2f3656cfadd8612169534a88b5b5ee"
+            "hash": "65b34055df0e5cb2fa3a7469ce99cfab0f310632"
         },
         {
             "class_name": "Test",
             "id": 1,
             "name": "source_form",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -1396,16 +1393,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:34:18",
-            "updatedByName": "admin",
+            "updatedOn": "2017-05-09 16:56:09",
+            "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 5,
-            "hash": "226233bfff9960c5af6b2ff8d5683d5a678cb61c"
+            "hash": "16edd12db49f6fdf58d62fb1eaeadcb54e7e5c4b"
         },
         {
             "class_name": "TestWizard",
@@ -1413,7 +1410,6 @@
             "name": "form",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -1956,20 +1952,19 @@
             ],
             "test": 1,
             "testName": "source_form",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 5,
-            "hash": "42cc36fbd6e3b474c60c9e44129423a87b8a20e9"
+            "hash": "66f4be4aa1601f5a30e15177b440ee3f3fc07982"
         },
         {
             "class_name": "Test",
             "id": 5,
             "name": "form",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 1,
@@ -1980,7 +1975,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 91,
+                    "id": 89,
                     "name": "form",
                     "type": 0,
                     "description": "<p>Form fields list<\/p>\n",
@@ -1991,7 +1986,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 92,
+                    "id": 90,
                     "name": "button_label",
                     "type": 0,
                     "description": "<p>Continue button label<\/p>\n",
@@ -2002,7 +1997,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 93,
+                    "id": 91,
                     "name": "paragraph",
                     "type": 0,
                     "description": "<p>Form page paragraph<\/p>\n",
@@ -2013,7 +2008,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 94,
+                    "id": 92,
                     "name": "response",
                     "type": 1,
                     "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
@@ -2024,7 +2019,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 95,
+                    "id": 93,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -2035,7 +2030,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 96,
+                    "id": 94,
                     "name": "warning_msg",
                     "type": 0,
                     "description": "",
@@ -2046,7 +2041,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 97,
+                    "id": 95,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -2057,7 +2052,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 98,
+                    "id": 96,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -2068,7 +2063,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 99,
+                    "id": 97,
                     "name": "form_field_template",
                     "type": 0,
                     "description": "",
@@ -2079,7 +2074,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 100,
+                    "id": 98,
                     "name": "form_field_input_template",
                     "type": 0,
                     "description": "",
@@ -2090,7 +2085,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 101,
+                    "id": 99,
                     "name": "form_field_multiline_template",
                     "type": 0,
                     "description": "",
@@ -2101,7 +2096,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 102,
+                    "id": 100,
                     "name": "form_field_select_template",
                     "type": 0,
                     "description": "",
@@ -2112,7 +2107,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 103,
+                    "id": 101,
                     "name": "form_field_checkbox_template",
                     "type": 0,
                     "description": "",
@@ -2123,7 +2118,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 104,
+                    "id": 102,
                     "name": "form_field_slider_template",
                     "type": 0,
                     "description": "",
@@ -2134,7 +2129,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 105,
+                    "id": 103,
                     "name": "form_alert_template",
                     "type": 0,
                     "description": "",
@@ -2145,7 +2140,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 106,
+                    "id": 104,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -2156,7 +2151,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 107,
+                    "id": 105,
                     "name": "submit",
                     "type": 2,
                     "description": "",
@@ -2167,7 +2162,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 108,
+                    "id": 106,
                     "name": "form_field_file_template",
                     "type": 0,
                     "description": "",
@@ -2178,7 +2173,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 109,
+                    "id": 107,
                     "name": "custom_button_1",
                     "type": 0,
                     "description": "",
@@ -2189,7 +2184,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 110,
+                    "id": 108,
                     "name": "custom_button_1",
                     "type": 2,
                     "description": "",
@@ -2200,7 +2195,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 111,
+                    "id": 109,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
@@ -2214,7 +2209,7 @@
             "sourceWizardName": "form",
             "sourceWizardTest": 1,
             "sourceWizardTestName": "source_form",
-            "updatedOn": "2017-04-10 19:34:18",
+            "updatedOn": "2017-05-09 16:56:21",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -2223,7 +2218,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 5,
-            "hash": "7b93f809dc2ad752126b8e78bcfcc595f91f7c89"
+            "hash": "899267d7be93f2d104a027970bee230f769d5702"
         },
         {
             "class_name": "ViewTemplate",
@@ -2231,19 +2226,18 @@
             "name": "form_field",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "213bf88ae55c34e7b4ce25b2ead962988729bbf9"
+            "hash": "355c637e280d9a264565235f0fc7b879ac2c369b"
         },
         {
             "class_name": "ViewTemplate",
@@ -2251,19 +2245,18 @@
             "name": "form_field_input",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "4bf054a43603964cdcd391b8c4bb90f498b3ce1a"
+            "hash": "1ac20d0e9ca0f6cbb39f1d3f5d3f087cd821f590"
         },
         {
             "class_name": "ViewTemplate",
@@ -2271,19 +2264,18 @@
             "name": "buttons_start_session_login",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n<ul>\n\t<li><button name=\"login\">{{label_login}}<\/button><\/li>\n\t<li><button name=\"register\" ng-show=\"{{show_register}}\">{{label_register}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "bbb8e46c402496925d153f7ae94206a072ec504e"
+            "hash": "f67dd4eced4e4aa7d3850c34ef3f491fcfeae2c6"
         },
         {
             "class_name": "ViewTemplate",
@@ -2291,19 +2283,18 @@
             "name": "form_alert",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "2b4275b744fc2e4951c8064ce2c7fd7014738c90"
+            "hash": "8a673674b90226787f70d976993f22797f071ce8"
         },
         {
             "class_name": "ViewTemplate",
@@ -2311,19 +2302,18 @@
             "name": "start_session_confirmation_mail",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "9dc44fec503972394523f9d46aef80d7f89e513d"
+            "hash": "50d8ddcb1c032eee7438f3501d61187c6df5bb5e"
         }
     ]
 }

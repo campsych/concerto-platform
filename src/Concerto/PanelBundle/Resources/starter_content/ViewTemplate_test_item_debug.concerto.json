@@ -7,19 +7,18 @@
             "name": "test_item_debug",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:46",
+            "updatedOn": "2017-05-09 16:56:10",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "fa5979fc29ed247671036f474bfc904a9cd84df7"
+            "hash": "d6ac468fd18c019c808fbda382522ee605f25c5e"
         }
     ]
 }

@@ -7,19 +7,18 @@
             "name": "start_session_confirmation_mail",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "9dc44fec503972394523f9d46aef80d7f89e513d"
+            "hash": "50d8ddcb1c032eee7438f3501d61187c6df5bb5e"
         }
     ]
 }

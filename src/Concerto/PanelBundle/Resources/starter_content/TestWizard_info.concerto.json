@@ -6,7 +6,6 @@
             "id": 14,
             "name": "source_info",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 186,
+                    "id": 184,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 187,
+                    "id": 185,
                     "name": "content",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 188,
+                    "id": 186,
                     "name": "button_label",
                     "type": 0,
                     "description": "<p>Label on continue button.<\/p>\n",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 189,
+                    "id": 187,
                     "name": "response",
                     "type": 1,
                     "description": "<p>Submitted user response<\/p>\n",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 190,
+                    "id": 188,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 191,
+                    "id": 189,
                     "name": "button_exists",
                     "type": 0,
                     "description": "",
@@ -83,7 +82,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 192,
+                    "id": 190,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -94,7 +93,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 193,
+                    "id": 191,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -105,7 +104,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 194,
+                    "id": 192,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -119,16 +118,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:48",
+            "updatedOn": "2017-05-09 16:56:12",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 4,
-            "hash": "4b977183c6bfc7f45d695cdc563a8f9eb7b9022d"
+            "hash": "e394e888ee367f95231417c9637cb0d71eedaf9b"
         },
         {
             "class_name": "TestWizard",
@@ -136,7 +135,6 @@
             "name": "info",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -157,7 +155,7 @@
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 187,
+                            "testVariable": 185,
                             "name": "content",
                             "wizardStep": 64,
                             "stepTitle": "Presentation",
@@ -177,7 +175,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "continue",
-                            "testVariable": 188,
+                            "testVariable": 186,
                             "name": "button_label",
                             "wizardStep": 64,
                             "stepTitle": "Presentation",
@@ -196,7 +194,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 191,
+                            "testVariable": 189,
                             "name": "button_exists",
                             "wizardStep": 64,
                             "stepTitle": "Presentation",
@@ -216,7 +214,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "DEMO TEST",
-                            "testVariable": 192,
+                            "testVariable": 190,
                             "name": "title",
                             "wizardStep": 64,
                             "stepTitle": "Presentation",
@@ -236,7 +234,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "buttons_single",
-                            "testVariable": 194,
+                            "testVariable": 192,
                             "name": "buttons_template",
                             "wizardStep": 64,
                             "stepTitle": "Presentation",
@@ -252,13 +250,13 @@
             ],
             "test": 14,
             "testName": "source_info",
-            "updatedOn": "2017-04-10 19:32:48",
+            "updatedOn": "2017-05-09 16:56:12",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "f3559a289a4697a5ddce0f06beee48cf7b072341"
+            "hash": "131eeee30c985e0a28aef72b4889bf9d238e0e17"
         },
         {
             "class_name": "ViewTemplate",
@@ -266,19 +264,18 @@
             "name": "buttons_single",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"button\">{{label}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "710ce9b1d3177f0fed1278965210375b4110346d"
+            "hash": "e1045ed534625e02aecd6813f23a883c064e9332"
         }
     ]
 }

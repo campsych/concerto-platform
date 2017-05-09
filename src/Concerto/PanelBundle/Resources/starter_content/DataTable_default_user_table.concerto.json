@@ -7,7 +7,6 @@
             "name": "default_user_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -46,13 +45,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:08",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "9ce70661aeb64561ccc78fda34c79c26065a11de",
+            "hash": "e8e13a1204ea745bc44451334f1af6d1f2229336",
             "data": [
                 {
                     "id": "1",

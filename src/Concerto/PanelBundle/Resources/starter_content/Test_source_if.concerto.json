@@ -1,0 +1,89 @@
+{
+    "version": "5.0.beta.3.0",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 15,
+            "name": "source_if",
+            "accessibility": 2,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "condition = paste0(\"if(\",if_condition,\") { .branch = 'if_true' } else { .branch = 'if_false' }\" )\nprint(paste0(\"if condition: \",condition)) #for bug checking\n\neval(parse(text=condition))\nprint(paste0(\".branch: \", .branch)) #for bug checking",
+            "resumable": "0",
+            "outdated": "0",
+            "description": "<p>Node that evaluates a conditional statement and returns via the TRUE or FALSE branch. Data can also be made available to the node via the ifdata variable input.<\/p>\n",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 193,
+                    "name": "if_true",
+                    "type": 2,
+                    "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 15,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 194,
+                    "name": "if_condition",
+                    "type": 0,
+                    "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": "TRUE",
+                    "test": 15,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 195,
+                    "name": ".branch",
+                    "type": 1,
+                    "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": "if_true",
+                    "test": 15,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 196,
+                    "name": "ifdata",
+                    "type": 0,
+                    "description": "<p>Data to be made available for the if statement<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 15,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 197,
+                    "name": "if_false",
+                    "type": 2,
+                    "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 15,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2017-05-09 16:56:12",
+            "updatedByName": "",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "rev": 2,
+            "hash": "c30be9d0c1b4141d5bcf47136ae0bacdabed2fff"
+        }
+    ]
+}

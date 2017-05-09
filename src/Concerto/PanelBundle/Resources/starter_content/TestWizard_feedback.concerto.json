@@ -6,7 +6,6 @@
             "id": 6,
             "name": "source_feedback",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 112,
+                    "id": 110,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 113,
+                    "id": 111,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 114,
+                    "id": 112,
                     "name": "button_label",
                     "type": 0,
                     "description": "",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 115,
+                    "id": 113,
                     "name": "traits",
                     "type": 0,
                     "description": "",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 116,
+                    "id": 114,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 117,
+                    "id": 115,
                     "name": "scores",
                     "type": 0,
                     "description": "",
@@ -83,7 +82,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 118,
+                    "id": 116,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -94,7 +93,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 119,
+                    "id": 117,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -105,7 +104,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 120,
+                    "id": 118,
                     "name": "feedback_template",
                     "type": 0,
                     "description": "",
@@ -116,7 +115,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 121,
+                    "id": 119,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -130,16 +129,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 5,
-            "hash": "8f44a4a5e74d5004e7047f44464a610626edb01a"
+            "hash": "8bdb77747ffd914cc7b26550ae084c4a7e92e8f1"
         },
         {
             "class_name": "TestWizard",
@@ -147,7 +146,6 @@
             "name": "feedback",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -168,7 +166,7 @@
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Feedback:<\/p>\n",
-                            "testVariable": 113,
+                            "testVariable": 111,
                             "name": "paragraph",
                             "wizardStep": 75,
                             "stepTitle": "Presentation",
@@ -188,7 +186,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "continue",
-                            "testVariable": 114,
+                            "testVariable": 112,
                             "name": "button_label",
                             "wizardStep": 75,
                             "stepTitle": "Presentation",
@@ -208,7 +206,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "DEMO TEST",
-                            "testVariable": 118,
+                            "testVariable": 116,
                             "name": "title",
                             "wizardStep": 75,
                             "stepTitle": "Presentation",
@@ -228,7 +226,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "feedback_content",
-                            "testVariable": 120,
+                            "testVariable": 118,
                             "name": "feedback_template",
                             "wizardStep": 75,
                             "stepTitle": "Presentation",
@@ -248,7 +246,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "buttons_single",
-                            "testVariable": 121,
+                            "testVariable": 119,
                             "name": "buttons_template",
                             "wizardStep": 75,
                             "stepTitle": "Presentation",
@@ -279,7 +277,7 @@
                             "type": 10,
                             "passableThroughUrl": "0",
                             "value": "[]",
-                            "testVariable": 115,
+                            "testVariable": 113,
                             "name": "traits",
                             "wizardStep": 76,
                             "stepTitle": "Scores",
@@ -354,13 +352,13 @@
             ],
             "test": 6,
             "testName": "source_feedback",
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 5,
-            "hash": "2c216b6fcf189f0bc90478a22a6b094917afe732"
+            "hash": "ef27834aa99fce86265cb873b9125ab70d2e4fad"
         },
         {
             "class_name": "ViewTemplate",
@@ -368,19 +366,18 @@
             "name": "feedback_content",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "testRunner.controllerProvider.register(\"feedbackTrait\", function($scope) {\n  $scope.feedback = {{feedback}};\n});",
             "html": "<div ng-controller=\"feedbackTrait\">\n  <div ng-repeat=\"trait in feedback\">\n    <div class=\"feedbackTraitLabel\" ng-bind-html=\"trait.label\">&nbsp;<\/div>\n\n    <div class=\"feedbackTraitDescription\" ng-bind-html=\"trait.description\">&nbsp;<\/div>\n\n    <div class=\"feedbackTraitFeedback\" ng-bind-html=\"trait.feedback\">&nbsp;<\/div>\n  <\/div>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:47",
+            "updatedOn": "2017-05-09 16:56:11",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "9becf9ee1ce4844c629d743b095f989063d944ab"
+            "hash": "1e4692e7b20195f9e514b8950b90b8ffa21426d9"
         },
         {
             "class_name": "ViewTemplate",
@@ -388,19 +385,18 @@
             "name": "buttons_single",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"button\">{{label}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "710ce9b1d3177f0fed1278965210375b4110346d"
+            "hash": "e1045ed534625e02aecd6813f23a883c064e9332"
         }
     ]
 }

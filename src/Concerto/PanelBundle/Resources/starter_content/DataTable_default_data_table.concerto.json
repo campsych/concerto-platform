@@ -7,7 +7,6 @@
             "name": "default_data_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -36,13 +35,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:52",
+            "updatedOn": "2017-05-09 16:56:17",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "a06baaf69b32ee53e3d6de9a6e739403812d8815",
+            "hash": "770f1b1a70f90a855e5a0a959bb26f77819218d0",
             "data": []
         }
     ]

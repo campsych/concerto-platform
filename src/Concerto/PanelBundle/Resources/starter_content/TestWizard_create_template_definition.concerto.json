@@ -6,7 +6,6 @@
             "id": 18,
             "name": "source_create_template_definition",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 231,
+                    "id": 229,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 232,
+                    "id": 230,
                     "name": "layout",
                     "type": 0,
                     "description": "",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 233,
+                    "id": 231,
                     "name": "header",
                     "type": 0,
                     "description": "",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 234,
+                    "id": 232,
                     "name": "footer",
                     "type": 0,
                     "description": "",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 235,
+                    "id": 233,
                     "name": "template_def",
                     "type": 1,
                     "description": "",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 236,
+                    "id": 234,
                     "name": "set_as_default",
                     "type": 0,
                     "description": "",
@@ -86,16 +85,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:49",
+            "updatedOn": "2017-05-09 16:56:13",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 2,
-            "hash": "6a7cb31e9400990d9c40e714d04f89c4a507938b"
+            "hash": "f1f09c3ed3d016670e34aec29e1f7314a730aebd"
         },
         {
             "class_name": "TestWizard",
@@ -103,7 +102,6 @@
             "name": "create_template_definition",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -124,7 +122,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 232,
+                            "testVariable": 230,
                             "name": "layout",
                             "wizardStep": 56,
                             "stepTitle": "Template Properties",
@@ -143,7 +141,7 @@
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 233,
+                            "testVariable": 231,
                             "name": "header",
                             "wizardStep": 56,
                             "stepTitle": "Template Properties",
@@ -162,7 +160,7 @@
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 234,
+                            "testVariable": 232,
                             "name": "footer",
                             "wizardStep": 56,
                             "stepTitle": "Template Properties",
@@ -181,7 +179,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 236,
+                            "testVariable": 234,
                             "name": "set_as_default",
                             "wizardStep": 56,
                             "stepTitle": "Template Properties",
@@ -196,13 +194,13 @@
             ],
             "test": 18,
             "testName": "source_create_template_definition",
-            "updatedOn": "2017-04-10 19:32:49",
+            "updatedOn": "2017-05-09 16:56:13",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "5abb58092414accf991ebff43b90de8a6244ca1a"
+            "hash": "82a4eb9462eef2696b021aa2fa7c595e23bc9d57"
         }
     ]
 }

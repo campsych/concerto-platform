@@ -6,7 +6,6 @@
             "id": 21,
             "name": "source_random_branch",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 250,
+                    "id": 248,
                     "name": "number_branches",
                     "type": 0,
                     "description": "<p>The number of branches to randomly choose between. Can be from 2 to 8. i.e. if you set it to 4 then it will choose a random number between 1 and 4 and then send the user down that branch.<\/p>\n",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 251,
+                    "id": 249,
                     "name": "branch_chosen",
                     "type": 0,
                     "description": "<p>By default the branch will be chosen randomly. If you want to override that behaviour and set the branch using a variable from elsewhere then you can enter it here. It should be an integer between 1 and 8. If you want to keep the default random behaviour then set it to 0.<\/p>\n",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 252,
+                    "id": 250,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>The branch chosen. Will be a character string like so: &quot;branch_1&quot; until &quot;branch_8&quot;<\/p>\n",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 253,
+                    "id": 251,
                     "name": "branch_1",
                     "type": 2,
                     "description": "<p>Branch 1<\/p>\n",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 254,
+                    "id": 252,
                     "name": "branch_2",
                     "type": 2,
                     "description": "<p>Branch 2<\/p>\n",
@@ -72,7 +71,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 255,
+                    "id": 253,
                     "name": "branch_3",
                     "type": 2,
                     "description": "<p>Branch 3<\/p>\n",
@@ -83,7 +82,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 256,
+                    "id": 254,
                     "name": "branch_4",
                     "type": 2,
                     "description": "<p>Branch 4<\/p>\n",
@@ -94,7 +93,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 257,
+                    "id": 255,
                     "name": "branch_5",
                     "type": 2,
                     "description": "<p>Branch 5<\/p>\n",
@@ -105,7 +104,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 258,
+                    "id": 256,
                     "name": "branch_6",
                     "type": 2,
                     "description": "<p>Branch 6<\/p>\n",
@@ -116,7 +115,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 259,
+                    "id": 257,
                     "name": "branch_7",
                     "type": 2,
                     "description": "<p>Branch 7<\/p>\n",
@@ -127,7 +126,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 260,
+                    "id": 258,
                     "name": "branch_8",
                     "type": 2,
                     "description": "<p>Branch 8<\/p>\n",
@@ -138,7 +137,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 261,
+                    "id": 259,
                     "name": "branch_chosen",
                     "type": 1,
                     "description": "<p>An integer between 1 and 8 representing the branch chosen.<\/p>\n",
@@ -152,16 +151,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:49",
+            "updatedOn": "2017-05-09 16:56:13",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 2,
-            "hash": "f62237409bc3fb84336e315d22aa418f3b0f11eb"
+            "hash": "8b60d9326bf76d36cbe3ac65519599ac7a9cd82f"
         },
         {
             "class_name": "TestWizard",
@@ -169,7 +168,6 @@
             "name": "random_branch",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -190,7 +188,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "8",
-                            "testVariable": 250,
+                            "testVariable": 248,
                             "name": "number_branches",
                             "wizardStep": 71,
                             "stepTitle": "How many branches?",
@@ -205,13 +203,13 @@
             ],
             "test": 21,
             "testName": "source_random_branch",
-            "updatedOn": "2017-04-10 19:32:49",
+            "updatedOn": "2017-05-09 16:56:13",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "60b58f65bed019afa443d8d378ef801fe99bc9ef"
+            "hash": "ca62db3ad24359e3a2be7cd9ed2f750fac3812aa"
         }
     ]
 }

@@ -6,7 +6,6 @@
             "id": 15,
             "name": "source_if",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -17,7 +16,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 195,
+                    "id": 193,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
@@ -28,7 +27,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 196,
+                    "id": 194,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
@@ -39,7 +38,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 197,
+                    "id": 195,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
@@ -50,7 +49,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 198,
+                    "id": 196,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
@@ -61,7 +60,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 199,
+                    "id": 197,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
@@ -75,16 +74,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-04-10 19:32:48",
+            "updatedOn": "2017-05-09 16:56:12",
             "updatedByName": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
-            "starterContent": false,
+            "starterContent": true,
             "rev": 2,
-            "hash": "bf3d2ebf20e18631aca9aa22f10a37c8a491edb8"
+            "hash": "c30be9d0c1b4141d5bcf47136ae0bacdabed2fff"
         },
         {
             "class_name": "TestWizard",
@@ -92,7 +91,6 @@
             "name": "if_statement",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -113,7 +111,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "TRUE == TRUE",
-                            "testVariable": 196,
+                            "testVariable": 194,
                             "name": "if_condition",
                             "wizardStep": 57,
                             "stepTitle": "Condition",
@@ -128,20 +126,19 @@
             ],
             "test": 15,
             "testName": "source_if",
-            "updatedOn": "2017-04-10 19:32:48",
+            "updatedOn": "2017-05-09 16:56:12",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "3028feb75dea65766d4f3b7c3dc6309beed88e82"
+            "hash": "5c2bfe960325bb4f3343350d92dd5ede2604e786"
         },
         {
             "class_name": "Test",
             "id": 16,
             "name": "if_statement",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 1,
@@ -152,65 +149,65 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 200,
+                    "id": 198,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 16,
-                    "parentVariable": 195
+                    "parentVariable": 193
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 201,
+                    "id": 199,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "TRUE == TRUE",
                     "test": 16,
-                    "parentVariable": 196
+                    "parentVariable": 194
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 202,
+                    "id": 200,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "if_true",
                     "test": 16,
-                    "parentVariable": 197
+                    "parentVariable": 195
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 203,
+                    "id": 201,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 16,
-                    "parentVariable": 198
+                    "parentVariable": 196
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 204,
+                    "id": 202,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 16,
-                    "parentVariable": 199
+                    "parentVariable": 197
                 }
             ],
             "sourceWizard": 10,
             "sourceWizardName": "if_statement",
             "sourceWizardTest": 15,
             "sourceWizardTestName": "source_if",
-            "updatedOn": "2017-04-10 19:32:52",
+            "updatedOn": "2017-05-09 16:56:17",
             "updatedByName": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -219,7 +216,7 @@
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "5b2464319434fc5ee78eca73732ba1862c1e2894"
+            "hash": "2c5bcfe6db07cb93bbb22ba68db969550e1298bd"
         }
     ]
 }

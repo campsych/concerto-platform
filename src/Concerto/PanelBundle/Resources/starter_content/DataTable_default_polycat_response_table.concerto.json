@@ -7,7 +7,6 @@
             "name": "default_polycat_response_table",
             "description": "",
             "accessibility": 2,
-            "protected": "0",
             "archived": "0",
             "columns": [
                 {
@@ -51,13 +50,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-04-10 19:32:55",
+            "updatedOn": "2017-05-09 16:56:21",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "31ff929759d73c30e6739e259ac109a3dc66923a",
+            "hash": "177891cd2f771c71e1c48fe91bfb8b266adc8510",
             "data": []
         }
     ]

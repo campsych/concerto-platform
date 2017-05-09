@@ -7,19 +7,18 @@
             "name": "form_alert",
             "description": "",
             "accessibility": 0,
-            "protected": "1",
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-04-10 19:32:45",
+            "updatedOn": "2017-05-09 16:56:09",
             "updatedByName": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "2b4275b744fc2e4951c8064ce2c7fd7014738c90"
+            "hash": "8a673674b90226787f70d976993f22797f071ce8"
         }
     ]
 }
