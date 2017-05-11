@@ -6,7 +6,6 @@
             "id": 1,
             "name": "source_info",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 0,
@@ -140,7 +139,6 @@
             "name": "info",
             "description": "",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "steps": [
                 {
@@ -269,7 +267,6 @@
             "id": 2,
             "name": "info",
             "accessibility": 2,
-            "protected": "1",
             "archived": "0",
             "visibility": 2,
             "type": 1,
@@ -402,7 +399,6 @@
             "id": 3,
             "name": "flow",
             "accessibility": 0,
-            "protected": "0",
             "archived": "0",
             "visibility": 0,
             "type": 2,

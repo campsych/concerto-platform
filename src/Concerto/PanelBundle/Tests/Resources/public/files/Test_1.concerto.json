@@ -10,7 +10,6 @@
             "code": "ret1 \u003C- inp1 + inp2\nret2 \u003C- inp1 - inp2",
             "type": 0,
             "accessibility": 0,
-            "protected": 0,
             "resumable": 0,
             "starterContent": false,
             "variables": [

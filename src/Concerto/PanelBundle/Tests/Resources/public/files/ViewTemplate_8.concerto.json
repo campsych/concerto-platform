@@ -6,7 +6,6 @@
             "name": "some_template",
             "description": "",
             "accessibility": 0,
-            "protected": 0,
             "head": "",
             "html": "\u003Cp\u003Eexample html\u003C\/p\u003E\n",
             "starterContent": false

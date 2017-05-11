@@ -72,7 +72,6 @@ class UserControllerTest extends AFunctionalTest {
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedByName" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                'protected' => '0',
                 'archived' => '0',
                 'role_super_admin' => '1',
                 'role_test' => '0',
@@ -81,7 +80,8 @@ class UserControllerTest extends AFunctionalTest {
                 'role_file' => '0',
                 'role_wizard' => '0',
                 'owner' => null,
-                'groups' => ''
+                'groups' => '',
+                'starterContent' => false
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -159,10 +159,10 @@ class UserControllerTest extends AFunctionalTest {
                 'role_table' => '0',
                 'role_file' => '0',
                 'role_wizard' => '0',
-                "protected" => "0",
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
+                'starterContent' => false
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -201,11 +201,11 @@ class UserControllerTest extends AFunctionalTest {
                 'role_table' => '0',
                 'role_file' => '0',
                 'role_wizard' => '0',
-                "protected" => "0",
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                'starterContent' => false
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -244,11 +244,11 @@ class UserControllerTest extends AFunctionalTest {
                 'role_table' => '0',
                 'role_file' => '0',
                 'role_wizard' => '0',
-                "protected" => "0",
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                'starterContent' => false
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -287,11 +287,11 @@ class UserControllerTest extends AFunctionalTest {
                 'role_table' => '0',
                 'role_file' => '0',
                 'role_wizard' => '0',
-                "protected" => "0",
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                'starterContent' => false
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 

@@ -6,7 +6,6 @@
             "id": 1,
             "name": "source",
             "accessibility": 0,
-            "protected": "0",
             "archived": "0",
             "visibility": 0,
             "type": 0,
@@ -85,7 +84,6 @@
             "name": "wizard",
             "description": "",
             "accessibility": 0,
-            "protected": "0",
             "archived": "0",
             "steps": [
                 {
@@ -173,7 +171,6 @@
             "id": 2,
             "name": "test",
             "accessibility": 0,
-            "protected": "0",
             "archived": "0",
             "visibility": 0,
             "type": 1,
@@ -251,7 +248,6 @@
             "id": 3,
             "name": "flow",
             "accessibility": 0,
-            "protected": "0",
             "archived": "0",
             "visibility": 0,
             "type": 2,
