@@ -150,9 +150,9 @@ class ViewTemplateService extends AExportableSectionService {
         $ent->setDescription($obj["description"]);
         $ent->setHead($obj["head"]);
         $ent->setHtml($obj["html"]);
-        if ($obj["css"])
+        if (array_key_exists("css", $obj))
             $ent->setCss($obj["css"]);
-        if ($obj["js"])
+        if (array_key_exists("js", $obj))
             $ent->setJs($obj["js"]);
         $ent->setOwner($user);
         $ent->setStarterContent($obj["starterContent"]);
