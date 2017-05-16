@@ -166,7 +166,7 @@ class TestService extends AExportableSectionService {
     }
 
     public function delete($object_ids, $secure = true) {
-        $object_ids = explode(", ", $object_ids);
+        $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
@@ -316,7 +316,7 @@ class TestService extends AExportableSectionService {
     }
 
     public function removeFlowNode($node_ids, $return_collections = false) {
-        $ids = explode(", ", $node_ids);
+        $ids = explode(",", $node_ids);
         $first_node = $this->testNodeService->get($ids[0]);
         $result = array(
             "results" => $this->testNodeService->delete($node_ids)
