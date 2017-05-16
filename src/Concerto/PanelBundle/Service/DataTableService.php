@@ -360,7 +360,6 @@ class DataTableService extends AExportableSectionService {
     }
 
     public function convertToExportable($array) {
-        $array["data"] = $this->dbDataDao->getData($array["name"]);
         return $array;
     }
 
@@ -407,7 +406,7 @@ class DataTableService extends AExportableSectionService {
         if (count($ent_errors_msg) > 0)
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
 
-        $db_errors = $this->dbStructureService->createTable($new_name, $obj["columns"], $obj["data"]);
+        $db_errors = $this->dbStructureService->createTable($new_name, $obj["columns"], array());
         if (count($db_errors) > 0)
             return array("errors" => $db_errors, "entity" => null, "source" => $obj);
 
