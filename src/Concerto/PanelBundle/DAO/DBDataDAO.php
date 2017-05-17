@@ -18,7 +18,7 @@ class DBDataDAO {
     }
 
     public function getStreamDataResult($table_name, $id = null, $filter = null, $operators = null) {
-        $q = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
+        $q = $this->connection->createQueryBuilder()->select("*")->from("`" . $table_name . "`", "d");
 
         $i = 0;
         if ($filter !== null) {
@@ -47,7 +47,7 @@ class DBDataDAO {
     }
 
     public function fetchMatchingData($table_name, $filters) {
-        $builder = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
+        $builder = $this->connection->createQueryBuilder()->select("*")->from("`" . $table_name . "`", "d");
 
         if (!$filters) {
             return $builder->execute()->fetchAll();
@@ -65,7 +65,7 @@ class DBDataDAO {
     }
 
     public function countMatchingData($table_name, $filters) {
-        $builder = $this->connection->createQueryBuilder()->select('count(d.id)')->from($table_name, "d");
+        $builder = $this->connection->createQueryBuilder()->select('count(d.id)')->from("`" . $table_name . "`", "d");
 
         if ($filters) {
             $f = json_decode($filters, true);
@@ -128,11 +128,11 @@ class DBDataDAO {
                 );
             }
             if ($batch["index"] == 0) {
-                $batch["sql"].=$batch["insert_template"];
+                $batch["sql"] .= $batch["insert_template"];
             } else {
-                $batch["sql"].=",";
+                $batch["sql"] .= ",";
             }
-            $batch["sql"].=$batch["values_template"];
+            $batch["sql"] .= $batch["values_template"];
             $batch["params"] = array_merge($batch["params"], array_values($data));
             $batch["index"] ++;
             if ($batch["index"] % 50 == 0) {
