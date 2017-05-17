@@ -33,9 +33,16 @@ changelog:
                 - 307 redirections to remote panel nodes
                 - socket_bind accepts connection from anywhere now
                 - test runner refactorization
+                - session sql_mode is set by app (MySQL)
+                - got rid of protected flag
+                - starter content is now not editable by default (configurable in config files)
+                - starter content object copy becomes user made content object
           - label: Fixes
             changes:
                 - Non super-admin users permissions fixed
+                - test form grid timing issues
+                - ui-grid scrolling issue fixed
+                - fixed test and test nodes mass delete
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument
