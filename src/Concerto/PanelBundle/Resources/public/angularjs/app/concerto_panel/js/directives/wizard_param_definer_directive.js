@@ -2,6 +2,7 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
         return {
             restrict: 'E',
             scope: {
+                wizardObject: "=",
                 param: "=",
                 typesCollection: "=types"
             },
