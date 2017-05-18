@@ -39,7 +39,6 @@
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-bootstrap/ui-bootstrap-tpls.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-block-ui/dist/angular-block-ui.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/ckeditor/ckeditor.js?v=' ~ version) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/ng-ckeditor-concerto/ng-ckeditor.js?v=' ~ version) }}"></script>
 
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/lib/codemirror.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/display/fullscreen.js?v=' ~ version) }}"></script>
@@ -130,6 +129,7 @@
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/directives/flow_logic_directive.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/directives/wizard_param_definer_directive.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/directives/wizard_param_setter_directive.js?v=' ~ version) }}"></script> 
+    <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/directives/ng_ckeditor.js?v=' ~ version) }}"></script> 
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/filters/trusted_html.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/filters/logical.js?v=' ~ version) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/filters/capitalize.js?v=' ~ version) }}"></script>
@@ -138,7 +138,6 @@
         $(function () {
             if (typeof CKEDITOR != "undefined") {
                 CKEDITOR.plugins.addExternal('cmsource', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/cmsource/') }}', 'plugin.js?v={{version}}');
-                CKEDITOR.plugins.addExternal('divarea', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/divarea/') }}', 'plugin.js?v={{version}}');
             }
         });
     </script>

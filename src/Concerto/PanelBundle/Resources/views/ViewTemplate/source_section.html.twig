@@ -46,7 +46,7 @@
                     {% block label %}{{ 'source.field.html'|trans }}{% endblock%}
                     {% block tooltip %}{{ 'source.field.html.tooltip'|trans }}{% endblock%}
                     {% block control %}
-                        <textarea ckeditor="htmlEditorOptions" ng-model="object.html" ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class='form-control'></textarea>
+                        <textarea ckeditor="htmlEditorOptions" ng-model="object.html" ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable"></textarea>
                     {% endblock %}
                 {% endembed %}
             </table>

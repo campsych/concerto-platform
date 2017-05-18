@@ -1,4 +1,4 @@
-var concertoPanel = angular.module('concertoPanel', ['ngAnimate', 'ui.bootstrap', 'ui.grid', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.cellNav', 'ui.grid.resizeColumns', 'ui.grid.exporter', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.importer', 'angularFileUpload', 'blockUI', 'ngCkeditor', 'ui.codemirror', 'ngSanitize',
+var concertoPanel = angular.module('concertoPanel', ['ngAnimate', 'ui.bootstrap', 'ui.grid', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.cellNav', 'ui.grid.resizeColumns', 'ui.grid.exporter', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.importer', 'angularFileUpload', 'blockUI', 'ui.codemirror', 'ngSanitize',
     'mgo-angular-wizard', 'ui.sortable', 'ui.router', 'ncy-angular-breadcrumb', "angular-bind-html-compile", 'ng-context-menu', "chart.js"]);
 
 concertoPanel.config(function ($interpolateProvider) {
