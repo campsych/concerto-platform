@@ -30,12 +30,12 @@ abstract class AExportableTabController extends ASectionController {
 
     public function preImportStatusAction() {
         $result = $this->importService->getPreImportStatusFromFile(
-                __DIR__ . DIRECTORY_SEPARATOR .
-                ".." . DIRECTORY_SEPARATOR .
-                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-                "Resources" . DIRECTORY_SEPARATOR .
-                "public" . DIRECTORY_SEPARATOR .
-                "files" . DIRECTORY_SEPARATOR .
+                realpath(__DIR__ . DIRECTORY_SEPARATOR .
+                        ".." . DIRECTORY_SEPARATOR .
+                        ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
+                        "Resources" . DIRECTORY_SEPARATOR .
+                        "public" . DIRECTORY_SEPARATOR .
+                        "files") . DIRECTORY_SEPARATOR .
                 $this->request->get("file"), //
                 $this->request->get("name"));
 

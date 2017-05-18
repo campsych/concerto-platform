@@ -1,7 +1,7 @@
 {% trans_default_domain "TestWizard" %}
 <div type="text/ng-template" id="param_definer_dialog.html">
     <div class="modal-body">
-        <wizard-param-definer param="param" wizard-object="object" types="typesCollection"></wizard-param-definer>
+        <wizard-param-definer param="param" wizard-object="wizardObject ? wizardObject : object" types="typesCollection"></wizard-param-definer>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans({},"panel") }}</button>

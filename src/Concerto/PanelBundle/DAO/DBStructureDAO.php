@@ -122,7 +122,7 @@ class DBStructureDAO {
     }
 
     public function renameTable($table_old_name, $table_new_name) {
-        $data = $this->connection->createQueryBuilder()->select("*")->from($table_old_name, "d")->execute();
+        $data = $this->connection->createQueryBuilder()->select("*")->from("`" . $table_old_name . "`", "d")->execute();
 
         $cols = array();
         foreach ($this->getColumns($table_old_name) as $col) {
