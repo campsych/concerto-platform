@@ -54,7 +54,8 @@ class UserService extends ASectionService {
             $new = true;
         }
         $object->setUpdated();
-        $object->setUpdatedBy($user);
+        if ($user !== null)
+            $object->setUpdatedBy($user->getUsername());
         $object->setEmail($email);
         $object->setUsername($username);
 

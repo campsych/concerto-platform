@@ -13,7 +13,7 @@
             "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}};\n  $scope.value = \"{{value}}\";\n});",
             "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" ng-selected=\"[[option.value == value]]\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
             "updatedOn": "2017-05-09 18:51:22",
-            "updatedByName": "admin",
+            "updatedBy": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,

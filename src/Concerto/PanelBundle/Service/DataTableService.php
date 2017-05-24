@@ -58,7 +58,8 @@ class DataTableService extends AExportableSectionService {
             $object->setOwner($user);
         }
         $object->setUpdated();
-        $object->setUpdatedBy($user);
+        if ($user !== null)
+            $object->setUpdatedBy($user->getUsername());
         $object->setName($name);
         if ($description !== null) {
             $object->setDescription($description);
@@ -389,7 +390,7 @@ class DataTableService extends AExportableSectionService {
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue) {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
-        
+
         $ent = new DataTable();
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);

@@ -109,7 +109,8 @@ class TestService extends AExportableSectionService {
 
     public function resave($new, User $user, Test $object, $serializedVariables = null, $errors = array()) {
         $object->setUpdated();
-        $object->setUpdatedBy($user);
+        if ($user !== null)
+            $object->setUpdatedBy($user->getUsername());
         if ($object->getSourceWizard() != null) {
             $object->setCode($object->getSourceWizard()->getTest()->getCode());
         }

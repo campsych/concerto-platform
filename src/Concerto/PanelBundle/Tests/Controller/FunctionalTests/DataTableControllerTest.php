@@ -90,7 +90,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
-                "updatedByName" => 'admin'
+                "updatedBy" => 'admin'
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -158,7 +158,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "owner" => null,
                 "groups" => "",
                 'updatedOn' => $content["collection"][0]["updatedOn"],
-                'updatedByName' => 'admin',
+                'updatedBy' => 'admin',
                 'columns' => array(
                     array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
                     array('name' => 'temp', 'type' => 'text', 'nullable' => false)
@@ -247,7 +247,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "description" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => array(),
-                "updatedByName" => "admin"
+                "updatedBy" => "admin"
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -278,7 +278,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "description" => "edited table description",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
-                "updatedByName" => "admin"
+                "updatedBy" => "admin"
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -309,7 +309,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "description" => "edited table description",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
-                "updatedByName" => "admin"
+                "updatedBy" => "admin"
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -340,7 +340,7 @@ class DataTableControllerTest extends AFunctionalTest {
                 "description" => "table description",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
-                "updatedByName" => "admin"
+                "updatedBy" => "admin"
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 

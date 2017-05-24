@@ -13,7 +13,7 @@
             "js": "",
             "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"button\">{{label}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
             "updatedOn": "2017-05-09 16:56:09",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

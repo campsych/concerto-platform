@@ -13,7 +13,7 @@
             "js": "$(function(){\n  if ($('#warning').is(':empty')) {\n    document.getElementById(\"warning\").scrollIntoView();\n  }\n});",
             "html": "<div id=\"test-wrapper\">\n<header>\n<div id=\"header_wrapper\">{{header}}<\/div>\n<\/header>\n\n<div id=\"subheader\">\n<div id=\"subheader-content\">\n<div id=\"subheader-left\">{{title}}<\/div>\n\n<div id=\"subheader-right\">\n<div id=\"timer\">[[timeLeft]]<\/div>\n<\/div>\n\n<div class=\"clearing\" style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n<\/div>\n\n<div id=\"content\">{{content}}\n<div id=\"actionContainer\">\n<div class=\"warning\" id=\"warning\">{{warning_msg}}<\/div>\n{{buttons}}<\/div>\n<\/div>\n\n<footer>\n<div id=\"footer_content\">\n<div>{{footer}}<\/div>\n<span id=\"cnrto-platform-blurb\">Created with <a href=\"http:\/\/www.concertoplatform.com\" id=\"cnrto-platform-link\" target=\"_blank\">Concerto Platform<\/a><\/span><\/div>\n<\/footer>\n<\/div>\n",
             "updatedOn": "2017-05-09 16:56:13",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

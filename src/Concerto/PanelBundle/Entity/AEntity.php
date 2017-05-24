@@ -31,20 +31,21 @@ abstract class AEntity {
     protected $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @var string
+     * @ORM\Column(type="string")
      */
     protected $updatedBy;
 
     /**
      *
-     * @var tags
+     * @var string
      * @ORM\Column(type="string")
      */
     protected $tags;
 
     public function __construct() {
         $this->tags = "";
+        $this->updatedBy = "";
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
     }
@@ -88,9 +89,9 @@ abstract class AEntity {
 
     /**
      * Set updated by 
-     * @param User $user
+     * @param string $user
      */
-    public function setUpdatedBy(User $user) {
+    public function setUpdatedBy($user) {
         $this->updatedBy = $user;
 
         return $this;
@@ -99,7 +100,7 @@ abstract class AEntity {
     /**
      * Get updated by
      *
-     * @return User 
+     * @return string 
      */
     public function getUpdatedBy() {
         return $this->updatedBy;

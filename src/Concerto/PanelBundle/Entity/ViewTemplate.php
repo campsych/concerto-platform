@@ -195,7 +195,7 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
-        unset($arr["updatedByName"]);
+        unset($arr["updatedBy"]);
         unset($arr["owner"]);
         $json = json_encode($arr);
         return sha1($json);
@@ -218,7 +218,7 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
             "js" => $this->js,
             "html" => $this->html,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
-            "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
+            "updatedBy" => $this->updatedBy,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent,

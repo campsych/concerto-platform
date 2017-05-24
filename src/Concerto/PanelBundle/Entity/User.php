@@ -283,7 +283,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
             "username" => $this->username,
             "email" => $this->email,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
-            "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
+            "updatedBy" => $this->updatedBy,
             "role_super_admin" => $this->hasRoleName(self::ROLE_SUPER_ADMIN) ? "1" : "0",
             "role_test" => $this->hasRoleName(self::ROLE_TEST) ? "1" : "0",
             "role_template" => $this->hasRoleName(self::ROLE_TEMPLATE) ? "1" : "0",

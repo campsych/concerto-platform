@@ -13,7 +13,7 @@
             "js": "testRunner.controllerProvider.register(\"questionnaire\", function($scope) {\n  $scope.responseOptions = {{options}};\n  $scope.questions = {{questions}}\n});",
             "html": "{{paragraph}}\n<table class=\"questionnaire-response-table\" ng-controller=\"questionnaire\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"questionnaire-header-cell\">&nbsp;<\/th>\n\t\t\t<th class=\"questionnaire-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr ng-class=\"{'validationHighlight': question.noAnswer}\" ng-repeat=\"question in questions\">\n\t\t\t<td class=\"questionnaire-question-cell\" ng-bind-html=\"question.question\">&nbsp;<\/td>\n\t\t\t<td class=\"questionnaire-response-cell\" ng-repeat=\"option in responseOptions\"><input name=\"q[[question.id]]\" ng-model=\"question.answer\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
             "updatedOn": "2017-05-09 16:56:16",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

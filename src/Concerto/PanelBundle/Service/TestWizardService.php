@@ -60,7 +60,8 @@ class TestWizardService extends AExportableSectionService {
             $object->setOwner($user);
         }
         $object->setUpdated();
-        $object->setUpdatedBy($user);
+        if ($user !== null)
+            $object->setUpdatedBy($user->getUsername());
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }

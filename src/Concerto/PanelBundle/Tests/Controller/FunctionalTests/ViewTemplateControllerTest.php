@@ -49,7 +49,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "css",
                 "js" => "js",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
                 "rev" => 0,
@@ -120,7 +120,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "rev" => 0,
                 "owner" => null,
                 "groups" => "",
-                "updatedByName" => "admin"
+                "updatedBy" => "admin"
             ),
         );
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -204,7 +204,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "",
                 "js" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
                 "rev" => 0,
@@ -242,7 +242,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "css",
                 "js" => "js",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
                 "rev" => 0,
@@ -280,7 +280,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "css",
                 "js" => "js",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
                 "rev" => 0,
@@ -313,7 +313,7 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "",
                 "js" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
                 "rev" => 0,

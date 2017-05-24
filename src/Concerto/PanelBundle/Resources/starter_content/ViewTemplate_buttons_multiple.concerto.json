@@ -13,7 +13,7 @@
             "js": "testRunner.controllerProvider.register(\"_buttonsMultiple\", function($scope) {\n  $scope.cb1_enabled = {{cb1_enabled}};\n});",
             "html": "<div class=\"button-group\" ng-controller=\"_buttonsMultiple\">\n<ul>\n\t<li ng-show=\"cb1_enabled == 1\"><button name=\"custom_button_1\">{{cb1_label}}<\/button><\/li>\n\t<li><button name=\"submit\">{{label}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
             "updatedOn": "2017-05-09 16:56:09",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

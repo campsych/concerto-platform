@@ -103,7 +103,7 @@ class DataTable extends ATopEntity implements \JsonSerializable {
     public static function getArrayHash($arr) {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
-        unset($arr["updatedByName"]);
+        unset($arr["updatedBy"]);
         unset($arr["owner"]);
         $json = json_encode($arr);
         return sha1($json);
@@ -123,7 +123,7 @@ class DataTable extends ATopEntity implements \JsonSerializable {
             "archived" => $this->archived ? "1" : "0",
             "columns" => $this->columns,
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
-            "updatedByName" => $this->updatedBy != null ? $this->updatedBy->getUsername() : "",
+            "updatedBy" => $this->updatedBy,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent,

@@ -33,7 +33,8 @@ class ViewTemplateService extends AExportableSectionService {
             $new = true;
         }
         $object->setUpdated();
-        $object->setUpdatedBy($user);
+        if ($user !== null)
+            $object->setUpdatedBy($user->getUsername());
         if ($head !== null) {
             $object->setHead($head);
         }

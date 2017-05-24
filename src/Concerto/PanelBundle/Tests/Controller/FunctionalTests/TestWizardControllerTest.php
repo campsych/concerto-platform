@@ -134,7 +134,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
             )
         );
@@ -197,7 +197,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
@@ -260,7 +260,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
@@ -323,7 +323,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
@@ -352,7 +352,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "test" => 1,
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedByName" => "admin",
+                "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,

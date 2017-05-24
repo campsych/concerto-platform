@@ -13,7 +13,7 @@
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
             "updatedOn": "2017-05-09 16:56:11",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

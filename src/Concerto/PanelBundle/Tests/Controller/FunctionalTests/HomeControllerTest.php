@@ -63,7 +63,7 @@ class HomeControllerTest extends AFunctionalTest {
                 'sourceWizardTest' => null,
                 'sourceWizardTestName' => null,
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
-                "updatedByName" => 'admin',
+                "updatedBy" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)[0]['slug'],
                 "outdated" => '0',
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,

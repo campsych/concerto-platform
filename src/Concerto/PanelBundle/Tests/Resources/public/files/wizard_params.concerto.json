@@ -75,7 +75,7 @@
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
             "updatedOn": "2016-12-07 17:16:30",
-            "updatedByName": "admin",
+            "updatedBy": "admin",
             "nodes": [
 
             ],
@@ -195,7 +195,7 @@
             "test": 1,
             "testName": "code",
             "updatedOn": "2016-12-07 17:16:56",
-            "updatedByName": "admin",
+            "updatedBy": "admin",
             "owner": null,
             "groups": "",
             "starterContent": false,
@@ -276,7 +276,7 @@
             "sourceWizardTest": 1,
             "sourceWizardTestName": "code",
             "updatedOn": "2016-12-08 15:37:32",
-            "updatedByName": "admin",
+            "updatedBy": "admin",
             "nodes": [
 
             ],
@@ -320,7 +320,7 @@
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
             "updatedOn": "2016-12-08 15:39:05",
-            "updatedByName": "admin",
+            "updatedBy": "admin",
             "nodes": [
                 {
                     "class_name": "TestNode",

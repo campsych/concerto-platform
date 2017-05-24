@@ -124,7 +124,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         }
         $scope.columnDefs.push({
             displayName: Trans.LIST_FIELD_UPDATED_BY,
-            field: "updatedByName",
+            field: "updatedBy",
         });
         $scope.columnDefs.push({
             displayName: Trans.LIST_FIELD_UPDATED_ON,

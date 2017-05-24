@@ -13,7 +13,7 @@
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
             "updatedOn": "2017-05-09 16:56:09",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

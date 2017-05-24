@@ -13,7 +13,7 @@
             "js": "",
             "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"previous\" ng-show=\"{{show_previous}}\">{{label_previous}}<\/button><\/li>\n    <li ng-if=\"{{show_pager}}\">page {{current_page}} of {{page_count}}<\/li>\n    <li><button name=\"next\">{{label_next}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
             "updatedOn": "2017-05-09 16:56:16",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

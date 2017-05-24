@@ -13,7 +13,7 @@
             "js": "",
             "html": "<textarea id=\"{{id}}\" name=\"{{name}}\">{{value}}<\/textarea>",
             "updatedOn": "2017-05-09 16:56:09",
-            "updatedByName": "",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
