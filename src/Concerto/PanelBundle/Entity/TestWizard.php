@@ -53,6 +53,12 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
      * @ORM\OneToMany(targetEntity="Test", mappedBy="sourceWizard", cascade={"remove"})
      */
     private $resultingTests;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $owner;
 
     /**
      * Constructor
@@ -229,6 +235,25 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
      */
     public function getSteps() {
         return $this->steps;
+    }
+    
+    /**
+     * Set owner
+     * @param User $user
+     */
+    public function setOwner($user) {
+        $this->owner = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return User 
+     */
+    public function getOwner() {
+        return $this->owner;
     }
 
     public static function getArrayHash($arr) {

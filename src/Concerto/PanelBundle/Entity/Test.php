@@ -125,6 +125,12 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @ORM\Column(type="string", length=64, unique=true )
      */
     private $slug;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $owner;
 
     /**
      * Constructor
@@ -555,6 +561,25 @@ class Test extends ATopEntity implements \JsonSerializable {
      */
     public function hasWizardSource() {
         return $this->type != self::TYPE_WIZARD || ($this->type == self::TYPE_WIZARD && $this->sourceWizard != null);
+    }
+    
+    /**
+     * Set owner
+     * @param User $user
+     */
+    public function setOwner($user) {
+        $this->owner = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return User 
+     */
+    public function getOwner() {
+        return $this->owner;
     }
 
     public static function getArrayHash($arr) {

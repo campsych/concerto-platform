@@ -61,7 +61,6 @@ class UserService extends ASectionService {
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
-            $object->setOwner($owner);
             $object->setGroups($groups);
 
             $role = $this->roleRepository->findOneByRole(User::ROLE_SUPER_ADMIN);

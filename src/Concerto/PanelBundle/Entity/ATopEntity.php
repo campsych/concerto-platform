@@ -12,12 +12,6 @@ abstract class ATopEntity extends AEntity {
     const ACCESS_PRIVATE = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     */
-    protected $owner;
-
-    /**
      *
      * @var integer
      * @ORM\Column(type="integer")
@@ -60,25 +54,6 @@ abstract class ATopEntity extends AEntity {
         $this->archived = false;
         $this->starterContent = false;
         $this->rev = 0;
-    }
-
-    /**
-     * Set owner
-     * @param User $user
-     */
-    public function setOwner($user) {
-        $this->owner = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return User 
-     */
-    public function getOwner() {
-        return $this->owner;
     }
 
     /**

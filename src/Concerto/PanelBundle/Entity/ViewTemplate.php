@@ -55,6 +55,12 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @ORM\Column(type="text")
      */
     private $html;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $owner;
 
     public function __construct() {
         parent::__construct();
@@ -190,6 +196,25 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      */
     public function getHtml() {
         return $this->html;
+    }
+    
+    /**
+     * Set owner
+     * @param User $user
+     */
+    public function setOwner($user) {
+        $this->owner = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return User 
+     */
+    public function getOwner() {
+        return $this->owner;
     }
 
     public static function getArrayHash($arr) {

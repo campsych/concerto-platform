@@ -30,6 +30,12 @@ class DataTable extends ATopEntity implements \JsonSerializable {
     private $description;
     private $columns;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $owner;
+
     public function __construct() {
         parent::__construct();
 
@@ -98,6 +104,25 @@ class DataTable extends ATopEntity implements \JsonSerializable {
      */
     public function getColumns() {
         return $this->columns;
+    }
+
+    /**
+     * Set owner
+     * @param User $user
+     */
+    public function setOwner($user) {
+        $this->owner = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return User 
+     */
+    public function getOwner() {
+        return $this->owner;
     }
 
     public static function getArrayHash($arr) {
