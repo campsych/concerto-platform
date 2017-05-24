@@ -14,14 +14,6 @@ use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 class DBStructureDAO {
 
     const SQLCODE_COLUMN_CANNOT_BE_CAST_AUTOMATICALLY = '42804';
-
-    // keys are doctrine types, rather than SQL or PHP ones
-    private static $type_defaults = array(
-        'bigint' => 0,
-        'integer' => 0,
-        'text' => '',
-        'string' => ''
-    );
     private $connection;
 
     public function __construct(Connection $connection) {
@@ -47,10 +39,6 @@ class DBStructureDAO {
                 continue;
             }
             $column_definition = $table->addColumn($col["name"], $col["type"]);
-
-            if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-                $column_definition->setDefault(self::$type_defaults[Type::getType($col["type"])->getName()]);
-            }
         }
 
         $sql = $schema->getMigrateFromSql(new Schema(), $this->connection->getDatabasePlatform());
@@ -90,10 +78,6 @@ class DBStructureDAO {
             $column_definition = $toSchema->getTable($table_name)->addColumn($name, $type);
         } else {
             $column_definition = $toSchema->getTable($table_name)->getColumn($column_name)->setLength(null)->setType(Type::getType($type));
-        }
-
-        if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-            $column_definition->setDefault(self::$type_defaults[Type::getType($type)->getName()]);
         }
 
         $sql = $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
