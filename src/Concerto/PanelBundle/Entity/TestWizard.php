@@ -34,7 +34,6 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
 
     /**
      * @Assert\NotNull(message="validate.test.wizards.test.null")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="wizards")
      */
     private $test;
