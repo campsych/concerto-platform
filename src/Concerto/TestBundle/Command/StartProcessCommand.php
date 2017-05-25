@@ -317,7 +317,7 @@ class StartProcessCommand extends Command {
                         . "'" . $this->rLogPath . "' "
                         . "2>&1";
             default:
-                $cmd = "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
+                return "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
                         . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
                         . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
                         . "\"" . $this->escapeWindowsArg($test_node) . "\" "
@@ -333,7 +333,6 @@ class StartProcessCommand extends Command {
                         . "> "
                         . "\"" . $this->escapeWindowsArg($this->rLogPath) . "\" "
                         . "2>&1";
-                return $cmd;
         }
     }
 
@@ -390,6 +389,7 @@ class StartProcessCommand extends Command {
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
         if ($this->rEnviron != null) {
+            $this->log(__FUNCTION__, "setting process renviron to: " . $this->rEnviron);
             $env = array();
             $env["R_ENVIRON"] = $this->rEnviron;
             $process->setEnv($env);
@@ -400,6 +400,7 @@ class StartProcessCommand extends Command {
         $this->startListener($test_node_sock, $submitter_sock);
         socket_close($submitter_sock);
         socket_close($test_node_sock);
+        $this->log(__FUNCTION__, "closing process");
     }
 
 }

@@ -40,8 +40,7 @@ class TestSessionCountService {
     }
 
     public function getCurrentCount() {
-        $os = $this->getOS();
-        if ($os !== RRunnerService::OS_LINUX)
+        if ($this->getOS() !== RRunnerService::OS_LINUX)
             return false;
 
         $count = exec("ps -F -C R | grep '/Resources/R/initialization.R ' | wc -l", $arr, $retVal);
