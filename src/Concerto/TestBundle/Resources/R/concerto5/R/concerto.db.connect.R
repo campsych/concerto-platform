@@ -31,7 +31,7 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
   }
   
   if(!existsFunction("dbEscapeStrings")) {
-      dbEscapeStrings <- function(con,string){
+      dbEscapeStrings <<- function(con,string){
           return(gsub("'","''",string))
       }
   }

@@ -300,7 +300,7 @@ class StartProcessCommand extends Command {
     private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
         switch ($this->getOS()) {
             case RRunnerService::OS_LINUX:
-                return $rscript_exec . " --no-save --no-restore --quiet "
+                return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
                         . "'$ini_path' "
                         . "'$panel_node_connection' "
                         . "'$test_node' "
@@ -315,9 +315,10 @@ class StartProcessCommand extends Command {
                         . "'" . $this->logPath . "' "
                         . "> "
                         . "'" . $this->rLogPath . "' "
-                        . "2>&1";
+                        . "2>&1 & echo $!";
             default:
-                return "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
+                return "start cmd /C \""
+                        . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
                         . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
                         . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
                         . "\"" . $this->escapeWindowsArg($test_node) . "\" "
@@ -332,7 +333,7 @@ class StartProcessCommand extends Command {
                         . "\"" . $this->escapeWindowsArg($this->logPath) . "\" "
                         . "> "
                         . "\"" . $this->escapeWindowsArg($this->rLogPath) . "\" "
-                        . "2>&1";
+                        . "2>&1\"";
         }
     }
 
@@ -395,7 +396,7 @@ class StartProcessCommand extends Command {
             $process->setEnv($env);
         }
         $this->sessionCountService->updateCountRecord(1);
-        $process->start();
+        $process->mustRun();
         $this->isWaitingForProcess = true;
         $this->startListener($test_node_sock, $submitter_sock);
         socket_close($submitter_sock);
