@@ -204,11 +204,11 @@ class RRunnerService {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ":command: $command");
 
         $process = new Process($command);
-        $process->run();
+        $process->setEnhanceWindowsCompatibility(false);
+        $process->mustRun();
         $this->logger->info($process->getOutput());
         $this->logger->info($process->getErrorOutput());
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": status: " . $process->getStatus() . " / " . $process->getExitCode());
-
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": process initiation finished");
 
         return $process->getExitCode();
