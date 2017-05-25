@@ -291,7 +291,7 @@ class StartProcessCommand extends Command {
     }
 
     private function escapeWindowsArg($arg) {
-        $arg = addcslashes($arg, '"\\');
+        $arg = addcslashes($arg, '"');
         $arg = str_replace("(", "^(", $arg);
         $arg = str_replace(")", "^)", $arg);
         return $arg;

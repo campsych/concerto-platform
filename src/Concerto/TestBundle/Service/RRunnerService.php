@@ -130,7 +130,7 @@ class RRunnerService {
     }
 
     private function escapeWindowsArg($arg) {
-        $arg = addcslashes($arg, '"\\');
+        $arg = addcslashes($arg, '"');
         $arg = str_replace("(", "^(", $arg);
         $arg = str_replace(")", "^)", $arg);
         return $arg;
@@ -145,6 +145,7 @@ class RRunnerService {
         $keep_alive_tolerance_time = $this->settings["keep_alive_tolerance_time"];
         $renviron = "";
         if ($this->settings["r_environ_path"] != null) {
+            //@TODO is addcslashes required below?
             $renviron = "--r_environ=\"" . addcslashes($this->settings["r_environ_path"], "\\") . "\"";
         }
         $decoded_panel_node = json_decode($panel_node, true);
