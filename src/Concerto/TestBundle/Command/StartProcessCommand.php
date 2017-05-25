@@ -73,7 +73,7 @@ class StartProcessCommand extends Command {
         $this->logger->info(__CLASS__ . ":" . $fun . ($msg ? " - $msg" : ""));
     }
 
-    private function createListenerSocket($ip) {
+    private function createListenerSocket() {
         $this->log(__FUNCTION__);
 
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
@@ -374,13 +374,13 @@ class StartProcessCommand extends Command {
         $test_node = $input->getArgument("test_node");
         $decoded_test_node = json_decode($test_node, true);
 
-        $test_node_sock = $this->createListenerSocket(gethostbyname($decoded_test_node["sock_host"]));
+        $test_node_sock = $this->createListenerSocket();
         socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
         $decoded_test_node = json_decode($test_node, true);
         $decoded_test_node["port"] = $test_node_port;
         $test_node = json_encode($decoded_test_node);
 
-        $submitter_sock = $this->createListenerSocket($test_node_ip);
+        $submitter_sock = $this->createListenerSocket();
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
