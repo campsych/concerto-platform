@@ -245,6 +245,7 @@ class StartProcessCommand extends Command {
         $this->lastProcessTime = time();
         do {
             if (($client_sock = socket_accept($submitter_sock)) === false) {
+                usleep(10000);
                 continue;
             }
 
