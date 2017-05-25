@@ -125,7 +125,7 @@ class StartProcessCommand extends Command {
             if (!$msg = trim($buf)) {
                 continue;
             }
-            
+
             $this->log(__FUNCTION__, $msg);
             if ($this->interpretMessage($submitter_sock, $msg)) {
                 break;
@@ -290,6 +290,13 @@ class StartProcessCommand extends Command {
         }
     }
 
+    private function escapeWindowsArg($arg) {
+        $arg = addcslashes($arg, '"\\');
+        $arg = str_replace("(", "^(", $arg);
+        $arg = str_replace(")", "^)", $arg);
+        return $arg;
+    }
+
     private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
         switch ($this->getOS()) {
             case RRunnerService::OS_LINUX:
@@ -310,23 +317,21 @@ class StartProcessCommand extends Command {
                         . "'" . $this->rLogPath . "' "
                         . "2>&1";
             default:
-                $client = str_replace("(", "^(", $client);
-                $client = str_replace(")", "^)", $client);
-                $cmd = "\"$rscript_exec\" --no-save --no-restore --quiet "
-                        . "\"" . addcslashes($ini_path, '\\') . "\" "
-                        . "\"" . addcslashes($panel_node_connection, '"\\') . "\" "
-                        . "\"" . addcslashes($test_node, '"\\') . "\" "
-                        . "\"" . addcslashes($submitter, '"\\') . "\" "
-                        . "\"" . addcslashes($client, '"\\') . "\" "
+                $cmd = "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
+                        . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
+                        . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
+                        . "\"" . $this->escapeWindowsArg($test_node) . "\" "
+                        . "\"" . $this->escapeWindowsArg($submitter) . "\" "
+                        . "\"" . $this->escapeWindowsArg($client) . "\" "
                         . "$test_session_id "
-                        . "\"" . addcslashes($wd, '\\') . "\" "
-                        . "\"" . addcslashes($pd, '\\') . "\" "
+                        . "\"" . $this->escapeWindowsArg($wd) . "\" "
+                        . "\"" . $this->escapeWindowsArg($pd) . "\" "
                         . "$murl "
-                        . "\"" . addcslashes($values, '"\\') . "\" "
+                        . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
                         . ">> "
-                        . "\"" . addcslashes($this->logPath, '\\') . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->logPath) . "\" "
                         . "> "
-                        . "\"" . addcslashes($this->rLogPath, '\\') . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->rLogPath) . "\" "
                         . "2>&1";
                 return $cmd;
         }

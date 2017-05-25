@@ -80,6 +80,8 @@ class RRunnerService {
             "dbname" => $con->getDatabase(),
             "username" => $con->getUsername(),
             "password" => $con->getPassword());
+
+        //@TODO there should be no default port
         if (!$con_array["port"]) {
             $con_array["port"] = 3306;
         }
@@ -94,7 +96,7 @@ class RRunnerService {
         return $json_connection;
     }
 
-    //TODO proper OS detection
+    //@TODO proper OS detection
     public function getOS() {
         if (strpos(strtolower(PHP_OS), "win") !== false) {
             return self::OS_WIN;
@@ -127,7 +129,14 @@ class RRunnerService {
         return $path;
     }
 
-    //TODO must not send plain password through command line
+    private function escapeWindowsArg($arg) {
+        $arg = addcslashes($arg, '"\\');
+        $arg = str_replace("(", "^(", $arg);
+        $arg = str_replace(")", "^)", $arg);
+        return $arg;
+    }
+
+    //@TODO must not send plain password through command line
     private function getCommand($panel_node, $panel_node_connection, $client, $session_hash, $values, $debug) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node, $panel_node_connection, $client, $session_hash, $values, $debug");
         $max_idle_time = $this->settings["max_idle_time"];
@@ -143,33 +152,30 @@ class RRunnerService {
         $test_node = json_encode($decoded_test_node);
         switch ($this->getOS()) {
             case self::OS_WIN:
-                $cmd = "start cmd /C \""
-                        . "\"" . $this->settings["php_exec"] . "\" "
-                        . "\"" . $this->root . "/console\" concerto:r:start "
-                        . "\"" . $this->settings["rscript_exec"] . "\" "
-                        . "\"" . addcslashes($this->getIniFilePath(), "\\") . "\" "
-                        . "\"" . addcslashes($test_node, '"\\') . "\" "
-                        . "\"" . addcslashes($panel_node, '"\\') . "\" "
+                return "start cmd /C \""
+                        . "\"" . $this->escapeWindowsArg($this->settings["php_exec"]) . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->root) . DIRECTORY_SEPARATOR . "console\" concerto:r:start "
+                        . "\"" . $this->escapeWindowsArg($this->settings["rscript_exec"]) . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->getIniFilePath()) . "\" "
+                        . "\"" . $this->escapeWindowsArg($test_node) . "\" "
+                        . "\"" . $this->escapeWindowsArg($panel_node) . "\" "
                         . "$session_hash "
-                        . "\"" . addcslashes($panel_node_connection, '"\\') . "\" "
-                        . "\"" . addcslashes($client, '"\\') . "\" "
-                        . "\"" . addcslashes($this->getWorkingDirPath($decoded_panel_node["id"], $session_hash), "\\") . "\" "
-                        . "\"" . addcslashes($this->getPublicDirPath(), "\\") . "\" "
-                        . "\"" . $this->getMediaUrl($decoded_test_node) . "\" "
-                        . "\"" . addcslashes($this->getOutputFilePath($decoded_panel_node["id"], $session_hash), "\\") . "\" "
+                        . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
+                        . "\"" . $this->escapeWindowsArg($client) . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->getWorkingDirPath($decoded_panel_node["id"], $session_hash)) . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->getPublicDirPath()) . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->getMediaUrl($decoded_test_node)) . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($decoded_panel_node["id"], $session_hash)) . "\" "
                         . "$debug "
                         . "$max_idle_time "
                         . "$max_exec_time "
                         . "$keep_alive_interval_time "
                         . "$keep_alive_tolerance_time "
-                        . "\"" . addcslashes($values, '"\\') . "\" "
+                        . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
                         . "$renviron "
                         . ">> "
-                        . "\"" . addcslashes($this->getOutputFilePath($decoded_panel_node["id"], $session_hash), "\\") . "\" "
+                        . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($decoded_panel_node["id"], $session_hash)) . "\" "
                         . "2>&1\"";
-                $cmd = str_replace("(", "^(", $cmd);
-                $cmd = str_replace(")", "^)", $cmd);
-                return $cmd;
             default:
                 return "nohup "
                         . $this->settings["php_exec"] . " "
@@ -190,7 +196,7 @@ class RRunnerService {
                         . "$max_exec_time "
                         . "$keep_alive_interval_time "
                         . "$keep_alive_tolerance_time "
-                        . ($values ? "'" . $values . "'" : "") . " "
+                        . ($values ? "'" . $values . "'" : "'{}'") . " "
                         . "$renviron "
                         . ">> "
                         . $this->getOutputFilePath($decoded_panel_node["id"], $session_hash) . " "
