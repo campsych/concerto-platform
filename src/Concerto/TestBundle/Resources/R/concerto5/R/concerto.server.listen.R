@@ -2,12 +2,16 @@ concerto.server.listen = function(){
   print("listening to server...")
 
   dbDisconnect(concerto$connection)
-  
   closeAllConnections()
+  print("connections closed")
+
   con = socketConnection(concerto$submitter.host, concerto$submitter.port, blocking=TRUE, timeout=60*60*24, open="r")
   response = readLines(con,warn=FALSE) 
   response <- fromJSON(response)
   close(con)
+
+  print("received response")
+  print(response)
 
   connection <- fromJSON(commandArgs(TRUE)[1])
   concerto$connection <<- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
