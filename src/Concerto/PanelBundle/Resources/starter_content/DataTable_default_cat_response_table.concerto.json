@@ -55,103 +55,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-05-09 16:56:14",
+            "updatedOn": "2017-05-26 22:14:12",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "f4562057c305d78a1c235c5a3fabc73a42604174",
-            "data": [
-                {
-                    "id": "1",
-                    "item_id": "2",
-                    "response": "200",
-                    "time_taken": "1.646",
-                    "session_id": "i13",
-                    "correct": "1",
-                    "theta": "0.505643029131394",
-                    "sem": "0.789606833742505",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "2",
-                    "item_id": "3",
-                    "response": "2000",
-                    "time_taken": "8.122",
-                    "session_id": "i13",
-                    "correct": "1",
-                    "theta": "1.39634034475193",
-                    "sem": "0.748161724186015",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "3",
-                    "item_id": "1",
-                    "response": "20",
-                    "time_taken": "1.51",
-                    "session_id": "i13",
-                    "correct": "1",
-                    "theta": "1.39927389319168",
-                    "sem": "0.746227557330405",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "4",
-                    "item_id": "2",
-                    "response": "200",
-                    "time_taken": "1.415",
-                    "session_id": "1",
-                    "correct": "1",
-                    "theta": "0.505643029131394",
-                    "sem": "0.789606833742505",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "5",
-                    "item_id": "3",
-                    "response": "4000",
-                    "time_taken": "2.109",
-                    "session_id": "1",
-                    "correct": "0",
-                    "theta": "0.436772828586342",
-                    "sem": "0.743629122466523",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "6",
-                    "item_id": "1",
-                    "response": "40",
-                    "time_taken": "1.947",
-                    "session_id": "1",
-                    "correct": "0",
-                    "theta": "-0.451107421304214",
-                    "sem": "0.735200963790284",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "7",
-                    "item_id": "1",
-                    "response": "ax",
-                    "time_taken": "5.202",
-                    "session_id": "i2",
-                    "correct": "0",
-                    "theta": "-1.30227214877584",
-                    "sem": "0.811657559651115",
-                    "data_set_id": ""
-                },
-                {
-                    "id": "8",
-                    "item_id": "3",
-                    "response": "zxc",
-                    "time_taken": "1.206",
-                    "session_id": "i2",
-                    "correct": "0",
-                    "theta": "-1.30633679884805",
-                    "sem": "0.808390237378004",
-                    "data_set_id": ""
-                }
-            ]
+            "hash": "f4562057c305d78a1c235c5a3fabc73a42604174"
         }
     ]
 }

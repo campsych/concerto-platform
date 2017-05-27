@@ -12,7 +12,7 @@
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n<ul>\n\t<li><button class=\"linear_test_button\" name=\"previous\" ng-show=\"{{show_previous}}\">{{label_previous}}<\/button><\/li>\n\t<li ng-if=\"{{show_pager}}\">{{current_item}} \/ {{max_items}}<\/li>\n\t<li><button class=\"linear_test_button\" name=\"next\" ng-show=\"{{show_next}}\">{{label_next}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2017-05-09 16:56:17",
+            "updatedOn": "2017-05-26 22:14:21",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

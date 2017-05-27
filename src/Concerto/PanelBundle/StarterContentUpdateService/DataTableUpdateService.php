@@ -17,7 +17,7 @@ class DataTableUpdateService extends AUpdateService {
     );
 
     private function convert_internal_session_id_to_session_id(DataTableService $service, $table_name) {
-        $service->dbDataDao->connection->createQueryBuilder()->update($table_name)->set("`session_id`", "CONCAT('i',`session_internal_id`)")->execute();
+        $service->dbDataDao->connection->createQueryBuilder()->update($table_name)->set("session_id", "CONCAT('i',session_internal_id)")->execute();
     }
 
     protected function uh_default_data_table_2_session($user, DataTableService $service, DataTable $new_ent, DataTable $old_ent) {

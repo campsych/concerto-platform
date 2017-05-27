@@ -35,14 +35,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-05-09 16:56:17",
+            "updatedOn": "2017-05-26 22:14:21",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 4,
-            "hash": "770f1b1a70f90a855e5a0a959bb26f77819218d0",
-            "data": []
+            "hash": "770f1b1a70f90a855e5a0a959bb26f77819218d0"
         }
     ]
 }

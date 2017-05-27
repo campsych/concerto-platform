@@ -4,6 +4,9 @@ changelog:
       description: >
         Bug fixes and cleaning.
       categories:
+          - label: Improvements
+            changes:
+                - removed MySQL specific backticks from queries
           - label: Fixes
             changes:
                 - >
@@ -16,3 +19,7 @@ changelog:
                   'linear_test' node open text response field no longer shows javascript object output
                 - >
                   'questionnaire' node remembers given answers when going back
+          - label: Non backwards compatible
+            changes:
+                - >
+                  'linear_test' and 'questionnaire' item bank 'order' field renamed to 'order_index'

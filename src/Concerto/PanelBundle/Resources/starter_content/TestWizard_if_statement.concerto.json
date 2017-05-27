@@ -3,7 +3,7 @@
     "collection": [
         {
             "class_name": "Test",
-            "id": 15,
+            "id": 18,
             "name": "source_if",
             "accessibility": 2,
             "archived": "0",
@@ -16,57 +16,57 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 193,
+                    "id": 258,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 15,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 194,
+                    "id": 259,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "TRUE",
-                    "test": 15,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 195,
+                    "id": 260,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "if_true",
-                    "test": 15,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 196,
+                    "id": 261,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 15,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 197,
+                    "id": 262,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 15,
+                    "test": 18,
                     "parentVariable": null
                 }
             ],
@@ -74,7 +74,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-05-09 16:56:12",
+            "updatedOn": "2017-05-26 22:14:08",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -111,7 +111,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "TRUE == TRUE",
-                            "testVariable": 194,
+                            "testVariable": 259,
                             "name": "if_condition",
                             "wizardStep": 57,
                             "stepTitle": "Condition",
@@ -124,9 +124,9 @@
                     ]
                 }
             ],
-            "test": 15,
+            "test": 18,
             "testName": "source_if",
-            "updatedOn": "2017-05-09 16:56:12",
+            "updatedOn": "2017-05-26 22:14:09",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

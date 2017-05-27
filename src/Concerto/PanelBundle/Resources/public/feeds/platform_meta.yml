@@ -37,6 +37,7 @@ changelog:
                 - got rid of protected flag
                 - starter content is now not editable by default (configurable in config files)
                 - starter content object copy becomes user made content object
+                - removed MySQL specific backticks from queries
           - label: Fixes
             changes:
                 - Non super-admin users permissions fixed

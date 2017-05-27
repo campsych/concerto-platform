@@ -12,7 +12,7 @@
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2017-05-09 16:56:11",
+            "updatedOn": "2017-05-26 22:13:58",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

@@ -12,7 +12,7 @@
             "css": "",
             "js": "",
             "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
-            "updatedOn": "2017-05-09 16:56:10",
+            "updatedOn": "2017-05-26 22:13:54",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

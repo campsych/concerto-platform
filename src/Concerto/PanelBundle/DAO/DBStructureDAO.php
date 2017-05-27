@@ -48,7 +48,7 @@ class DBStructureDAO {
         foreach ($data as $row) {
             $esc_row = array();
             foreach ($row as $k => $v) {
-                $esc_row["`" . $k . "`"] = $v;
+                $esc_row[$k] = $v;
             }
             $this->connection->insert($table_name, $esc_row);
         }
@@ -106,7 +106,7 @@ class DBStructureDAO {
     }
 
     public function renameTable($table_old_name, $table_new_name) {
-        $data = $this->connection->createQueryBuilder()->select("*")->from("`" . $table_old_name . "`", "d")->execute();
+        $data = $this->connection->createQueryBuilder()->select("*")->from($table_old_name, "d")->execute();
 
         $cols = array();
         foreach ($this->getColumns($table_old_name) as $col) {

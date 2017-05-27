@@ -45,24 +45,13 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-05-09 16:56:08",
+            "updatedOn": "2017-05-26 22:13:51",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 3,
-            "hash": "e8e13a1204ea745bc44451334f1af6d1f2229336",
-            "data": [
-                {
-                    "id": "1",
-                    "login": "admin",
-                    "password": "admin",
-                    "encryption": "plain",
-                    "data_set_id": "",
-                    "email": "",
-                    "enabled": "1"
-                }
-            ]
+            "hash": "e8e13a1204ea745bc44451334f1af6d1f2229336"
         }
     ]
 }

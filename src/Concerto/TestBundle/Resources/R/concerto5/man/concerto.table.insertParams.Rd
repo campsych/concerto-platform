@@ -34,7 +34,7 @@ Przemyslaw Lis
 }
 \examples{
 id <- 123
-sql <- "SELECT * FROM `db`.`table` WHERE `id`={{id_value}}"
+sql <- "SELECT * FROM db.table WHERE id={{id_value}}"
 sql <- concerto.table.insertParams(sql,list(id_value=id))
 }
 

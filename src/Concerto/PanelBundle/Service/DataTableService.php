@@ -325,7 +325,7 @@ class DataTableService extends AExportableSectionService {
                 $values = array();
                 for ($i = 0; $i < count($colNames); $i++) {
                     $col = $colNames[$i];
-                    $values["`" . $col . "`"] = $data[$colNamesMapping[$i]];
+                    $values[$col] = $data[$colNamesMapping[$i]];
                 }
                 $batch = $this->dbDataDao->addInsertBatch($table->getName(), $values, $batch);
                 $row++;

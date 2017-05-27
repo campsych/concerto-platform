@@ -3,92 +3,92 @@
     "collection": [
         {
             "class_name": "Test",
-            "id": 10,
+            "id": 12,
             "name": "source_import_CSV",
             "accessibility": 2,
             "archived": "0",
             "visibility": 2,
             "type": 0,
-            "code": "stop_on_error = if(stop_on_error == \"1\") { T } else { F }\nnumericDataTypes = c(\"int\",\"double\",\"decimal\")\nsuccess = T  \nerror_message = NA\n\nprint(file_path)\nif(!file.exists(file_path)) {\n  stop(\"File doesn't exist!\")\n}\n\nguessCsvType = function(csv) {\n  #guesses CSV type, 1 for regular, 2 for e.g. german locale\n  type = 1\n  header = readLines(csv,n=1)\n  count2 = 0\n  count2_elems = strsplit(header,\";\")\n  if(length(count2_elems) == 1) {\n  \tcount2 = length(count2_elems[[1]])\n  }\n  count1 = 0\n  count1_elems = strsplit(header,\",\")\n  if(length(count1_elems) == 1) {\n  \tcount1 = length(count1_elems[[1]])\n  }\n  if(count2 > count1) {\n    type = 2\n  } else if(count2 == count1){\n    print(\"Can not guess CSV type. Assuming type 1.\")\n  }\n  print(paste0(\"CSV type: \",type))\n  return(type)\n}\n\nvalidateField = function(name, value, columns) {\n  #validates field\n  if(is.null(value) || is.na(value)) {\n    error_message <<- paste0(\"CSV field \",name,\" has missing value!\")\n    print(error_message)\n    return(F)\n  }\n  \n  type = NULL\n  for(i in 1:dim(columns)[1]) {\n    if(columns[i,\"Field\"] == name) {\n      type = columns[i,\"Type\"]\n      break\n    }\n  }\n  if(is.null(type)) {\n    error_message <<- paste0(\"CSV field \",name,\" doesn't have data table equivalent!\")\n    print(error_message)\n    return(F)\n  }\n  shouldBeNumeric = F\n  for(i in 1:length(numericDataTypes)) {\n    if(grepl(numericDataTypes[i],type)) {\n      shouldBeNumeric = T\n      break\n    }\n  }\n  numericValue = as.numeric(value)\n  if(is.na(numericValue)) {\n    error_message <<- paste0(\"CSV field \",name,\" has invalid numeric value!\")\n    print(error_message)\n    return(F)\n  }\n  return(T)\n}\n\ncolumns = concerto.table.query(\"SHOW COLUMNS FROM `{{table}}`\",params=list(table=data_table))\nprint(columns)\n\ncsvType = guessCsvType(file_path)\ncsv = NULL\nif(csvType == 2) {\n  csv = read.csv2(file_path)\n} else {\n  csv = read.csv(file_path)\n}\n  \n#validation\nif(dim(csv)[1] > 0) {\n  for(i in 1:dim(csv)[1]) {\n    for(j in 1:dim(csv)[2]) {\n      if(names(csv)[j] == \"id\") { next }\n      if(!validateField(names(csv)[j], csv[i,j], columns)) {\n        if(stop_on_error) {\n          stop(\"Validation failed!\")\n        } else {\n          success = F\n          break\n        }\n      }\n    }\n    if(!success) {\n      break\n    }\n  }\n}\n  \n#data insert\nif(success && dim(csv)[1] > 0) {\n  params = list(table=data_table)\n  for(i in 1:dim(csv)[1]) {\n    sql = \"INSERT INTO `{{table}}` SET \"\n    k = 1\n    for(j in 1:dim(csv)[2]) {\n      if(names(csv)[j] == \"id\") { next }\n      params[[paste0(\"name\",j)]] = names(csv)[j]\n      params[[paste0(\"value\",j)]] = csv[i,j]\n      if(k > 1) {\n        sql = paste0(sql, \",\")\n      }\n      sql = paste0(sql, \"`{{name\",j,\"}}`='{{value\",j,\"}}'\")\n      k = k + 1\n    }\n    concerto.table.query(sql, params)\n  }\n}\n  \nif(success) {\n  .branch = \"success\"\n} else {\n  .branch = \"failure\"\n}",
+            "code": "stop_on_error = if(stop_on_error == \"1\") { T } else { F }\nnumericDataTypes = c(\"int\",\"double\",\"decimal\")\nsuccess = T  \nerror_message = NA\n\nprint(file_path)\nif(!file.exists(file_path)) {\n  stop(\"File doesn't exist!\")\n}\n\nguessCsvType = function(csv) {\n  #guesses CSV type, 1 for regular, 2 for e.g. german locale\n  type = 1\n  header = readLines(csv,n=1)\n  count2 = 0\n  count2_elems = strsplit(header,\";\")\n  if(length(count2_elems) == 1) {\n  \tcount2 = length(count2_elems[[1]])\n  }\n  count1 = 0\n  count1_elems = strsplit(header,\",\")\n  if(length(count1_elems) == 1) {\n  \tcount1 = length(count1_elems[[1]])\n  }\n  if(count2 > count1) {\n    type = 2\n  } else if(count2 == count1){\n    print(\"Can not guess CSV type. Assuming type 1.\")\n  }\n  print(paste0(\"CSV type: \",type))\n  return(type)\n}\n\nvalidateField = function(name, value, columns) {\n  #validates field\n  if(is.null(value) || is.na(value)) {\n    error_message <<- paste0(\"CSV field \",name,\" has missing value!\")\n    print(error_message)\n    return(F)\n  }\n  \n  type = NULL\n  for(i in 1:dim(columns)[1]) {\n    if(columns[i,\"Field\"] == name) {\n      type = columns[i,\"Type\"]\n      break\n    }\n  }\n  if(is.null(type)) {\n    error_message <<- paste0(\"CSV field \",name,\" doesn't have data table equivalent!\")\n    print(error_message)\n    return(F)\n  }\n  shouldBeNumeric = F\n  for(i in 1:length(numericDataTypes)) {\n    if(grepl(numericDataTypes[i],type)) {\n      shouldBeNumeric = T\n      break\n    }\n  }\n  numericValue = as.numeric(value)\n  if(is.na(numericValue)) {\n    error_message <<- paste0(\"CSV field \",name,\" has invalid numeric value!\")\n    print(error_message)\n    return(F)\n  }\n  return(T)\n}\n\ncolumns = concerto.table.query(\"SHOW COLUMNS FROM {{table}}\",params=list(table=data_table))\nprint(columns)\n\ncsvType = guessCsvType(file_path)\ncsv = NULL\nif(csvType == 2) {\n  csv = read.csv2(file_path)\n} else {\n  csv = read.csv(file_path)\n}\n  \n#validation\nif(dim(csv)[1] > 0) {\n  for(i in 1:dim(csv)[1]) {\n    for(j in 1:dim(csv)[2]) {\n      if(names(csv)[j] == \"id\") { next }\n      if(!validateField(names(csv)[j], csv[i,j], columns)) {\n        if(stop_on_error) {\n          stop(\"Validation failed!\")\n        } else {\n          success = F\n          break\n        }\n      }\n    }\n    if(!success) {\n      break\n    }\n  }\n}\n  \n#data insert\nif(success && dim(csv)[1] > 0) {\n  params = list(table=data_table)\n  for(i in 1:dim(csv)[1]) {\n    sql = \"INSERT INTO {{table}} SET \"\n    k = 1\n    for(j in 1:dim(csv)[2]) {\n      if(names(csv)[j] == \"id\") { next }\n      params[[paste0(\"name\",j)]] = names(csv)[j]\n      params[[paste0(\"value\",j)]] = csv[i,j]\n      if(k > 1) {\n        sql = paste0(sql, \",\")\n      }\n      sql = paste0(sql, \"{{name\",j,\"}}='{{value\",j,\"}}'\")\n      k = k + 1\n    }\n    concerto.table.query(sql, params)\n  }\n}\n  \nif(success) {\n  .branch = \"success\"\n} else {\n  .branch = \"failure\"\n}",
             "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 146,
+                    "id": 182,
                     "name": "success",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 147,
+                    "id": 183,
                     "name": "data_table",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 148,
+                    "id": 184,
                     "name": "failure",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 149,
+                    "id": 185,
                     "name": "error_message",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 150,
+                    "id": 186,
                     "name": "stop_on_error",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 151,
+                    "id": 187,
                     "name": "file_path",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 152,
+                    "id": 188,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 10,
+                    "test": 12,
                     "parentVariable": null
                 }
             ],
@@ -96,7 +96,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-05-09 16:56:11",
+            "updatedOn": "2017-05-26 22:13:59",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -104,8 +104,8 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "9e15081fa2695a12c6681badc306be6d9f8bc31e"
+            "rev": 3,
+            "hash": "1d3cc7c3b29834a9b9ae04340038f12cc0cbe4e8"
         },
         {
             "class_name": "TestWizard",
@@ -133,7 +133,7 @@
                             "type": 6,
                             "passableThroughUrl": "0",
                             "value": null,
-                            "testVariable": 147,
+                            "testVariable": 183,
                             "name": "data_table",
                             "wizardStep": 31,
                             "stepTitle": "CSV import",
@@ -153,7 +153,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 150,
+                            "testVariable": 186,
                             "name": "stop_on_error",
                             "wizardStep": 31,
                             "stepTitle": "CSV import",
@@ -166,15 +166,15 @@
                     ]
                 }
             ],
-            "test": 10,
+            "test": 12,
             "testName": "source_import_CSV",
-            "updatedOn": "2017-05-09 16:56:11",
+            "updatedOn": "2017-05-26 22:13:59",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "5fe2498cb5677584934d82e78694be93205a2818"
+            "rev": 3,
+            "hash": "201ca82a52a0c33e848e57c364e96ebf5141e9d4"
         }
     ]
 }
