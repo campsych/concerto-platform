@@ -29,7 +29,7 @@ class LoadBalancerService implements LoadBalancerInterface {
 
     public function getTestNodeBySession($session_hash) {
         $node_id = null;
-        $session = $this->testSessionRepository->findOneBy(array("hash" => $hash));
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
         if ($session) {
             $node_id = $session->getTestNodeId();
         }

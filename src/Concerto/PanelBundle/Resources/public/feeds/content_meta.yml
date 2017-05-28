@@ -6,7 +6,7 @@ changelog:
       categories:
           - label: Improvements
             changes:
-                - removed MySQL specific backticks from queries
+                - removed MySQL specific syntax from queries
           - label: Fixes
             changes:
                 - >

@@ -9,7 +9,7 @@
             "archived": "0",
             "visibility": 2,
             "type": 0,
-            "code": "if(!is.list(new_data) || length(new_data) != length(names(new_data))) {\n  stop(\"new_data parameter must be of type 'list' and contain key=value pairs as its elements!\")\n}\n\ndb = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\ndata_set_id_column = \"data_set_id\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table$table\n  session_id_column = db$custom_table$columns$session_id\n  name_column = db$custom_table$columns$name\n  value_column = db$custom_table$columns$value\n  data_set_id_column = db$custom_table$columns$data_set_id\n}\n\nsession_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_id = session$id\n} else {\n  session_id = paste0(\"i\",concerto$session$id)\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND {{data_set_id_column}}='{{data_set_id}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session_id, \n    name_column=name_column, \n    name=name,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND {{data_set_id_column}}='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} SET {{value_column}} = '{{value}}', {{session_id_column}} = '{{session_id}}', {{name_column}} = '{{name}}', {{data_set_id_column}}='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  }\n}",
+            "code": "if(!is.list(new_data) || length(new_data) != length(names(new_data))) {\n  stop(\"new_data parameter must be of type 'list' and contain key=value pairs as its elements!\")\n}\n\ndb = fromJSON(data_bank)\n\ntable = \"default_data_table\"\nsession_id_column = \"session_id\"\nname_column = \"name\"\nvalue_column = \"value\"\ndata_set_id_column = \"data_set_id\"\nif(db$table_type == \"custom\") {\n  table = db$custom_table$table\n  session_id_column = db$custom_table$columns$session_id\n  name_column = db$custom_table$columns$name\n  value_column = db$custom_table$columns$value\n  data_set_id_column = db$custom_table$columns$data_set_id\n}\n\nsession_id = 0\nif(!is.null(session) && is.list(session)) {\n  session_id = session$id\n} else {\n  session_id = paste0(\"i\",concerto$session$id)\n}\n\nfor(name in ls(new_data)) {\n  record = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND {{data_set_id_column}}='{{data_set_id}}'\", list(\n    table=table, \n    session_id_column=session_id_column, \n    session_id=session_id, \n    name_column=name_column, \n    name=name,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n  ))\n  if(dim(record)[1] > 0) { \n    concerto.table.query(\"UPDATE {{table}} SET {{value_column}} = '{{value}}' WHERE {{session_id_column}} = '{{session_id}}' AND {{name_column}} = '{{name}}' AND {{data_set_id_column}}='{{data_set_id}}'\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  } else {\n    concerto.table.query(\"INSERT INTO {{table}} ({{value_column}}, {{session_id_column}}, {{name_column}}, {{data_set_id_column}}) VALUES ('{{value}}', '{{session_id}}', '{{name}}', '{{data_set_id}}')\", list(\n      table=table, \n      value_column=value_column, \n      value=new_data[[name]], \n      session_id_column=session_id_column, \n      session_id=session_id, \n      name_column=name_column, \n      name=name,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(db$data_set_id))\n    ))\n  }\n}",
             "resumable": "0",
             "outdated": "0",
             "description": "",
@@ -74,16 +74,16 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-05-26 22:14:11",
-            "updatedBy": "",
+            "updatedOn": "2017-05-28 16:15:41",
+            "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 7,
-            "hash": "858196938a23d64e8f637bcc3805324c1df86504"
+            "rev": 8,
+            "hash": "d73bbf66c03d50930e4ba888c6328fd38c1ad9eb"
         }
     ]
 }

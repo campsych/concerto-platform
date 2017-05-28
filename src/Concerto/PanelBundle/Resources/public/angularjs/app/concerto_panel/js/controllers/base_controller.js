@@ -192,9 +192,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.filterByStarterContent = function (renderableRows) {
         renderableRows.forEach(function (row) {
-            if ($scope.starterContentFilter == row.entity.starterContent)
-                row.visible = true;
-            else 
+            if ($scope.starterContentFilter != row.entity.starterContent)
                 row.visible = false;
         });
         return renderableRows;
