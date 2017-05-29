@@ -46,6 +46,7 @@ changelog:
                 - fixed test and test nodes mass delete
                 - test wizard params definition changes propagation
                 - fixed test wizard param values inherited from last opened test wizard based node
+                - group list fields are now sorted according to order field
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument

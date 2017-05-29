@@ -141,22 +141,24 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                     if (!obj)
                         return [];
                     if (!isGroupField && obj.type == 9) {
-                        var fields = [];
-                        for (var i = 0; i < obj.definition.fields.length; i++) {
-                            var field = obj.definition.fields[i];
+                        var cols = [];
+                        var fields = obj.definition.fields;
+                        for (var i = 0; i < fields.length; i++) {
+                            var field = fields[i];
                             var param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
                             var parent = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
                             var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]." + field.name;
                             var add = scope.getColumnDefs(field, param, parent, output, true);
                             for (var j = 0; j < add.length; j++) {
-                                fields.push(add[j]);
+                                cols.push(add[j]);
                             }
                         }
-                        return fields;
+                        return $filter('orderBy')(cols, "+order");
                     }
 
                     return [{
                             type: obj.type,
+                            order: obj.order,
                             displayName: isGroupField ? obj.label : Trans.TEST_WIZARD_PARAM_LIST_COLUMN_ELEMENT,
                             name: isGroupField ? obj.name : "element",
                             cellTemplate:
