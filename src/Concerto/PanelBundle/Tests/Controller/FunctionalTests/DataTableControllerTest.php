@@ -162,10 +162,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 'columns' => array(
                     array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
                     array('name' => 'temp', 'type' => 'text', 'nullable' => false)
-                ),
-                'data' => array(
-                    array('id' => '1', 'temp' => 'temp1',),
-                    array('id' => '2', 'temp' => 'temp2',)
                 ))), $content["collection"]);
     }
 

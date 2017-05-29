@@ -487,11 +487,8 @@ class ImportServiceTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
-            "content" => array(
-                array("id" => 1, "name" => "aaa", "val" => 1),
-                array("id" => 2, "name" => "bbb", "val" => 2)
-            ),
-            "count" => 2), json_decode($client->getResponse()->getContent(), true));
+            "content" => array(),
+            "count" => 0), json_decode($client->getResponse()->getContent(), true));
 
         /* IMPORT CONVERT DATA TABLE */
 
@@ -536,11 +533,8 @@ class ImportServiceTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         //same data, data not converted
         $this->assertEquals(array(
-            "content" => array(
-                array("id" => 1, "name" => "aaa", "val" => 1, "val2" => 0),
-                array("id" => 2, "name" => "bbb", "val" => 2, "val2" => 0)
-            ),
-            "count" => 2), json_decode($client->getResponse()->getContent(), true));
+            "content" => array(),
+            "count" => 0), json_decode($client->getResponse()->getContent(), true));
     }
 
 }

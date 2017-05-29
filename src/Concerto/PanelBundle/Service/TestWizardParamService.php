@@ -11,6 +11,7 @@ use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Concerto\PanelBundle\Service\TestNodePortService;
 
 class TestWizardParamService extends ASectionService {
 
@@ -19,14 +20,16 @@ class TestWizardParamService extends ASectionService {
     private $testVariableService;
     private $testWizardRepository;
     private $testWizardStepRepository;
+    private $testNodePortService;
 
-    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker, TestNodePortService $testNodePortService) {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
         $this->testVariableService = $testVariableService;
         $this->testWizardRepository = $testWizardRepository;
         $this->testWizardStepRepository = $testWizardStepRepository;
+        $this->testNodePortService = $testNodePortService;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
@@ -279,6 +282,29 @@ class TestWizardParamService extends ASectionService {
                     }
                     $var->setValue($val);
                     $this->testVariableService->update($user, $var);
+
+                    ///
+
+                    $nodes = $var->getTest()->getSourceForNodes();
+                    foreach ($nodes as $node) {
+                        $ports = $node->getPorts();
+                        foreach ($ports as $port) {
+                            if ($port->getVariable()->getId() == $var->getId()) {
+                                $portDstVal = $port->getValue();
+                                if (!in_array($oldType, self::$simpleTypes)) {
+                                    $portDstVal = json_decode($portDstVal, true);
+                                }
+                                $this->getChildrenMergedValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $portDstVal);
+                                $portVal = $portDstVal;
+                                if (!in_array($newType, self::$simpleTypes)) {
+                                    $portVal = json_encode($portVal);
+                                }
+                                $port->setValue($portVal);
+                                $this->testNodePortService->update($port);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }

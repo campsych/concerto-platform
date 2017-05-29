@@ -2,7 +2,7 @@ function NodeWizardController($scope, $uibModalInstance, TestWizardParam, TestWi
     $scope.node = node;
     $scope.object = test;
     $scope.originalTest = angular.copy(test);
-    $scope.sourceWizard = TestWizardCollectionService.get($scope.object.sourceWizard);
+    $scope.sourceWizard = angular.copy(TestWizardCollectionService.get($scope.object.sourceWizard));
 
     $scope.object.steps = $scope.sourceWizard.steps;
     for (var i = 0; i < $scope.object.variables.length; i++) {

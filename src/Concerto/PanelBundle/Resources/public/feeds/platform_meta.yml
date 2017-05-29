@@ -44,6 +44,8 @@ changelog:
                 - test form grid timing issues
                 - ui-grid scrolling issue fixed
                 - fixed test and test nodes mass delete
+                - test wizard params definition changes propagation
+                - fixed test wizard param values inherited from last opened test wizard based node
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument

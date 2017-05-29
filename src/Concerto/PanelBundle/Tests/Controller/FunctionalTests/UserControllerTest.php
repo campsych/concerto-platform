@@ -79,7 +79,7 @@ class UserControllerTest extends AFunctionalTest {
                 'role_table' => '0',
                 'role_file' => '0',
                 'role_wizard' => '0',
-                'owner' => null,
+                'owner' => 1,
                 'groups' => '',
                 'starterContent' => false
             )
@@ -160,7 +160,7 @@ class UserControllerTest extends AFunctionalTest {
                 'role_file' => '0',
                 'role_wizard' => '0',
                 "archived" => "0",
-                "owner" => null,
+                "owner" => 2,
                 "groups" => "",
                 'starterContent' => false
             )), json_decode($client->getResponse()->getContent(), true));
@@ -194,7 +194,7 @@ class UserControllerTest extends AFunctionalTest {
                 "username" => "renamed_user",
                 "email" => "new@user.com",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedBy" => "renamed_user",
+                "updatedBy" => "admin",
                 'role_super_admin' => '1',
                 'role_test' => '0',
                 'role_template' => '0',
@@ -202,7 +202,7 @@ class UserControllerTest extends AFunctionalTest {
                 'role_file' => '0',
                 'role_wizard' => '0',
                 "archived" => "0",
-                "owner" => null,
+                "owner" => 1,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'starterContent' => false
@@ -245,7 +245,7 @@ class UserControllerTest extends AFunctionalTest {
                 'role_file' => '0',
                 'role_wizard' => '0',
                 "archived" => "0",
-                "owner" => null,
+                "owner" => 1,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'starterContent' => false
@@ -288,7 +288,7 @@ class UserControllerTest extends AFunctionalTest {
                 'role_file' => '0',
                 'role_wizard' => '0',
                 "archived" => "0",
-                "owner" => null,
+                "owner" => 2,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'starterContent' => false
