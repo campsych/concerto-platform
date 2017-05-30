@@ -19,6 +19,8 @@ changelog:
                   'linear_test' node open text response field no longer shows javascript object output
                 - >
                   'questionnaire' node remembers given answers when going back
+                - >
+                  'form' node will now show all validation alerts instead of the latest one
           - label: Non backwards compatible
             changes:
                 - >
