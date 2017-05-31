@@ -73,7 +73,7 @@ class TestSessionService {
     }
 
     private function generateSessionHash($session_id) {
-        return sha1($this->secret . $session_id);
+        return sha1(time() . "_" . $this->secret . "_" . $session_id);
     }
 
     public function startNewSession($test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug) {
@@ -563,4 +563,5 @@ class TestSessionService {
         $response = array("result" => 0);
         return $response;
     }
+
 }

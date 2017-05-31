@@ -6,10 +6,12 @@ concerto.server.listen = function(){
   print("connections closed")
 
   print(paste0("waiting for response from ",concerto$submitter.host,":",concerto$submitter.port))
+  setTimeLimit(transient=TRUE)
   con = socketConnection("localhost", concerto$submitter.port, blocking=TRUE, timeout=60*60*24, open="r")
   response = readLines(con,warn=FALSE) 
   response <- fromJSON(response)
   close(con)
+  setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
 
   print("received response")
   print(response)

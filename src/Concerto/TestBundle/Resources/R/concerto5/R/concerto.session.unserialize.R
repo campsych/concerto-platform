@@ -10,7 +10,7 @@ concerto.session.unserialize <- function(){
   
   unlink(concerto$sessionFile)
   if(exists("concerto.onUnserialize")) {
-    do.call("concerto.onUnserialize",list(lastSubmit=fromJSON(commandArgs(TRUE)[9])), envir = .GlobalEnv)
+    do.call("concerto.onUnserialize",list(lastSubmit=fromJSON(commandArgs(TRUE)[10])), envir = .GlobalEnv)
   } else {
     print("concerto.onUnserialize = function(lastSubmit) is missing!")
     stop("session unresumable")

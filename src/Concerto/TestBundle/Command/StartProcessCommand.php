@@ -17,15 +17,12 @@ class StartProcessCommand extends Command {
 
     private $panelNode;
     private $output;
-    private $lastProcessTime;   //for max execution timeout
     private $lastClientTime;    //for idle timeout
     private $lastKeepAliveTime; //for keep alive timeout
-    private $maxExecTime;
     private $maxIdleTime;
     private $keepAliveIntervalTime;
     private $keepAliveToleranceTime;
     private $isSerializing;
-    private $isWaitingForProcess;
     private $isDebug;
     private $currentTotalDebugData = "";
     private $logPath;
@@ -43,7 +40,6 @@ class StartProcessCommand extends Command {
 
     protected function configure() {
         $this->isSerializing = false;
-        $this->isWaitingForProcess = false;
         $this->isDebug = false;
         $this->currentTotalDebugData = "";
         $this->setName("concerto:r:start")->setDescription("Starts new R session.");
@@ -107,12 +103,8 @@ class StartProcessCommand extends Command {
 
         $this->lastClientTime = time();
         $this->lastKeepAliveTime = time();
-        $this->lastProcessTime = time();
         do {
             $this->checkIdleTimeout($submitter_sock) || $this->checkKeepAliveTimeout($submitter_sock);
-            if ($this->checkExecutionTimeout()) {
-                break;
-            }
             if (($client_sock = @socket_accept($server_sock)) === false) {
                 continue;
             }
@@ -133,20 +125,6 @@ class StartProcessCommand extends Command {
         } while (usleep(100 * 1000) || true);
 
         $this->log(__FUNCTION__, "listener ended");
-    }
-
-    private function checkExecutionTimeout() {
-        if (time() - $this->lastProcessTime > $this->maxExecTime && $this->isWaitingForProcess) {
-            $this->log(__FUNCTION__, "execution timeout reached");
-
-            $this->respondToPanelNode(json_encode(array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            )));
-            return true;
-        } else {
-            return false;
-        }
     }
 
     private function checkIdleTimeout($submitter_sock) {
@@ -199,7 +177,6 @@ class StartProcessCommand extends Command {
         $msg = json_decode($message);
         switch ($msg->code) {
             case TestSessionService::RESPONSE_SUBMIT: {
-                    $this->isWaitingForProcess = true;
                     $this->panelNode = $msg->panelNode;
                     $this->lastClientTime = time();
                     $this->lastKeepAliveTime = time();
@@ -216,8 +193,6 @@ class StartProcessCommand extends Command {
     private function interpretProcessMessage($message) {
         $this->log(__FUNCTION__, $message);
 
-        $this->isWaitingForProcess = false;
-        $this->lastProcessTime = time();
         $msg = json_decode($message, true);
         switch ($msg["code"]) {
             case TestSessionService::RESPONSE_VIEW_TEMPLATE: {
@@ -242,7 +217,6 @@ class StartProcessCommand extends Command {
     private function respondToProcess($submitter_sock, $response) {
         $this->log(__FUNCTION__, $response);
 
-        $this->lastProcessTime = time();
         do {
             if (($client_sock = socket_accept($submitter_sock)) === false) {
                 usleep(10000);
@@ -298,7 +272,7 @@ class StartProcessCommand extends Command {
         return $arg;
     }
 
-    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values) {
+    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time) {
         switch ($this->getOS()) {
             case RRunnerService::OS_LINUX:
                 return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
@@ -311,6 +285,7 @@ class StartProcessCommand extends Command {
                         . "'$wd' "
                         . "'$pd' "
                         . "'$murl' "
+                        . "$max_exec_time "
                         . "'$values' "
                         . ">> "
                         . "'" . $this->logPath . "' "
@@ -329,6 +304,7 @@ class StartProcessCommand extends Command {
                         . "\"" . $this->escapeWindowsArg($wd) . "\" "
                         . "\"" . $this->escapeWindowsArg($pd) . "\" "
                         . "$murl "
+                        . "$max_exec_time "
                         . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
                         . ">> "
                         . "\"" . $this->escapeWindowsArg($this->logPath) . "\" "
@@ -365,7 +341,7 @@ class StartProcessCommand extends Command {
         if (!$values) {
             $values = "";
         }
-        $this->maxExecTime = $input->getArgument("max_exec_time");
+        $max_exec_time = $input->getArgument("max_exec_time");
         $this->maxIdleTime = $input->getArgument("max_idle_time");
         $this->keepAliveIntervalTime = $input->getArgument("keep_alive_interval_time");
         $this->keepAliveToleranceTime = $input->getArgument("keep_alive_tolerance_time");
@@ -384,7 +360,7 @@ class StartProcessCommand extends Command {
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
-        $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values);
+        $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
 
         $this->log(__FUNCTION__, $cmd);
 
@@ -398,7 +374,6 @@ class StartProcessCommand extends Command {
         }
         $this->sessionCountService->updateCountRecord(1);
         $process->mustRun();
-        $this->isWaitingForProcess = true;
         $this->startListener($test_node_sock, $submitter_sock);
         socket_close($submitter_sock);
         socket_close($test_node_sock);

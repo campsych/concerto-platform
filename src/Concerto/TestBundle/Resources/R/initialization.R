@@ -53,6 +53,7 @@ concerto$workingDir <- commandArgs(TRUE)[6]
 concerto$sessionFile <- paste0(concerto$workingDir,"session.Rs")
 concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
+concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[9])
 
 test_node <- fromJSON(commandArgs(TRUE)[2])
 concerto$test_node.host <- test_node$sock_host
@@ -75,7 +76,7 @@ concerto$flow <- list()
 returns <<- list()
 tryCatch({
     setwd(concerto$workingDir)
-
+    setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
     returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
 }, error = function(e) {
