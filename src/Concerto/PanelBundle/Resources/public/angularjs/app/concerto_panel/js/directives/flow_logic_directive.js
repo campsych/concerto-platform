@@ -843,7 +843,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 };
 
                 scope.pasteNodes = function (cursorPos) {
-                    if (scope.object.object.starterContent && !administrationSettingsService.starterContentEditable)
+                    if (scope.object.starterContent && !administrationSettingsService.starterContentEditable)
                         return false;
 
                     var posX = 0;
