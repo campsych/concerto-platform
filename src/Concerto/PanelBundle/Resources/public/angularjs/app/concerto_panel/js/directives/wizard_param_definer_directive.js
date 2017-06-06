@@ -7,6 +7,7 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
                 typesCollection: "=types"
             },
             link: function (scope, element, attrs, controllers) {
+                scope.RDocumentation = RDocumentation;
                 scope.sortedTypesCollection = $filter('orderBy')(scope.typesCollection, "label");
                 scope.dataTableCollectionService = DataTableCollectionService;
                 scope.testCollectionService = TestCollectionService;

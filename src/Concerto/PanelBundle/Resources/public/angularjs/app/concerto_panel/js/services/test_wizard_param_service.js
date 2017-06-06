@@ -94,7 +94,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 return "";
             switch (parseInt(param.type)) {
                 case 3:
-                    if (!param.definition.options)
+                    if (param.definition == undefined || !param.definition.options)
                         return "";
                     var info = param.definition.options.length + " - [";
                     for (var i = 0; i < param.definition.options.length; i++) {
@@ -105,7 +105,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     info += "]";
                     return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_SELECT.pf(info);
                 case 9:
-                    if (!param.definition.fields)
+                    if (param.definition == undefined || !param.definition.fields)
                         return "";
                     var info = param.definition.fields.length + " - [";
                     for (var i = 0; i < param.definition.fields.length; i++) {
@@ -116,6 +116,8 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     info += "]";
                     return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_GROUP.pf(info);
                 case 10:
+                    if(param.definition == undefined || param.definition.element == undefined)
+                        return "";
                     var info = this.getTypeName(param.definition.element.type);
                     return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_LIST.pf(info);
                 case 12:
