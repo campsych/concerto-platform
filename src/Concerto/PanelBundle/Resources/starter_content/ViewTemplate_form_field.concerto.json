@@ -6,19 +6,19 @@
             "id": 1,
             "name": "form_field",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:38",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "355c637e280d9a264565235f0fc7b879ac2c369b"
+            "hash": "7b4089c89ac9089242fe85c302106cc32f36b89c"
         }
     ]
 }

@@ -6,19 +6,19 @@
             "id": 5,
             "name": "form_field_input",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:38",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "1ac20d0e9ca0f6cbb39f1d3f5d3f087cd821f590"
+            "hash": "d62b5f356a47c68d09e11bb02a7dfbb719ad50cc"
         }
     ]
 }

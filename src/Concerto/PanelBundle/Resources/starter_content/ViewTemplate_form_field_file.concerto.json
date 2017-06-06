@@ -6,19 +6,19 @@
             "id": 4,
             "name": "form_field_file",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"file\" \/>",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:38",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 1,
-            "hash": "cb436668f48ba6b9e4a56bd9a730934aa34a14d9"
+            "hash": "d4fc341bcd7a796aa56815c61ca0a4ff6c7372a4"
         }
     ]
 }

@@ -6,19 +6,19 @@
             "id": 3,
             "name": "form_field_checkbox",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:38",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "012b6b26fe61499897a4b1a9e491534923092c75"
+            "hash": "9954bf4ce988713a10985e16f7084b736ed574c0"
         }
     ]
 }

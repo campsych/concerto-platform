@@ -6,19 +6,19 @@
             "id": 12,
             "name": "test_item_debug",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "d6ac468fd18c019c808fbda382522ee605f25c5e"
+            "hash": "3bf550cfea99977dcc57b57b36477770d4e7c026"
         }
     ]
 }

@@ -6,19 +6,19 @@
             "id": 6,
             "name": "form_field_multiline",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "<textarea id=\"{{id}}\" name=\"{{name}}\">{{value}}<\/textarea>",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:38",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "1a5bb70d0da1d0364c86af09799baafadb23c860"
+            "hash": "63c33c671a1559a4b0add54b927e6e54c2bbd4be"
         }
     ]
 }

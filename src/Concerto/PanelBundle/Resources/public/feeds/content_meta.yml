@@ -21,6 +21,8 @@ changelog:
                   'questionnaire' node remembers given answers when going back
                 - >
                   'form' node will now show all validation alerts instead of the latest one
+                - >
+                  all view templates now has correct (public) accessibility flag
           - label: Non backwards compatible
             changes:
                 - >

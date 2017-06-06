@@ -6,19 +6,19 @@
             "id": 7,
             "name": "form_field_select",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}};\n  $scope.value = \"{{value}}\";\n});",
             "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" ng-selected=\"[[option.value == value]]\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
-            "updatedOn": "2017-05-26 22:13:54",
+            "updatedOn": "2017-06-06 13:57:38",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "79f42e7705ca94b301291a303ac5634dc85a16d3"
+            "hash": "86199f31efe4f03653de28d0af72a615d5b8790a"
         }
     ]
 }

@@ -6,19 +6,19 @@
             "id": 14,
             "name": "start_session_confirmation_mail",
             "description": "",
-            "accessibility": 0,
+            "accessibility": 2,
             "archived": "0",
             "head": "",
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2017-05-26 22:13:58",
+            "updatedOn": "2017-06-06 13:57:41",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
             "rev": 2,
-            "hash": "50d8ddcb1c032eee7438f3501d61187c6df5bb5e"
+            "hash": "244af6af8f01523fe11c6d4fbff7656241fc771a"
         }
     ]
 }
