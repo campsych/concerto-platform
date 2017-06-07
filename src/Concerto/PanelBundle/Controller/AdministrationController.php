@@ -11,9 +11,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-/**
- * @Security("has_role('ROLE_SUPER_ADMIN')")
- */
 class AdministrationController {
 
     private $templating;
@@ -37,12 +34,18 @@ class AdministrationController {
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function messagesCollectionAction() {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
                     'collection' => $this->service->getMessagesCollection()
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function updateSettingsMapAction() {
         $this->service->setSettings(json_decode($this->request->get("map")), true);
         $result = array("result" => 0);
@@ -51,6 +54,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function sessionCountCollectionAction($filter) {
         $collection = $this->sessionCountService->getCollection(json_decode($filter, true));
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
@@ -58,6 +64,9 @@ class AdministrationController {
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function clearSessionCountAction() {
         $this->sessionCountService->clear();
         $result = array("result" => 0);
@@ -66,6 +75,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function deleteMessageAction($object_ids) {
         $result = $this->service->deleteMessage($object_ids);
         $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
@@ -73,6 +85,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function clearMessagesAction() {
         $this->service->clearMessages();
         $response = new Response(json_encode(array("result" => 0)));
@@ -80,12 +95,18 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function tasksCollectionAction() {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
                     'collection' => $this->service->getTasksCollection()
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function taskBackupAction() {
         $return = $this->service->scheduleBackupTask($out, true);
         $response = new Response(json_encode(array("result" => $return, "out" => $out)));
@@ -93,6 +114,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function taskRestoreAction() {
         $return = $this->service->scheduleRestoreTask($out, true);
         $response = new Response(json_encode(array("result" => $return, "out" => $out)));
@@ -100,6 +124,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function taskContentUpgradeAction() {
         $backup = $this->request->get("backup");
         $return = $this->service->scheduleContentUpgradeTask($out, $backup, true);
@@ -108,6 +135,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function taskPlatformUpgradeAction() {
         $backup = $this->request->get("backup");
         $return = $this->service->schedulePlatformUpgradeTask($out, $backup, true);
@@ -115,7 +145,10 @@ class AdministrationController {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function taskPackageInstallAction() {
         $install_options = json_decode($this->request->get("install_options"), true);
         $return = $this->service->schedulePackageInstallTask($out, $install_options, true);
@@ -124,12 +157,18 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function apiClientCollectionAction() {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
                     'collection' => $this->service->getApiClientsCollection()
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function deleteApiClientAction($object_ids) {
         $result = $this->service->deleteApiClient($object_ids);
         $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
@@ -137,6 +176,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function clearApiClientAction() {
         $this->service->clearApiClients();
         $response = new Response(json_encode(array("result" => 0)));
@@ -144,6 +186,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function addApiClientAction() {
         $this->service->addApiClient();
         $response = new Response(json_encode(array("result" => 0)));
@@ -151,6 +196,9 @@ class AdministrationController {
         return $response;
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     */
     public function packagesStatusAction() {
         $return_var = $this->service->packageStatus($output);
         $response = new Response(json_encode(array("result" => $return_var ? 0 : 1, "output" => $output)));

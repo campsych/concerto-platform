@@ -701,7 +701,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         }
     });
 
-    $scope.refreshAllTaskRelated();
+    $scope.refreshMessages();
+    $scope.refreshTasks();
     $scope.refreshUsageChart();
     $scope.refreshApiClients();
 }
