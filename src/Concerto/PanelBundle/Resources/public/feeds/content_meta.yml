@@ -23,6 +23,8 @@ changelog:
                   'form' node will now show all validation alerts instead of the latest one
                 - >
                   all view templates now has correct (public) accessibility flag
+                - >
+                  'CAT' and 'linear_test' now both properly show horizontal response options layout
           - label: Non backwards compatible
             changes:
                 - >
