@@ -145,7 +145,7 @@ class TestSessionService {
 
         //setting default values
         foreach ($session->getTest()->getVariables() as $var) {
-            if ($var->getType() === 0 && $var->isPassableThroughUrl() && $var->getValue()) {
+            if ($var->getType() === 0 && $var->isPassableThroughUrl() && $var->hasDefaultValueSet()) {
                 $result[$var->getName()] = $var->getValue();
             }
         }

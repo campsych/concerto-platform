@@ -333,6 +333,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     public function getAccessibility() {
         return $this->getTest()->getAccessibility();
     }
+    
+    public function hasDefaultValueSet() {
+        return $this->value !== null && $this->value !== "";
+    }
 
     public function hasAnyFromGroup($other_groups) {
         $groups = $this->getTest()->getGroupsArray();
