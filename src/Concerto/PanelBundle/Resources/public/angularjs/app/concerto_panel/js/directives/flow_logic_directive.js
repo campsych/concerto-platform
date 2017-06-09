@@ -1292,8 +1292,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         scope.onKeyUp(event);
                     }).focus();
                 });
-
-                scope.$watch("object.id", function () {
+                
+                scope.$watchCollection("object.variables", function () {
                     scope.initialized = false;
                     if (scope.object.nodes.length > 0) {
                         scope.refreshFlow();

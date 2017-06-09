@@ -49,6 +49,7 @@ changelog:
                 - fixed test wizard param values inherited from last opened test wizard based node
                 - group list fields are now sorted according to order field
                 - test session max execution timeout now properly closes all related processes
+                - test variables changes are now properly applied to the flow chart
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument

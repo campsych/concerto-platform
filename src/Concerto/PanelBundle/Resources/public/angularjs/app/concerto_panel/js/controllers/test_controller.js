@@ -465,7 +465,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             $scope.returns = [];
             $scope.branches = [];
         }
-        
+
         $scope.codeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
     };
 
@@ -643,18 +643,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
             $scope.testWizardCollectionService.fetchObjectCollection();
-
-            //if flow
-            if ($scope.object.type == 2) {
-                //refresh flow
-                $scope.collectionService.fetchObjectCollection(null, function () {
-                    var id = $scope.object.id;
-                    $scope.resetObject();
-                    $scope.edit(id);
-                });
-            } else {
-                $scope.collectionService.fetchObjectCollection();
-            }
+            $scope.collectionService.fetchObjectCollection();
         }, function () {
         });
     };
@@ -666,8 +655,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.refreshVariables = function () {
         $scope.collectionService.fetchVariablesCollection($scope.object.id);
     };
-    
-    $scope.isDelayedEditPossible = function() {
+
+    $scope.isDelayedEditPossible = function () {
         return $scope.collectionService.collectionInitialized && $scope.testWizardCollectionService.collectionInitialized;
     };
 
