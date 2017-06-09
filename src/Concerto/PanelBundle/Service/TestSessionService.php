@@ -141,8 +141,16 @@ class TestSessionService {
     }
 
     private function validateParams($session, $params) {
-        $dp = json_decode($params, true);
         $result = array();
+
+        //setting default values
+        foreach ($session->getTest()->getVariables() as $var) {
+            if ($var->getType() === 0 && $var->isPassableThroughUrl() && $var->getValue()) {
+                $result[$var->getName()] = $var->getValue();
+            }
+        }
+
+        $dp = json_decode($params, true);
         if ($dp != null) {
             foreach ($dp as $k => $v) {
                 foreach ($session->getTest()->getVariables() as $var) {
