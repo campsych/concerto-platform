@@ -3,10 +3,12 @@
 namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Table
+ * @ORM\Table()
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionRepository")
+ * @UniqueEntity(fields="hash")
  */
 class TestSession extends AEntity {
 
@@ -152,7 +154,7 @@ class TestSession extends AEntity {
 
     /**
      *
-     * @ORM\Column(type="text", nullable=true, length=40)
+     * @ORM\Column(type="string", length=40, nullable=true)
      */
     private $hash;
 
@@ -165,7 +167,6 @@ class TestSession extends AEntity {
     public function __construct() {
         parent::__construct();
 
-        $this->hash = sha1(rand(1000, 9999));
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
         $this->finalize = 0;
