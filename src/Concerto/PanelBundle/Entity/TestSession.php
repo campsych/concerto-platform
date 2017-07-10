@@ -3,12 +3,11 @@
 namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@UniqueConstraint(name="hash_idx", columns={"hash"})})
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionRepository")
- * @UniqueEntity(fields="hash")
  */
 class TestSession extends AEntity {
 
