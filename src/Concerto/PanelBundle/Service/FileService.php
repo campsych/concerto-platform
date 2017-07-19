@@ -19,9 +19,10 @@ class FileService
 
     public function moveUploadedFile($tmp_file, $file_name, &$message)
     {
-        $upload_path = realpath($this->getUploadDirectory()) . DIRECTORY_SEPARATOR . $file_name;
-        if (!is_writable($upload_path)) {
-            $message = $upload_path . " is not writable";
+        $upload_dir = realpath($this->getUploadDirectory());
+        $upload_path = $upload_dir . DIRECTORY_SEPARATOR . $file_name;
+        if (!is_writable($upload_dir)) {
+            $message = $upload_dir . " is not writable";
             return false;
         }
         return move_uploaded_file($tmp_file, $upload_path);
