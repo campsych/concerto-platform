@@ -1,11 +1,10 @@
 concerto.table.lastInsertId <-
 function(){
+  id = NULL
   if(concerto$driver == "pdo_sqlsrv") {
-    res = dbSendQuery(concerto$connection, "SELECT SCOPE_IDENTITY();")
-    id = fetch(res, n=-1)[1,1]
-    dbClearResult(res)
-    return(id)
+    id = concerto$sqlsrv_last_insert_id
   } else {
-    return(dbGetQuery(concerto$connection, "SELECT SCOPE_IDENTITY();")[1,1])
+    id = dbGetQuery(concerto$connection, "SELECT LAST_INSERT_ID();")[1,1]
   }
+  return(id)
 }

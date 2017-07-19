@@ -15,6 +15,15 @@ function(sql, params=list(), forceResultSet=F){
            dbClearResult(next_result)
         }
       }
+  } else if(startsWith(toupper(sql), "INSERT")) {
+    if(concerto$driver == "pdo_sqlsrv") {
+         result <- dbSendQuery(concerto$connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
+         output <- fetch(result, n=-1)[1,1]
+         concerto$sqlsrv_last_insert_id <<- output
+    } else {
+        result <- dbSendStatement(concerto$connection, sql)
+        output <- dbGetRowsAffected(result)
+    }
   } else {
     result <- dbSendStatement(concerto$connection, sql)
     output <- dbGetRowsAffected(result)
