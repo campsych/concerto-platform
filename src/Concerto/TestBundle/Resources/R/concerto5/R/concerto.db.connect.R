@@ -29,10 +29,15 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
   } else if (driver=="sqlanywhere"){
     stop("sqlanywhere driver not supported yet")
   }
-  
+
   if(!existsFunction("dbEscapeStrings")) {
       dbEscapeStrings <<- function(con,string){
           return(gsub("'","''",string))
+      }
+  }
+  if(!existsFunction("dbMoreResults")) {
+      dbMoreResults <<- function(con){
+          return(F)
       }
   }
   return(con)
