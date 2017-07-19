@@ -16,7 +16,7 @@ concerto.session.update = function(returns=list()){
     loaderCss = '%s',
     loaderJs = '%s',
     loaderHtml = '%s',
-    timeLimit = '%s',
+    timeLimit = %s,
     testNodePort = '%s',
     returns = '%s',
     error = '%s'

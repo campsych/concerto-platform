@@ -1,5 +1,5 @@
 concerto.table.query <-
-function(sql, params=list(), forceResultSet=F){
+function(sql, params=list()){
   sql <- gsub("^\\s+|\\s+$", "", sql)
   sql <- gsub("^[[:space:]]*", "", sql)
   sql <- concerto.table.insertParams(sql, params)
