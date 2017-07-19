@@ -4,20 +4,24 @@ namespace Concerto\PanelBundle\DAO;
 
 use Doctrine\DBAL\Connection;
 
-class DBDataDAO {
+class DBDataDAO
+{
 
     public $connection;
 
-    public function __construct(Connection $con) {
+    public function __construct(Connection $con)
+    {
         $this->connection = $con;
     }
 
-    public function getData($table_name, $id = null, $filter = null, $operators = null) {
+    public function getData($table_name, $id = null, $filter = null, $operators = null)
+    {
         $stmt = $this->getStreamDataResult($table_name, $id, $filter, $operators);
         return $stmt->fetchAll();
     }
 
-    public function getStreamDataResult($table_name, $id = null, $filter = null, $operators = null) {
+    public function getStreamDataResult($table_name, $id = null, $filter = null, $operators = null)
+    {
         $q = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
 
         $i = 0;
@@ -46,7 +50,8 @@ class DBDataDAO {
         return $result;
     }
 
-    public function fetchMatchingData($table_name, $filters) {
+    public function fetchMatchingData($table_name, $filters)
+    {
         $builder = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
 
         if (!$filters) {
@@ -64,7 +69,8 @@ class DBDataDAO {
         return $builder->setFirstResult(($f["paging"]["page"] - 1) * $f["paging"]["pageSize"])->setMaxResults($f["paging"]["pageSize"])->execute()->fetchAll();
     }
 
-    public function countMatchingData($table_name, $filters) {
+    public function countMatchingData($table_name, $filters)
+    {
         $builder = $this->connection->createQueryBuilder()->select('count(d.id)')->from($table_name, "d");
 
         if ($filters) {
@@ -75,10 +81,11 @@ class DBDataDAO {
             }
         }
 
-        return (int) $builder->execute()->fetchColumn(0);
+        return (int)$builder->execute()->fetchColumn(0);
     }
 
-    public function updateRow($table_name, $row_id, $values, $id_field = "id") {
+    public function updateRow($table_name, $row_id, $values, $id_field = "id")
+    {
         $qb = $this->connection->createQueryBuilder()->update($table_name);
         $i = 0;
         foreach ($values as $k => $v) {
@@ -89,12 +96,14 @@ class DBDataDAO {
         return array();
     }
 
-    public function removeRow($table_name, $id, $id_field = "id") {
+    public function removeRow($table_name, $id, $id_field = "id")
+    {
         $this->connection->delete($table_name, array("$id_field" => $id));
         return array();
     }
 
-    public function addBlankRow($table_name) {
+    public function addBlankRow($table_name)
+    {
         // with pgsql doctrine attempts to execute nonsense like: "INSERT INTO main_table () VALUES ()"
         if ($this->connection->getDriver()->getName() == 'pdo_pgsql')
             $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
@@ -104,17 +113,25 @@ class DBDataDAO {
         return array();
     }
 
-    public function insertRow($table_name, $values) {
+    public function insertRow($table_name, $values)
+    {
         $this->connection->insert($table_name, $values);
         return $this->getLastInsertId();
     }
 
-    public function getLastInsertId() {
+    public function getLastInsertId()
+    {
         return $this->connection->lastInsertId();
     }
 
-    public function addInsertBatch($table_name, $data, $batch = null) {
+    public function addInsertBatch($table_name, $data, $batch = null)
+    {
         //TODO check sqlite and sql server
+
+        if ($this->connection->getDriver()->getName() == "pdo_sqlsrv") {
+            $this->connection->prepare("SET IDENTITY_INSERT $table_name ON")->execute();
+        }
+
         if ($this->connection->getDriver()->getName() !== "pdo_mysql") {
             $this->insertRow($table_name, $data);
         } else {
@@ -134,7 +151,7 @@ class DBDataDAO {
             }
             $batch["sql"] .= $batch["values_template"];
             $batch["params"] = array_merge($batch["params"], array_values($data));
-            $batch["index"] ++;
+            $batch["index"]++;
             if ($batch["index"] % 50 == 0) {
                 $batch = $this->flushInsertBatch($batch);
             }
@@ -142,7 +159,8 @@ class DBDataDAO {
         return $batch;
     }
 
-    public function flushInsertBatch($batch) {
+    public function flushInsertBatch($batch)
+    {
         if ($this->connection->getDriver()->getName() === "pdo_mysql") {
             if ($batch !== null && $batch["index"] > 0) {
                 $this->connection->connect();
@@ -155,7 +173,8 @@ class DBDataDAO {
         return $batch;
     }
 
-    public function truncate($table_name) {
+    public function truncate($table_name)
+    {
         $dbPlatform = $this->connection->getDatabasePlatform();
         if ($this->connection->getDriver()->getName() === "pdo_mysql")
             $this->connection->query('SET FOREIGN_KEY_CHECKS=0');
