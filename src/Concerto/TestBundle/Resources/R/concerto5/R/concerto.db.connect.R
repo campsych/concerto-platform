@@ -21,7 +21,7 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
   } else if (driver=="pdo_sqlsrv"){
     require("RSQLServer")
     con <- dbConnect(
-      RSQLServer::SqlServer(), server=host, database=dbname, properties(user=username, password=password))
+      RSQLServer::SQLServer(), server=host, database=dbname, properties(user=username, password=password))
   } else if (driver=="oci8" || driver=="pdo_oci"){
     require("ROracle")
     stop("oci8 and pdo_oci driver not implemented yet")
