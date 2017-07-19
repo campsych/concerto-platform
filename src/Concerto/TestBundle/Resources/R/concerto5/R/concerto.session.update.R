@@ -39,5 +39,6 @@ concerto.session.update = function(returns=list()){
     dbEscapeStrings(concerto$connection, toString(concerto$session$error)),
     dbEscapeStrings(concerto$connection, toString(concerto$session$id)))
 
-  dbSendQuery(concerto$connection, statement = sql)
+  res = dbSendStatement(concerto$connection, statement = sql)
+  dbClearResult(res)
 }
