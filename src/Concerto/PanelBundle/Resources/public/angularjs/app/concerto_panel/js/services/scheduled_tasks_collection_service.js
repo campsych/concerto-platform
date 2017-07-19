@@ -16,7 +16,7 @@ concertoPanel.factory('ScheduledTasksCollectionService', function ($http) {
                     callback.call(this);
             });
         },
-        filterPackagesCollection() {
+        filterPackagesCollection: function() {
             var c = [];
             for (var i = 0; i < this.collection.length; i++) {
                 var task = this.collection[i];
