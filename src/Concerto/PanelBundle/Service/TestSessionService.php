@@ -384,11 +384,11 @@ class TestSessionService
 
         $response = array("result" => -1);
         foreach ($files as $file) {
-            $upload_result = $this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName() . ".upload");
+            $upload_result = $this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName() . ".upload", $message);
             if ($upload_result)
                 $response = array("result" => 0, "file_path" => $this->fileService->getUploadDirectory() . $file->getClientOriginalName() . ".upload", "name" => $name);
             else {
-                $response = array("result" => -1);
+                $response = array("result" => -1, "error" => $message);
                 return $response;
             }
         }

@@ -2,24 +2,33 @@
 
 namespace Concerto\PanelBundle\Service;
 
-class FileService {
+class FileService
+{
 
     private $environment;
 
-    public function __construct($environment) {
+    public function __construct($environment)
+    {
         $this->environment = $environment;
     }
 
-    public function getUploadDirectory() {
+    public function getUploadDirectory()
+    {
         return dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . ($this->environment === "test" ? ("Tests" . DIRECTORY_SEPARATOR) : "") . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR;
     }
 
-    public function moveUploadedFile($tmp_file, $file_name) {
+    public function moveUploadedFile($tmp_file, $file_name, &$message)
+    {
+        if (!is_writable($file_name)) {
+            $message = $file_name . " is not writable";
+            return false;
+        }
         $upload_path = $this->getUploadDirectory() . $file_name;
         return move_uploaded_file($tmp_file, $upload_path);
     }
 
-    public function listUploadedFiles($url_prefix) {
+    public function listUploadedFiles($url_prefix)
+    {
         $uris = array();
 
         try {
@@ -35,13 +44,14 @@ class FileService {
         return $uris;
     }
 
-    public function deleteUploadedFile($filename) {
+    public function deleteUploadedFile($filename)
+    {
         $uris = array();
 
         try {
             foreach (new \DirectoryIterator($this->getUploadDirectory()) as $file_info)
-                if ((!$file_info->isDot() ) && ( $file_info->getFilename() == $filename ))
-                    return (bool) unlink($file_info->getPathname());
+                if ((!$file_info->isDot()) && ($file_info->getFilename() == $filename))
+                    return (bool)unlink($file_info->getPathname());
         } catch (\UnexpectedValueException $exc) {
             // some logging would be nice
             return false;

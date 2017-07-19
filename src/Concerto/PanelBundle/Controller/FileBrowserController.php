@@ -36,8 +36,8 @@ class FileBrowserController {
     public function fileUploadAction() {
         $response = new Response(json_encode(array("result" => 0)));
         foreach ($this->request->files as $file) {
-            if (!$this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName())) {
-                $response = new Response(json_encode(array("result" => 1)));
+            if (!$this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName(), $message)) {
+                $response = new Response(json_encode(array("result" => 1, "error" => $message)));
                 break;
             }
         }
