@@ -64,6 +64,7 @@ concerto$submitter.port <- submitter$port
 
 connection <- fromJSON(commandArgs(TRUE)[1])
 concerto$connection <- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
+concerto$driver <- connection$driver
 rm(connection)
 
 concerto$session <- as.list(concerto5:::concerto.session.get(commandArgs(TRUE)[5]))
