@@ -19,10 +19,9 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
     require("RPostgreSQL")
     stop("pdo_pgsql driver not implemented yet")
   } else if (driver=="pdo_sqlsrv"){
-    require("rClr")
-    require("rsqlserver")
+    require("RSQLServer")
     con <- dbConnect(
-      SqlServer(),url=paste0("User Id=",username,";Password=",password,";Database=",dbname,";Server=",host,";MultipleActiveResultSets=true"))
+      SqlServer(), server=host, database=dbname, properties(user=username, password=password))
   } else if (driver=="oci8" || driver=="pdo_oci"){
     require("ROracle")
     stop("oci8 and pdo_oci driver not implemented yet")
@@ -33,11 +32,6 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
   if(!existsFunction("dbEscapeStrings")) {
       dbEscapeStrings <<- function(con,string){
           return(gsub("'","''",string))
-      }
-  }
-  if(!existsFunction("dbMoreResults")) {
-      dbMoreResults <<- function(con){
-          return(F)
       }
   }
   return(con)
