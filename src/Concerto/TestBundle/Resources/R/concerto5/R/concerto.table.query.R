@@ -11,5 +11,11 @@ function(sql, params=list()){
   try({
     dbClearResult(result)
   }, silent=TRUE)
+  while(dbMoreResults(concerto$connection)) {
+    next_result <- dbNextResult(concerto$connection)
+    try({
+        dbClearResult(next_result)
+    }, silent=TRUE)
+  }
   return(records)
 }

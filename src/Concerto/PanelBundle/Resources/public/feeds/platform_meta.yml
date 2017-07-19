@@ -50,9 +50,11 @@ changelog:
                 - group list fields are now sorted according to order field
                 - test session max execution timeout now properly closes all related processes
                 - test variables changes are now properly applied to the flow chart
+                - fixed nested flow test returning variables
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument
+                - concerto.table.query should now be able to call procedures
           - label: Non backwards compatible
             changes:
                 - >

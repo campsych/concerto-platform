@@ -106,6 +106,8 @@ concerto.test.run <-
       }
 
       runNode = function(node){
+        r = list()
+
         #PARAMS
         node_params = list()
         input_type = 0
@@ -218,6 +220,7 @@ concerto.test.run <-
             eval(parse(text=func))
             concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
         }
+        return(r)
       }
       
       if(ongoingResumeFlowIndex != -1) {
@@ -229,11 +232,13 @@ concerto.test.run <-
         concerto$flow[[flowIndex]]$currentNode <<- node
         concerto$flow[[flowIndex]]$nextNode <<- NULL
         
-        runNode(node)
+        r = runNode(node)
       }
     }
     concerto$flow[[flowIndex]] <<- NULL
     
     print(paste("test #",testId," finished",sep=''))
+    print("test returns: ")
+    print(r)
     return(r)
   }
