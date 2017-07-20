@@ -422,8 +422,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             }
     );
 
-    $scope.onObjectChanged = function (newObject, oldObject) {
-        $scope.super.onObjectChanged(newObject, oldObject);
+    $scope.onObjectChanged = function () {
+        $scope.super.onObjectChanged();
 
         if ($scope.logsGridApi)
             $scope.logsGridApi.selection.clearSelectedRows();
@@ -434,17 +434,17 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if ($scope.branchesGridApi)
             $scope.branchesGridApi.selection.clearSelectedRows();
 
-        if (newObject.sourceWizard != null) {
-            newObject.steps = TestWizardCollectionService.get(newObject.sourceWizard).steps;
-            TestWizardParam.testVariablesToWizardParams($scope.object.variables, newObject.steps);
+        if ($scope.object.sourceWizard != null) {
+            $scope.object.steps = TestWizardCollectionService.get($scope.object.sourceWizard).steps;
+            TestWizardParam.testVariablesToWizardParams($scope.object.variables, $scope.object.steps);
         }
 
-        if (newObject.variables != null) {
+        if ($scope.object.variables != null) {
             var params = [];
             var returns = [];
             var branches = [];
-            for (var i = 0; i < newObject.variables.length; i++) {
-                var variable = newObject.variables[i];
+            for (var i = 0; i < $scope.object.variables.length; i++) {
+                var variable = $scope.object.variables[i];
                 switch (variable.type) {
                     case 0:
                         params.push(variable);
@@ -466,7 +466,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             $scope.branches = [];
         }
 
-        $scope.codeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.codeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
     };
 
     $scope.onBeforePersist = function () {

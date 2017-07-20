@@ -404,18 +404,18 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         $scope.testCollectionService.fetchObjectCollection();
     };
 
-    $scope.onObjectChanged = function (newObject, oldObject) {
-        $scope.super.onObjectChanged(newObject, oldObject);
+    $scope.onObjectChanged = function () {
+        $scope.super.onObjectChanged();
 
         if ($scope.paramsGridApi)
             $scope.paramsGridApi.selection.clearSelectedRows();
         if ($scope.stepsGridApi)
             $scope.stepsGridApi.selection.clearSelectedRows();
 
-        if (newObject.steps != null) {
+        if ($scope.object.steps != null) {
             var params = [];
-            for (var i = 0; i < newObject.steps.length; i++) {
-                var step = newObject.steps[i];
+            for (var i = 0; i < $scope.object.steps.length; i++) {
+                var step = $scope.object.steps[i];
                 for (var j = 0; j < step.params.length; j++) {
                     params.push(step.params[j]);
                 }

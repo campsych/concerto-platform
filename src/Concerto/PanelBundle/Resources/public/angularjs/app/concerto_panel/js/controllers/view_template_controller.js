@@ -119,10 +119,10 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         }
     };
     
-    $scope.onObjectChanged = function (newObject, oldObject) {
-        $scope.headCodeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
-        $scope.cssCodeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
-        $scope.jsCodeOptions.readOnly = newObject.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+    $scope.onObjectChanged = function () {
+        $scope.headCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.cssCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.jsCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
     };
 
     $scope.$watch("object.css", function () {

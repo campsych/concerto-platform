@@ -417,8 +417,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
     };
 
-    $scope.onObjectChanged = function (newObject, oldObject) {
-        $scope.super.onObjectChanged(newObject, oldObject);
+    $scope.onObjectChanged = function () {
+        $scope.super.onObjectChanged();
         if ($scope.structureGridApi)
             $scope.structureGridApi.selection.clearSelectedRows();
         $scope.dataFilterOptions.filters = {};

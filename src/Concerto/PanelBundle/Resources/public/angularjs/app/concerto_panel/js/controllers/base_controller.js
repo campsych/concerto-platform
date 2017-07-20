@@ -66,10 +66,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.workingCopyObject = null;
     }
 
-    $scope.super.onObjectChanged = function (newObject, oldObject) {
+    $scope.super.onObjectChanged = function () {
     };
-    $scope.onObjectChanged = function (newObject, oldObject) {
-        $scope.super.onObjectChanged(newObject, oldObject);
+    $scope.onObjectChanged = function () {
+        $scope.super.onObjectChanged();
     };
 
     $scope.super.onCollectionChanged = function (newCollection) {
@@ -465,19 +465,19 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.switchTab();
     }
 
-    $scope.$watchCollection("object", function (newObject, oldObject) {
+    $scope.$watch("object.id", function (newObject, oldObject) {
         if (newObject == null)
             return;
-        if (oldObject == null || newObject.id !== oldObject.id) {
-            if (newObject.id > 0) {
-                $scope.formTitle = $scope.formTitleEditLabel.pf(newObject.id);
+        if (oldObject == null || newObject !== oldObject) {
+            if (newObject > 0) {
+                $scope.formTitle = $scope.formTitleEditLabel.pf(newObject);
             } else {
                 $scope.formTitle = $scope.formTitleAddLabel;
                 if ($scope.tabSection === "form")
                     $scope.tabSection = "list";
             }
         }
-        $scope.onObjectChanged(newObject, oldObject);
+        $scope.onObjectChanged();
     });
 
     $scope.$watch("collectionService.collection", function (newCollection, oldCollection) {
