@@ -358,7 +358,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
         modalInstance.result.then(function (object) {
             $scope.object = object;
-            $scope.fetchAllCollections();
+            $scope.fetchObjectCollection();
         }, function () {
         });
     };
@@ -497,21 +497,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 CKEDITOR.instances.editor1.execCommand("maximize");
             }
     });
-
-    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
-            if (toState.name === $scope.tabStateName + "Form") {
-                $scope.tabSection = "form";
-                $scope.delayedEdit(toParams.id);
-            } else {
-                $scope.tab.activeIndex = $scope.tabIndex;
-                $scope.tabSection = "list";
-                $scope.resetObject();
-            }
-        } else {
-            $scope.resetObject();
-        }
-    });
     
     $scope.isDelayedEditPossible = function() {
         return $scope.collectionService.collectionInitialized;
@@ -528,8 +513,24 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         if (!obj) {
             $scope.switchTab();
         }
-        $scope.tab.activeIndex = $scope.tabIndex;
     };
+
+    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
+            if (toState.name === $scope.tabStateName + "Form") {
+                $scope.tabSection = "form";
+                $scope.delayedEdit(toParams.id);
+            } else {
+                $scope.tabSection = "list";
+                $scope.resetObject();
+            }
+        }
+    });
+
+    if($state.current.name === $scope.tabStateName + "Form") {
+        $scope.tabSection = "form";
+        $scope.delayedEdit($state.params.id);
+    }
 }
 
 BaseController.RESULT_OK = 0;

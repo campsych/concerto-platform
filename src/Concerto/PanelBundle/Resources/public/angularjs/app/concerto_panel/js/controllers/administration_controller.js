@@ -1,6 +1,5 @@
 function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService, DialogsService) {
     $scope.tabStateName = "administration";
-    $scope.tabIndex = 6;
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
     $scope.deleteMessagePath = Paths.ADMINISTRATION_MESSAGES_DELETE;
     $scope.clearMessagePath = Paths.ADMINISTRATION_MESSAGES_CLEAR;
@@ -693,13 +692,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         $scope.refreshSettings();
         $scope.refreshMessages();
         $scope.refreshTasks();
-    }
-
-    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name === $scope.tabStateName) {
-            $scope.tab.activeIndex = $scope.tabIndex;
-        }
-    });
+    };
 
     $scope.refreshMessages();
     $scope.refreshTasks();

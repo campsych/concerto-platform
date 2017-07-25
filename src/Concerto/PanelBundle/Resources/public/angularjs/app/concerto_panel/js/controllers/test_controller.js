@@ -1,6 +1,5 @@
 function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation, AdministrationSettingsService) {
     $scope.tabStateName = "tests";
-    $scope.tabIndex = 0;
     BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
     $scope.exportable = true;
 
@@ -435,7 +434,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             $scope.branchesGridApi.selection.clearSelectedRows();
 
         if ($scope.object.sourceWizard != null) {
-            $scope.object.steps = TestWizardCollectionService.get($scope.object.sourceWizard).steps;
             TestWizardParam.testVariablesToWizardParams($scope.object.variables, $scope.object.steps);
         }
 
@@ -566,7 +564,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                     }).success(function (data) {
                         $scope.setWorkingCopyObject();
                         $scope.collectionService.fetchObjectCollection();
-                        $scope.testWizardCollectionService.fetchObjectCollection();
                     });
                 }
         );
@@ -642,7 +639,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.testWizardCollectionService.fetchObjectCollection();
             $scope.collectionService.fetchObjectCollection();
         }, function () {
         });
@@ -657,11 +653,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.isDelayedEditPossible = function () {
-        return $scope.collectionService.collectionInitialized && $scope.testWizardCollectionService.collectionInitialized;
+        return $scope.collectionService.collectionInitialized;
     };
 
     $scope.onDelete = function () {
-        TestWizardCollectionService.fetchObjectCollection();
     };
 
     $scope.startTest = function (slug) {

@@ -1,6 +1,5 @@
 function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploader, $http, DialogsService) {
     $scope.tabStateName = "files";
-    $scope.tabIndex = 3;
 
     $scope.delete_url = Paths.FILE_UPLOAD_DELETE;
     $scope.list_url = Paths.FILE_UPLOAD_LIST;
@@ -72,12 +71,6 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
         $scope.loadFiles();
         $scope.showErrorAlert();
     };
-
-    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name === $scope.tabStateName) {
-            $scope.tab.activeIndex = $scope.tabIndex;
-        }
-    });
 
     // Workaround for issue with files not showing up after reopening popup from CKEditor.
     $timeout(function () {

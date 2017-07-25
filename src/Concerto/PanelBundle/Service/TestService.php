@@ -184,6 +184,7 @@ class TestService extends AExportableSectionService {
     public function convertToExportable($array) {
         unset($array["logs"]);
         unset($array["slug"]);
+        unset($array["steps"]);
         return $array;
     }
 

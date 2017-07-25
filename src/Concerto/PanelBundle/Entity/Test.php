@@ -636,6 +636,7 @@ class Test extends ATopEntity implements \JsonSerializable {
             "sourceWizardName" => $this->sourceWizard != null ? $this->sourceWizard->getName() : null,
             "sourceWizardTest" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getId() : null,
             "sourceWizardTestName" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getName() : null,
+            "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies),
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedBy" => $this->updatedBy,
             "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies),

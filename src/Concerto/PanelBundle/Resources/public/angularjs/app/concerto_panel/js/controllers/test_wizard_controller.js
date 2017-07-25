@@ -1,6 +1,5 @@
 function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, AdministrationSettingsService) {
     $scope.tabStateName = "wizards";
-    $scope.tabIndex = 5;
     BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
     $scope.exportable = true;
 
@@ -246,7 +245,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                     }).success(function (data) {
                         $scope.setWorkingCopyObject();
                         $scope.fetchObjectCollection();
-                        $scope.testCollectionService.fetchObjectCollection();
                     });
                 }
         );
@@ -273,7 +271,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                     }).success(function (data) {
                         $scope.setWorkingCopyObject();
                         $scope.fetchObjectCollection();
-                        $scope.testCollectionService.fetchObjectCollection();
                     });
                 }
         );
@@ -287,7 +284,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                     }).success(function (data) {
                         $scope.setWorkingCopyObject();
                         $scope.fetchObjectCollection();
-                        $scope.testCollectionService.fetchObjectCollection();
                     });
                 }
         );
@@ -314,7 +310,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                     }).success(function (data) {
                         $scope.setWorkingCopyObject();
                         $scope.fetchObjectCollection();
-                        $scope.testCollectionService.fetchObjectCollection();
                     });
                 }
         );
@@ -336,7 +331,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
-            $scope.testCollectionService.fetchObjectCollection();
         }, function () {
         });
     };
@@ -369,7 +363,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
             $scope.fetchObjectCollection();
-            $scope.testCollectionService.fetchObjectCollection();
         }, function () {
         });
     };
@@ -397,11 +390,9 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testCollectionService.fetchObjectCollection();
     };
 
     $scope.onDelete = function () {
-        $scope.testCollectionService.fetchObjectCollection();
     };
 
     $scope.onObjectChanged = function () {
