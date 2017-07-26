@@ -168,8 +168,6 @@ class TestSession extends AEntity {
 
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
-        $this->finalize = 0;
-        $this->templateTimerStart = 0;
     }
 
     public function getOwner() {
