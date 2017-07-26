@@ -33,11 +33,11 @@ class TestRunnerService {
         return $response;
     }
 
-    public function submitToSession($session_hash, $node_id, $values, $client_ip, $client_browser) {
+    public function submitToSession($session_hash, $node_id, $values, $client_ip, $client_browser, $time) {
         $values = json_encode($values);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $values, $client_ip, $client_browser");
 
-        $response = $this->sessionService->submit($session_hash, $values, $client_ip, $client_browser, false);
+        $response = $this->sessionService->submit($session_hash, $values, $client_ip, $client_browser, false, $time);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
         return $response;
     }

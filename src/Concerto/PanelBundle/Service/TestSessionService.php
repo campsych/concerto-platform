@@ -12,6 +12,7 @@ use Concerto\TestBundle\Service\RRunnerService;
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\PanelBundle\Service\LoadBalancerInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class TestSessionService
 {
@@ -50,8 +51,10 @@ class TestSessionService
     private $fileService;
     private $administrationService;
     private $loadBalancerService;
+    private $testRunnerSettings;
+    private $session;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService, LoadBalancerInterface $loadBalancerService)
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService, LoadBalancerInterface $loadBalancerService, $testRunnerSettings, Session $session)
     {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
@@ -64,6 +67,8 @@ class TestSessionService
         $this->fileService = $fileService;
         $this->administrationService = $administrationService;
         $this->loadBalancerService = $loadBalancerService;
+        $this->testRunnerSettings = $testRunnerSettings;
+        $this->session = $session;
     }
 
     private function getLocalPanelNode()
@@ -142,7 +147,9 @@ class TestSessionService
                 break;
             }
         }
-        return $this->prepareResponse($session->getHash(), $response);
+
+        $response = $this->prepareResponse($session->getHash(), $response);
+        return $response;
     }
 
     private function validateParams($session, $params)
@@ -170,7 +177,30 @@ class TestSessionService
         return json_encode($result);
     }
 
-    public function submit($session_hash, $values, $client_ip, $client_browser, $calling_node_ip)
+    public function setTemplateTimerValues(TestSession $session, $values, $time = null)
+    {
+        if ($time === null) $time = microtime(true);
+        $values = json_decode($values, true);
+
+        $timeLimit = $session->getTimeLimit();
+        $timeTaken = $values["timeTaken"];
+        $isTimeout = $values["isTimeout"];
+        if ($this->testRunnerSettings["timer_type"] == "server") {
+            $timeTaken = $time - $this->session->get("templateStartTime");
+            if ($timeTaken >= $timeLimit) {
+                $isTimeout = 1;
+            }
+        }
+        if ($isTimeout) {
+            $timeTaken = $timeLimit;
+        }
+
+        $values["timeTaken"] = $timeTaken;
+        $values["isTimeout"] = $isTimeout;
+        return json_encode($values);
+    }
+
+    public function submit($session_hash, $values, $client_ip, $client_browser, $calling_node_ip, $time)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser, $calling_node_ip");
 
@@ -201,6 +231,8 @@ class TestSessionService
             ));
         }
 
+        $values = $this->setTemplateTimerValues($session, $values, $time);
+
         $panel_node = $this->getLocalPanelNode();
         if (($client_sock = $this->createListenerSocket(gethostbyname($panel_node["sock_host"]))) === false) {
             return false;
@@ -229,7 +261,9 @@ class TestSessionService
             $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
         }
         $response = $this->startListener($client_sock);
-        return $this->prepareResponse($session_hash, $response);
+        $response = $this->prepareResponse($session_hash, $response);
+
+        return $response;
     }
 
     public function keepAlive($session_hash, $client_ip, $calling_node_ip)
@@ -310,7 +344,9 @@ class TestSessionService
             "source" => self::SOURCE_PANEL_NODE,
             "code" => $session->getStatus() == self::STATUS_FINALIZED ? self::RESPONSE_VIEW_FINAL_TEMPLATE : self::RESPONSE_VIEW_TEMPLATE
         ));
-        return $this->prepareResponse($session_hash, $response);
+        $response = $this->prepareResponse($session_hash, $response);
+
+        return $response;
     }
 
     public function results($session_hash, $calling_node_ip)
@@ -543,6 +579,7 @@ class TestSessionService
                     usleep(10000);
                     continue;
                 }
+
                 $response .= $buf;
                 socket_close($client_sock);
                 break 2;
@@ -551,6 +588,7 @@ class TestSessionService
             usleep(10000);
         } while (true);
         socket_close($sock);
+
         return $response;
     }
 

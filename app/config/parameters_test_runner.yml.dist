@@ -7,3 +7,4 @@ parameters:
         r_environ_path: null
         php_exec: php
         rscript_exec: Rscript
+        timer_type: server #client or server

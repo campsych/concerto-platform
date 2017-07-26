@@ -184,7 +184,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestSession_metadata"]
   concerto_panel.TestSession_service:
     class: Concerto\PanelBundle\Service\TestSessionService
-    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service","@concerto_panel.Administration_service", "@concerto_panel.LoadBalancer_service"]
+    arguments: ["%kernel.environment%", "@concerto_panel.TestSession_repository","@concerto_panel.Test_repository","@concerto_panel.TestSessionLog_repository", "%panel_nodes%","%secret%","@logger", "@concerto_test.r_runner_service", "@concerto_panel.file_service","@concerto_panel.Administration_service", "@concerto_panel.LoadBalancer_service", "%test_runner_settings%", "@session"]
     
 # Administration
   concerto_panel.AdministrationSetting_metadata:
@@ -311,7 +311,7 @@ services:
     scope: request
   concerto_panel.test_runner_controller:
     class: Concerto\PanelBundle\Controller\TestRunnerController
-    arguments: ["%kernel.environment%","@templating","@concerto_panel.test_runner_service", "@request", "@logger", "%test_runner_settings%"]
+    arguments: ["%kernel.environment%","@templating","@concerto_panel.test_runner_service", "@request", "@logger", "%test_runner_settings%", "@session"]
     scope: request
     
 #starter content update services
