@@ -7,7 +7,7 @@ parameters:
             api_enabled_overridable: true
         internal:
             online: true
-            global_feed: https://raw.githubusercontent.com/campsych/concerto-platform/master/src/Concerto/PanelBundle/Resources/public/feeds/global.yml
+            global_feed: https://raw.githubusercontent.com/campsych/concerto-platform/admin_tab/src/Concerto/PanelBundle/Resources/public/feeds/global.yml
             local_feed: null
             git_branch: admin_tab
             backup_directory: /tmp #must be above Concerto Platform root directory

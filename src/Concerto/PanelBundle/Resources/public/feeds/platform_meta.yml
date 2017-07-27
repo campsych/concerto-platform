@@ -28,6 +28,7 @@ changelog:
                 - concerto:schedule:tick command to process scheduled tasks (Linux only for now)
                 - API can be enabled/disabled in config file (app/config/parameters_administration.yml) and/or in administration tab
                 - in-test file upload uploads file to test node
+                - can now set timer type method to client side or server side
           - label: Improvements
             changes:
                 - 307 redirections to remote panel nodes
