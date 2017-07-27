@@ -10,12 +10,6 @@ function(sql, params=list()){
   if(toupper(substring(sql, 1, 6)) == "SELECT") {
     result <- dbSendQuery(concerto$connection, sql)
     output <- fetch(result, -1)
-    if(concerto$driver == "pdo_mysql") {
-        while(dbMoreResults(concerto$connection)) {
-           next_result <- dbNextResult(concerto$connection)
-           dbClearResult(next_result)
-        }
-      }
   } else if(toupper(substring(sql, 1, 6)) == "INSERT") {
     if(concerto$driver == "pdo_sqlsrv") {
          result <- dbSendQuery(concerto$connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
@@ -29,6 +23,7 @@ function(sql, params=list()){
     result <- dbSendStatement(concerto$connection, sql)
     output <- dbGetRowsAffected(result)
   }
+
   dbClearResult(result)
 
   return(output)
