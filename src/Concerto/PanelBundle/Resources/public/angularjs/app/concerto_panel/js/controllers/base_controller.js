@@ -88,8 +88,8 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.collectionService.fetchObjectCollection($scope.filterOptions);
     };
 
-    $scope.refresh = function () {
-        $scope.fetchObjectCollection();
+    $scope.refreshGrid = function() {
+        $scope.collectionGridApi.core.refresh();
     };
 
     $scope.fetchObject = function (id) {
@@ -358,12 +358,15 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
         modalInstance.result.then(function (object) {
             $scope.object = object;
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
 
     $scope.fetchAllCollections = function () {
+        if ($scope.collectionGridApi)
+            $scope.collectionGridApi.selection.clearSelectedRows();
+
         $scope.dataTableCollectionService.fetchObjectCollection();
         $scope.testCollectionService.fetchObjectCollection();
         $scope.testWizardCollectionService.fetchObjectCollection();

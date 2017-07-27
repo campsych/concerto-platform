@@ -36,7 +36,6 @@ function UserController($scope, $uibModal, $http, $filter, $state, $sce, $timeou
 
     $scope.resetObject();
     $scope.initializeColumnDefs();
-    $scope.fetchObjectCollection();
 }
 
 concertoPanel.controller('UserController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", UserController]);

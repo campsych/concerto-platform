@@ -682,7 +682,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
     $scope.resetObject();
     $scope.initializeColumnDefs();
-    $scope.fetchObjectCollection();
 }
 
 concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", TestController]);

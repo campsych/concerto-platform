@@ -434,7 +434,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
     $scope.resetObject();
     $scope.initializeColumnDefs();
-    $scope.fetchObjectCollection();
 }
 
 concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", DataTableController]);

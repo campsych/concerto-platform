@@ -1,21 +1,27 @@
 concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
     return {
         collectionInitialized: false,
+
         collectionPath: "",
         collection: [],
-        fetchObjectCollection: function (params, callback) {
+        fetchObjectCollection: function (params, callback, current) {
             var obj = this;
-            $http({
-                url: obj.collectionPath,
-                method: "GET",
-                // simple binding can't be used since sorting options need some processing before
-                params: params
-            }).success(function (c) {
-                obj.collection = c;
-                obj.collectionInitialized = true;
+            if(current && this.collectionInitialized){
                 if (callback)
                     callback.call(this);
-            });
+            } else {
+                $http({
+                    url: obj.collectionPath,
+                    method: "GET",
+                    // simple binding can't be used since sorting options need some processing before
+                    params: params
+                }).success(function (c) {
+                    obj.collection = c;
+                    obj.collectionInitialized = true;
+                    if (callback)
+                        callback.call(this);
+                });
+            }
         },
         get: function (id) {
             for (var i = 0; i < this.collection.length; i++) {

@@ -141,7 +141,6 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
 
     $scope.resetObject();
     $scope.initializeColumnDefs();
-    $scope.fetchObjectCollection();
 }
 
 ViewTemplateController.prototype = Object.create(BaseController.prototype);
