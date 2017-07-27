@@ -6,7 +6,8 @@ function(sql, params=list()){
 
   result <- NULL
   output <- NULL
-  if(startsWith(toupper(sql), "SELECT")) {
+  sql <- trimws(sql)
+  if(toupper(substring(sql, 1, 6)) == "SELECT") {
     result <- dbSendQuery(concerto$connection, sql)
     output <- fetch(result, -1)
     if(concerto$driver == "pdo_mysql") {
@@ -15,7 +16,7 @@ function(sql, params=list()){
            dbClearResult(next_result)
         }
       }
-  } else if(startsWith(toupper(sql), "INSERT")) {
+  } else if(toupper(substring(sql, 1, 6)) == "INSERT") {
     if(concerto$driver == "pdo_sqlsrv") {
          result <- dbSendQuery(concerto$connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
          output <- fetch(result, n=-1)[1,1]

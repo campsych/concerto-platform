@@ -34,5 +34,8 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
           return(gsub("'","''",string))
       }
   }
+  if(!existsFunction("dbSendStatement")) {
+      dbSendStatement <<- dbSendQuery
+  }
   return(con)
 }
