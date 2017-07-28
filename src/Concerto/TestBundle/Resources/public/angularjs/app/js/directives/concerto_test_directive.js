@@ -164,8 +164,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
-                        case RESPONSE_VIEW_FINAL_TEMPLATE:
-                        {
+                        case RESPONSE_VIEW_FINAL_TEMPLATE: {
                             settings.hash = response.hash;
                             timeLimit = response.timeLimit;
                             if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
@@ -225,8 +224,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     lastResponseTime = new Date();
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
-                        case RESPONSE_VIEW_FINAL_TEMPLATE:
-                        {
+                        case RESPONSE_VIEW_FINAL_TEMPLATE: {
                             settings.hash = response.hash;
                             timeLimit = response.timeLimit;
                             if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
@@ -261,8 +259,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
                     switch (lastResponse.code) {
                         case RESPONSE_VIEW_TEMPLATE:
-                        case RESPONSE_VIEW_FINAL_TEMPLATE:
-                        {
+                        case RESPONSE_VIEW_FINAL_TEMPLATE: {
                             settings.hash = response.hash;
                             timeLimit = response.timeLimit;
                             if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
@@ -292,8 +289,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     lastResponse = response;
                     lastResponseTime = new Date();
                     switch (lastResponse.code) {
-                        case RESPONSE_RESULTS:
-                        {
+                        case RESPONSE_RESULTS: {
                             results = response.results;
                             break;
                         }
@@ -346,7 +342,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         testRunner.R = scope.R;
                     }
 
-                    if (head != null && head !== "") {
+                    if (head != null && head.trim() !== "") {
                         angular.element("head").append($compile(head)(scope));
                     }
 
@@ -402,10 +398,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         var file = $(this)[0].files[0];
                         scope.fileUploader.url = settings.directory + "test/session/" + settings.hash + "/upload";
                         scope.fileUploader.formData = [{
-                                node_id: settings.nodeId
-                            }, {
-                                name: name
-                            }];
+                            node_id: settings.nodeId
+                        }, {
+                            name: name
+                        }];
                         scope.fileUploader.addToQueue(file);
                         return;
                     }
@@ -444,7 +440,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 });
             }
 
-            function  removeSubmitEvents() {
+            function removeSubmitEvents() {
                 element.find(":button:not(.concerto-nosubmit)").unbind("click");
                 element.find("input:image:not(.concerto-nosubmit)").unbind("click");
                 element.find("input:submit:not(.concerto-nosubmit)").unbind("click");
