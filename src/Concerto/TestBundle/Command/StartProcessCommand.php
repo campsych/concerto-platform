@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
-use Concerto\TestBundle\Service\TestSessionCountService;
 use Concerto\PanelBundle\Service\TestSessionService;
 use Psr\Log\LoggerInterface;
 
@@ -28,13 +27,11 @@ class StartProcessCommand extends Command {
     private $logPath;
     private $rLogPath;
     private $rEnviron;
-    private $sessionCountService;
     private $logger;
 
-    public function __construct(TestSessionCountService $sessionCountService, LoggerInterface $logger) {
+    public function __construct(LoggerInterface $logger) {
         parent::__construct();
 
-        $this->sessionCountService = $sessionCountService;
         $this->logger = $logger;
     }
 
@@ -203,12 +200,10 @@ class StartProcessCommand extends Command {
             case TestSessionService::RESPONSE_ERROR:
             case TestSessionService::RESPONSE_FINISHED:
             case TestSessionService::RESPONSE_VIEW_FINAL_TEMPLATE: {
-                    $this->sessionCountService->updateCountRecord();
                     $this->respondToPanelNode($message);
                     return true;
                 }
             case TestSessionService::RESPONSE_SERIALIZATION_FINISHED: {
-                    $this->sessionCountService->updateCountRecord();
                     return true;
                 }
         }
@@ -371,7 +366,6 @@ class StartProcessCommand extends Command {
             $env["R_ENVIRON"] = $this->rEnviron;
             $process->setEnv($env);
         }
-        $this->sessionCountService->updateCountRecord(1);
         $process->mustRun();
         $this->startListener($test_node_sock, $submitter_sock);
         socket_close($submitter_sock);
