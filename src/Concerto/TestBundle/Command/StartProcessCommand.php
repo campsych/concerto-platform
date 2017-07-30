@@ -38,7 +38,6 @@ class StartProcessCommand extends Command {
     const STATUS_REJECTED = 4;
 
     private $panelNode;
-    private $output;
     private $lastClientTime;    //for idle timeout
     private $lastKeepAliveTime; //for keep alive timeout
     private $maxIdleTime;
@@ -290,8 +289,6 @@ class StartProcessCommand extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $this->output = $output;
-
         if ($this->getOS() == self::OS_LINUX) {
             if (posix_getpid() != posix_getsid(getmypid())) {
                 posix_setsid();
