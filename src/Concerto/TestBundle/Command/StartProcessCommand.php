@@ -348,7 +348,6 @@ class StartProcessCommand extends Command {
         $this->rEnviron = $input->getOption("r_environ");
 
         $test_node = $input->getArgument("test_node");
-        $decoded_test_node = json_decode($test_node, true);
 
         $test_node_sock = $this->createListenerSocket();
         socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
