@@ -26,6 +26,5 @@ services:
             -  { name: console.command }
     concerto_test.command.start_process_command:
         class: Concerto\TestBundle\Command\StartProcessCommand
-        arguments: ["@logger"]
         tags:
             -  { name: console.command }
