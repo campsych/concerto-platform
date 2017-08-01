@@ -57,6 +57,7 @@ changelog:
             changes: 
                 - concerto.template.show accepts removeMissingParams argument
                 - concerto.table.query should now be able to call procedures
+                - added concerto.onTemplateSubmit(response) callback function
           - label: Non backwards compatible
             changes:
                 - >

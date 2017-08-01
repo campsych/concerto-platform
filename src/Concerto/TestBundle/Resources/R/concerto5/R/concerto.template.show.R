@@ -42,6 +42,11 @@ concerto.template.show = function(
         concerto$templateParams <<- list()
 
         resp = concerto5:::concerto.server.listen()
+
+        if(exists("concerto.onTemplateSubmit")) {
+            do.call("concerto.onTemplateSubmit",list(response=resp), envir = .GlobalEnv)
+        }
+
         return(resp)
     }
 }

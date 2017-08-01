@@ -12,4 +12,3 @@ default.template:
     error: Erreur rencontrée. Exécution arrêtée.
     finished: Test fini.
     loading: Merci de patienter...
-    unresumable: Test expiré. Actualisez la page pour recommencer.

@@ -12,4 +12,3 @@ default.template:
     error: Hata oluştu. Çalışma durdu.
     finished: Test Tamamlandı.
     loading: Lütfen Bekleyin...
-    unresumable: Test zaman aşımına uğradı. Yeniden başlamak için lütfen tarayıcınızı yenileyin.

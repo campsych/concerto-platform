@@ -12,5 +12,5 @@ default.template:
     error: Error encountered. Execution halted.
     finished: Test finished.
     loading: Please wait...
-    unresumable: Test timed out. Refresh the page to start again.
+    unresumable: This session can not be resumed.
     session_limit_reached: Session limit reached.

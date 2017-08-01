@@ -12,4 +12,4 @@ default.template:
     error: Napotkano problem. Wykonanie wstrzymane.
     finished: Test ukończony.
     loading: proszę czekać...
-    unresumable: Maksymalny limit czasu nieaktywności w sesji osiągnięty. Proszę odświeżyć stronę aby zacząć od nowa.
+    unresumable: Ta sesja nie może być wznowiona.

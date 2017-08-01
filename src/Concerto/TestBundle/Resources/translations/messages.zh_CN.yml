@@ -12,4 +12,3 @@ default.template:
     error: 遇到错误。停止运行。
     finished: 测验完成。
     loading: 请等待……
-    unresumable: 测验超时。请刷新页面重新开始。
