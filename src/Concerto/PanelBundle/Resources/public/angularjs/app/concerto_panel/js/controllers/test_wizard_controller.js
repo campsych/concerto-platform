@@ -395,9 +395,17 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.onDelete = function () {
     };
 
-    $scope.onObjectChanged = function () {
-        $scope.super.onObjectChanged();
+    $scope.getPersistObject = function () {
+        var obj = angular.copy($scope.object);
+        obj.serializedSteps = angular.toJson(obj.steps);
+        delete obj.steps;
+        return obj;
+    };
 
+    $scope.resetObject();
+    $scope.initializeColumnDefs();
+
+    $scope.$watchCollection("object.steps", function() {
         if ($scope.paramsGridApi)
             $scope.paramsGridApi.selection.clearSelectedRows();
         if ($scope.stepsGridApi)
@@ -414,17 +422,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             $scope.params = params;
         } else
             $scope.params = [];
-    };
-
-    $scope.getPersistObject = function () {
-        var obj = angular.copy($scope.object);
-        obj.serializedSteps = angular.toJson(obj.steps);
-        delete obj.steps;
-        return obj;
-    };
-
-    $scope.resetObject();
-    $scope.initializeColumnDefs();
+    });
 }
 
 concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "AdministrationSettingsService", TestWizardController]);

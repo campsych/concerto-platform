@@ -137,7 +137,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             logs: [],
             variables: [],
             nodes: [],
-            nodesConnections: []
+            nodesConnections: [],
+            steps: []
         };
     };
 
@@ -426,43 +427,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
         if ($scope.logsGridApi)
             $scope.logsGridApi.selection.clearSelectedRows();
-        if ($scope.paramsGridApi)
-            $scope.paramsGridApi.selection.clearSelectedRows();
-        if ($scope.returnsGridApi)
-            $scope.returnsGridApi.selection.clearSelectedRows();
-        if ($scope.branchesGridApi)
-            $scope.branchesGridApi.selection.clearSelectedRows();
-
-        if ($scope.object.sourceWizard != null) {
-            TestWizardParam.testVariablesToWizardParams($scope.object.variables, $scope.object.steps);
-        }
-
-        if ($scope.object.variables != null) {
-            var params = [];
-            var returns = [];
-            var branches = [];
-            for (var i = 0; i < $scope.object.variables.length; i++) {
-                var variable = $scope.object.variables[i];
-                switch (variable.type) {
-                    case 0:
-                        params.push(variable);
-                        break;
-                    case 1:
-                        returns.push(variable);
-                        break;
-                    case 2:
-                        branches.push(variable);
-                        break;
-                }
-            }
-            $scope.params = params;
-            $scope.returns = returns;
-            $scope.branches = branches;
-        } else {
-            $scope.params = [];
-            $scope.returns = [];
-            $scope.branches = [];
-        }
 
         $scope.codeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
     };
@@ -682,6 +646,46 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
     $scope.resetObject();
     $scope.initializeColumnDefs();
+
+    $scope.$watchCollection("object.variables", function(){
+        if ($scope.paramsGridApi)
+            $scope.paramsGridApi.selection.clearSelectedRows();
+        if ($scope.returnsGridApi)
+            $scope.returnsGridApi.selection.clearSelectedRows();
+        if ($scope.branchesGridApi)
+            $scope.branchesGridApi.selection.clearSelectedRows();
+
+        if ($scope.object.sourceWizard != null) {
+            TestWizardParam.testVariablesToWizardParams($scope.object.variables, $scope.object.steps);
+        }
+
+        if ($scope.object.variables != null) {
+            var params = [];
+            var returns = [];
+            var branches = [];
+            for (var i = 0; i < $scope.object.variables.length; i++) {
+                var variable = $scope.object.variables[i];
+                switch (variable.type) {
+                    case 0:
+                        params.push(variable);
+                        break;
+                    case 1:
+                        returns.push(variable);
+                        break;
+                    case 2:
+                        branches.push(variable);
+                        break;
+                }
+            }
+            $scope.params = params;
+            $scope.returns = returns;
+            $scope.branches = branches;
+        } else {
+            $scope.params = [];
+            $scope.returns = [];
+            $scope.branches = [];
+        }
+    });
 }
 
 concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", TestController]);

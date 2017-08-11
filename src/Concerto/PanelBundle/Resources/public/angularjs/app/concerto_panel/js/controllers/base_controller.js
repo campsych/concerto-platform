@@ -468,12 +468,12 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.switchTab();
     }
 
-    $scope.$watchCollection("object", function (newObject, oldObject) {
+    $scope.$watch("object.id", function (newObject, oldObject) {
         if (newObject == null)
             return;
-        if (oldObject == null || newObject.id !== oldObject.id) {
-            if (newObject.id > 0) {
-                $scope.formTitle = $scope.formTitleEditLabel.pf(newObject.id);
+        if (oldObject == null || newObject !== oldObject) {
+            if (newObject > 0) {
+                $scope.formTitle = $scope.formTitleEditLabel.pf(newObject);
             } else {
                 $scope.formTitle = $scope.formTitleAddLabel;
                 if ($scope.tabSection === "form")
