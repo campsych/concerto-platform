@@ -24,8 +24,6 @@ form:
     type.code: code
     type.wizard: wizard
     type.flow: flowchart
-    resumable: Resumable
-    resumable.tooltip: Is session resume dialog allowed?
     wizard: Wizard
     wizard.tooltip: Select a test wizard that this test will be created from
     wizard.none: <none selected>

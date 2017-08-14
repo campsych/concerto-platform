@@ -46,7 +46,6 @@ class TestControllerTest extends AFunctionalTest {
                 "name" => "test",
                 "description" => "description",
                 "code" => "print('start')",
-                "resumable" => '0',
                 "visibility" => Test::VISIBILITY_FEATURED,
                 'variables' => array(
                     array(
@@ -92,7 +91,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
         $this->assertGreaterThan(0, $crawler->filter("select[ng-model='object.visibility']")->count());
-        $this->assertGreaterThan(0, $crawler->filter("input[type='checkbox'][ng-model='object.resumable']")->count());
     }
 
     public function testFormActionEdit() {
@@ -106,7 +104,6 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("html:contains('Test output')")->count());
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
         $this->assertGreaterThan(0, $crawler->filter("select[ng-model='object.visibility']")->count());
-        $this->assertGreaterThan(0, $crawler->filter("input[type='checkbox'][ng-model='object.resumable']")->count());
     }
 
     public function testDeleteAction() {
@@ -149,7 +146,6 @@ class TestControllerTest extends AFunctionalTest {
                 "archived" => "0",
                 "owner" => null,
                 "groups" => "",
-                'resumable' => '0',
                 'outdated' => '0',
                 'sourceWizard' => null,
                 'sourceWizardName' => null,
@@ -251,7 +247,6 @@ class TestControllerTest extends AFunctionalTest {
                 "name" => "new_test",
                 "description" => "",
                 "code" => "",
-                "resumable" => '0',
                 "visibility" => Test::VISIBILITY_FEATURED,
                 'variables' => array(),
                 'logs' => array(),
@@ -298,7 +293,6 @@ class TestControllerTest extends AFunctionalTest {
             "description" => "edited test description",
             "visibility" => Test::VISIBILITY_FEATURED,
             "code" => "code",
-            "resumable" => '1',
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
@@ -313,7 +307,6 @@ class TestControllerTest extends AFunctionalTest {
                 "name" => "edited_test",
                 "description" => "edited test description",
                 "code" => "code",
-                "resumable" => '1',
                 "visibility" => Test::VISIBILITY_FEATURED,
                 'variables' => array(),
                 'logs' => array(),
@@ -360,8 +353,7 @@ class TestControllerTest extends AFunctionalTest {
             "description" => "edited test description",
             "visibility" => Test::VISIBILITY_FEATURED,
             "code" => "code",
-            "accessibility" => ATopEntity::ACCESS_PUBLIC,
-            "resumable" => 0));
+            "accessibility" => ATopEntity::ACCESS_PUBLIC));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
@@ -373,7 +365,6 @@ class TestControllerTest extends AFunctionalTest {
                 "name" => "test",
                 "description" => "edited test description",
                 "code" => "code",
-                "resumable" => '0',
                 "visibility" => Test::VISIBILITY_FEATURED,
                 'variables' => array(),
                 'logs' => array(),
@@ -432,7 +423,6 @@ class TestControllerTest extends AFunctionalTest {
                 "name" => "new_test",
                 "description" => "",
                 "code" => "",
-                "resumable" => '0',
                 "visibility" => Test::VISIBILITY_FEATURED,
                 'variables' => array(),
                 'logs' => array(),
@@ -475,8 +465,7 @@ class TestControllerTest extends AFunctionalTest {
             "name" => "new_test",
             "description" => "edited test description",
             "visibility" => Test::VISIBILITY_FEATURED,
-            "code" => "code",
-            "resumable" => 0));
+            "code" => "code"));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(

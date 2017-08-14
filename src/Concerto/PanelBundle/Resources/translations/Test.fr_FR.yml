@@ -24,8 +24,6 @@ form:
     type.code: code
     type.wizard: assistant
     type.flow: organigramme
-    resumable: Reprise
-    resumable.tooltip: La boîte de dialogue de reprise de session est-elle autorisée ?
     wizard: Assistant
     wizard.tooltip: Sélectionnez un assistant de création de test grâce auquel sera créé ce test.
     wizard.none: <aucun sélectionné>

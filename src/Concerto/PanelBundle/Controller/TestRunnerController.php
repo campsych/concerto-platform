@@ -33,7 +33,7 @@ class TestRunnerController
     }
 
     /**
-     * Returns start new test template with session resuming capabailities.
+     * Returns start new test template.
      *
      * @param string $test_slug
      * @param json encoded string $params
@@ -155,28 +155,6 @@ class TestRunnerController
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
-        return $response;
-    }
-
-    public function resumeSessionAction($session_hash)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
-
-        $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
-        $response = null;
-        if ($panel_node["local"] == "true") {
-            $result = $this->testRunnerService->resumeSession(
-                $session_hash, $this->request->get("node_id")
-            );
-            $response = new Response($result);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-        } else {
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/resume";
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
-            $response = new RedirectResponse($url, 307);
-        }
-        $this->session->set("templateStartTime", microtime(true));
         return $response;
     }
 

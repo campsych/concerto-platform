@@ -1,7 +1,3 @@
-session.resuming: Wznowienie testu
-session.resuming.question: Wygląda na to, że rozpocząłeś, lecz nie skończyłeś testu. Naciśnij OK by do niego wrócić, albo zaznacz chęć rozpoczęcia od nowa testu
-session.resuming.start_new_checkbox_label: Zacznij test od nowa
-OK: OK
 ignition.noscript: Twoja przeglądarka nie obsługuje javascript. Proszę włączyć obsługę javascript i odświeżyć przeglądarkę.
 ignition.ip: "IP:"
 ignition.browser: "Przeglądarka:"

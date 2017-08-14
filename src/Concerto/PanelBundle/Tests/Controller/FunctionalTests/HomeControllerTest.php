@@ -54,7 +54,6 @@ class HomeControllerTest extends AFunctionalTest {
                 "name" => "test1",
                 "description" => "",
                 "code" => "",
-                "resumable" => '0',
                 "visibility" => Test::VISIBILITY_FEATURED,
                 'variables' => json_decode($client->getResponse()->getContent(), true)[0]['variables'],
                 'logs' => array(),

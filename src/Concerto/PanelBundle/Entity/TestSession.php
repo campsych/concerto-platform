@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 class TestSession extends AEntity {
 
     const STATUS_RUNNING = 0;
-    const STATUS_SERIALIZED = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="sessions")

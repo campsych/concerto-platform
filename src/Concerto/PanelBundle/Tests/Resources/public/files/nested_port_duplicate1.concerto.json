@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = \"\"\nif(button_exists == 1) {\n  buttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n}\n\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -271,7 +270,6 @@
             "visibility": 2,
             "type": 1,
             "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = \"\"\nif(button_exists == 1) {\n  buttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n}\n\nresponse = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n  header=decoded_template_def$header,\n  title=title,\n  content=content,\n  buttons=buttons,\n  footer=decoded_template_def$footer,\n  warning_msg=\"\"\n)))",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -403,7 +401,6 @@
             "visibility": 0,
             "type": 2,
             "code": "",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [

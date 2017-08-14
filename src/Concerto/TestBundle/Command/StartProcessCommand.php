@@ -20,10 +20,9 @@ class StartProcessCommand extends Command {
     const RESPONSE_VIEW_TEMPLATE = 0;
     const RESPONSE_FINISHED = 1;
     const RESPONSE_SUBMIT = 2;
-    const RESPONSE_SERIALIZE = 3;
-    const RESPONSE_SERIALIZATION_FINISHED = 4;
+    const RESPONSE_STOP = 3;
+    const RESPONSE_STOPPED = 4;
     const RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-    const RESPONSE_VIEW_RESUME = 6;
     const RESPONSE_RESULTS = 7;
     const RESPONSE_AUTHENTICATION_FAILED = 8;
     const RESPONSE_STARTING = 9;
@@ -32,7 +31,7 @@ class StartProcessCommand extends Command {
     const RESPONSE_SESSION_LIMIT_REACHED = 12;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
-    const STATUS_SERIALIZED = 1;
+    const STATUS_STOPPED = 1;
     const STATUS_FINALIZED = 2;
     const STATUS_ERROR = 3;
     const STATUS_REJECTED = 4;
@@ -146,7 +145,7 @@ class StartProcessCommand extends Command {
             $this->isSerializing = true;
             $this->respondToProcess($submitter_sock, json_encode(array(
                 "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_SERIALIZE
+                "code" => self::RESPONSE_STOP
             )));
             return true;
         } else {
@@ -161,7 +160,7 @@ class StartProcessCommand extends Command {
             $this->isSerializing = true;
             $this->respondToProcess($submitter_sock, json_encode(array(
                 "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_SERIALIZE
+                "code" => self::RESPONSE_STOP
             )));
             return true;
         } else {
@@ -218,7 +217,7 @@ class StartProcessCommand extends Command {
                     $this->respondToPanelNode($message);
                     return true;
                 }
-            case self::RESPONSE_SERIALIZATION_FINISHED: {
+            case self::RESPONSE_STOPPED: {
                     return true;
                 }
         }

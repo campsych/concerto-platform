@@ -47,7 +47,7 @@ Defaults.ckeditorTestContentOptions = {
     allowedContent: true,
     autoParagraph: false,
     height: 400,
-    contentsCss: [Paths.CSS_TEST_BUNDLE_1, Paths.CSS_TEST_BUNDLE_2, Paths.CSS_TEST_BUNDLE_3, Paths.CSS_TEST_BUNDLE_4],
+    contentsCss: [Paths.CSS_TEST_BUNDLE_1, Paths.CSS_TEST_BUNDLE_2],
     cmsource: {
         lineWrapping: true,
         lineNumbers: true,

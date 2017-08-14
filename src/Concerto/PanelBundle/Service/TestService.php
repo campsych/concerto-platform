@@ -64,7 +64,7 @@ class TestService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $resumable, $sourceWizard, $urlslug, $serializedVariables) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables) {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -90,7 +90,6 @@ class TestService extends AExportableSectionService {
         if ($code !== null) {
             $object->setCode($code);
         }
-        $object->setResumable($resumable == 1 || $resumable === true);
         $object->setSourceWizard($sourceWizard);
 
         $urlslug = ( trim((string) $urlslug) !== '' ) ? $this->slugifier->slugify($urlslug) :
@@ -248,7 +247,6 @@ class TestService extends AExportableSectionService {
         $ent->setSourceWizard($wizard);
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
-        $ent->setResumable($obj["resumable"] == "1");
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))
@@ -281,7 +279,6 @@ class TestService extends AExportableSectionService {
         $ent->setSourceWizard($wizard);
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
-        $ent->setResumable($obj["resumable"] == "1");
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         if (array_key_exists("rev", $obj))

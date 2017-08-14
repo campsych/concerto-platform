@@ -1,7 +1,3 @@
-session.resuming: Teste devam et
-session.resuming.question: Teste başladığınızı ancak bitirmediğinizi belirledik. Teste geri dönmek için Tamam'a basın ya da kutucuğu işaretleyip yeniden başlayın.
-session.resuming.start_new_checkbox_label: Testi yeniden başlat
-OK: Tamam
 ignition.noscript: Tarayıcınız Javascript desteklemiyor. Lütfen Javascript'i etkinleştirin ve yeniden deneyin.
 ignition.ip: "IP:"
 ignition.browser: "Tarayıcı:"

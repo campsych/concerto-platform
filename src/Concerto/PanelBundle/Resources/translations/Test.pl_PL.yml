@@ -24,8 +24,6 @@ form:
     type.code: kod
     type.wizard: wizard
     type.flow: graf
-    resumable: Wznawialny
-    resumable.tooltip: Czy dialog wznowienia sesji jest dopuszczalny?
     wizard: Wizard
     wizard.tooltip: Wybierz wizard testu z którego ten test ma zostać stworzony
     wizard.none: <nie wybrano>

@@ -46,15 +46,6 @@
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
         {% trans_default_domain "Test" %}
-        {% block label %}{{ 'form.field.resumable'|trans }}{% endblock %}
-        {% block tooltip %}{{'form.field.resumable.tooltip'|trans}}{% endblock %}
-        {% block control %}
-            <input ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" ng-model="object.resumable" type="checkbox" ng-true-value="'1'" ng-false-value="'0'" />
-        {% endblock %}
-    {% endembed %}
-
-    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
-        {% trans_default_domain "Test" %}
         {% block label %}{{ 'form.field.type'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.type.tooltip'|trans}}{% endblock %}
         {% block control %}

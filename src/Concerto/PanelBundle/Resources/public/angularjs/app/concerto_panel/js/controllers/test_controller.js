@@ -37,7 +37,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             groups: $scope.object.groups,
             slug: $scope.object.slug,
             visibility: $scope.object.visibility,
-            resumable: $scope.object.resumable,
             type: $scope.object.type,
             code: $scope.object.code
         };
@@ -132,7 +131,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             description: "",
             visibility: 0,
             type: 2,
-            resumable: 0,
             validationErrors: [],
             logs: [],
             variables: [],

@@ -1,7 +1,3 @@
-session.resuming: Resume the test
-session.resuming.question: It looks like you started, but did not complete, the test. Click OK to go back to it or check the box and restart the test
-session.resuming.start_new_checkbox_label: Restart the test
-OK: OK
 ignition.noscript: Your browser does not support javascript. Please enable javascript and refresh your browser.
 ignition.ip: "IP:"
 ignition.browser: "Browser:"

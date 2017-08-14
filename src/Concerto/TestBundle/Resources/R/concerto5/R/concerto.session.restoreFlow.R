@@ -13,7 +13,7 @@ concerto.session.restoreFlow <- function(sessionHash){
   concerto$flow <<- new_c$flow
   concerto$promoted <<- new_c$promoted
 
-  #unlink(file)
+  unlink(file)
 
   print("flow session restored")
 

@@ -70,62 +70,6 @@ class TestRunnerControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testResumeActionNonExistantSession() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
-        $client->request("POST", "/test/session/abc123/resume", array(
-            "test_node_hash" => "someHash"
-        ));
-        $fail_msg = "";
-        if (!$client->getResponse()->isSuccessful()) {
-            $crawler = $client->getCrawler();
-            $fail_msg = $crawler->filter("title")->text();
-        }
-        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_ERROR
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
-    public function testResumeAction() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
-
-        $session = self::$repository->find(1);
-
-        $client->request("POST", "/test/session/" . $session->getHash() . "/resume", array(
-            "test_node_hash" => "someHash"
-        ));
-        $fail_msg = "";
-        if (!$client->getResponse()->isSuccessful()) {
-            $crawler = $client->getCrawler();
-            $fail_msg = $crawler->filter("title")->text();
-        }
-        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_VIEW_TEMPLATE,
-            "results" => $session->getReturns(),
-            "timeLimit" => $session->getTimeLimit(),
-            "hash" => $session->getHash(),
-            "templateHead" => $session->getTemplateHead(),
-            "templateCss" => $session->getTemplateCss(),
-            "templateJs" => $session->getTemplateJs(),
-            "templateHtml" => $session->getTemplateHtml(),
-            "templateParams" => $session->getTemplateParams(),
-            "loaderHead" => $session->getLoaderHead(),
-            "loaderCss" => $session->getLoaderCss(),
-            "loaderJs" => $session->getLoaderJs(),
-            "loaderHtml" => $session->getLoaderHtml(),
-            "isResumable" => false
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
     public function testResultsActionNonExistantSession() {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");

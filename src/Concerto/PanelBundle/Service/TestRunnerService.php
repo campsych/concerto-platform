@@ -50,14 +50,6 @@ class TestRunnerService {
         return $response;
     }
 
-    public function resumeSession($session_hash, $node_id) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id");
-
-        $response = $this->sessionService->resume($session_hash, false);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
-        return $response;
-    }
-
     public function resultsFromSession($session_hash, $node_id) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id");
 

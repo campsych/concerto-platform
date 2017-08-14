@@ -24,8 +24,6 @@ form:
     type.code: kodu
     type.wizard: sihirbaz
     type.flow: akış şeması
-    resumable: Devam edilebilir
-    resumable.tooltip: Test uygulamasına devam bildirim kutucuğu açık mı?
     wizard: Sihirbaz
     wizard.tooltip: Testin oluşturulacağı ön tanımlı bir sihirbaz seçin
     wizard.none: <none selected>

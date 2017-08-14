@@ -1,7 +1,3 @@
-session.resuming: Reprendre le test
-session.resuming.question: Il semble que vous ayez commencé, mais pas fini, le test. Cliquer sur OK pour le reprendre la passation ou cocher la case pour recommencer le test.
-session.resuming.start_new_checkbox_label: Recommencer le test
-OK: OK
 ignition.noscript: Votre navigateur ne supporte pas javascript. Merci d\'activer javascript puis d\'actualiser votre navigateur.
 ignition.ip: "IP:"
 ignition.browser: "Navigateur:"

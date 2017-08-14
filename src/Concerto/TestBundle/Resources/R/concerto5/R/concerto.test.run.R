@@ -32,9 +32,6 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1){
 
     if (mainTest) {
         concerto$mainTest <<- test
-        if (concerto$session$previousStatus == STATUS_SERIALIZED) {
-            concerto5:::concerto.session.unserialize()
-        }
     }
 
     flowIndex = length(concerto$flow) + 1

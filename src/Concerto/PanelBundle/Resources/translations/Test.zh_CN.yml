@@ -24,8 +24,6 @@ form:
     type.code: 代码
     type.wizard: 向导
     type.flow: 流程图
-    resumable: 可恢复
-    resumable.tooltip: 是否允许可恢复测试对话框？
     wizard: 向导
     wizard.tooltip: 选择一个创建测验的测验向导
     wizard.none: <没有选中>

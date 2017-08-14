@@ -23,10 +23,7 @@ class TestSessionService
     const RESPONSE_VIEW_TEMPLATE = 0;
     const RESPONSE_FINISHED = 1;
     const RESPONSE_SUBMIT = 2;
-    const RESPONSE_SERIALIZE = 3;
-    const RESPONSE_SERIALIZATION_FINISHED = 4;
     const RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-    const RESPONSE_VIEW_RESUME = 6;
     const RESPONSE_RESULTS = 7;
     const RESPONSE_AUTHENTICATION_FAILED = 8;
     const RESPONSE_STARTING = 9;
@@ -35,7 +32,6 @@ class TestSessionService
     const RESPONSE_SESSION_LIMIT_REACHED = 12;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
-    const STATUS_SERIALIZED = 1;
     const STATUS_FINALIZED = 2;
     const STATUS_ERROR = 3;
     const STATUS_REJECTED = 4;
@@ -248,18 +244,8 @@ class TestSessionService
         $this->testSessionRepository->save($session);
         $this->testSessionRepository->clear();
 
-        if ($session->getStatus() === self::STATUS_SERIALIZED) {
-            $rresult = $this->initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $session->isDebug(), $values);
-            switch ($rresult["code"]) {
-                case self::RESPONSE_AUTHENTICATION_FAILED:
-                case self::RESPONSE_SESSION_LIMIT_REACHED: {
-                    return $this->prepareResponse($session_hash, json_encode($rresult));
-                    break;
-                }
-            }
-        } else {
-            $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
-        }
+        $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
+
         $response = $this->startListener($client_sock);
         $response = $this->prepareResponse($session_hash, $response);
 
@@ -300,53 +286,12 @@ class TestSessionService
         $panel_node = $this->getLocalPanelNode();
         $test_node_port = $session->getTestNodePort();
 
-        if ($session->getStatus() !== self::STATUS_SERIALIZED) {
-            $this->keepAliveTestNode($test_node, $test_node_port, $panel_node, $client_ip);
-        }
+        $this->keepAliveTestNode($test_node, $test_node_port, $panel_node, $client_ip);
+
         return $this->prepareResponse($session_hash, json_encode(array(
             "source" => self::SOURCE_PANEL_NODE,
             "code" => self::RESPONSE_KEEPALIVE_CHECKIN
         )));
-    }
-
-    public function resume($session_hash, $calling_node_ip)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $calling_node_ip");
-
-        $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-        if (!$session) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - SESSION $session_hash NOT FOUND!");
-            return json_encode(array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_ERROR
-            ));
-        }
-
-        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
-        if (!$test_node) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
-            return json_encode(array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_ERROR
-            ));
-        }
-
-        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
-        if (!$test_node) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
-            return json_encode(array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_AUTHENTICATION_FAILED
-            ));
-        }
-
-        $response = json_encode(array(
-            "source" => self::SOURCE_PANEL_NODE,
-            "code" => $session->getStatus() == self::STATUS_FINALIZED ? self::RESPONSE_VIEW_FINAL_TEMPLATE : self::RESPONSE_VIEW_TEMPLATE
-        ));
-        $response = $this->prepareResponse($session_hash, $response);
-
-        return $response;
     }
 
     public function results($session_hash, $calling_node_ip)
@@ -459,7 +404,6 @@ class TestSessionService
                 case self::RESPONSE_RESULTS:
                     $decoded_response["results"] = $session->getReturns();
                     break;
-                case self::RESPONSE_VIEW_RESUME:
                 case self::RESPONSE_VIEW_FINAL_TEMPLATE:
                 case self::RESPONSE_VIEW_TEMPLATE:
                     $decoded_response["hash"] = $session_hash;
@@ -473,7 +417,6 @@ class TestSessionService
                     $decoded_response["loaderCss"] = $session->getLoaderCss();
                     $decoded_response["loaderJs"] = $session->getLoaderJs();
                     $decoded_response["loaderHtml"] = $session->getLoaderHtml();
-                    $decoded_response["isResumable"] = $session->getTest()->isResumable();
                     $decoded_response["templateParams"] = $session->getTemplateParams();
                     break;
             }

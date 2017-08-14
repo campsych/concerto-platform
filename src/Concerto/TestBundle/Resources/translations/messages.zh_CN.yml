@@ -1,7 +1,3 @@
-session.resuming: 恢复测验
-session.resuming.question: 已开始测验，但未完成。 单击OK返回或勾选此框重新开始测验。
-session.resuming.start_new_checkbox_label: 重新开始测验
-OK: OK 
 ignition.noscript: 您的浏览器不支持javascript。请启用JavaScript并刷新您的浏览器。
 ignition.ip: "IP:" 
 ignition.browser: "浏览器:"

@@ -101,13 +101,6 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $resumable;
-
-    /**
-     *
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
     private $outdated;
 
     /**
@@ -146,7 +139,6 @@ class Test extends ATopEntity implements \JsonSerializable {
         $this->sourceForNodes = new ArrayCollection();
         $this->code = "";
         $this->description = "";
-        $this->resumable = true;
         $this->outdated = false;
         $this->slug = md5(mt_rand() . uniqid(true));
         $this->sourceWizard = null;
@@ -222,24 +214,6 @@ class Test extends ATopEntity implements \JsonSerializable {
      */
     public function getDescription() {
         return $this->description;
-    }
-
-    /**
-     * Returns if a session resume dialog applies here.
-     * 
-     * @return boolean
-     */
-    public function isResumable() {
-        return $this->resumable;
-    }
-
-    /**
-     * Set if session resume dialog applies here.
-     * 
-     * @param boolean $resumable
-     */
-    public function setResumable($resumable) {
-        $this->resumable = $resumable;
     }
 
     /**
@@ -627,7 +601,6 @@ class Test extends ATopEntity implements \JsonSerializable {
             "type" => $this->type,
             "code" => $this->code,
             "slug" => $this->slug,
-            "resumable" => $this->resumable ? "1" : "0",
             "outdated" => $this->outdated ? "1" : "0",
             "description" => $this->description,
             "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies),

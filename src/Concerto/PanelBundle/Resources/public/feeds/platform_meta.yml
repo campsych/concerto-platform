@@ -58,6 +58,7 @@ changelog:
                 - concerto.template.show accepts removeMissingParams argument
                 - concerto.table.query should now be able to call procedures
                 - added concerto.onTemplateSubmit(response) callback function
+                - removed built in session serialization/unserialization
           - label: Non backwards compatible
             changes:
                 - >

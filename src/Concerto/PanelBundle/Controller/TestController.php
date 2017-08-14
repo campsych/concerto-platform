@@ -68,7 +68,6 @@ class TestController extends AExportableTabController {
                 $this->request->get("visibility"), //
                 $this->request->get("type"), //
                 $this->request->get("code"), //
-                $this->request->get("resumable"), //
                 $this->testWizardService->get($this->request->get("sourceWizard"), false), //
                 $this->request->get("slug"), //
                 $this->request->get("serializedVariables") //

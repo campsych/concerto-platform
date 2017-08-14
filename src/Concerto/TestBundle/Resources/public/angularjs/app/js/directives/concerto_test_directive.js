@@ -16,10 +16,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var RESPONSE_VIEW_TEMPLATE = 0;
             var RESPONSE_FINISHED = 1;
             var RESPONSE_SUBMIT = 2;
-            var RESPONSE_SERIALIZE = 3;
-            var RESPONSE_SERIALIZATION_FINISHED = 4;
             var RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-            var RESPONSE_VIEW_RESUME = 6;
             var RESPONSE_RESULTS = 7;
             var RESPONSE_AUTHENTICATION_FAILED = 8;
             var RESPONSE_STARTING = 9;
@@ -55,7 +52,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var displayState = DISPLAY_UNKNOWN;
             var isViewReady = false;
             var lastResponseTime = 0;
-            var isResumable = true;
             var lastResponse = null;
             scope.timeLeft = "";
 
@@ -243,39 +239,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             testRunner.submitView = scope.submitView;
 
-            function resumeTest() {
-                if (settings.clientDebug)
-                    console.log("resume");
-                showLoader();
-                $http.post(settings.directory + "test/session/" + settings.hash + "/resume", {
-                    node_id: settings.nodeId
-                }).success(function (response) {
-                    if (settings.clientDebug)
-                        console.log(response);
-                    if (settings.debug && response.debug)
-                        console.log(response.debug);
-                    lastResponse = response;
-                    lastResponseTime = new Date();
-
-                    switch (lastResponse.code) {
-                        case RESPONSE_VIEW_TEMPLATE:
-                        case RESPONSE_VIEW_FINAL_TEMPLATE: {
-                            settings.hash = response.hash;
-                            timeLimit = response.timeLimit;
-                            if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
-                                settings.loaderHtml = joinHtml(response.loaderCss, response.loaderJs, response.loaderHtml);
-                            break;
-                        }
-                    }
-
-                    isViewReady = true;
-                    showView();
-                    if (settings.callback != null) {
-                        settings.callback.call(this, response, settings.hash);
-                    }
-                });
-            }
-
             function getResults() {
                 if (settings.clientDebug)
                     console.log("result");
@@ -449,10 +412,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var options = scope.options;
             if (settings.clientDebug)
                 console.log(options);
-            if (options.hash != null) {
-                resumeTest();
-                return;
-            }
             if (options.testId != null) {
                 startNewTest();
                 return;
