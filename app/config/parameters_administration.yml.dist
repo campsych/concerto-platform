@@ -18,3 +18,4 @@ parameters:
             r_lib_path: null
             scheduled_tasks: false #experimental feature, use at your own risk
             editable_starter_content: false
+            session_files_expiration: 7 #days

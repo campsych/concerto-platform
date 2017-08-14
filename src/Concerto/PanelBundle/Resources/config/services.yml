@@ -208,6 +208,11 @@ services:
   concerto_panel.Administration_service:
     class: Concerto\PanelBundle\Service\AdministrationService
     arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository","@kernel","@API.Client_repository","%test_runner_settings%"]
+
+
+  concerto_panel.Maintenance_service:
+    class: Concerto\PanelBundle\Service\MaintenanceService
+    arguments: ["%administration%"]
     
 # LoadBalancer
   concerto_panel.LoadBalancer_service:

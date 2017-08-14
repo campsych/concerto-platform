@@ -22,6 +22,7 @@ class ConcertoScheduleTickCommand extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $this->getContainer()->get("concerto_test.TestSessionCount_service")->updateCountRecord();
+        $this->getContainer()->get("concerto_panel.Maintenance_service")->deleteOldSessions();
 
         $em = $this->getContainer()->get("doctrine")->getManager();
         $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
