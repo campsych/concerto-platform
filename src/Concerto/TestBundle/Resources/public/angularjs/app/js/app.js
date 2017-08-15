@@ -1,8 +1,6 @@
 'use strict';
 
 var testRunner = angular.module('testRunner', [
-    'ui.bootstrap',
-    'ngCookies',
     'ngSanitize',
     'angularFileUpload'
 ]).config(function ($httpProvider) {
