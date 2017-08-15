@@ -1,8 +1,8 @@
 'use strict';
 
 testRunner.controller('testRunnerController', [
-    '$scope', '$uibModal', '$compile',
-    function ($scope, $uibModal, $compile) {
+    '$scope', '$compile',
+    function ($scope, $compile) {
         $scope.concertoOptions = {};
         var RESPONSE_VIEW_TEMPLATE = 0;
         var RESPONSE_FINISHED = 1;
