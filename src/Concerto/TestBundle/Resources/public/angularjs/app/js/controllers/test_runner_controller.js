@@ -17,6 +17,7 @@ testRunner.controller('testRunnerController', [
         $scope.init = function (node, directory, test, params, debug, keepAliveInterval) {
             var callback = function (response, hash) {
                 testRunner.overridableCallback(response);
+                return true;
             };
 
             $scope.concertoOptions = angular.extend($scope.concertoOptions, {
