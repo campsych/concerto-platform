@@ -6,7 +6,7 @@ concerto.test.get = function(testId){
   }
 
   testID <- dbEscapeStrings(concerto$connection,toString(testId))
-  result <- dbSendQuery(concerto$connection,sprintf("SELECT id,name,code,type,resumable FROM Test WHERE %s='%s'",idField,testId))
+  result <- dbSendQuery(concerto$connection,sprintf("SELECT id,name,code,type FROM Test WHERE %s='%s'",idField,testId))
   response <- fetch(result,n=-1)
   return(response)
 }
