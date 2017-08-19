@@ -335,7 +335,7 @@ class TestWizardParamService extends ASectionService {
             }
 
             //check if should use default value when simple
-            $default &= $typeChanged || $oldVal === null || $oldDef === null || ($newTypeSimple && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
+            $default &= $typeChanged || $oldVal === null || $oldDef === null || ($dstIsParam && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
             if ($default && is_array($newDef) && array_key_exists("defvalue", $newDef)) {
                 $dstVal = $newDef["defvalue"];
             }
