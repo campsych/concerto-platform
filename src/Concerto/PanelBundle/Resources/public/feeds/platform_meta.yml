@@ -41,6 +41,7 @@ changelog:
                 - starter content object copy becomes user made content object
                 - removed MySQL specific syntax from queries
                 - session hash is now less likely to have a duplicate on other instance
+                - length of 'string' field set to 1024
           - label: Fixes
             changes:
                 - Non super-admin users permissions fixed

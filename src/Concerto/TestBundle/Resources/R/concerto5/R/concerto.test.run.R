@@ -1,9 +1,9 @@
 concerto.test.run <-
-function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1){
-    print(paste("running test #", testId, "...", sep = ''))
-
+function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
     test <- concerto.test.get(testId)
     if (dim(test)[1] == 0) stop(paste("Test #", testId, " not found!", sep = ''))
+
+    print(paste0("running test #", test$id, ": ", test$name, " ..."))
 
     test <- as.list(test)
     test$variables <- concerto5:::concerto.test.getVariables(test$id)
@@ -243,6 +243,6 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1){
     }
     concerto$flow[[flowIndex]] <<- NULL
 
-    print(paste("test #", testId, " finished", sep = ''))
+    print(paste0("test #", test$id, ": ", test$name, " finished"))
     return(r)
 }

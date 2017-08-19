@@ -74,10 +74,15 @@ class DBStructureDAO {
         $fromSchema = $this->connection->getSchemaManager()->createSchema();
         $toSchema = clone $fromSchema;
 
+        $options = array();
+        if($type == "string") {
+            $options["length"] = 1024;
+        }
+
         if ($column_name === "0") {
-            $column_definition = $toSchema->getTable($table_name)->addColumn($name, $type);
+            $column_definition = $toSchema->getTable($table_name)->addColumn($name, $type, $options);
         } else {
-            $column_definition = $toSchema->getTable($table_name)->getColumn($column_name)->setLength(null)->setType(Type::getType($type));
+            $column_definition = $toSchema->getTable($table_name)->getColumn($column_name)->setType(Type::getType($type))->setOptions($options);
         }
 
         $sql = $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
@@ -100,7 +105,7 @@ class DBStructureDAO {
 
         if ($column_name !== "0" && $column_name !== $name) {
             $tableDiff = new TableDiff($table_name);
-            $tableDiff->renamedColumns[$column_name] = new Column($name, Type::getType($type));
+            $tableDiff->renamedColumns[$column_name] = new Column($name, Type::getType($type), $options);
             $this->connection->getSchemaManager()->alterTable($tableDiff);
         }
     }
