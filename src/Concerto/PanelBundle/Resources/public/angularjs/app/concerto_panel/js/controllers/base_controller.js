@@ -495,10 +495,12 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.$on('$locationChangeStart', function (event, toUrl, fromUrl) {
         //required to disable maximization styles of CKEditor
-        if (CKEDITOR.instances.editor1 !== undefined && CKEDITOR.instances.editor1.getCommand("maximize") !== undefined)
-            if (CKEDITOR.instances.editor1.getCommand("maximize").state == 1) {
-                CKEDITOR.instances.editor1.execCommand("maximize");
-            }
+        for(var name in CKEDITOR.instances) {
+            if (CKEDITOR.instances[name] !== undefined && CKEDITOR.instances[name].getCommand("maximize") !== undefined)
+                if (CKEDITOR.instances[name].getCommand("maximize").state == 1) {
+                    CKEDITOR.instances[name].execCommand("maximize");
+                }
+        }
     });
     
     $scope.isDelayedEditPossible = function() {

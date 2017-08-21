@@ -5,6 +5,7 @@ angular.module('concertoPanel').directive('ckeditor', function () {
             options: "=ckeditor"
         },
         link: function (scope, elm, attr, ngModel) {
+
             var ck = CKEDITOR.replace(elm[0], scope.options);
             if (!ngModel)
                 return;
@@ -23,6 +24,8 @@ angular.module('concertoPanel').directive('ckeditor', function () {
             ngModel.$render = function (value) {
                 ck.setData(ngModel.$viewValue);
             };
+            
+            console.log(CKEDITOR.instances);
         }
     };
 });

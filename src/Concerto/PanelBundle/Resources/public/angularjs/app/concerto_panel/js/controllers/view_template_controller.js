@@ -105,8 +105,8 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
 
     $scope.updateCKEditorCSS = function () {
         var styleId = 'ckeditor-concerto-template';
-        if (CKEDITOR.instances.editor1 && CKEDITOR.instances.editor1.document && CKEDITOR.instances.editor1.document.$) {
-            var doc = CKEDITOR.instances.editor1.document.$;
+        if (CKEDITOR.instances.templateHtml && CKEDITOR.instances.templateHtml.document && CKEDITOR.instances.templateHtml.document.$) {
+            var doc = CKEDITOR.instances.templateHtml.document.$;
             var style = doc.getElementById(styleId);
             if (!style) {
                 var head = doc.getElementsByTagName('head')[0];
@@ -125,13 +125,13 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     };
 
     $scope.$watch("object.css", function () {
-        if (CKEDITOR.instances.editor1 && CKEDITOR.instances.editor1.document && CKEDITOR.instances.editor1.document.$) {
+        if (CKEDITOR.instances.templateHtml && CKEDITOR.instances.templateHtml.document && CKEDITOR.instances.templateHtml.document.$) {
             $scope.updateCKEditorCSS();
         }
     });
 
     CKEDITOR.on("instanceReady", function (event) {
-        if (event.editor.id == "cke_1") {
+        if (event.editor.name == "templateHtml") {
             event.editor.on("change", function (event) {
                 $scope.updateCKEditorCSS();
             });
