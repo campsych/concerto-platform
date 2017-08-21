@@ -19,7 +19,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.formTitle = "";
     $scope.formTitleAddLabel = "";
     $scope.formTitleEditLabel = "";
-    $scope.starterContentFilter = false;
+    $scope.collectionFilter = {
+        starterContent: false
+    };
 
     $scope.filterTimeout = false;
     $scope.collectionService = BaseCollectionService;
@@ -192,7 +194,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.filterByStarterContent = function (renderableRows) {
         renderableRows.forEach(function (row) {
-            if ($scope.starterContentFilter != row.entity.starterContent)
+            if ($scope.collectionFilter.starterContent != row.entity.starterContent)
                 row.visible = false;
         });
         return renderableRows;

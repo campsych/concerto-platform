@@ -24,8 +24,6 @@ angular.module('concertoPanel').directive('ckeditor', function () {
             ngModel.$render = function (value) {
                 ck.setData(ngModel.$viewValue);
             };
-            
-            console.log(CKEDITOR.instances);
         }
     };
 });
