@@ -18,7 +18,7 @@
         "angular-bootstrap": "1.2.x",
         "codemirror": "5.2.0",
         "angular-ui-codemirror": "0.3.x",
-        "ckeditor": "ckeditor#full/4.6.2",
+        "ckeditor": "ckeditor#full/4.7.2",
         "angular-file-upload": "1.1.x",
         "jquery.metadata": "*",
         "jquery": "2.1.x",
@@ -40,6 +40,7 @@
     "resolutions": {
         "angular": "1.5.5",
         "jquery": "2.1.4",
-        "jquery-ui": "1.11.4"
+        "jquery-ui": "1.11.4",
+        "ckeditor": "full/4.7.2"
     }
 }

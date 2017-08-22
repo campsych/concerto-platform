@@ -301,7 +301,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
 
     $scope.fetchDataCollection = function (tableId) {
-        $scope.dataGridApi.selection.clearSelectedRows();
+        if($scope.dataGridApi) {
+            $scope.dataGridApi.selection.clearSelectedRows();
+        }
         $http.post($scope.dataCollectionPath.pf(tableId), {
             filters: angular.toJson($scope.dataFilterOptions)
         }).success(function (collection) {

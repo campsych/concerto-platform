@@ -9,7 +9,7 @@ Defaults.ckeditorPanelContentOptions = {
     allowedContent: true,
     autoParagraph: false,
     height: 400,
-    contentsCss: [Paths.CSS_PANEL_BUNDLE_1, Paths.CSS_PANEL_BUNDLE_2, Paths.CSS_PANEL_BUNDLE_3, Paths.CSS_PANEL_BUNDLE_4, Paths.CSS_PANEL_BUNDLE_5, Paths.CSS_PANEL_BUNDLE_6, Paths.CSS_PANEL_BUNDLE_7, Paths.CSS_PANEL_BUNDLE_8, Paths.CSS_PANEL_BUNDLE_9, Paths.CSS_PANEL_BUNDLE_10, Paths.CSS_PANEL_BUNDLE_11, Paths.CSS_PANEL_BUNDLE_12, Paths.CSS_PANEL_BUNDLE_13, Paths.CSS_PANEL_BUNDLE_14, Paths.CSS_PANEL_BUNDLE_15],
+    contentsCss: [Paths.CSS_PANEL_BUNDLE_1, Paths.CSS_PANEL_BUNDLE_2, Paths.CSS_PANEL_BUNDLE_3, Paths.CSS_PANEL_BUNDLE_4, Paths.CSS_PANEL_BUNDLE_5, Paths.CSS_PANEL_BUNDLE_6, Paths.CSS_PANEL_BUNDLE_7, Paths.CSS_PANEL_BUNDLE_9, Paths.CSS_PANEL_BUNDLE_11, Paths.CSS_PANEL_BUNDLE_12, Paths.CSS_PANEL_BUNDLE_13, Paths.CSS_PANEL_BUNDLE_14, Paths.CSS_PANEL_BUNDLE_15],
     cmsource: {
         lineWrapping: true,
         lineNumbers: true,
