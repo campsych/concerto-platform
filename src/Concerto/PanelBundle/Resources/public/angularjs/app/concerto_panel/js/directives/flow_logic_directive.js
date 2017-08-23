@@ -804,7 +804,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             var sourceTest = angular.copy(TestCollectionService.get(data.object.sourceTest));
 
                             if (sourceTest && sourceTest.sourceWizard) {
-                                scope.editNodeWizard(scope.collectionService.getNode(data.object.id), sourceTest);
+                                scope.editNodeWizard(data.object, sourceTest);
                             }
                         }
                     });

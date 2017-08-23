@@ -65,7 +65,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
             for (var j = 0; j < test.nodes.length; j++) {
                 var node = test.nodes[j];
                 if (node.id === newNode.id) {
-                    test.nodes[j] = newNode;
+                    angular.merge(test.nodes[j], newNode);
                     return null;
                 }
             }
