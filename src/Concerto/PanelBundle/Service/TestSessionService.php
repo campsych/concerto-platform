@@ -30,6 +30,7 @@ class TestSessionService
     const RESPONSE_KEEPALIVE_CHECKIN = 10;
     const RESPONSE_UNRESUMABLE = 11;
     const RESPONSE_SESSION_LIMIT_REACHED = 12;
+    const RESPONSE_TEST_NOT_FOUND = 13;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
     const STATUS_FINALIZED = 2;
@@ -94,6 +95,14 @@ class TestSessionService
             ));
         }
 
+        $test = $this->testRepository->findRunnableBySlug($test_slug);
+        if(!$test) {
+            return json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_TEST_NOT_FOUND
+            ));
+        }
+
         $panel_node = $this->getLocalPanelNode();
         if (($panel_node_sock = $this->createListenerSocket(gethostbyname($panel_node["sock_host"]))) === false) {
             return false;
@@ -103,7 +112,7 @@ class TestSessionService
         socket_getsockname($panel_node_sock, $panel_node_host, $panel_node_port);
 
         $session = new TestSession();
-        $session->setTest($this->testRepository->findOneBySlug($test_slug));
+        $session->setTest($test);
         $session->setClientIp($client_ip);
         $session->setClientBrowser($client_browser);
         $session->setPanelNodeId($panel_node["id"]);

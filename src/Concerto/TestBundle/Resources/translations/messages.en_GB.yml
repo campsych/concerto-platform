@@ -10,3 +10,4 @@ default.template:
     loading: Please wait...
     unresumable: This session can not be resumed.
     session_limit_reached: Session limit reached.
+    test_not_found: Test not found.

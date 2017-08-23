@@ -9,3 +9,5 @@ default.template:
     finished: Test ukończony.
     loading: proszę czekać...
     unresumable: Ta sesja nie może być wznowiona.
+    session_limit_reached: Limit sesji osiągnięty.
+    test_not_found: Nie znaleziono testu.

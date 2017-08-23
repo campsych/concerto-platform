@@ -54,6 +54,8 @@ changelog:
                 - test session max execution timeout now properly closes all related processes
                 - test variables changes are now properly applied to the flow chart
                 - fixed nested flow test returning variables
+                - fixed "jumping nodes"
+                - no longer possible to run directly a subtest
           - label: R concerto5 package
             changes: 
                 - concerto.template.show accepts removeMissingParams argument
