@@ -118,6 +118,12 @@ class TestWizardService extends AExportableSectionService {
             $object = $this->get($object_id, false, $secure);
             if ($object === null)
                 continue;
+
+            if($object->getResultingTests()->count() > 0) {
+                array_push($result, array("object" => $object, "errors" => array("validate.test.wizards.delete.referenced")));
+                continue;
+            }
+
             $this->repository->delete($object);
             array_push($result, array("object" => $object, "errors" => array()));
         }

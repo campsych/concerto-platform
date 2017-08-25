@@ -35,6 +35,7 @@ validate:
       name.max: Name field must be at most of length 64
       name.blank: Name field must not be empty
       wizard.source: Source wizard needs to be selected for wizard test type
+      delete.referenced: Test can not be deleted as it is referenced by at least one test wizard
       
       variables:
         unique: Variable with that name and type already is assigned to the test
@@ -49,6 +50,7 @@ validate:
         name.max: Name field must be at most of length 64
         name.blank: Name field must not be empty
         test.null: Test must be selected
+        delete.referenced: Test wizard can not be deleted as it is referenced by at least one test
         
         params:
             label.min: Label field must be at least of length 1

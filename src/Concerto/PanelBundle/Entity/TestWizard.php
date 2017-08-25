@@ -50,7 +50,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
     private $steps;
 
     /**
-     * @ORM\OneToMany(targetEntity="Test", mappedBy="sourceWizard", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Test", mappedBy="sourceWizard")
      */
     private $resultingTests;
     

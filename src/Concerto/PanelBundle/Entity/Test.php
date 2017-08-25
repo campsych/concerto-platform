@@ -66,7 +66,7 @@ class Test extends ATopEntity implements \JsonSerializable {
     private $variables;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestWizard", mappedBy="test", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestWizard", mappedBy="test")
      */
     private $wizards;
 
@@ -105,7 +105,6 @@ class Test extends ATopEntity implements \JsonSerializable {
 
     /**
      * @var TestWizard
-     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="TestWizard", inversedBy="resultingTests")
      */
     private $sourceWizard;

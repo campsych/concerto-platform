@@ -174,6 +174,11 @@ class TestService extends AExportableSectionService {
             if ($object === null)
                 continue;
 
+            if($object->getWizards()->count() > 0) {
+                array_push($result, array("object" => $object, "errors" => array("validate.test.delete.referenced")));
+                continue;
+            }
+
             $this->repository->delete($object);
             array_push($result, array("object" => $object, "errors" => array()));
         }
