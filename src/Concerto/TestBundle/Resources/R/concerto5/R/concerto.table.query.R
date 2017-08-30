@@ -1,12 +1,10 @@
 concerto.table.query <-
 function(sql, params=list()){
   sql <- gsub("^\\s+|\\s+$", "", sql)
-  sql <- gsub("^[[:space:]]*", "", sql)
   sql <- concerto.table.insertParams(sql, params)
 
   result <- NULL
   output <- NULL
-  sql <- trimws(sql)
   if(toupper(substring(sql, 1, 6)) == "SELECT") {
     result <- dbSendQuery(concerto$connection, sql)
     output <- fetch(result, -1)

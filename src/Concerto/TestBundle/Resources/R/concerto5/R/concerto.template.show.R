@@ -24,8 +24,10 @@ concerto.template.show = function(
     }
     concerto$session$timeLimit <<- timeLimit
 
-    for(name in ls(params)) {
-        concerto$templateParams[[name]] <<- params[[name]]
+    if(length(params) > 0) {
+        for(name in ls(params)) {
+            concerto$templateParams[[name]] <<- params[[name]]
+        }
     }
     concerto$session$templateParams <<- toJSON(concerto$templateParams)
 
