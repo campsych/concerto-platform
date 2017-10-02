@@ -45,7 +45,7 @@ ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.s
 RUN chmod +x /wait-for-it.sh \
  && cd /usr/src/concerto \
  && php app/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * php /usr/src/concerto/app/console concerto:schedule:tick"; } | crontab -
+ && crontab -l | { cat; echo "* * * * * php /usr/src/concerto/app/console concerto:schedule:tick --env=prod"; } | crontab -
  
 EXPOSE 9000
  
