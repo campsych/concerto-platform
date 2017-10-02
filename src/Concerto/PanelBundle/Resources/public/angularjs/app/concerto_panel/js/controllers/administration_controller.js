@@ -684,7 +684,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             $scope.backupContentVersion = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] ? $scope.internalSettingsMap[key] : Trans.ADMINISTRATION_VERSION_NONE;
             
             var key = "scheduled_tasks";
-            $scope.tasksEnabled = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] === "true";
+            $scope.tasksEnabled = key in $scope.internalSettingsMap && $scope.internalSettingsMap[key] === "1";
         });
     };
 
@@ -694,8 +694,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         $scope.refreshTasks();
     };
 
-    $scope.refreshMessages();
-    $scope.refreshTasks();
+    $scope.refreshAllTaskRelated();
     $scope.refreshUsageChart();
     $scope.refreshApiClients();
 }
