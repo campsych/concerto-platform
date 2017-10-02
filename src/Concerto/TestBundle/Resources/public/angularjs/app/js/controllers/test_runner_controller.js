@@ -52,8 +52,9 @@ testRunner.loadScripts = function(urls) {
     urls.forEach(function(src) {
         if($("script[src='"+src+"']").length > 0) return;
         var script = document.createElement('script');
-        script.src = src;
+        script.type = "text/javascript";
         script.async = false;
+        script.src = src;
         document.head.appendChild(script);
     });
 };

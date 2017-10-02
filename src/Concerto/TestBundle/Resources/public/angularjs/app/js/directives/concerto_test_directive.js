@@ -84,7 +84,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function joinHtml(css, js, html) {
                 if (js != null)
-                    html = "<script>" + js + "</script>" + html;
+                    html = html + "<script>" + js + "</script>";
                 if (css != null)
                     html = "<style>" + css + "</style>" + html;
                 return html;
