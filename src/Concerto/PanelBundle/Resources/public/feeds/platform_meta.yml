@@ -1,5 +1,16 @@
 version: "5.0.beta.3.0"
 changelog:
+    - version: "5.0.beta.3.1"
+      description: >
+        Fixes.
+      categories:
+          - label: Fixes
+            changes:
+                - removed circular entities DB triggers
+                - administration settings loading fixed
+          - label: R concerto5 package
+            changes:
+                - decreased minimum required R version
     - version: "5.0.beta.3.0"
       description: >
         This update is focused on adding administration tab to the panel.
