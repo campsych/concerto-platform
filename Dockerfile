@@ -46,7 +46,7 @@ RUN chmod +x /wait-for-it.sh \
  && cd /usr/src/concerto \
  && php app/console concerto:r:cache
 
-RUN crontab -l | { cat; echo "* * * * * * * * * * /usr/local/bin/php /usr/src/concerto/app/console concerto:schedule:tick --env=prod >> /var/log/cron.log 2>&1"; } | crontab -
+RUN crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/app/console concerto:schedule:tick --env=prod >> /var/log/cron.log 2>&1"; } | crontab -
  
 EXPOSE 9000
  
