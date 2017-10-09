@@ -110,14 +110,14 @@ class TestNodeService extends ASectionService {
         }
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true, $flush = true) {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
         foreach ($object_ids as $object_id) {
             $object = $this->get($object_id, false, $secure);
             if ($object) {
-                $this->repository->delete($object);
+                $this->repository->delete($object, $flush);
                 array_push($result, array("object" => $object, "errors" => array()));
             }
         }

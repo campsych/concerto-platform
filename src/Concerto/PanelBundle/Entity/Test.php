@@ -437,6 +437,10 @@ class Test extends ATopEntity implements \JsonSerializable {
         $this->nodes->removeElement($node);
     }
 
+    public function clearNodes() {
+        $this->nodes->clear();
+    }
+
     /**
      * Get nodes
      *
