@@ -221,6 +221,7 @@ class ImportService {
                 }
             }
         }
+        $this->entityManager->flush();
         $this->reset();
         return $result;
     }

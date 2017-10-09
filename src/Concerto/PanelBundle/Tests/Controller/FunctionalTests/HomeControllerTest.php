@@ -74,7 +74,8 @@ class HomeControllerTest extends AFunctionalTest {
                 "type" => 0,
                 "nodes" => array(),
                 "nodesConnections" => array(),
-                "tags" => ""
+                "tags" => "",
+                "steps" => array()
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));

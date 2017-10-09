@@ -411,7 +411,7 @@ class DataTableService extends AExportableSectionService {
         if (count($db_errors) > 0)
             return array("errors" => $db_errors, "entity" => null, "source" => $obj);
 
-        $this->repository->save($ent);
+        $this->repository->save($ent, false);
         $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         return array("errors" => null, "entity" => $ent);
@@ -467,7 +467,7 @@ class DataTableService extends AExportableSectionService {
             }
         }
 
-        $this->repository->save($ent);
+        $this->repository->save($ent, false);
         $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         $this->onConverted($user, $ent, $old_ent);

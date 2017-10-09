@@ -6,18 +6,21 @@ use Concerto\PanelBundle\Tests\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
-class TestControllerTest extends AFunctionalTest {
+class TestControllerTest extends AFunctionalTest
+{
 
     private static $repository;
     private static $varRepository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:Test");
         self::$varRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestVariable");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -34,7 +37,8 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/Test/collection');
@@ -78,13 +82,15 @@ class TestControllerTest extends AFunctionalTest {
                 "groups" => "",
                 "nodes" => array(),
                 "nodesConnections" => array(),
-                "tags" => ""
+                "tags" => "",
+                "steps" => array()
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testFormActionNew() {
+    public function testFormActionNew()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/Test/form/add");
@@ -93,7 +99,8 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("select[ng-model='object.visibility']")->count());
     }
 
-    public function testFormActionEdit() {
+    public function testFormActionEdit()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/Test/form/edit");
@@ -106,7 +113,8 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("select[ng-model='object.visibility']")->count());
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/1/delete");
@@ -120,7 +128,8 @@ class TestControllerTest extends AFunctionalTest {
     /**
      * @dataProvider exportDataProvider
      */
-    public function testExportAction($path_suffix, $use_gzip) {
+    public function testExportAction($path_suffix, $use_gzip)
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/1/export" . $path_suffix);
@@ -128,52 +137,53 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/x-download'));
 
         $content = json_decode(
-                ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
+            ($use_gzip) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
         );
         $this->assertArrayHasKey("hash", $content["collection"][0]);
         unset($content["collection"][0]["hash"]);
 
         $this->assertEquals(array(array(
-                'class_name' => 'Test',
-                'id' => 1,
-                "starterContent" => false,
-                "rev" => 0,
-                'name' => 'test',
-                'description' => 'description',
-                'visibility' => 1,
-                'code' => 'print(\'start\')',
-                'accessibility' => ATopEntity::ACCESS_PUBLIC,
-                "archived" => "0",
-                "owner" => null,
-                "groups" => "",
-                'outdated' => '0',
-                'sourceWizard' => null,
-                'sourceWizardName' => null,
-                'sourceWizardTest' => null,
-                'sourceWizardTestName' => null,
-                'updatedOn' => $content["collection"][0]["updatedOn"],
-                'updatedBy' => 'admin',
-                'type' => Test::TYPE_CODE,
-                'variables' => array(
-                    array(
-                        "class_name" => "TestVariable",
-                        "id" => 1,
-                        "name" => "out",
-                        "type" => 2,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => "0",
-                        "test" => 1,
-                        "parentVariable" => null
-                    )
-                ),
-                'nodes' => array(),
-                'nodesConnections' => array(),
-                "tags" => ""
-            )), $content["collection"]);
+            'class_name' => 'Test',
+            'id' => 1,
+            "starterContent" => false,
+            "rev" => 0,
+            'name' => 'test',
+            'description' => 'description',
+            'visibility' => 1,
+            'code' => 'print(\'start\')',
+            'accessibility' => ATopEntity::ACCESS_PUBLIC,
+            "archived" => "0",
+            "owner" => null,
+            "groups" => "",
+            'outdated' => '0',
+            'sourceWizard' => null,
+            'sourceWizardName' => null,
+            'sourceWizardTest' => null,
+            'sourceWizardTestName' => null,
+            'updatedOn' => $content["collection"][0]["updatedOn"],
+            'updatedBy' => 'admin',
+            'type' => Test::TYPE_CODE,
+            'variables' => array(
+                array(
+                    "class_name" => "TestVariable",
+                    "id" => 1,
+                    "name" => "out",
+                    "type" => 2,
+                    "description" => "",
+                    "passableThroughUrl" => "0",
+                    "value" => "0",
+                    "test" => 1,
+                    "parentVariable" => null
+                )
+            ),
+            'nodes' => array(),
+            'nodesConnections' => array(),
+            "tags" => ""
+        )), $content["collection"]);
     }
 
-    public function testImportNewAction() {
+    public function testImportNewAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/import", array(
@@ -200,7 +210,8 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $decoded_response["result"]);
     }
 
-    public function testImportNewSameNameAction() {
+    public function testImportNewSameNameAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/import", array(
@@ -227,7 +238,8 @@ class TestControllerTest extends AFunctionalTest {
         $this->assertCount(1, self::$repository->findBy(array("name" => "test_1")));
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/-1/save", array(
@@ -280,12 +292,14 @@ class TestControllerTest extends AFunctionalTest {
                         "parentVariable" => null
                     )
                 ),
-                "tags" => ""
+                "tags" => "",
+                "steps" => array()
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testSaveActionRename() {
+    public function testSaveActionRename()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/1/save", array(
@@ -340,12 +354,14 @@ class TestControllerTest extends AFunctionalTest {
                         "parentVariable" => null
                     )
                 ),
-                "tags" => ""
+                "tags" => "",
+                "steps" => array()
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionSameName() {
+    public function testSaveActionSameName()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/1/save", array(
@@ -398,12 +414,14 @@ class TestControllerTest extends AFunctionalTest {
                         "parentVariable" => null
                     )
                 ),
-                "tags" => ""
+                "tags" => "",
+                "steps" => array()
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionNameAlreadyExists() {
+    public function testSaveActionNameAlreadyExists()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/Test/-1/save", array(
@@ -456,9 +474,10 @@ class TestControllerTest extends AFunctionalTest {
                         "parentVariable" => null
                     )
                 ),
-                "tags" => ""
+                "tags" => "",
+                "steps" => array()
             )
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 
         $client->request("POST", "/admin/Test/1/save", array(
@@ -472,11 +491,12 @@ class TestControllerTest extends AFunctionalTest {
             "result" => 1,
             "object" => null,
             "errors" => array("This name already exists in the system")
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function exportDataProvider() {
+    public function exportDataProvider()
+    {
         return array(
             array('', true), // default is gzipped 
             array('/compressed', true), // explicitly requesting compression
@@ -484,7 +504,8 @@ class TestControllerTest extends AFunctionalTest {
         );
     }
 
-    public function testUpdateDependentAction() {
+    public function testUpdateDependentAction()
+    {
         $client = self::createLoggedClient();
         $client->request("POST", "/admin/TestWizard/-1/save", array(
             "name" => "wizard",

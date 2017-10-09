@@ -235,7 +235,7 @@ class TestNodeConnectionService extends ASectionService {
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent);
+        $this->repository->save($ent, false);
         $map["TestNodeConnection"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }

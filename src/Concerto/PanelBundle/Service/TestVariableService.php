@@ -240,7 +240,7 @@ class TestVariableService extends ASectionService {
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent);
+        $this->repository->save($ent, false);
         $map["TestVariable"]["id" . $obj["id"]] = $ent;
         $this->onObjectSaved($user, $ent, true);
         return array("errors" => null, "entity" => $ent);
@@ -280,7 +280,7 @@ class TestVariableService extends ASectionService {
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent);
+        $this->repository->save($ent, false);
         $map["TestVariable"]["id" . $obj["id"]] = $ent;
 
         $this->onObjectSaved($user, $ent, false);
