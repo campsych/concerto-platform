@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))\nif(set_as_default == \"1\") {\n  concerto.var.set(\"template_def\", template_def)\n}",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -85,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:44",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -93,8 +92,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "f1f09c3ed3d016670e34aec29e1f7314a730aebd"
+            "hash": "1e844c0dbba1ed6d4bc06a5a8f3e6309ec4a37e4"
         },
         {
             "class_name": "TestWizard",
@@ -194,13 +192,12 @@
             ],
             "test": 21,
             "testName": "source_create_template_definition",
-            "updatedOn": "2017-06-06 13:57:44",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "82a4eb9462eef2696b021aa2fa7c595e23bc9d57"
+            "hash": "7f08fbe19ef3cefd4d50ef87ba46e0568ec94eec"
         },
         {
             "class_name": "Test",
@@ -211,7 +208,6 @@
             "visibility": 2,
             "type": 1,
             "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))\nif(set_as_default == \"1\") {\n  concerto.var.set(\"template_def\", template_def)\n}",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -286,7 +282,7 @@
             "sourceWizardName": "create_template_definition",
             "sourceWizardTest": 21,
             "sourceWizardTestName": "source_create_template_definition",
-            "updatedOn": "2017-06-06 13:57:48",
+            "updatedOn": "2017-10-10 11:29:45",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -294,8 +290,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "33b63177feffbac682842ac0b0623014a6ab345c"
+            "hash": "38b8ed8ce9136595ce5fbf40e20b660f23d274c3"
         },
         {
             "class_name": "ViewTemplate",
@@ -308,13 +303,12 @@
             "css": "@import url(\"https:\/\/fonts.googleapis.com\/css?family=Roboto\");\n\nbody {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-style: normal;\n  font-weight: 400;\n}\np {\n  margin: 10px 0 10px;\n}\nh1 {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.5em;\n  font-style: normal;\n  font-weight: 500;\n  margin: 0 auto;\n  padding-bottom: 10px;\n  padding-top: 10px;\n  max-width: 900px;\n}\nh2 {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.3em;\n  font-style: normal;\n  font-weight: 500;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\nh3 {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.2em;\n  font-style: normal;\n  font-weight: 500;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\na:link {\n  color: #000000;\n  text-decoration: underline;\n}\na:visited {\n  color: #000000;\n  text-decoration: underline;\n}\na:hover {\n  color: #000000;\n  text-decoration: underline;\n}\nol, ul, li {\n  padding-bottom: 10px;\n}\ntable.decorated {\n  border: 1px solid #42424b;\n  border-collapse: collapse;\n  margin-bottom: 10px;\n}\ntd, th {\n  padding: 5px;\n}\nth, table.decorated tr:first-child td {\n  background-color: #e8eff5;\n  border: 1px solid #42424b;\n}\ntable.decorated td {\n  border: 1px solid #42424b;\n  text-align: left;\n  vertical-align: top;\n}\nheader {\n  background-color: #FFFFFF;\n  color: #2c343a;\n  margin: 0;\n  padding-top: 5px;\n  padding-bottom: 5px;\n}\nheader > * {\n  margin: auto;\n  max-width: 900px;\n}\nfooter {\n  background-color: #414d58;\n  color: #ffffff;\n  font-size: 0.8em;\n  margin: 20px 0 0 0;\n  padding-bottom: 10px;\n  padding-top: 10px;\n  position:absolute;\n  width: 100%;\n  bottom:0;\n  left:0;\n  height: 70px;\n}\nfooter > * {\n  margin: auto;\n  max-width: 900px;\n}\nfooter a:link {\n  color: #ffffff;\n  text-decoration: underline;\n}\nfooter a:visited {\n  color: #ffffff;\n  text-decoration: underline;\n}\nfooter a:hover {\n  color: #ffffff;\n  text-decoration: underline;\n}\nimg {\n  border: 0 none;\n}\nlabel {\n  font-weight: normal;\n  margin-bottom: 0;\n}\n.feature {\n  background-color: #e8eff5;\n  color: #000000;\n  margin-bottom: 20px;\n  margin-top: 20px;\n  padding: 20px;\n}\n#content {\n  margin: auto;\n  max-width: 900px;\n  padding-bottom: 70px;\n}\n#subheader {\n  background-color: #b9d979;\n  margin-bottom: 20px;\n}\n#subheader-content {\n  max-width: 900px;\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.5em;\n  font-style: normal;\n  font-weight: 500;\n  margin: 0 auto;\n  padding-bottom: 10px;\n  padding-top: 10px;\n}\n#subheader-left {\n  text-align: left; \n  float: left;\n}\n#subheader-right {\n  text-align: right; \n  float: right;\n}\n#timer {\n  letter-spacing: 2px;\n}\n#cnrto-platform-blurb {\n  color: #b9d979;\n}\n#cnrto-platform-link {\n  color: #b9d979;\n}\n#cnrto-platform-link:hover {\n  text-decoration: none;\n}\n.warning {\n  margin: 5px;\n  padding: 5px;\n  background-color: #D9C978;\n  font-weight: bold;\n}\n.warning:empty {\n  display: none;\n}\n.clearing {\n  height: 1px;\n}\n#test-wrapper {\n  background-color: #FFFFFF;\n  min-height:100%;\n  position: relative;\n}",
             "js": "$(function(){\n  if ($('#warning').is(':empty')) {\n    document.getElementById(\"warning\").scrollIntoView();\n  }\n});",
             "html": "<div id=\"test-wrapper\">\n<header>\n<div id=\"header_wrapper\">{{header}}<\/div>\n<\/header>\n\n<div id=\"subheader\">\n<div id=\"subheader-content\">\n<div id=\"subheader-left\">{{title}}<\/div>\n\n<div id=\"subheader-right\">\n<div id=\"timer\">[[timeLeft]]<\/div>\n<\/div>\n\n<div class=\"clearing\" style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n<\/div>\n\n<div id=\"content\">{{content}}\n<div id=\"actionContainer\">\n<div class=\"warning\" id=\"warning\">{{warning_msg}}<\/div>\n{{buttons}}<\/div>\n<\/div>\n\n<footer>\n<div id=\"footer_content\">\n<div>{{footer}}<\/div>\n<span id=\"cnrto-platform-blurb\">Created with <a href=\"http:\/\/www.concertoplatform.com\" id=\"cnrto-platform-link\" target=\"_blank\">Concerto Platform<\/a><\/span><\/div>\n<\/footer>\n<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:44",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 3,
-            "hash": "00bdd88e64204f18962c064b0db4b53e93b657c1"
+            "hash": "0bc6124ebeb58eec37e1473faf2310bd5185b2e8"
         }
     ]
 }

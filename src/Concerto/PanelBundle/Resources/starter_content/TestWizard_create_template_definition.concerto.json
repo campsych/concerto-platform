@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "template_def = toJSON(list(layout=layout,header=header,footer=footer))\nif(set_as_default == \"1\") {\n  concerto.var.set(\"template_def\", template_def)\n}",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -85,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:44",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -93,8 +92,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "f1f09c3ed3d016670e34aec29e1f7314a730aebd"
+            "hash": "1e844c0dbba1ed6d4bc06a5a8f3e6309ec4a37e4"
         },
         {
             "class_name": "TestWizard",
@@ -194,13 +192,12 @@
             ],
             "test": 21,
             "testName": "source_create_template_definition",
-            "updatedOn": "2017-06-06 13:57:44",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "82a4eb9462eef2696b021aa2fa7c595e23bc9d57"
+            "hash": "7f08fbe19ef3cefd4d50ef87ba46e0568ec94eec"
         }
     ]
 }

@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -150,7 +150,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:43",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -158,8 +158,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "8b60d9326bf76d36cbe3ac65519599ac7a9cd82f"
+            "hash": "6fa820389b30ec3cae53fbae33196d8a8a874215"
         },
         {
             "class_name": "TestWizard",
@@ -202,13 +201,12 @@
             ],
             "test": 16,
             "testName": "source_random_branch",
-            "updatedOn": "2017-06-06 13:57:44",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "ca62db3ad24359e3a2be7cd9ed2f750fac3812aa"
+            "hash": "de65952eb9464ef972978740fb0562d3d0549859"
         }
     ]
 }

@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "library(ggplot2)\n\nif(is.character(data)) {\n  d = fromJSON(data)\n  data = NULL\n  if(length(d) > 0) {\n    for(i in 1:length(d)) {\n      data = rbind(data, as.list(d[[i]]))\n    }\n  }\n}\ndata = as.data.frame(data)\n\nx = as.character(data[[x_name]])\nif(x_numeric == \"1\") { \n  x = as.numeric(x) \n}\n\ny = as.character(data[[y_name]])\nif(y_numeric == \"1\") { \n  y = as.numeric(y) \n}\ndata = data.frame(x=x, y=y)\n\ncolors = fromJSON(bar_colors)\nif(length(colors) == 0){\n  colors = x\n}\n\ngraph = ggplot(data=data, aes(x=x, y=y)) + \ngeom_bar(colour=\"black\", fill=colors, width=.8, stat=\"identity\") + \nguides(fill=FALSE) +\nxlab(x_label) + ylab(y_label) +\nggtitle(title)\n\npath = concerto.file.getPublicPath(filename)\npng(path, width=as.numeric(width), height=as.numeric(height))\nprint(graph)\ndev.off()\nif(output == \"file\") {\n  url = concerto.file.getUrl(filename)\n} else {\n  library(base64enc)\n  enc = base64encode(path)\n  url = paste0(\"data:image\/png;base64,\",enc)\n}\naddress = list(filename=filename, path=path, url=url)",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -184,7 +183,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:42",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -192,8 +191,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 3,
-            "hash": "e0005ed001a226a889756030b6e2cbb0a2f93037"
+            "hash": "10f5cac343b03706c3a785a53d187e75c2b15759"
         },
         {
             "class_name": "TestWizard",
@@ -513,13 +511,12 @@
             ],
             "test": 14,
             "testName": "source_create_graph",
-            "updatedOn": "2017-06-06 13:57:42",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 3,
-            "hash": "d7a3beb3b287f1e653feddcc88f7a9cd30cd9a2b"
+            "hash": "eb7cdcebfbe3b6313307d0678ed5791238bf2c8a"
         }
     ]
 }

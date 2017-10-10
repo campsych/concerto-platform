@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "value = concerto.var.get(name)",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -41,7 +40,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:49",
+            "updatedOn": "2017-10-10 11:29:46",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -49,8 +48,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 3,
-            "hash": "3c71cc3781042f05ce21973f6bd099cf7f866276"
+            "hash": "3c7024050a474ca80bc7d6ebb69dddac54a9325a"
         }
     ]
 }

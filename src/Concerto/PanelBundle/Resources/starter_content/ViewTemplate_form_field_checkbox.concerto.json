@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,13 +12,12 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "9954bf4ce988713a10985e16f7084b736ed574c0"
+            "hash": "4b77656862f656c5248db9e0f7913a25afec1359"
         }
     ]
 }

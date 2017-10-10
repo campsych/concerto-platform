@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "condition = paste0(\"if(\",if_condition,\") { .branch = 'if_true' } else { .branch = 'if_false' }\" )\nprint(paste0(\"if condition: \",condition)) #for bug checking\n\neval(parse(text=condition))\nprint(paste0(\".branch: \", .branch)) #for bug checking",
-            "resumable": "0",
             "outdated": "0",
             "description": "<p>Node that evaluates a conditional statement and returns via the TRUE or FALSE branch. Data can also be made available to the node via the ifdata variable input.<\/p>\n",
             "variables": [
@@ -74,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:43",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -82,8 +81,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "c30be9d0c1b4141d5bcf47136ae0bacdabed2fff"
+            "hash": "3ca6eee6425faa331ed6e4f72a079cd89a9b8498"
         },
         {
             "class_name": "TestWizard",
@@ -126,13 +124,12 @@
             ],
             "test": 18,
             "testName": "source_if",
-            "updatedOn": "2017-06-06 13:57:43",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "5c2bfe960325bb4f3343350d92dd5ede2604e786"
+            "hash": "c32941b2153c45fd32e2b17d140727c46eddb76b"
         },
         {
             "class_name": "Test",
@@ -143,7 +140,6 @@
             "visibility": 2,
             "type": 1,
             "code": "condition = paste0(\"if(\",if_condition,\") { .branch = 'if_true' } else { .branch = 'if_false' }\" )\nprint(paste0(\"if condition: \",condition)) #for bug checking\n\neval(parse(text=condition))\nprint(paste0(\".branch: \", .branch)) #for bug checking",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -207,7 +203,7 @@
             "sourceWizardName": "if_statement",
             "sourceWizardTest": 18,
             "sourceWizardTestName": "source_if",
-            "updatedOn": "2017-06-06 13:57:48",
+            "updatedOn": "2017-10-10 11:29:45",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -215,8 +211,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "2c5bcfe6db07cb93bbb22ba68db969550e1298bd"
+            "hash": "1ac873bc5cd0d65e7b0ba6e895afa75ab6f58757"
         }
     ]
 }

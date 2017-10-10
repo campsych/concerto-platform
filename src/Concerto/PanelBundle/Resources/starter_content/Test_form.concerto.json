@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      if(is.null(value)) {\n        value = \"\"\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      id = paste0(\"form\",i)\n      name = form[[i]]$name\n      label = form[[i]]$label\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = concerto.template.join(templateId=form_field_input_template,params=list(id=id,name=name,type=\"text\",value=value))\n      } else if(type == \"password\") {\n        control = concerto.template.join(templateId=form_field_input_template,params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"multiline\") {\n        control = concerto.template.join(templateId=form_field_multiline_template,params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"file\") {\n        control = concerto.template.join(templateId=form_field_file_template,params=list(id=id,name=name))\n      } else if(type == \"select\") {\n        control = concerto.template.join(templateId=form_field_select_template,params=list(id=id,name=name,options=toJSON(form[[i]]$definition$select_options),value=value))\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\") {\n          checked = \"checked\"\n        }\n        control = concerto.template.join(templateId=form_field_checkbox_template,params=list(id=id,name=name,attrs=checked))\n      } else if(type == \"slider\") {\n        if(value == \"\") {\n          value = \"null\";\n        }\n        control = concerto.template.join(templateId=form_field_slider_template,params=list(id=id,name=name,value=value,definition=toJSON(form[[i]]$definition)))\n      }\n        classes = \"\"\n        if(!is.null(response) && !valid) {\n          classes = \"validationHighlight\"\n        }\n        field = concerto.template.join(templateId=form_field_template,params=list(id=id,label=label,classes=classes,control=control))\n        content = paste0(content, field)\n        }\n        }\n        return(content)\n        }\n\n        getAlert = function(form, response) {\n          alert = NULL\n          if(response$buttonPressed != \"submit\") {\n            return(alert)\n          }\n\n          if(length(form) > 0) {\n            for(i in 1:length(form)) {\n              type = form[[i]]$definition$type\n              value = response[[form[[i]]$name]]\n              condition = form[[i]]$validation\n              valid = isValid(type, value, condition, form, response)\n\n              validationHighlight = \"\"\n              if(!is.null(response) && !valid) {\n                alert = paste0(alert,concerto.template.join(templateId=form_alert_template,params=list(alert=form[[i]]$alert)))\n              }\n            }\n          }\n          return(alert)\n        }\n\n        getTemplateParams = function(template_params){\n          params = list()\n          if(!is.null(inserts) && is.list(inserts)) {\n            params = inserts\n          }\n          for(key in ls(template_params)) {\n            params[[key]] = template_params[[key]]\n          }\n          return(params)\n        }\n\n        cb1 = fromJSON(custom_button_1)\n        buttons = concerto.template.join(templateId=buttons_template,params=list(\n          label=button_label,\n          cb1_enabled=cb1$enabled,\n          cb1_label=cb1$label\n        ))\n\n        content = paragraph\n        form = fromJSON(form)\n\n        if(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n          warning_msg = \"\"\n        }\n\n        response = NULL\n        while(T) {\n          content = getContent(paragraph, form, response)\n          response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n            header=decoded_template_def$header, \n            title=title,\n            content=content, \n            warning_msg=warning_msg, \n            buttons=buttons,\n            footer=decoded_template_def$footer\n          )))\n          warning_msg = getAlert(form, response)\n          if(is.null(warning_msg) || warning_msg == \"\") { break }\n        }\n\n        if(response$buttonPressed == \"submit\") {\n          .branch = \"submit\"\n        } else if(response$buttonPressed == \"custom_button_1\") {\n          .branch = \"custom_button_1\"\n        }",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -250,7 +249,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -258,8 +257,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 6,
-            "hash": "d561b6786a228ddf400caffcb7be3b09741c980f"
+            "hash": "9db379c0bf81b23333aa8c69ca22b2316d0d34f8"
         },
         {
             "class_name": "TestWizard",
@@ -809,13 +807,12 @@
             ],
             "test": 1,
             "testName": "source_form",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 6,
-            "hash": "7e2d5c0eccb8a5d2514669d2ed4919c9da190668"
+            "hash": "9ecfdb6e7bfa68cb0b6fffd1c30d5e341f04ba97"
         },
         {
             "class_name": "Test",
@@ -826,7 +823,6 @@
             "visibility": 2,
             "type": 1,
             "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\nisValid = function(type, value, condition, form, response) {\n  valid = T\n  if(!is.null(response)) {\n    env_vld = new.env()\n    if(length(form) > 0) {\n      for(i in 1:length(form)) {\n        v = response[[form[[i]]$name]]\n        assign(form[[i]]$name, v, envir=env_vld)\n      }\n    }\n\n    res = try(eval(parse(text=condition), envir=env_vld), T)\n    if(!is.null(res) && res == T) {\n      valid = T\n    }\n    if(!is.null(res) && res == F) {\n      valid = F\n    }\n  }\n  return(valid)\n}\n\ngetContent = function(paragraph, form, response) {\n  content = paragraph\n  if(length(form) > 0) {\n    for(i in 1:length(form)) {\n      type = form[[i]]$definition$type\n      value = response[[form[[i]]$name]]\n      if(is.null(value)) {\n        value = form[[i]]$default\n      }\n      if(is.null(value)) {\n        value = \"\"\n      }\n      condition = form[[i]]$validation\n      valid = isValid(type, value, condition, form, response)\n      id = paste0(\"form\",i)\n      name = form[[i]]$name\n      label = form[[i]]$label\n      control = \"\"\n\n      if(type == \"singleline\") {\n        control = concerto.template.join(templateId=form_field_input_template,params=list(id=id,name=name,type=\"text\",value=value))\n      } else if(type == \"password\") {\n        control = concerto.template.join(templateId=form_field_input_template,params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"multiline\") {\n        control = concerto.template.join(templateId=form_field_multiline_template,params=list(id=id,name=name,type=\"password\",value=value))\n      } else if(type == \"file\") {\n        control = concerto.template.join(templateId=form_field_file_template,params=list(id=id,name=name))\n      } else if(type == \"select\") {\n        control = concerto.template.join(templateId=form_field_select_template,params=list(id=id,name=name,options=toJSON(form[[i]]$definition$select_options),value=value))\n      } else if(type == \"checkbox\") {\n        checked = \"\"\n        if(value==\"1\") {\n          checked = \"checked\"\n        }\n        control = concerto.template.join(templateId=form_field_checkbox_template,params=list(id=id,name=name,attrs=checked))\n      } else if(type == \"slider\") {\n        if(value == \"\") {\n          value = \"null\";\n        }\n        control = concerto.template.join(templateId=form_field_slider_template,params=list(id=id,name=name,value=value,definition=toJSON(form[[i]]$definition)))\n      }\n        classes = \"\"\n        if(!is.null(response) && !valid) {\n          classes = \"validationHighlight\"\n        }\n        field = concerto.template.join(templateId=form_field_template,params=list(id=id,label=label,classes=classes,control=control))\n        content = paste0(content, field)\n        }\n        }\n        return(content)\n        }\n\n        getAlert = function(form, response) {\n          alert = NULL\n          if(response$buttonPressed != \"submit\") {\n            return(alert)\n          }\n\n          if(length(form) > 0) {\n            for(i in 1:length(form)) {\n              type = form[[i]]$definition$type\n              value = response[[form[[i]]$name]]\n              condition = form[[i]]$validation\n              valid = isValid(type, value, condition, form, response)\n\n              validationHighlight = \"\"\n              if(!is.null(response) && !valid) {\n                alert = paste0(alert,concerto.template.join(templateId=form_alert_template,params=list(alert=form[[i]]$alert)))\n              }\n            }\n          }\n          return(alert)\n        }\n\n        getTemplateParams = function(template_params){\n          params = list()\n          if(!is.null(inserts) && is.list(inserts)) {\n            params = inserts\n          }\n          for(key in ls(template_params)) {\n            params[[key]] = template_params[[key]]\n          }\n          return(params)\n        }\n\n        cb1 = fromJSON(custom_button_1)\n        buttons = concerto.template.join(templateId=buttons_template,params=list(\n          label=button_label,\n          cb1_enabled=cb1$enabled,\n          cb1_label=cb1$label\n        ))\n\n        content = paragraph\n        form = fromJSON(form)\n\n        if(!is.null(warning_msg) && (is.na(warning_msg) || warning_msg == \"\")) {\n          warning_msg = \"\"\n        }\n\n        response = NULL\n        while(T) {\n          content = getContent(paragraph, form, response)\n          response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n            header=decoded_template_def$header, \n            title=title,\n            content=content, \n            warning_msg=warning_msg, \n            buttons=buttons,\n            footer=decoded_template_def$footer\n          )))\n          warning_msg = getAlert(form, response)\n          if(is.null(warning_msg) || warning_msg == \"\") { break }\n        }\n\n        if(response$buttonPressed == \"submit\") {\n          .branch = \"submit\"\n        } else if(response$buttonPressed == \"custom_button_1\") {\n          .branch = \"custom_button_1\"\n        }",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -1066,7 +1062,7 @@
             "sourceWizardName": "form",
             "sourceWizardTest": 1,
             "sourceWizardTestName": "source_form",
-            "updatedOn": "2017-06-06 13:57:51",
+            "updatedOn": "2017-10-10 11:29:47",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -1074,8 +1070,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 6,
-            "hash": "179460b75dba12b15fc974dbb36789315d5c5132"
+            "hash": "4feafefcd2650ee9d967fa7ac7221c7ad7633424"
         },
         {
             "class_name": "ViewTemplate",
@@ -1088,13 +1083,12 @@
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "7b4089c89ac9089242fe85c302106cc32f36b89c"
+            "hash": "53f4f079e9235798bede0fb4fce8236053357f91"
         },
         {
             "class_name": "ViewTemplate",
@@ -1107,13 +1101,12 @@
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "3d2ddb3f558ad564cd9ddad2f4b8f1fd136f2619"
+            "hash": "65136639c5d390963f0fb08f46f04678b5cf01b7"
         },
         {
             "class_name": "ViewTemplate",
@@ -1126,13 +1119,12 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "9954bf4ce988713a10985e16f7084b736ed574c0"
+            "hash": "4b77656862f656c5248db9e0f7913a25afec1359"
         },
         {
             "class_name": "ViewTemplate",
@@ -1145,13 +1137,12 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"file\" \/>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 1,
-            "hash": "d4fc341bcd7a796aa56815c61ca0a4ff6c7372a4"
+            "hash": "c13833ab607a2a060327b190b9de84a41fa47f47"
         },
         {
             "class_name": "ViewTemplate",
@@ -1164,13 +1155,12 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"{{type}}\" value=\"{{value}}\" \/>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "d62b5f356a47c68d09e11bb02a7dfbb719ad50cc"
+            "hash": "c522916420e194b17eff1caae92101586dcaf002"
         },
         {
             "class_name": "ViewTemplate",
@@ -1183,13 +1173,12 @@
             "css": "",
             "js": "",
             "html": "<textarea id=\"{{id}}\" name=\"{{name}}\">{{value}}<\/textarea>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "63c33c671a1559a4b0add54b927e6e54c2bbd4be"
+            "hash": "9953ea31efbe30a31907bc61e8c5d94c3f3a0425"
         },
         {
             "class_name": "ViewTemplate",
@@ -1202,13 +1191,12 @@
             "css": "",
             "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}};\n  $scope.value = \"{{value}}\";\n});",
             "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" ng-selected=\"[[option.value == value]]\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "86199f31efe4f03653de28d0af72a615d5b8790a"
+            "hash": "5c866c6dbdd9eb976d6a7cfe2a9d194a5d6e07bd"
         },
         {
             "class_name": "ViewTemplate",
@@ -1221,13 +1209,12 @@
             "css": "",
             "js": "testRunner.controllerProvider.register(\"slider{{id}}\", function($scope) {\n  $scope.definition = {{definition}};\n  $scope.value = {{value}};\n});",
             "html": "<table class=\"tableFormSlider\" ng-controller=\"slider{{id}}\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft\">[[definition.label_extreme_left]]<\/td>\n\t\t\t<td class=\"tdFormSlider\"><input id=\"{{id}}\" max=\"[[definition.max]]\" min=\"[[definition.min]]\" name=\"{{name}}\" ng-model=\"value\" step=\"[[definition.step]]\" type=\"range\" \/><\/td>\n\t\t\t<td class=\"tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight\">[[definition.label_extreme_right]]<\/td>\n\t\t<\/tr>\n\t\t<tr ng-show=\"[[definition.hide_number]] == 0\">\n\t\t\t<td>&nbsp;<\/td>\n\t\t\t<td class=\"tdFormSliderNumber\">[[definition.prefix_text]][[value]][[definition.suffix_text]]<\/td>\n\t\t\t<td>&nbsp;<\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "63d6721d806440012bbcc9f154994b738c6913f0"
+            "hash": "32083a83671184566719ba628f920b41064a72e5"
         },
         {
             "class_name": "ViewTemplate",
@@ -1237,16 +1224,15 @@
             "accessibility": 2,
             "archived": "0",
             "head": "",
-            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
+            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\n.button-group button {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n  cursor: pointer;\n  width: 150px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}",
             "js": "testRunner.controllerProvider.register(\"_buttonsMultiple\", function($scope) {\n  $scope.cb1_enabled = {{cb1_enabled}};\n});",
             "html": "<div class=\"button-group\" ng-controller=\"_buttonsMultiple\">\n<ul>\n\t<li ng-show=\"cb1_enabled == 1\"><button name=\"custom_button_1\">{{cb1_label}}<\/button><\/li>\n\t<li><button name=\"submit\">{{label}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 1,
-            "hash": "c15c91679ab273b750a0234ed52738c18d2f11f2"
+            "hash": "bb06732c6e724b9d205f1ebc431f9f81ae33384a"
         }
     ]
 }

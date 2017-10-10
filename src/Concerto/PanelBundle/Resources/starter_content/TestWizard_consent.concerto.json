@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -9,8 +9,7 @@
             "archived": "0",
             "visibility": 2,
             "type": 0,
-            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function(paragraph, consents, response) {\n  content = paragraph\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      classes = if(!is.null(response) && !checked && consents[[i]]$required == \"1\") {\"validationHighlight\"} else {\"\"}\n      attrs = if(checked) {\"checked\"} else {\"\"}\n      id = paste0(\"consent\",i)\n      name = paste0(\"consent\",i)\n      label = consents[[i]]$consent\n      control = concerto.template.join(templateId=form_field_checkbox_template,params=list(id=id, name=name, attrs=attrs))\n      content = concerto.template.join(templateId=form_field_template,params=list(classes=classes, control=control, id=id, label=label))\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(consents, response) {\n  alert = \"\"\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      if(!checked && consents[[i]]$required == \"1\") {\n        alert = concerto.template.join(templateId=form_alert_template,params=list(alert=consents[[i]]$alert))\n      }\n    }\n  }\n  return(alert)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n\ncontent = paragraph\nconsents = fromJSON(consents)\n\nwarning_msg = \"\"\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, consents, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))  \n  warning_msg = getAlert(consents, response)\n  if(warning_msg==\"\") { break }\n}",
-            "resumable": "0",
+            "code": "if(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function(paragraph, consents, response) {\n  content = paragraph\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      classes = if(!is.null(response) && !checked && consents[[i]]$required == \"1\") {\"validationHighlight\"} else {\"\"}\n      attrs = if(checked) {\"checked\"} else {\"\"}\n      id = paste0(\"consent\",i)\n      name = paste0(\"consent\",i)\n      label = consents[[i]]$consent\n      control = concerto.template.join(templateId=form_field_checkbox_template,params=list(id=id, name=name, attrs=attrs))\n      content = paste0(content, concerto.template.join(templateId=form_field_template,params=list(classes=classes, control=control, id=id, label=label)))\n    }\n  }\n  return(content)\n}\n\ngetAlert = function(consents, response) {\n  alert = \"\"\n  if(length(consents) > 0) {\n    for(i in 1:length(consents)) {\n      checked = !is.null(response[[paste(\"consent\",i,sep=\"\")]])\n      if(!checked && consents[[i]]$required == \"1\") {\n        alert = paste0(alert, concerto.template.join(templateId=form_alert_template,params=list(alert=consents[[i]]$alert)))\n      }\n    }\n  }\n  return(alert)\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\nbuttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n\ncontent = paragraph\nconsents = fromJSON(consents)\n\nwarning_msg = \"\"\nresponse = NULL\nwhile(T) {\n  content = getContent(paragraph, consents, response)\n  response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n    header=decoded_template_def$header, \n    title=title,\n    content=content, \n    warning_msg=warning_msg, \n    buttons=buttons,\n    footer=decoded_template_def$footer\n  )))  \n  warning_msg = getAlert(consents, response)\n  if(warning_msg==\"\") { break }\n}",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -151,7 +150,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:42",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -159,8 +158,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
-            "hash": "d5a162801d88166823a2b402b5a955e38d7c3d74"
+            "hash": "f75af76518f0374df3e229bbfe14ca061cdf1823"
         },
         {
             "class_name": "TestWizard",
@@ -172,7 +170,7 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 58,
+                    "id": 83,
                     "title": "Presentation",
                     "description": "<p>Consent page properties<\/p>\n",
                     "orderNum": 0,
@@ -181,7 +179,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 226,
+                            "id": 325,
                             "label": "Paragraph",
                             "description": "<p>Information about your test\/study goes here.<\/p>\n\n<p>Perhaps you have a list of things they are going to agree to, like this:<\/p>\n\n<ul>\n\t<li>I am at least 18 years old<\/li>\n\t<li>I agree to participate in this study<\/li>\n\t<li>I realise that I can leave the study at any time by closing the web browser<\/li>\n<\/ul>\n",
                             "hideCondition": "",
@@ -190,7 +188,7 @@
                             "value": "<p>Please check your consent below:<\/p>\n",
                             "testVariable": 190,
                             "name": "paragraph",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 1,
                             "wizard": 7,
@@ -201,7 +199,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 227,
+                            "id": 326,
                             "label": "Button label",
                             "description": "<p>Continue button label text<\/p>\n",
                             "hideCondition": "",
@@ -210,7 +208,7 @@
                             "value": "continue",
                             "testVariable": 192,
                             "name": "button_label",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 6,
                             "wizard": 7,
@@ -221,7 +219,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 228,
+                            "id": 327,
                             "label": "Page Title",
                             "description": "",
                             "hideCondition": "",
@@ -230,7 +228,7 @@
                             "value": "DEMO TEST",
                             "testVariable": 195,
                             "name": "title",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 0,
                             "wizard": 7,
@@ -241,7 +239,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 229,
+                            "id": 328,
                             "label": "Form field container template",
                             "description": "",
                             "hideCondition": "",
@@ -250,7 +248,7 @@
                             "value": "form_field",
                             "testVariable": 197,
                             "name": "form_field_template",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 2,
                             "wizard": 7,
@@ -261,7 +259,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 230,
+                            "id": 329,
                             "label": "Form field checkbox template",
                             "description": "",
                             "hideCondition": "",
@@ -270,7 +268,7 @@
                             "value": "form_field_checkbox",
                             "testVariable": 198,
                             "name": "form_field_checkbox_template",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 3,
                             "wizard": 7,
@@ -281,7 +279,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 231,
+                            "id": 330,
                             "label": "Form alert template",
                             "description": "",
                             "hideCondition": "",
@@ -290,7 +288,7 @@
                             "value": "form_alert",
                             "testVariable": 199,
                             "name": "form_alert_template",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 4,
                             "wizard": 7,
@@ -301,7 +299,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 232,
+                            "id": 331,
                             "label": "Buttons template",
                             "description": "",
                             "hideCondition": "",
@@ -310,7 +308,7 @@
                             "value": "buttons_single",
                             "testVariable": 200,
                             "name": "buttons_template",
-                            "wizardStep": 58,
+                            "wizardStep": 83,
                             "stepTitle": "Presentation",
                             "order": 5,
                             "wizard": 7,
@@ -323,7 +321,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 59,
+                    "id": 84,
                     "title": "Consents",
                     "description": "<p>Declare&nbsp;consent fields<\/p>\n",
                     "orderNum": 0,
@@ -332,7 +330,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 233,
+                            "id": 332,
                             "label": "Consent fields",
                             "description": "<p>Declare consent fields list<\/p>\n",
                             "hideCondition": "",
@@ -341,7 +339,7 @@
                             "value": "[]",
                             "testVariable": 191,
                             "name": "consents",
-                            "wizardStep": 59,
+                            "wizardStep": 84,
                             "stepTitle": "Consents",
                             "order": 0,
                             "wizard": 7,
@@ -387,13 +385,12 @@
             ],
             "test": 13,
             "testName": "source_consent",
-            "updatedOn": "2017-06-06 13:57:42",
+            "updatedOn": "2017-10-10 11:29:41",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
-            "hash": "3e1ad185c100b3d4e57918407cd50bffe442c426"
+            "hash": "28585ec90ade1020e5c0a9caf35477f425ac5e03"
         },
         {
             "class_name": "ViewTemplate",
@@ -406,13 +403,12 @@
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "7b4089c89ac9089242fe85c302106cc32f36b89c"
+            "hash": "53f4f079e9235798bede0fb4fce8236053357f91"
         },
         {
             "class_name": "ViewTemplate",
@@ -425,13 +421,12 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "9954bf4ce988713a10985e16f7084b736ed574c0"
+            "hash": "4b77656862f656c5248db9e0f7913a25afec1359"
         },
         {
             "class_name": "ViewTemplate",
@@ -444,13 +439,12 @@
             "css": "",
             "js": "",
             "html": "<div>{{alert}}<\/div>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "3d2ddb3f558ad564cd9ddad2f4b8f1fd136f2619"
+            "hash": "65136639c5d390963f0fb08f46f04678b5cf01b7"
         },
         {
             "class_name": "ViewTemplate",
@@ -460,16 +454,15 @@
             "accessibility": 2,
             "archived": "0",
             "head": "",
-            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
+            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\n.button-group button {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n  width: 150px;\n  cursor: pointer;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}",
             "js": "",
-            "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"button\">{{label}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:38",
+            "html": "<div class=\"button-group\">\n<ul>\n\t<li><button name=\"button\">{{label}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "3638f9371bf2b98bee4df25217a36a7ef1be0397"
+            "hash": "5d3e8f4c88166a1e64eebbb47c49aa855b408350"
         }
     ]
 }

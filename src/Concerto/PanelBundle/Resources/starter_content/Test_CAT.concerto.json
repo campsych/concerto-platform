@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -9,7 +9,7 @@
             "archived": "0",
             "visibility": 2,
             "type": 0,
-            "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    data_set_id = ib$data_set_id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    a_column = ib$custom_table$columns$a\n    b_column = ib$custom_table$columns$b\n    c_column = ib$custom_table$columns$c\n    d_column = ib$custom_table$columns$d\n    correct_column = ib$custom_table$columns$correct\n    data_set_id_column = ib$custom_table$columns$data_set_id\n    cb_group_column = ib$custom_table$columns$cb_group\n    questions = concerto.table.query(\"SELECT id, {{question_column}} AS question, {{response_options_column}} AS response_options, {{a_column}} AS a, {{b_column}} AS b, {{c_column}} AS c, {{d_column}} AS d, {{correct_column}} AS correct, {{cb_group_column}} AS cb_group FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}'\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = as.character(toJSON(ib$direct_table[[i]]$response_options)) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  response_type = \"open_text\"\n  options = NULL\n  response_classes = \"\"\n  response_styles = \"\"\n  \n  if(length(o) > 0) {\n    response_type = \"multiple_choice\"\n    if(randomize_response_options == \"1\") {\n      options = o[sample(1:length(o))]\n    } else {\n      options = o\n    }\n    response_classes = \"CAT-response-section-vertical\"\n    response_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      response_classes = \"CAT-response-section-horizontal\" \n      response_styles = paste0(\"width: \",response_width)\n    }\n  }\n  \n  content = concerto.template.join(templateId=CAT_template,params=list(\n    paragraph = paragraph,\n    question = question$question,\n    response_type = response_type,\n    response_options = toJSON(options),\n    response_classes = response_classes,\n    response_styles = response_styles\n  ))\n\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  data_set_id_column = \"data_set_id\"\n  data_set_id = rb$data_set_id\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_id_column = rb$custom_table$columns$session_id\n    correct_column = rb$custom_table$columns$correct\n    theta_column = rb$custom_table$columns$theta\n    sem_column = rb$custom_table$columns$sem\n    data_set_id_column = rb$custom_table$columns$data_set_id\n  }\n  session_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_id = session$id\n  } else {\n    session_id = paste0(\"i\",concerto$session$id)\n  }\n\n  concerto.table.query(\"INSERT INTO {{table}} ({{item_id_column}}, {{response_column}}, {{time_taken_column}}, {{session_id_column}}, {{correct_column}}, {{theta_column}}, {{sem_column}}, {{data_set_id_column}}) VALUES ({{item_id}}, '{{response}}', {{time_taken}}, '{{session_id}}', {{correct}}, {{theta}}, {{sem}}, '{{data_set_id}}')\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = concerto.template.join(templateId=item_debug_template,params=list(id=question$id))\n  content = paste0(debug, content)\n  return(content)\n}\n\nupdateSavedState = function(questions, theta, sem, out, time_limit, correctness, current_item){\n  if(!is.null(concerto$promoted$.savedState)) {\n    concerto$promoted$.savedState <<- list()\n  }\n  if(!is.null(concerto$promoted$.savedState$CAT)) {\n    concerto$promoted$.savedState$CAT <<- list()\n  }\n  \n  concerto$promoted$.savedState$CAT$questions <<- questions\n  concerto$promoted$.savedState$CAT$theta <<- theta\n  concerto$promoted$.savedState$CAT$sem <<- sem\n  concerto$promoted$.savedState$CAT$out <<- out\n  concerto$promoted$.savedState$CAT$time_limit <<- time_limit\n  concerto$promoted$.savedState$CAT$correctness <<- correctness\n  concerto$promoted$.savedState$CAT$current_item <<- current_item\n}\n\nsr_time = fromJSON(stopping_time)\nresumed = F\nif(!is.null(concerto$promoted$.savedState) && !is.null(concerto$promoted$.savedState$CAT)) {\n  resumed = T\n  \n  questions = concerto$promoted$.savedState$CAT$questions\n  theta = concerto$promoted$.savedState$CAT$theta\n  sem = concerto$promoted$.savedState$CAT$sem\n  out = concerto$promoted$.savedState$CAT$out\n  time_limit = concerto$promoted$.savedState$CAT$time_limit\n  correctness = concerto$promoted$.savedState$CAT$correctness\n  current_item = concerto$promoted$.savedState$CAT$current_item\n} else {\n  questions = getQuestions()\n  theta = 0\n  sem = 1\n  out = NULL\n  time_limit = 0\n  if(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\n  correctness = c()\n  current_item = 1\n}\n\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\nresponse = NULL\nwarning_msg = \"\"\ntimer_set = FALSE\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n\nif(item_debug == \"0\" && !resumed) { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    updateSavedState(questions, theta, sem, out, time_limit, correctness, current_item)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = \"\"\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    updateSavedState(questions, theta, sem, out, time_limit, correctness, current_item)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)\nconcerto$promoted$.savedState$CAT <<- NULL",
+            "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\nif(is.null(test_time_limit_offset) || is.na(test_time_limit_offset)) { test_time_limit_offset = 0 }\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    data_set_id = ib$data_set_id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    a_column = ib$custom_table$columns$a\n    b_column = ib$custom_table$columns$b\n    c_column = ib$custom_table$columns$c\n    d_column = ib$custom_table$columns$d\n    correct_column = ib$custom_table$columns$correct\n    data_set_id_column = ib$custom_table$columns$data_set_id\n    cb_group_column = ib$custom_table$columns$cb_group\n    questions = concerto.table.query(\"SELECT id, {{question_column}} AS question, {{response_options_column}} AS response_options, {{a_column}} AS a, {{b_column}} AS b, {{c_column}} AS c, {{d_column}} AS d, {{correct_column}} AS correct, {{cb_group_column}} AS cb_group FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}'\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = as.character(toJSON(ib$direct_table[[i]]$response_options)) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  response_type = \"open_text\"\n  options = NULL\n  response_classes = \"\"\n  response_styles = \"\"\n\n  if(length(o) > 0) {\n    response_type = \"multiple_choice\"\n    if(randomize_response_options == \"1\") {\n      options = o[sample(1:length(o))]\n    } else {\n      options = o\n    }\n    response_classes = \"CAT-response-section-vertical\"\n    response_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      response_classes = \"CAT-response-section-horizontal\" \n      response_styles = paste0(\"width: \",response_width)\n    }\n  }\n\n  content = concerto.template.join(templateId=CAT_template,params=list(\n    paragraph = paragraph,\n    question = question$question,\n    response_type = response_type,\n    response_options = toJSON(options),\n    response_classes = response_classes,\n    response_styles = response_styles\n  ))\n\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions, test_time_limited, test_time_limit, test_time_left, item_time_limited, item_time_limit, item_time_left, timeout_when_not_full_item_time) {\n  #run out of test time\n  if(test_time_limited && test_time_left <= 0) { return(3) }\n  if(timeout_when_not_full_item_time && test_time_limited && item_time_limited && test_time_left < item_time_limit) { return(3) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(1) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(2) }\n  return(0)\n}\n\n#returns response insert id\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  if(is.null(rb$table_type)) {\n    return(NULL)\n  }\n\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  data_set_id_column = \"data_set_id\"\n  data_set_id = rb$data_set_id\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_id_column = rb$custom_table$columns$session_id\n    correct_column = rb$custom_table$columns$correct\n    theta_column = rb$custom_table$columns$theta\n    sem_column = rb$custom_table$columns$sem\n    data_set_id_column = rb$custom_table$columns$data_set_id\n  }\n  session_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_id = session$id\n  } else {\n    session_id = paste0(\"i\",concerto$session$id)\n  }\n\n  concerto.table.query(\"INSERT INTO {{table}} ({{item_id_column}}, {{response_column}}, {{time_taken_column}}, {{session_id_column}}, {{correct_column}}, {{theta_column}}, {{sem_column}}, {{data_set_id_column}}) VALUES ({{item_id}}, '{{response}}', {{time_taken}}, '{{session_id}}', {{correct}}, {{theta}}, {{sem}}, '{{data_set_id}}')\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n  ))\n  return(concerto.table.lastInsertId())\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = concerto.template.join(templateId=item_debug_template,params=list(id=question$id))\n  content = paste0(debug, content)\n  return(content)\n}\n\nupdateSavedState = function(questions, theta, sem, out, test_time_left, item_time_left, correctness, current_item, time_taken){\n  if(!is.null(concerto$promoted$.savedState)) {\n    concerto$promoted$.savedState <<- list()\n  }\n  if(!is.null(concerto$promoted$.savedState$CAT)) {\n    concerto$promoted$.savedState$CAT <<- list()\n  }\n\n  concerto$promoted$.savedState$CAT$questions <<- questions\n  concerto$promoted$.savedState$CAT$theta <<- theta\n  concerto$promoted$.savedState$CAT$sem <<- sem\n  concerto$promoted$.savedState$CAT$out <<- out\n  concerto$promoted$.savedState$CAT$test_time_left <<- test_time_left\n  concerto$promoted$.savedState$CAT$item_time_left <<- item_time_left\n  concerto$promoted$.savedState$CAT$time_taken <<- time_taken\n  concerto$promoted$.savedState$CAT$correctness <<- correctness\n  concerto$promoted$.savedState$CAT$current_item <<- current_item\n}\n\nsr_time = fromJSON(stopping_time)\ntest_time_limited = F\ntest_time_limit = 0\ntest_time_left = 0\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"both\") && as.numeric(sr_time$test_time_limit) > 0) {\n  test_time_limited = T\n  test_time_limit = as.numeric(sr_time$test_time_limit) + as.numeric(test_time_limit_offset)\n  test_time_left = test_time_limit\n}\nitem_time_limited = F\nitem_time_limit = 0\nitem_time_left = 0\ntimeout_when_not_full_item_time = F\nif(!is.null(sr_time$type) && (sr_time$type == \"item\" || sr_time$type == \"both\") && as.numeric(sr_time$item_time_limit) > 0) {\n  item_time_limited = T\n  item_time_limit = as.numeric(sr_time$item_time_limit)\n  item_time_left = item_time_limit\n  timeout_when_not_full_item_time = sr_time$timeout_when_not_full_item_time == \"1\"\n}\n\nresumed = F\nif(!is.null(concerto$promoted$.savedState) && !is.null(concerto$promoted$.savedState$CAT)) {\n  resumed = T\n\n  questions = concerto$promoted$.savedState$CAT$questions\n  theta = concerto$promoted$.savedState$CAT$theta\n  sem = concerto$promoted$.savedState$CAT$sem\n  out = concerto$promoted$.savedState$CAT$out\n  test_time_left = concerto$promoted$.savedState$CAT$test_time_left\n  item_time_left = concerto$promoted$.savedState$CAT$item_time_left\n  time_taken = concerto$promoted$.savedState$CAT$time_taken\n  correctness = concerto$promoted$.savedState$CAT$correctness\n  current_item = concerto$promoted$.savedState$CAT$current_item\n} else {\n  questions = getQuestions()\n  theta = 0\n  sem = 1\n  out = NULL\n  correctness = c()\n  current_item = 1\n  time_taken = 0\n}\n\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,c(\"a\",\"b\",\"c\",\"d\"),drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\nresponse = NULL\nwarning_msg = \"\"\nbuttons = \"\"\nif(!is.na(buttons_template) && !is.null(buttons_template) && buttons_template != \"\") {\n\tbuttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n}\n\nif(item_debug == \"0\" && !resumed && dim(questions)[1] > 1) { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\n\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  time_limit = 0\n  if(test_time_limited || item_time_limited) {\n    if(test_time_limited) {\n      time_limit = test_time_left\n    }\n    if(item_time_limited && item_time_left < test_time_left) {\n      time_limit = item_time_left\n    }\n  }\n\n  updateSavedState(questions, theta, sem, out, test_time_left, item_time_left, correctness, current_item, time_taken)\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = \"\"\n\n    time_taken = time_taken + as.numeric(response$timeTaken)\n    if(test_time_limited) {\n      test_time_left = test_time_left - as.numeric(response$timeTaken)\n    }\n    if(item_time_limited) {\n      item_time_left = item_time_left - as.numeric(response$timeTaken)\n    }\n    \n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      param_bank_out = param_bank\n      if(dim(questions)[1] > 1) {\n        param_bank_out = param_bank[out,]\n      }\n      print(\"theta\")\n      print(param_bank_out)\n      theta <- thetaEst(matrix(param_bank_out, ncol=4, byrow=F), correctness, method=scoring_method)\n      print(\"sem\")\n      sem <- semTheta(theta, matrix(param_bank_out, ncol=4, byrow=F), correctness)\n      print(\"response\")\n      response_id=saveResponse(response, question, rb, theta, sem, correct)\n\n      #response processor\n      if(!is.null(response_processor) && !is.na(response_processor) && response_processor != \"\") {\n        concerto.test.run(response_processor, params=list(\n          question=question,\n          template_response=response,\n          response_id=response_id,\n          response_bank=rb,\n          theta=theta,\n          sem=sem,\n          correct=correct,\n          session=session\n        ))\n      }\n\n      stopReason = shouldStop(response, sem, out, questions, test_time_limited, test_time_limit, test_time_left, item_time_limited, item_time_limit, item_time_left, timeout_when_not_full_item_time)\n      if(stopReason) {\n        #out of time\n        if(stopReason == 3) {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(item_time_limited) {\n          item_time_left = item_time_limit\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)\nconcerto$promoted$.savedState$CAT <<- NULL\ntime_left = 0\nif(test_time_limited) {\n  time_left = test_time_left\n}",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -309,22 +309,65 @@
                     "value": null,
                     "test": 3,
                     "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 476,
+                    "name": "response_processor",
+                    "type": 0,
+                    "description": "<p>A subtest to run to process user response after it has been saved to response table.<\/p>\n\n<pre>\nconcerto.test.run({{response_processor}}, params=list(\n\tquestion={{question}},\n\ttemplate_response={{template_response}},\n\tresponse_bank={{response_bank}},\n\tresponse_id={{response_id}},\n\ttheta={{theta}},\n\tsem={{sem}},\n\tcorrect={{correct}},\n\tsession={{session}}\n))<\/pre>\n",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 3,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 478,
+                    "name": "time_taken",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 3,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 480,
+                    "name": "time_left",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 3,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 482,
+                    "name": "test_time_limit_offset",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 3,
+                    "parentVariable": null
                 }
             ],
             "sourceWizard": null,
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-07 18:51:22",
-            "updatedBy": "admin",
+            "updatedOn": "2017-10-10 11:29:39",
+            "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 15,
-            "hash": "222dbed1de01ee25b2d6b25ae553110f7dd6789c"
+            "hash": "a585b60058d6e3d03416461de0fef1cdce06b8f1"
         },
         {
             "class_name": "TestWizard",
@@ -336,7 +379,7 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 41,
+                    "id": 77,
                     "title": "Presentation",
                     "description": "<p>CAT presentation options<\/p>\n",
                     "orderNum": 0,
@@ -345,7 +388,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 155,
+                            "id": 305,
                             "label": "Paragraph",
                             "description": "<p>CAT page paragraph<\/p>\n",
                             "hideCondition": "",
@@ -354,7 +397,7 @@
                             "value": "<p>Please answer the question below:<\/p>\n",
                             "testVariable": 49,
                             "name": "paragraph",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 2,
                             "wizard": 14,
@@ -365,7 +408,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 156,
+                            "id": 306,
                             "label": "No answer alert",
                             "description": "<p>Alert message that will appear when no answer is given<\/p>\n",
                             "hideCondition": "",
@@ -374,7 +417,7 @@
                             "value": "No answer given!",
                             "testVariable": 60,
                             "name": "no_answer_alert",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 3,
                             "wizard": 14,
@@ -385,7 +428,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 157,
+                            "id": 307,
                             "label": "Title",
                             "description": "",
                             "hideCondition": "",
@@ -394,7 +437,7 @@
                             "value": "DEMO TEST",
                             "testVariable": 67,
                             "name": "title",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 1,
                             "wizard": 14,
@@ -405,7 +448,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 158,
+                            "id": 308,
                             "label": "Responses layout",
                             "description": "",
                             "hideCondition": "",
@@ -414,7 +457,7 @@
                             "value": "vertical",
                             "testVariable": 69,
                             "name": "responses_layout",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 5,
                             "wizard": 14,
@@ -437,7 +480,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 159,
+                            "id": 309,
                             "label": "Response width",
                             "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                             "hideCondition": "",
@@ -446,7 +489,7 @@
                             "value": "",
                             "testVariable": 70,
                             "name": "response_width",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 6,
                             "wizard": 14,
@@ -456,7 +499,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 160,
+                            "id": 310,
                             "label": "Button label",
                             "description": "<p>CAT page continue button label<\/p>\n",
                             "hideCondition": "",
@@ -465,7 +508,7 @@
                             "value": "continue",
                             "testVariable": 50,
                             "name": "button_label",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 10,
                             "wizard": 14,
@@ -476,7 +519,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 161,
+                            "id": 311,
                             "label": "CAT template",
                             "description": "",
                             "hideCondition": "",
@@ -485,7 +528,7 @@
                             "value": "CAT_content",
                             "testVariable": 72,
                             "name": "CAT_template",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 0,
                             "wizard": 14,
@@ -496,7 +539,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 162,
+                            "id": 312,
                             "label": "Item debug template",
                             "description": "",
                             "hideCondition": "",
@@ -505,7 +548,7 @@
                             "value": "test_item_debug",
                             "testVariable": 73,
                             "name": "item_debug_template",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 0,
                             "wizard": 14,
@@ -516,7 +559,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 163,
+                            "id": 313,
                             "label": "Buttons template",
                             "description": "",
                             "hideCondition": "",
@@ -525,7 +568,7 @@
                             "value": "buttons_single",
                             "testVariable": 74,
                             "name": "buttons_template",
-                            "wizardStep": 41,
+                            "wizardStep": 77,
                             "stepTitle": "Presentation",
                             "order": 9,
                             "wizard": 14,
@@ -538,7 +581,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 42,
+                    "id": 78,
                     "title": "Item bank",
                     "description": "<p>CAT item bank options<\/p>\n",
                     "orderNum": 1,
@@ -547,7 +590,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 164,
+                            "id": 314,
                             "label": "Randomize response options order",
                             "description": "<p>Check if you want order of response options to be random<\/p>\n",
                             "hideCondition": "",
@@ -556,7 +599,7 @@
                             "value": "1",
                             "testVariable": 59,
                             "name": "randomize_response_options",
-                            "wizardStep": 42,
+                            "wizardStep": 78,
                             "stepTitle": "Item bank",
                             "order": 1,
                             "wizard": 14,
@@ -567,7 +610,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 165,
+                            "id": 315,
                             "label": "Item bank",
                             "description": "<p>CAT item bank definition.<\/p>\n\n<p>Leave item response options list empty for open question.<\/p>\n",
                             "hideCondition": "",
@@ -576,7 +619,7 @@
                             "value": "{\"table_type\":\"\",\"direct_table\":[],\"custom_table\":[],\"data_set_id\":null}",
                             "testVariable": 51,
                             "name": "item_bank",
-                            "wizardStep": 42,
+                            "wizardStep": 78,
                             "stepTitle": "Item bank",
                             "order": 0,
                             "wizard": 14,
@@ -791,7 +834,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 43,
+                    "id": 79,
                     "title": "CAT options",
                     "description": "<p>CAT options<\/p>\n",
                     "orderNum": 2,
@@ -800,7 +843,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 166,
+                            "id": 316,
                             "label": "Next item criterion",
                             "description": "",
                             "hideCondition": "",
@@ -809,7 +852,7 @@
                             "value": "MFI",
                             "testVariable": 57,
                             "name": "next_item_criterion",
-                            "wizardStep": 43,
+                            "wizardStep": 79,
                             "stepTitle": "CAT options",
                             "order": 0,
                             "wizard": 14,
@@ -834,7 +877,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 167,
+                            "id": 317,
                             "label": "Next item randomesque",
                             "description": "<p>The number of items to be chosen from the next item selection rule, among those the next item to be administered will be randomly picked up. Default value is 1 and leads to usual selection of the optimal item for the specified criterion.<\/p>\n",
                             "hideCondition": "",
@@ -843,7 +886,7 @@
                             "value": "1",
                             "testVariable": 58,
                             "name": "randomesque",
-                            "wizardStep": 43,
+                            "wizardStep": 79,
                             "stepTitle": "CAT options",
                             "order": 1,
                             "wizard": 14,
@@ -854,7 +897,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 168,
+                            "id": 318,
                             "label": "Scoring method",
                             "description": "<p>Ability estimator<\/p>\n",
                             "hideCondition": "",
@@ -863,7 +906,7 @@
                             "value": "BM",
                             "testVariable": 56,
                             "name": "scoring_method",
-                            "wizardStep": 43,
+                            "wizardStep": 79,
                             "stepTitle": "CAT options",
                             "order": 2,
                             "wizard": 14,
@@ -892,7 +935,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 169,
+                            "id": 319,
                             "label": "Content Balancing",
                             "description": "",
                             "hideCondition": "",
@@ -901,7 +944,7 @@
                             "value": "{\"enabled\":\"0\",\"props\":[]}",
                             "testVariable": 66,
                             "name": "cb",
-                            "wizardStep": 43,
+                            "wizardStep": 79,
                             "stepTitle": "CAT options",
                             "order": 3,
                             "wizard": 14,
@@ -957,7 +1000,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 44,
+                    "id": 80,
                     "title": "Stopping rules",
                     "description": "<p>CAT stopping rules<\/p>\n",
                     "orderNum": 3,
@@ -966,16 +1009,16 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 170,
+                            "id": 320,
                             "label": "Time-based stopping rule",
                             "description": "<p>Time-based stopping rule that will stop the test when specified amount of seconds will pass<\/p>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"type\":\"\",\"time_limit\":\"\"}",
+                            "value": "{\"type\":\"\",\"test_time_limit\":\"0\",\"item_time_limit\":\"0\",\"timeout_when_not_full_item_time\":\"0\"}",
                             "testVariable": 53,
                             "name": "stopping_time",
-                            "wizardStep": 44,
+                            "wizardStep": 80,
                             "stepTitle": "Stopping rules",
                             "order": 1,
                             "wizard": 14,
@@ -998,22 +1041,54 @@
                                                     "value": "item",
                                                     "label": "Item",
                                                     "order": "1"
+                                                },
+                                                {
+                                                    "value": "both",
+                                                    "label": "Both test and item",
+                                                    "order": 2
                                                 }
                                             ]
-                                        }
+                                        },
+                                        "order": 0
                                     },
                                     {
                                         "type": "0",
-                                        "name": "time_limit",
-                                        "label": "Time limit (seconds)",
-                                        "hideCondition": "!parent.type"
+                                        "name": "test_time_limit",
+                                        "label": "Test time limit (seconds)",
+                                        "hideCondition": "parent.type != 'test' && parent.type != 'both'",
+                                        "definition": {
+                                            "placeholder": 0,
+                                            "defvalue": "0"
+                                        },
+                                        "order": 1
+                                    },
+                                    {
+                                        "type": 0,
+                                        "name": "item_time_limit",
+                                        "label": "Item time limit (seconds)",
+                                        "definition": {
+                                            "placeholder": 0,
+                                            "defvalue": "0"
+                                        },
+                                        "hideCondition": "parent.type != 'item' && parent.type != 'both'",
+                                        "order": 2
+                                    },
+                                    {
+                                        "type": 4,
+                                        "name": "timeout_when_not_full_item_time",
+                                        "label": "Timeout when test time left is less than item time limit",
+                                        "definition": {
+                                            "placeholder": 0
+                                        },
+                                        "hideCondition": "parent.type != 'both'",
+                                        "order": 3
                                     }
                                 ]
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 171,
+                            "id": 321,
                             "label": "Item count-based stopping rule",
                             "description": "<p>Item count-based stopping time that will stop the test after specified number of items is answered<\/p>\n",
                             "hideCondition": "",
@@ -1022,7 +1097,7 @@
                             "value": "{\"enabled\":\"0\",\"count\":\"\"}",
                             "testVariable": 54,
                             "name": "stopping_item_count",
-                            "wizardStep": 44,
+                            "wizardStep": 80,
                             "stepTitle": "Stopping rules",
                             "order": 0,
                             "wizard": 14,
@@ -1045,7 +1120,7 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 172,
+                            "id": 322,
                             "label": "Accuracy-based stopping rule",
                             "description": "<p>Accuracy-based stopping rule that will stop the test when at least certain accuracy is reached<\/p>\n",
                             "hideCondition": "",
@@ -1054,7 +1129,7 @@
                             "value": "{\"enabled\":\"0\",\"accuracy\":\"\"}",
                             "testVariable": 55,
                             "name": "stopping_accuracy",
-                            "wizardStep": 44,
+                            "wizardStep": 80,
                             "stepTitle": "Stopping rules",
                             "order": 2,
                             "wizard": 14,
@@ -1079,7 +1154,7 @@
                 },
                 {
                     "class_name": "TestWizardStep",
-                    "id": 45,
+                    "id": 81,
                     "title": "Response bank",
                     "description": "<p>CAT response bank options<\/p>\n",
                     "orderNum": 4,
@@ -1088,7 +1163,7 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 173,
+                            "id": 323,
                             "label": "Response table",
                             "description": "<p>Response bank definition<\/p>\n",
                             "hideCondition": "",
@@ -1097,7 +1172,7 @@
                             "value": "{\"table_type\":\"default\",\"custom_table\":[],\"data_set_id\":null}",
                             "testVariable": 52,
                             "name": "response_bank",
-                            "wizardStep": 45,
+                            "wizardStep": 81,
                             "stepTitle": "Response bank",
                             "order": 0,
                             "wizard": 14,
@@ -1188,17 +1263,46 @@
                             }
                         }
                     ]
+                },
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 82,
+                    "title": "Processors",
+                    "description": "",
+                    "orderNum": 5,
+                    "colsNum": 0,
+                    "wizard": 14,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 324,
+                            "label": "Response processor",
+                            "description": "<p>A subtest to run to process user response after it has been saved to response table.<\/p>\n\n<pre>\nconcerto.test.run({{response_processor}}, params=list(\n\tquestion={{question}},\n\ttemplate_response={{template_response}},\n\tresponse_bank={{response_bank}},\n\tresponse_id={{response_id}},\n\ttheta={{theta}},\n\tsem={{sem}},\n\tcorrect={{correct}},\n\tsession={{session}}\n))<\/pre>\n",
+                            "hideCondition": "",
+                            "type": 8,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 476,
+                            "name": "response_processor",
+                            "wizardStep": 82,
+                            "stepTitle": "Processors",
+                            "order": 0,
+                            "wizard": 14,
+                            "definition": {
+                                "placeholder": 0
+                            }
+                        }
+                    ]
                 }
             ],
             "test": 3,
             "testName": "source_CAT",
-            "updatedOn": "2017-06-06 13:57:45",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 15,
-            "hash": "c413bf2a77c5f650d8f2a7a67748ba0fbe75d2a6"
+            "hash": "d801145a6072d16cb6f43036f6be8613eb17d122"
         },
         {
             "class_name": "Test",
@@ -1208,7 +1312,7 @@
             "archived": "0",
             "visibility": 2,
             "type": 1,
-            "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    data_set_id = ib$data_set_id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    a_column = ib$custom_table$columns$a\n    b_column = ib$custom_table$columns$b\n    c_column = ib$custom_table$columns$c\n    d_column = ib$custom_table$columns$d\n    correct_column = ib$custom_table$columns$correct\n    data_set_id_column = ib$custom_table$columns$data_set_id\n    cb_group_column = ib$custom_table$columns$cb_group\n    questions = concerto.table.query(\"SELECT id, {{question_column}} AS question, {{response_options_column}} AS response_options, {{a_column}} AS a, {{b_column}} AS b, {{c_column}} AS c, {{d_column}} AS d, {{correct_column}} AS correct, {{cb_group_column}} AS cb_group FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}'\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = as.character(toJSON(ib$direct_table[[i]]$response_options)) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  response_type = \"open_text\"\n  options = NULL\n  response_classes = \"\"\n  response_styles = \"\"\n  \n  if(length(o) > 0) {\n    response_type = \"multiple_choice\"\n    if(randomize_response_options == \"1\") {\n      options = o[sample(1:length(o))]\n    } else {\n      options = o\n    }\n    response_classes = \"CAT-response-section-vertical\"\n    response_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      response_classes = \"CAT-response-section-horizontal\" \n      response_styles = paste0(\"width: \",response_width)\n    }\n  }\n  \n  content = concerto.template.join(templateId=CAT_template,params=list(\n    paragraph = paragraph,\n    question = question$question,\n    response_type = response_type,\n    response_options = toJSON(options),\n    response_classes = response_classes,\n    response_styles = response_styles\n  ))\n\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions) {\n  sr_time = fromJSON(stopping_time)\n  if(!is.null(sr_time$type) && sr_time$type == \"test\" && response$isTimeout == \"1\") { return(TRUE) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(TRUE) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(TRUE) }\n  return(FALSE)\n}\n\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  data_set_id_column = \"data_set_id\"\n  data_set_id = rb$data_set_id\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_id_column = rb$custom_table$columns$session_id\n    correct_column = rb$custom_table$columns$correct\n    theta_column = rb$custom_table$columns$theta\n    sem_column = rb$custom_table$columns$sem\n    data_set_id_column = rb$custom_table$columns$data_set_id\n  }\n  session_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_id = session$id\n  } else {\n    session_id = paste0(\"i\",concerto$session$id)\n  }\n\n  concerto.table.query(\"INSERT INTO {{table}} ({{item_id_column}}, {{response_column}}, {{time_taken_column}}, {{session_id_column}}, {{correct_column}}, {{theta_column}}, {{sem_column}}, {{data_set_id_column}}) VALUES ({{item_id}}, '{{response}}', {{time_taken}}, '{{session_id}}', {{correct}}, {{theta}}, {{sem}}, '{{data_set_id}}')\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n  ))\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = concerto.template.join(templateId=item_debug_template,params=list(id=question$id))\n  content = paste0(debug, content)\n  return(content)\n}\n\nupdateSavedState = function(questions, theta, sem, out, time_limit, correctness, current_item){\n  if(!is.null(concerto$promoted$.savedState)) {\n    concerto$promoted$.savedState <<- list()\n  }\n  if(!is.null(concerto$promoted$.savedState$CAT)) {\n    concerto$promoted$.savedState$CAT <<- list()\n  }\n  \n  concerto$promoted$.savedState$CAT$questions <<- questions\n  concerto$promoted$.savedState$CAT$theta <<- theta\n  concerto$promoted$.savedState$CAT$sem <<- sem\n  concerto$promoted$.savedState$CAT$out <<- out\n  concerto$promoted$.savedState$CAT$time_limit <<- time_limit\n  concerto$promoted$.savedState$CAT$correctness <<- correctness\n  concerto$promoted$.savedState$CAT$current_item <<- current_item\n}\n\nsr_time = fromJSON(stopping_time)\nresumed = F\nif(!is.null(concerto$promoted$.savedState) && !is.null(concerto$promoted$.savedState$CAT)) {\n  resumed = T\n  \n  questions = concerto$promoted$.savedState$CAT$questions\n  theta = concerto$promoted$.savedState$CAT$theta\n  sem = concerto$promoted$.savedState$CAT$sem\n  out = concerto$promoted$.savedState$CAT$out\n  time_limit = concerto$promoted$.savedState$CAT$time_limit\n  correctness = concerto$promoted$.savedState$CAT$correctness\n  current_item = concerto$promoted$.savedState$CAT$current_item\n} else {\n  questions = getQuestions()\n  theta = 0\n  sem = 1\n  out = NULL\n  time_limit = 0\n  if(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"item\")) { time_limit = as.numeric(sr_time$time_limit) }\n  correctness = c()\n  current_item = 1\n}\n\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,4:7,drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\nresponse = NULL\nwarning_msg = \"\"\ntimer_set = FALSE\nif(time_limit > 0) { timer_set = TRUE }\nbuttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n\nif(item_debug == \"0\" && !resumed) { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  if(item_debug == \"0\") {\n    updateSavedState(questions, theta, sem, out, time_limit, correctness, current_item)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = \"\"\n\n    if(timer_set) {\n      time_limit = time_limit - as.numeric(response$timeTaken)\n    }\n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      theta <- thetaEst(matrix(param_bank[out,], ncol=4, byrow=F), correctness, method=scoring_method)\n      sem <- semTheta(theta, matrix(param_bank[out,], ncol=4, byrow=F), correctness)\n      saveResponse(response, question, rb, theta, sem, correct)\n      if(shouldStop(response, sem, out, questions)) {\n        if(response$isTimeout == \"1\") {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(timer_set && sr_time$type == \"item\") {\n          time_limit = as.numeric(sr_time$time_limit)\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    updateSavedState(questions, theta, sem, out, time_limit, correctness, current_item)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)\nconcerto$promoted$.savedState$CAT <<- NULL",
+            "code": "library(catR)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\nif(is.null(test_time_limit_offset) || is.na(test_time_limit_offset)) { test_time_limit_offset = 0 }\n\ngetQuestions = function(){\n  questions = NULL\n  ib = fromJSON(item_bank)\n  if(ib$table_type == \"custom\") {\n    data_set_id = ib$data_set_id\n    table = ib$custom_table$table\n    question_column = ib$custom_table$columns$question\n    response_options_column = ib$custom_table$columns$response_options\n    a_column = ib$custom_table$columns$a\n    b_column = ib$custom_table$columns$b\n    c_column = ib$custom_table$columns$c\n    d_column = ib$custom_table$columns$d\n    correct_column = ib$custom_table$columns$correct\n    data_set_id_column = ib$custom_table$columns$data_set_id\n    cb_group_column = ib$custom_table$columns$cb_group\n    questions = concerto.table.query(\"SELECT id, {{question_column}} AS question, {{response_options_column}} AS response_options, {{a_column}} AS a, {{b_column}} AS b, {{c_column}} AS c, {{d_column}} AS d, {{correct_column}} AS correct, {{cb_group_column}} AS cb_group FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}'\", list(\n      question_column=question_column,\n      response_options_column=response_options_column,\n      a_column=a_column,\n      b_column=b_column,\n      c_column=c_column,\n      d_column=d_column,\n      correct_column=correct_column,\n      cb_group_column=cb_group_column,\n      table=table,\n      data_set_id_column=data_set_id_column,\n      data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n    ))\n  }\n  if(ib$table_type == \"direct\") {\n    if(length(ib$direct_table) > 0) {\n      for(i in 1:length(ib$direct_table)) {\n        ib$direct_table[[i]]$response_options = as.character(toJSON(ib$direct_table[[i]]$response_options)) #response options don't fit into flat table, so turn them back to JSON.\n        questions = rbind(questions, data.frame(ib$direct_table[[i]], stringsAsFactors=F))\n      }\n    }\n  }\n\n  if(dim(questions)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  return(questions)\n}\n\ngetContent = function(question) {\n  o = question$response_options\n  if(is.character(o)) { o = fromJSON(o) }\n  response_type = \"open_text\"\n  options = NULL\n  response_classes = \"\"\n  response_styles = \"\"\n\n  if(length(o) > 0) {\n    response_type = \"multiple_choice\"\n    if(randomize_response_options == \"1\") {\n      options = o[sample(1:length(o))]\n    } else {\n      options = o\n    }\n    response_classes = \"CAT-response-section-vertical\"\n    response_styles = \"\"\n    if(responses_layout == \"horizontal\") { \n      response_classes = \"CAT-response-section-horizontal\" \n      response_styles = paste0(\"width: \",response_width)\n    }\n  }\n\n  content = concerto.template.join(templateId=CAT_template,params=list(\n    paragraph = paragraph,\n    question = question$question,\n    response_type = response_type,\n    response_options = toJSON(options),\n    response_classes = response_classes,\n    response_styles = response_styles\n  ))\n\n  return(content)\n}\n\nshouldStop = function(response, sem, out, questions, test_time_limited, test_time_limit, test_time_left, item_time_limited, item_time_limit, item_time_left, timeout_when_not_full_item_time) {\n  #run out of test time\n  if(test_time_limited && test_time_left <= 0) { return(3) }\n  if(timeout_when_not_full_item_time && test_time_limited && item_time_limited && test_time_left < item_time_limit) { return(3) }\n\n  sr_count = fromJSON(stopping_item_count)\n  if((sr_count$enabled == \"1\" && length(out) >= as.numeric(sr_count$count)) || length(out) >= dim(questions)[1]) { return(1) }\n\n  sr_accuracy = fromJSON(stopping_accuracy)\n  if(sr_accuracy$enabled == \"1\" && as.numeric(sr_accuracy$accuracy) >= sem ) { return(2) }\n  return(0)\n}\n\n#returns response insert id\nsaveResponse = function(response, question, rb, theta, sem, correct) {\n  if(is.null(rb$table_type)) {\n    return(NULL)\n  }\n\n  table = \"default_cat_response_table\"\n  item_id_column = \"item_id\"\n  response_column = \"response\"\n  time_taken_column = \"time_taken\"\n  session_id_column = \"session_id\"\n  correct_column = \"correct\"\n  theta_column = \"theta\"\n  sem_column = \"sem\"\n  data_set_id_column = \"data_set_id\"\n  data_set_id = rb$data_set_id\n  if(rb$table_type == \"custom\") {\n    table = rb$custom_table$table\n    item_id_column = rb$custom_table$columns$item_id\n    response_column = rb$custom_table$columns$response\n    time_taken_column = rb$custom_table$columns$time_taken\n    session_id_column = rb$custom_table$columns$session_id\n    correct_column = rb$custom_table$columns$correct\n    theta_column = rb$custom_table$columns$theta\n    sem_column = rb$custom_table$columns$sem\n    data_set_id_column = rb$custom_table$columns$data_set_id\n  }\n  session_id = 0\n  if(!is.null(session) && is.list(session)) {\n    session_id = session$id\n  } else {\n    session_id = paste0(\"i\",concerto$session$id)\n  }\n\n  concerto.table.query(\"INSERT INTO {{table}} ({{item_id_column}}, {{response_column}}, {{time_taken_column}}, {{session_id_column}}, {{correct_column}}, {{theta_column}}, {{sem_column}}, {{data_set_id_column}}) VALUES ({{item_id}}, '{{response}}', {{time_taken}}, '{{session_id}}', {{correct}}, {{theta}}, {{sem}}, '{{data_set_id}}')\", list(\n    table=table,\n    session_id_column=session_id_column,\n    session_id=session_id,\n    item_id_column=item_id_column,\n    item_id=question$id,\n    response_column=response_column,\n    response=response$response,\n    time_taken_column=time_taken_column,\n    time_taken=response$timeTaken,\n    correct_column=correct_column,\n    correct=correct,\n    theta_column=theta_column,\n    theta=theta,\n    sem_column=sem_column,\n    sem=sem,\n    data_set_id_column=data_set_id_column,\n    data_set_id=dbEscapeStrings(concerto$connection, toString(data_set_id))\n  ))\n  return(concerto.table.lastInsertId())\n}\n\ngetTemplateParams = function(template_params){\n  params = list()\n  if(!is.null(inserts) && is.list(inserts)) {\n    params = inserts\n  }\n  for(key in ls(template_params)) {\n    params[[key]] = template_params[[key]]\n  }\n  return(params)\n}\n\ngetNextDebugItem = function(response, questions) {\n  for(i in 1:dim(questions)[1]) {\n    question = questions[i,]\n    if(question$id == response$item_debug) {\n      return(i)\n    }\n  }\n  return(NULL)\n}\n\ngetDebugContent = function(content, question) {\n  debug = concerto.template.join(templateId=item_debug_template,params=list(id=question$id))\n  content = paste0(debug, content)\n  return(content)\n}\n\nupdateSavedState = function(questions, theta, sem, out, test_time_left, item_time_left, correctness, current_item, time_taken){\n  if(!is.null(concerto$promoted$.savedState)) {\n    concerto$promoted$.savedState <<- list()\n  }\n  if(!is.null(concerto$promoted$.savedState$CAT)) {\n    concerto$promoted$.savedState$CAT <<- list()\n  }\n\n  concerto$promoted$.savedState$CAT$questions <<- questions\n  concerto$promoted$.savedState$CAT$theta <<- theta\n  concerto$promoted$.savedState$CAT$sem <<- sem\n  concerto$promoted$.savedState$CAT$out <<- out\n  concerto$promoted$.savedState$CAT$test_time_left <<- test_time_left\n  concerto$promoted$.savedState$CAT$item_time_left <<- item_time_left\n  concerto$promoted$.savedState$CAT$time_taken <<- time_taken\n  concerto$promoted$.savedState$CAT$correctness <<- correctness\n  concerto$promoted$.savedState$CAT$current_item <<- current_item\n}\n\nsr_time = fromJSON(stopping_time)\ntest_time_limited = F\ntest_time_limit = 0\ntest_time_left = 0\nif(!is.null(sr_time$type) && (sr_time$type == \"test\" || sr_time$type == \"both\") && as.numeric(sr_time$test_time_limit) > 0) {\n  test_time_limited = T\n  test_time_limit = as.numeric(sr_time$test_time_limit) + as.numeric(test_time_limit_offset)\n  test_time_left = test_time_limit\n}\nitem_time_limited = F\nitem_time_limit = 0\nitem_time_left = 0\ntimeout_when_not_full_item_time = F\nif(!is.null(sr_time$type) && (sr_time$type == \"item\" || sr_time$type == \"both\") && as.numeric(sr_time$item_time_limit) > 0) {\n  item_time_limited = T\n  item_time_limit = as.numeric(sr_time$item_time_limit)\n  item_time_left = item_time_limit\n  timeout_when_not_full_item_time = sr_time$timeout_when_not_full_item_time == \"1\"\n}\n\nresumed = F\nif(!is.null(concerto$promoted$.savedState) && !is.null(concerto$promoted$.savedState$CAT)) {\n  resumed = T\n\n  questions = concerto$promoted$.savedState$CAT$questions\n  theta = concerto$promoted$.savedState$CAT$theta\n  sem = concerto$promoted$.savedState$CAT$sem\n  out = concerto$promoted$.savedState$CAT$out\n  test_time_left = concerto$promoted$.savedState$CAT$test_time_left\n  item_time_left = concerto$promoted$.savedState$CAT$item_time_left\n  time_taken = concerto$promoted$.savedState$CAT$time_taken\n  correctness = concerto$promoted$.savedState$CAT$correctness\n  current_item = concerto$promoted$.savedState$CAT$current_item\n} else {\n  questions = getQuestions()\n  theta = 0\n  sem = 1\n  out = NULL\n  correctness = c()\n  current_item = 1\n  time_taken = 0\n}\n\ncb_group = NULL\ncb_control = NULL\ncb = fromJSON(cb)\nprint(cb)\nif(cb$enabled == \"1\") {\n  cb_group = as.character(questions[,9])\n  print(cb_group)\n\n  props_list = NULL\n  if(length(cb$props) > 0) {\n    for(i in 1:length(cb$props)) {\n      props_list = rbind(props_list, as.list(cb$props[[i]]))\n    }\n  } else {\n    stop(\"Missing content balancing settings!\")\n  }\n  cb_control = list(\n    names=as.character(props_list[,1]),\n    props=as.numeric(props_list[,2])\n  )\n  print(cb_control)\n}\nparam_bank = questions[,c(\"a\",\"b\",\"c\",\"d\"),drop=F]\nparam_bank = apply(param_bank, 2, as.numeric)\nrb = fromJSON(response_bank)\nresponse = NULL\nwarning_msg = \"\"\nbuttons = \"\"\nif(!is.na(buttons_template) && !is.null(buttons_template) && buttons_template != \"\") {\n\tbuttons = concerto.template.join(templateId=buttons_template,params=list(label=button_label))\n}\n\nif(item_debug == \"0\" && !resumed && dim(questions)[1] > 1) { \n  current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n}\n\nwhile(T) {\n  question = questions[current_item,]\n  content = getContent(question)\n\n  time_limit = 0\n  if(test_time_limited || item_time_limited) {\n    if(test_time_limited) {\n      time_limit = test_time_left\n    }\n    if(item_time_limited && item_time_left < test_time_left) {\n      time_limit = item_time_left\n    }\n  }\n\n  updateSavedState(questions, theta, sem, out, test_time_left, item_time_left, correctness, current_item, time_taken)\n  if(item_debug == \"0\") {\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )), timeLimit=time_limit)\n    warning_msg = \"\"\n\n    time_taken = time_taken + as.numeric(response$timeTaken)\n    if(test_time_limited) {\n      test_time_left = test_time_left - as.numeric(response$timeTaken)\n    }\n    if(item_time_limited) {\n      item_time_left = item_time_left - as.numeric(response$timeTaken)\n    }\n    \n    valid = \"response\" %in% ls(response) && response$response != \"\"\n    if(valid || response$isTimeout == \"1\") {\n      correct = 0\n      if(!is.null(response$response) && response$response == question$correct) { correct = 1 }\n      correctness = c(correctness, correct)\n      out = c(out, current_item)\n      param_bank_out = param_bank\n      if(dim(questions)[1] > 1) {\n        param_bank_out = param_bank[out,]\n      }\n      print(\"theta\")\n      print(param_bank_out)\n      theta <- thetaEst(matrix(param_bank_out, ncol=4, byrow=F), correctness, method=scoring_method)\n      print(\"sem\")\n      sem <- semTheta(theta, matrix(param_bank_out, ncol=4, byrow=F), correctness)\n      print(\"response\")\n      response_id=saveResponse(response, question, rb, theta, sem, correct)\n\n      #response processor\n      if(!is.null(response_processor) && !is.na(response_processor) && response_processor != \"\") {\n        concerto.test.run(response_processor, params=list(\n          question=question,\n          template_response=response,\n          response_id=response_id,\n          response_bank=rb,\n          theta=theta,\n          sem=sem,\n          correct=correct,\n          session=session\n        ))\n      }\n\n      stopReason = shouldStop(response, sem, out, questions, test_time_limited, test_time_limit, test_time_left, item_time_limited, item_time_limit, item_time_left, timeout_when_not_full_item_time)\n      if(stopReason) {\n        #out of time\n        if(stopReason == 3) {\n          .branch = \"out_of_time\"\n        }\n        break\n      } else {\n        if(item_time_limited) {\n          item_time_left = item_time_limit\n        }\n        current_item = nextItem(param_bank, theta=theta, out=out, criterion=next_item_criterion, method=scoring_method, randomesque=randomesque, cbGroup=cb_group, cbControl=cb_control)$item\n      }\n    } else {\n      warning_msg = no_answer_alert\n    }\n  } else {\n    content = getDebugContent(content, question)\n    response = concerto.template.show(decoded_template_def$layout, params=getTemplateParams(list(\n      header=decoded_template_def$header, \n      title=title,\n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    )))\n    current_item = getNextDebugItem(response, questions)\n    if(is.null(current_item)) {\n      warning_msg = paste0(\"Item id \",response$item_debug,\" not found!\")\n      current_item = 1\n    }\n  }\n}\nscore = list(theta=theta, sem=sem)\nrm(questions)\nconcerto$promoted$.savedState$CAT <<- NULL\ntime_left = 0\nif(test_time_limited) {\n  time_left = test_time_left\n}",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -1274,7 +1378,7 @@
                     "type": 0,
                     "description": "<p>Time-based stopping rule that will stop the test when specified amount of seconds will pass<\/p>\n",
                     "passableThroughUrl": "0",
-                    "value": "{\"enabled\":{\"value\":\"0\"},\"time_limit\":\"\",\"type\":\"\"}",
+                    "value": "{\"enabled\":{\"value\":\"0\"},\"time_limit\":\"\",\"type\":null,\"test_time_limit\":\"0\",\"item_time_limit\":\"0\",\"test_time_limit_offset\":\"0\",\"timeout_when_not_full_item_time\":\"0\"}",
                     "test": 27,
                     "parentVariable": 53
                 },
@@ -1508,13 +1612,57 @@
                     "value": "buttons_single",
                     "test": 27,
                     "parentVariable": 74
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 477,
+                    "name": "response_processor",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 27,
+                    "parentVariable": 476
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 479,
+                    "name": "time_taken",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 27,
+                    "parentVariable": 478
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 481,
+                    "name": "time_left",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 27,
+                    "parentVariable": 480
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 483,
+                    "name": "test_time_limit_offset",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 27,
+                    "parentVariable": 482
                 }
             ],
             "sourceWizard": 14,
             "sourceWizardName": "CAT",
             "sourceWizardTest": 3,
             "sourceWizardTestName": "source_CAT",
-            "updatedOn": "2017-06-07 18:51:22",
+            "updatedOn": "2017-10-10 11:32:19",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -1522,8 +1670,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 15,
-            "hash": "e3d183aca293b106659409509deeef277e27c625"
+            "hash": "c59c67d8d3aa7cd17aeebd73d624234c8bc62957"
         },
         {
             "class_name": "ViewTemplate",
@@ -1536,13 +1683,12 @@
             "css": ".CAT-response-table {\n  border: 0 none;\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.CAT-response-table td {\n  padding: 0 5px 0 0;\n}\n.CAT-response-section-horizontal {\n  float: left; \n  margin: 5px;\n  display: block;\n}\n.CAT-response-section-vertical {\n  margin: 5px;\n}\n.CAT-response-group {\n  text-align: left;\n}\n.CAT-question {\n  text-align: left;\n}\n.CAT-response-label-cell p {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.CAT-response-button-cell {\n  padding-right: 5px;\n}",
             "js": "testRunner.controllerProvider.register(\"cat\", function($scope) {\n  $scope.responseOptions = {{response_options}};\n});",
             "html": "{{paragraph}}\n<div ng-controller=\"cat\">\n<div class=\"CAT-question\">{{question}}<\/div>\n\n<div class=\"CAT-response-group\" ng-if=\"'{{response_type}}'=='multiple_choice'\">\n<div class=\"{{response_classes}}\" ng-repeat=\"option in responseOptions track by $index\" style=\"{{response_styles}}\">\n<table class=\"CAT-response-table\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"CAT-response-button-cell\"><input id=\"input_response_[[$index+1]]\" name=\"response\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t\t<td class=\"CAT-response-label-cell\"><label for=\"input_response_[[$index+1]]\" ng-bind-html=\"option.label\">&nbsp;<\/label><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n<\/div>\n\n<div style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n\n<div ng-if=\"'{{response_type}}'=='open_text'\"><input name=\"response\" style=\"width:100%;\" type=\"text\" \/><\/div>\n<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:45",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "194158c6babffc1068775d6331883d27c06e9ab2"
+            "hash": "435f14f1bf47ef410792169e750df619b7a0413b"
         },
         {
             "class_name": "ViewTemplate",
@@ -1555,13 +1701,12 @@
             "css": "",
             "js": "",
             "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:39",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "3bf550cfea99977dcc57b57b36477770d4e7c026"
+            "hash": "55597daa2df13bf2d80f0be7acc06ea69fac2723"
         },
         {
             "class_name": "ViewTemplate",
@@ -1571,16 +1716,15 @@
             "accessibility": 2,
             "archived": "0",
             "head": "",
-            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
+            "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\n.button-group button {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n  width: 150px;\n  cursor: pointer;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}",
             "js": "",
-            "html": "<div class=\"button-group\">\n  <ul>\n    <li><button name=\"button\">{{label}}<\/button><\/li>\n  <\/ul>\n<\/div>\n",
-            "updatedOn": "2017-06-06 13:57:38",
+            "html": "<div class=\"button-group\">\n<ul>\n\t<li><button name=\"button\">{{label}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "3638f9371bf2b98bee4df25217a36a7ef1be0397"
+            "hash": "5d3e8f4c88166a1e64eebbb47c49aa855b408350"
         },
         {
             "class_name": "DataTable",
@@ -1636,13 +1780,12 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-06-06 13:57:45",
+            "updatedOn": "2017-10-10 11:29:42",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
-            "hash": "f4562057c305d78a1c235c5a3fabc73a42604174"
+            "hash": "41df317378dafe27f9003e969dcf27ab9d4860ea"
         }
     ]
 }

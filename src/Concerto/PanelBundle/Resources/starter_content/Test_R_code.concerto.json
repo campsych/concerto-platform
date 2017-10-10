@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "result = eval(parse(text=code))",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -107,7 +106,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:41",
+            "updatedOn": "2017-10-10 11:29:40",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -115,8 +114,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "044b5e18e0facb7ef5d807bd7f71ca48f35d6464"
+            "hash": "38aaaeab786d34086e67c0372aa003df23c0182b"
         },
         {
             "class_name": "TestWizard",
@@ -159,13 +157,12 @@
             ],
             "test": 10,
             "testName": "source_R_code",
-            "updatedOn": "2017-06-06 13:57:41",
+            "updatedOn": "2017-10-10 11:29:40",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "572e8f9065633325bedf8d8ee1ed37bd383d6179"
+            "hash": "6cf721c1be2b2fcb9b116a0ef03142fd05c3f082"
         },
         {
             "class_name": "Test",
@@ -176,7 +173,6 @@
             "visibility": 2,
             "type": 1,
             "code": "result = eval(parse(text=code))",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -273,7 +269,7 @@
             "sourceWizardName": "R_code",
             "sourceWizardTest": 10,
             "sourceWizardTestName": "source_R_code",
-            "updatedOn": "2017-06-06 13:57:52",
+            "updatedOn": "2017-10-10 11:29:48",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -281,8 +277,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "d839fe9611fdf8501e994c4a29f9792aaaa7dc03"
+            "hash": "dbf1732a22d67a037f855cd7e01f238e724d7d46"
         }
     ]
 }

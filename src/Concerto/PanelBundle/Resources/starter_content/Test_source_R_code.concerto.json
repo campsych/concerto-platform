@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "Test",
@@ -10,7 +10,6 @@
             "visibility": 2,
             "type": 0,
             "code": "result = eval(parse(text=code))",
-            "resumable": "0",
             "outdated": "0",
             "description": "",
             "variables": [
@@ -107,7 +106,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-06-06 13:57:41",
+            "updatedOn": "2017-10-10 11:29:40",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -115,8 +114,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "044b5e18e0facb7ef5d807bd7f71ca48f35d6464"
+            "hash": "38aaaeab786d34086e67c0372aa003df23c0182b"
         }
     ]
 }

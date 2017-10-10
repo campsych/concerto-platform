@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,13 +12,12 @@
             "css": "",
             "js": "",
             "html": "<textarea id=\"{{id}}\" name=\"{{name}}\">{{value}}<\/textarea>",
-            "updatedOn": "2017-06-06 13:57:38",
+            "updatedOn": "2017-10-10 11:29:39",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 2,
-            "hash": "63c33c671a1559a4b0add54b927e6e54c2bbd4be"
+            "hash": "9953ea31efbe30a31907bc61e8c5d94c3f3a0425"
         }
     ]
 }

@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.0",
+    "version": "5.0.beta.3.2",
     "collection": [
         {
             "class_name": "DataTable",
@@ -45,13 +45,12 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2017-06-06 13:57:51",
+            "updatedOn": "2017-10-10 11:29:47",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
-            "hash": "c79d8a9d5a287a982a0429054a7889daf5e98a35"
+            "hash": "c4f12d47680573a037a25cdf0ac449ec90e9a55c"
         }
     ]
 }
