@@ -129,7 +129,6 @@
             "owner": 1,
             "groups": "",
             "starterContent": false,
-            "rev": 4,
             "hash": "4b977183c6bfc7f45d695cdc563a8f9eb7b9022d"
         },
         {
@@ -258,7 +257,6 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
             "hash": "f3559a289a4697a5ddce0f06beee48cf7b072341"
         },
         {
@@ -389,7 +387,6 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "rev": 4,
             "hash": "bb2d0de8ab533e9fa5b536ec83597152775332d5"
         },
         {
@@ -706,7 +703,6 @@
             "owner": null,
             "groups": "",
             "starterContent": false,
-            "rev": 0,
             "hash": "094004f2911e08f92215ac94693ad6fd8da20dd9"
         }
     ]

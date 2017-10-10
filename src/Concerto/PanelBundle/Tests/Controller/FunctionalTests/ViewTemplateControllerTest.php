@@ -52,7 +52,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -106,7 +105,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 'class_name' => 'ViewTemplate',
                 'id' => 1,
                 "starterContent" => false,
-                "rev" => 0,
                 'name' => 'view',
                 'description' => 'description',
                 'head' => '<link />',
@@ -117,7 +115,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "updatedOn" => $content["collection"][0]["updatedOn"],
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "updatedBy" => "admin"
@@ -140,10 +137,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                     "id" => 8,
                     "rename" => "some_template",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null
                 )
             ))
@@ -166,10 +161,8 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                     "id" => 8,
                     "rename" => "view",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "view"
                 )
             ))
@@ -207,7 +200,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -245,7 +237,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -283,7 +274,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -316,7 +306,6 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC

@@ -151,8 +151,7 @@ class DataTable extends ATopEntity implements \JsonSerializable {
             "updatedBy" => $this->updatedBy,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
-            "starterContent" => $this->starterContent,
-            "rev" => $this->rev
+            "starterContent" => $this->starterContent
         );
 
         self::addDependency($dependencies, $serialized);

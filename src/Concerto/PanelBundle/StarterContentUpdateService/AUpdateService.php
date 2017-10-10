@@ -9,12 +9,12 @@ abstract class AUpdateService {
 
     public function update($user, $service, $new_ent, $old_ent) {
         $updated = false;
-        $pre = $new_ent->isStarterContent() && $old_ent->isStarterContent() && $new_ent->getRevision() > 0 && $old_ent->getRevision() > 0 && $new_ent->getRevision() > $old_ent->getRevision();
+        $pre = $new_ent->isStarterContent() && $old_ent->isStarterContent();
         if (!$pre)
             return $updated;
 
         foreach ($this->update_history as $uh) {
-            if ($old_ent->getName() == $uh["name"] && $old_ent->getRevision() < $uh["rev"] && $new_ent->getRevision() >= $uh["rev"]) {
+            if ($old_ent->getName() == $uh["name"]) {
                 call_user_method_array($uh["func"], $this, array($user, $service, $new_ent, $old_ent));
                 $updated = true;
             }

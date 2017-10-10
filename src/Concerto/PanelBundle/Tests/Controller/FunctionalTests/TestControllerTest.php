@@ -77,7 +77,6 @@ class TestControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -146,7 +145,6 @@ class TestControllerTest extends AFunctionalTest
             'class_name' => 'Test',
             'id' => 1,
             "starterContent" => false,
-            "rev" => 0,
             'name' => 'test',
             'description' => 'description',
             'visibility' => 1,
@@ -194,10 +192,8 @@ class TestControllerTest extends AFunctionalTest
                     "id" => 1,
                     "rename" => "imported_test",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => "null"
                 )
             ))
@@ -222,10 +218,8 @@ class TestControllerTest extends AFunctionalTest
                     "id" => 1,
                     "rename" => "test",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "test"
                 )
             ))
@@ -274,7 +268,6 @@ class TestControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -336,7 +329,6 @@ class TestControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -396,7 +388,6 @@ class TestControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),
@@ -456,7 +447,6 @@ class TestControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "nodes" => array(),

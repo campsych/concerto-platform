@@ -7,19 +7,8 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     $scope.preImportStatus = [];
     $scope.dialogsService = DialogsService;
 
-    $scope.colNameContent = function (entity) {
-        var result = entity.name;
-        if (entity.rev != 0) {
-            result += " (rev" + entity.rev + ")";
-        }
-        return result;
-    };
     $scope.colExistsContent = function (entity) {
-        var revision = "";
-        if (entity.existing_object && entity.existing_object_rev != 0)
-            revision += " (rev" + entity.existing_object_rev + ")";
-        var result = entity.existing_object ? ('<i class="glyphicon glyphicon-ok green"></i>' + revision) : '<i class="glyphicon glyphicon-remove red"></i>';
-        return result;
+        return entity.existing_object ? '<i class="glyphicon glyphicon-ok green"></i>' : '<i class="glyphicon glyphicon-remove red"></i>';
     };
     $scope.colSafeContent = function (entity) {
         var safe = true;
@@ -66,7 +55,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                 displayName: Trans.LIST_FIELD_NAME,
                 name: "name",
                 cellTemplate:
-                        '<div class="ui-grid-cell-contents" ng-bind-html="grid.appScope.colNameContent(row.entity)"></div>'
+                        '<div class="ui-grid-cell-contents" ng-bind-html="row.entity.name"></div>'
             }, {
                 displayName: Trans.LIST_FIELD_TYPE,
                 field: "class_name"

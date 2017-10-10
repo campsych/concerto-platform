@@ -68,7 +68,6 @@ class HomeControllerTest extends AFunctionalTest {
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => '0',
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "type" => 0,

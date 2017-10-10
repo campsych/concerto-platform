@@ -6,11 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use \Doctrine\Common\Collections\ArrayCollection;
-use Concerto\PanelBundle\Entity\TestSessionLog;
-use Concerto\PanelBundle\Entity\TestVariable;
-use Concerto\PanelBundle\Entity\TestWizard;
-use Concerto\PanelBundle\Entity\TestNode;
-use Concerto\PanelBundle\Entity\TestNodeConnection;
 
 /**
  * @ORM\Table
@@ -620,8 +615,7 @@ class Test extends ATopEntity implements \JsonSerializable {
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
-            "starterContent" => $this->starterContent,
-            "rev" => $this->rev
+            "starterContent" => $this->starterContent
         );
 
         self::addDependency($dependencies, $serialized);

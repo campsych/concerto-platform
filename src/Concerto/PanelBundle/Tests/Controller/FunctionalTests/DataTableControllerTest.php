@@ -86,7 +86,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 "accessibility" => 0,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
@@ -154,7 +153,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 'accessibility' => 0,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 'updatedOn' => $content["collection"][0]["updatedOn"],
@@ -176,9 +174,7 @@ class DataTableControllerTest extends AFunctionalTest {
                     "id" => 8,
                     "rename" => "imported_table",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null
                 )
             ))
@@ -202,10 +198,8 @@ class DataTableControllerTest extends AFunctionalTest {
                     "id" => 8,
                     "rename" => "main_table",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "main_table"
                 )
             ))
@@ -242,7 +236,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 "accessibility" => 0,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "",
@@ -273,7 +266,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 "accessibility" => 0,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "edited table description",
@@ -304,7 +296,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 "accessibility" => 0,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "edited table description",
@@ -335,7 +326,6 @@ class DataTableControllerTest extends AFunctionalTest {
                 "accessibility" => 0,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "description" => "table description",

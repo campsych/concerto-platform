@@ -136,7 +136,6 @@ class ImportService {
         $result = array();
         foreach ($top_data as $imported_object) {
             $service = $this->serviceMap[$imported_object["class_name"]];
-            $new_revision = array_key_exists("rev", $imported_object) ? $imported_object["rev"] : 0;
             $existing_entity = $service->repository->findOneBy(array("name" => $imported_object["name"]));
             if ($existing_entity !== null) {
                 $existing_entity = $service->get($existing_entity->getId());
@@ -150,9 +149,6 @@ class ImportService {
 
                 //same hash
                 if (array_key_exists("hash", $imported_object) && $existing_entity_hash == $imported_object["hash"])
-                    $can_ignore = true;
-                //existing object is starter content and is of newer or same revision as imported one
-                if (array_key_exists("rev", $imported_object) && $imported_object["rev"] == $existing_entity->getRevision() && $existing_entity->getRevision() != 0)
                     $can_ignore = true;
             }
 
@@ -168,10 +164,8 @@ class ImportService {
                 "class_name" => $imported_object["class_name"],
                 "action" => $default_action,
                 "rename" => $imported_object["name"],
-                "rev" => $new_revision,
                 "starter_content" => $imported_object["starterContent"],
                 "existing_object" => $existing_entity ? true : false,
-                "existing_object_rev" => $existing_entity ? $existing_entity->getRevision() : null,
                 "existing_object_name" => $existing_entity ? $existing_entity->getName() : null,
                 "can_ignore" => $can_ignore
             );

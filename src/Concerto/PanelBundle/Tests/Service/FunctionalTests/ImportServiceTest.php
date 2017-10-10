@@ -77,10 +77,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "source",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -89,10 +87,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "wizard",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -101,10 +97,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 2,
                     "rename" => "test",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -113,10 +107,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 3,
                     "rename" => "flow",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 )
@@ -151,10 +143,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "source",
                     "action" => "1",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "source",
                     "can_ignore" => false
                 ),
@@ -163,10 +153,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "wizard",
                     "action" => "1",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "wizard",
                     "can_ignore" => false
                 ),
@@ -175,10 +163,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 2,
                     "rename" => "test",
                     "action" => "1",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "test",
                     "can_ignore" => false
                 ),
@@ -187,10 +173,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 3,
                     "rename" => "flow",
                     "action" => "1",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "flow",
                     "can_ignore" => false
                 )
@@ -234,10 +218,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "source_info",
                     "action" => "0",
-                    "rev" => 4,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -246,10 +228,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "info",
                     "action" => "0",
-                    "rev" => 4,
                     "starter_content" => true,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -258,10 +238,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 2,
                     "rename" => "info",
                     "action" => "0",
-                    "rev" => 4,
                     "starter_content" => true,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -270,10 +248,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 3,
                     "rename" => "flow",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 )
@@ -308,10 +284,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "source_info",
                     "action" => "1",
-                    "rev" => 4,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 4,
                     "existing_object_name" => "source_info",
                     "can_ignore" => false
                 ),
@@ -320,10 +294,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "info",
                     "action" => "1",
-                    "rev" => 4,
                     "starter_content" => true,
                     "existing_object" => true,
-                    "existing_object_rev" => 4,
                     "existing_object_name" => "source_info",
                     "can_ignore" => false
                 ),
@@ -332,10 +304,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 2,
                     "rename" => "info",
                     "action" => "1",
-                    "rev" => 4,
                     "starter_content" => true,
                     "existing_object" => true,
-                    "existing_object_rev" => 4,
                     "existing_object_name" => "source_info",
                     "can_ignore" => false
                 )
@@ -383,10 +353,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "view",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 )
@@ -417,10 +385,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "view",
                     "action" => "1",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "view",
                     "can_ignore" => false
                 )
@@ -455,10 +421,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "data",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 )
@@ -500,10 +464,8 @@ class ImportServiceTest extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "data",
                     "action" => "1",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => true,
-                    "existing_object_rev" => 0,
                     "existing_object_name" => "data",
                     "can_ignore" => false
                 )

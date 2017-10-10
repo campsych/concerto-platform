@@ -5,9 +5,6 @@ namespace Concerto\PanelBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Concerto\PanelBundle\Entity\Test;
-use Concerto\PanelBundle\Entity\TestWizardParam;
-use Concerto\PanelBundle\Entity\TestWizardStep;
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -291,8 +288,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "updatedBy" => $this->updatedBy,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
-            "starterContent" => $this->starterContent,
-            "rev" => $this->rev
+            "starterContent" => $this->starterContent
         );
         self::addDependency($dependencies, $serialized);
         return $serialized;

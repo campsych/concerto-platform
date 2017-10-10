@@ -124,8 +124,6 @@ class ViewTemplateService extends AExportableSectionService {
         $ent->setOwner($user);
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
-        if (array_key_exists("rev", $obj))
-            $ent->setRevision($obj["rev"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -158,10 +156,6 @@ class ViewTemplateService extends AExportableSectionService {
         $ent->setOwner($user);
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
-        if (array_key_exists("rev", $obj))
-            $ent->setRevision($obj["rev"]);
-        else
-            $ent->setRevision(0);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

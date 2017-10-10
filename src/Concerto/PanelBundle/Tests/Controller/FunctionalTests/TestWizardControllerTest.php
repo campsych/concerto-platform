@@ -96,7 +96,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "description" => "description",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "steps" => array(
@@ -193,7 +192,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
@@ -224,7 +222,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "description" => "edited wizard description",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "steps" => array(
@@ -287,7 +284,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "description" => "edited wizard description",
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => "",
                 "steps" => array(
@@ -356,7 +352,6 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "rev" => 0,
                 "owner" => null,
                 "groups" => ""
             )), json_decode($client->getResponse()->getContent(), true));

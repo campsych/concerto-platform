@@ -50,10 +50,8 @@ class TestWizardParamControllerTest2 extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "source",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -62,10 +60,8 @@ class TestWizardParamControllerTest2 extends AFunctionalTest {
                     "id" => 1,
                     "rename" => "wizard",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -74,10 +70,8 @@ class TestWizardParamControllerTest2 extends AFunctionalTest {
                     "id" => 2,
                     "rename" => "test",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 ),
@@ -86,10 +80,8 @@ class TestWizardParamControllerTest2 extends AFunctionalTest {
                     "id" => 3,
                     "rename" => "flow",
                     "action" => "0",
-                    "rev" => 0,
                     "starter_content" => false,
                     "existing_object" => false,
-                    "existing_object_rev" => null,
                     "existing_object_name" => null,
                     "can_ignore" => false
                 )

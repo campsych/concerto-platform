@@ -3,7 +3,6 @@
 namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Concerto\PanelBundle\Entity\User;
 
 abstract class ATopEntity extends AEntity {
 
@@ -38,13 +37,6 @@ abstract class ATopEntity extends AEntity {
      * @ORM\Column(type="boolean")
      */
     protected $starterContent;
-    
-    /**
-     *
-     * @var integer
-     * @ORM\Column(type="integer")
-     */
-    protected $rev;
 
     public function __construct() {
         parent::__construct();
@@ -53,7 +45,6 @@ abstract class ATopEntity extends AEntity {
         $this->groups = "";
         $this->archived = false;
         $this->starterContent = false;
-        $this->rev = 0;
     }
 
     /**
@@ -188,25 +179,5 @@ abstract class ATopEntity extends AEntity {
             }
         }
         return false;
-    }
-
-    /**
-     * Set revision
-     *
-     * @param integer $revision
-     */
-    public function setRevision($revision) {
-        $this->rev = $revision;
-
-        return $this;
-    }
-
-    /**
-     * Get revision
-     *
-     * @return integer 
-     */
-    public function getRevision() {
-        return $this->rev;
     }
 }
