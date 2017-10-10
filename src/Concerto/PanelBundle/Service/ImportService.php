@@ -157,9 +157,9 @@ class ImportService {
             }
 
             $default_action = "0";
-            //if ($can_ignore)
-            //    $default_action = "2";
-            if ($existing_entity != null)
+            if ($can_ignore)
+                $default_action = "2";
+            else if ($existing_entity != null)
                 $default_action = "1";
 
             $obj_status = array(
