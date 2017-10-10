@@ -130,14 +130,14 @@ class TestNodeConnectionService extends ASectionService {
         $this->repository->deleteAutomatic($object->getSourceNode(), $object->getDestinationNode());
     }
 
-    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new) {
+    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new, $flush = true) {
         $ports = $variable->getPorts();
         foreach ($ports as $port) {
             $connections = $port->getSourceForConnections();
             foreach ($connections as $connection) {
                 if ($connection->getReturnFunction() != $variable->getName() && $connection->hasDefaultReturnFunction()) {
                     $connection->setReturnFunction($variable->getName());
-                    $this->repository->save($connection);
+                    $this->repository->save($connection, $flush);
                 }
             }
         }

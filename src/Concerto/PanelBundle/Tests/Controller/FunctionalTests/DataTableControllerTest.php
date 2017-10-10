@@ -225,7 +225,12 @@ class DataTableControllerTest extends AFunctionalTest {
             "name" => "new_table",
             "accessibility" => 0
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
             "result" => 0,
@@ -458,7 +463,12 @@ class DataTableControllerTest extends AFunctionalTest {
             "name" => "new_col",
             "type" => "text"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
@@ -479,7 +489,12 @@ class DataTableControllerTest extends AFunctionalTest {
             "name" => "temp",
             "type" => "bigint"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
 
         // on PGSQL (and possibly others later) string -> int casts aren't supported
@@ -526,7 +541,12 @@ class DataTableControllerTest extends AFunctionalTest {
             "name" => "new_temp",
             "type" => "bigint"
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
 
         // on PGSQL (and possibly others later) string -> int casts aren't supported

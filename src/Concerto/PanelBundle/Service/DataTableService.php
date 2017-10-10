@@ -7,23 +7,18 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\DataTable;
 use Concerto\PanelBundle\Repository\DataTableRepository;
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Entity\AEntity;
-use Concerto\PanelBundle\Security\ObjectVoter;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
-use Concerto\PanelBundle\StarterContentUpdateService\DataTableUpdateService;
 
 class DataTableService extends AExportableSectionService {
 
     public $dbStructureService;
     public $dbDataDao;
-    private $updateService;
 
-    public function __construct(DataTableRepository $repository, RecursiveValidator $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker, DataTableUpdateService $updateService) {
+    public function __construct(DataTableRepository $repository, RecursiveValidator $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker) {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->dbStructureService = $dbStructureService;
         $this->dbDataDao = $dbDataDao;
-        $this->updateService = $updateService;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
@@ -476,7 +471,6 @@ class DataTableService extends AExportableSectionService {
     }
 
     protected function onConverted($user, $new_ent, $old_ent) {
-        $this->updateService->update($user, $this, $new_ent, $old_ent);
     }
 
 }

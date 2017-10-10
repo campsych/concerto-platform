@@ -5,10 +5,6 @@ namespace Concerto\PanelBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Concerto\PanelBundle\Entity\Test;
-use Concerto\PanelBundle\Entity\TestVariable;
-use Concerto\PanelBundle\Entity\TestWizardParam;
-use Concerto\PanelBundle\Entity\TestNodePort;
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /**

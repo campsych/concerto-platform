@@ -53,7 +53,7 @@ class TestVariableService extends ASectionService {
         return $this->authorizeCollection($this->repository->findByTestAndType($test_id, 2));
     }
 
-    public function saveCollection(User $user, $serializedVariables, Test $test) {
+    public function saveCollection(User $user, $serializedVariables, Test $test, $flush = true) {
         $result = array("errors" => array());
         if (!$serializedVariables)
             return $result;
@@ -64,7 +64,7 @@ class TestVariableService extends ASectionService {
             $parentVariable = null;
             if ($var["parentVariable"])
                 $parentVariable = $this->repository->find($var["parentVariable"]);
-            $r = $this->save($user, $var["id"], $var["name"], $var["type"], $var["description"], $var["passableThroughUrl"], array_key_exists("value", $var) ? $var["value"] : null, $test, $parentVariable);
+            $r = $this->save($user, $var["id"], $var["name"], $var["type"], $var["description"], $var["passableThroughUrl"], array_key_exists("value", $var) ? $var["value"] : null, $test, $parentVariable, $flush);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);
@@ -74,7 +74,7 @@ class TestVariableService extends ASectionService {
         return $result;
     }
 
-    public function save(User $user, $object_id, $name, $type, $description, $passableThroughUrl, $value, $test, $parentVariable = null) {
+    public function save(User $user, $object_id, $name, $type, $description, $passableThroughUrl, $value, $test, $parentVariable = null, $flush = true) {
         $errors = array();
         $object = $this->get($object_id);
         $is_new = false;
@@ -103,12 +103,12 @@ class TestVariableService extends ASectionService {
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
-        $this->onObjectSaved($user, $object, $is_new);
+        $this->repository->save($object, $flush);
+        $this->onObjectSaved($user, $object, $is_new, $flush);
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function createVariablesFromSourceTest(User $user, Test $dstTest) {
+    public function createVariablesFromSourceTest(User $user, Test $dstTest, $flush = true) {
         $wizard = $dstTest->getSourceWizard();
         foreach ($wizard->getTest()->getVariables() as $variable) {
             $description = $variable->getDescription();
@@ -126,11 +126,11 @@ class TestVariableService extends ASectionService {
                 }
             }
 
-            $this->save($user, 0, $name, $type, $description, $url, $value, $dstTest, $variable);
+            $this->save($user, 0, $name, $type, $description, $url, $value, $dstTest, $variable, $flush);
         }
     }
 
-    private function updateChildVariables(User $user, TestVariable $parentVariable) {
+    private function updateChildVariables(User $user, TestVariable $parentVariable, $flush = true) {
         $description = $parentVariable->getDescription();
         $name = $parentVariable->getName();
         $url = $parentVariable->isPassableThroughUrl();
@@ -144,22 +144,22 @@ class TestVariableService extends ASectionService {
                         $found = true;
                         $variable->setName($name);
                         $variable->setPassableThroughUrl($url);
-                        $this->update($user, $variable);
+                        $this->update($user, $variable, $flush);
                         break;
                     }
                 }
                 if (!$found) {
-                    $this->save($user, 0, $name, $type, $description, $url, null, $test, $parentVariable);
+                    $this->save($user, 0, $name, $type, $description, $url, null, $test, $parentVariable, $flush);
                 }
             }
         }
     }
 
-    private function onObjectSaved(User $user, TestVariable $object, $is_new) {
-        $this->updateChildVariables($user, $object);
-        $this->testNodePortService->onTestVariableSaved($user, $object, $is_new);
+    private function onObjectSaved(User $user, TestVariable $object, $is_new, $flush = true) {
+        $this->updateChildVariables($user, $object, $flush);
+        $this->testNodePortService->onTestVariableSaved($user, $object, $is_new, $flush);
         if (!$is_new)
-            $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new);
+            $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new, $flush);
     }
 
     public function delete($object_ids, $secure = true) {
@@ -228,7 +228,7 @@ class TestVariableService extends ASectionService {
         $ent->setDescription($obj["description"]);
         $ent->setTest($test);
         $ent->setType($obj["type"]);
-        $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
+        $ent->setPassableThroughUrl($obj["passableThroughUrl"] == "1");
         $ent->setValue($obj['value']);
         $ent->setParentVariable($parentVariable);
 
@@ -268,7 +268,7 @@ class TestVariableService extends ASectionService {
         $ent->setDescription($obj["description"]);
         $ent->setTest($test);
         $ent->setType($obj["type"]);
-        $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
+        $ent->setPassableThroughUrl($obj["passableThroughUrl"] == "1");
         $ent->setValue($obj['value']);
         $ent->setParentVariable($parentVariable);
 
@@ -301,9 +301,9 @@ class TestVariableService extends ASectionService {
         return null;
     }
 
-    public function update(User $user, $obj) {
-        $this->repository->save($obj);
-        $this->onObjectSaved($user, $obj, false);
+    public function update(User $user, $obj, $flush = true) {
+        $this->repository->save($obj, $flush);
+        $this->onObjectSaved($user, $obj, false, $flush);
     }
 
 }

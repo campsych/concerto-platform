@@ -1,5 +1,16 @@
 version: "5.0.beta.3.1"
 changelog:
+    - version: "5.0.beta.3.2"
+      description: >
+        Import performance improvements
+      categories:
+          - label: Improvements
+            changes:
+                - import speed significantly improved
+          - label: Fixes
+            changes:
+                - data table columns visible again
+
     - version: "5.0.beta.3.1"
       description: >
         Fixes.
@@ -11,6 +22,7 @@ changelog:
           - label: R concerto5 package
             changes:
                 - decreased minimum required R version
+
     - version: "5.0.beta.3.0"
       description: >
         This update is focused on adding administration tab to the panel.

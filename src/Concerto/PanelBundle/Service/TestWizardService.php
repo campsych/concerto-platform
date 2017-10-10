@@ -4,26 +4,21 @@ namespace Concerto\PanelBundle\Service;
 
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\TestWizard;
-use Concerto\PanelBundle\Service\TestVariableService;
-use Concerto\PanelBundle\Service\TestNodePortService;
-use Concerto\PanelBundle\Service\TestWizardParamService;
-use Concerto\PanelBundle\Service\TestWizardStepService;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Entity\AEntity;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
-use Concerto\PanelBundle\StarterContentUpdateService\TestWizardUpdateService;
 
-class TestWizardService extends AExportableSectionService {
+class TestWizardService extends AExportableSectionService
+{
 
     private $testService;
     public $testVariableService;
     public $testNodePortService;
     private $testWizardParamService;
     private $testWizardStepService;
-    private $testWizardUpdateService;
 
-    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker, TestWizardUpdateService $testWizardUpdateService) {
+    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker)
+    {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->testService = $testService;
@@ -31,10 +26,10 @@ class TestWizardService extends AExportableSectionService {
         $this->testNodePortService = $testNodePortService;
         $this->testWizardStepService = $stepService;
         $this->testWizardParamService = $paramService;
-        $this->testWizardUpdateService = $testWizardUpdateService;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = null;
         if (is_numeric($object_id)) {
             $object = parent::get($object_id, $createNew, $secure);
@@ -50,7 +45,8 @@ class TestWizardService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $test, $serializedSteps) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $test, $serializedSteps)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -91,7 +87,8 @@ class TestWizardService extends AExportableSectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function updateParamValues(User $user, $serializedSteps) {
+    public function updateParamValues(User $user, $serializedSteps)
+    {
         if (!$serializedSteps)
             return;
         $steps = json_decode($serializedSteps, true);
@@ -110,7 +107,8 @@ class TestWizardService extends AExportableSectionService {
         }
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -119,7 +117,7 @@ class TestWizardService extends AExportableSectionService {
             if ($object === null)
                 continue;
 
-            if($object->getResultingTests()->count() > 0) {
+            if ($object->getResultingTests()->count() > 0) {
                 array_push($result, array("object" => $object, "errors" => array("validate.test.wizards.delete.referenced")));
                 continue;
             }
@@ -130,7 +128,8 @@ class TestWizardService extends AExportableSectionService {
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    {
         $pre_queue = array();
         if (!array_key_exists("TestWizard", $map))
             $map["TestWizard"] = array();
@@ -158,7 +157,7 @@ class TestWizardService extends AExportableSectionService {
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
-        if ($instruction["action"] == 1 && $src_ent){
+        if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $src_ent = $this->findConversionSource($obj, $map);
@@ -172,9 +171,10 @@ class TestWizardService extends AExportableSectionService {
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test)
+    {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
-        
+
         $ent = new TestWizard();
         $ent->setName($new_name);
         $ent->setTest($test);
@@ -197,11 +197,13 @@ class TestWizardService extends AExportableSectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         return $this->get($obj["name"]);
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test) {
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test)
+    {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);
@@ -230,9 +232,9 @@ class TestWizardService extends AExportableSectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($user, $new_ent, $old_ent) {
+    protected function onConverted($user, $new_ent, $old_ent)
+    {
         $this->testWizardStepService->clear($old_ent->getId());
-        //$this->testWizardUpdateService->update($user, $this, $new_ent, $old_ent);
     }
 
 }

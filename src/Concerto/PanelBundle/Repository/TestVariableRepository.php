@@ -2,21 +2,17 @@
 
 namespace Concerto\PanelBundle\Repository;
 
-use Concerto\PanelBundle\Repository\AEntityRepository;
-
 /**
  * TestVariableRepository
  */
 class TestVariableRepository extends AEntityRepository {
 
     public function findByTestAndType($test_id, $type) {
-        $builder = $this->createQueryBuilder('v')->where("v.test = :test")->setParameter("test", $test_id)->andWhere("v.type = :type")->setParameter("type", $type);
-        return $builder->getQuery()->getResult();
+        return $this->findBy(array("test"=> $test_id, "type" => $type));
     }
     
     public function findByTest($test_id) {
-        $builder = $this->createQueryBuilder('v')->where("v.test = :test")->setParameter("test", $test_id);
-        return $builder->getQuery()->getResult();
+        return $this->findBy(array("test" => $test_id));
     }
 
     public function deleteByTestAndType($test_id, $type) {

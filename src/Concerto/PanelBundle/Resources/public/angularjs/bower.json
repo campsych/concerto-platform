@@ -23,7 +23,7 @@
         "jquery.metadata": "*",
         "jquery": "2.1.x",
         "jquery-ui": "1.11.x",
-        "angular-ui-grid": "4.0.6",
+        "angular-ui-grid": "4.0.7",
         "jquery.migrate": "1.2.x",
         "angular-wizard-concerto": "0.6.1-concerto",
         "angular-ui-sortable": "*",

@@ -111,7 +111,7 @@ class TestService extends AExportableSectionService
         return $this->resave($new, $user, $object, $serializedVariables, $errors);
     }
 
-    public function resave($new, User $user, Test $object, $serializedVariables = null, $errors = array())
+    public function resave($new, User $user, Test $object, $serializedVariables = null, $errors = array(), $flush = true)
     {
         $object->setUpdated();
         if ($user !== null)
@@ -128,31 +128,31 @@ class TestService extends AExportableSectionService
             return array("object" => null, "errors" => $errors);
         }
 
-        $this->repository->save($object);
-        $this->onObjectSaved($object, $new, $user, $serializedVariables);
+        $this->repository->save($object, $flush);
+        $this->onObjectSaved($object, $new, $user, $serializedVariables, true, $flush);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function onObjectSaved($test, $is_new, User $user, $serializedVariables, $insert_initial_objects = true)
+    public function onObjectSaved($test, $is_new, User $user, $serializedVariables, $insert_initial_objects = true, $flush = true)
     {
         if ($test->getSourceWizard() != null) {
             if ($is_new) {
-                $this->testVariableService->createVariablesFromSourceTest($user, $test);
+                $this->testVariableService->createVariablesFromSourceTest($user, $test, $flush);
             } else {
-                $this->testVariableService->saveCollection($user, $serializedVariables, $test);
+                $this->testVariableService->saveCollection($user, $serializedVariables, $test, $flush);
             }
         }
         if ($is_new && count($this->testVariableService->getBranches($test->getId())) == 0 && $insert_initial_objects) {
-            $result = $this->testVariableService->save($user, 0, "out", 2, "", false, 0, $test);
+            $result = $this->testVariableService->save($user, 0, "out", 2, "", false, 0, $test, null, $flush);
             $test->addVariable($result["object"]);
         }
-        $this->updateDependentTests($user, $test);
+        $this->updateDependentTests($user, $test, $flush);
 
         if ($test->getType() == Test::TYPE_FLOW && $is_new && $insert_initial_objects) {
-            $result = $this->testNodeService->save($user, 0, 1, 15000, 15000, $test, $test, "");
+            $result = $this->testNodeService->save($user, 0, 1, 15000, 15000, $test, $test, "", $flush);
             $test->addNode($result["object"]);
-            $result = $this->testNodeService->save($user, 0, 2, 15500, 15100, $test, $test, "");
+            $result = $this->testNodeService->save($user, 0, 2, 15500, 15100, $test, $test, "", $flush);
             $test->addNode($result["object"]);
         }
     }
@@ -162,13 +162,13 @@ class TestService extends AExportableSectionService
         $this->repository->markDependentTestsOutdated($object_id);
     }
 
-    public function updateDependentTests(User $user, Test $sourceTest)
+    public function updateDependentTests(User $user, Test $sourceTest, $flush = true)
     {
         $tests = $this->repository->findDependent($sourceTest);
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave(false, $user, $test);
+            $data = $this->resave(false, $user, $test, null, array(), $flush);
             array_push($result, $data);
         }
         return $result;
@@ -316,7 +316,7 @@ class TestService extends AExportableSectionService
         $this->repository->save($ent, false);
         $map["Test"]["id" . $obj["id"]] = $ent;
 
-        $this->updateDependentTests($user, $ent);
+        $this->updateDependentTests($user, $ent, false);
         $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);

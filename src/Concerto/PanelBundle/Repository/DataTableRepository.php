@@ -2,8 +2,6 @@
 
 namespace Concerto\PanelBundle\Repository;
 
-use Concerto\PanelBundle\Repository\AEntityRepository;
-
 /**
  * DataTableRepository
  */

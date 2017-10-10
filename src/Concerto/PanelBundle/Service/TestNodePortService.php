@@ -12,19 +12,22 @@ use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Psr\Log\LoggerInterface;
 
 class TestNodePortService extends ASectionService {
 
     private $validator;
     private $testVariableRepository;
     private $testNodeRepository;
+    private $logger;
 
-    public function __construct(TestNodePortRepository $repository, RecursiveValidator $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestNodePortRepository $repository, RecursiveValidator $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationChecker $securityAuthorizationChecker, LoggerInterface $logger) {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
         $this->testVariableRepository = $testVariableRepository;
         $this->testNodeRepository = $testNodeRepository;
+        $this->logger = $logger;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
@@ -39,7 +42,7 @@ class TestNodePortService extends ASectionService {
         return $this->authorizeObject($this->repository->findOneByNodeAndVariable($node, $variable));
     }
 
-    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string) {
+    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $flush = true) {
         $errors = array();
         $object = $this->get($object_id);
         if ($object === null) {
@@ -62,7 +65,7 @@ class TestNodePortService extends ASectionService {
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
+        $this->repository->save($object, $flush);
 
         return array("object" => $object, "errors" => $errors);
     }
@@ -84,11 +87,11 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    public function update($object) {
-        $this->repository->save($object);
+    public function update($object, $flush = true) {
+        $this->repository->save($object, $flush);
     }
 
-    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new) {
+    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new, $flush = true) {
         $nodes = $variable->getTest()->getSourceForNodes();
         foreach ($nodes as $node) {
             $ports = $node->getPorts();
@@ -98,13 +101,13 @@ class TestNodePortService extends ASectionService {
                     $found = true;
                     if ($port->hasDefaultValue()) {
                         $port->setValue($variable->getValue());
-                        $this->update($port);
+                        $this->update($port, $flush);
                     }
                     break;
                 }
             }
             if (!$found) {
-                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true);
+                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, $flush);
                 $node->addPort($result["object"]);
             }
         }

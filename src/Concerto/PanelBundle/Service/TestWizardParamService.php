@@ -180,7 +180,7 @@ class TestWizardParamService extends ASectionService {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent, false);
-        $this->onObjectSaved($user, $ent, null);
+        $this->onObjectSaved($user, $ent, null, false);
 
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
@@ -224,7 +224,7 @@ class TestWizardParamService extends ASectionService {
         $this->repository->save($ent, false);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
 
-        $this->onObjectSaved($user, $ent, $old_ent);
+        $this->onObjectSaved($user, $ent, $old_ent, false);
         $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
@@ -234,11 +234,11 @@ class TestWizardParamService extends ASectionService {
         //TODO 
     }
 
-    private function onObjectSaved(User $user, TestWizardParam $newParam, $oldParam) {
-        $this->updateValues($user, $newParam, $oldParam);
+    private function onObjectSaved(User $user, TestWizardParam $newParam, $oldParam, $flush = true) {
+        $this->updateValues($user, $newParam, $oldParam, $flush);
     }
 
-    private function updateValues(User $user, TestWizardParam $newParam, $oldParam) {
+    private function updateValues(User $user, TestWizardParam $newParam, $oldParam, $flush = true) {
         $newDef = $newParam->getDefinition();
         $oldDef = null;
         $newVal = $newParam->getValue();
@@ -264,7 +264,7 @@ class TestWizardParamService extends ASectionService {
             $val = json_encode($val);
         }
         $newParam->setValue($val);
-        $this->repository->save($newParam);
+        $this->repository->save($newParam, $flush);
 
         //resulting tests variables update
         foreach ($newParam->getWizard()->getResultingTests() as $test) {
@@ -281,7 +281,7 @@ class TestWizardParamService extends ASectionService {
                         $val = json_encode($val);
                     }
                     $var->setValue($val);
-                    $this->testVariableService->update($user, $var);
+                    $this->testVariableService->update($user, $var, $flush);
 
                     ///
 
@@ -300,7 +300,7 @@ class TestWizardParamService extends ASectionService {
                                     $portVal = json_encode($portVal);
                                 }
                                 $port->setValue($portVal);
-                                $this->testNodePortService->update($port);
+                                $this->testNodePortService->update($port, $flush);
                                 break;
                             }
                         }

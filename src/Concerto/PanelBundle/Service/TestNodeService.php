@@ -13,7 +13,8 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
 
-class TestNodeService extends ASectionService {
+class TestNodeService extends ASectionService
+{
 
     const TYPE_REGULAR = 0;
     const TYPE_BEGIN_TEST = 1;
@@ -24,7 +25,8 @@ class TestNodeService extends ASectionService {
     private $testVariableService;
     private $testRepository;
 
-    public function __construct(TestNodeRepository $repository, RecursiveValidator $validator, TestNodePortService $portService, TestVariableService $variableService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestNodeRepository $repository, RecursiveValidator $validator, TestNodePortService $portService, TestVariableService $variableService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->testNodePortService = $portService;
@@ -33,7 +35,8 @@ class TestNodeService extends ASectionService {
         $this->testRepository = $testRepository;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestNode();
@@ -41,11 +44,13 @@ class TestNodeService extends ASectionService {
         return $object;
     }
 
-    public function getByFlowTest($test_id) {
+    public function getByFlowTest($test_id)
+    {
         return $this->authorizeCollection($this->repository->findByFlowTest($test_id));
     }
 
-    public function save(User $user, $object_id, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $title) {
+    public function save(User $user, $object_id, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $flush = true)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $is_new = false;
@@ -67,14 +72,15 @@ class TestNodeService extends ASectionService {
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
+        $this->repository->save($object, $flush);
 
-        $this->savePorts($user, $object, $type, $sourceTest);
+        $this->savePorts($user, $object, $type, $sourceTest, $flush);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function savePorts(User $user, TestNode $node, $type, Test $sourceTest) {
+    public function savePorts(User $user, TestNode $node, $type, Test $sourceTest, $flush = true)
+    {
         switch ($type) {
             case self::TYPE_BEGIN_TEST:
                 $params = array();
@@ -103,14 +109,15 @@ class TestNodeService extends ASectionService {
                 }
                 $port = $this->testNodePortService->getOneByNodeAndVariable($node, $var);
                 if (!$port) {
-                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1");
+                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", $flush);
                     $node->addPort($result["object"]);
                 }
             }
         }
     }
 
-    public function delete($object_ids, $secure = true, $flush = true) {
+    public function delete($object_ids, $secure = true, $flush = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -124,7 +131,8 @@ class TestNodeService extends ASectionService {
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    {
         $pre_queue = array();
         if (!array_key_exists("TestNode", $map))
             $map["TestNode"] = array();
@@ -155,9 +163,9 @@ class TestNodeService extends ASectionService {
         }
 
         $parent_instruction = self::getObjectImportInstruction(array(
-                    "class_name" => "Test",
-                    "id" => $obj["flowTest"]
-                        ), $instructions);
+            "class_name" => "Test",
+            "id" => $obj["flowTest"]
+        ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 2 && $src_ent) {
@@ -173,7 +181,8 @@ class TestNodeService extends ASectionService {
 
     /* TODO: improve it, curretly it's not 100% reliable (for nodes with same position) */
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         $ent = $this->repository->findOneBy(array(
             "posX" => $obj["posX"],
             "posY" => $obj["posY"],
@@ -184,7 +193,8 @@ class TestNodeService extends ASectionService {
         return $this->get($ent->getId());
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $flowTest, $sourceTest) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $flowTest, $sourceTest)
+    {
         $ent = new TestNode();
         $ent->setFlowTest($flowTest);
         $ent->setPosX($obj["posX"]);
@@ -206,7 +216,8 @@ class TestNodeService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    public function authorizeObject($object) {
+    public function authorizeObject($object)
+    {
         if (!self::$securityOn)
             return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getFlowTest()))
