@@ -9,19 +9,22 @@ use Concerto\PanelBundle\Repository\DataTableRepository;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
-class DataTableService extends AExportableSectionService {
+class DataTableService extends AExportableSectionService
+{
 
     public $dbStructureService;
     public $dbDataDao;
 
-    public function __construct(DataTableRepository $repository, RecursiveValidator $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(DataTableRepository $repository, RecursiveValidator $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker)
+    {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->dbStructureService = $dbStructureService;
         $this->dbDataDao = $dbDataDao;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = null;
         if (is_numeric($object_id)) {
             $object = parent::get($object_id, $createNew, $secure);
@@ -41,7 +44,8 @@ class DataTableService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
@@ -87,7 +91,8 @@ class DataTableService extends AExportableSectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -104,7 +109,8 @@ class DataTableService extends AExportableSectionService {
         return $result;
     }
 
-    public function getColumns($object_id) {
+    public function getColumns($object_id)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             return $this->dbStructureService->getColumns($object->getName());
@@ -113,7 +119,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function getColumn($object_id, $column_name) {
+    public function getColumn($object_id, $column_name)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             return $this->dbStructureService->getColumn($object->getName(), $column_name);
@@ -122,7 +129,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function getData($object_id, $prefixed = false, $row_id = null, $filter = null, $operators = null) {
+    public function getData($object_id, $prefixed = false, $row_id = null, $filter = null, $operators = null)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             $data = $this->dbDataDao->getData($object->getName(), $row_id, $filter, $operators);
@@ -135,7 +143,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function getFilteredData($object_id, $prefixed = false, $filters = null) {
+    public function getFilteredData($object_id, $prefixed = false, $filters = null)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             $data = $this->dbDataDao->fetchMatchingData($object->getName(), $filters);
@@ -148,7 +157,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function countFilteredData($object_id, $filters) {
+    public function countFilteredData($object_id, $filters)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             return $this->dbDataDao->countMatchingData($object->getName(), $filters);
@@ -157,7 +167,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function streamJsonData($object_id, $prefixed = false) {
+    public function streamJsonData($object_id, $prefixed = false)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             $result = $this->dbDataDao->getStreamDataResult($object->getName());
@@ -181,7 +192,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function deleteColumns($object_id, $column_names) {
+    public function deleteColumns($object_id, $column_names)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             $names = array();
@@ -197,7 +209,8 @@ class DataTableService extends AExportableSectionService {
         return array();
     }
 
-    public function deleteRows($object_id, $row_ids) {
+    public function deleteRows($object_id, $row_ids)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             $ids = array();
@@ -213,7 +226,8 @@ class DataTableService extends AExportableSectionService {
         return array();
     }
 
-    public function truncate($object_id) {
+    public function truncate($object_id)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             $this->dbDataDao->truncate($object->getName());
@@ -222,7 +236,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function saveColumn($object_id, $column_name, $new_name, $new_type) {
+    public function saveColumn($object_id, $column_name, $new_name, $new_type)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             return $this->dbStructureService->saveColumn($object->getName(), $column_name, $new_name, $new_type);
@@ -231,7 +246,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function insertRow($object_id) {
+    public function insertRow($object_id)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             return $this->dbDataDao->addBlankRow($object->getName());
@@ -240,7 +256,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function updateRow($object_id, $row_id, $values, $prefixed = false) {
+    public function updateRow($object_id, $row_id, $values, $prefixed = false)
+    {
         $object = $this->get($object_id);
         if ($object != null) {
             if ($prefixed) {
@@ -255,7 +272,8 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function importFromCsv($object_id, $file_name, $restructure, $header, $delimiter, $enclosure) {
+    public function importFromCsv($object_id, $file_name, $restructure, $header, $delimiter, $enclosure)
+    {
 
         $table = $this->get($object_id);
         if ($table == null) {
@@ -330,23 +348,27 @@ class DataTableService extends AExportableSectionService {
         return array();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $result = parent::getAll();
         return $this->assignColumnCollection($result);
     }
 
-    public function getRepository() {
+    public function getRepository()
+    {
         return $this->repository;
     }
 
-    public function assignColumnCollection($tableCollection) {
+    public function assignColumnCollection($tableCollection)
+    {
         foreach ($tableCollection as $table) {
             $table->setColumns($this->dbStructureService->getColumns($table->getName()));
         }
         return $tableCollection;
     }
 
-    private static function prefixData(&$data) {
+    private static function prefixData(&$data)
+    {
         for ($i = 0; $i < count($data); $i++) {
             foreach ($data[$i] as $k => $v) {
                 $data[$i]["col_" . $k] = $v;
@@ -355,11 +377,13 @@ class DataTableService extends AExportableSectionService {
         }
     }
 
-    public function convertToExportable($array) {
+    public function convertToExportable($array)
+    {
         return $array;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue, $secure = true) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue, $secure = true)
+    {
         $pre_queue = array();
         if (!array_key_exists("DataTable", $map))
             $map["DataTable"] = array();
@@ -383,7 +407,8 @@ class DataTableService extends AExportableSectionService {
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue)
+    {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
 
         $ent = new DataTable();
@@ -410,11 +435,13 @@ class DataTableService extends AExportableSectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         return $this->get($obj["name"]);
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue) {
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue)
+    {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);
@@ -439,6 +466,7 @@ class DataTableService extends AExportableSectionService {
         $old_columns = $ent->getColumns();
         $new_columns = $obj["columns"];
         foreach ($new_columns as $new_col) {
+            if ($new_col["name"] == "id") continue;
             $found = false;
             foreach ($old_columns as $old_col) {
                 if ($old_col["name"] == $new_col["name"]) {
@@ -464,7 +492,8 @@ class DataTableService extends AExportableSectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($user, $new_ent, $old_ent) {
+    protected function onConverted($user, $new_ent, $old_ent)
+    {
     }
 
 }

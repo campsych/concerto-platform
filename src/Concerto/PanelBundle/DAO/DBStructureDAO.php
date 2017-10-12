@@ -47,7 +47,11 @@ class DBStructureDAO
             if ($col["name"] == "id") {
                 continue;
             }
-            $column_definition = $table->addColumn($col["name"], $col["type"]);
+            $options = array();
+            if ($col["type"] == "string") {
+                $options["length"] = 1024;
+            }
+            $column_definition = $table->addColumn($col["name"], $col["type"], $options);
         }
 
         $sql = $schema->getMigrateFromSql(new Schema(), $this->connection->getDatabasePlatform());
