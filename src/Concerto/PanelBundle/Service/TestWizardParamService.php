@@ -4,14 +4,13 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Repository\TestWizardParamRepository;
 use Concerto\PanelBundle\Entity\TestWizardParam;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Service\TestVariableService;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
-use Concerto\PanelBundle\Service\TestNodePortService;
 
 class TestWizardParamService extends ASectionService {
 
@@ -21,8 +20,9 @@ class TestWizardParamService extends ASectionService {
     private $testWizardRepository;
     private $testWizardStepRepository;
     private $testNodePortService;
+    private $logger;
 
-    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker, TestNodePortService $testNodePortService) {
+    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger) {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
@@ -30,6 +30,7 @@ class TestWizardParamService extends ASectionService {
         $this->testWizardRepository = $testWizardRepository;
         $this->testWizardStepRepository = $testWizardStepRepository;
         $this->testNodePortService = $testNodePortService;
+        $this->logger = $logger;
     }
 
     public function get($object_id, $createNew = false, $secure = true) {
@@ -258,7 +259,7 @@ class TestWizardParamService extends ASectionService {
         }
 
         //param update
-        $this->getChildrenMergedValue($user, $newType, $oldType, $newDef, $oldDef, $newVal, $oldVal, $newVal, true, true);
+        self::mergeValue($user, $newType, $oldType, $newDef, $oldDef, $newVal, $oldVal, $newVal, true, true);
         $val = $newVal;
         if (!in_array($newParam->getType(), self::$simpleTypes)) {
             $val = json_encode($val);
@@ -275,7 +276,7 @@ class TestWizardParamService extends ASectionService {
                     if (!in_array($oldType, self::$simpleTypes)) {
                         $dstVal = json_decode($dstVal, true);
                     }
-                    $this->getChildrenMergedValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $dstVal);
+                    self::mergeValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $dstVal);
                     $val = $dstVal;
                     if (!in_array($newType, self::$simpleTypes)) {
                         $val = json_encode($val);
@@ -294,7 +295,7 @@ class TestWizardParamService extends ASectionService {
                                 if (!in_array($oldType, self::$simpleTypes)) {
                                     $portDstVal = json_decode($portDstVal, true);
                                 }
-                                $this->getChildrenMergedValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $portDstVal);
+                                self::mergeValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $portDstVal);
                                 $portVal = $portDstVal;
                                 if (!in_array($newType, self::$simpleTypes)) {
                                     $portVal = json_encode($portVal);
@@ -310,7 +311,7 @@ class TestWizardParamService extends ASectionService {
         }
     }
 
-    private function getChildrenMergedValue(User $user, $newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$dstVal, $default = true, $dstIsParam = false) {
+    public static function mergeValue(User $user, $newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$mergedVal, $allowDefault = true, $isParam = false) {
         //type change
         $newField = $oldType === null;
         $typeChanged = $newType != $oldType;
@@ -326,26 +327,26 @@ class TestWizardParamService extends ASectionService {
             if ($typeChanged && !$typesCompatible) {
                 switch ((int) $newType) {
                     case 4:
-                        $dstVal = "0";
+                        $mergedVal = "0";
                         break;
                     default:
-                        $dstVal = "";
+                        $mergedVal = "";
                         break;
                 }
             }
 
             //check if should use default value when simple
-            $default &= $typeChanged || $oldVal === null || $oldDef === null || ($dstIsParam && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
-            if ($default && is_array($newDef) && array_key_exists("defvalue", $newDef)) {
-                $dstVal = $newDef["defvalue"];
+            $allowDefault &= $typeChanged || $oldVal === null || $oldDef === null || ($isParam && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
+            if ($allowDefault && is_array($newDef) && array_key_exists("defvalue", $newDef)) {
+                $mergedVal = $newDef["defvalue"];
             }
         } else {
             //new type complex
-            $default &= $typeChanged || ($oldVal == $dstVal);
+            $allowDefault &= $typeChanged || ($oldVal == $mergedVal);
             if ($typeChanged)
-                $dstVal = array();
-            if ($default && !$dstIsParam) {
-                $dstVal = $newVal;
+                $mergedVal = array();
+            if ($allowDefault && !$isParam) {
+                $mergedVal = $newVal;
                 return;
             }
 
@@ -354,10 +355,10 @@ class TestWizardParamService extends ASectionService {
                 //group type
                 case 9:
                     foreach ($newDef["fields"] as $field) {
-                        if (!is_array($dstVal) || !array_key_exists($field["name"], $dstVal)) {
-                            $dstVal[$field["name"]] = null;
+                        if (!is_array($mergedVal) || !array_key_exists($field["name"], $mergedVal)) {
+                            $mergedVal[$field["name"]] = null;
                         }
-                        $dstFieldVal = &$dstVal[$field["name"]];
+                        $dstFieldVal = &$mergedVal[$field["name"]];
                         $newFieldVal = &$newVal[$field["name"]];
                         $newFieldDef = null;
                         if (array_key_exists("definition", $field))
@@ -377,12 +378,12 @@ class TestWizardParamService extends ASectionService {
                                 }
                             }
                         }
-                        $this->getChildrenMergedValue($user, $field["type"], $oldFieldType, $newFieldDef, $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $default);
+                        self::mergeValue($user, $field["type"], $oldFieldType, $newFieldDef, $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $allowDefault);
                     }
                     break;
                 //list type
                 case 10:
-                    for ($i = 0; $i < count($dstVal); $i++) {
+                    for ($i = 0; $i < count($mergedVal); $i++) {
                         $oldElemType = null;
                         $oldElemDef = null;
                         $oldElemVal = null;
@@ -396,7 +397,7 @@ class TestWizardParamService extends ASectionService {
                             if (count($newVal) > $i)
                                 $newElemVal = $newVal[$i];
                         }
-                        $this->getChildrenMergedValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $dstVal[$i], $default);
+                        self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                     }
                     break;
             }

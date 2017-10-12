@@ -1,0 +1,207 @@
+{
+    "version": "5.0.beta.3.2",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 1,
+            "name": "source",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 0,
+            "type": 0,
+            "code": "",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 1,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 2,
+                    "name": "simple",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 3,
+                    "name": "complex",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 1,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2017-10-11 14:19:47",
+            "updatedBy": "admin",
+            "nodes": [
+
+            ],
+            "nodesConnections": [
+
+            ],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": false,
+            "hash": "0f384f00bd569ec09525fe73b1ea9931e01d4941"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 1,
+            "name": "wizard",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 1,
+                    "title": "step",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 1,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 1,
+                            "label": "simple",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "aaa",
+                            "testVariable": 2,
+                            "name": "simple",
+                            "wizardStep": 1,
+                            "stepTitle": "step",
+                            "order": 0,
+                            "wizard": 1,
+                            "definition": {
+                                "placeholder": 0,
+                                "defvalue": "aaa"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 2,
+                            "label": "complex",
+                            "description": "",
+                            "hideCondition": "",
+                            "type": 10,
+                            "passableThroughUrl": "0",
+                            "value": "[]",
+                            "testVariable": 3,
+                            "name": "complex",
+                            "wizardStep": 1,
+                            "stepTitle": "step",
+                            "order": 0,
+                            "wizard": 1,
+                            "definition": {
+                                "element": {
+                                    "type": 0,
+                                    "definition": {
+                                        "placeholder": 0,
+                                        "defvalue": "bbb"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "test": 1,
+            "testName": "source",
+            "updatedOn": "2017-10-11 14:20:11",
+            "updatedBy": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": false,
+            "hash": "4bcc6080f199272871b1a775e6ac9d192cd1ed34"
+        },
+        {
+            "class_name": "Test",
+            "id": 2,
+            "name": "test",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 0,
+            "type": 1,
+            "code": "",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 4,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 2,
+                    "parentVariable": 1
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 5,
+                    "name": "simple",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "aaa",
+                    "test": 2,
+                    "parentVariable": 2
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 6,
+                    "name": "complex",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "[]",
+                    "test": 2,
+                    "parentVariable": 3
+                }
+            ],
+            "sourceWizard": 1,
+            "sourceWizardName": "wizard",
+            "sourceWizardTest": 1,
+            "sourceWizardTestName": "source",
+            "updatedOn": "2017-10-11 14:21:57",
+            "updatedBy": "admin",
+            "nodes": [
+
+            ],
+            "nodesConnections": [
+
+            ],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": false,
+            "hash": "4cca1eb943defd391b95487cec55f29e9804aee0"
+        }
+    ]
+}

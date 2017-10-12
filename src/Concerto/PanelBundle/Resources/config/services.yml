@@ -121,7 +121,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.TestWizardParam_metadata"]
   concerto_panel.TestWizardParam_service:
     class: Concerto\PanelBundle\Service\TestWizardParamService
-    arguments: ["@concerto_panel.TestWizardParam_repository","@validator","@concerto_panel.TestVariable_service","@concerto_panel.TestWizard_repository","@concerto_panel.TestWizardStep_repository", "@security.authorization_checker", "@concerto_panel.TestNodePort_service"]
+    arguments: ["@concerto_panel.TestWizardParam_repository","@validator","@concerto_panel.TestVariable_service","@concerto_panel.TestWizard_repository","@concerto_panel.TestWizardStep_repository", "@security.authorization_checker", "@concerto_panel.TestNodePort_service", "@logger"]
     
 #   TestSessionLog
   concerto_panel.TestSessionLog_metadata:

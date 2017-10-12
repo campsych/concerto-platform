@@ -6,7 +6,8 @@ use Concerto\PanelBundle\Tests\AFunctionalTest;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\ATopEntity;
 
-class ImportServiceTest extends AFunctionalTest {
+class ImportServiceTest extends AFunctionalTest
+{
 
     private static $testRepository;
     private static $testVariableRepository;
@@ -19,7 +20,8 @@ class ImportServiceTest extends AFunctionalTest {
     private static $viewTemplateRepository;
     private static $dataTableRepository;
 
-    private function dropTable($name) {
+    private function dropTable($name)
+    {
         $fromSchema = static::$entityManager->getConnection()->getSchemaManager()->createSchema();
         $toSchema = clone $fromSchema;
         try {
@@ -30,11 +32,12 @@ class ImportServiceTest extends AFunctionalTest {
                 static::$entityManager->getConnection()->executeQuery($query);
             }
         } catch (\Exception $ex) {
-            
+
         }
     }
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$testRepository = static::$entityManager->getRepository("ConcertoPanelBundle:Test");
         self::$testVariableRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestVariable");
@@ -49,7 +52,8 @@ class ImportServiceTest extends AFunctionalTest {
         self::$dataTableRepository = static::$entityManager->getRepository("ConcertoPanelBundle:DataTable");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         self::truncateClass("ConcertoPanelBundle:Test");
         self::truncateClass("ConcertoPanelBundle:TestSession");
         self::truncateClass("ConcertoPanelBundle:TestVariable");
@@ -64,7 +68,8 @@ class ImportServiceTest extends AFunctionalTest {
         $this->dropTable("data");
     }
 
-    public function testFlowConvertRenamedSourceVariable() {
+    public function testFlowConvertRenamedSourceVariable()
+    {
         $client = self::createLoggedClient();
 
         /* IMPORT NEW TEST */
@@ -194,7 +199,7 @@ class ImportServiceTest extends AFunctionalTest {
         $this->assertEquals(11, count(self::$testVariableRepository->findAll()));
         $this->assertEquals(1, count(self::$testWizardRepository->findAll()));
         $this->assertEquals(1, count(self::$testWizardStepRepository->findAll()));
-        $this->assertEquals(2, count(self::$testWizardParamRepository->findAll()));
+        $this->assertEquals(3, count(self::$testWizardParamRepository->findAll()));
         $this->assertEquals(3, count(self::$testNodeRepository->findAll()));
         $this->assertEquals(5, count(self::$testNodePortRepository->findAll()));
         $this->assertEquals(1, count(self::$testNodeConnectionRepository->findAll()));
@@ -205,7 +210,65 @@ class ImportServiceTest extends AFunctionalTest {
         $this->assertNotNull(self::$testNodePortRepository->findOneBy(array("value" => "{\"wp2f1\":\"nflow_wp2f1\",\"wp2f2\":\"nflow_wp2f2\"}", "defaultValue" => "0")), "new value in group port not found!");
     }
 
-    public function testFlowConvertDuplicatePort() {
+    public function testFlowConvertKeepPortValues()
+    {
+        $client = self::createLoggedClient();
+
+        /* IMPORT NEW TEST */
+
+        $client->request("POST", "/admin/Test/import", array(
+            "file" => "port_default_full.concerto.json",
+            "instructions" => '[{"id":1,"name":"source","class_name":"Test","action":"0","rename":"source","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false},{"id":1,"name":"wizard","class_name":"TestWizard","action":"0","rename":"wizard","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false},{"id":2,"name":"test","class_name":"Test","action":"0","rename":"test","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false},{"id":3,"name":"demo","class_name":"Test","action":"0","rename":"demo","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false}]'
+        ));
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        //objects count
+        $this->assertEquals(3, count(self::$testRepository->findAll()));
+        $this->assertEquals(7, count(self::$testVariableRepository->findAll()));
+        $this->assertEquals(1, count(self::$testWizardRepository->findAll()));
+        $this->assertEquals(1, count(self::$testWizardStepRepository->findAll()));
+        $this->assertEquals(2, count(self::$testWizardParamRepository->findAll()));
+        $this->assertEquals(3, count(self::$testNodeRepository->findAll()));
+        $this->assertEquals(4, count(self::$testNodePortRepository->findAll()));
+
+        /* IMPORT CONVERT TEST */
+
+        $client->request("POST", "/admin/Test/import", array(
+            "file" => "port_default_source.concerto.json",
+            "instructions" => '[{"id":1,"name":"source","class_name":"Test","action":"1","rename":"source","starter_content":false,"existing_object":true,"existing_object_name":"source","can_ignore":true},{"id":1,"name":"wizard","class_name":"TestWizard","action":"1","rename":"wizard","starter_content":false,"existing_object":true,"existing_object_name":"wizard","can_ignore":true},{"id":2,"name":"test","class_name":"Test","action":"1","rename":"test","starter_content":false,"existing_object":true,"existing_object_name":"test","can_ignore":true}]'
+        ));
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        //objects count
+        $this->assertEquals(3, count(self::$testRepository->findAll()));
+        $this->assertEquals(7, count(self::$testVariableRepository->findAll()));
+        $this->assertEquals(1, count(self::$testWizardRepository->findAll()));
+        $this->assertEquals(1, count(self::$testWizardStepRepository->findAll()));
+        $this->assertEquals(2, count(self::$testWizardParamRepository->findAll()));
+        $this->assertEquals(3, count(self::$testNodeRepository->findAll()));
+        $this->assertEquals(4, count(self::$testNodePortRepository->findAll()));
+
+        //changed objects
+        $this->assertNotNull(self::$testNodePortRepository->findOneBy(array("value" => "bbb", "defaultValue" => "0")), "simple type port value lost!");
+        $this->assertNotNull(self::$testNodePortRepository->findOneBy(array("value" => "[\"ccc\",\"ddd\",\"eee\"]", "defaultValue" => "0")), "complex type port value lost!");
+    }
+
+    public function testFlowConvertDuplicatePort()
+    {
         $client = self::createLoggedClient();
 
         /* IMPORT NEW TEST */
@@ -340,7 +403,8 @@ class ImportServiceTest extends AFunctionalTest {
         $this->assertEquals(1, $new_var_ports_count, "More than one new_var port!");
     }
 
-    public function testViewTemplateConvert() {
+    public function testViewTemplateConvert()
+    {
         $client = self::createLoggedClient();
 
         /* IMPORT NEW VIEW TEMPLATE */
@@ -408,7 +472,8 @@ class ImportServiceTest extends AFunctionalTest {
         $this->assertEquals(1, count(self::$viewTemplateRepository->findBy(array("name" => "view", "head" => "xxx", "css" => "yyy", "js" => "zzz", "html" => "qqq"))));
     }
 
-    public function testDataTableConvert() {
+    public function testDataTableConvert()
+    {
         $client = self::createLoggedClient();
 
         /* IMPORT NEW DATA TABLE */

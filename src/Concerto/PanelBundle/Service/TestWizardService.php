@@ -228,7 +228,7 @@ class TestWizardService extends AExportableSectionService
 
     protected function onConverted($user, $new_ent, $old_ent)
     {
-        $this->testWizardStepService->clear($old_ent->getId());
+        //$this->testWizardStepService->clear($old_ent->getId());
     }
 
 }
