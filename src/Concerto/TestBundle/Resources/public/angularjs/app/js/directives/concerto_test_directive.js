@@ -117,7 +117,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         }).success(function (response) {
                             if (settings.clientDebug)
                                 console.log("keep-alive ping");
-                            if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE)
+                            if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || response.code === RESPONSE_ERROR)
                                 $interval.cancel(keepAliveTimerPromise);
                         });
                     }, settings.keepAliveInterval * 1000);

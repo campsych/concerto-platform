@@ -1,5 +1,13 @@
-version: "5.0.beta.3.2"
+version: "5.0.beta.3.3"
 changelog:
+    - version: "5.0.beta.3.3"
+      description: >
+        Keep alive fix
+      categories:
+          - label: Fixes
+            changes:
+                - keep alive now stopped when test stopped on idle timeout
+
     - version: "5.0.beta.3.2"
       description: >
         Import performance improvements

@@ -274,6 +274,13 @@ class TestSessionService
             ));
         }
 
+        if($session->getStatus() !== TestSession::STATUS_RUNNING) {
+            return json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+
         $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
         if (!$test_node) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
