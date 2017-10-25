@@ -52,11 +52,6 @@ class TestNode extends AEntity implements \JsonSerializable {
     private $sourceTest;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="node", cascade={"remove"}, orphanRemoval=true)
-     */
-    private $ports;
-
-    /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="sourceNode", cascade={"remove"}, orphanRemoval=true)
      */
     private $sourceForConnections;
@@ -65,6 +60,11 @@ class TestNode extends AEntity implements \JsonSerializable {
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="destinationNode", cascade={"remove"}, orphanRemoval=true)
      */
     private $destinationForConnections;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="node", cascade={"remove"}, orphanRemoval=true)
+     */
+    private $ports;
 
     /**
      * Constructor

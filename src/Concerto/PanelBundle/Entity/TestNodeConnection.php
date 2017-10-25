@@ -25,7 +25,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
     /**
      * @ORM\ManyToOne(targetEntity="TestNodePort", inversedBy="sourceForConnections")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $sourcePort;
 
@@ -36,7 +35,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
     /**
      * @ORM\ManyToOne(targetEntity="TestNodePort", inversedBy="destinationForConnections")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $destinationPort;
 
