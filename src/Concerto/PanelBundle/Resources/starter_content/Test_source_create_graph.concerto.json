@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 201,
+                    "id": 207,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 202,
+                    "id": 208,
                     "name": "filename",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 203,
+                    "id": 209,
                     "name": "data",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 204,
+                    "id": 210,
                     "name": "x_name",
                     "type": 0,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 205,
+                    "id": 211,
                     "name": "y_name",
                     "type": 0,
                     "description": "",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 206,
+                    "id": 212,
                     "name": "x_label",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 207,
+                    "id": 213,
                     "name": "y_label",
                     "type": 0,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 208,
+                    "id": 214,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 209,
+                    "id": 215,
                     "name": "bar_colors",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 210,
+                    "id": 216,
                     "name": "x_numeric",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 211,
+                    "id": 217,
                     "name": "y_numeric",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 212,
+                    "id": 218,
                     "name": "address",
                     "type": 1,
                     "description": "<p>R list object containing three elements:<\/p>\n\n<ul>\n\t<li><strong>address$filename<\/strong><\/li>\n\t<li><strong>address$path<\/strong><\/li>\n\t<li><strong>address$url<\/strong><\/li>\n<\/ul>\n",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 213,
+                    "id": 219,
                     "name": "width",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 214,
+                    "id": 220,
                     "name": "height",
                     "type": 0,
                     "description": "",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 215,
+                    "id": 221,
                     "name": "output",
                     "type": 0,
                     "description": "",
@@ -183,7 +183,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:41",
+            "updatedOn": "2017-10-24 09:47:19",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

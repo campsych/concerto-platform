@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 468,
+                    "id": 479,
                     "name": "name",
                     "type": 0,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 469,
+                    "id": 480,
                     "name": "value",
                     "type": 1,
                     "description": "",
@@ -40,7 +40,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:46",
+            "updatedOn": "2017-10-24 09:47:30",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

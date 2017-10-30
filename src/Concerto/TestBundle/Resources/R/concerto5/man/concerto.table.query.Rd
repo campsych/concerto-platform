@@ -16,6 +16,9 @@ SQL query to perform.
   \item{params}{
 Named list with parameters.
 }
+  \item{n}{
+Maximum number of records to retrieve per fetch.
+}
 
 }
 \details{

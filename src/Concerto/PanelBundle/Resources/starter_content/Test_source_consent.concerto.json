@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 189,
+                    "id": 195,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 190,
+                    "id": 196,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 191,
+                    "id": 197,
                     "name": "consents",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 192,
+                    "id": 198,
                     "name": "button_label",
                     "type": 0,
                     "description": "<p>Label of continue button.<\/p>\n",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 193,
+                    "id": 199,
                     "name": "response",
                     "type": 1,
                     "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response<\/span><\/p>\n",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 194,
+                    "id": 200,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 195,
+                    "id": 201,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 196,
+                    "id": 202,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 197,
+                    "id": 203,
                     "name": "form_field_template",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 198,
+                    "id": 204,
                     "name": "form_field_checkbox_template",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 199,
+                    "id": 205,
                     "name": "form_alert_template",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 200,
+                    "id": 206,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -150,7 +150,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:41",
+            "updatedOn": "2017-10-24 09:47:18",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

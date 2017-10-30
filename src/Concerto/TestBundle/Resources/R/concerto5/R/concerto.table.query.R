@@ -1,5 +1,5 @@
 concerto.table.query <-
-function(sql, params=list()){
+function(sql, params=list(), n=-1){
   sql <- gsub("^\\s+|\\s+$", "", sql)
   sql <- concerto.table.insertParams(sql, params)
 
@@ -7,11 +7,11 @@ function(sql, params=list()){
   output <- NULL
   if(toupper(substring(sql, 1, 6)) == "SELECT") {
     result <- dbSendQuery(concerto$connection, sql)
-    output <- fetch(result, -1)
+    output <- fetch(result, n=n)
   } else if(toupper(substring(sql, 1, 6)) == "INSERT") {
     if(concerto$driver == "pdo_sqlsrv") {
          result <- dbSendQuery(concerto$connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
-         output <- fetch(result, n=-1)[1,1]
+         output <- fetch(result, n=1)[1,1]
          concerto$sqlsrv_last_insert_id <<- output
     } else {
         result <- dbSendStatement(concerto$connection, sql)

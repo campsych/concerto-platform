@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 325,
+                    "id": 331,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 326,
+                    "id": 332,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 327,
+                    "id": 333,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 328,
+                    "id": 334,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 329,
+                    "id": 335,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:42",
+            "updatedOn": "2017-10-24 09:47:21",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -93,7 +93,7 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 55,
+                    "id": 25,
                     "title": "Data bank",
                     "description": "<p>Session data bank definition<\/p>\n",
                     "orderNum": 0,
@@ -102,16 +102,16 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 220,
+                            "id": 87,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"\",\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 326,
+                            "testVariable": 332,
                             "name": "data_bank",
-                            "wizardStep": 55,
+                            "wizardStep": 25,
                             "stepTitle": "Data bank",
                             "order": 0,
                             "wizard": 13,
@@ -185,7 +185,7 @@
             ],
             "test": 25,
             "testName": "source_save_data",
-            "updatedOn": "2017-10-10 11:29:42",
+            "updatedOn": "2017-10-24 09:47:21",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -206,65 +206,65 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 330,
+                    "id": 336,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 26,
-                    "parentVariable": 325
+                    "parentVariable": 331
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 331,
+                    "id": 337,
                     "name": "data_bank",
                     "type": 0,
                     "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
                     "test": 26,
-                    "parentVariable": 326
+                    "parentVariable": 332
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 332,
+                    "id": 338,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 26,
-                    "parentVariable": 327
+                    "parentVariable": 333
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 333,
+                    "id": 339,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 26,
-                    "parentVariable": 328
+                    "parentVariable": 334
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 334,
+                    "id": 340,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 26,
-                    "parentVariable": 329
+                    "parentVariable": 335
                 }
             ],
             "sourceWizard": 13,
             "sourceWizardName": "save_data",
             "sourceWizardTest": 25,
             "sourceWizardTestName": "source_save_data",
-            "updatedOn": "2017-10-10 11:29:48",
+            "updatedOn": "2017-10-24 09:47:32",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -272,7 +272,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "ceb06d6c4fa29090d9a72640f75f07d4dd085ce4"
+            "hash": "b23502c9f2ae27ad92572541e1e7119ad10fea09"
         }
     ]
 }

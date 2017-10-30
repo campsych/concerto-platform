@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -9,13 +9,13 @@
             "archived": "0",
             "visibility": 2,
             "type": 0,
-            "code": "library(digest)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function(login_form) {\n  content = login_form$paragraph\n\n  if(!is.na(type) && type == \"table\") {\n    login_control = concerto.template.join(templateId=login_form$form_field_input, params=list(id=\"login\",name=\"login\",type=\"text\",value=\"\"))\n    password_control = concerto.template.join(templateId=login_form$form_field_input, params=list(id=\"password\",name=\"password\",type=\"password\",value=\"\"))\n    login = concerto.template.join(templateId=login_form$form_field, params=list(id=\"login\",label=\"login\",classes=\"\",control=login_control))\n    password = concerto.template.join(templateId=login_form$form_field, params=list(id=\"password\",label=\"password\",classes=\"\",control=password_control))\n    content = paste0(content, login, password)\n  }\n\n  return(content)\n}\n\nauthorizeUser = function(response) {\n  print(paste0(\"authorizing user: \",response$login))\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"direct\") {\n      users = ub$direct_table\n      if(length(users) > 0) {\n        for(i in 1:length(users)) {\n          user = users[[i]]\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE data_set_id = '{{data_set_id}}'\", list(\n        data_set_id = dbEscapeStrings(concerto$connection, toString(ub$data_set_id))\n      ))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = as.list(users[i,])\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}'\", list(\n        table=ub$custom_table$table, \n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id))\n      ))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = list(\n            id=users[i, \"id\"],\n            login=users[i, ub$custom_table$columns$login],\n            password=users[i, ub$custom_table$columns$password],\n            encryption=users[i, ub$custom_table$columns$encryption],\n            email=users[i,ub$custom_table$columns$email],\n            enabled=users[i, ub$custom_table$columns$enabled]\n          )\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    }\n  }\n  return(NULL)\n}\n\ncreateSession = function(user) {\n  sb = fromJSON(session_bank)\n  user_id = NULL\n  if(!is.null(user)) { user_id = user$id }\n\n  if(sb$table_type == \"default\") {\n    concerto.table.query(\"INSERT INTO default_session_table (internal_id, test_id, user_id, last_activity_time, started_time, finished) VALUES ('{{internal_id}}', {{test_id}}, '{{user_id}}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)\", list(\n      internal_id=concerto$session$id, \n      test_id=concerto$mainTest$id, \n      user_id=user_id\n    ))\n    return(as.list(concerto.table.query(\"SELECT * FROM default_session_table WHERE id={{id}}\", params=list(id=concerto.table.lastInsertId()))[1,]))\n  } \n  if(sb$table_type == \"custom\") {\n    concerto.table.query(\"INSERT INTO {{table}} ({{iternal_id_column}}, {{test_id_column}}, {{user_id_column}}, {{last_activity_time_column}}, {{started_time_column}}, {{finished_column}}) VALUES ('{{internal_id}}', {{test_id}}, '{{user_id}}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)\", list(\n      table=sb$custom_table$table, \n      iternal_id_column=sb$custom_table$columns$session_internal_id, \n      internal_id=concerto$session$id, \n      test_id_column=sb$custom_table$columns$test_id, \n      test_id=concerto$mainTest$id, \n      user_id_column=sb$custom_table$columns$user_id, \n      user_id=user_id,\n      last_activity_time_column=sb$custom_table$columns$last_activity_time,\n      started_time_column=sb$custom_table$columns$started_time,\n      finished_column=sb$custom_table$columns$finished,\n    ))\n    retur(as.list(concerto.table.query(\"SELECT * FROM {{table}} WHERE id={{id}}\", params=list(table=table, id=concerto.table.lastInsertId()))[1,]))\n  }\n}\n\nresumeSession = function(user) {\n  sb = fromJSON(session_bank)\n  user_id = NULL\n  if(!is.null(user)) { user_id = user$id }\n  \n  table = \"default_session_table\"\n  test_id_column = \"test_id\"\n  user_id_column = \"user_id\"\n  internal_id_column = \"internal_id\"\n  last_activity_time_column = \"last_activity_time\"\n  finished_column = \"finished\"\n  if(sb$table_type == \"custom\") {\n    table = sb$custom_table$table\n    test_id_column = sb$custom_table$columns$test_id\n    user_id_column = sb$custom_table$columns$user_id\n    internal_id_column = sb$custom_table$columns$internal_id\n    last_activity_time_column = sb$custom_table$columns$last_activity_time\n    finished_column = sb$custom_table$columns$finished\n  }\n\n  session = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{test_id_column}} = {{test_id}} AND {{user_id_column}} = '{{user_id}}' AND {{finished_column}} = 0 ORDER BY id DESC LIMIT 1\", list(\n      table=table, \n      test_id_column=test_id_column, \n      test_id=concerto$mainTest$id, \n      user_id_column=user_id_column, \n      user_id=user_id,\n      finished_column=finished_column\n  ))\n  if(dim(session)[1] == 0) {\n    return(NULL)\n  }\n  session = as.list(session)\n  session$previous_internal_id = session$internal_id\n  session$internal_id = concerto$session$id\n  \n  time_limit = as.numeric(resume_session_time_limit)\n  if(time_limit > 0) {\n  \ttime_diff = as.numeric(Sys.time()) - as.numeric(strptime(session$last_activity_time, \"%Y-%m-%d %H:%M:%S\"))\n    if(time_diff > time_limit) {\n      print(\"session resume time limit exceeded\")\n      return(NULL)\n    }\n  }\n  \n  concerto.table.query(\"UPDATE {{table}} SET {{internal_id_column}}='{{internal_id}}', {{last_activity_time_column}}=CURRENT_TIMESTAMP WHERE id={{id}}\", list(\n    table=table,\n    internal_id_column=internal_id_column,\n    internal_id=concerto$session$id,\n    id=session$id,\n    last_activity_time_column=last_activity_time_column\n  ))\n  \n  return(session)\n}\n\ndoesLoginExists = function(login) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE data_set_id = '{{data_set_id}}' AND login = '{{login}}'\", list(\n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}' AND {{login_column}} = '{{login}}'\", list(\n        table=ub$custom_table$table, \n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login_column=ub$custom_table$columns$login, \n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    }\n  }\n  return(FALSE)\n}\n\ncreateNewUser = function(login, password, email, enabled) {\n  print(paste0(\"creating new user: \",login))\n  ub = fromJSON(user_bank)\n  encryption = \"sha1\"\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"INSERT INTO default_user_table (data_set_id, login, password, encryption, email, enabled) VALUES ('{{data_set_id}}', '{{login}}', '{{password}}', '{{encryption}}', '{{email}}', '{{enabled}}')\", list(\n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"INSERT INTO {{table}} ({{data_set_id_column}}, {{login_column}}, {{password_column}}, {{encryption_column}}, {{email_column}}, {{enabled_column}}) VALUES ('{{data_set_id}}', '{{login}}', '{{password}}', '{{encryption}}', '{{email}}', '{{enabled}}')\", list(\n        table=ub$custom_table$name, \n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login_column=ub$custom_table$columns$login, \n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password_column=ub$custom_table$columns$password, \n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption_column=ub$custom_table$columns$encryption, \n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email_column=ub$custom_table$columns$email, \n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled_column=ub$custom_table$columns$enabled, \n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    }\n    return(concerto.table.lastInsertId())\n  }\n  return(NULL)\n}\n\nsendConfirmationMail = function(uid, email, smtp_host, smtp_port, sender, subject, paragraph, url, template){\n  library(mailR)\n\n  url = concerto.template.insertParams(url, params=list(ecuid=uid))\n  recipients = c(email)\n  body = concerto.template.join(templateId=template,params=list(url=url,paragraph=paragraph))\n\n  send.mail(\n    from = sender,\n    to = recipients,\n    subject = subject,\n    body = body,\n    smtp = list(host.name = smtp_host, port = smtp_port),\n    html = TRUE, \n    inline = TRUE,\n    authenticate = FALSE,\n    send = TRUE\n  )\n}\n\nenableUser = function(uid) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"UPDATE default_user_table SET enabled='{{enabled}}' WHERE data_set_id='{{data_set_id}}' AND id={{id}}\", list(\n        enabled=1,\n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        id=uid\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"UPDATE {{table}} SET {{enabled_column}}='{{enabled}}' WHERE {{data_set_id_column}}='{{data_set_id}}' AND id={{id}}'\", list(\n        table=ub$custom_table$table, \n        enabled_column=ub$custom_table$columns$enabled, \n        enabled=1,\n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        id=uid\n      ))\n    }\n  }\n}\n\nregistration = fromJSON(registration)\nregistration_form = fromJSON(registration_form)\n#email confirmation\nif(!is.na(ecuid) && !is.null(ecuid) && ecuid != \"\"){\n  enableUser(ecuid)\n  email_conf_success_page = fromJSON(email_conf_success_page)\n  concerto.template.show(decoded_template_def$layout, params=list(\n    header=decoded_template_def$header, \n    title=email_conf_success_page$title, \n    content=email_conf_success_page$content, \n    warning_msg=\"\", \n    buttons=\"\",\n    footer=decoded_template_def$footer\n  ))  \n}\n\nuser = NULL\nif(!is.na(type) && type==\"table\") {\n  email_confirmation_on = FALSE\n  login_form = fromJSON(login_form)\n  buttons = concerto.template.join(templateId=login_form$buttons_template,params=list(\n    label_login=login_form$login_button_label,\n    label_register=login_form$register_button_label,\n    show_register= if(registration_enabled == \"1\") {\"true\"} else {\"false\"}\n  ))\n  warning_msg = \"\"\n  response = NULL\n  while(T) {\n    content = getContent(login_form)\n    response = concerto.template.show(decoded_template_def$layout, params=list(\n      header=decoded_template_def$header, \n      title=login_form$title, \n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    ))  \n    if(response$buttonPressed == \"login\") {\n      user = authorizeUser(response)\n      if(is.null(user)) {\n        warning_msg = concerto.template.join(templateId=login_form$alert_template,params=list(alert=login_form$failed_alert))\n      } else {\n        break\n      }\n    }\n    if(response$buttonPressed == \"register\") {\n      reg_warning_msg = \"\"\n      result = NULL\n      while(T) {\n        result = concerto.test.run(registration$form_test, params=list(\n          template=decoded_template_def$layout,\n          header=decoded_template_def$header,\n          title=registration_form$title, \n          paragraph=registration_form$paragraph,\n          footer=decoded_template_def$footer,\n          form=toJSON(\n            list(\n              list(name=\"login\", definition=list(type=\"singleline\"), label=registration_form$login_label, validation=\"login!=''\", alert=registration_form$login_alert),\n              list(name=\"password\", definition=list(type=\"password\"), label=registration_form$password_label, validation=\"password!=''\", alert=registration_form$password_alert),\n              list(name=\"password_confirmation\", definition=list(type=\"password\"), label=registration_form$password_confirmation_label, validation=\"password==password_confirmation\", alert=registration_form$password_confirmation_alert),\n              list(name=\"email\", definition=list(type=\"singleline\"), label=registration_form$email_label, validation=\"email!=''\", alert=registration_form$email_alert)\n            )\n          ),\n          warning_msg = reg_warning_msg,\n          button_label=registration_form$register_button_label\n        ));\n\n        if(!doesLoginExists(result$response$login)) {\n          break\n        } else {\n          reg_warning_msg = registration_form$login_exists_alert\n        }\n      }\n      email_confirmation_on = registration$email_confirmation == \"1\"\n      enabled = \"1\"\n      if(email_confirmation_on) { \n        enabled == \"0\" \n      }\n      uid = createNewUser(result$response$login, result$response$password, result$response$email, enabled)\n      if(email_confirmation_on) { \n        email_conf_request_page = fromJSON(email_conf_request_page)\n        email_conf = fromJSON(email_confirmation)\n        sendConfirmationMail(uid, result$response$email, registration$ec_smtp$host, registration$ec_smtp$port, email_conf$sender, email_conf$subject, email_conf$paragraph, registration$ec_link, email_conf$template)\n\n        concerto.template.show(decoded_template_def$layout, params=list(\n          header=decoded_template_def$header, \n          title=email_conf_request_page$title, \n          content=email_conf_request_page$content, \n          warning_msg=\"\", \n          buttons=\"\",\n          footer=decoded_template_def$footer\n        )) \n      }\n      user = authorizeUser(list(login=result$response$login, password=result$response$password))\n      break\n    }\n  }\n}\nif(!is.na(type) && type==\"direct\") {\n  print(\"using direct user...\")\n  user = direct_user\n}\n\nsession = NULL\nif(resume_session == \"1\") {\n  session = resumeSession(user)\n  if(!is.null(session)) {\n    print(\"resuming session...\")\n    hash = concerto.table.query(\"SELECT hash FROM TestSession WHERE id={{id}}\", list(id=session$previous_internal_id))\n    print(hash)\n    file = gsub(concerto$session$hash, hash, concerto$sessionFile)\n    if(file.exists(file)) {\n    \tconcerto.session.restoreFlow(hash)\n    } else {\n      \tprint(\"session resume file not found\")\n      \tsession = NULL\n    }\n  }\n}\nif(is.null(session)) {\n  print(\"creating new session...\")\n  session = createSession(user)\n}",
+            "code": "library(digest)\n\nif(is.null(template_def) || is.na(template_def) || template_def == \"\") {\n  decoded_template_def = fromJSON(concerto.var.get(\"template_def\"))\n} else {\n  decoded_template_def = fromJSON(template_def)\n}\n\ngetContent = function(login_form) {\n  content = login_form$paragraph\n\n  if(!is.na(type) && type == \"table\") {\n    login_control = concerto.template.join(templateId=login_form$form_field_input, params=list(id=\"login\",name=\"login\",type=\"text\",value=\"\"))\n    password_control = concerto.template.join(templateId=login_form$form_field_input, params=list(id=\"password\",name=\"password\",type=\"password\",value=\"\"))\n    login = concerto.template.join(templateId=login_form$form_field, params=list(id=\"login\",label=\"login\",classes=\"\",control=login_control))\n    password = concerto.template.join(templateId=login_form$form_field, params=list(id=\"password\",label=\"password\",classes=\"\",control=password_control))\n    content = paste0(content, login, password)\n  }\n\n  return(content)\n}\n\nauthorizeUser = function(response) {\n  print(paste0(\"authorizing user: \",response$login))\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"direct\") {\n      users = ub$direct_table\n      if(length(users) > 0) {\n        for(i in 1:length(users)) {\n          user = users[[i]]\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE data_set_id = '{{data_set_id}}'\", list(\n        data_set_id = dbEscapeStrings(concerto$connection, toString(ub$data_set_id))\n      ))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = as.list(users[i,])\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}'\", list(\n        table=ub$custom_table$table, \n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id))\n      ))\n      if(dim(users)[1] > 0) {\n        for(i in 1:dim(users)[1]) {\n          user = list(\n            id=users[i, \"id\"],\n            login=users[i, ub$custom_table$columns$login],\n            password=users[i, ub$custom_table$columns$password],\n            encryption=users[i, ub$custom_table$columns$encryption],\n            email=users[i,ub$custom_table$columns$email],\n            enabled=users[i, ub$custom_table$columns$enabled]\n          )\n          hashed_pass = response$password\n          if(user$encryption != \"plain\") {\n            hashed_pass = digest(hashed_pass, user$encryption, serialize=F)\n          }\n          if(user$login == response$login && user$password == hashed_pass && user$enabled == 1) {\n            rm(users)\n            return(user)\n          }\n        }\n      }\n      rm(users)\n    }\n  }\n  return(NULL)\n}\n\ncreateSession = function(user) {\n  sb = fromJSON(session_bank)\n  user_id = NULL\n  if(!is.null(user)) { user_id = user$id }\n\n  if(sb$table_type == \"default\") {\n    concerto.table.query(\"INSERT INTO default_session_table (internal_id, test_id, user_id, last_activity_time, started_time, finished) VALUES ('{{internal_id}}', {{test_id}}, '{{user_id}}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)\", list(\n      internal_id=concerto$session$id, \n      test_id=concerto$mainTest$id, \n      user_id=user_id\n    ))\n    return(as.list(concerto.table.query(\"SELECT * FROM default_session_table WHERE id={{id}}\", params=list(id=concerto.table.lastInsertId()))[1,]))\n  } \n  if(sb$table_type == \"custom\") {\n    concerto.table.query(\"INSERT INTO {{table}} ({{iternal_id_column}}, {{test_id_column}}, {{user_id_column}}, {{last_activity_time_column}}, {{started_time_column}}, {{finished_column}}) VALUES ('{{internal_id}}', {{test_id}}, '{{user_id}}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)\", list(\n      table=sb$custom_table$table, \n      iternal_id_column=sb$custom_table$columns$session_internal_id, \n      internal_id=concerto$session$id, \n      test_id_column=sb$custom_table$columns$test_id, \n      test_id=concerto$mainTest$id, \n      user_id_column=sb$custom_table$columns$user_id, \n      user_id=user_id,\n      last_activity_time_column=sb$custom_table$columns$last_activity_time,\n      started_time_column=sb$custom_table$columns$started_time,\n      finished_column=sb$custom_table$columns$finished,\n    ))\n    retur(as.list(concerto.table.query(\"SELECT * FROM {{table}} WHERE id={{id}}\", params=list(table=table, id=concerto.table.lastInsertId()))[1,]))\n  }\n}\n\nresumeSession = function(user) {\n  sb = fromJSON(session_bank)\n  user_id = NULL\n  if(!is.null(user)) { user_id = user$id }\n  \n  table = \"default_session_table\"\n  test_id_column = \"test_id\"\n  user_id_column = \"user_id\"\n  internal_id_column = \"internal_id\"\n  last_activity_time_column = \"last_activity_time\"\n  finished_column = \"finished\"\n  if(sb$table_type == \"custom\") {\n    table = sb$custom_table$table\n    test_id_column = sb$custom_table$columns$test_id\n    user_id_column = sb$custom_table$columns$user_id\n    internal_id_column = sb$custom_table$columns$internal_id\n    last_activity_time_column = sb$custom_table$columns$last_activity_time\n    finished_column = sb$custom_table$columns$finished\n  }\n\n  session = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{test_id_column}} = {{test_id}} AND {{user_id_column}} = '{{user_id}}' AND {{finished_column}} = 0 ORDER BY id DESC\", list(\n      table=table, \n      test_id_column=test_id_column, \n      test_id=concerto$mainTest$id, \n      user_id_column=user_id_column, \n      user_id=user_id,\n      finished_column=finished_column\n  ), n=1)\n  if(dim(session)[1] == 0) {\n    return(NULL)\n  }\n  session = as.list(session)\n  session$previous_internal_id = session$internal_id\n  session$internal_id = concerto$session$id\n  \n  time_limit = as.numeric(resume_session_time_limit)\n  if(time_limit > 0) {\n  \ttime_diff = as.numeric(Sys.time()) - as.numeric(strptime(session$last_activity_time, \"%Y-%m-%d %H:%M:%S\"))\n    if(time_diff > time_limit) {\n      print(\"session resume time limit exceeded\")\n      return(NULL)\n    }\n  }\n  \n  concerto.table.query(\"UPDATE {{table}} SET {{internal_id_column}}='{{internal_id}}', {{last_activity_time_column}}=CURRENT_TIMESTAMP WHERE id={{id}}\", list(\n    table=table,\n    internal_id_column=internal_id_column,\n    internal_id=concerto$session$id,\n    id=session$id,\n    last_activity_time_column=last_activity_time_column\n  ))\n  \n  return(session)\n}\n\ndoesLoginExists = function(login) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"SELECT * FROM default_user_table WHERE data_set_id = '{{data_set_id}}' AND login = '{{login}}'\", list(\n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"SELECT * FROM {{table}} WHERE {{data_set_id_column}} = '{{data_set_id}}' AND {{login_column}} = '{{login}}'\", list(\n        table=ub$custom_table$table, \n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login_column=ub$custom_table$columns$login, \n        login=dbEscapeStrings(concerto$connection, toString(login))\n      ))\n      if(dim(users)[1] > 0) {\n        return(TRUE)\n      }\n    }\n  }\n  return(FALSE)\n}\n\ncreateNewUser = function(login, password, email, enabled) {\n  print(paste0(\"creating new user: \",login))\n  ub = fromJSON(user_bank)\n  encryption = \"sha1\"\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"INSERT INTO default_user_table (data_set_id, login, password, encryption, email, enabled) VALUES ('{{data_set_id}}', '{{login}}', '{{password}}', '{{encryption}}', '{{email}}', '{{enabled}}')\", list(\n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"INSERT INTO {{table}} ({{data_set_id_column}}, {{login_column}}, {{password_column}}, {{encryption_column}}, {{email_column}}, {{enabled_column}}) VALUES ('{{data_set_id}}', '{{login}}', '{{password}}', '{{encryption}}', '{{email}}', '{{enabled}}')\", list(\n        table=ub$custom_table$name, \n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        login_column=ub$custom_table$columns$login, \n        login=dbEscapeStrings(concerto$connection, toString(login)),\n        password_column=ub$custom_table$columns$password, \n        password=dbEscapeStrings(concerto$connection, toString(digest(password, encryption, serialize=F))),\n        encryption_column=ub$custom_table$columns$encryption, \n        encryption=dbEscapeStrings(concerto$connection, toString(encryption)),\n        email_column=ub$custom_table$columns$email, \n        email=dbEscapeStrings(concerto$connection, toString(email)),\n        enabled_column=ub$custom_table$columns$enabled, \n        enabled=dbEscapeStrings(concerto$connection, toString(enabled))\n      ))\n    }\n    return(concerto.table.lastInsertId())\n  }\n  return(NULL)\n}\n\nsendConfirmationMail = function(uid, email, smtp_host, smtp_port, sender, subject, paragraph, url, template){\n  library(mailR)\n\n  url = concerto.template.insertParams(url, params=list(ecuid=uid))\n  recipients = c(email)\n  body = concerto.template.join(templateId=template,params=list(url=url,paragraph=paragraph))\n\n  send.mail(\n    from = sender,\n    to = recipients,\n    subject = subject,\n    body = body,\n    smtp = list(host.name = smtp_host, port = smtp_port),\n    html = TRUE, \n    inline = TRUE,\n    authenticate = FALSE,\n    send = TRUE\n  )\n}\n\nenableUser = function(uid) {\n  ub = fromJSON(user_bank)\n\n  if(!is.na(type) && type == \"table\") {\n    if(ub$table_type == \"default\") {\n      users = concerto.table.query(\"UPDATE default_user_table SET enabled='{{enabled}}' WHERE data_set_id='{{data_set_id}}' AND id={{id}}\", list(\n        enabled=1,\n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        id=uid\n      ))\n    } \n    if(ub$table_type == \"custom\") {\n      users = concerto.table.query(\"UPDATE {{table}} SET {{enabled_column}}='{{enabled}}' WHERE {{data_set_id_column}}='{{data_set_id}}' AND id={{id}}'\", list(\n        table=ub$custom_table$table, \n        enabled_column=ub$custom_table$columns$enabled, \n        enabled=1,\n        data_set_id_column=ub$custom_table$columns$data_set_id, \n        data_set_id=dbEscapeStrings(concerto$connection, toString(ub$data_set_id)),\n        id=uid\n      ))\n    }\n  }\n}\n\nregistration = fromJSON(registration)\nregistration_form = fromJSON(registration_form)\n#email confirmation\nif(!is.na(ecuid) && !is.null(ecuid) && ecuid != \"\"){\n  enableUser(ecuid)\n  email_conf_success_page = fromJSON(email_conf_success_page)\n  concerto.template.show(decoded_template_def$layout, params=list(\n    header=decoded_template_def$header, \n    title=email_conf_success_page$title, \n    content=email_conf_success_page$content, \n    warning_msg=\"\", \n    buttons=\"\",\n    footer=decoded_template_def$footer\n  ))  \n}\n\nuser = NULL\nif(!is.na(type) && type==\"table\") {\n  email_confirmation_on = FALSE\n  login_form = fromJSON(login_form)\n  buttons = concerto.template.join(templateId=login_form$buttons_template,params=list(\n    label_login=login_form$login_button_label,\n    label_register=login_form$register_button_label,\n    show_register= if(registration_enabled == \"1\") {\"true\"} else {\"false\"}\n  ))\n  warning_msg = \"\"\n  response = NULL\n  while(T) {\n    content = getContent(login_form)\n    response = concerto.template.show(decoded_template_def$layout, params=list(\n      header=decoded_template_def$header, \n      title=login_form$title, \n      content=content, \n      warning_msg=warning_msg, \n      buttons=buttons,\n      footer=decoded_template_def$footer\n    ))  \n    if(response$buttonPressed == \"login\") {\n      user = authorizeUser(response)\n      if(is.null(user)) {\n        warning_msg = concerto.template.join(templateId=login_form$alert_template,params=list(alert=login_form$failed_alert))\n      } else {\n        break\n      }\n    }\n    if(response$buttonPressed == \"register\") {\n      reg_warning_msg = \"\"\n      result = NULL\n      while(T) {\n        result = concerto.test.run(registration$form_test, params=list(\n          template=decoded_template_def$layout,\n          header=decoded_template_def$header,\n          title=registration_form$title, \n          paragraph=registration_form$paragraph,\n          footer=decoded_template_def$footer,\n          form=toJSON(\n            list(\n              list(name=\"login\", definition=list(type=\"singleline\"), label=registration_form$login_label, validation=\"login!=''\", alert=registration_form$login_alert),\n              list(name=\"password\", definition=list(type=\"password\"), label=registration_form$password_label, validation=\"password!=''\", alert=registration_form$password_alert),\n              list(name=\"password_confirmation\", definition=list(type=\"password\"), label=registration_form$password_confirmation_label, validation=\"password==password_confirmation\", alert=registration_form$password_confirmation_alert),\n              list(name=\"email\", definition=list(type=\"singleline\"), label=registration_form$email_label, validation=\"email!=''\", alert=registration_form$email_alert)\n            )\n          ),\n          warning_msg = reg_warning_msg,\n          button_label=registration_form$register_button_label\n        ));\n\n        if(!doesLoginExists(result$response$login)) {\n          break\n        } else {\n          reg_warning_msg = registration_form$login_exists_alert\n        }\n      }\n      email_confirmation_on = registration$email_confirmation == \"1\"\n      enabled = \"1\"\n      if(email_confirmation_on) { \n        enabled == \"0\" \n      }\n      uid = createNewUser(result$response$login, result$response$password, result$response$email, enabled)\n      if(email_confirmation_on) { \n        email_conf_request_page = fromJSON(email_conf_request_page)\n        email_conf = fromJSON(email_confirmation)\n        sendConfirmationMail(uid, result$response$email, registration$ec_smtp$host, registration$ec_smtp$port, email_conf$sender, email_conf$subject, email_conf$paragraph, registration$ec_link, email_conf$template)\n\n        concerto.template.show(decoded_template_def$layout, params=list(\n          header=decoded_template_def$header, \n          title=email_conf_request_page$title, \n          content=email_conf_request_page$content, \n          warning_msg=\"\", \n          buttons=\"\",\n          footer=decoded_template_def$footer\n        )) \n      }\n      user = authorizeUser(list(login=result$response$login, password=result$response$password))\n      break\n    }\n  }\n}\nif(!is.na(type) && type==\"direct\") {\n  print(\"using direct user...\")\n  user = direct_user\n}\n\nsession = NULL\nif(resume_session == \"1\") {\n  session = resumeSession(user)\n  if(!is.null(session)) {\n    print(\"resuming session...\")\n    hash = concerto.table.query(\"SELECT hash FROM TestSession WHERE id={{id}}\", list(id=session$previous_internal_id))\n    print(hash)\n    file = gsub(concerto$session$hash, hash, concerto$sessionFile)\n    if(file.exists(file)) {\n    \tconcerto.session.restoreFlow(hash)\n    } else {\n      \tprint(\"session resume file not found\")\n      \tsession = NULL\n    }\n  }\n}\nif(is.null(session)) {\n  print(\"creating new session...\")\n  session = createSession(user)\n}",
             "outdated": "0",
             "description": "",
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 75,
+                    "id": 79,
                     "name": "success",
                     "type": 2,
                     "description": "<p>Authorization successful<\/p>\n",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 76,
+                    "id": 80,
                     "name": "type",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 77,
+                    "id": 81,
                     "name": "user",
                     "type": 1,
                     "description": "<p>Returned user object list:<\/p>\n\n<ul>\n\t<li><strong>user$id<\/strong>&nbsp;- user unique id<\/li>\n\t<li><strong>user$login&nbsp;<\/strong>- user login<\/li>\n<\/ul>\n",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 78,
+                    "id": 82,
                     "name": "user_bank",
                     "type": 0,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 79,
+                    "id": 83,
                     "name": "user_bank",
                     "type": 1,
                     "description": "",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 80,
+                    "id": 84,
                     "name": "session_bank",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 81,
+                    "id": 85,
                     "name": "session",
                     "type": 1,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 82,
+                    "id": 86,
                     "name": "session_bank",
                     "type": 1,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 83,
+                    "id": 87,
                     "name": "registration",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 84,
+                    "id": 88,
                     "name": "ecuid",
                     "type": 0,
                     "description": "<p>Email confirmation user id<\/p>\n",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 85,
+                    "id": 89,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 86,
+                    "id": 90,
                     "name": "login_form",
                     "type": 0,
                     "description": "",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 87,
+                    "id": 91,
                     "name": "registration_enabled",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 88,
+                    "id": 92,
                     "name": "registration_form",
                     "type": 0,
                     "description": "",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 89,
+                    "id": 93,
                     "name": "email_conf_request_page",
                     "type": 0,
                     "description": "",
@@ -180,7 +180,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 90,
+                    "id": 94,
                     "name": "email_conf_success_page",
                     "type": 0,
                     "description": "",
@@ -191,7 +191,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 91,
+                    "id": 95,
                     "name": "email_confirmation",
                     "type": 0,
                     "description": "",
@@ -202,7 +202,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 92,
+                    "id": 96,
                     "name": "new_session",
                     "type": 2,
                     "description": "",
@@ -213,7 +213,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 93,
+                    "id": 97,
                     "name": "resume_session",
                     "type": 0,
                     "description": "",
@@ -224,7 +224,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 94,
+                    "id": 98,
                     "name": "direct_user",
                     "type": 0,
                     "description": "",
@@ -235,7 +235,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 95,
+                    "id": 99,
                     "name": "resume_session_time_limit",
                     "type": 0,
                     "description": "",
@@ -249,15 +249,15 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:40",
-            "updatedBy": "",
+            "updatedOn": "2017-10-30 10:20:11",
+            "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "6e10ee488a1b0678cbdd427a8370bfb4b677ae08"
+            "hash": "b5f9a36fca498f29b6d2b04580ab4a90aef7d198"
         }
     ]
 }

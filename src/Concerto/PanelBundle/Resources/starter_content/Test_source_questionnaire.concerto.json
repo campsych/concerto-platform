@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 362,
+                    "id": 372,
                     "name": "answered",
                     "type": 2,
                     "description": "<p>Passed all pages of questions successfuly<\/p>\n",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 363,
+                    "id": 373,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 364,
+                    "id": 374,
                     "name": "next_button_label",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 365,
+                    "id": 375,
                     "name": "order",
                     "type": 0,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 366,
+                    "id": 376,
                     "name": "item_bank",
                     "type": 0,
                     "description": "",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 367,
+                    "id": 377,
                     "name": "items_per_page",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 368,
+                    "id": 378,
                     "name": "response_options",
                     "type": 0,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 369,
+                    "id": 379,
                     "name": "response_required",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 370,
+                    "id": 380,
                     "name": "no_response_alert",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 371,
+                    "id": 381,
                     "name": "can_go_back",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 372,
+                    "id": 382,
                     "name": "previous_button_label",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 373,
+                    "id": 383,
                     "name": "time_limit",
                     "type": 0,
                     "description": "",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 374,
+                    "id": 384,
                     "name": "response_bank",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 375,
+                    "id": 385,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Session R list object<\/p>\n",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 376,
+                    "id": 386,
                     "name": "out_of_time",
                     "type": 2,
                     "description": "<p>Run out of time<\/p>\n",
@@ -180,7 +180,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 377,
+                    "id": 387,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -191,7 +191,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 378,
+                    "id": 388,
                     "name": "scores",
                     "type": 1,
                     "description": "<p>R list of scores where each element is named after trait. For trait&nbsp;<strong>A<\/strong>,&nbsp;<strong>B<\/strong>&nbsp;will output:<\/p>\n\n<ul>\n\t<li><strong>scores$A<\/strong><\/li>\n\t<li><strong>scores$B<\/strong><\/li>\n<\/ul>\n",
@@ -202,7 +202,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 379,
+                    "id": 389,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -213,7 +213,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 380,
+                    "id": 390,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -224,7 +224,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 381,
+                    "id": 391,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
@@ -235,7 +235,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 382,
+                    "id": 392,
                     "name": "questionnaire_template",
                     "type": 0,
                     "description": "",
@@ -246,7 +246,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 383,
+                    "id": 393,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -260,7 +260,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:43",
+            "updatedOn": "2017-10-24 09:47:24",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

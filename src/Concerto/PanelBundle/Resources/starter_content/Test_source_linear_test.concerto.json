@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 216,
+                    "id": 222,
                     "name": "answered",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 217,
+                    "id": 223,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 218,
+                    "id": 224,
                     "name": "next_button_label",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 219,
+                    "id": 225,
                     "name": "previous_button_label",
                     "type": 0,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 220,
+                    "id": 226,
                     "name": "item_bank",
                     "type": 0,
                     "description": "",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 221,
+                    "id": 227,
                     "name": "response_bank",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 222,
+                    "id": 228,
                     "name": "stopping_time",
                     "type": 0,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 223,
+                    "id": 229,
                     "name": "stopping_item_count",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 224,
+                    "id": 230,
                     "name": "randomized_response_options",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 225,
+                    "id": 231,
                     "name": "order",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 226,
+                    "id": 232,
                     "name": "session",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 227,
+                    "id": 233,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 228,
+                    "id": 234,
                     "name": "response_required",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 229,
+                    "id": 235,
                     "name": "no_response_alert",
                     "type": 0,
                     "description": "",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 230,
+                    "id": 236,
                     "name": "scores",
                     "type": 1,
                     "description": "",
@@ -180,7 +180,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 231,
+                    "id": 237,
                     "name": "can_go_back",
                     "type": 0,
                     "description": "",
@@ -191,7 +191,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 232,
+                    "id": 238,
                     "name": "item_debug",
                     "type": 0,
                     "description": "<p><span style=\"line-height: 20.8px;\">1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/span><\/p>\n",
@@ -202,7 +202,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 233,
+                    "id": 239,
                     "name": "out_of_time",
                     "type": 2,
                     "description": "",
@@ -213,7 +213,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 234,
+                    "id": 240,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -224,7 +224,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 235,
+                    "id": 241,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -235,7 +235,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 236,
+                    "id": 242,
                     "name": "responses_layout",
                     "type": 0,
                     "description": "",
@@ -246,7 +246,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 237,
+                    "id": 243,
                     "name": "response_width",
                     "type": 0,
                     "description": "",
@@ -257,7 +257,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 238,
+                    "id": 244,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
@@ -268,7 +268,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 239,
+                    "id": 245,
                     "name": "linear_test_template",
                     "type": 0,
                     "description": "",
@@ -279,7 +279,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 240,
+                    "id": 246,
                     "name": "item_debug_template",
                     "type": 0,
                     "description": "",
@@ -290,7 +290,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 241,
+                    "id": 247,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -304,7 +304,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:41",
+            "updatedOn": "2017-10-24 09:47:19",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

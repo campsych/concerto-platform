@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.2",
+    "version": "5.0.beta.3.4",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 325,
+                    "id": 331,
                     "name": "out",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 326,
+                    "id": 332,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 327,
+                    "id": 333,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 328,
+                    "id": 334,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 329,
+                    "id": 335,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-10 11:29:42",
+            "updatedOn": "2017-10-24 09:47:21",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
