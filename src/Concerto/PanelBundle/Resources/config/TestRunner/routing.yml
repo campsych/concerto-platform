@@ -25,6 +25,11 @@ test_runner_session_keepalive:
     path: /test/session/{session_hash}/keepalive
     defaults: { _controller: concerto_panel.test_runner_controller:keepAliveSessionAction }
     methods:  [POST]
+
+test_runner_session_kill:
+    path: /test/session/{session_hash}/kill
+    defaults: { _controller: concerto_panel.test_runner_controller:killSessionAction }
+    methods:  [POST]
     
 test_runner_session_results:
     path: /test/session/{session_hash}/results

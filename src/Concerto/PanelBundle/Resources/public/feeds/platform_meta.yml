@@ -2,8 +2,11 @@ version: "5.0.beta.3.4"
 changelog:
     - version: "5.0.beta.3.4"
       description: >
-        concerto5 R package improvements
+        More efficient session management
       categories:
+          - label: Improvements
+            changes:
+                - kills session on window.beforeunload
           - label: R concerto5 package
             changes:
                 - added n argument to concerto.table.query

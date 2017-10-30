@@ -138,15 +138,19 @@ class StartProcessCommand extends Command {
         $this->log(__FUNCTION__, "listener ended");
     }
 
+    private function stopProcess($submitter_sock) {
+        $this->isSerializing = true;
+        $this->respondToProcess($submitter_sock, json_encode(array(
+            "source" => self::SOURCE_TEST_NODE,
+            "code" => self::RESPONSE_STOP
+        )));
+    }
+
     private function checkIdleTimeout($submitter_sock) {
         if (time() - $this->lastClientTime > $this->maxIdleTime && !$this->isSerializing) {
             $this->log(__FUNCTION__, "idle timeout reached");
 
-            $this->isSerializing = true;
-            $this->respondToProcess($submitter_sock, json_encode(array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_STOP
-            )));
+            $this->stopProcess($submitter_sock);
             return true;
         } else {
             return false;
@@ -157,11 +161,7 @@ class StartProcessCommand extends Command {
         if ($this->keepAliveIntervalTime > 0 && time() - $this->lastKeepAliveTime > $this->keepAliveIntervalTime + $this->keepAliveToleranceTime && !$this->isSerializing) {
             $this->log(__FUNCTION__, "keep alive timeout reached");
 
-            $this->isSerializing = true;
-            $this->respondToProcess($submitter_sock, json_encode(array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_STOP
-            )));
+            $this->stopProcess($submitter_sock);
             return true;
         } else {
             return false;
@@ -198,6 +198,10 @@ class StartProcessCommand extends Command {
                     $this->lastKeepAliveTime = time();
                     return false;
                 }
+            case self::RESPONSE_STOP: {
+                $this->stopProcess($submitter_sock);
+                return true;
+            }
         }
     }
 

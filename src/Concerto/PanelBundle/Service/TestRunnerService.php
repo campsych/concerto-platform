@@ -50,6 +50,14 @@ class TestRunnerService {
         return $response;
     }
 
+    public function killSession($session_hash, $node_id, $client_ip) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $client_ip");
+
+        $response = $this->sessionService->kill($session_hash, $client_ip, false);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - RESPONSE: $response");
+        return $response;
+    }
+
     public function resultsFromSession($session_hash, $node_id) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id");
 

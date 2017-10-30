@@ -23,6 +23,8 @@ class TestSessionService
     const RESPONSE_VIEW_TEMPLATE = 0;
     const RESPONSE_FINISHED = 1;
     const RESPONSE_SUBMIT = 2;
+    const RESPONSE_STOP = 3;
+    const RESPONSE_STOPPED = 4;
     const RESPONSE_VIEW_FINAL_TEMPLATE = 5;
     const RESPONSE_RESULTS = 7;
     const RESPONSE_AUTHENTICATION_FAILED = 8;
@@ -96,7 +98,7 @@ class TestSessionService
         }
 
         $test = $this->testRepository->findRunnableBySlug($test_slug);
-        if(!$test) {
+        if (!$test) {
             return json_encode(array(
                 "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_TEST_NOT_FOUND
@@ -274,7 +276,7 @@ class TestSessionService
             ));
         }
 
-        if($session->getStatus() !== TestSession::STATUS_RUNNING) {
+        if ($session->getStatus() !== TestSession::STATUS_RUNNING) {
             return json_encode(array(
                 "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_ERROR
@@ -307,6 +309,55 @@ class TestSessionService
         return $this->prepareResponse($session_hash, json_encode(array(
             "source" => self::SOURCE_PANEL_NODE,
             "code" => self::RESPONSE_KEEPALIVE_CHECKIN
+        )));
+    }
+
+    public function kill($session_hash, $client_ip, $calling_node_ip)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $calling_node_ip");
+
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
+        if (!$session) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - SESSION $session_hash NOT FOUND!");
+            return json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+
+        if ($session->getStatus() !== TestSession::STATUS_RUNNING) {
+            return json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
+        if (!$test_node) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . " NOT FOUND!");
+            return json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
+        if (!$test_node) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - TEST NODE " . $test_node["hash"] . "  $calling_node_ip AUTHENTICATION FAILED!");
+            return json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_AUTHENTICATION_FAILED
+            ));
+        }
+
+        $panel_node = $this->getLocalPanelNode();
+        $test_node_port = $session->getTestNodePort();
+
+        $this->killTestNode($test_node, $test_node_port, $panel_node, $client_ip);
+
+        return $this->prepareResponse($session_hash, json_encode(array(
+            "source" => self::SOURCE_PANEL_NODE,
+            "code" => self::RESPONSE_STOPPED
         )));
     }
 
@@ -470,6 +521,23 @@ class TestSessionService
         socket_write($sock, json_encode(array(
                 "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_KEEPALIVE_CHECKIN,
+                "panelNode" => array("sock_host" => $panel_node["sock_host"], "client_ip" => $client_ip)
+            )) . "\n");
+        socket_close($sock);
+    }
+
+    private function killTestNode($test_node, $test_node_port, $panel_node, $client_ip)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $client_ip");
+        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
+            return false;
+        }
+        if (socket_connect($sock, gethostbyname($test_node["sock_host"]), $test_node_port) === false) {
+            return false;
+        }
+        socket_write($sock, json_encode(array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_STOP,
                 "panelNode" => array("sock_host" => $panel_node["sock_host"], "client_ip" => $client_ip)
             )) . "\n");
         socket_close($sock);
