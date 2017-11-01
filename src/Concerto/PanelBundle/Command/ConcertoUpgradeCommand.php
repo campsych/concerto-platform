@@ -18,8 +18,8 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         parent::configure();
     }
 
-    protected function check(&$error) {
-        $check = parent::check($error);
+    protected function check(&$error, InputInterface $input) {
+        $check = parent::check($error, $input);
         if (!$check)
             return false;
 

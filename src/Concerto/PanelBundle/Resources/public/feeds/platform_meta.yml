@@ -6,6 +6,7 @@ changelog:
       categories:
           - label: Improvements
             changes:
+                - concerto:content:upgrade now have init-only option
                 - kills session on window.beforeunload
           - label: R concerto5 package
             changes:

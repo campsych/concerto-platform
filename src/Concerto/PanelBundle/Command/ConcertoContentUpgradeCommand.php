@@ -10,15 +10,32 @@ use Symfony\Component\Process\Process;
 use Concerto\PanelBundle\Entity\ScheduledTask;
 use DateTime;
 
-class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand {
+class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
+{
 
-    protected function configure() {
+    protected function configure()
+    {
         $this->setName("concerto:content:upgrade")->setDescription("Upgrades content to the latest local version.");
+
+        $this->addOption("init-only", null, InputOption::VALUE_NONE, "Perform import only when there is no starter content yet in the system", null);
 
         parent::configure();
     }
 
-    protected function getCommand(ScheduledTask $task, InputInterface $input) {
+    protected function check(&$error, InputInterface $input)
+    {
+        if (!parent::check($error, $input)) return false;
+
+        $service = $this->getContainer()->get("concerto_panel.Administration_service");
+        if ($input->getOption("init-only") && $service->getInstalledContentVersion()) {
+            $error = "init-only and content already installed";
+            return false;
+        }
+        return true;
+    }
+
+    protected function getCommand(ScheduledTask $task, InputInterface $input)
+    {
         $concerto_path = $this->getConcertoPath();
         $php_exec = $this->getContainer()->getParameter("test_runner_settings")["php_exec"];
         $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "console");
@@ -31,7 +48,8 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand {
         return $cmd;
     }
 
-    public function getTaskDescription(ScheduledTask $task) {
+    public function getTaskDescription(ScheduledTask $task)
+    {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $desc = $this->getContainer()->get('templating')->render("ConcertoPanelBundle:Administration:task_content_upgrade.html.twig", array(
             "current_version" => $service->getInstalledContentVersion(),
@@ -40,7 +58,8 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand {
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input) {
+    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $info = array_merge(parent::getTaskInfo($task, $input), array(
             "changelog" => json_encode($service->getIncrementalContentChangelog()),
@@ -49,7 +68,8 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand {
         return $info;
     }
 
-    public function getTaskType() {
+    public function getTaskType()
+    {
         return ScheduledTask::TYPE_CONTENT_UPGRADE;
     }
 

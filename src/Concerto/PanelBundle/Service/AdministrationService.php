@@ -92,6 +92,9 @@ class AdministrationService {
     }
 
     private function fetchFeed($url, $start_time) {
+        if (!$this->isOnline())
+            return;
+
         $raw_feed = file_get_contents($url);
         $feed = Yaml::parse($raw_feed);
         foreach ($feed["entries"] as $entry) {
@@ -280,11 +283,12 @@ class AdministrationService {
     }
 
     public function getIncrementalContentChangelog() {
+        $changelog = array();
+
         $url = realpath($this->rootDir . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "PanelBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "feeds") . DIRECTORY_SEPARATOR . "content_meta.yml";
         $raw_feed = file_get_contents($url);
         $feed = Yaml::parse($raw_feed);
 
-        $changelog = array();
         foreach ($feed["changelog"] as $version) {
             if (self::isContentVersionNewer($this->getInstalledContentVersion(), $version["version"])) {
                 array_push($changelog, $version);
