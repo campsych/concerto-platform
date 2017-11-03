@@ -22,13 +22,14 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
         parent::configure();
     }
 
-    protected function check(&$error, InputInterface $input)
+    protected function check(&$error, &$code, InputInterface $input)
     {
-        if (!parent::check($error, $input)) return false;
+        if (!parent::check($error, $code, $input)) return false;
 
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         if ($input->getOption("init-only") && $service->getInstalledContentVersion()) {
             $error = "init-only and content already installed";
+            $code = 0;
             return false;
         }
         return true;

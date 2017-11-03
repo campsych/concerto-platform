@@ -17,8 +17,8 @@ class ConcertoRestoreCommand extends ConcertoScheduledTaskCommand {
         parent::configure();
     }
 
-    protected function check(&$error, InputInterface $input) {
-        $check = parent::check($error, $input);
+    protected function check(&$error, &$code, InputInterface $input) {
+        $check = parent::check($error, $code, $input);
         if (!$check)
             return false;
 
@@ -28,12 +28,14 @@ class ConcertoRestoreCommand extends ConcertoScheduledTaskCommand {
         $backup_platform_path = $service->getBackupPlatformPath();
         if (!$backup_platform_path || !file_exists($backup_platform_path)) {
             $error = "files backup not found!";
+            $code = 1;
             return false;
         }
         //databse backup exists
         $backup_database_path = $service->getBackupDatabasePath();
         if (!$backup_database_path || !file_exists($backup_database_path)) {
             $error = "database backup not found!";
+            $code = 1;
             return false;
         }
         return true;

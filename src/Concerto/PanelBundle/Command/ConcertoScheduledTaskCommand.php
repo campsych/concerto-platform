@@ -23,7 +23,7 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
         $this->addOption("backup", null, InputOption::VALUE_NONE, "Perform backup and use it as restore point when content upgrade task will fail.", null);
     }
 
-    protected function check(&$error, InputInterface $input) {
+    protected function check(&$error, &$code, InputInterface $input) {
         return $this->getContainer()->get("concerto_panel.Administration_service")->isUpdatePossible($error);
     }
 
@@ -75,9 +75,9 @@ abstract class ConcertoScheduledTaskCommand extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $output->writeln("checking...");
-        if (!$this->check($error, $input)) {
+        if (!$this->check($error, $code, $input)) {
             $output->writeln($error);
-            return 1;
+            return $code;
         }
         $output->writeln("checks passed");
 

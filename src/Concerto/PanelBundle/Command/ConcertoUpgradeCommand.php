@@ -18,8 +18,8 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         parent::configure();
     }
 
-    protected function check(&$error, InputInterface $input) {
-        $check = parent::check($error, $input);
+    protected function check(&$error, &$code, InputInterface $input) {
+        $check = parent::check($error, $code, $input);
         if (!$check)
             return false;
 
@@ -29,7 +29,8 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $cmd = 'command -v curl >/dev/null 2>&1 || { exit 1; }';
         system($cmd, $return_var);
         if ($return_var !== 0) {
-            $error_message = "no curl found!";
+            $error = "no curl found!";
+            $code = 1;
             return false;
         }
 
@@ -37,7 +38,8 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $cmd = 'command -v git >/dev/null 2>&1 || { exit 1; }';
         system($cmd, $return_var);
         if ($return_var !== 0) {
-            $error_message = "no git found!";
+            $error = "no git found!";
+            $code = 1;
             return false;
         }
 
@@ -45,7 +47,8 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $cmd = 'command -v bower >/dev/null 2>&1 || { exit 1; }';
         system($cmd, $return_var);
         if ($return_var !== 0) {
-            $error_message = "no bower found!";
+            $error = "no bower found!";
+            $code = 1;
             return false;
         }
         return true;
