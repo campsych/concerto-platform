@@ -105,11 +105,12 @@ class DBStructureDAO
         if ($type == "string") {
             $options["length"] = 1024;
         }
+        if (array_key_exists($type, self::$type_defaults)) {
+            $options["default"] = self::$type_defaults[$type];
+        }
 
         $tableDiff = new TableDiff($table_name);
         $newColumn = new Column($name, Type::getType($type), $options);
-        if (array_key_exists($type, self::$type_defaults))
-            $newColumn->setDefault(self::$type_defaults[$type]);
         if ($column_name === "0") {
             $tableDiff->addedColumns = array($newColumn);
         } else {
