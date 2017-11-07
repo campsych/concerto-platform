@@ -12,8 +12,23 @@ use Psr\Log\LoggerInterface;
 
 class DBStructureDAO
 {
-
     const SQLCODE_COLUMN_CANNOT_BE_CAST_AUTOMATICALLY = '42804';
+
+    // keys are doctrine types, rather than SQL or PHP ones
+    private static $type_defaults = array(
+        'smallint' => 0,
+        'bigint' => 0,
+        'integer' => 0,
+        'boolean' => 0,
+        'decimal' => 0.0,
+        'float' => 0.0,
+        //date
+        //datetime
+        //json_array
+        'text' => '',
+        'string' => ''
+    );
+
     private $connection;
     private $logger;
 
@@ -93,6 +108,8 @@ class DBStructureDAO
 
         $tableDiff = new TableDiff($table_name);
         $newColumn = new Column($name, Type::getType($type), $options);
+        if (array_key_exists($type, self::$type_defaults))
+            $newColumn->setDefault(self::$type_defaults[$type]);
         if ($column_name === "0") {
             $tableDiff->addedColumns = array($newColumn);
         } else {
