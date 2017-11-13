@@ -20,8 +20,7 @@ function DataTableStructureSaveController($scope, $uibModalInstance, $http, tabl
         {label: "date", value: "date"},
         {label: "datetime", value: "datetime"},
         {label: "text", value: "text"},
-        {label: "float", value: "float"},
-        {label: "json_array", value: "json_array"}
+        {label: "float", value: "float"}
     ];
 
     if ($scope.object.id === 0) {

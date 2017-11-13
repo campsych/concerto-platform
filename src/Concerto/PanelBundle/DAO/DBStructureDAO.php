@@ -20,13 +20,12 @@ class DBStructureDAO
         'bigint' => 0,
         'integer' => 0,
         'boolean' => 0,
-        'decimal' => 0.0,
-        'float' => 0.0,
-        //date
-        //datetime
-        //json_array
-        'text' => '',
-        'string' => ''
+        'decimal' => 0,
+        'float' => 0,
+        'date' => "20000101",
+        'datetime' => "20000101",
+        'text' => "",
+        'string' => ""
     );
 
     private $connection;
@@ -66,10 +65,13 @@ class DBStructureDAO
             if ($col["type"] == "string") {
                 $options["length"] = 1024;
             }
-            $column_definition = $table->addColumn($col["name"], $col["type"], $options);
+            if (array_key_exists($col["type"], self::$type_defaults)) {
+                $options["default"] = self::$type_defaults[$col["type"]];
+            }
+            $table->addColumn($col["name"], $col["type"], $options);
         }
 
-        $sql = $schema->getMigrateFromSql(new Schema(), $this->connection->getDatabasePlatform());
+        $sql = $schema->toSql($this->connection->getDatabasePlatform());
         foreach ($sql as $query) {
             $this->connection->executeQuery($query);
         }
@@ -140,7 +142,7 @@ class DBStructureDAO
 
     public function deleteTable($table_name)
     {
-        $fromSchema = $this->connection->getSchemaManager()->dropTable($table_name);
+        $this->connection->getSchemaManager()->dropTable($table_name);
     }
 
     public function getTableNames()

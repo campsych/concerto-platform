@@ -104,11 +104,20 @@ class DBDataDAO
 
     public function addBlankRow($table_name)
     {
-        // with pgsql doctrine attempts to execute nonsense like: "INSERT INTO main_table () VALUES ()"
-        if ($this->connection->getDriver()->getName() == 'pdo_pgsql')
-            $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
-        else
-            $this->connection->insert($table_name, array());
+        $driver = $this->connection->getDriver()->getName();
+        switch($driver) {
+            case 'pdo_pgsql': {
+                $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
+                break;
+            }
+            case 'pdo_sqlsrv': {
+                $this->connection->query('INSERT INTO ' . $table_name . ' DEFAULT VALUES ');
+                break;
+            }
+            default:
+                $this->connection->insert($table_name, array());
+                break;
+        }
 
         return array();
     }
