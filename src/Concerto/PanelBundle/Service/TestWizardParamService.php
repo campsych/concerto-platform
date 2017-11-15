@@ -271,7 +271,7 @@ class TestWizardParamService extends ASectionService {
         foreach ($newParam->getWizard()->getResultingTests() as $test) {
             foreach ($test->getVariables() as $var) {
                 $pvar = $var->getParentVariable();
-                if ($newParam->getVariable()->getId() == $pvar->getId()) {
+                if ($pvar !== null && $newParam->getVariable()->getId() == $pvar->getId()) {
                     $dstVal = $var->getValue();
                     if (!in_array($oldType, self::$simpleTypes)) {
                         $dstVal = json_decode($dstVal, true);

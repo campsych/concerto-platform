@@ -11,6 +11,7 @@ use Concerto\PanelBundle\Entity\Test;
  */
 class TestSessionLog extends AEntity implements \JsonSerializable {
 
+    const TYPE_SYSTEM = 2;
     const TYPE_R = 1;
     const TYPE_JS = 0;
 

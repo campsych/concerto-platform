@@ -6,8 +6,9 @@
     {{ include("ConcertoTestBundle::loading_template.html.twig") }}
     {{ include("ConcertoTestBundle::unresumable_template.html.twig") }}
     {{ include("ConcertoTestBundle::test_container.html.twig") }}
-    {{ include("ConcertoTestBundle::session_limit_reached.html.twig") }}
-    {{ include("ConcertoTestBundle::test_not_found.html.twig") }}
+    {{ include("ConcertoTestBundle::session_limit_reached_template.html.twig") }}
+    {{ include("ConcertoTestBundle::test_not_found_template.html.twig") }}
+    {{ include("ConcertoTestBundle::session_lost_template.html.twig") }}
     <div ng-controller="testRunnerController" id="testContainer" ng-init="init('{{ node_id }}', '{{directory}}', '{{ test_slug }}', '{{ params }}', {% if debug %}true{% else %}false{% endif %}, {{ keep_alive_interval }})">
         <div class="center">
             <table>

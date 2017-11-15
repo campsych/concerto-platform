@@ -11,3 +11,4 @@ default.template:
     unresumable: This session can not be resumed.
     session_limit_reached: Sorry, this test has too many users right now. Please try again later.
     test_not_found: Test not found.
+    session_lost: Session lost. Please refresh the test.

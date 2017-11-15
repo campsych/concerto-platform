@@ -4,8 +4,13 @@ changelog:
       description: >
         SQL server fixes
       categories:
+          - label: Improvements
+            changes:
+                - more prod env error logs
+                - disabled 404 prod env error logs
           - label: Fixes
             changes:
+                - prevented possibility of some nasty socket lockup
                 - fixed inserting new rows to data table
     - version: "5.0.beta.3.5"
       description: >

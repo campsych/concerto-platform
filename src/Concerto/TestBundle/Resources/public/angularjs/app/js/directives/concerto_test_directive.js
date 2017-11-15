@@ -37,6 +37,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var RESPONSE_UNRESUMABLE = 11;
       var RESPONSE_SESSION_LIMIT_REACHED = 12;
       var RESPONSE_TEST_NOT_FOUND = 13;
+      var RESPONSE_SESSION_LOST = 14;
       var RESPONSE_ERROR = -1;
       var SOURCE_PANEL_NODE = 0;
       var SOURCE_PROCESS = 1;
@@ -52,8 +53,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         unresumableHtml: $templateCache.get("unresumable_template.html"),
         finishedHtml: $templateCache.get("finished_template.html"),
         errorHtml: $templateCache.get("error_template.html"),
-        sessionLimitReachedHtml: $templateCache.get("session_limit_reached.html"),
-        testNotFoundHtml: $templateCache.get("test_not_found.html"),
+        sessionLimitReachedHtml: $templateCache.get("session_limit_reached_template.html"),
+        testNotFoundHtml: $templateCache.get("test_not_found_template.html"),
+        sessionLostHtml: $templateCache.get("session_lost_template.html"),
         loaderHtml: $templateCache.get("loading_template.html"),
         timeFormat: "HH:mm:ss",
         callback: null,
@@ -130,7 +132,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }).success(function (response) {
               if (settings.clientDebug)
                 console.log("keep-alive ping");
-              if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || response.code === RESPONSE_ERROR)
+              if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || response.code !== RESPONSE_KEEPALIVE_CHECKIN)
                 $interval.cancel(keepAliveTimerPromise);
             });
           }, settings.keepAliveInterval * 1000);
@@ -314,6 +316,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
               break;
             case RESPONSE_TEST_NOT_FOUND:
               html = settings.testNotFoundHtml;
+              break;
+            case RESPONSE_SESSION_LOST:
+              html = settings.sessionLostHtml;
               break;
           }
           displayState = DISPLAY_VIEW_SHOWN;

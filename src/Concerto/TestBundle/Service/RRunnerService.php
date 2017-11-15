@@ -71,7 +71,7 @@ class RRunnerService
             $panel_node = json_encode($panel_node);
             $this->startProcess($panel_node, $panel_node_connection, $client, $session_hash, $values, $debug);
         } else {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - NODE $calling_node_ip / $panel_node_hash AUTHENTICATION FAILED!");
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - node $calling_node_ip / $panel_node_hash authentication failed.");
             $response["code"] = TestSessionService::RESPONSE_SESSION_LIMIT_REACHED;
         }
         return $response;
