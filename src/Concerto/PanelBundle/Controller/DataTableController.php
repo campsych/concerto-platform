@@ -65,6 +65,7 @@ class DataTableController extends AExportableTabController {
     }
 
     protected function getStreamingDataCollectionResponse($table_id, $prefixed = 0) {
+        set_time_limit(0);
         self::$stream_param_data_collection_action_prefixed = $prefixed;
         self::$stream_param_data_collection_action_table_id = $table_id;
         $response = new StreamedResponse();

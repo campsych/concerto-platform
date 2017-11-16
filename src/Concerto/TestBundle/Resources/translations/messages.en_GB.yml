@@ -12,3 +12,4 @@ default.template:
     session_limit_reached: Sorry, this test has too many users right now. Please try again later.
     test_not_found: Test not found.
     session_lost: Session lost. Please refresh the test.
+    connection_retry: Connection problem detected. Retrying in [[retryTimeLeft]] second(s). Please wait...

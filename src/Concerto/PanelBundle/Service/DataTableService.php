@@ -185,6 +185,7 @@ class DataTableService extends AExportableSectionService
                     }
                 }
                 echo json_encode($row);
+                ob_flush();
                 flush();
                 $j++;
             }

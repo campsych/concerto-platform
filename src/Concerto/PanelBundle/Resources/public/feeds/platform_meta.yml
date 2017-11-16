@@ -2,8 +2,11 @@ version: "5.0.beta.3.6"
 changelog:
     - version: "5.0.beta.3.6"
       description: >
-        SQL server fixes
+        Test connection retries on poor internet connection
       categories:
+          - label: New features
+            changes:
+                - test connection retries on poor internet connection
           - label: Improvements
             changes:
                 - more prod env error logs

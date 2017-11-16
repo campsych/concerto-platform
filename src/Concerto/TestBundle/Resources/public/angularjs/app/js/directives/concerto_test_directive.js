@@ -56,6 +56,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         sessionLimitReachedHtml: $templateCache.get("session_limit_reached_template.html"),
         testNotFoundHtml: $templateCache.get("test_not_found_template.html"),
         sessionLostHtml: $templateCache.get("session_lost_template.html"),
+        connectionRetryHtml: $templateCache.get("connection_retry_template.html"),
         loaderHtml: $templateCache.get("loading_template.html"),
         timeFormat: "HH:mm:ss",
         callback: null,
@@ -65,12 +66,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var timeLimit = 0;
       var timer = 0;
       var timerId;
+      var retryTimeTotal = 15;
+      var retryTimer = 0;
+      var retryTimerId;
       var keepAliveTimerPromise;
       var displayState = DISPLAY_UNKNOWN;
       var isViewReady = false;
       var lastResponseTime = 0;
       var lastResponse = null;
       scope.timeLeft = "";
+      scope.retryTimeLeft = "";
 
       scope.html = settings.loaderHtml;
       scope.fileUploader = new FileUploader();
@@ -108,6 +113,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       function clearTimer() {
         $interval.cancel(timerId);
         $interval.cancel(keepAliveTimerPromise);
+        $interval.cancel(retryTimerId);
       }
 
       function initializeTimer() {
@@ -251,7 +257,44 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           if (settings.callback != null) {
             settings.callback.call(this, response, settings.hash);
           }
+        }).error(function (error, status) {
+          if (status === -1) {
+            if (settings.clientDebug)
+              console.log("connection failed");
+            showConnectionProblems(btnName, isTimeout, passedVals, values);
+          }
         });
+      }
+
+      function showConnectionProblems(btnName, isTimeout, passedVals, values) {
+        initializeRetryTimer(btnName, isTimeout, passedVals, values);
+        scope.html = settings.connectionRetryHtml;
+      }
+
+      function initializeRetryTimer(btnName, isTimeout, passedVals, values) {
+        if (retryTimeTotal > 0) {
+          if (settings.clientDebug)
+            console.log("connection retry in " + retryTimeTotal + " secs");
+          retryTimer = retryTimeTotal;
+          scope.retryTimeLeft = retryTimer;
+          retryTimerId = $interval(function () {
+            retryTimeTick(btnName, isTimeout, passedVals, values);
+          }, 1000);
+        } else {
+          scope.retryTimeLeft = "";
+        }
+      }
+
+      function retryTimeTick(btnName, isTimeout, passedVals, values) {
+        if (retryTimer > 0) {
+          retryTimer--;
+          scope.retryTimeLeft = retryTimer;
+          if (retryTimer === 0) {
+            clearTimer();
+            hideView();
+            submitViewPostValueGetter(btnName, isTimeout, passedVals, values);
+          }
+        }
       }
 
       testRunner.submitView = scope.submitView;
