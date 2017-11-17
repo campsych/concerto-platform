@@ -1,5 +1,5 @@
 concerto.session.update = function(returns=list()){
-  print("updating session...")
+  concerto.log("updating session...")
 
   if(concerto$session$template_id == 0 || !is.null(concerto$session$template_id) && is.na(concerto$session$template_id) || is.null(concerto$session$template_id)) concerto$session$template_id <<- "NULL"
   if(concerto$session$loader_id == 0 || !is.null(concerto$session$loader_id) && is.na(concerto$session$loader_id) || is.null(concerto$session$loader_id)) concerto$session$loader_id <<- "NULL"

@@ -88,11 +88,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           angular.element("#testHtml").empty().append(newValue);
           $compile(element.contents())(scope);
         } catch (e) {
-          $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
-            node_id: settings.nodeId,
-            error: e.toString()
-          });
-          console.error(e);
+          scope.logClientSideError(e.toString());
         }
 
         if (displayState === DISPLAY_VIEW_SHOWN && lastResponse != null && lastResponse.code === RESPONSE_VIEW_TEMPLATE) {
@@ -101,6 +97,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           addSubmitEvents();
         }
       });
+
+      scope.logClientSideError = function(error){
+        $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
+          node_id: settings.nodeId,
+          error: error
+        });
+        console.error(error);
+      };
 
       function joinHtml(css, js, html) {
         if (js != null)
@@ -297,8 +301,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
       }
 
-      testRunner.submitView = scope.submitView;
-
       function getResults() {
         if (settings.clientDebug)
           console.log("result");
@@ -484,6 +486,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
       if (settings.clientDebug)
         console.log("invalid options");
+
+      testRunner.submitView = scope.submitView;
+      testRunner.logClientSideError = scope.logClientSideError;
     }
 
     return {

@@ -2,6 +2,7 @@
 
 namespace Concerto\TestBundle\Command;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -9,7 +10,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class StartProcessCommand extends Command {
+class StartProcessCommand extends Command
+{
 
     const OS_WIN = 0;
     const OS_LINUX = 1;
@@ -48,9 +50,26 @@ class StartProcessCommand extends Command {
     private $logPath;
     private $rLogPath;
     private $rEnviron;
+
+    /**
+     * @var OutputInterface $output
+     */
     private $output;
 
-    protected function configure() {
+    /**
+     * @var LoggerInterface $logger
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        parent::__construct();
+
+        $this->logger = $logger;
+    }
+
+    protected function configure()
+    {
         $this->isSerializing = false;
         $this->isDebug = false;
         $this->debugOffset = 0;
@@ -76,40 +95,55 @@ class StartProcessCommand extends Command {
         $this->addOption("r_environ", "renv", InputOption::VALUE_OPTIONAL, "R Renviron file path", null);
     }
 
-    private function log($fun, $msg = null) {
-        $this->output->write(__CLASS__ . ":" . $fun . ($msg ? " - $msg" : ""), true);
+    private function log($fun, $msg = null, $error = false)
+    {
+
+        $this->output->write("[" . date("Y-m-d H:i:s") . "] " . $fun . ($msg ? " - $msg" : ""), true);
+        if ($error) {
+            $this->logger->error(__CLASS__ . ":" . $fun . " " . $msg);
+        }
     }
 
-    private function createListenerSocket() {
+    private function createListenerSocket()
+    {
         $this->log(__FUNCTION__);
 
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
+            $this->log(__FUNCTION__, "socket_create() failed, listener socket, " . socket_strerror(socket_last_error()), true);
             return false;
         }
         if (socket_bind($sock, "0.0.0.0") === false) {
+            socket_close($sock);
+            $this->log(__FUNCTION__, "socket_bind() failed, listener socket, " . socket_strerror(socket_last_error($sock)), true);
             return false;
         }
         if (socket_listen($sock, SOMAXCONN) === false) {
+            socket_close($sock);
+            $this->log(__FUNCTION__, "socket_listen() failed, listener socket, " . socket_strerror(socket_last_error($sock)), true);
             return false;
         }
         socket_set_nonblock($sock);
         return $sock;
     }
 
-    private function createPanelNodeResponseSocket() {
+    private function createPanelNodeResponseSocket()
+    {
         $this->log(__FUNCTION__);
 
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
+            $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
             return false;
         }
         if (socket_connect($sock, gethostbyname($this->panelNode->sock_host), $this->panelNode->port) === false) {
-            $this->log(__FUNCTION__, "socket_connect failed: " . socket_strerror(socket_last_error()));
+            socket_close($sock);
+            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
             return false;
         }
         return $sock;
     }
 
-    private function startListener($server_sock, $submitter_sock) {
+    private function startListener($server_sock, $submitter_sock)
+    {
         $this->log(__FUNCTION__);
 
         $this->lastClientTime = time();
@@ -138,7 +172,8 @@ class StartProcessCommand extends Command {
         $this->log(__FUNCTION__, "listener ended");
     }
 
-    private function stopProcess($submitter_sock) {
+    private function stopProcess($submitter_sock)
+    {
         $this->isSerializing = true;
         $this->respondToProcess($submitter_sock, json_encode(array(
             "source" => self::SOURCE_TEST_NODE,
@@ -146,7 +181,8 @@ class StartProcessCommand extends Command {
         )));
     }
 
-    private function checkIdleTimeout($submitter_sock) {
+    private function checkIdleTimeout($submitter_sock)
+    {
         if (time() - $this->lastClientTime > $this->maxIdleTime && !$this->isSerializing) {
             $this->log(__FUNCTION__, "idle timeout reached");
 
@@ -157,7 +193,8 @@ class StartProcessCommand extends Command {
         }
     }
 
-    private function checkKeepAliveTimeout($submitter_sock) {
+    private function checkKeepAliveTimeout($submitter_sock)
+    {
         if ($this->keepAliveIntervalTime > 0 && time() - $this->lastKeepAliveTime > $this->keepAliveIntervalTime + $this->keepAliveToleranceTime && !$this->isSerializing) {
             $this->log(__FUNCTION__, "keep alive timeout reached");
 
@@ -168,36 +205,38 @@ class StartProcessCommand extends Command {
         }
     }
 
-    private function interpretMessage($submitter_sock, $message) {
+    private function interpretMessage($submitter_sock, $message)
+    {
         $this->log(__FUNCTION__, $message);
 
         $msg = json_decode($message);
         switch ($msg->source) {
             case self::SOURCE_PROCESS: {
-                    return $this->interpretProcessMessage($message);
-                }
+                return $this->interpretProcessMessage($message);
+            }
             case self::SOURCE_PANEL_NODE: {
-                    return $this->interpretPanelNodeMessage($submitter_sock, $message);
-                }
+                return $this->interpretPanelNodeMessage($submitter_sock, $message);
+            }
         }
     }
 
-    private function interpretPanelNodeMessage($submitter_sock, $message) {
+    private function interpretPanelNodeMessage($submitter_sock, $message)
+    {
         $this->log(__FUNCTION__, $message);
 
         $msg = json_decode($message);
         switch ($msg->code) {
             case self::RESPONSE_SUBMIT: {
-                    $this->panelNode = $msg->panelNode;
-                    $this->lastClientTime = time();
-                    $this->lastKeepAliveTime = time();
-                    $this->respondToProcess($submitter_sock, $message);
-                    return false;
-                }
+                $this->panelNode = $msg->panelNode;
+                $this->lastClientTime = time();
+                $this->lastKeepAliveTime = time();
+                $this->respondToProcess($submitter_sock, $message);
+                return false;
+            }
             case self::RESPONSE_KEEPALIVE_CHECKIN: {
-                    $this->lastKeepAliveTime = time();
-                    return false;
-                }
+                $this->lastKeepAliveTime = time();
+                return false;
+            }
             case self::RESPONSE_STOP: {
                 $this->stopProcess($submitter_sock);
                 return true;
@@ -205,29 +244,31 @@ class StartProcessCommand extends Command {
         }
     }
 
-    private function interpretProcessMessage($message) {
+    private function interpretProcessMessage($message)
+    {
         $this->log(__FUNCTION__, $message);
 
         $msg = json_decode($message, true);
         switch ($msg["code"]) {
             case self::RESPONSE_VIEW_TEMPLATE: {
-                    $this->respondToPanelNode($message);
-                    return false;
-                }
+                if(!$this->respondToPanelNode($message)) return true;
+                return false;
+            }
             case self::RESPONSE_UNRESUMABLE:
             case self::RESPONSE_ERROR:
             case self::RESPONSE_FINISHED:
             case self::RESPONSE_VIEW_FINAL_TEMPLATE: {
-                    $this->respondToPanelNode($message);
-                    return true;
-                }
+                $this->respondToPanelNode($message);
+                return true;
+            }
             case self::RESPONSE_STOPPED: {
-                    return true;
-                }
+                return true;
+            }
         }
     }
 
-    private function respondToProcess($submitter_sock, $response) {
+    private function respondToProcess($submitter_sock, $response)
+    {
         $this->log(__FUNCTION__, $response);
 
         do {
@@ -244,7 +285,8 @@ class StartProcessCommand extends Command {
         $this->log(__FUNCTION__, "submitter ended");
     }
 
-    private function respondToPanelNode($response) {
+    private function respondToPanelNode($response)
+    {
         $this->log(__FUNCTION__);
 
         if ($this->isDebug) {
@@ -254,11 +296,16 @@ class StartProcessCommand extends Command {
         $this->log(__FUNCTION__, $response);
 
         $resp_sock = $this->createPanelNodeResponseSocket();
-        socket_write($resp_sock, $response . "\n");
-        socket_close($resp_sock);
+        if($resp_sock) {
+            socket_write($resp_sock, $response . "\n");
+            socket_close($resp_sock);
+            return true;
+        }
+        return false;
     }
 
-    private function appendDebugDataToResponse($response) {
+    private function appendDebugDataToResponse($response)
+    {
         if (file_exists($this->rLogPath)) {
             $new_data = file_get_contents($this->rLogPath, false, null, $this->debugOffset);
             $this->debugOffset += strlen($new_data);
@@ -270,7 +317,8 @@ class StartProcessCommand extends Command {
     }
 
     //TODO proper OS detection
-    private function getOS() {
+    private function getOS()
+    {
         if (strpos(strtolower(PHP_OS), "win") !== false) {
             return self::OS_WIN;
         } else {
@@ -278,64 +326,61 @@ class StartProcessCommand extends Command {
         }
     }
 
-    private function escapeWindowsArg($arg) {
+    private function escapeWindowsArg($arg)
+    {
         $arg = addcslashes($arg, '"');
         $arg = str_replace("(", "^(", $arg);
         $arg = str_replace(")", "^)", $arg);
         return $arg;
     }
 
-    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time) {
+    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    {
         switch ($this->getOS()) {
             case self::OS_LINUX:
                 return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
-                        . "'$ini_path' "
-                        . "'$panel_node_connection' "
-                        . "'$test_node' "
-                        . "'$submitter' "
-                        . "'$client' "
-                        . "$test_session_id "
-                        . "'$wd' "
-                        . "'$pd' "
-                        . "'$murl' "
-                        . "$max_exec_time "
-                        . "'$values' "
-                        . ">> "
-                        . "'" . $this->logPath . "' "
-                        . "> "
-                        . "'" . $this->rLogPath . "' "
-                        . "2>&1 & echo $!";
+                    . "'$ini_path' "
+                    . "'$panel_node_connection' "
+                    . "'$test_node' "
+                    . "'$submitter' "
+                    . "'$client' "
+                    . "$test_session_id "
+                    . "'$wd' "
+                    . "'$pd' "
+                    . "'$murl' "
+                    . "$max_exec_time "
+                    . "'$values' "
+                    . ">> "
+                    . "'" . $this->logPath . "' "
+                    . "> "
+                    . "'" . $this->rLogPath . "' "
+                    . "2>&1 & echo $!";
             default:
                 return "start cmd /C \""
-                        . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
-                        . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
-                        . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
-                        . "\"" . $this->escapeWindowsArg($test_node) . "\" "
-                        . "\"" . $this->escapeWindowsArg($submitter) . "\" "
-                        . "\"" . $this->escapeWindowsArg($client) . "\" "
-                        . "$test_session_id "
-                        . "\"" . $this->escapeWindowsArg($wd) . "\" "
-                        . "\"" . $this->escapeWindowsArg($pd) . "\" "
-                        . "$murl "
-                        . "$max_exec_time "
-                        . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
-                        . ">> "
-                        . "\"" . $this->escapeWindowsArg($this->logPath) . "\" "
-                        . "> "
-                        . "\"" . $this->escapeWindowsArg($this->rLogPath) . "\" "
-                        . "2>&1\"";
+                    . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
+                    . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
+                    . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
+                    . "\"" . $this->escapeWindowsArg($test_node) . "\" "
+                    . "\"" . $this->escapeWindowsArg($submitter) . "\" "
+                    . "\"" . $this->escapeWindowsArg($client) . "\" "
+                    . "$test_session_id "
+                    . "\"" . $this->escapeWindowsArg($wd) . "\" "
+                    . "\"" . $this->escapeWindowsArg($pd) . "\" "
+                    . "$murl "
+                    . "$max_exec_time "
+                    . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
+                    . ">> "
+                    . "\"" . $this->escapeWindowsArg($this->logPath) . "\" "
+                    . "> "
+                    . "\"" . $this->escapeWindowsArg($this->rLogPath) . "\" "
+                    . "2>&1\"";
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $this->output = $output;
         $this->log(__FUNCTION__);
-
-        if ($this->getOS() == self::OS_LINUX) {
-            if (posix_getpid() != posix_getsid(getmypid())) {
-                posix_setsid();
-            }
-        }
 
         $rscript_exec = $input->getArgument("rscript_exec_path");
         $panel_node = $input->getArgument("panel_node");
@@ -363,12 +408,23 @@ class StartProcessCommand extends Command {
         $test_node = $input->getArgument("test_node");
 
         $test_node_sock = $this->createListenerSocket();
+        if ($test_node_sock === false) {
+            $this->log(__FUNCTION__, "creating listener socket for test node failed; prematurely closing process");
+            return 1;
+        }
+
         socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
         $decoded_test_node = json_decode($test_node, true);
         $decoded_test_node["port"] = $test_node_port;
         $test_node = json_encode($decoded_test_node);
 
         $submitter_sock = $this->createListenerSocket();
+        if($submitter_sock === false) {
+            socket_close($test_node_sock);
+            $this->log(__FUNCTION__, "creating listener socket for submitter failed; prematurely closing process");
+            return 1;
+        }
+
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 

@@ -1,5 +1,5 @@
 concerto.session.restoreFlow <- function(sessionHash){
-  print("restore flow session...")
+  concerto.log("restore flow session...")
 
   file = gsub(concerto$session$hash, sessionHash, concerto$sessionFile)
   
@@ -15,7 +15,7 @@ concerto.session.restoreFlow <- function(sessionHash){
 
   unlink(file)
 
-  print("flow session restored")
+  concerto.log("flow session restored")
 
   if(length(concerto$flow) == 0) {
     stop("no flow stack!")
@@ -32,7 +32,7 @@ concerto.session.restoreFlow <- function(sessionHash){
 
   }, error = function(e) {
         if(concerto$session$status == STATUS_RUNNING){
-          print(e)
+          concerto.log(e)
           response = RESPONSE_ERROR
           if(e$message == "session unresumable") {
             response = RESPONSE_UNRESUMABLE

@@ -82,7 +82,7 @@ tryCatch({
 
 }, error = function(e) {
     if(concerto$session$status == STATUS_RUNNING){
-      print(e)
+      concerto.log(e)
       response = RESPONSE_ERROR
       if(e$message == "session unresumable") {
         response = RESPONSE_UNRESUMABLE
