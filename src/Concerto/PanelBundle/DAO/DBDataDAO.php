@@ -87,10 +87,21 @@ class DBDataDAO
     public function updateRow($table_name, $row_id, $values, $id_field = "id")
     {
         $qb = $this->connection->createQueryBuilder()->update($table_name);
-        $i = 0;
+        $i = -1;
+        $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
         foreach ($values as $k => $v) {
-            $qb->set($k, ":k" . $i)->setParameter(":k" . $i, $v);
             $i++;
+            if ($k == "id") continue;
+            $found = false;
+            foreach ($cols as $col) {
+                if ($col->getName() == $k) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) continue;
+
+            $qb->set($k, ":k" . $i)->setParameter(":k" . $i, $v);
         }
         $qb->where("$id_field=:id")->setParameter(":id", $row_id)->execute();
         return array();
@@ -105,7 +116,7 @@ class DBDataDAO
     public function addBlankRow($table_name)
     {
         $driver = $this->connection->getDriver()->getName();
-        switch($driver) {
+        switch ($driver) {
             case 'pdo_pgsql': {
                 $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
                 break;

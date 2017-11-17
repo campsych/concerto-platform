@@ -260,7 +260,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
 
     $http.post($scope.dataUpdatePath.pf($scope.object.id, newRow.id), {
       values: newRow
-    }).success(function (response) {
+    }).then(function (response) {
+    }).catch(function (error) {
+      $scope.refreshRows();
     });
   };
 
