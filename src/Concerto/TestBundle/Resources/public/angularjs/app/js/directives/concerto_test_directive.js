@@ -477,6 +477,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         element.find("input:submit:not(.concerto-nosubmit)").unbind("click");
       }
 
+      testRunner.submitView = scope.submitView;
+      testRunner.logClientSideError = scope.logClientSideError;
+
       var options = scope.options;
       if (settings.clientDebug)
         console.log(options);
@@ -486,9 +489,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
       if (settings.clientDebug)
         console.log("invalid options");
-
-      testRunner.submitView = scope.submitView;
-      testRunner.logClientSideError = scope.logClientSideError;
     }
 
     return {
