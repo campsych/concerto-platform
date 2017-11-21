@@ -81,7 +81,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       scope.fileUploader = new FileUploader();
       scope.fileUploader.removeAfterUpload = true;
       scope.R = {};
-      testRunner.R = {};
 
       scope.$watch('html', function (newValue) {
         try {
@@ -98,7 +97,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
       });
 
-      scope.logClientSideError = function(error){
+      scope.logClientSideError = function (error) {
         $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
           node_id: settings.nodeId,
           error: error
@@ -230,7 +229,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
 
       function submitViewPostValueGetter(btnName, isTimeout, passedVals, values) {
-        values["buttonPressed"] = btnName;
+        values["buttonPressed"] = btnName ? btnName : "";
         values["isTimeout"] = isTimeout ? 1 : 0;
         if (passedVals) {
           angular.merge(values, passedVals);
@@ -338,6 +337,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           var css = "";
           var js = "";
           var html = "";
+          clearExtraControlsValues();
           switch (lastResponse.code) {
             case RESPONSE_VIEW_TEMPLATE:
             case RESPONSE_VIEW_FINAL_TEMPLATE:
@@ -370,7 +370,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
           if (lastResponse.templateParams != null) {
             scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
-            testRunner.R = scope.R;
           }
 
           if (head != null && head.trim() !== "") {
@@ -400,7 +399,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
         if (lastResponse != null && lastResponse.templateParams != null) {
           scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
-          testRunner.R = scope.R;
         }
 
         if (settings.loaderHead != null && settings.loaderHead.trim() !== "")
@@ -422,6 +420,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         };
         element.find("input:text, input[type='range'], input[type='file'], input[type='hidden'], input:password, textarea, select, input:checkbox:checked, input:radio:checked").each(function () {
           var name = $(this).attr("name");
+          if (name == null) return;
           var value = $(this).val();
           if ($(this).attr("type") == "file") {
             if ($(this)[0].files.length == 0)
@@ -438,6 +437,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
           addPairToValues(vars, name, value);
         });
+
+        angular.merge(vars, getExtraControlsValues());
+
         return vars;
       }
 
@@ -477,8 +479,31 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         element.find("input:submit:not(.concerto-nosubmit)").unbind("click");
       }
 
+      var extraControls = {};
+
+      scope.addExtraControl = function (name, getter) {
+        extraControls[name] = getter;
+      };
+
+      function getExtraControlsValues() {
+        var vals = {};
+        for (var name in extraControls) {
+          var val = extraControls[name]();
+          if(val !== null) {
+            vals[name] = val;
+          }
+        }
+        return vals;
+      }
+
+      function clearExtraControlsValues() {
+        extraControls = {};
+      }
+
+      testRunner.R = scope.R;
       testRunner.submitView = scope.submitView;
       testRunner.logClientSideError = scope.logClientSideError;
+      testRunner.addExtraControl = scope.addExtraControl;
 
       var options = scope.options;
       if (settings.clientDebug)

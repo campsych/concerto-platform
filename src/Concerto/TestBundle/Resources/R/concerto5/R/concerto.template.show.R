@@ -13,6 +13,8 @@ concerto.template.show = function(
     if(html!=""){
       concerto$session$templateHead <<- concerto.template.insertParams(head,params,removeMissing=removeMissingParams)
       concerto$session$templateHtml <<- concerto.template.insertParams(html,params,removeMissing=removeMissingParams)
+      concerto$session$templateCss <<- ""
+      concerto$session$templateJs <<- ""
     } else {
       template <- concerto.template.get(templateId)
       if(dim(template)[1]==0) stop(paste("Template #",templateId," not found!",sep=''))

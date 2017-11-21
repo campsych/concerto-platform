@@ -45,10 +45,6 @@ testRunner.controller('testRunnerController', [
 testRunner.overridableCallback = function (response) {
 };
 
-testRunner.submitView = function (buttonName, timeout, passedValues) {
-
-};
-
 testRunner.loadScripts = function (urls) {
   urls.forEach(function (src) {
     if ($("script[src='" + src + "']").length > 0) return;
