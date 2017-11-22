@@ -11,7 +11,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       scope.selectedNodeIds = [];
       scope.rectangleContainedNodeIds = [];
       scope.disableContextMenu = false;
-      scope.cntrlIsPressed = false;
       scope.mouseDown = false;
       scope.mouseButtonDown = 0;
       scope.rightClickEvent = null;
@@ -39,16 +38,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       $.fn.flow = function () {
         var lastPosition = null;
         var position = null;
-
-        $($(this).selector).on("keydown", function (e) {
-          if (e.which == "17")
-            scope.cntrlIsPressed = true;
-        });
-
-        $($(this).selector).on("keyup", function (e) {
-          if (e.which == "17")
-            scope.cntrlIsPressed = false;
-        });
 
         $($(this).selector).on("mousedown mouseup mousemove", function (e) {
           if (e.button === 2)
@@ -81,7 +70,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               scope.rectangleSelectionActive = false;
 
               var containedNodes = scope.getRectangleContainedNodeIds();
-              if (!scope.cntrlIsPressed && containedNodes.length > 0)
+              if (containedNodes.length > 0)
                 scope.clearNodeSelection();
               for (var i = 0; i < containedNodes.length; i++) {
                 scope.addNodeToSelection(containedNodes[i]);
@@ -101,7 +90,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               scope.selectionRectangle.show();
               scope.rectangleSelectionActive = true;
               scope.rectangleContainedNodeIds = scope.getRectangleContainedNodeIds();
-              scope.$apply();
             }
           }
 
@@ -112,7 +100,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             $(this).scrollLeft($(this).scrollLeft() - difference[0]);
             $(this).scrollTop($(this).scrollTop() - difference[1]);
             lastPosition = [e.clientX, e.clientY];
-            scope.$apply();
           }
         });
       };
@@ -182,23 +169,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         $("#flowContainerScroll").scrollLeft($("#flowContainerScroll")[0].scrollLeft * (zoom / scope.flowScale));
         $("#flowContainerScroll").scrollTop($("#flowContainerScroll")[0].scrollTop * (zoom / scope.flowScale));
 
-
         scope.flowScale = zoom;
-      };
-
-      scope.onKeyUp = function (event) {
-        if (!scope.cntrlIsPressed)
-          return;
-        //ctrl + c
-        if (scope.selectedNodeIds.length > 0 && event.which === 67) {
-          scope.copySelectedNodes();
-          return;
-        }
-        //ctrl + v
-        if (scope.copiedNodes.length > 0 && event.which === 86) {
-          scope.pasteNodes(scope.currentMouseEvent);
-          return;
-        }
       };
 
       scope.onFlowCtxOpened = function () {
@@ -251,18 +222,15 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         }
       };
 
-      scope.toggleNodeSelection = function (id, ignoreCtrl) {
-        if (scope.cntrlIsPressed || ignoreCtrl) {
-          var index = scope.selectedNodeIds.indexOf(id);
-          if (index === -1) {
-            scope.selectedNodeIds.push(id);
-            scope.collectionService.getNode(id).selected = true;
-          } else {
-            scope.selectedNodeIds.splice(index, 1);
-            scope.collectionService.getNode(id).selected = false;
-          }
+      scope.toggleNodeSelection = function (id) {
+        var index = scope.selectedNodeIds.indexOf(id);
+        if (index === -1) {
+          scope.selectedNodeIds.push(id);
+          scope.collectionService.getNode(id).selected = true;
+        } else {
+          scope.selectedNodeIds.splice(index, 1);
+          scope.collectionService.getNode(id).selected = false;
         }
-        $('#flowContainer').focus();
       };
 
       scope.addNodeToSelection = function (id) {
@@ -271,7 +239,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           scope.selectedNodeIds.push(id);
           scope.collectionService.getNode(id).selected = true;
         }
-        $('#flowContainer').focus();
       };
 
       scope.isGetterNode = function (node) {
@@ -373,14 +340,14 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
         }
 
-        var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='toggleNodeSelection(" + node.id + "); setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
+        var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
         var headerIcons = "";
         if (node.type == 1 || node.type == 2) {
           elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
         } else {
           headerIcons = "<div class='node-header-icons'>" +
               "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
-              "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ", true)' />" +
+              "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ")' />" +
               "</div>";
         }
         var collapseHtml = "";
@@ -526,9 +493,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           jsPlumb.draggable(elem, {
             containment: true,
             drag: function (event, ui) {
-              scope.movingActive = true;
-              scope.selectionDisabled = true;
-              //scope.$apply();
               if (scope.selectedNodeIds.indexOf(node.id) === -1)
                 return;
               var offset = {
@@ -557,11 +521,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               }
             },
             start: function (event, ui) {
+              scope.movingActive = true;
+              scope.selectionDisabled = true;
               scope.setLastActiveNodeId(node.id);
             },
             stop: function (event, ui) {
               scope.movingActive = false;
-              scope.$apply();
               if (scope.selectedNodeIds.indexOf(node.id) === -1) {
                 var x = elem.position().left / scope.flowScale;
                 var y = elem.position().top / scope.flowScale;
@@ -581,8 +546,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               } else {
                 $http.post(Paths.TEST_FLOW_NODE_MOVE, {
                   nodes: scope.serializeSelectedNodes()
-                }).success(function (data) {
-
                 });
               }
             }
@@ -668,8 +631,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         modalInstance.result.then(function (response) {
           $http.post(Paths.TEST_FLOW_PORT_SAVE_COLLECTION, {
             "serializedCollection": angular.toJson(response.ports)
-          }).success(function (data) {
-            //scope.collectionService.updateNode(response);
           });
         }, function () {
           scope.collectionService.updateNode(oldValue);
@@ -1279,11 +1240,23 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         }, 1);
       };
 
+      scope.lastScrollTop = 0;
+      scope.lastScrollLeft = 0;
       $(function () {
         $("#flowContainerScroll").flow();
-        $("#flowContainer").blur(function () {
-          scope.cntrlIsPressed = false;
+
+        /** IE fix start */
+        $('#flowContainerScroll').scroll(function () {
+          scope.lastScrollTop = $("#flowContainerScroll").scrollTop();
+          scope.lastScrollLeft = $("#flowContainerScroll").scrollLeft();
         });
+
+        $('#flowContainer').focus(function () {
+          $('#flowContainerScroll').scrollLeft(scope.lastScrollLeft);
+          $('#flowContainerScroll').scrollTop(scope.lastScrollTop);
+        });
+        /** IE fix end */
+
         $('#flowContainer').mousewheel(function (event) {
           scope.setZoom(event.deltaY);
           return false;
@@ -1291,7 +1264,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           scope.currentMouseEvent = event;
         }).keyup(function (event) {
           scope.onKeyUp(event);
-        }).focus();
+        });
       });
 
       scope.$watchCollection("object.variables", function () {
