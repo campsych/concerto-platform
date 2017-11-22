@@ -479,6 +479,8 @@ class TestSessionService
 
     private function saveErrorLog(TestSession $session, $error, $type)
     {
+        $this->logger->error($session->getHash() . ", $error");
+
         $log = new TestSessionLog();
         $log->setBrowser($session->getClientBrowser());
         $log->setIp($session->getClientIp());
@@ -666,9 +668,6 @@ class TestSessionService
 
     public function logError($session_hash, $calling_node_ip, $error, $type)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $calling_node_ip, $type");
-        $this->logger->error("$session_hash, $error");
-
         $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
         if (!$session) {
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - session $session_hash not found.");

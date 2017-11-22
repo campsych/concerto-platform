@@ -232,8 +232,6 @@ class TestRunnerController
 
     public function logErrorAction($session_hash)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
-
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
         if ($panel_node["local"] == "true") {

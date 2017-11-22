@@ -98,12 +98,8 @@ class TestRunnerService {
     }
 
     public function logError($session_hash, $node_id, $error, $type) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $type");
-        $this->logger->info($error);
-
         $response = $this->sessionService->logError($session_hash, false, $error, $type);
         $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
     }
 
