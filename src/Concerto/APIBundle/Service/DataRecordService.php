@@ -8,11 +8,16 @@ use Concerto\PanelBundle\DAO\DBDataDAO;
 use Concerto\PanelBundle\DAO\DBStructureDAO;
 use Symfony\Component\HttpFoundation\Response;
 
-class DataRecordService extends AModelService {
+class DataRecordService {
 
     private $dataTableService;
     private $dbDataDAO;
     private $dbStructureDAO;
+
+    protected static $excluded_filters = array(
+        "access_token",
+        "format"
+    );
 
     public function __construct(DataTableService $dataTableService, DBDataDAO $dbDataDAO, DBStructureDAO $dbStructureDAO) {
         $this->dataTableService = $dataTableService;
