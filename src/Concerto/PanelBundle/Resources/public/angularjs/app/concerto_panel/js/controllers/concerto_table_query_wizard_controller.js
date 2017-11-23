@@ -165,28 +165,32 @@ function ConcertoTableQueryWizardController($scope, $uibModalInstance, $http, $t
 
   var extractInsertedValues = function () {
 
-    var res = " \nVALUES (";
-    var value_map = new Object();
+    var resCol = " \n(";
+    var resVal = " \nVALUES (";
 
+    var added = 0;
     for (var itr = 0; itr < $scope.insertedValues.length; itr++) {
+      if (!$scope.insertedValues[itr].variable) continue;
 
+      var val = "";
       if ($scope.insertedValues[itr].useCode)
-        value_map[$scope.insertedValues[itr].variable.name] = $scope.insertedValues[itr].wizardCode;
+        val = $scope.insertedValues[itr].wizardCode;
       else
-        value_map[$scope.insertedValues[itr].variable.name] = escapeIfRequired($scope.insertedValues[itr].wizardValue);
+        val = escapeIfRequired($scope.insertedValues[itr].wizardValue);
+
+      if (itr) {
+        resCol += ', ';
+        resVal += ', ';
+      }
+
+      resCol += $scope.insertedValues[itr].variable.name;
+      resVal += val;
+      added++;
     }
 
-    for (var itr = 0; itr < $scope.selectedTable.columns.length; itr++) {
-      if (itr)
-        res += ', ';
-
-      if (value_map[$scope.selectedTable.columns[itr].name])
-        res += value_map[$scope.selectedTable.columns[itr].name];
-      else
-        res += 'DEFAULT';
-    }
-    res += ')';
-    return res;
+    resCol += ')';
+    resVal += ')';
+    return resCol + resVal;
   }
 
   var getCompleteSQL = function () {

@@ -7,6 +7,7 @@ changelog:
           - label: Fixes
             changes:
                 - fixed flow scroll position reset on IE
+                - fixes for concerto.table.query function wizard
     - version: "5.0.beta.3.8"
       description: >
         Improved logs
