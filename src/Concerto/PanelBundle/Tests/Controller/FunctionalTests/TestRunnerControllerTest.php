@@ -106,12 +106,14 @@ class TestRunnerControllerTest extends AFunctionalTest {
         }
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
 
+        $actual = json_decode($client->getResponse()->getContent(), true);
         $expected = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_RESULTS,
-            "results" => $session->getReturns()
+            "results" => $session->getReturns(),
+            "hash" => $actual["hash"]
         );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals($expected, $actual);
     }
 
 }
