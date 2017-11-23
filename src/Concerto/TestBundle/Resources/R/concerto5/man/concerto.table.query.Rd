@@ -7,7 +7,7 @@ Table query
 Perform query on Concerto table.
 }
 \usage{
-concerto.table.query(sql,params)
+concerto.table.query(sql, params, n)
 }
 \arguments{
   \item{sql}{

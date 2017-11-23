@@ -11,7 +11,7 @@
             {% block label %}{{ 'completion.wizard.sql.parameters.label'|trans }}{% endblock %}
             {% block tooltip %}{{ 'completion.wizard.sql.parameters.tooltip'|trans }}{% endblock%}
             {% block control %}
-                <ui-codemirror ui-refresh='codemirrorForceRefresh' ng-model="parameters" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
+                <ui-codemirror ui-refresh='codemirrorForceRefresh' ng-model="params" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
                 {% endblock %}
             {% endembed %}
 
@@ -20,7 +20,7 @@
             {% block label %}{{ 'completion.wizard.sql.fetchcount.label'|trans }}{% endblock %}
             {% block tooltip %}{{ 'completion.wizard.sql.fetchcount.tooltip'|trans }}{% endblock%}
             {% block control %}
-                <ui-codemirror ui-refresh='codemirrorForceRefresh' ng-model="fetchcount" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
+                <ui-codemirror ui-refresh='codemirrorForceRefresh' ng-model="n" ui-codemirror-opts="miniCodemirror"></ui-codemirror>
                 {% endblock %}
             {% endembed %}
 
@@ -172,20 +172,20 @@
                             </span>
                         </td>
 
-                        <td ng-if="!value.useCode">
+                        <td ng-if="!value.useCode" style="min-width: 100px;">
                             <select ng-if="$index" ng-model="value.logicOperator" class='form-control'>
                                 <option selected="selected" value="AND">{{ 'completion.wizard.sql.where.logic.and'|trans }}</option>
                                 <option value="OR">{{ 'completion.wizard.sql.where.logic.or'|trans }}</option>
                             </select>
                         </td>
 
-                        <td ng-if="!value.useCode">
+                        <td ng-if="!value.useCode" style="min-width: 200px;">
                             <select ng-model="value.variable" ng-options="column.name for column in selectedTable.columns" class='form-control'>
                                 <option value="">{{ 'completion.wizard.sql.selection.empty.column'|trans }}</option>
                             </select>
                         </td>
 
-                        <td ng-if="!value.useCode">
+                        <td ng-if="!value.useCode" style="min-width: 200px;">
                             <select ng-model="value.operator" class='form-control'>
                                 <option selected="selected" value="=">{{ 'completion.wizard.sql.where.operators.equal'|trans }}</option>
                                 <option value="!=">{{ 'completion.wizard.sql.where.operators.notequal'|trans }}</option>
