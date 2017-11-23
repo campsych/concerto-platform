@@ -4,6 +4,9 @@ changelog:
       description: >
         Fixes
       categories:
+          - label: New features
+            changes:
+                - API collection GET now accept multiple operators for same field
           - label: Fixes
             changes:
                 - fixed flow scroll position reset on IE

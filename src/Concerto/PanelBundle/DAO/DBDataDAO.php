@@ -14,25 +14,26 @@ class DBDataDAO
         $this->connection = $con;
     }
 
-    public function getData($table_name, $id = null, $filter = null, $operators = null)
+    public function getData($table_name, $id = null, $filter = null)
     {
-        $stmt = $this->getStreamDataResult($table_name, $id, $filter, $operators);
+        $stmt = $this->getFilteredDataResult($table_name, $id, $filter);
         return $stmt->fetchAll();
     }
 
-    public function getStreamDataResult($table_name, $id = null, $filter = null, $operators = null)
+    public function getFilteredDataResult($table_name, $id = null, $filter = null)
     {
         $q = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
 
         $i = 0;
         if ($filter !== null) {
-            foreach ($filter as $k => $v) {
-                if (is_a($v, "DateTime"))
-                    $v = $v->format("Y-m-d");
+            foreach ($filter as $f) {
+
+                if (is_a($f["value"], "DateTime"))
+                    $f["value"] = $f["value"]->format("Y-m-d");
                 if ($i == 0) {
-                    $q = $q->where("d.$k " . $operators[$k] . " :$k")->setParameter(":$k", $v);
+                    $q = $q->where("d." . $f["name"] . " " . $f["op"] . " :p$i")->setParameter(":p$i", $f["value"]);
                 } else {
-                    $q = $q->andWhere("d.$k " . $operators[$k] . " :$k")->setParameter(":$k", $v);
+                    $q = $q->andWhere("d." . $f["name"] . " " . $f["op"] . " :p$i")->setParameter(":p$i", $f["value"]);
                 }
                 $i++;
             }
@@ -50,6 +51,11 @@ class DBDataDAO
         return $result;
     }
 
+    /**
+     * @param $table_name
+     * @param $filters array($k => "name", $v => "value")
+     * @return array
+     */
     public function fetchMatchingData($table_name, $filters)
     {
         $builder = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");

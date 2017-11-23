@@ -129,20 +129,6 @@ class DataTableService extends AExportableSectionService
         }
     }
 
-    public function getData($object_id, $prefixed = false, $row_id = null, $filter = null, $operators = null)
-    {
-        $object = $this->get($object_id);
-        if ($object != null) {
-            $data = $this->dbDataDao->getData($object->getName(), $row_id, $filter, $operators);
-            if ($prefixed) {
-                self::prefixData($data);
-            }
-            return $data;
-        } else {
-            return array();
-        }
-    }
-
     public function getFilteredData($object_id, $prefixed = false, $filters = null)
     {
         $object = $this->get($object_id);
@@ -171,7 +157,7 @@ class DataTableService extends AExportableSectionService
     {
         $object = $this->get($object_id);
         if ($object != null) {
-            $result = $this->dbDataDao->getStreamDataResult($object->getName());
+            $result = $this->dbDataDao->getFilteredDataResult($object->getName());
             $j = 0;
             echo "[";
             while ($row = $result->fetch()) {

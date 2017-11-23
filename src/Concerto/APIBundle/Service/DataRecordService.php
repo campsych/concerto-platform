@@ -8,7 +8,8 @@ use Concerto\PanelBundle\DAO\DBDataDAO;
 use Concerto\PanelBundle\DAO\DBStructureDAO;
 use Symfony\Component\HttpFoundation\Response;
 
-class DataRecordService {
+class DataRecordService
+{
 
     private $dataTableService;
     private $dbDataDAO;
@@ -19,13 +20,15 @@ class DataRecordService {
         "format"
     );
 
-    public function __construct(DataTableService $dataTableService, DBDataDAO $dbDataDAO, DBStructureDAO $dbStructureDAO) {
+    public function __construct(DataTableService $dataTableService, DBDataDAO $dbDataDAO, DBStructureDAO $dbStructureDAO)
+    {
         $this->dataTableService = $dataTableService;
         $this->dbDataDAO = $dbDataDAO;
         $this->dbStructureDAO = $dbStructureDAO;
     }
 
-    public function getData($table_id, $id, $format = null) {
+    public function getData($table_id, $id, $format = null)
+    {
         $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
@@ -40,7 +43,8 @@ class DataRecordService {
         return array("response" => Response::HTTP_OK, "result" => $result);
     }
 
-    public function getDataCollection($table_id, $filter, $format = null) {
+    public function getDataCollection($table_id, $filter, $format = null)
+    {
         $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null) {
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
@@ -49,20 +53,20 @@ class DataRecordService {
         foreach (static::$excluded_filters as $key) {
             unset($filter[$key]);
         }
-        $operators = array();
 
-        if (!$this->formatDataFilter($table, $filter, $operators)) {
+        if (!$this->formatDataFilter($table, $filter)) {
             return array("response" => Response::HTTP_BAD_REQUEST, "result" => null);
         }
 
-        $result = $this->dbDataDAO->getData($table->getName(), null, $filter, $operators);
+        $result = $this->dbDataDAO->getData($table->getName(), null, $filter);
         if ($format !== null) {
             return array("response" => Response::HTTP_OK, "result" => $this->serialize($result, $format));
         }
         return array("response" => Response::HTTP_OK, "result" => $result);
     }
 
-    public function updateData($table_id, $id, $newSerializedData, $format = "json") {
+    public function updateData($table_id, $id, $newSerializedData, $format = "json")
+    {
         $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
@@ -83,7 +87,8 @@ class DataRecordService {
         return array("response" => Response::HTTP_OK, "result" => $result);
     }
 
-    public function insertData($table_id, $newSerializedData, $format = "json") {
+    public function insertData($table_id, $newSerializedData, $format = "json")
+    {
         $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
@@ -104,7 +109,8 @@ class DataRecordService {
         return array("response" => Response::HTTP_OK, "result" => $result);
     }
 
-    public function deleteData($table_id, $id) {
+    public function deleteData($table_id, $id)
+    {
         $table = $this->dataTableService->get($table_id, false, false);
         if ($table === null)
             return array("response" => Response::HTTP_NOT_FOUND, "result" => null);
@@ -113,21 +119,25 @@ class DataRecordService {
         return array("response" => Response::HTTP_OK, "result" => null);
     }
 
-    public function serialize($data, $format = "json") {
+    public function serialize($data, $format = "json")
+    {
         switch ($format) {
             default:
                 return json_encode($data);
         }
     }
 
-    public function deserialize($data, $format = "json") {
+    public function deserialize($data, $format = "json")
+    {
         switch ($format) {
             default:
                 return json_decode($data, true);
         }
     }
-    
-    protected function formatFilter(&$filter, &$operators) {
+
+    protected function formatFilter($filter)
+    {
+        $formatted_filters = array();
         foreach ($filter as $k => $v) {
             unset($filter[$k]);
             $lc = substr($k, strlen($k) - 1, 1);
@@ -136,36 +146,42 @@ class DataRecordService {
                 $k = substr($k, 0, strlen($k) - 1);
                 $op = $lc . $op;
             }
-            $operators[$k] = $op;
-            $filter[$k] = $v;
+            array_push($formatted_filters, array(
+                "name" => $k,
+                "op" => $op,
+                "value" => $v
+            ));
         }
-        return true;
+        return $formatted_filters;
     }
 
-    protected function formatDataFilter(DataTable $table, &$filter, &$operators) {
-        if (!$this->formatFilter($filter, $operators))
-            return false;
+    protected function formatDataFilter(DataTable $table, &$filter)
+    {
+        $formatted_filters = $this->formatFilter($filter);
 
         $columns = $this->dbStructureDAO->getColumns($table->getName());
-        foreach ($filter as $k => $v) {
+        for ($i = 0; $i < count($formatted_filters); $i++) {
+            $f = $formatted_filters[$i];
             $found = false;
             foreach ($columns as $column) {
-                if ($column->getName() != $k)
+                if ($column->getName() != $f["name"])
                     continue;
                 $found = true;
                 switch ($column->getType()->getName()) {
                     case "date":
-                        $filter[$k] = new \DateTime($v);
+                        $f["value"] = new \DateTime($f["value"]);
                         break;
                     case "boolean":
-                        $filter[$k] = strtolower($v) == "true";
+                        $f["value"] = strtolower($f["value"]) == "true";
                         break;
                 }
                 break;
             }
+            $formatted_filters[$i] = $f;
             if (!$found)
                 return false;
         }
+        $filter = $formatted_filters;
         return true;
     }
 
