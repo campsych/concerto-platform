@@ -8,6 +8,9 @@ changelog:
             changes:
                 - fixed updating and displaying of test wizard steps and params
                 - Safari CSS fixes
+                - fixed platform version comparison in administration tab
+                - fixed backup checkbox for scheduled tasks
+                - now using default MySQL port when no port defined in config file on backup task
     - version: "5.0.beta.3.9"
       description: >
         Fixes

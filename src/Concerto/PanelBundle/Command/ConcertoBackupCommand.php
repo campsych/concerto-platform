@@ -10,26 +10,31 @@ use Symfony\Component\Process\Process;
 use Concerto\PanelBundle\Entity\ScheduledTask;
 use DateTime;
 
-class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
+class ConcertoBackupCommand extends ConcertoScheduledTaskCommand
+{
 
     const FILES_BACKUP_FILENAME = "c5_files_backup.zip";
     const DB_BACKUP_FILENAME = "c5_db_backup.sql";
 
-    protected function configure() {
+    protected function configure()
+    {
         $this->setName("concerto:backup")->setDescription("Backs up Concerto Platform.");
 
         parent::configure();
     }
 
-    private function getFileBackupPath() {
+    private function getFileBackupPath()
+    {
         return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
     }
 
-    private function getDatabaseBackupPath() {
+    private function getDatabaseBackupPath()
+    {
         return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
     }
 
-    protected function getCommand(ScheduledTask $task, InputInterface $input) {
+    protected function getCommand(ScheduledTask $task, InputInterface $input)
+    {
         $concerto_path = $this->getConcertoPath();
         $files_backup_path = $this->getFileBackupPath();
         $db_backup_path = $this->getDatabaseBackupPath();
@@ -41,6 +46,7 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         $db_name = $connection->getDatabase();
         $db_host = $connection->getHost();
         $db_port = $connection->getPort();
+        if (!$db_port) $db_port = "3306";
         $task_result_file = $this->getTaskResultFile($task);
         $task_output_file = $this->getTaskOutputFile($task);
 
@@ -51,7 +57,8 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         return $cmd;
     }
 
-    public function getTaskDescription(ScheduledTask $task) {
+    public function getTaskDescription(ScheduledTask $task)
+    {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $desc = $this->getContainer()->get('templating')->render("ConcertoPanelBundle:Administration:task_backup.html.twig", array(
             "current_platform_version" => $this->getContainer()->getParameter("version"),
@@ -60,7 +67,8 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input) {
+    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $info = array_merge(parent::getTaskInfo($task, $input), array(
             "backup_platform_version" => $this->getContainer()->getParameter("version"),
@@ -72,7 +80,8 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand {
         return $info;
     }
 
-    public function getTaskType() {
+    public function getTaskType()
+    {
         return ScheduledTask::TYPE_BACKUP;
     }
 

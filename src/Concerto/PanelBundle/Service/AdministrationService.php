@@ -23,7 +23,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Concerto\APIBundle\Repository\ClientRepository;
 use Symfony\Component\Process\Process;
 
-class AdministrationService {
+class AdministrationService
+{
 
     private $settingsRepository;
     private $messagesRepository;
@@ -38,7 +39,8 @@ class AdministrationService {
     private $apiClientRepository;
     private $testRunnerSettings;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel, ClientRepository $clientRepository, $testRunnerSettings) {
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel, ClientRepository $clientRepository, $testRunnerSettings)
+    {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
         $this->authorizationChecker = $authorizationChecker;
@@ -54,7 +56,8 @@ class AdministrationService {
         $this->testRunnerSettings = $testRunnerSettings;
     }
 
-    public function insertSessionLimitMessage(TestSession $session) {
+    public function insertSessionLimitMessage(TestSession $session)
+    {
         $msg = new Message();
         $msg->setCagegory(Message::CATEGORY_SYSTEM);
         $msg->setSubject("Session limit reached.");
@@ -65,7 +68,8 @@ class AdministrationService {
         $this->messagesRepository->save($msg);
     }
 
-    private function fetchTestSessionLogs($start_time) {
+    private function fetchTestSessionLogs($start_time)
+    {
         foreach ($this->testSessionLogRepository->findAllNewerThan($start_time) as $log) {
             if ($log->getTest() === null)
                 continue;
@@ -75,9 +79,11 @@ class AdministrationService {
             $msg->setCagegory(Message::CATEGORY_TEST);
             $error_source = "";
             switch ($log->getType()) {
-                case TestSessionLog::TYPE_JS: $error_source = "JS";
+                case TestSessionLog::TYPE_JS:
+                    $error_source = "JS";
                     break;
-                case TestSessionLog::TYPE_R: $error_source = "R";
+                case TestSessionLog::TYPE_R:
+                    $error_source = "R";
                     break;
             }
             $msg->setSubject("Test #" . $log->getTest()->getId() . ", $error_source error.");
@@ -91,7 +97,8 @@ class AdministrationService {
         }
     }
 
-    private function fetchFeed($url, $start_time) {
+    private function fetchFeed($url, $start_time)
+    {
         if (!$this->isOnline())
             return;
 
@@ -115,7 +122,8 @@ class AdministrationService {
         }
     }
 
-    public function fetchMessagesCollection() {
+    public function fetchMessagesCollection()
+    {
         $this_fetch_time = time();
         $last_fetch_time = $this->getLastMessageFetchTime();
         if ($last_fetch_time === null)
@@ -132,24 +140,28 @@ class AdministrationService {
         $this->setSettings(array("last_message_fetch_time" => $this_fetch_time), false);
     }
 
-    public function getMessagesCollection() {
+    public function getMessagesCollection()
+    {
         $this->fetchMessagesCollection();
         return $this->messagesRepository->findAll();
     }
 
-    public function deleteMessage($object_ids) {
+    public function deleteMessage($object_ids)
+    {
         $object_ids = explode(",", $object_ids);
         $this->messagesRepository->deleteById($object_ids);
     }
 
-    public function clearMessages() {
+    public function clearMessages()
+    {
         $this->messagesRepository->deleteAll();
     }
 
-    public function getExposedSettingsMap() {
+    public function getExposedSettingsMap()
+    {
         $map = $this->configSettings["exposed"];
         foreach ($map as $k => $v) {
-            $map[$k] = (string) $v;
+            $map[$k] = (string)$v;
         }
         foreach ($this->settingsRepository->findAllExposed() as $setting) {
             if (array_key_exists($setting->getKey() . "_overridable", $map) && $map[$setting->getKey() . "_overridable"] === "0") {
@@ -160,10 +172,11 @@ class AdministrationService {
         return $map;
     }
 
-    public function getInternalSettingsMap($full = false) {
+    public function getInternalSettingsMap($full = false)
+    {
         $map = $this->configSettings["internal"];
         foreach ($map as $k => $v) {
-            $map[$k] = (string) $v;
+            $map[$k] = (string)$v;
         }
         if ($full) {
             $map["available_content_version"] = $this->getAvailableContentVersion();
@@ -177,12 +190,14 @@ class AdministrationService {
         return $map;
     }
 
-    public function getAllSettingsMap() {
+    public function getAllSettingsMap()
+    {
         $map = array_merge($this->getExposedSettingsMap(), $this->getInternalSettingsMap());
         return $map;
     }
 
-    public function getSettingValue($key) {
+    public function getSettingValue($key)
+    {
         $map = $this->getAllSettingsMap();
         if (array_key_exists($key, $map)) {
             return $map[$key];
@@ -190,99 +205,121 @@ class AdministrationService {
         return null;
     }
 
-    public function isApiEnabled() {
+    public function isApiEnabled()
+    {
         $enabled = $this->getSettingValue("api_enabled");
         return $enabled == "1";
     }
 
-    public function getLastMessageFetchTime() {
+    public function getLastMessageFetchTime()
+    {
         $time = $this->getSettingValue("last_message_fetch_time");
         if ($time !== null)
-            return (int) $time;
+            return (int)$time;
         return null;
     }
 
-    public function getSessionLimit() {
+    public function getSessionLimit()
+    {
         $limit = $this->getSettingValue("session_limit");
-        return (int) $limit;
+        return (int)$limit;
     }
 
-    public function getGlobalFeedUrl() {
+    public function getGlobalFeedUrl()
+    {
         return $this->getSettingValue("global_feed");
     }
 
-    public function getLatestPlatformMeta() {
+    public function getLatestPlatformMeta()
+    {
         return "https://raw.githubusercontent.com/campsych/concerto-platform/" . $this->getGitBranch() . "/src/Concerto/PanelBundle/Resources/public/feeds/platform_meta.yml";
     }
 
-    public function getGitBranch() {
+    public function getGitBranch()
+    {
         return $this->getSettingValue("git_branch");
     }
 
-    public function getLocalFeedUrl() {
+    public function getLocalFeedUrl()
+    {
         return $this->getSettingValue("local_feed");
     }
 
-    public function getInstalledContentVersion() {
+    public function getInstalledContentVersion()
+    {
         return $this->getSettingValue("installed_content_version");
     }
 
-    public function getInstalledPlatformVersion() {
+    public function getInstalledPlatformVersion()
+    {
         return $this->configSettings["internal"]["version"];
     }
 
-    public function setInstalledContentVersion($version) {
+    public function setInstalledContentVersion($version)
+    {
         $this->setSettings(array("installed_content_version" => $version), false);
     }
 
-    public function getBackupPlatformVersion() {
+    public function getBackupPlatformVersion()
+    {
         return $this->getSettingValue("backup_platform_version");
     }
 
-    public function setBackupPlatformVersion($version) {
+    public function setBackupPlatformVersion($version)
+    {
         $this->setSettings(array("backup_platform_version" => $version), false);
     }
 
-    public function getBackupPlatformPath() {
+    public function getBackupPlatformPath()
+    {
         return $this->getSettingValue("backup_platform_path");
     }
 
-    public function setBackupPlatformPath($path) {
+    public function setBackupPlatformPath($path)
+    {
         $this->setSettings(array("backup_platform_path" => $path), false);
     }
 
-    public function getBackupDatabasePath() {
+    public function getBackupDatabasePath()
+    {
         return $this->getSettingValue("backup_db_path");
     }
 
-    public function setBackupDatabasePath($path) {
+    public function setBackupDatabasePath($path)
+    {
         $this->setSettings(array("backup_db_path" => $path), false);
     }
 
-    public function getBackupContentVersion() {
+    public function getBackupContentVersion()
+    {
         return $this->getSettingValue("backup_content_version");
     }
 
-    public function setBackupContentVersion($version) {
+    public function setBackupContentVersion($version)
+    {
         $this->setSettings(array("backup_content_version" => $version), false);
     }
 
-    public function getBackupTime() {
+    public function getBackupTime()
+    {
         return $this->getSettingValue("backup_time");
     }
 
-    public function setBackupTime(DateTime $time) {
+    public function setBackupTime(DateTime $time)
+    {
         $this->setSettings(array("backup_time" => $time->getTimestamp()), false);
     }
 
-    public function getAvailableContentVersion() {
+    public function getAvailableContentVersion()
+    {
         $url = realpath($this->rootDir . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "PanelBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "feeds") . DIRECTORY_SEPARATOR . "content_meta.yml";
         $raw_feed = file_get_contents($url);
         $feed = Yaml::parse($raw_feed);
         return $feed["version"];
     }
 
-    public function getIncrementalContentChangelog() {
+    public function getIncrementalContentChangelog()
+    {
         $changelog = array();
 
         $url = realpath($this->rootDir . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "PanelBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "feeds") . DIRECTORY_SEPARATOR . "content_meta.yml";
@@ -299,7 +336,8 @@ class AdministrationService {
         return $changelog;
     }
 
-    public function getIncrementalPlatformChangelog() {
+    public function getIncrementalPlatformChangelog()
+    {
         if (!$this->isOnline())
             return null;
 
@@ -318,7 +356,8 @@ class AdministrationService {
         return $changelog;
     }
 
-    private static function isPlatformVersionNewer($base_v, $compared_v) {
+    private static function isPlatformVersionNewer($base_v, $compared_v)
+    {
         $bvs = explode(".", $base_v);
         $cvs = explode(".", $compared_v);
         for ($i = 0; $i < count($bvs) && $i < count($cvs); $i++) {
@@ -330,7 +369,8 @@ class AdministrationService {
         return false;
     }
 
-    private static function isContentVersionNewer($base_v, $compared_v) {
+    private static function isContentVersionNewer($base_v, $compared_v)
+    {
         $cvs = explode(".", $compared_v);
         $bvs = explode(".", $base_v);
 
@@ -343,7 +383,8 @@ class AdministrationService {
         return false;
     }
 
-    public function getAvailablePlatformVersion() {
+    public function getAvailablePlatformVersion()
+    {
         if (!$this->isOnline())
             return null;
 
@@ -353,11 +394,13 @@ class AdministrationService {
         return $feed["version"];
     }
 
-    public function isOnline() {
+    public function isOnline()
+    {
         return $this->getSettingValue("online");
     }
 
-    public function isUpdatePossible(&$error_message) {
+    public function isUpdatePossible(&$error_message)
+    {
         //check if not Windows OS
         if (strpos(strtolower(PHP_OS), "win") !== false) {
             $error_message = "Windows OS is not supported by this command!";
@@ -391,7 +434,8 @@ class AdministrationService {
         return true;
     }
 
-    public function setSettings($map, $exposed) {
+    public function setSettings($map, $exposed)
+    {
         foreach ($map as $k => $v) {
             if (strpos($k, "_overridable") !== false)
                 continue;
@@ -411,11 +455,13 @@ class AdministrationService {
         }
     }
 
-    public function getTasksCollection() {
+    public function getTasksCollection()
+    {
         return $this->scheduledTaskRepository->findAll();
     }
 
-    public function scheduleRestoreTask(&$output, $busy_check) {
+    public function scheduleRestoreTask(&$output, $busy_check)
+    {
         if ($busy_check) {
             $pending = $this->scheduledTaskRepository->findAllPending();
             if (count($pending) > 0)
@@ -438,7 +484,8 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function scheduleBackupTask(&$output, $busy_check) {
+    public function scheduleBackupTask(&$output, $busy_check)
+    {
         if ($busy_check) {
             $pending = $this->scheduledTaskRepository->findAllPending();
             if (count($pending) > 0)
@@ -461,7 +508,8 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function scheduleContentUpgradeTask(&$output, $backup, $busy_check) {
+    public function scheduleContentUpgradeTask(&$output, $backup, $busy_check)
+    {
         if ($busy_check) {
             $pending = $this->scheduledTaskRepository->findAllPending();
             if (count($pending) > 0)
@@ -475,17 +523,17 @@ class AdministrationService {
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
-        $in = new ArrayInput(array(
-            "command" => "concerto:content:upgrade",
-            "--backup" => true
-        ));
+        $options = array("command" => "concerto:content:upgrade");
+        if ($backup === "true") $options["--backup"] = "true";
+        $in = new ArrayInput($options);
         $out = new BufferedOutput();
         $return_code = $app->run($in, $out);
         $output = $out->fetch();
         return $return_code;
     }
 
-    public function schedulePlatformUpgradeTask(&$output, $backup, $busy_check) {
+    public function schedulePlatformUpgradeTask(&$output, $backup, $busy_check)
+    {
         if ($busy_check) {
             $pending = $this->scheduledTaskRepository->findAllPending();
             if (count($pending) > 0)
@@ -499,17 +547,17 @@ class AdministrationService {
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
-        $in = new ArrayInput(array(
-            "command" => "concerto:upgrade",
-            "--backup" => true
-        ));
+        $options = array("command" => "concerto:upgrade");
+        if ($backup == "true") $options["--backup"] = "true";
+        $in = new ArrayInput($options);
         $out = new BufferedOutput();
         $return_code = $app->run($in, $out);
         $output = $out->fetch();
         return $return_code;
     }
 
-    public function schedulePackageInstallTask(&$output, $install_options, $busy_check) {
+    public function schedulePackageInstallTask(&$output, $install_options, $busy_check)
+    {
         if ($busy_check) {
             $pending = $this->scheduledTaskRepository->findAllPending();
             if (count($pending) > 0)
@@ -536,20 +584,24 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function getApiClientsCollection() {
+    public function getApiClientsCollection()
+    {
         return $this->apiClientRepository->findAll();
     }
 
-    public function deleteApiClient($object_ids) {
+    public function deleteApiClient($object_ids)
+    {
         $object_ids = explode(",", $object_ids);
         $this->apiClientRepository->deleteById($object_ids);
     }
 
-    public function clearApiClients() {
+    public function clearApiClients()
+    {
         $this->apiClientRepository->deleteAll();
     }
 
-    public function addApiClient() {
+    public function addApiClient()
+    {
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
@@ -562,7 +614,8 @@ class AdministrationService {
         return $return_code;
     }
 
-    public function packageStatus(&$output) {
+    public function packageStatus(&$output)
+    {
         //check if not Windows OS
         if (strpos(strtolower(PHP_OS), "win") !== false) {
             $output = "Windows OS is not supported by this command!";
