@@ -17,7 +17,7 @@ fieldset {
 .horizontalElement {
     float: left;
     width: 33%;
-    height: 22px;
+    height: 40px;
 }
 
 .horizontalElement > table {
