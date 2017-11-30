@@ -7,7 +7,7 @@
         {{ 'alerts.no_steps'|trans }}
     </uib-alert>
 
-    <uib-tabset>
+    <uib-tabset ng-if="object.steps != 0">
         <uib-tab ng-repeat="step in object.steps">
             <uib-tab-heading>{% verbatim %}{{ step.title }}{% endverbatim %}</uib-tab-heading>
             <div ng-controller="TestWizardCarouselStepController">
