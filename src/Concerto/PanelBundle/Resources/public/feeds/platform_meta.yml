@@ -2,8 +2,11 @@ version: "5.0.beta.3.11"
 changelog:
     - version: "5.0.beta.3.11"
       description: >
-        Improvements
+        Fixes and improvements
       categories:
+          - label: Fixes
+            changes:
+                - fixed binding in wizard param definer for group and drop-down type
           - label: Improvements
             changes:
                 - import and CSV upload handles failure scenarios more gracefully
