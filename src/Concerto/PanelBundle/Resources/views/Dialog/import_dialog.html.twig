@@ -34,7 +34,7 @@
         {% endembed %}
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="save()" ng-show="item!=null">{{ 'form.button.save'|trans }}</button>
+        <button class="btn btn-success" ng-click="save()" ng-show="item!=null && !dirty">{{ 'form.button.save'|trans }}</button>
         <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
     </div>
 </div>

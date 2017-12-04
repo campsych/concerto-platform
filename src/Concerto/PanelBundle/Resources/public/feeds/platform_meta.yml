@@ -1,5 +1,12 @@
-version: "5.0.beta.3.10"
+version: "5.0.beta.3.11"
 changelog:
+    - version: "5.0.beta.3.11"
+      description: >
+        Improvements
+      categories:
+          - label: Improvements
+            changes:
+                - import and CSV upload handles failure scenarios more gracefully
     - version: "5.0.beta.3.10"
       description: >
         Fixes
