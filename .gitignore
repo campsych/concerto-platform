@@ -1,11 +1,14 @@
 /vendor/
-/web/bundles/concertopanel/
+/web/bundles/
 /nbproject/
 /app/cache/
 /app/logs
-/web/bundles/concertotest/
 /bin/
 /composer.phar
 /app/config/parameters.yml
+/app/config/parameters_administration.yml
+/app/config/parameters_nodes.yml
+/app/config/parameters_test_runner.yml
+/app/config/parameters_uio.yml
 /.idea
 /app/bootstrap.php.cache
