@@ -48,7 +48,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         params: null,
         directory: "/",
         nodeId: null,
-        testId: null,
+        testSlug: null,
+        testName: null,
         hash: null,
         unresumableHtml: $templateCache.get("unresumable_template.html"),
         finishedHtml: $templateCache.get("finished_template.html"),
@@ -168,9 +169,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         showLoader();
         var path = "";
         if (settings.debug) {
-          path = settings.directory + "admin/test/" + settings.testId + "/session/start/debug/" + encodeURIComponent(settings.params);
+          path = settings.directory + "admin/test/" + settings.testSlug + "/session/start/debug/" + encodeURIComponent(settings.params);
         } else {
-          path = settings.directory + "test/" + settings.testId + "/session/start/" + encodeURIComponent(settings.params);
+          if (settings.testName !== null) {
+            path = settings.directory + "test_n/" + settings.testName + "/session/start/" + encodeURIComponent(settings.params);
+          } else {
+            path = settings.directory + "test/" + settings.testSlug + "/session/start/" + encodeURIComponent(settings.params);
+          }
         }
 
         $http.post(path, {
@@ -489,7 +494,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         var vals = {};
         for (var name in extraControls) {
           var val = extraControls[name]();
-          if(val !== null) {
+          if (val !== null) {
             vals[name] = val;
           }
         }
@@ -508,7 +513,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var options = scope.options;
       if (settings.clientDebug)
         console.log(options);
-      if (options.testId != null) {
+      if (options.testSlug != null || options.testName != null) {
         startNewTest();
         return;
       }

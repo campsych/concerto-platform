@@ -22,13 +22,13 @@ class TestRunnerService {
         $this->loadBalancerService = $loadBalancerService;
     }
 
-    public function startNewSession($test_slug, $node_id, $params, $client_ip, $client_browser, $debug) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $node_id, $params, $client_ip, $client_browser, $debug");
+    public function startNewSession($test_slug, $test_name, $node_id, $params, $client_ip, $client_browser, $debug) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $node_id, $params, $client_ip, $client_browser, $debug");
 
         $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->loadBalancerService->getOptimalTestNode();
 
-        $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $params, $client_ip, $client_browser, false, $debug);
+        $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $test_name, $params, $client_ip, $client_browser, false, $debug);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;

@@ -36,13 +36,14 @@ class TestRunnerController
      * Returns start new test template.
      *
      * @param string $test_slug
-     * @param json encoded string $params
+     * @param string $test_name
+     * @param string $params
      * @param boolean $debug
      * @return Response
      */
-    public function startNewTestAction($test_slug, $params = "{}", $debug = false)
+    public function startNewTestAction($test_slug, $test_name, $params = "{}", $debug = false)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $params");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
         $params = json_decode($params, true);
         $keys = $this->request->query->keys();
@@ -56,6 +57,7 @@ class TestRunnerController
 
         $response = $this->templating->renderResponse("ConcertoTestBundle::index.html.twig", array(
             "directory" => $panel_node["dir"] . ($this->environment === "dev" ? "app_dev.php/" : ""),
+            "test_name" => $test_name,
             "test_slug" => $test_slug,
             "node_id" => $panel_node["id"],
             "params" => addcslashes($params, "'"),
@@ -68,34 +70,38 @@ class TestRunnerController
 
     public function startNewDebugTestAction($test_slug, $params = "{}")
     {
-        return $this->startNewTestAction($test_slug, $params, true);
+        return $this->startNewTestAction($test_slug, null, $params, true);
     }
 
-    public function startNewSessionAction($test_slug, $params = "{}", $debug = false)
+    public function startNewSessionAction($test_slug, $test_name, $params = "{}", $debug = false)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $params, $debug");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $debug");
 
         $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
         $response = null;
         if ($panel_node["local"] == "true") {
             $result = $this->testRunnerService->startNewSession(
-                $test_slug, //
-                $this->request->get("node_id"), //
-                $params, //
-                $this->request->getClientIp(), //
-                $this->request->server->get('HTTP_USER_AGENT'), //
-                $debug //
+                $test_slug,
+                $test_name,
+                $this->request->get("node_id"),
+                $params,
+                $this->request->getClientIp(),
+                $this->request->server->get('HTTP_USER_AGENT'),
+                $debug
             );
             $response = new Response($result);
             $response->headers->set('Content-Type', 'application/json');
             $response->headers->set('Access-Control-Allow-Origin', '*');
         } else {
             if ($debug) {
-                //$url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "admin/test/$test_slug/session/start/debug/" . urlencode($params);
                 return new Response("", 403);
             }
 
-            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/$test_slug/session/start/" . urlencode($params);
+            if($test_name !== null) {
+                $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test_n/$test_name/session/start/" . urlencode($params);
+            } else {
+                $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/$test_slug/session/start/" . urlencode($params);
+            }
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
             $response = new RedirectResponse($url, 307);
         }
@@ -105,7 +111,7 @@ class TestRunnerController
 
     public function startNewDebugSessionAction($test_slug, $params = "{}")
     {
-        return $this->startNewSessionAction($test_slug, $params, true);
+        return $this->startNewSessionAction($test_slug, null, $params, true);
     }
 
     public function submitToSessionAction($session_hash)

@@ -2,8 +2,11 @@ version: "5.0.beta.3.11"
 changelog:
     - version: "5.0.beta.3.11"
       description: >
-        Fixes and improvements
+        Running tests by name
       categories:
+          - label: New features
+            changes:
+                - can now run tests directly by name
           - label: Fixes
             changes:
                 - fixed binding in wizard param definer for group and drop-down type

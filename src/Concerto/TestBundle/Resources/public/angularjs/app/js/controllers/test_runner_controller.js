@@ -15,7 +15,7 @@ testRunner.controller('testRunnerController', [
     var RESPONSE_KEEPALIVE_CHECKIN = 10;
     var RESPONSE_UNRESUMABLE = 11;
     var RESPONSE_ERROR = -1;
-    $scope.init = function (node, directory, test, params, debug, keepAliveInterval) {
+    $scope.init = function (node, directory, testSlug, testName, params, debug, keepAliveInterval) {
       var callback = function (response, hash) {
         testRunner.overridableCallback(response);
         return true;
@@ -24,7 +24,8 @@ testRunner.controller('testRunnerController', [
       $scope.concertoOptions = angular.extend($scope.concertoOptions, {
         nodeId: node,
         directory: directory,
-        testId: test,
+        testSlug: testSlug,
+        testName: testName,
         params: params,
         debug: debug,
         callback: callback,

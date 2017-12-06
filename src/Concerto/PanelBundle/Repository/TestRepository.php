@@ -33,6 +33,14 @@ class TestRepository extends AEntityRepository
         return null;
     }
 
+    public function findRunnableByName($name)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.name = :name")->andWhere("t.visibility != " . Test::VISIBILITY_SUBTEST)->setParameter("name", $name);
+        $results = $qb->getQuery()->getResult();
+        if(count($results) > 0) return $results[0];
+        return null;
+    }
+
     public function findDependent($source_test_id)
     {
         $result = array();

@@ -1,6 +1,10 @@
 test_runner_start:
     path: /test/{test_slug}/{params}
-    defaults: { _controller: concerto_panel.test_runner_controller:startNewTestAction, params: "{}" }
+    defaults: { _controller: concerto_panel.test_runner_controller:startNewTestAction, params: "{}", test_name: null }
+
+test_runner_start_name:
+    path: /test_n/{test_name}/{params}
+    defaults: { _controller: concerto_panel.test_runner_controller:startNewTestAction, params: "{}", test_slug: null }
     
 test_runner_start_debug:
     path: /admin/test/{test_slug}/debug/{params}
@@ -8,7 +12,12 @@ test_runner_start_debug:
     
 test_runner_session_start:
     path: /test/{test_slug}/session/start/{params}
-    defaults: { _controller: concerto_panel.test_runner_controller:startNewSessionAction, params: "{}" }
+    defaults: { _controller: concerto_panel.test_runner_controller:startNewSessionAction, params: "{}", test_name: null }
+    methods:  [POST]
+
+test_runner_session_start_name:
+    path: /test_n/{test_name}/session/start/{params}
+    defaults: { _controller: concerto_panel.test_runner_controller:startNewSessionAction, params: "{}", test_slug: null }
     methods:  [POST]
     
 test_runner_session_start_debug:

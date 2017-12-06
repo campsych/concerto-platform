@@ -82,9 +82,9 @@ class TestSessionService
         return sha1(time() . "_" . $this->secret . "_" . $session_id);
     }
 
-    public function startNewSession($test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug)
+    public function startNewSession($test_node_hash, $test_slug, $test_name, $params, $client_ip, $client_browser, $calling_node_ip, $debug)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $test_slug, $params, $client_ip, $client_browser, $calling_node_ip, $debug");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_hash, $test_slug, $test_name, $params, $client_ip, $client_browser, $calling_node_ip, $debug");
 
         $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node_hash);
         if (!$test_node) {
@@ -95,7 +95,12 @@ class TestSessionService
             ));
         }
 
-        $test = $this->testRepository->findRunnableBySlug($test_slug);
+        $test = null;
+        if ($test_name !== null) {
+            $test = $this->testRepository->findRunnableByName($test_name);
+        } else {
+            $test = $this->testRepository->findRunnableBySlug($test_slug);
+        }
         if (!$test) {
             return $this->prepareResponse(null, array(
                 "source" => self::SOURCE_PANEL_NODE,
@@ -134,26 +139,29 @@ class TestSessionService
         $session = $this->testSessionRepository->findOneBy(array("hash" => $hash));
         $response = null;
         switch ($rresult["code"]) {
-            case self::RESPONSE_AUTHENTICATION_FAILED: {
-                $response = $rresult;
-                $session->setStatus(self::STATUS_REJECTED);
-                $this->testSessionRepository->save($session);
-                socket_close($panel_node_sock);
-                break;
-            }
-            case self::RESPONSE_SESSION_LIMIT_REACHED: {
-                $response = $rresult;
-                $session->setStatus(self::STATUS_REJECTED);
-                $this->testSessionRepository->save($session);
-                $this->administrationService->insertSessionLimitMessage($session);
-                socket_close($panel_node_sock);
-                break;
-            }
-            default: {
-                $response = $this->startListener($panel_node_sock, $hash);
-                $this->testSessionRepository->clear();
-                break;
-            }
+            case self::RESPONSE_AUTHENTICATION_FAILED:
+                {
+                    $response = $rresult;
+                    $session->setStatus(self::STATUS_REJECTED);
+                    $this->testSessionRepository->save($session);
+                    socket_close($panel_node_sock);
+                    break;
+                }
+            case self::RESPONSE_SESSION_LIMIT_REACHED:
+                {
+                    $response = $rresult;
+                    $session->setStatus(self::STATUS_REJECTED);
+                    $this->testSessionRepository->save($session);
+                    $this->administrationService->insertSessionLimitMessage($session);
+                    socket_close($panel_node_sock);
+                    break;
+                }
+            default:
+                {
+                    $response = $this->startListener($panel_node_sock, $hash);
+                    $this->testSessionRepository->clear();
+                    break;
+                }
         }
         return $this->prepareResponse($hash, $response);
     }
