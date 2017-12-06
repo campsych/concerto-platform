@@ -12,3 +12,4 @@
 /app/config/parameters_uio.yml
 /.idea
 /app/bootstrap.php.cache
+*.iml
