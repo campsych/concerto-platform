@@ -50,13 +50,14 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
  
-CMD php /usr/src/concerto/app/console concerto:setup \
- && php /usr/src/concerto/app/console concerto:r:cache \
- && rm -rf /usr/src/concerto/app/cache/prod \
- && php /usr/src/concerto/app/console cache:warmup --env=prod \
- && chown -R www-data:www-data /usr/src/concerto/app/cache \
- && chown -R www-data:www-data /usr/src/concerto/app/logs \
- && chown -R www-data:www-data /usr/src/concerto/src/Concerto/TestBundle/Resources/sessions \
+CMD cd /usr/src/concerto \
+ && php app/console concerto:setup \
+ && php app/console concerto:r:cache \
+ && rm -rf app/cache/prod \
+ && php app/console cache:warmup --env=prod \
+ && chown -R www-data:www-data app/cache \
+ && chown -R www-data:www-data app/logs \
+ && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
  && cron \
  && service nginx start \
  && php-fpm
