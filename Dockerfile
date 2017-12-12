@@ -50,8 +50,7 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
  
-CMD cd /usr/src/concerto \
- && php app/console concerto:setup \
+CMD php app/console concerto:setup \
  && php app/console concerto:r:cache \
  && rm -rf app/cache/prod \
  && php app/console cache:warmup --env=prod \
