@@ -156,8 +156,7 @@ class DataTableController extends AExportableTabController {
                     ".." . DIRECTORY_SEPARATOR .
                     ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
                     "Resources" . DIRECTORY_SEPARATOR .
-                    "public" . DIRECTORY_SEPARATOR .
-                    "files" . DIRECTORY_SEPARATOR .
+                    "import" . DIRECTORY_SEPARATOR .
                     $this->request->get("file"), $restructure === "1", $header === "1", $delimiter, $enclosure);
         } catch (\Exception $ex) {
             $response = new Response(json_encode(array("result" => 1, "errors" => array($ex->getMessage()))));

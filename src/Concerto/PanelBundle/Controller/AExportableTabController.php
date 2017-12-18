@@ -11,7 +11,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
 
-abstract class AExportableTabController extends ASectionController {
+abstract class AExportableTabController extends ASectionController
+{
 
     protected $request;
     protected $environment;
@@ -19,7 +20,8 @@ abstract class AExportableTabController extends ASectionController {
     protected $importService;
     protected $exportService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService) {
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService)
+    {
         parent::__construct($templating, $service, $translator, $securityTokenStorage);
 
         $this->environment = $environment;
@@ -28,34 +30,34 @@ abstract class AExportableTabController extends ASectionController {
         $this->exportService = $exportService;
     }
 
-    public function preImportStatusAction() {
+    public function preImportStatusAction()
+    {
         $result = $this->importService->getPreImportStatusFromFile(
-                realpath(__DIR__ . DIRECTORY_SEPARATOR .
-                        ".." . DIRECTORY_SEPARATOR .
-                        ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-                        "Resources" . DIRECTORY_SEPARATOR .
-                        "public" . DIRECTORY_SEPARATOR .
-                        "files") . DIRECTORY_SEPARATOR .
-                $this->request->get("file"), //
-                $this->request->get("name"));
+            realpath(__DIR__ . DIRECTORY_SEPARATOR .
+                ".." . DIRECTORY_SEPARATOR .
+                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
+                "Resources" . DIRECTORY_SEPARATOR .
+                "import") . DIRECTORY_SEPARATOR .
+            $this->request->get("file"),
+            $this->request->get("name"));
 
         $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function importAction() {
+    public function importAction()
+    {
         $result = $this->importService->importFromFile(
-                $this->securityTokenStorage->getToken()->getUser(), //
-                __DIR__ . DIRECTORY_SEPARATOR .
-                ".." . DIRECTORY_SEPARATOR .
-                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-                "Resources" . DIRECTORY_SEPARATOR .
-                "public" . DIRECTORY_SEPARATOR .
-                "files" . DIRECTORY_SEPARATOR .
-                $this->request->get("file"), //
-                json_decode($this->request->get("instructions"), true), //
-                false);
+            $this->securityTokenStorage->getToken()->getUser(),
+            __DIR__ . DIRECTORY_SEPARATOR .
+            ".." . DIRECTORY_SEPARATOR .
+            ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
+            "Resources" . DIRECTORY_SEPARATOR .
+            "import" . DIRECTORY_SEPARATOR .
+            $this->request->get("file"),
+            json_decode($this->request->get("instructions"), true),
+            false);
         $errors = array();
         $show_index = 0;
         for ($j = 0; $j < count($result["import"]); $j++) {
@@ -81,21 +83,23 @@ abstract class AExportableTabController extends ASectionController {
         return $response;
     }
 
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED) {
+    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    {
         $response = new Response($this->exportService->exportToFile($this->entityName, $object_ids, $format));
         $response->headers->set('Content-Type', 'application/x-download');
         $response->headers->set(
-                'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $object_ids, $format) . '"'
+            'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $object_ids, $format) . '"'
         );
         return $response;
     }
 
-    public function copyAction($object_id) {
+    public function copyAction($object_id)
+    {
         $result = $this->importService->copy(
-                $this->entityName, //
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id, //
-                $this->request->get("name")
+            $this->entityName,
+            $this->securityTokenStorage->getToken()->getUser(),
+            $object_id,
+            $this->request->get("name")
         );
         $errors = array();
         $show_index = 0;

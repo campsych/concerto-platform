@@ -123,10 +123,10 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
       $http.post($scope.preImportStatusPath, {
         "file": $scope.item.file.name
       }).then(
-          function successCallback(data) {
-            switch (data.result) {
+          function successCallback(response) {
+            switch (response.data.result) {
               case BaseController.RESULT_OK: {
-                $scope.preImportStatus = data.status;
+                $scope.preImportStatus = response.data.status;
                 break;
               }
               case 2: {

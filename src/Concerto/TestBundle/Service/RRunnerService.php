@@ -248,10 +248,10 @@ class RRunnerService
 
         $response = array("result" => -1);
         foreach ($files as $file) {
-            $upload_path = $this->getUploadDirectory() . $file->getClientOriginalName() . ".upload";
+            $upload_path = $this->getUploadDirectory() . $file->getClientOriginalName();
             $upload_result = move_uploaded_file($file->getRealPath(), $upload_path);
             if ($upload_result)
-                $response = array("result" => 0, "file_path" => $this->getUploadDirectory() . $file->getClientOriginalName() . ".upload", "name" => $name);
+                $response = array("result" => 0, "file_path" => $this->getUploadDirectory() . $file->getClientOriginalName(), "name" => $name);
             else {
                 $response = array("result" => -1);
                 break;

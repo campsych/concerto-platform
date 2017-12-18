@@ -57,6 +57,7 @@ CMD php app/console concerto:setup \
  && chown -R www-data:www-data app/cache \
  && chown -R www-data:www-data app/logs \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
+ && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
  && cron \
  && service nginx start \
