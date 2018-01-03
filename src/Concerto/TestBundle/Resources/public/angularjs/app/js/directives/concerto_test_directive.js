@@ -4,7 +4,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
   function ($http, $interval, $timeout, $sce, $compile, $templateCache, dateFilter, FileUploader, $window) {
     function link(scope, element, attrs) {
 
-      $window.addEventListener('beforeunload', function (e) {
+      $window.addEventListener('unload', function (e) {
         clearTimer();
 
         $.ajax({
