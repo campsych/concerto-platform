@@ -143,6 +143,34 @@ class TestRunnerController
         return $response;
     }
 
+    public function backgroundWorkerAction($session_hash)
+    {
+        $time = microtime(true);
+
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
+
+        $panel_node = $this->testRunnerService->getPanelNodeById($this->request->get("node_id"));
+        $response = null;
+        if ($panel_node["local"] == "true") {
+            $result = $this->testRunnerService->backgroundWorker(
+                $session_hash,
+                $this->request->get("node_id"),
+                $this->request->get("values"),
+                $this->request->getClientIp(),
+                $this->request->server->get('HTTP_USER_AGENT'),
+                $time
+            );
+            $response = new Response($result);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+        } else {
+            $url = $panel_node["protocol"] . "://" . $panel_node["web_host"] . ":" . $panel_node["web_port"] . $panel_node["dir"] . ($this->environment == "prod" ? "" : "app_dev.php/") . "test/session/$session_hash/worker";
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - redirecting to URL : " . $url);
+            $response = new RedirectResponse($url, 307);
+        }
+        return $response;
+    }
+
     public function killSessionAction($session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");

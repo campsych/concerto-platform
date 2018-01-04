@@ -31,6 +31,7 @@ class TestSessionService
     const RESPONSE_SESSION_LIMIT_REACHED = 12;
     const RESPONSE_TEST_NOT_FOUND = 13;
     const RESPONSE_SESSION_LOST = 14;
+    const RESPONSE_WORKER = 15;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
     const STATUS_FINALIZED = 2;
@@ -198,7 +199,10 @@ class TestSessionService
 
         $timeLimit = $session->getTimeLimit();
         $timeTaken = $values["timeTaken"];
-        $isTimeout = $values["isTimeout"];
+        $isTimeout = 0;
+        if (array_key_exists("isTimeout", $values)) {
+            $isTimeout = $values["isTimeout"];
+        }
         if ($this->testRunnerSettings["timer_type"] == "server") {
             $timeTaken = $time - $this->session->get("templateStartTime");
             if ($timeLimit > 0 && $timeTaken >= $timeLimit) {
@@ -273,6 +277,77 @@ class TestSessionService
         $this->testSessionRepository->clear();
 
         $submitted = $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values);
+        if (!$submitted) {
+            return $this->prepareResponse($session_hash, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_SESSION_LOST
+            ), "Submit to process failed.");
+        }
+
+        $response = $this->startListener($client_sock, $session_hash);
+
+        return $this->prepareResponse($session_hash, $response);
+    }
+
+    public function backgroundWorker($session_hash, $values, $client_ip, $client_browser, $calling_node_ip, $time)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser, $calling_node_ip");
+
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
+        if (!$session) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - session $session_hash not found.");
+            return $this->prepareResponse($session_hash, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+
+        if ($session->getStatus() !== TestSession::STATUS_RUNNING) {
+            return $this->prepareResponse($session_hash, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_SESSION_LOST
+            ));
+        }
+
+        $test_node = $this->loadBalancerService->getTestNodeById($session->getTestNodeId());
+        if (!$test_node) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - test node " . $test_node["hash"] . " not found.");
+            return $this->prepareResponse($session_hash, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+
+        $test_node = $this->loadBalancerService->authorizeTestNode($calling_node_ip, $test_node["hash"]);
+        if (!$test_node) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - test node " . $test_node["hash"] . "  $calling_node_ip authentication failed.");
+            return $this->prepareResponse($session_hash, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_AUTHENTICATION_FAILED
+            ));
+        }
+
+        $values = $this->setTemplateTimerValues($session, $values, $time);
+
+        $panel_node = $this->getLocalPanelNode();
+        if (($client_sock = $this->createListenerSocket(gethostbyname($panel_node["sock_host"]), $session_hash)) === false) {
+            return $this->prepareResponse($session_hash, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_ERROR
+            ));
+        }
+        socket_getsockname($client_sock, $panel_node_ip, $panel_node_port);
+
+        $test_node_port = $session->getTestNodePort();
+
+        $session->setPanelNodePort($panel_node_port);
+        $session->setClientIp($client_ip);
+        $session->setClientBrowser($client_browser);
+        $session->setUpdated();
+        $this->testSessionRepository->save($session);
+        $this->testSessionRepository->clear();
+
+        $submitted = $this->submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values, self::RESPONSE_WORKER);
         if (!$submitted) {
             return $this->prepareResponse($session_hash, array(
                 "source" => self::SOURCE_PANEL_NODE,
@@ -531,6 +606,8 @@ class TestSessionService
                         $response["loaderHtml"] = $session->getLoaderHtml();
                         $response["templateParams"] = $session->getTemplateParams();
                         break;
+                    case self::RESPONSE_WORKER:
+                        break;
                 }
                 $response["hash"] = $session_hash;
             }
@@ -538,7 +615,7 @@ class TestSessionService
         return $response;
     }
 
-    private function submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values)
+    private function submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values, $code = self::RESPONSE_SUBMIT)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $panel_node_port, $client_ip, $client_browser, $values");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
@@ -550,7 +627,7 @@ class TestSessionService
         }
         socket_write($sock, json_encode(array(
                 "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_SUBMIT,
+                "code" => $code,
                 "panelNode" => array("sock_host" => $panel_node["sock_host"], "port" => $panel_node_port, "client_ip" => $client_ip, "client_browser" => $client_browser),
                 "values" => $values
             )) . "\n");

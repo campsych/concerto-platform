@@ -44,6 +44,16 @@ class TestRunnerService {
         return $response;
     }
 
+    public function backgroundWorker($session_hash, $node_id, $values, $client_ip, $client_browser, $time) {
+        $values = json_encode($values);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $values, $client_ip, $client_browser");
+
+        $response = $this->sessionService->backgroundWorker($session_hash, $values, $client_ip, $client_browser, false, $time);
+        $response = json_encode($response);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
+        return $response;
+    }
+
     public function keepAliveSession($session_hash, $node_id, $client_ip) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $client_ip");
 

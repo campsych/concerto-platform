@@ -38,6 +38,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var RESPONSE_SESSION_LIMIT_REACHED = 12;
       var RESPONSE_TEST_NOT_FOUND = 13;
       var RESPONSE_SESSION_LOST = 14;
+      var RESPONSE_WORKER = 15;
       var RESPONSE_ERROR = -1;
       var SOURCE_PANEL_NODE = 0;
       var SOURCE_PROCESS = 1;
@@ -60,7 +61,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         connectionRetryHtml: $templateCache.get("connection_retry_template.html"),
         loaderHtml: $templateCache.get("loading_template.html"),
         timeFormat: "HH:mm:ss",
-        callback: null,
         keepAliveInterval: 0
       }, scope.options);
       var results = {};
@@ -162,10 +162,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       function startNewTest() {
         if (settings.clientDebug)
           console.log("start");
-        if (settings.callback != null) {
-          if (!settings.callback.call(this, {'source': SOURCE_PANEL_NODE, 'code': RESPONSE_STARTING}))
-            return;
-        }
+
         showLoader();
         var path = "";
         if (settings.debug) {
@@ -201,8 +198,37 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
 
           showView();
-          if (settings.callback != null) {
-            settings.callback.call(this, response, settings.hash);
+        });
+      }
+
+      scope.runWorker = function (name, passedVals, successCallback, errorCallback) {
+        if (settings.clientDebug)
+          console.log("worker", name);
+
+        var values = getControlsValues();
+        if (passedVals) {
+          angular.merge(values, passedVals);
+        }
+        values["bgWorker"] = name;
+
+        $http.post(settings.directory + "test/session/" + settings.hash + "/worker", {
+          node_id: settings.nodeId,
+          values: values
+        }).success(function (response) {
+          if (settings.clientDebug)
+            console.log(response);
+          if (settings.debug && response.debug)
+            console.log(response.debug);
+
+          if (successCallback != null) {
+            successCallback.call(this, response.data);
+          }
+        }).error(function (error, status) {
+          if (settings.clientDebug)
+            console.log("worker failed");
+
+          if (errorCallback != null) {
+            errorCallback.call(this, error, status);
           }
         });
       }
@@ -214,10 +240,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
         if (settings.clientDebug)
           console.log("submit");
+
         removeSubmitEvents()
         clearTimer();
         var values = getControlsValues();
         hideView();
+
+        testRunner.onSubmitView(values);
+
         if (scope.fileUploader.queue.length > 0) {
           scope.fileUploader.onCompleteAll = function () {
             submitViewPostValueGetter(btnName, isTimeout, passedVals, values);
@@ -262,9 +292,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
           isViewReady = true;
           showView();
-          if (settings.callback != null) {
-            settings.callback.call(this, response, settings.hash);
-          }
         }).error(function (error, status) {
           if (status === -1) {
             if (settings.clientDebug)
@@ -305,7 +332,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
       }
 
-      function getResults() {
+      function getResults(callback) {
         if (settings.clientDebug)
           console.log("result");
         $http.post(settings.directory + "test/session/" + settings.hash + "/results", {
@@ -320,12 +347,11 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           switch (lastResponse.code) {
             case RESPONSE_RESULTS: {
               results = response.results;
+              if (callback != null) {
+                callback.call(this, response.results);
+              }
               break;
             }
-          }
-
-          if (settings.callback != null) {
-            settings.callback.call(this, response.results, settings.hash);
           }
         });
       }
@@ -507,6 +533,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
       testRunner.R = scope.R;
       testRunner.submitView = scope.submitView;
+      testRunner.runWorker = scope.runWorker;
       testRunner.logClientSideError = scope.logClientSideError;
       testRunner.addExtraControl = scope.addExtraControl;
 

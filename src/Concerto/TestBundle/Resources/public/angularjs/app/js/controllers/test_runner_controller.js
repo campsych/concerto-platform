@@ -5,21 +5,7 @@ testRunner.controller('testRunnerController', [
   function ($scope, $compile) {
 
     $scope.concertoOptions = {};
-    var RESPONSE_VIEW_TEMPLATE = 0;
-    var RESPONSE_FINISHED = 1;
-    var RESPONSE_SUBMIT = 2;
-    var RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-    var RESPONSE_RESULTS = 7;
-    var RESPONSE_AUTHENTICATION_FAILED = 8;
-    var RESPONSE_STARTING = 9;
-    var RESPONSE_KEEPALIVE_CHECKIN = 10;
-    var RESPONSE_UNRESUMABLE = 11;
-    var RESPONSE_ERROR = -1;
     $scope.init = function (node, directory, testSlug, testName, params, debug, keepAliveInterval) {
-      var callback = function (response, hash) {
-        testRunner.overridableCallback(response);
-        return true;
-      };
 
       $scope.concertoOptions = angular.extend($scope.concertoOptions, {
         nodeId: node,
@@ -28,11 +14,8 @@ testRunner.controller('testRunnerController', [
         testName: testName,
         params: params,
         debug: debug,
-        callback: callback,
         keepAliveInterval: keepAliveInterval
       });
-
-      $scope.startTest();
     };
 
     $scope.startTest = function (hash) {
@@ -40,11 +23,10 @@ testRunner.controller('testRunnerController', [
       angular.element("#testContainer").html(testElement);
       $compile(testElement)($scope);
     };
+
+    $scope.startTest();
   }
 ]);
-
-testRunner.overridableCallback = function (response) {
-};
 
 testRunner.loadScripts = function (urls) {
   urls.forEach(function (src) {
@@ -56,3 +38,5 @@ testRunner.loadScripts = function (urls) {
     document.head.appendChild(script);
   });
 };
+
+testRunner.onSubmitView = function(values) {};

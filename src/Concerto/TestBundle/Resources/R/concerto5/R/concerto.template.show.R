@@ -5,7 +5,8 @@ concerto.template.show = function(
   params=list(),
   timeLimit=0,
   finalize=F,
-  removeMissingParams=T) {
+  removeMissingParams=T,
+  bgWorkers=list()) {
     if(!is.list(params)) stop("'params' must be a list!")
   
     if(templateId==-1 && html=="") stop("templateId or html must be declared")
@@ -45,12 +46,23 @@ concerto.template.show = function(
 
         concerto$templateParams <<- list()
 
-        resp = concerto5:::concerto.server.listen()
-
-        if(exists("concerto.onTemplateSubmit")) {
-            do.call("concerto.onTemplateSubmit",list(response=resp), envir = .GlobalEnv)
+        while(T) {
+            resp = concerto5:::concerto.server.listen()
+            if (resp$code == RESPONSE_SUBMIT) {
+                values = fromJSON(resp$values)
+                if(exists("concerto.onTemplateSubmit")) {
+                    do.call("concerto.onTemplateSubmit",list(response=values), envir = .GlobalEnv)
+                }
+                return(values)
+            } else if(resp$code == RESPONSE_WORKER) {
+                values = fromJSON(resp$values)
+                result = list()
+                if(!is.null(values$bgWorker) && values$bgWorker %in% ls(bgWorkers)) {
+                    concerto.log(paste0("running worker: ",values$bgWorker))
+                    result = do.call(bgWorkers[[values$bgWorker]], list(response=values))
+                }
+                concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
+            } else return(resp)
         }
-
-        return(resp)
     }
 }

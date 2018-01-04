@@ -30,6 +30,5 @@ concerto.server.listen = function(){
     }
 
     concerto.log("listened to server")
-    if (response$code == RESPONSE_SUBMIT) return(fromJSON(response$values))
-    else return(response)
+    return(response)
 }

@@ -1,5 +1,13 @@
-version: "5.0.beta.3.13"
+version: "5.0.beta.3.14"
 changelog:
+    - version: "5.0.beta.3.14"
+      description: >
+        R background worker
+      categories:
+          - label: Features
+            changes:
+                - R background worker
+                - testRunner.onSubmit(values) js callback
     - version: "5.0.beta.3.13"
       description: >
         concerto.list.merge

@@ -31,6 +31,7 @@ class StartProcessCommand extends Command
     const RESPONSE_KEEPALIVE_CHECKIN = 10;
     const RESPONSE_UNRESUMABLE = 11;
     const RESPONSE_SESSION_LIMIT_REACHED = 12;
+    const RESPONSE_WORKER = 15;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
     const STATUS_STOPPED = 1;
@@ -233,6 +234,12 @@ class StartProcessCommand extends Command
                 $this->respondToProcess($submitter_sock, $message);
                 return false;
             }
+            case self::RESPONSE_WORKER: {
+                $this->panelNode = $msg->panelNode;
+                $this->lastKeepAliveTime = time();
+                $this->respondToProcess($submitter_sock, $message);
+                return false;
+            }
             case self::RESPONSE_KEEPALIVE_CHECKIN: {
                 $this->lastKeepAliveTime = time();
                 return false;
@@ -251,6 +258,10 @@ class StartProcessCommand extends Command
         $msg = json_decode($message, true);
         switch ($msg["code"]) {
             case self::RESPONSE_VIEW_TEMPLATE: {
+                if(!$this->respondToPanelNode($message)) return true;
+                return false;
+            }
+            case self::RESPONSE_WORKER: {
                 if(!$this->respondToPanelNode($message)) return true;
                 return false;
             }
