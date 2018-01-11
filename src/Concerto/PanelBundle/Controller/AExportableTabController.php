@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\FileService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AExportableSectionService;
@@ -19,8 +20,9 @@ abstract class AExportableTabController extends ASectionController
     protected $exportFilePrefix;
     protected $importService;
     protected $exportService;
+    protected $fileService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService)
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, FileService $fileService)
     {
         parent::__construct($templating, $service, $translator, $securityTokenStorage);
 
@@ -28,17 +30,13 @@ abstract class AExportableTabController extends ASectionController
         $this->request = $request;
         $this->importService = $importService;
         $this->exportService = $exportService;
+        $this->fileService = $fileService;
     }
 
     public function preImportStatusAction()
     {
         $result = $this->importService->getPreImportStatusFromFile(
-            realpath(__DIR__ . DIRECTORY_SEPARATOR .
-                ".." . DIRECTORY_SEPARATOR .
-                ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-                "Resources" . DIRECTORY_SEPARATOR .
-                "import") . DIRECTORY_SEPARATOR .
-            $this->request->get("file"),
+            $this->fileService->getPrivateUploadDirectory() . $this->request->get("file"),
             $this->request->get("name"));
 
         $response = new Response(json_encode($result));
@@ -50,12 +48,7 @@ abstract class AExportableTabController extends ASectionController
     {
         $result = $this->importService->importFromFile(
             $this->securityTokenStorage->getToken()->getUser(),
-            __DIR__ . DIRECTORY_SEPARATOR .
-            ".." . DIRECTORY_SEPARATOR .
-            ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-            "Resources" . DIRECTORY_SEPARATOR .
-            "import" . DIRECTORY_SEPARATOR .
-            $this->request->get("file"),
+            $this->fileService->getPrivateUploadDirectory() . $this->request->get("file"),
             json_decode($this->request->get("instructions"), true),
             false);
         $errors = array();

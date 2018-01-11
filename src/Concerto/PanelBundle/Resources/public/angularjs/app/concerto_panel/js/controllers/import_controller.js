@@ -112,8 +112,10 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
 
   $scope.uploader = new FileUploader({
     autoUpload: true,
-    url: Paths.FILE_UPLOAD
-
+    url: Paths.FILE_UPLOAD,
+    formData: [{
+      dir: 0 //private
+    }]
   });
 
   $scope.uploader.onCompleteItem = function (item, response, status, headers) {

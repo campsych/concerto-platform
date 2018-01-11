@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\FileService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Concerto\PanelBundle\DAO\DAOUnsupportedOperationException;
@@ -18,7 +19,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Security("has_role('ROLE_TABLE') or has_role('ROLE_SUPER_ADMIN')")
  */
-class DataTableController extends AExportableTabController {
+class DataTableController extends AExportableTabController
+{
 
     const ENTITY_NAME = "DataTable";
     const EXPORT_FILE_PREFIX = "DataTable_";
@@ -27,8 +29,9 @@ class DataTableController extends AExportableTabController {
     private static $stream_param_data_collection_action_prefixed;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, DataTableService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService);
+    public function __construct($environment, EngineInterface $templating, DataTableService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    {
+        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -36,21 +39,23 @@ class DataTableController extends AExportableTabController {
         $this->userService = $userService;
     }
 
-    public function saveAction($object_id) {
+    public function saveAction($object_id)
+    {
         $result = $this->service->save(
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id, //
-                $this->request->get("name"), //
-                $this->request->get("description"), //
-                $this->request->get("accessibility"), //
-                $this->request->get("archived") === "1", //
-                $this->userService->get($this->request->get("owner")), //
-                $this->request->get("groups") //
+            $this->securityTokenStorage->getToken()->getUser(), //
+            $object_id, //
+            $this->request->get("name"), //
+            $this->request->get("description"), //
+            $this->request->get("accessibility"), //
+            $this->request->get("archived") === "1", //
+            $this->userService->get($this->request->get("owner")), //
+            $this->request->get("groups") //
         );
         return $this->getSaveResponse($result);
     }
 
-    public function columnsCollectionAction($table_id) {
+    public function columnsCollectionAction($table_id)
+    {
         $result_data = $this->service->getColumns($table_id);
 
         $response = new Response(json_encode($result_data));
@@ -58,25 +63,28 @@ class DataTableController extends AExportableTabController {
         return $response;
     }
 
-    public function fetchColumnAction($table_id, $column_name) {
+    public function fetchColumnAction($table_id, $column_name)
+    {
         $response = new Response(json_encode($this->service->getColumn($table_id, $column_name)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    protected function getStreamingDataCollectionResponse($table_id, $prefixed = 0) {
+    protected function getStreamingDataCollectionResponse($table_id, $prefixed = 0)
+    {
         set_time_limit(0);
         self::$stream_param_data_collection_action_prefixed = $prefixed;
         self::$stream_param_data_collection_action_table_id = $table_id;
         $response = new StreamedResponse();
-        $response->setCallback(function() {
+        $response->setCallback(function () {
             $this->service->streamJsonData(DataTableController::$stream_param_data_collection_action_table_id, DataTableController::$stream_param_data_collection_action_prefixed == 1);
         });
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function dataCollectionAction($table_id, $prefixed = 0) {
+    public function dataCollectionAction($table_id, $prefixed = 0)
+    {
         $filters = $this->request->get("filters");
 
         $result_data = array(
@@ -89,35 +97,40 @@ class DataTableController extends AExportableTabController {
         return $response;
     }
 
-    public function dataSectionAction($table_id) {
+    public function dataSectionAction($table_id)
+    {
         return $this->templating->renderResponse("ConcertoPanelBundle:DataTable:data_section.html.twig", array(
-                    "table" => $this->service->get($table_id),
-                    "columns" => $this->service->getColumns($table_id)
+            "table" => $this->service->get($table_id),
+            "columns" => $this->service->getColumns($table_id)
         ));
     }
 
-    public function deleteColumnAction($table_id, $column_names) {
+    public function deleteColumnAction($table_id, $column_names)
+    {
         $this->service->deleteColumns($table_id, $column_names);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function deleteRowAction($table_id, $row_ids) {
+    public function deleteRowAction($table_id, $row_ids)
+    {
         $this->service->deleteRows($table_id, $row_ids);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function truncateAction($table_id) {
+    public function truncateAction($table_id)
+    {
         $this->service->truncate($table_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function saveColumnAction($table_id, $column_name) {
+    public function saveColumnAction($table_id, $column_name)
+    {
         try {
             $errors = $this->service->saveColumn($table_id, $column_name, $this->request->get("name"), $this->request->get("type"));
             if (count($errors) > 0) {
@@ -135,29 +148,33 @@ class DataTableController extends AExportableTabController {
         return $response;
     }
 
-    public function insertRowAction($table_id) {
+    public function insertRowAction($table_id)
+    {
         $this->service->insertRow($table_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function updateRowAction($table_id, $row_id, $prefixed = 0) {
+    public function updateRowAction($table_id, $row_id, $prefixed = 0)
+    {
         $this->service->updateRow($table_id, $row_id, $this->request->get("values"), $prefixed == 1);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function importCsvAction($table_id, $restructure, $header, $delimiter, $enclosure) {
+    public function importCsvAction($table_id, $restructure, $header, $delimiter, $enclosure)
+    {
         try {
             $this->service->importFromCsv(
-                    $table_id, __DIR__ . DIRECTORY_SEPARATOR .
-                    ".." . DIRECTORY_SEPARATOR .
-                    ($this->environment == "test" ? "Tests" . DIRECTORY_SEPARATOR : "") .
-                    "Resources" . DIRECTORY_SEPARATOR .
-                    "import" . DIRECTORY_SEPARATOR .
-                    $this->request->get("file"), $restructure === "1", $header === "1", $delimiter, $enclosure);
+                $table_id,
+                $this->fileService->getPrivateUploadDirectory() . $this->request->get("file"),
+                $restructure === "1",
+                $header === "1",
+                $delimiter,
+                $enclosure
+            );
         } catch (\Exception $ex) {
             $response = new Response(json_encode(array("result" => 1, "errors" => array($ex->getMessage()))));
             $response->headers->set('Content-Type', 'application/json');

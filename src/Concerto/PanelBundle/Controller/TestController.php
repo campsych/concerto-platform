@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\FileService;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -25,8 +26,8 @@ class TestController extends AExportableTabController {
     private $testWizardService;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService);
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService) {
+        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;

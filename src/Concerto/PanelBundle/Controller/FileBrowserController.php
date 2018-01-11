@@ -13,7 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
 /**
  * @Security("has_role('ROLE_FILE') or has_role('ROLE_SUPER_ADMIN')")
  */
-class FileBrowserController {
+class FileBrowserController
+{
 
     private $templating;
     private $service;
@@ -21,7 +22,8 @@ class FileBrowserController {
     private $fileService;
     private $assetHelper;
 
-    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, Request $request, AssetsHelper $assetHelper) {
+    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, Request $request, AssetsHelper $assetHelper)
+    {
         $this->templating = $templating;
         $this->service = $service;
         $this->fileService = $fileService;
@@ -30,13 +32,18 @@ class FileBrowserController {
     }
 
     /**
-     * 
+     * @param Request $request
+     *
      * @return Response
      */
-    public function fileUploadAction() {
+    public function fileUploadAction(Request $request)
+    {
+        $dir = $request->request->get("dir");
+        if($dir === null) $dir = FileService::DIR_PUBLIC;
+
         $response = new Response(json_encode(array("result" => 0)));
         foreach ($this->request->files as $file) {
-            if (!$this->fileService->moveUploadedFile($file->getRealPath(), $file->getClientOriginalName(), $message)) {
+            if (!$this->fileService->moveUploadedFile($file->getRealPath(), $dir, $file->getClientOriginalName(), $message)) {
                 $response = new Response(json_encode(array("result" => 1, "error" => $message)));
                 break;
             }
@@ -48,7 +55,8 @@ class FileBrowserController {
     /**
      * @return Response
      */
-    public function fileListAction() {
+    public function fileListAction()
+    {
         $files = $this->fileService->listUploadedFiles($this->assetHelper->getUrl("bundles/concertopanel/files/"));
         // if there are any errors <=> files service returned false, we return error status 1
         $response = new Response(json_encode((false === $files) ? array("result" => 1) : array("result" => 0, "files" => $files)));
@@ -59,8 +67,9 @@ class FileBrowserController {
     /**
      * @return Response
      */
-    public function fileDeleteAction($filename) {
-        $response = new Response(json_encode(array("result" => (int) (!$this->fileService->deleteUploadedFile($filename)))));
+    public function fileDeleteAction($filename)
+    {
+        $response = new Response(json_encode(array("result" => (int)(!$this->fileService->deleteUploadedFile($filename)))));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -68,11 +77,12 @@ class FileBrowserController {
     /**
      * @return Response
      */
-    public function fileBrowserAction() {
+    public function fileBrowserAction()
+    {
         $cke_callback = $this->request->get('CKEditorFuncNum');
 
         return $this->templating->renderResponse(
-                        'ConcertoPanelBundle:FileBrowser:file_browser.html.twig', empty($cke_callback) ? array() : array('cke_callback' => $cke_callback)
+            'ConcertoPanelBundle:FileBrowser:file_browser.html.twig', empty($cke_callback) ? array() : array('cke_callback' => $cke_callback)
         );
     }
 
