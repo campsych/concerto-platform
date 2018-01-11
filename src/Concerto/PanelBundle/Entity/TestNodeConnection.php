@@ -20,12 +20,12 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
     /**
      * @ORM\ManyToOne(targetEntity="TestNode", inversedBy="sourceForConnections")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $sourceNode;
 
     /**
      * @ORM\ManyToOne(targetEntity="TestNodePort", inversedBy="sourceForConnections")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $sourcePort;
 
@@ -67,7 +67,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
         $this->automatic = false;
         $this->returnFunction = "";
-        $this->defaultValue = true;
     }
 
     public function getOwner() {
