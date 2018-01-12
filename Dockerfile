@@ -42,7 +42,7 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && R CMD INSTALL /usr/src/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /usr/src/concerto/app/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/app/console concerto:schedule:tick --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/app/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
