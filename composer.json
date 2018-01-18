@@ -9,8 +9,8 @@
         }
     },
     "require": {
-        "php": ">=5.5",
-        "symfony/symfony": "2.7.*",
+        "php": ">=5.5.9",
+        "symfony/symfony": "2.8.*",
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "symfony/assetic-bundle": "~2.3",
@@ -20,7 +20,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "cocur/slugify": "~1.0",
-        "friendsofsymfony/oauth-server-bundle": "dev-master",
+        "friendsofsymfony/oauth-server-bundle": "~1.5.2",
         "jms/serializer-bundle": "dev-master",
         "symfony/finder":"~2.8",
         "symfony/filesystem":"~2.8"
@@ -50,7 +50,7 @@
     "config": {
         "bin-dir": "bin",
         "platform": {
-            "php": "5.5"
+            "php": "5.5.9"
         }
     },
     "extra": {
@@ -75,7 +75,7 @@
             }
         ],
         "branch-alias": {
-            "dev-master": "2.7-dev"
+            "dev-master": "2.8-dev"
         }
     }
 }

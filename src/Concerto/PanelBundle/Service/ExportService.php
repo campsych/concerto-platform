@@ -2,8 +2,6 @@
 
 namespace Concerto\PanelBundle\Service;
 
-use Concerto\PanelBundle\Entity\User;
-
 class ExportService {
 
     const FORMAT_COMPRESSED = 'compressed';
