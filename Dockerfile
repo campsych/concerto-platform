@@ -41,8 +41,8 @@ ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.s
 RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','ggplot2','base64enc','rjson'), repos='$CRAN_MIRROR')" \
  && R CMD INSTALL /usr/src/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
- && php /usr/src/concerto/app/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/app/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && php /usr/src/concerto/bin/console concerto:r:cache \
+ && crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
@@ -50,12 +50,12 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
  
-CMD php app/console concerto:setup \
- && php app/console concerto:r:cache \
- && rm -rf app/cache/prod \
- && php app/console cache:warmup --env=prod \
- && chown -R www-data:www-data app/cache \
- && chown -R www-data:www-data app/logs \
+CMD php bin/console concerto:setup \
+ && php bin/console concerto:r:cache \
+ && rm -rf var/cache/prod \
+ && php bin/console cache:warmup --env=prod \
+ && chown -R www-data:www-data var/cache \
+ && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
