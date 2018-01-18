@@ -13,38 +13,39 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Security("has_role('ROLE_TEST') or has_role('ROLE_SUPER_ADMIN')")
  */
-class TestNodeController extends ASectionController {
+class TestNodeController extends ASectionController
+{
 
     const ENTITY_NAME = "TestNode";
 
-    private $request;
     private $testService;
 
-    public function __construct(EngineInterface $templating, TestNodeService $nodeService, TestService $testService, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage) {
+    public function __construct(EngineInterface $templating, TestNodeService $nodeService, TestService $testService, TranslatorInterface $translator, TokenStorage $securityTokenStorage)
+    {
         parent::__construct($templating, $nodeService, $translator, $securityTokenStorage);
 
         $this->entityName = self::ENTITY_NAME;
-
         $this->testService = $testService;
-        $this->request = $request;
     }
 
-    public function collectionByFlowTestAction($test_id) {
+    public function collectionByFlowTestAction($test_id)
+    {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
-                    'collection' => $this->service->getByFlowTest($test_id)
+            'collection' => $this->service->getByFlowTest($test_id)
         ));
     }
 
-    public function saveAction($object_id) {
-        $result = $this->service->save(//
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id, //
-                $this->request->get("type"), //
-                $this->request->get("posX"), //
-                $this->request->get("posY"), //
-                $this->testService->get($this->request->get("flowTest")), //
-                $this->testService->get($this->request->get("sourceTest")), //
-                $this->request->get("title"));
+    public function saveAction(Request $request, $object_id)
+    {
+        $result = $this->service->save(
+            $this->securityTokenStorage->getToken()->getUser(),
+            $object_id,
+            $request->get("type"),
+            $request->get("posX"),
+            $request->get("posY"),
+            $this->testService->get($request->get("flowTest")),
+            $this->testService->get($request->get("sourceTest")),
+            $request->get("title"));
         return $this->getSaveResponse($result);
     }
 }

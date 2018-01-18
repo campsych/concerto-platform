@@ -1,9 +1,18 @@
+/phpunit.xml
+/var/*
+!/var/cache
+/var/cache/*
+!var/cache/.gitkeep
+!/var/logs
+/var/logs/*
+!var/logs/.gitkeep
+!/var/sessions
+/var/sessions/*
+!var/sessions/.gitkeep
+!var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
 /nbproject/
-/app/cache/
-/app/logs
-/bin/
 /composer.phar
 /app/config/parameters.yml
 /app/config/parameters_administration.yml
@@ -11,5 +20,4 @@
 /app/config/parameters_test_runner.yml
 /app/config/parameters_uio.yml
 /.idea
-/app/bootstrap.php.cache
 *.iml

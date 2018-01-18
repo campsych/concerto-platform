@@ -8,46 +8,48 @@ use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
-class RRunnerController {
+class RRunnerController
+{
 
     private $templating;
     private $rRunnerService;
-    private $request;
     private $logger;
 
-    public function __construct(EngineInterface $templating, RRunnerService $rRunnerService, Request $request, LoggerInterface $logger) {
+    public function __construct(EngineInterface $templating, RRunnerService $rRunnerService, LoggerInterface $logger)
+    {
         $this->templating = $templating;
         $this->rRunnerService = $rRunnerService;
-        $this->request = $request;
         $this->logger = $logger;
     }
 
-    public function startRAction($session_hash) {
+    public function startRAction(Request $request, $session_hash)
+    {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
-        $client_ip = $this->request->get("client_ip");
-        $client_browser = $this->request->get("client_browser");
-        $calling_node_ip = $this->request->getClientIp();
+        $client_ip = $request->get("client_ip");
+        $client_browser = $request->get("client_browser");
+        $calling_node_ip = $request->getClientIp();
         return new Response($this->rRunnerService->startR(
-                        $this->request->get("panel_node_hash"), //
-                        $this->request->get("panel_node_port"), //
-                        $session_hash, //
-                        $this->request->get("values"), //
-                        $client_ip, //
-                        $client_browser, // 
-                        $calling_node_ip, //
-                        $this->request->get("debug") //
+            $request->get("panel_node_hash"),
+            $request->get("panel_node_port"),
+            $session_hash,
+            $request->get("values"),
+            $client_ip,
+            $client_browser,
+            $calling_node_ip,
+            $request->get("debug")
         ));
     }
 
-    public function uploadFileAction($session_hash) {
+    public function uploadFileAction(Request $request, $session_hash)
+    {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
         $result = $this->rRunnerService->uploadFile(
-                $session_hash, //
-                $this->request->getClientIp(), //
-                $this->request->files, //
-                $this->request->get("name")
+            $session_hash,
+            $request->getClientIp(),
+            $request->files,
+            $request->get("name")
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');

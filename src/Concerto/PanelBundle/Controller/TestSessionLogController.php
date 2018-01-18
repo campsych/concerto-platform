@@ -5,7 +5,6 @@ namespace Concerto\PanelBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestSessionLogService;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -16,14 +15,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class TestSessionLogController extends ASectionController {
     
     const ENTITY_NAME = "TestSessionLog";
-
-    private $request;
     
-    public function __construct(EngineInterface $templating, TestSessionLogService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage) {
+    public function __construct(EngineInterface $templating, TestSessionLogService $service, TranslatorInterface $translator, TokenStorage $securityTokenStorage) {
         parent::__construct($templating, $service, $translator, $securityTokenStorage);
         
         $this->entityName = self::ENTITY_NAME;
-        $this->request = $request;
     }
 
     public function collectionByTestAction($test_id) {

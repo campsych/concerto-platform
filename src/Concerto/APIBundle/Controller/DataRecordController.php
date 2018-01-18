@@ -14,12 +14,10 @@ use Concerto\PanelBundle\Service\AdministrationService;
  */
 class DataRecordController {
 
-    private $request;
     private $service;
     private $administrationService; 
 
-    public function __construct(Request $request, DataRecordService $service, AdministrationService $administrationService) {
-        $this->request = $request;
+    public function __construct(DataRecordService $service, AdministrationService $administrationService) {
         $this->service = $service;
         $this->administrationService = $administrationService;
     }
@@ -28,11 +26,11 @@ class DataRecordController {
      * @Route("")
      * @Method({"GET","POST","PUT"})
      */
-    public function dataCollectionAction($table_id) {
+    public function dataCollectionAction(Request $request, $table_id) {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        switch ($this->request->getMethod()) {
+        switch ($request->getMethod()) {
             case "GET": return $this->getDataCollection($table_id);
             case "PUT":
             case "POST": return $this->insertDataObject($table_id);
@@ -43,11 +41,11 @@ class DataRecordController {
      * @Route("/{id}")
      * @Method({"GET","POST","PUT","DELETE"})
      */
-    public function dataObjectAction($table_id, $id) {
+    public function dataObjectAction(Request $request, $table_id, $id) {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        switch ($this->request->getMethod()) {
+        switch ($request->getMethod()) {
             case "GET": return $this->getDataObject($table_id, $id);
             case "PUT":
             case "POST": return $this->updateDataObject($table_id, $id);
@@ -55,8 +53,8 @@ class DataRecordController {
         }
     }
 
-    private function getDataObject($table_id, $id) {
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
+    private function getDataObject(Request $request, $table_id, $id) {
+        $format = $request->get("format") ? $request->get("format") : "json";
         $data = $this->service->getData($table_id, $id, $format);
 
         switch ($data["response"]) {
@@ -69,9 +67,9 @@ class DataRecordController {
         }
     }
 
-    private function getDataCollection($table_id) {
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
-        $filter = $this->request->query->all();
+    private function getDataCollection(Request $request, $table_id) {
+        $format = $request->get("format") ? $request->get("format") : "json";
+        $filter = $request->query->all();
         $data = $this->service->getDataCollection($table_id, $filter, $format);
 
         switch ($data["response"]) {
@@ -86,12 +84,12 @@ class DataRecordController {
         }
     }
 
-    private function updateDataObject($table_id, $id) {
-        if (strpos($this->request->getContentType(), "json") === false) {
+    private function updateDataObject(Request $request, $table_id, $id) {
+        if (strpos($request->getContentType(), "json") === false) {
             return new Response("Content-Type: application/json expected", Response::HTTP_BAD_REQUEST);
         }
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
-        $newSerializedData = $this->request->getContent();
+        $format = $request->get("format") ? $request->get("format") : "json";
+        $newSerializedData = $request->getContent();
         $data = $this->service->updateData($table_id, $id, $newSerializedData, $format);
 
         switch ($data["response"]) {
@@ -106,12 +104,12 @@ class DataRecordController {
         }
     }
 
-    private function insertDataObject($table_id) {
-        if (strpos($this->request->getContentType(), "json") === false) {
+    private function insertDataObject(Request $request, $table_id) {
+        if (strpos($request->getContentType(), "json") === false) {
             return new Response("Content-Type: application/json expected", Response::HTTP_BAD_REQUEST);
         }
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
-        $serializedData = $this->request->getContent();
+        $format = $request->get("format") ? $request->get("format") : "json";
+        $serializedData = $request->getContent();
         $data = $this->service->insertData($table_id, $serializedData, $format);
 
         switch ($data["response"]) {

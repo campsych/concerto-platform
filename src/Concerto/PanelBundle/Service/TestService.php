@@ -6,7 +6,6 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
-use Symfony\Component\Security\Core\Util\SecureRandomInterface;
 use Cocur\Slugify\Slugify;
 use Concerto\PanelBundle\Entity\AEntity;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
@@ -24,10 +23,9 @@ class TestService extends AExportableSectionService
     private $testNodeConnectionService;
     private $testNodePortService;
     private $testWizardRepository;
-    private $randomGenerator;
     private $slugifier;
 
-    public function __construct(TestRepository $repository, RecursiveValidator $validator, SecureRandomInterface $randomGenerator, Slugify $slugifier, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(TestRepository $repository, RecursiveValidator $validator, Slugify $slugifier, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationChecker $securityAuthorizationChecker)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
@@ -36,7 +34,6 @@ class TestService extends AExportableSectionService
         $this->testNodeConnectionService = $testNodeConnectionService;
         $this->testNodePortService = $testNodePortService;
         $this->testWizardRepository = $testWizardRepository;
-        $this->randomGenerator = $randomGenerator;
         $this->slugifier = $slugifier;
     }
 
@@ -97,8 +94,7 @@ class TestService extends AExportableSectionService
         }
         $object->setSourceWizard($sourceWizard);
 
-        $urlslug = (trim((string)$urlslug) !== '') ? $this->slugifier->slugify($urlslug) :
-            bin2hex($this->randomGenerator->nextBytes(16));
+        $urlslug = (trim((string)$urlslug) !== '') ? $this->slugifier->slugify($urlslug) : sha1(rand(0, 9999999999999999999999999999999999999999));
 
         $object->setSlug($urlslug);
         $slug_postfix = 2;

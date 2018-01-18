@@ -14,14 +14,12 @@ class PanelController {
 
     private $templating;
     private $service;
-    private $request;
     private $fileService;
 
-    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, Request $request) {
+    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService) {
         $this->templating = $templating;
         $this->service = $service;
         $this->fileService = $fileService;
-        $this->request = $request;
     }
 
     /**
@@ -41,20 +39,20 @@ class PanelController {
     /**
      * @return Response
      */
-    public function loginAction() {
+    public function loginAction(Request $request) {
         return $this->templating->renderResponse('ConcertoPanelBundle:Panel:login.html.twig', array(
-                    'last_username' => $this->request->getSession()->get(Security::LAST_USERNAME),
-                    'error' => $this->service->getLoginErrors($this->request->get(Security::AUTHENTICATION_ERROR), $this->request->getSession())));
+                    'last_username' => $request->getSession()->get(Security::LAST_USERNAME),
+                    'error' => $this->service->getLoginErrors($request->get(Security::AUTHENTICATION_ERROR), $request->getSession())));
     }
 
     /**
      * @return Response
      */
-    public function changeLocaleAction($locale) {
-        $this->request->setLocale($locale);
-        $this->request->setDefaultLocale($locale);
-        $this->service->setLocale($this->request->getSession(), $locale);
+    public function changeLocaleAction(Request $request, $locale) {
+        $request->setLocale($locale);
+        $request->setDefaultLocale($locale);
+        $this->service->setLocale($request->getSession(), $locale);
 
-        return new RedirectResponse($this->request->getUriForPath("/admin"));
+        return new RedirectResponse($request->getUriForPath("/admin"));
     }
 }

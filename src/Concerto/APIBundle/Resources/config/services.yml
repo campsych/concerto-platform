@@ -12,5 +12,5 @@ services:
     arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.db_data_dao", "@concerto_panel.db_structure_dao"] 
   API.DataRecord_controller:
     class: Concerto\APIBundle\Controller\DataRecordController
-    arguments: ["@request","@API.DataRecord_service","@concerto_panel.Administration_service"]
+    arguments: ["@API.DataRecord_service","@concerto_panel.Administration_service"]
     scope: request

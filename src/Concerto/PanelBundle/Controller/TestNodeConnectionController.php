@@ -15,16 +15,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Security("has_role('ROLE_TEST') or has_role('ROLE_SUPER_ADMIN')")
  */
-class TestNodeConnectionController extends ASectionController {
+class TestNodeConnectionController extends ASectionController
+{
 
     const ENTITY_NAME = "TestNodeConnection";
 
-    private $request;
     private $testService;
     private $testNodeService;
     private $testPortService;
 
-    public function __construct(EngineInterface $templating, TestService $testService, TestNodeConnectionService $connectionService, TestNodeService $nodeService, TestNodePortService $portService, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage) {
+    public function __construct(EngineInterface $templating, TestService $testService, TestNodeConnectionService $connectionService, TestNodeService $nodeService, TestNodePortService $portService, TranslatorInterface $translator, TokenStorage $securityTokenStorage)
+    {
         parent::__construct($templating, $connectionService, $translator, $securityTokenStorage);
 
         $this->entityName = self::ENTITY_NAME;
@@ -32,30 +33,31 @@ class TestNodeConnectionController extends ASectionController {
         $this->testService = $testService;
         $this->testNodeService = $nodeService;
         $this->testPortService = $portService;
-        $this->request = $request;
     }
 
-    public function collectionByFlowTestAction($test_id) {
+    public function collectionByFlowTestAction($test_id)
+    {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
-                    'collection' => $this->service->getByFlowTest($test_id)
+            'collection' => $this->service->getByFlowTest($test_id)
         ));
     }
 
-    public function saveAction($object_id) {
-        $sourcePort = $this->request->get("sourcePort");
-        $destinationPort = $this->request->get("destinationPort");
+    public function saveAction(Request $request, $object_id)
+    {
+        $sourcePort = $request->get("sourcePort");
+        $destinationPort = $request->get("destinationPort");
 
-        $result = $this->service->save(//
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id, //
-                $this->testService->get($this->request->get("flowTest")), //
-                $this->testNodeService->get($this->request->get("sourceNode")), //
-                $sourcePort ? $this->testPortService->get($sourcePort) : null, //
-                $this->testNodeService->get($this->request->get("destinationNode")), //
-                $destinationPort ? $this->testPortService->get($destinationPort) : null, //
-                $this->request->get("returnFunction"), //
-                false, //
-                $this->request->get("default") === "1");
+        $result = $this->service->save(
+            $this->securityTokenStorage->getToken()->getUser(),
+            $object_id,
+            $this->testService->get($request->get("flowTest")),
+            $this->testNodeService->get($request->get("sourceNode")),
+            $sourcePort ? $this->testPortService->get($sourcePort) : null,
+            $this->testNodeService->get($request->get("destinationNode")),
+            $destinationPort ? $this->testPortService->get($destinationPort) : null,
+            $request->get("returnFunction"),
+            false,
+            $request->get("default") === "1");
         return $this->getSaveResponse($result);
     }
 

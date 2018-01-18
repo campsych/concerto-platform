@@ -16,15 +16,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
  */
-class ViewTemplateController extends AExportableTabController {
+class ViewTemplateController extends AExportableTabController
+{
 
     const ENTITY_NAME = "ViewTemplate";
     const EXPORT_FILE_PREFIX = "ViewTemplate_";
 
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    {
+        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -32,20 +34,21 @@ class ViewTemplateController extends AExportableTabController {
         $this->userService = $userService;
     }
 
-    public function saveAction($object_id) {
+    public function saveAction(Request $request, $object_id)
+    {
         $result = $this->service->save(
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id, //
-                $this->request->get("name"), //
-                $this->request->get("description"), //
-                $this->request->get("accessibility"), //
-                $this->request->get("archived") === "1", //
-                $this->userService->get($this->request->get("owner")), //
-                $this->request->get("groups"), //
-                $this->request->get("html"), //
-                $this->request->get("head"), //
-                $this->request->get("css"), //
-                $this->request->get("js"));
+            $this->securityTokenStorage->getToken()->getUser(),
+            $object_id,
+            $request->get("name"),
+            $request->get("description"),
+            $request->get("accessibility"),
+            $request->get("archived") === "1",
+            $this->userService->get($request->get("owner")),
+            $request->get("groups"),
+            $request->get("html"),
+            $request->get("head"),
+            $request->get("css"),
+            $request->get("js"));
         return $this->getSaveResponse($result);
     }
 

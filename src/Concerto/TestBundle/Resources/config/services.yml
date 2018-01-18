@@ -16,7 +16,7 @@ services:
         arguments: ["%kernel.root_dir%","%panel_nodes%","%test_runner_settings%","@doctrine","@logger","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service","@concerto_panel.LoadBalancer_service", "%kernel.environment%"]
     concerto_test.r_runner_controller:
         class: Concerto\TestBundle\Controller\RRunnerController
-        arguments: ["@templating","@concerto_test.r_runner_service", "@request", "@logger"]
+        arguments: ["@templating","@concerto_test.r_runner_service", "@logger"]
         scope: request
         
     concerto_test.command.log_session_count_command:

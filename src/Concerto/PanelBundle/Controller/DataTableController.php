@@ -29,9 +29,9 @@ class DataTableController extends AExportableTabController
     private static $stream_param_data_collection_action_prefixed;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, DataTableService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, DataTableService $service, TranslatorInterface $translator, TokenStorage $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
     {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -39,17 +39,17 @@ class DataTableController extends AExportableTabController
         $this->userService = $userService;
     }
 
-    public function saveAction($object_id)
+    public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
             $this->securityTokenStorage->getToken()->getUser(), //
             $object_id, //
-            $this->request->get("name"), //
-            $this->request->get("description"), //
-            $this->request->get("accessibility"), //
-            $this->request->get("archived") === "1", //
-            $this->userService->get($this->request->get("owner")), //
-            $this->request->get("groups") //
+            $request->get("name"), //
+            $request->get("description"), //
+            $request->get("accessibility"), //
+            $request->get("archived") === "1", //
+            $this->userService->get($request->get("owner")), //
+            $request->get("groups") //
         );
         return $this->getSaveResponse($result);
     }
@@ -83,9 +83,9 @@ class DataTableController extends AExportableTabController
         return $response;
     }
 
-    public function dataCollectionAction($table_id, $prefixed = 0)
+    public function dataCollectionAction(Request $request, $table_id, $prefixed = 0)
     {
-        $filters = $this->request->get("filters");
+        $filters = $request->get("filters");
 
         $result_data = array(
             'content' => $this->service->getFilteredData($table_id, $prefixed, $filters),
@@ -129,10 +129,10 @@ class DataTableController extends AExportableTabController
         return $response;
     }
 
-    public function saveColumnAction($table_id, $column_name)
+    public function saveColumnAction(Request $request, $table_id, $column_name)
     {
         try {
-            $errors = $this->service->saveColumn($table_id, $column_name, $this->request->get("name"), $this->request->get("type"));
+            $errors = $this->service->saveColumn($table_id, $column_name, $request->get("name"), $request->get("type"));
             if (count($errors) > 0) {
                 for ($i = 0; $i < count($errors); $i++) {
                     $errors[$i] = $this->translator->trans($errors[$i]);
@@ -156,20 +156,20 @@ class DataTableController extends AExportableTabController
         return $response;
     }
 
-    public function updateRowAction($table_id, $row_id, $prefixed = 0)
+    public function updateRowAction(Request $request, $table_id, $row_id, $prefixed = 0)
     {
-        $this->service->updateRow($table_id, $row_id, $this->request->get("values"), $prefixed == 1);
+        $this->service->updateRow($table_id, $row_id, $request->get("values"), $prefixed == 1);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function importCsvAction($table_id, $restructure, $header, $delimiter, $enclosure)
+    public function importCsvAction(Request $request, $table_id, $restructure, $header, $delimiter, $enclosure)
     {
         try {
             $this->service->importFromCsv(
                 $table_id,
-                $this->fileService->getPrivateUploadDirectory() . $this->request->get("file"),
+                $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
                 $restructure === "1",
                 $header === "1",
                 $delimiter,

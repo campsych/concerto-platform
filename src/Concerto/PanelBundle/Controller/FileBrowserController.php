@@ -18,16 +18,14 @@ class FileBrowserController
 
     private $templating;
     private $service;
-    private $request;
     private $fileService;
     private $assetHelper;
 
-    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, Request $request, AssetsHelper $assetHelper)
+    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, AssetsHelper $assetHelper)
     {
         $this->templating = $templating;
         $this->service = $service;
         $this->fileService = $fileService;
-        $this->request = $request;
         $this->assetHelper = $assetHelper;
     }
 
@@ -42,7 +40,7 @@ class FileBrowserController
         if($dir === null) $dir = FileService::DIR_PUBLIC;
 
         $response = new Response(json_encode(array("result" => 0)));
-        foreach ($this->request->files as $file) {
+        foreach ($request->files as $file) {
             if (!$this->fileService->moveUploadedFile($file->getRealPath(), $dir, $file->getClientOriginalName(), $message)) {
                 $response = new Response(json_encode(array("result" => 1, "error" => $message)));
                 break;
@@ -77,9 +75,9 @@ class FileBrowserController
     /**
      * @return Response
      */
-    public function fileBrowserAction()
+    public function fileBrowserAction(Request $request)
     {
-        $cke_callback = $this->request->get('CKEditorFuncNum');
+        $cke_callback = $request->get('CKEditorFuncNum');
 
         return $this->templating->renderResponse(
             'ConcertoPanelBundle:FileBrowser:file_browser.html.twig', empty($cke_callback) ? array() : array('cke_callback' => $cke_callback)
