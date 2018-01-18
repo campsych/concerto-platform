@@ -11,6 +11,7 @@
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
 /vendor/
+/web/bundles/
 /nbproject/
 /composer.phar
 /app/config/parameters.yml
