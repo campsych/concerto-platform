@@ -65,6 +65,7 @@ doctrine:
         connections:
             local:
                 driver:      "%database_driver%"
+                server_version: "%database_version%"
                 host:        "%database_host%"
                 port:        "%database_port%"
                 dbname:      "%database_name%"

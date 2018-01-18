@@ -2,61 +2,61 @@
 
 namespace Concerto\PanelBundle\Security;
 
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
+use Concerto\PanelBundle\Entity\DataTable;
+use Concerto\PanelBundle\Entity\TestWizardParam;
 use Concerto\PanelBundle\Entity\User;
+use Concerto\PanelBundle\Entity\ViewTemplate;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Concerto\PanelBundle\Entity\ATopEntity;
 
-class ObjectVoter extends AbstractVoter {
+class ObjectVoter extends Voter
+{
 
     const ATTR_ACCESS = 'access';
 
-    protected function getSupportedAttributes() {
-        return array(self::ATTR_ACCESS);
+    protected function supports($attribute, $object)
+    {
+        return ($object instanceof DataTable ||
+                $object instanceof Test ||
+                $object instanceof TestNode ||
+                $object instanceof TestNodeConnection ||
+                $object instanceof TestNodePort ||
+                $object instanceof TestSessionLog ||
+                $object instanceof TestVariable ||
+                $object instanceof TestWizard ||
+                $object instanceof TestWizardParam ||
+                $object instanceof TestWizardStep ||
+                $object instanceof ViewTemplate) && in_array($attribute, array(self::ATTR_ACCESS));
     }
 
-    protected function getSupportedClasses() {
-        return array(
-            'Concerto\PanelBundle\Entity\DataTable',
-            'Concerto\PanelBundle\Entity\Test',
-            'Concerto\PanelBundle\Entity\TestNode',
-            'Concerto\PanelBundle\Entity\TestNodeConnection',
-            'Concerto\PanelBundle\Entity\TestNodePort',
-            'Concerto\PanelBundle\Entity\TestSessionLog',
-            'Concerto\PanelBundle\Entity\TestVariable',
-            'Concerto\PanelBundle\Entity\TestWizard',
-            'Concerto\PanelBundle\Entity\TestWizardParam',
-            'Concerto\PanelBundle\Entity\TestWizardStep',
-            'Concerto\PanelBundle\Entity\ViewTemplate'
-        );
-    }
-
-    protected function isGranted($attribute, $obj, $user = null) {
-        if (!$user instanceof UserInterface || !$user instanceof User) {
+    protected function voteOnAttribute($attribute, $object, TokenInterface $token)
+    {
+        if (!$token->getUser() instanceof UserInterface || !$token->getUser() instanceof User) {
             return false;
         }
 
         switch ($attribute) {
             case self::ATTR_ACCESS:
-                //super admin or 
-                if ($user->hasRoleName(User::ROLE_SUPER_ADMIN)) {
+                //super admin or
+                if ($token->getUser()->hasRoleName(User::ROLE_SUPER_ADMIN)) {
                     return true;
                 }
                 //public
-                if ($obj->getAccessibility() == ATopEntity::ACCESS_PUBLIC) {
+                if ($object->getAccessibility() == ATopEntity::ACCESS_PUBLIC) {
                     return true;
                 }
                 //owner
-                if ($obj->getOwner() && $user->getId() == $obj->getOwner()->getId()) {
+                if ($object->getOwner() && $token->getUser()->getId() == $object->getOwner()->getId()) {
                     return true;
                 }
                 //group
-                if ($obj->getAccessibility() == ATopEntity::ACCESS_GROUP && $obj->hasAnyFromGroup($user->getGroupsArray())) {
+                if ($object->getAccessibility() == ATopEntity::ACCESS_GROUP && $object->hasAnyFromGroup($token->getUser()->getGroupsArray())) {
                     return true;
                 }
                 break;
         }
         return false;
     }
-
 }
