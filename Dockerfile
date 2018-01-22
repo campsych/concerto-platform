@@ -30,7 +30,8 @@ RUN echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /
     pdo_mysql \
     posix \
     sockets \
-    xml
+    xml \
+    zip
 
 COPY . /usr/src/concerto/
 COPY build/php.ini /usr/local/etc/php/build
