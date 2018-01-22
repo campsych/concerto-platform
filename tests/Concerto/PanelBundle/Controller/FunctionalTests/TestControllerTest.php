@@ -32,7 +32,16 @@ class TestControllerTest extends AFunctionalTest
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
+        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
     }

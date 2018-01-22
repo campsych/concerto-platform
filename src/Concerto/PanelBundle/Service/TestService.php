@@ -94,7 +94,7 @@ class TestService extends AExportableSectionService
         }
         $object->setSourceWizard($sourceWizard);
 
-        $urlslug = (trim((string)$urlslug) !== '') ? $this->slugifier->slugify($urlslug) : sha1(rand(0, 9999999999999999999999999999999999999999));
+        $urlslug = (trim((string)$urlslug) !== '') ? $this->slugifier->slugify($urlslug) : sha1(rand(0, 9999999));
 
         $object->setSlug($urlslug);
         $slug_postfix = 2;

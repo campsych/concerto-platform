@@ -3,7 +3,15 @@
 namespace Concerto\PanelBundle\Security;
 
 use Concerto\PanelBundle\Entity\DataTable;
+use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\TestNode;
+use Concerto\PanelBundle\Entity\TestNodeConnection;
+use Concerto\PanelBundle\Entity\TestNodePort;
+use Concerto\PanelBundle\Entity\TestSessionLog;
+use Concerto\PanelBundle\Entity\TestVariable;
+use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Entity\TestWizardParam;
+use Concerto\PanelBundle\Entity\TestWizardStep;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

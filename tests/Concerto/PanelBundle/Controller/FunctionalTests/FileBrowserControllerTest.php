@@ -10,8 +10,16 @@ class FileBrowserControllerTest extends AFunctionalTest {
         $client = self::createLoggedClient();
 
         $client->request('GET', '/admin/file/list');
-        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //HTTP response
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
         $result = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey("result", $result);
         $this->assertEquals(0, $result["result"]);
