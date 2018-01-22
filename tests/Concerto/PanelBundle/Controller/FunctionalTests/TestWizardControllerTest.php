@@ -1,10 +1,9 @@
 <?php
 
-namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
+namespace Tests\Concerto\PanelBundle\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Tests\AFunctionalTest;
+use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
-use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Entity\Test;
 
 class TestWizardControllerTest extends AFunctionalTest {

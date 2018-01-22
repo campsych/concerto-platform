@@ -1,10 +1,8 @@
 <?php
 
-namespace Concerto\PanelBundle\Tests\Controller\FunctionalTests;
+namespace Tests\Concerto\PanelBundle\Controller\FunctionalTests;
 
-use Concerto\PanelBundle\Tests\AFunctionalTest;
-use Concerto\PanelBundle\Entity\Test;
-use Concerto\PanelBundle\Entity\ATopEntity;
+use Tests\Concerto\PanelBundle\AFunctionalTest;
 
 class TestVariableControllerTest2 extends AFunctionalTest {
 

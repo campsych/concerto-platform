@@ -1,10 +1,8 @@
 <?php
 
-namespace Concerto\PanelBundle\Tests\Service\FunctionalTests;
+namespace Tests\Concerto\PanelBundle\Service\FunctionalTests;
 
-use Concerto\PanelBundle\Tests\AFunctionalTest;
-use Concerto\PanelBundle\Entity\Test;
-use Concerto\PanelBundle\Entity\ATopEntity;
+use Tests\Concerto\PanelBundle\AFunctionalTest;
 
 class ImportServiceTest extends AFunctionalTest
 {
