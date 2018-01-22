@@ -13,4 +13,3 @@ services:
   API.DataRecord_controller:
     class: Concerto\APIBundle\Controller\DataRecordController
     arguments: ["@API.DataRecord_service","@concerto_panel.Administration_service"]
-    scope: request

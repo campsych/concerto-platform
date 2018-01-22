@@ -17,7 +17,6 @@ services:
     concerto_test.r_runner_controller:
         class: Concerto\TestBundle\Controller\RRunnerController
         arguments: ["@templating","@concerto_test.r_runner_service", "@logger"]
-        scope: request
         
     concerto_test.command.log_session_count_command:
         class: Concerto\TestBundle\Command\LogSessionCountCommand
