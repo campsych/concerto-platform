@@ -3,9 +3,11 @@
 namespace Concerto\TestBundle\Controller;
 
 use Concerto\TestBundle\Service\RRunnerService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Templating\EngineInterface;
 
 class RRunnerController
@@ -22,6 +24,14 @@ class RRunnerController
         $this->logger = $logger;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/start/{params}", name="r_runner_r_start", defaults={"params"="{}"} )
+     * @Method(methods={"POST"})
+     *
+     * @param Request $request
+     * @param string $session_hash
+     * @return Response
+     */
     public function startRAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
@@ -41,6 +51,14 @@ class RRunnerController
         ));
     }
 
+    /**
+     * @Route("/test/r/session/{session_hash}/upload", name="r_runner_upload_file")
+     * @Method(methods={"POST","OPTIONS"})
+     *
+     * @param Request $request
+     * @param $session_hash
+     * @return Response
+     */
     public function uploadFileAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");

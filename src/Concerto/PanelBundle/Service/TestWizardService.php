@@ -2,11 +2,11 @@
 
 namespace Concerto\PanelBundle\Service;
 
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestWizardService extends AExportableSectionService
 {
@@ -17,7 +17,7 @@ class TestWizardService extends AExportableSectionService
     private $testWizardParamService;
     private $testWizardStepService;
 
-    public function __construct(TestWizardRepository $repository, RecursiveValidator $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(TestWizardRepository $repository, ValidatorInterface $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationChecker $securityAuthorizationChecker)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 

@@ -5,14 +5,15 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Repository\TestWizardParamRepository;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TestWizardParamService extends ASectionService {
+class TestWizardParamService extends ASectionService
+{
 
     public static $simpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
     private $validator;
@@ -22,7 +23,8 @@ class TestWizardParamService extends ASectionService {
     private $testNodePortService;
     private $logger;
 
-    public function __construct(TestWizardParamRepository $repository, RecursiveValidator $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger) {
+    public function __construct(TestWizardParamRepository $repository, ValidatorInterface $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
@@ -33,7 +35,8 @@ class TestWizardParamService extends ASectionService {
         $this->logger = $logger;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestWizardParam();
@@ -41,15 +44,18 @@ class TestWizardParamService extends ASectionService {
         return $object;
     }
 
-    public function getByTestWizard($wizard_id) {
+    public function getByTestWizard($wizard_id)
+    {
         return $this->authorizeCollection($this->repository->findByTestWizard($wizard_id));
     }
 
-    public function getByTestWizardAndType($wizard_id, $type) {
+    public function getByTestWizardAndType($wizard_id, $type)
+    {
         return $this->authorizeCollection($this->repository->findByTestWizardAndType($wizard_id, $type));
     }
 
-    public function save(User $user, $object_id, $variable, $label, $type, $serializedDefinition, $hideCondition, $description, $passableThroughUrl, $value, $wizardStep, $order, $wizard) {
+    public function save(User $user, $object_id, $variable, $label, $type, $serializedDefinition, $hideCondition, $description, $passableThroughUrl, $value, $wizardStep, $order, $wizard)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $old_obj = null;
@@ -89,12 +95,14 @@ class TestWizardParamService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update(User $user, $object, $oldObj) {
+    public function update(User $user, $object, $oldObj)
+    {
         $this->repository->save($object);
         $this->onObjectSaved($user, $object, $oldObj);
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -108,14 +116,16 @@ class TestWizardParamService extends ASectionService {
         return $result;
     }
 
-    public function clear($wizard_id) {
+    public function clear($wizard_id)
+    {
         $wizard = parent::authorizeObject($this->testWizardRepository->find($wizard_id));
         if ($wizard)
             $this->repository->deleteByTestWizard($wizard_id);
         return array("errors" => array());
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    {
         $pre_queue = array();
         if (!array_key_exists("TestWizardParam", $map))
             $map["TestWizardParam"] = array();
@@ -143,9 +153,9 @@ class TestWizardParamService extends ASectionService {
         }
 
         $parent_instruction = self::getObjectImportInstruction(array(
-                    "class_name" => "TestWizard",
-                    "id" => $obj["wizard"]
-                        ), $instructions);
+            "class_name" => "TestWizard",
+            "id" => $obj["wizard"]
+        ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
@@ -159,7 +169,8 @@ class TestWizardParamService extends ASectionService {
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $step, $variable, $wizard) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $step, $variable, $wizard)
+    {
         $ent = new TestWizardParam();
         $ent->setDescription($obj["description"]);
         $ent->setLabel($obj["label"]);
@@ -187,7 +198,8 @@ class TestWizardParamService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
         $variable = $map["TestVariable"]["id" . $obj["testVariable"]];
 
@@ -200,7 +212,8 @@ class TestWizardParamService extends ASectionService {
         return $this->get($ent->getId());
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $step, $variable, $wizard) {
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $step, $variable, $wizard)
+    {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setDescription($obj["description"]);
@@ -231,15 +244,18 @@ class TestWizardParamService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    private function onConverted($new_ent, $old_ent) {
+    private function onConverted($new_ent, $old_ent)
+    {
         //TODO 
     }
 
-    private function onObjectSaved(User $user, TestWizardParam $newParam, $oldParam, $flush = true) {
+    private function onObjectSaved(User $user, TestWizardParam $newParam, $oldParam, $flush = true)
+    {
         $this->updateValues($user, $newParam, $oldParam, $flush);
     }
 
-    private function updateValues(User $user, TestWizardParam $newParam, $oldParam, $flush = true) {
+    private function updateValues(User $user, TestWizardParam $newParam, $oldParam, $flush = true)
+    {
         $newDef = $newParam->getDefinition();
         $oldDef = null;
         $newVal = $newParam->getValue();
@@ -311,7 +327,8 @@ class TestWizardParamService extends ASectionService {
         }
     }
 
-    public static function mergeValue(User $user, $newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$mergedVal, $allowDefault = true, $isParam = false) {
+    public static function mergeValue(User $user, $newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$mergedVal, $allowDefault = true, $isParam = false)
+    {
         //type change
         $newField = $oldType === null;
         $typeChanged = $newType != $oldType;
@@ -325,7 +342,7 @@ class TestWizardParamService extends ASectionService {
         if ($newTypeSimple) {
             //new type simple
             if ($typeChanged && !$typesCompatible) {
-                switch ((int) $newType) {
+                switch ((int)$newType) {
                     case 4:
                         $mergedVal = "0";
                         break;
@@ -351,7 +368,7 @@ class TestWizardParamService extends ASectionService {
             }
 
             //complex type recursion
-            switch ((int) $newType) {
+            switch ((int)$newType) {
                 //group type
                 case 9:
                     foreach ($newDef["fields"] as $field) {
@@ -404,7 +421,8 @@ class TestWizardParamService extends ASectionService {
         }
     }
 
-    public function authorizeObject($object) {
+    public function authorizeObject($object)
+    {
         if (!self::$securityOn)
             return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getWizard()))

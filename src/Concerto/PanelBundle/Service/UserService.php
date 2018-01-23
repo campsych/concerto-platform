@@ -2,16 +2,15 @@
 
 namespace Concerto\PanelBundle\Service;
 
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Concerto\PanelBundle\Repository\UserRepository;
 use Concerto\PanelBundle\Repository\RoleRepository;
-use Concerto\PanelBundle\Entity\AEntity;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
-use Concerto\PanelBundle\Service\ImportService;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class UserService extends ASectionService {
+class UserService extends ASectionService
+{
 
     private static $uio_eligible_classes = array(
         "DataTable",
@@ -25,7 +24,8 @@ class UserService extends ASectionService {
     private $importService;
     private $validator;
 
-    public function __construct(UserRepository $repository, RoleRepository $roleRepository, RecursiveValidator $validator, EncoderFactory $encoderFactory, AuthorizationChecker $securityAuthorizationChecker, $uio, ImportService $importService) {
+    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactory $encoderFactory, AuthorizationChecker $securityAuthorizationChecker, $uio, ImportService $importService)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->roleRepository = $roleRepository;
@@ -35,7 +35,8 @@ class UserService extends ASectionService {
         $this->importService = $importService;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new User();
@@ -43,7 +44,8 @@ class UserService extends ASectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard) {
+    public function save(User $user, $object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $validatation_groups = array("User");
@@ -140,7 +142,7 @@ class UserService extends ASectionService {
         } else {
             $object->setPasswordConfirmation($object->getPassword());
         }
-        
+
 
         foreach ($this->validator->validate($object, null, $validatation_groups) as $err) {
             array_push($errors, $err->getMessage());
@@ -160,7 +162,8 @@ class UserService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function initializeUserObjects(User $user) {
+    private function initializeUserObjects(User $user)
+    {
         $result = array();
         foreach ($this->uio as $group => $classes) {
             if (!$user->hasGroup($group))
@@ -176,7 +179,8 @@ class UserService extends ASectionService {
         return $result;
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();

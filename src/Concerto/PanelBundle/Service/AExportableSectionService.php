@@ -3,23 +3,24 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Repository\AEntityRepository;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
-use Concerto\PanelBundle\Entity\AEntity;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Service\ExportService;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-abstract class AExportableSectionService extends ASectionService {
+abstract class AExportableSectionService extends ASectionService
+{
     protected $validator;
 
-    public function __construct(AEntityRepository $repository, RecursiveValidator $validator, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(AEntityRepository $repository, ValidatorInterface $validator, AuthorizationChecker $securityAuthorizationChecker)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
     }
 
-    public function getExportFileName($prefix, $object_ids, $format) {
-        $ext = ( $format == ExportService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
+    public function getExportFileName($prefix, $object_ids, $format)
+    {
+        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.json';
         $name = $object_ids;
         if (count(explode(",", $object_ids)) == 1) {
             $obj = $this->repository->find($object_ids);
@@ -30,7 +31,8 @@ abstract class AExportableSectionService extends ASectionService {
         return $prefix . $name . '.' . $ext;
     }
 
-    protected function formatImportName(User $user, $name, $arr) {
+    protected function formatImportName(User $user, $name, $arr)
+    {
         if ($name != "") {
             $name = str_replace("{{id}}", $arr['id'], $name);
             $name = str_replace("{{name}}", $arr['name'], $name);
@@ -42,7 +44,8 @@ abstract class AExportableSectionService extends ASectionService {
         return $name;
     }
 
-    protected function getNextValidName($name, $action, $old_name) {
+    protected function getNextValidName($name, $action, $old_name)
+    {
         while ($this->doesNameExist($name) && ($action != 1 || $name != $old_name)) {
             $index = strripos($name, "_");
             if ($index !== -1) {
@@ -59,11 +62,13 @@ abstract class AExportableSectionService extends ASectionService {
         return $name;
     }
 
-    protected function doesNameExist($name) {
+    protected function doesNameExist($name)
+    {
         return $this->repository->findOneBy(array("name" => $name)) != null;
     }
 
-    public function convertToExportable($arr) {
+    public function convertToExportable($arr)
+    {
         return $arr;
     }
 

@@ -2,18 +2,13 @@
 
 namespace Concerto\PanelBundle\Service;
 
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
-use Concerto\PanelBundle\Entity\AEntity;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
-use Concerto\PanelBundle\Service\TestNodeService;
-use Concerto\PanelBundle\Service\TestNodeConnectionService;
-use Concerto\PanelBundle\Service\TestNodePortService;
-use Concerto\PanelBundle\Service\ImportService;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestService extends AExportableSectionService
 {
@@ -25,7 +20,7 @@ class TestService extends AExportableSectionService
     private $testWizardRepository;
     private $slugifier;
 
-    public function __construct(TestRepository $repository, RecursiveValidator $validator, Slugify $slugifier, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(TestRepository $repository, ValidatorInterface $validator, Slugify $slugifier, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationChecker $securityAuthorizationChecker)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 

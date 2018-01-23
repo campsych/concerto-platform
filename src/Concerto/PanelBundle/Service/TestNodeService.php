@@ -6,12 +6,10 @@ use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\TestNode;
 use Concerto\PanelBundle\Entity\Test;
-use Concerto\PanelBundle\Service\TestNodePortService;
-use Concerto\PanelBundle\Service\TestVariableService;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestNodeService extends ASectionService
 {
@@ -25,7 +23,7 @@ class TestNodeService extends ASectionService
     private $testVariableService;
     private $testRepository;
 
-    public function __construct(TestNodeRepository $repository, RecursiveValidator $validator, TestNodePortService $portService, TestVariableService $variableService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(TestNodeRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestVariableService $variableService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

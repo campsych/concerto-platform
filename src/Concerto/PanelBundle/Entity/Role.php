@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Entity;
 
-use Symfony\Component\Security\Core\Role\RoleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table
  * @ORM\Entity
  */
-class Role implements RoleInterface {
+class Role extends \Symfony\Component\Security\Core\Role\Role {
     
     /**
      * @var integer
