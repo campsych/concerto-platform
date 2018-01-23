@@ -245,60 +245,79 @@ services:
   concerto_panel.DataTable_controller:
     class: Concerto\PanelBundle\Controller\DataTableController
     arguments: ["%kernel.environment%","@templating","@concerto_panel.DataTable_service","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service", "@concerto_panel.file_service"]
+    public: true
   concerto_panel.panel_controller:
     class: Concerto\PanelBundle\Controller\PanelController
     arguments: ["@templating","@concerto_panel.panel_service","@concerto_panel.file_service"]
+    public: true
   concerto_panel.home_controller:
     class: Concerto\PanelBundle\Controller\HomeController
     arguments: ["@templating","@concerto_panel.home_service"]
+    public: true
   concerto_panel.Test_controller:
     class: Concerto\PanelBundle\Controller\TestController
     arguments: ["%kernel.environment%","@templating","@concerto_panel.Test_service","@translator","@security.token_storage","@concerto_panel.TestWizard_service", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service", "@concerto_panel.file_service"]
+    public: true
   concerto_panel.TestNode_controller:
     class: Concerto\PanelBundle\Controller\TestNodeController
     arguments: ["@templating","@concerto_panel.TestNode_service","@concerto_panel.Test_service","@translator","@security.token_storage"]
+    public: true
   concerto_panel.TestNodeConnection_controller:
     class: Concerto\PanelBundle\Controller\TestNodeConnectionController
     arguments: ["@templating","@concerto_panel.Test_service","@concerto_panel.TestNodeConnection_service","@concerto_panel.TestNode_service","@concerto_panel.TestNodePort_service","@translator","@security.token_storage"]
+    public: true
   concerto_panel.TestNodePort_controller:
     class: Concerto\PanelBundle\Controller\TestNodePortController
     arguments: ["@templating","@concerto_panel.TestNodePort_service","@concerto_panel.TestNode_service","@concerto_panel.TestVariable_service","@translator","@security.token_storage"]
+    public: true
   concerto_panel.TestWizard_controller:
     class: Concerto\PanelBundle\Controller\TestWizardController
     arguments: ["%kernel.environment%","@templating","@concerto_panel.TestWizard_service","@translator","@security.token_storage","@concerto_panel.Test_service", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service", "@concerto_panel.file_service"]
+    public: true
   concerto_panel.TestWizardStep_controller:
     class: Concerto\PanelBundle\Controller\TestWizardStepController
     arguments: ["@templating","@concerto_panel.TestWizardStep_service","@translator","@concerto_panel.TestWizard_service","@security.token_storage"]
+    public: true
   concerto_panel.TestWizardParam_controller:
     class: Concerto\PanelBundle\Controller\TestWizardParamController
     arguments: ["@templating","@concerto_panel.TestWizardParam_service","@translator","@concerto_panel.TestVariable_service","@concerto_panel.TestWizardStep_service","@concerto_panel.TestWizard_service","@security.token_storage"]
+    public: true
   concerto_panel.TestSession_controller:
     class: Concerto\PanelBundle\Controller\TestSessionController
     arguments: ["@templating","@concerto_panel.TestSession_service","@translator"]
+    public: true
   concerto_panel.TestSessionLog_controller:
     class: Concerto\PanelBundle\Controller\TestSessionLogController
     arguments: ["@templating","@concerto_panel.TestSessionLog_service","@translator","@security.token_storage"]
+    public: true
   concerto_panel.TestVariable_controller:
     class: Concerto\PanelBundle\Controller\TestVariableController
     arguments: ["@templating","@concerto_panel.TestVariable_service","@translator","@concerto_panel.Test_service","@security.token_storage"]
+    public: true
   concerto_panel.User_controller:
     class: Concerto\PanelBundle\Controller\UserController
     arguments: ["@templating","@concerto_panel.User_service","@translator","@security.token_storage"]
+    public: true
   concerto_panel.ViewTemplate_controller:
     class: Concerto\PanelBundle\Controller\ViewTemplateController
     arguments: ["%kernel.environment%","@templating","@concerto_panel.ViewTemplate_service","@translator","@security.token_storage", "@concerto_panel.import_service", "@concerto_panel.export_service", "@concerto_panel.User_service", "@concerto_panel.file_service"]
+    public: true
   concerto_panel.FileBrowser_controller:
     class: Concerto\PanelBundle\Controller\FileBrowserController
     arguments: ["@templating","@concerto_panel.panel_service","@concerto_panel.file_service", "@assets.packages"]
+    public: true
   concerto_panel.Dialog_controller:
     class: Concerto\PanelBundle\Controller\DialogController
     arguments: ["@templating","@concerto_panel.panel_service","%kernel.root_dir%"]
+    public: true
   concerto_panel.Administration_controller:
     class: Concerto\PanelBundle\Controller\AdministrationController
     arguments: ["@templating","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service"]
+    public: true
   concerto_panel.test_runner_controller:
     class: Concerto\PanelBundle\Controller\TestRunnerController
     arguments: ["%kernel.environment%","@templating","@concerto_panel.test_runner_service", "@logger", "%test_runner_settings%", "@session"]
+    public: true
     
 #security
 

@@ -21,3 +21,4 @@
 /app/config/parameters_uio.yml
 /.idea
 *.iml
+/.web-server-pid

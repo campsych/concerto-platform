@@ -36,7 +36,7 @@ abstract class AFunctionalTest extends WebTestCase {
     public static function setUpBeforeClass() {
 
         $client = static::createClient();
-        self::$encoderFactory = $client->getContainer()->get("security.encoder_factory");
+        self::$encoderFactory = $client->getContainer()->get("test.security.encoder_factory");
         self::$entityManager = $client->getContainer()->get("doctrine")->getManager();
 
         $repo = self::$entityManager->getRepository("ConcertoPanelBundle:User");

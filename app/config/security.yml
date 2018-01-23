@@ -12,6 +12,7 @@ security:
     firewalls:
         admin_area:
           pattern: ^/admin
+          logout_on_user_change: true
           form_login: 
             login_path: login
             check_path: login_check
@@ -22,10 +23,12 @@ security:
             
         oauth_token:
           pattern:    ^/oauth/v2/token
+          logout_on_user_change: true
           security:   false
 
         api:
           pattern:    ^/api
+          logout_on_user_change: true
           fos_oauth:  true
           stateless:  true
           anonymous:  false

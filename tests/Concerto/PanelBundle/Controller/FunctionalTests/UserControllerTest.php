@@ -13,7 +13,7 @@ class UserControllerTest extends AFunctionalTest {
 
     public static function setUpBeforeClass() {
         $client = static::createClient();
-        self::$encoderFactory = $client->getContainer()->get("security.encoder_factory");
+        self::$encoderFactory = $client->getContainer()->get("test.security.encoder_factory");
         self::$entityManager = $client->getContainer()->get("doctrine")->getManager();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:User");
     }
