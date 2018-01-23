@@ -33,6 +33,7 @@ class TestRunnerController
     /**
      * Returns start new test template.
      *
+     * @param Request $request
      * @param string $test_slug
      * @param string $test_name
      * @param string $params
@@ -66,11 +67,25 @@ class TestRunnerController
         return $response;
     }
 
-    public function startNewDebugTestAction($test_slug, $params = "{}")
+    /**
+     * @param Request $request
+     * @param string $test_slug
+     * @param string $params
+     * @return Response
+     */
+    public function startNewDebugTestAction(Request $request, $test_slug, $params = "{}")
     {
-        return $this->startNewTestAction($test_slug, null, $params, true);
+        return $this->startNewTestAction($request, $test_slug, null, $params, true);
     }
 
+    /**
+     * @param Request $request
+     * @param $test_slug
+     * @param $test_name
+     * @param string $params
+     * @param bool $debug
+     * @return RedirectResponse|Response
+     */
     public function startNewSessionAction(Request $request, $test_slug, $test_name, $params = "{}", $debug = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $debug");
@@ -107,9 +122,15 @@ class TestRunnerController
         return $response;
     }
 
-    public function startNewDebugSessionAction($test_slug, $params = "{}")
+    /**
+     * @param Request $request
+     * @param string $test_slug
+     * @param string $params
+     * @return RedirectResponse|Response
+     */
+    public function startNewDebugSessionAction(Request $request, $test_slug, $params = "{}")
     {
-        return $this->startNewSessionAction($test_slug, null, $params, true);
+        return $this->startNewSessionAction($request, $test_slug, null, $params, true);
     }
 
     public function submitToSessionAction(Request $request, $session_hash)

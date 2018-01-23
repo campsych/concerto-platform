@@ -39,7 +39,7 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
     {
         $concerto_path = $this->getConcertoPath();
         $php_exec = $this->getContainer()->getParameter("test_runner_settings")["php_exec"];
-        $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "console");
+        $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console");
         $task_result_file = $this->getTaskResultFile($task);
         $task_output_file = $this->getTaskOutputFile($task);
 

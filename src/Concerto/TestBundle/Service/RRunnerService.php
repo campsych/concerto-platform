@@ -170,7 +170,7 @@ class RRunnerService
             case self::OS_WIN:
                 return "start cmd /C \""
                     . "\"" . $this->escapeWindowsArg($this->settings["php_exec"]) . "\" "
-                    . "\"" . $this->escapeWindowsArg($this->root) . DIRECTORY_SEPARATOR . "console\" concerto:r:start --env=" . $this->environment . " "
+                    . "\"" . $this->escapeWindowsArg($this->root) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console'\" concerto:r:start --env=" . $this->environment . " "
                     . "\"" . $this->escapeWindowsArg($this->settings["rscript_exec"]) . "\" "
                     . "\"" . $this->escapeWindowsArg($this->getIniFilePath()) . "\" "
                     . "\"" . $this->escapeWindowsArg($test_node) . "\" "
@@ -195,7 +195,7 @@ class RRunnerService
             default:
                 return "nohup "
                     . $this->settings["php_exec"] . " "
-                    . "'" . $this->root . "/console' concerto:r:start --env=" . $this->environment . " "
+                    . "'" . $this->root . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console' concerto:r:start --env=" . $this->environment . " "
                     . "'" . $this->settings["rscript_exec"] . "' "
                     . "'" . $this->getIniFilePath() . "' "
                     . "'$test_node' "
@@ -227,7 +227,6 @@ class RRunnerService
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ":command: $command");
 
         $process = new Process($command);
-        $process->setEnhanceWindowsCompatibility(false);
         $process->mustRun();
         $this->logger->info($process->getOutput());
         $this->logger->info($process->getErrorOutput());

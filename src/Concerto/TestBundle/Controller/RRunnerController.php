@@ -56,7 +56,7 @@ class RRunnerController
      * @Method(methods={"POST","OPTIONS"})
      *
      * @param Request $request
-     * @param $session_hash
+     * @param string $session_hash
      * @return Response
      */
     public function uploadFileAction(Request $request, $session_hash)

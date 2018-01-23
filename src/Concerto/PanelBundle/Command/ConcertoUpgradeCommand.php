@@ -58,7 +58,7 @@ class ConcertoUpgradeCommand extends ConcertoScheduledTaskCommand {
         $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $concerto_path = $this->getConcertoPath();
         $php_exec = $this->getContainer()->getParameter("test_runner_settings")["php_exec"];
-        $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "console");
+        $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console");
         $web_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "web");
         $panel_bower_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "PanelBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "angularjs");
         $test_bower_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Concerto" . DIRECTORY_SEPARATOR . "TestBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "angularjs");
