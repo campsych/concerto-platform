@@ -14,7 +14,6 @@ use Concerto\PanelBundle\Entity\TestSessionLog;
 use Symfony\Component\Yaml\Yaml;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use DateTime;
-use Concerto\PanelBundle\Entity\ScheduledTask;
 use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;

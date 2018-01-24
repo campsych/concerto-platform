@@ -6,10 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\PanelService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/admin")
+ */
 class DialogController
 {
-
     private $templating;
     private $service;
     private $rootDir;
@@ -23,6 +26,9 @@ class DialogController
 
     /**
      * Extended action with added custom parameters.
+     *
+     * @Route("/dialog/r_documentation_generation_help.html", name="Dialog_rdoc")
+     * @return Response
      */
     public function rDocumentationWindowAction()
     {
@@ -37,6 +43,9 @@ class DialogController
     /**
      * Used to display generic modal windows which don't need any data in their templates.
      *
+     * @Route("/dialog/{template_name}", name="Dialog_generic")
+     * @param string $template_name
+     * @param array $params
      * @return Response
      */
     public function genericWindowAction($template_name, $params = array())

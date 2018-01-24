@@ -2,16 +2,20 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\TestBundle\Service\TestSessionCountService;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/admin")
+ */
 class AdministrationController
 {
-
     private $templating;
     private $service;
     private $sessionCountService;
@@ -23,6 +27,10 @@ class AdministrationController
         $this->sessionCountService = $sessionCountService;
     }
 
+    /**
+     * @Route("/AdministrationSetting/map", name="AdministrationSetting_map")
+     * @return Response
+     */
     public function settingsMapAction()
     {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
@@ -34,7 +42,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/Messages/collection", name="Administration_messages_collection")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function messagesCollectionAction()
     {
@@ -44,7 +54,11 @@ class AdministrationController
     }
 
     /**
+     * @Route("/AdministrationSetting/map/update", name="AdministrationSetting_map_update")
+     * @Method(methods={"POST"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
      */
     public function updateSettingsMapAction(Request $request)
     {
@@ -56,7 +70,10 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/SessionCount/{filter}/collection", name="Administration_session_count_collection", defaults={"filter"="{}"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param string $filter
+     * @return Response
      */
     public function sessionCountCollectionAction($filter)
     {
@@ -67,7 +84,10 @@ class AdministrationController
     }
 
     /**
+     * @Route("/AdministrationSetting/SessionCount/clear", name="AdministrationSetting_session_count_clear")
+     * @Method(methods={"POST"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function clearSessionCountAction()
     {
@@ -79,18 +99,23 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/Messages/{object_ids}/delete", name="Administration_messages_delete")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param string $object_ids
+     * @return Response
      */
     public function deleteMessageAction($object_ids)
     {
-        $result = $this->service->deleteMessage($object_ids);
+        $this->service->deleteMessage($object_ids);
         $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
+     * @Route("/Administration/Messages/clear", name="Administration_messages_clear")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function clearMessagesAction()
     {
@@ -101,7 +126,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/collection", name="Administration_tasks_collection")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function tasksCollectionAction()
     {
@@ -111,7 +138,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/backup", name="Administration_tasks_backup")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function taskBackupAction()
     {
@@ -122,7 +151,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/restore", name="Administration_tasks_restore")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function taskRestoreAction()
     {
@@ -133,7 +164,10 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/content_upgrade", name="Administration_tasks_content_upgrade")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
      */
     public function taskContentUpgradeAction(Request $request)
     {
@@ -145,7 +179,10 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/platform_upgrade", name="Administration_tasks_platform_upgrade")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
      */
     public function taskPlatformUpgradeAction(Request $request)
     {
@@ -157,7 +194,10 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/package_install", name="Administration_tasks_package_install")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
      */
     public function taskPackageInstallAction(Request $request)
     {
@@ -169,7 +209,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/api_clients/collection", name="Administration_api_clients_collection")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function apiClientCollectionAction()
     {
@@ -179,18 +221,23 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/api_clients/{object_ids}/delete", name="Administration_api_clients_delete")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param string $object_ids
+     * @return Response
      */
     public function deleteApiClientAction($object_ids)
     {
-        $result = $this->service->deleteApiClient($object_ids);
+        $this->service->deleteApiClient($object_ids);
         $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
+     * @Route("/Administration/api_clients/clear", name="Administration_api_clients_clear")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function clearApiClientAction()
     {
@@ -201,7 +248,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/api_clients/add", name="Administration_api_clients_add")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function addApiClientAction()
     {
@@ -212,7 +261,9 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/packages/status", name="Administration_packages_status")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
      */
     public function packagesStatusAction()
     {

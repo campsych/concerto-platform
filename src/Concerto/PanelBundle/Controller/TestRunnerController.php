@@ -3,13 +3,15 @@
 namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\TestRunnerService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Templating\EngineInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class TestRunnerController
 {
@@ -20,7 +22,7 @@ class TestRunnerController
     private $environment;
     private $session;
 
-    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $settings, Session $session)
+    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $settings, SessionInterface $session)
     {
         $this->templating = $templating;
         $this->testRunnerService = $testRunnerService;
@@ -33,6 +35,8 @@ class TestRunnerController
     /**
      * Returns start new test template.
      *
+     * @Route("/test/{test_slug}/{params}", name="test_runner_start", defaults={"test_name":null,"params":"{}","debug":false})
+     * @Route("/test_n/{test_name}/{params}", name="test_runner_start_name", defaults={"test_slug":null,"params":"{}"})
      * @param Request $request
      * @param string $test_slug
      * @param string $test_name
@@ -40,7 +44,7 @@ class TestRunnerController
      * @param boolean $debug
      * @return Response
      */
-    public function startNewTestAction(Request $request, $test_slug, $test_name, $params = "{}", $debug = false)
+    public function startNewTestAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
@@ -68,6 +72,7 @@ class TestRunnerController
     }
 
     /**
+     * @Route("/admin/test/{test_slug}/debug/{params}", name="test_runner_start_debug", defaults={"params":"{}"})
      * @param Request $request
      * @param string $test_slug
      * @param string $params
@@ -79,6 +84,9 @@ class TestRunnerController
     }
 
     /**
+     * @Route("/test/{test_slug}/session/start/{params}", name="test_runner_session_start", defaults={"test_name":null,"params":"{}","debug":false})
+     * @Route("/test_n/{test_name}/session/start/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false})
+     * @Method(methods={"POST"})
      * @param Request $request
      * @param $test_slug
      * @param $test_name
@@ -86,7 +94,7 @@ class TestRunnerController
      * @param bool $debug
      * @return RedirectResponse|Response
      */
-    public function startNewSessionAction(Request $request, $test_slug, $test_name, $params = "{}", $debug = false)
+    public function startNewSessionAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $debug");
 
@@ -123,6 +131,8 @@ class TestRunnerController
     }
 
     /**
+     * @Route("/admin/test/{test_slug}/session/start/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"})
+     * @Method(methods={"POST"})
      * @param Request $request
      * @param string $test_slug
      * @param string $params
@@ -133,6 +143,13 @@ class TestRunnerController
         return $this->startNewSessionAction($request, $test_slug, null, $params, true);
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/submit", name="test_runner_session_submit")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
     public function submitToSessionAction(Request $request, $session_hash)
     {
         $time = microtime(true);
@@ -162,6 +179,13 @@ class TestRunnerController
         return $response;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/worker", name="test_runner_worker")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
     public function backgroundWorkerAction(Request $request, $session_hash)
     {
         $time = microtime(true);
@@ -190,6 +214,13 @@ class TestRunnerController
         return $response;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/kill", name="test_runner_session_kill")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param $session_hash
+     * @return RedirectResponse|Response
+     */
     public function killSessionAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
@@ -211,6 +242,13 @@ class TestRunnerController
         return $response;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/keepalive", name="test_runner_session_keepalive")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
     public function keepAliveSessionAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
@@ -232,6 +270,13 @@ class TestRunnerController
         return $response;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/results", name="test_runner_session_results")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
     public function resultsFromSessionAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
@@ -253,6 +298,13 @@ class TestRunnerController
         return $response;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/upload", name="test_runner_upload_file")
+     * @Method(methods={"POST","OPTIONS"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
     public function uploadFileAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
@@ -283,6 +335,13 @@ class TestRunnerController
         return $response;
     }
 
+    /**
+     * @Route("/test/session/{session_hash}/log", name="test_runner_log_error")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
     public function logErrorAction(Request $request, $session_hash)
     {
         $panel_node = $this->testRunnerService->getPanelNodeById($request->get("node_id"));

@@ -27,7 +27,6 @@ class RRunnerController
     /**
      * @Route("/test/session/{session_hash}/start/{params}", name="r_runner_r_start", defaults={"params"="{}"} )
      * @Method(methods={"POST"})
-     *
      * @param Request $request
      * @param string $session_hash
      * @return Response
@@ -54,7 +53,6 @@ class RRunnerController
     /**
      * @Route("/test/r/session/{session_hash}/upload", name="r_runner_upload_file")
      * @Method(methods={"POST","OPTIONS"})
-     *
      * @param Request $request
      * @param string $session_hash
      * @return Response

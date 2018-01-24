@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\HomeService;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController
 {
@@ -19,6 +20,7 @@ class HomeController
     }
 
     /**
+     * @Route("/", name="home")
      * @return Response
      */
     public function indexAction()
@@ -27,6 +29,8 @@ class HomeController
     }
 
     /**
+     * @Route("/featured/collection/{format}", name="home_featured_collection", defaults={"format":"json"})
+     * @param string $format
      * @return Response
      */
     public function featuredCollectionAction($format = "json")

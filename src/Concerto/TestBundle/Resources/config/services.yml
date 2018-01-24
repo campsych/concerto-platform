@@ -1,6 +1,27 @@
-parameters:
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
 
-services:        
+    Concerto\TestBundle\:
+        resource: '*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '{Entity,Repository,Tests}'
+
+        # controllers are imported separately to make sure they're public
+        # and have a tag that allows actions to type-hint services
+    Concerto\TestBundle\Controller\:
+        resource: '../../Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
     concerto_test.TestSessionCount_metadata:
         class: Doctrine\ORM\Mapping\ClassMetadata
         arguments: ["Concerto\\TestBundle\\Entity\\TestSessionCount"]
@@ -14,10 +35,6 @@ services:
     concerto_test.r_runner_service:
         class: Concerto\TestBundle\Service\RRunnerService
         arguments: ["%kernel.root_dir%","%panel_nodes%","%test_runner_settings%","@doctrine","@logger","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service","@concerto_panel.LoadBalancer_service", "%kernel.environment%"]
-    concerto_test.r_runner_controller:
-        class: Concerto\TestBundle\Controller\RRunnerController
-        arguments: ["@templating","@concerto_test.r_runner_service", "@logger"]
-        public: true
         
     concerto_test.command.log_session_count_command:
         class: Concerto\TestBundle\Command\LogSessionCountCommand
@@ -29,3 +46,7 @@ services:
         arguments: ["@logger"]
         tags:
             -  { name: console.command }
+
+#aliases
+    Concerto\TestBundle\Service\TestSessionCountService: '@concerto_test.TestSessionCount_service'
+    Concerto\TestBundle\Service\RRunnerService: '@concerto_test.r_runner_service'
