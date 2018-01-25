@@ -7,6 +7,3 @@ login_check:
 
 logout:
     path: /admin/logout
-
-Dialog_root:
-    path: /admin/

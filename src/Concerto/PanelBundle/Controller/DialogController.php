@@ -44,6 +44,7 @@ class DialogController
      * Used to display generic modal windows which don't need any data in their templates.
      *
      * @Route("/dialog/{template_name}", name="Dialog_generic")
+     * @Route("/dialog/", name="Dialog_root")
      * @param string $template_name
      * @param array $params
      * @return Response

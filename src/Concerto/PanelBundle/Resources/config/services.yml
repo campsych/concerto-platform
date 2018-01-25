@@ -10,10 +10,7 @@ services:
     public: false
 
   Concerto\PanelBundle\:
-    resource: '*'
-    # you can exclude directories or files
-    # but if a service is unused, it's removed anyway
-    exclude: '{Entity,Repository,Tests}'
+    resource: '../../{Command,DAO,EventSubscriber,Service}'
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
@@ -228,7 +225,7 @@ services:
     arguments: ["@doctrine.orm.entity_manager","@concerto_panel.ScheduledTask_metadata"]
   concerto_panel.Administration_service:
     class: Concerto\PanelBundle\Service\AdministrationService
-    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository","@kernel","@API.Client_repository","%test_runner_settings%"]
+    arguments: ["@concerto_panel.AdministrationSetting_repository","@concerto_panel.Message_repository","@security.authorization_checker","%administration%","%version%","%kernel.root_dir%","@templating","@concerto_panel.TestSessionLog_repository","@doctrine","@concerto_panel.ScheduledTask_repository","@kernel","@Concerto\\APIBundle\\Repository\\ClientRepository","%test_runner_settings%"]
 
 
   concerto_panel.Maintenance_service:
@@ -315,6 +312,8 @@ services:
   Concerto\PanelBundle\Service\TestWizardParamService: '@concerto_panel.TestWizardParam_service'
   Concerto\PanelBundle\Service\TestWizardStepService: '@concerto_panel.TestWizardStep_service'
   Concerto\PanelBundle\Service\ViewTemplateService: '@concerto_panel.ViewTemplate_service'
+  Concerto\PanelBundle\DAO\DBDataDAO: '@concerto_panel.db_data_dao'
+  Concerto\PanelBundle\DAO\DBStructureDAO: '@concerto_panel.db_structure_dao'
     
 #security
 

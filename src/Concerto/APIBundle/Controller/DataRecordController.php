@@ -38,10 +38,10 @@ class DataRecordController
 
         switch ($request->getMethod()) {
             case "GET":
-                return $this->getDataCollection($table_id);
+                return $this->getDataCollection($request, $table_id);
             case "PUT":
             case "POST":
-                return $this->insertDataObject($table_id);
+                return $this->insertDataObject($request, $table_id);
         }
     }
 
@@ -60,10 +60,10 @@ class DataRecordController
 
         switch ($request->getMethod()) {
             case "GET":
-                return $this->getDataObject($table_id, $id);
+                return $this->getDataObject($request, $table_id, $id);
             case "PUT":
             case "POST":
-                return $this->updateDataObject($table_id, $id);
+                return $this->updateDataObject($request, $table_id, $id);
             case "DELETE":
                 return $this->deleteDataObject($table_id, $id);
         }
