@@ -9,9 +9,9 @@ use Concerto\PanelBundle\Entity\TestNode;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestNodePortService extends ASectionService
@@ -22,7 +22,7 @@ class TestNodePortService extends ASectionService
     private $testNodeRepository;
     private $logger;
 
-    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationChecker $securityAuthorizationChecker, LoggerInterface $logger)
+    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

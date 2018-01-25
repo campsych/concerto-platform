@@ -2,17 +2,28 @@
 
 namespace Concerto\PanelBundle\Command;
 
-use Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand;
+use Concerto\PanelBundle\Service\AdministrationService;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 use Concerto\PanelBundle\Entity\ScheduledTask;
-use DateTime;
+use Symfony\Component\Templating\EngineInterface;
 
-class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand {
+class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand
+{
+    private $testRunnerSettings;
+    private $templating;
 
-    protected function configure() {
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, $testRunnerSettings, EngineInterface $templating)
+    {
+        $this->testRunnerSettings = $testRunnerSettings;
+        $this->templating = $templating;
+
+        parent::__construct($administrationService, $administration, $doctrine);
+    }
+
+    protected function configure()
+    {
         $this->setName("concerto:package:install")->setDescription("Installs R package");
 
         $this->addOption("method", null, InputOption::VALUE_OPTIONAL, "R package install method", 0);
@@ -23,10 +34,11 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand {
         parent::configure();
     }
 
-    protected function getCommand(ScheduledTask $task, InputInterface $input) {
-        $r_lib_path = $this->getContainer()->getParameter("administration")["internal"]["r_lib_path"];
-        $r_exec_path = $this->getContainer()->getParameter("administration")["internal"]["r_exec_path"];
-        $rscript_exec_path = $this->getContainer()->getParameter("test_runner_settings")["rscript_exec"];
+    protected function getCommand(ScheduledTask $task, InputInterface $input)
+    {
+        $r_lib_path = $this->administration["internal"]["r_lib_path"];
+        $r_exec_path = $this->administration["internal"]["r_exec_path"];
+        $rscript_exec_path = $this->testRunnerSettings["rscript_exec"];
         $task_output_file = $this->getTaskOutputFile($task);
         $task_result_file = $this->getTaskResultFile($task);
 
@@ -53,19 +65,21 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand {
         return $cmd;
     }
 
-    public function getTaskDescription(ScheduledTask $task) {
+    public function getTaskDescription(ScheduledTask $task)
+    {
         $info = json_decode($task->getInfo(), true);
         $method = $info["method"];
         $name = $info["name"];
         $url = $info["url"];
 
-        $desc = $this->getContainer()->get('templating')->render("ConcertoPanelBundle:Administration:task_package_install.html.twig", array(
+        $desc = $this->templating->render("ConcertoPanelBundle:Administration:task_package_install.html.twig", array(
             "name" => $method == 0 ? $name : $url
         ));
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input) {
+    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    {
         $info = array_merge(parent::getTaskInfo($task, $input), array(
             "method" => $input->getOption("method"),
             "name" => $input->getOption("name"),
@@ -75,7 +89,8 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand {
         return $info;
     }
 
-    public function getTaskType() {
+    public function getTaskType()
+    {
         return ScheduledTask::TYPE_R_PACKAGE_INSTALL;
     }
 

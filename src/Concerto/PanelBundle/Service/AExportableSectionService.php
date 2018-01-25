@@ -3,15 +3,15 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Repository\AEntityRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Entity\User;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AExportableSectionService extends ASectionService
 {
     protected $validator;
 
-    public function __construct(AEntityRepository $repository, ValidatorInterface $validator, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(AEntityRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

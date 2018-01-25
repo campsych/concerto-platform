@@ -3,21 +3,24 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Repository\AEntityRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-abstract class ASectionService {
+abstract class ASectionService
+{
 
     public static $securityOn = true;
     public $repository;
     protected $securityAuthorizationChecker;
 
-    public function __construct(AEntityRepository $repository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    {
         $this->repository = $repository;
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
     }
 
-    protected static function getObjectImportInstruction($obj, $instructions) {
+    protected static function getObjectImportInstruction($obj, $instructions)
+    {
         foreach ($instructions as $instruction) {
             if ($instruction["class_name"] == $obj["class_name"] && $instruction["id"] == $obj["id"])
                 return $instruction;
@@ -25,11 +28,13 @@ abstract class ASectionService {
         return null;
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         return $this->authorizeCollection($this->repository->findAll());
     }
 
-    public function authorizeObject($object) {
+    public function authorizeObject($object)
+    {
         if (!self::$securityOn)
             return $object;
         if ($this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object))
@@ -37,7 +42,8 @@ abstract class ASectionService {
         return null;
     }
 
-    public function authorizeCollection($collection) {
+    public function authorizeCollection($collection)
+    {
         if (!self::$securityOn)
             return $collection;
         $result = array();
@@ -48,7 +54,8 @@ abstract class ASectionService {
         return $result;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         if (!$object_id) {
             return null;
         }

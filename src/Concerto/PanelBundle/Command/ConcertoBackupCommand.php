@@ -2,19 +2,28 @@
 
 namespace Concerto\PanelBundle\Command;
 
-use Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand;
+use Concerto\PanelBundle\Service\AdministrationService;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 use Concerto\PanelBundle\Entity\ScheduledTask;
-use DateTime;
+use Symfony\Component\Templating\EngineInterface;
 
 class ConcertoBackupCommand extends ConcertoScheduledTaskCommand
 {
 
     const FILES_BACKUP_FILENAME = "c5_files_backup.zip";
     const DB_BACKUP_FILENAME = "c5_db_backup.sql";
+
+    private $templating;
+    private $version;
+
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, $version)
+    {
+        $this->templating = $templating;
+        $this->version = $version;
+
+        parent::__construct($administrationService, $administration, $doctrine);
+    }
 
     protected function configure()
     {
@@ -25,12 +34,12 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand
 
     private function getFileBackupPath()
     {
-        return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
+        return realpath($this->administration["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::FILES_BACKUP_FILENAME;
     }
 
     private function getDatabaseBackupPath()
     {
-        return realpath($this->getContainer()->getParameter("administration")["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
+        return realpath($this->administration["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . self::DB_BACKUP_FILENAME;
     }
 
     protected function getCommand(ScheduledTask $task, InputInterface $input)
@@ -38,9 +47,8 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand
         $concerto_path = $this->getConcertoPath();
         $files_backup_path = $this->getFileBackupPath();
         $db_backup_path = $this->getDatabaseBackupPath();
-        $doctrine = $this->getContainer()->get('doctrine');
-        $upgrade_connection = $this->getContainer()->getParameter("administration")["internal"]["upgrade_connection"];
-        $connection = $doctrine->getConnection($upgrade_connection);
+        $upgrade_connection = $this->administration["internal"]["upgrade_connection"];
+        $connection = $this->doctrine->getConnection($upgrade_connection);
         $db_user = $connection->getUsername();
         $db_pass = $connection->getPassword();
         $db_name = $connection->getDatabase();
@@ -59,22 +67,20 @@ class ConcertoBackupCommand extends ConcertoScheduledTaskCommand
 
     public function getTaskDescription(ScheduledTask $task)
     {
-        $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        $desc = $this->getContainer()->get('templating')->render("ConcertoPanelBundle:Administration:task_backup.html.twig", array(
-            "current_platform_version" => $this->getContainer()->getParameter("version"),
-            "current_content_version" => $service->getInstalledContentVersion()
+        $desc = $this->templating->render("ConcertoPanelBundle:Administration:task_backup.html.twig", array(
+            "current_platform_version" => $this->version,
+            "current_content_version" => $this->administrationService->getInstalledContentVersion()
         ));
         return $desc;
     }
 
     public function getTaskInfo(ScheduledTask $task, InputInterface $input)
     {
-        $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $info = array_merge(parent::getTaskInfo($task, $input), array(
-            "backup_platform_version" => $this->getContainer()->getParameter("version"),
+            "backup_platform_version" => $this->version,
             "backup_platform_path" => $this->getFileBackupPath(),
             "backup_database_path" => $this->getDatabaseBackupPath(),
-            "backup_content_version" => $service->getInstalledContentVersion(),
+            "backup_content_version" => $this->administrationService->getInstalledContentVersion(),
             "backup_time" => time()
         ));
         return $info;

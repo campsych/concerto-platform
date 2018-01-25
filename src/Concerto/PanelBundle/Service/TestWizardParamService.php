@@ -8,8 +8,8 @@ use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestWizardParamService extends ASectionService
@@ -23,7 +23,7 @@ class TestWizardParamService extends ASectionService
     private $testNodePortService;
     private $logger;
 
-    public function __construct(TestWizardParamRepository $repository, ValidatorInterface $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationChecker $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger)
+    public function __construct(TestWizardParamRepository $repository, ValidatorInterface $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

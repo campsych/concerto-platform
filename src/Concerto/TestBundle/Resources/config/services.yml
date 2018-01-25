@@ -10,10 +10,7 @@ services:
         public: false
 
     Concerto\TestBundle\:
-        resource: '*'
-        # you can exclude directories or files
-        # but if a service is unused, it's removed anyway
-        exclude: '{Entity,Repository,Tests}'
+        resource: '../../{Command,Service}'
 
         # controllers are imported separately to make sure they're public
         # and have a tag that allows actions to type-hint services
@@ -22,31 +19,15 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    concerto_test.TestSessionCount_metadata:
-        class: Doctrine\ORM\Mapping\ClassMetadata
-        arguments: ["Concerto\\TestBundle\\Entity\\TestSessionCount"]
-    concerto_test.TestSessionCount_repository:
-        class: Concerto\TestBundle\Repository\TestSessionCountRepository
-        arguments: ["@doctrine.orm.entity_manager","@concerto_test.TestSessionCount_metadata"]
-    concerto_test.TestSessionCount_service:
-        class: Concerto\TestBundle\Service\TestSessionCountService
-        arguments: ["@concerto_test.TestSessionCount_repository"]
-        
-    concerto_test.r_runner_service:
-        class: Concerto\TestBundle\Service\RRunnerService
-        arguments: ["%kernel.root_dir%","%panel_nodes%","%test_runner_settings%","@doctrine","@logger","@concerto_panel.Administration_service","@concerto_test.TestSessionCount_service","@concerto_panel.LoadBalancer_service", "%kernel.environment%"]
-        
-    concerto_test.command.log_session_count_command:
-        class: Concerto\TestBundle\Command\LogSessionCountCommand
-        arguments: ["@concerto_test.TestSessionCount_service"]
-        tags:
-            -  { name: console.command }
-    concerto_test.command.start_process_command:
-        class: Concerto\TestBundle\Command\StartProcessCommand
-        arguments: ["@logger"]
-        tags:
-            -  { name: console.command }
+#repositories
+    Concerto\TestBundle\Repository\TestSessionCountRepository:
+        factory: doctrine.orm.entity_manager:getRepository
+        arguments: [ Concerto\TestBundle\Entity\TestSessionCount]
 
-#aliases
-    Concerto\TestBundle\Service\TestSessionCountService: '@concerto_test.TestSessionCount_service'
-    Concerto\TestBundle\Service\RRunnerService: '@concerto_test.r_runner_service'
+#services
+    Concerto\TestBundle\Service\RRunnerService:
+        arguments:
+            $root: "%kernel.root_dir%"
+            $panelNodes: "%panel_nodes%"
+            $settings: "%test_runner_settings%"
+            $environment: "%kernel.environment%"

@@ -3,10 +3,10 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\User;
-use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Concerto\PanelBundle\Repository\UserRepository;
 use Concerto\PanelBundle\Repository\RoleRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserService extends ASectionService
@@ -24,7 +24,7 @@ class UserService extends ASectionService
     private $importService;
     private $validator;
 
-    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactory $encoderFactory, AuthorizationChecker $securityAuthorizationChecker, $uio, ImportService $importService)
+    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

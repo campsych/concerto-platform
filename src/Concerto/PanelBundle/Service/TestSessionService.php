@@ -9,7 +9,7 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Concerto\TestBundle\Service\RRunnerService;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TestSessionService
 {
@@ -52,7 +52,7 @@ class TestSessionService
     private $testRunnerSettings;
     private $session;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService, LoadBalancerInterface $loadBalancerService, $testRunnerSettings, Session $session)
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $panelNodes, $secret, LoggerInterface $logger, RRunnerService $rRunnerService, FileService $fileService, AdministrationService $administrationService, LoadBalancerInterface $loadBalancerService, $testRunnerSettings, SessionInterface $session)
     {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;

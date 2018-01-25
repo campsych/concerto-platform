@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Table
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\RoleRepository")
  */
 class Role extends \Symfony\Component\Security\Core\Role\Role {
     
@@ -51,7 +51,7 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
     /**
      * Set id
      * @param integer $id
-     * @return AdministrationSetting;
+     * @return Role;
      */
     public function setId($id) {
         $this->id = $id;

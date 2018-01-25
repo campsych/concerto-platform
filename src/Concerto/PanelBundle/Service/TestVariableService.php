@@ -7,8 +7,8 @@ use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Entity\User;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestVariableService extends ASectionService
@@ -19,7 +19,7 @@ class TestVariableService extends ASectionService
     private $testNodeConnectionService;
     private $testRepository;
 
-    public function __construct(TestVariableRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(TestVariableRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationCheckerInterface $securityAuthorizationChecker)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

@@ -14,7 +14,6 @@ imports:
     - { resource: parameters_nodes.yml }
     - { resource: parameters_test_runner.yml }
     - { resource: parameters_uio.yml }
-    - { resource: requirements.yml }
 
 framework:
     #esi:             ~

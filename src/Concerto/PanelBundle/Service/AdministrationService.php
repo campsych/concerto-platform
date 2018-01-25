@@ -6,16 +6,16 @@ use Concerto\PanelBundle\Entity\AdministrationSetting;
 use Concerto\PanelBundle\Entity\Message;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
 use Concerto\PanelBundle\Repository\MessageRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Symfony\Component\Yaml\Yaml;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use DateTime;
 use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -38,7 +38,7 @@ class AdministrationService
     private $apiClientRepository;
     private $testRunnerSettings;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationChecker $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, Registry $doctrine, ScheduledTaskRepository $scheduledTaskRepository, Kernel $kernel, ClientRepository $clientRepository, $testRunnerSettings)
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationCheckerInterface $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings)
     {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;

@@ -6,7 +6,7 @@ use Concerto\PanelBundle\DAO\DBDataDAO;
 use Concerto\PanelBundle\Entity\DataTable;
 use Concerto\PanelBundle\Repository\DataTableRepository;
 use Concerto\PanelBundle\Entity\User;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DataTableService extends AExportableSectionService
@@ -15,7 +15,7 @@ class DataTableService extends AExportableSectionService
     public $dbStructureService;
     public $dbDataDao;
 
-    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationCheckerInterface $securityAuthorizationChecker)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 

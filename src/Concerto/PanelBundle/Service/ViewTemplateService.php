@@ -4,9 +4,16 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Repository\ViewTemplateRepository;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ViewTemplateService extends AExportableSectionService {
+
+    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    {
+        parent::__construct($repository, $validator, $securityAuthorizationChecker);
+    }
 
     public function get($object_id, $createNew = false, $secure = true) {
         $object = null;
