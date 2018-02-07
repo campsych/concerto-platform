@@ -1,5 +1,13 @@
-version: "5.0.beta.3.15"
+version: "5.0.beta.3.16"
 changelog:
+    - version: "5.0.beta.3.16"
+      description: >
+        Customization
+      categories:
+          - label: Improvements
+            changes:
+                - added overridable routing_custom.yml
+                - added overridable test_head_custom.html.twig
     - version: "5.0.beta.3.15"
       description: >
         File upload fixes

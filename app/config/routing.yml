@@ -82,6 +82,9 @@ concerto_panel_administration:
     resource: "@ConcertoPanelBundle/Resources/config/Administration/routing.yml"
     prefix:   /admin/
 
+routing_custom:
+    resource: routing_custom.yml
+
 remove_trailing_slash:
     path: /{url}
     defaults: { _controller: ConcertoPanelBundle:Redirect:removeTrailingSlash }
