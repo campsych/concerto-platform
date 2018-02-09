@@ -10,6 +10,9 @@ changelog:
           - label: Fixes
             changes:
                 - when removing uploaded files, file name is properly URL encoded now
+          - label: R
+            changes:
+                - added concerto$test_node global list
     - version: "5.0.beta.3.16"
       description: >
         Customization

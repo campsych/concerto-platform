@@ -1,5 +1,5 @@
 if(Sys.info()['sysname'] != "Windows") {
-    options(encoding='UTF-8')	
+    options(encoding='UTF-8')
     Sys.setlocale("LC_ALL","en_US.utf8")
 } else {
     Sys.setlocale("LC_ALL","English")
@@ -7,20 +7,20 @@ if(Sys.info()['sysname'] != "Windows") {
 require(concerto5)
 
 fromJSON = function(txt, simplifyVector = FALSE, simplifyDataFrame = simplifyVector,
-  simplifyMatrix = simplifyVector, flatten = FALSE, ...){
-  result = jsonlite::fromJSON(txt, simplifyVector, simplifyDataFrame, simplifyMatrix, flatten, ...)
-  return(result)
+simplifyMatrix = simplifyVector, flatten = FALSE, ...){
+    result = jsonlite::fromJSON(txt, simplifyVector, simplifyDataFrame, simplifyMatrix, flatten, ...)
+    return(result)
 }
 
 toJSON = function(x, dataframe = c("rows", "columns", "values"), matrix = c("rowmajor",
-  "columnmajor"), Date = c("ISO8601", "epoch"), POSIXt = c("string",
-  "ISO8601", "epoch", "mongo"), factor = c("string", "integer"),
-  complex = c("string", "list"), raw = c("base64", "hex", "mongo"),
-  null = c("list", "null"), na = c("null", "string"), auto_unbox = TRUE,
-  digits = 4, pretty = FALSE, force = FALSE, ...) {
-  result = jsonlite::toJSON(x, dataframe, matrix, Date, POSIXt, factor, complex, raw, null, na, auto_unbox, digits, pretty, force, ...)
-  result = as.character(result)
-  return(result)
+"columnmajor"), Date = c("ISO8601", "epoch"), POSIXt = c("string",
+"ISO8601", "epoch", "mongo"), factor = c("string", "integer"),
+complex = c("string", "list"), raw = c("base64", "hex", "mongo"),
+null = c("list", "null"), na = c("null", "string"), auto_unbox = TRUE,
+digits = 4, pretty = FALSE, force = FALSE, ...) {
+    result = jsonlite::toJSON(x, dataframe, matrix, Date, POSIXt, factor, complex, raw, null, na, auto_unbox, digits, pretty, force, ...)
+    result = as.character(result)
+    return(result)
 }
 
 SOURCE_CLIENT = 0
@@ -56,9 +56,7 @@ concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
 concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[9])
 
-test_node <- fromJSON(commandArgs(TRUE)[2])
-concerto$test_node.host <- test_node$sock_host
-concerto$test_node.port <- test_node$port
+concerto$test_node <- fromJSON(commandArgs(TRUE)[2])
 submitter <- fromJSON(commandArgs(TRUE)[3])
 concerto$submitter.host <- submitter$host
 concerto$submitter.port <- submitter$port
@@ -83,16 +81,16 @@ tryCatch({
 
 }, error = function(e) {
     if(concerto$session$status == STATUS_RUNNING){
-      concerto.log(e)
-      response = RESPONSE_ERROR
-      if(e$message == "session unresumable") {
-        response = RESPONSE_UNRESUMABLE
-      }
-      concerto5:::concerto.server.respond(response)
-      concerto$session$error <<- e
-      concerto$session$status <<- STATUS_ERROR
-      concerto5:::concerto.session.update()
-      stop("Error executing test logic.")
+        concerto.log(e)
+        response = RESPONSE_ERROR
+        if(e$message == "session unresumable") {
+            response = RESPONSE_UNRESUMABLE
+        }
+        concerto5:::concerto.server.respond(response)
+        concerto$session$error <<- e
+        concerto$session$status <<- STATUS_ERROR
+        concerto5:::concerto.session.update()
+        stop("Error executing test logic.")
     }
 })
 
