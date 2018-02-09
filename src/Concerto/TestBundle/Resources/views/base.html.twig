@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="robots" content="noindex" />
-    <title>{% block title %}Concerto Platform{% endblock %}</title>
-    {% block stylesheetsInclude %}
+    {% block head %}
+        <meta charset="UTF-8" />
+        <meta name="robots" content="noindex" />
+        <title>{% block title %}Concerto Platform{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('bundles/concertotest/css/test.css?v=' ~ version) }}" />
         <link rel="stylesheet"
               href="{{ asset('bundles/concertotest/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}" />
-    {% endblock %}
-    {% block stylesheets %}{% endblock %}
-    {% block javascriptsInclude %}
         <script type="text/javascript"
                 src="{{ asset('bundles/concertotest/angularjs/bower_components/jquery/dist/jquery.min.js?v=' ~ version) }}"></script>
         <script type="text/javascript"
@@ -29,12 +26,10 @@
                 src="{{ asset('bundles/concertotest/angularjs/app/js/directives/concerto_test_directive.js?v=' ~ version) }}"></script>
         <script type="text/javascript"
                 src="{{ asset('bundles/concertotest/angularjs/bower_components/angular-file-upload/angular-file-upload.min.js?v=' ~ version) }}"></script>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    {% include "test_head_custom.html.twig" %}
 </head>
 <body ng-app="testRunner" ng-cloak>
 {% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
 </body>
 </html>

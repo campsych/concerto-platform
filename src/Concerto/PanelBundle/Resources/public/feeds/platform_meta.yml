@@ -1,5 +1,12 @@
-version: "5.0.beta.3.16"
+version: "5.0.beta.3.17"
 changelog:
+    - version: "5.0.beta.3.17"
+      description: >
+        Customization
+      categories:
+          - label: Improvements
+            changes:
+                - added overridable test_base.html.twig (replaces test_head_custom.html.twig)
     - version: "5.0.beta.3.16"
       description: >
         Customization
