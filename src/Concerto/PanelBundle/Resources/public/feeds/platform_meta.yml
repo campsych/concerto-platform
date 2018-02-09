@@ -7,6 +7,9 @@ changelog:
           - label: Improvements
             changes:
                 - added overridable test_base.html.twig (replaces test_head_custom.html.twig)
+          - label: Fixes
+            changes:
+                - when removing uploaded files, file name is properly URL encoded now
     - version: "5.0.beta.3.16"
       description: >
         Customization

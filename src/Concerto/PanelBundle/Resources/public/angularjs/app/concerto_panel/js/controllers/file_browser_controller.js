@@ -30,7 +30,7 @@ function FileBrowserController($scope, $uibModal, $window, $timeout, FileUploade
         Trans.DIALOG_TITLE_DELETE,
         Trans.DIALOG_MESSAGE_CONFIRM_DELETE,
         function (response) {
-          $http.post($scope.delete_url + file.name, {}).success(function (data) {
+          $http.post($scope.delete_url + encodeURIComponent(file.name), {}).success(function (data) {
             if (data.result == 0) {
               $scope.loadFiles();
             }
