@@ -681,13 +681,13 @@ class TestSessionService
             return false;
         }
         if (socket_bind($sock, "0.0.0.0") === false) {
-            socket_close($sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_bind() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
+            socket_close($sock);
             return false;
         }
         if (socket_listen($sock, SOMAXCONN) === false) {
-            socket_close($sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_listen() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
+            socket_close($sock);
             return false;
         }
         return $sock;

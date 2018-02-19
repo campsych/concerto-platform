@@ -114,13 +114,13 @@ class StartProcessCommand extends Command
             return false;
         }
         if (socket_bind($sock, "0.0.0.0") === false) {
-            socket_close($sock);
             $this->log(__FUNCTION__, "socket_bind() failed, listener socket, " . socket_strerror(socket_last_error($sock)), true);
+            socket_close($sock);
             return false;
         }
         if (socket_listen($sock, SOMAXCONN) === false) {
-            socket_close($sock);
             $this->log(__FUNCTION__, "socket_listen() failed, listener socket, " . socket_strerror(socket_last_error($sock)), true);
+            socket_close($sock);
             return false;
         }
         socket_set_nonblock($sock);
@@ -136,8 +136,8 @@ class StartProcessCommand extends Command
             return false;
         }
         if (socket_connect($sock, gethostbyname($this->panelNode->sock_host), $this->panelNode->port) === false) {
-            socket_close($sock);
             $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
+            socket_close($sock);
             return false;
         }
         return $sock;
@@ -284,7 +284,7 @@ class StartProcessCommand extends Command
 
         do {
             if (($client_sock = socket_accept($submitter_sock)) === false) {
-                usleep(10000);
+                usleep(100 * 1000);
                 continue;
             }
 

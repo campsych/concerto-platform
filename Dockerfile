@@ -33,7 +33,7 @@ RUN echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /
     xml
 
 COPY . /usr/src/concerto/
-COPY build/php.ini /usr/local/etc/php/build
+COPY build/php.ini /usr/local/etc/php/php.ini
 COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
