@@ -4,11 +4,11 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Concerto\PanelBundle\Entity\TestWizardStep;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestWizardStepService extends ASectionService
 {
@@ -16,7 +16,7 @@ class TestWizardStepService extends ASectionService
     private $validator;
     private $testWizardRepository;
 
-    public function __construct(TestWizardStepRepository $repository, RecursiveValidator $validator, TestWizardRepository $testWizardRepository, AuthorizationChecker $securityAuthorizationChecker)
+    public function __construct(TestWizardStepRepository $repository, ValidatorInterface $validator, TestWizardRepository $testWizardRepository, AuthorizationCheckerInterface $securityAuthorizationChecker)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 

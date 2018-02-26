@@ -2,16 +2,15 @@
 
 namespace Concerto\PanelBundle\Entity;
 
-use Symfony\Component\Security\Core\Role\RoleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Table
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\RoleRepository")
  */
-class Role implements RoleInterface {
+class Role extends \Symfony\Component\Security\Core\Role\Role {
     
     /**
      * @var integer
@@ -52,7 +51,7 @@ class Role implements RoleInterface {
     /**
      * Set id
      * @param integer $id
-     * @return AdministrationSetting;
+     * @return Role;
      */
     public function setId($id) {
         $this->id = $id;

@@ -3,6 +3,8 @@
 namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields="username", message="validate.user.username.unique")
  * @UniqueEntity(fields="email", message="validate.user.email.unique")
  */
-class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable {
+class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable, EquatableInterface
+{
 
     const ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN";
     const ROLE_TEST = "ROLE_TEST";
@@ -33,7 +36,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string", length=32)
      */
     private $salt;
@@ -54,7 +57,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string", length=60, unique=true)
      * @Assert\Email(message="validate.user.email")
      * @Assert\Length(max="60",maxMessage="validate.user.email.max")
@@ -70,7 +73,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->roles = new ArrayCollection();
@@ -80,54 +84,67 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     /**
      * @inheritDoc
      */
-    public function eraseCredentials() {
-        
+    public function eraseCredentials()
+    {
+
     }
 
     /**
      * @inheritDoc
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
     /**
      * @inheritDoc
      */
-    public function getRoles() {
+    public function getRoles()
+    {
         return $this->roles->toArray();
     }
 
     /**
      * @inheritDoc
      */
-    public function getSalt() {
+    public function getSalt()
+    {
         return $this->salt;
     }
 
     /**
      * @inheritDoc
      */
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
 
     /**
      * @see \Serializable::serialize()
      */
-    public function serialize() {
+    public function serialize()
+    {
         return serialize(array(
             $this->id,
+            $this->username,
+            $this->password,
+            $this->salt
         ));
     }
 
     /**
      * @see \Serializable::unserialize()
      */
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list (
-                $this->id,
-                ) = unserialize($serialized);
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt
+            ) = unserialize($serialized);
     }
 
     /**
@@ -136,7 +153,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param string $username
      * @return User
      */
-    public function setUsername($username) {
+    public function setUsername($username)
+    {
         $this->username = $username;
 
         return $this;
@@ -148,7 +166,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param string $salt
      * @return User
      */
-    public function setSalt($salt) {
+    public function setSalt($salt)
+    {
         $this->salt = $salt;
 
         return $this;
@@ -160,7 +179,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param string $password
      * @return User
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
@@ -172,7 +192,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param string $passwordConfirmation
      * @return User
      */
-    public function setPasswordConfirmation($passwordConfirmation) {
+    public function setPasswordConfirmation($passwordConfirmation)
+    {
         $this->passwordConfirmation = $passwordConfirmation;
 
         return $this;
@@ -184,7 +205,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param string $email
      * @return User
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
 
         return $this;
@@ -193,9 +215,10 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
@@ -205,7 +228,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param Role $roles
      * @return User
      */
-    public function addRole(Role $roles) {
+    public function addRole(Role $roles)
+    {
         $this->roles[] = $roles;
 
         return $this;
@@ -216,27 +240,30 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      *
      * @param Role $roles
      */
-    public function removeRole(Role $roles) {
+    public function removeRole(Role $roles)
+    {
         $this->roles->removeElement($roles);
     }
 
     /**
      * Checks if the user has role
-     * 
+     *
      * @param Role $role
      * @return boolean
      */
-    public function hasRole(Role $role) {
+    public function hasRole(Role $role)
+    {
         return $this->roles->contains($role);
     }
 
     /**
      * Checks if the user has role
-     * 
+     *
      * @param string $role
      * @return boolean
      */
-    public function hasRoleName($role_name) {
+    public function hasRoleName($role_name)
+    {
         foreach ($this->roles as $role) {
             if ($role->getName() == $role_name)
                 return true;
@@ -246,39 +273,64 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
 
     /**
      * Checks if password is correct by comparing password and password confirmation
-     * 
+     *
      * @return boolean
      * @Assert\IsTrue(message = "validate.user.password.match", groups={"create"})
      */
-    public function isPasswordCorrect() {
+    public function isPasswordCorrect()
+    {
         return $this->password === $this->passwordConfirmation;
     }
 
-    public function isAccountNonExpired() {
+    public function isAccountNonExpired()
+    {
         return true;
     }
 
-    public function isAccountNonLocked() {
+    public function isAccountNonLocked()
+    {
         return true;
     }
 
-    public function isCredentialsNonExpired() {
+    public function isCredentialsNonExpired()
+    {
         return true;
     }
 
-    public function isEnabled() {
+    public function isEnabled()
+    {
         return !$this->archived;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return "User (username:" . $this->getUsername() . ")";
     }
-    
-    public function getOwner() {
+
+    public function getOwner()
+    {
         return $this;
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function isEqualTo(UserInterface $user)
+    {
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->salt !== $user->getSalt()) {
+            return false;
+        }
+
+        if ($this->username !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function jsonSerialize(&$dependencies = array())
+    {
         return array(
             "class_name" => "User",
             "id" => $this->id,

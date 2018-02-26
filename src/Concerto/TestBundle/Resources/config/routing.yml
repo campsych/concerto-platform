@@ -1,9 +1,4 @@
-r_runner_r_start:
-    path: /test/session/{session_hash}/start/{params}
-    defaults: { _controller: concerto_test.r_runner_controller:startRAction, params: "{}" }
-    methods:  [POST]
+concerto_test:
+    resource: "@ConcertoTestBundle/Controller/"
+    type:     annotation
     
-r_runner_upload_file:
-    path: /test/r/session/{session_hash}/upload
-    defaults: { _controller: concerto_test.r_runner_controller:uploadFileAction }
-    methods:  [POST,OPTIONS]

@@ -7,6 +7,7 @@ parameters:
     database_password: ThisIsYourDatabaseUserPassword
     database_path: null
     database_unix_socket: null
+    database_version: 5.6
     test_database_name: ThisIsYourTestDatabaseName #not needed for production env
     test_database_user: ThisIsYourTestDatabaseUserName #not needed for production env
     test_database_password: ThisIsYourTestDatabaseUserPassword #not needed for production env

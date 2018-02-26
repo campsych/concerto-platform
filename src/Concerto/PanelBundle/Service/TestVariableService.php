@@ -3,24 +3,24 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\TestVariable;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
-use Concerto\PanelBundle\Service\TestNodePortService;
-use Concerto\PanelBundle\Service\TestNodeConnectionService;
 use Concerto\PanelBundle\Entity\User;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TestVariableService extends ASectionService {
+class TestVariableService extends ASectionService
+{
 
     private $validator;
     private $testNodePortService;
     private $testNodeConnectionService;
     private $testRepository;
 
-    public function __construct(TestVariableRepository $repository, RecursiveValidator $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestVariableRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
@@ -29,7 +29,8 @@ class TestVariableService extends ASectionService {
         $this->testRepository = $testRepository;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestVariable();
@@ -37,23 +38,28 @@ class TestVariableService extends ASectionService {
         return $object;
     }
 
-    public function getAllVariables($test_id) {
+    public function getAllVariables($test_id)
+    {
         return $this->authorizeCollection($this->repository->findByTest($test_id));
     }
 
-    public function getParameters($test_id) {
+    public function getParameters($test_id)
+    {
         return $this->authorizeCollection($this->repository->findByTestAndType($test_id, 0));
     }
 
-    public function getReturns($test_id) {
+    public function getReturns($test_id)
+    {
         return $this->authorizeCollection($this->repository->findByTestAndType($test_id, 1));
     }
 
-    public function getBranches($test_id) {
+    public function getBranches($test_id)
+    {
         return $this->authorizeCollection($this->repository->findByTestAndType($test_id, 2));
     }
 
-    public function saveCollection(User $user, $serializedVariables, Test $test, $flush = true) {
+    public function saveCollection(User $user, $serializedVariables, Test $test, $flush = true)
+    {
         $result = array("errors" => array());
         if (!$serializedVariables)
             return $result;
@@ -74,7 +80,8 @@ class TestVariableService extends ASectionService {
         return $result;
     }
 
-    public function save(User $user, $object_id, $name, $type, $description, $passableThroughUrl, $value, $test, $parentVariable = null, $flush = true) {
+    public function save(User $user, $object_id, $name, $type, $description, $passableThroughUrl, $value, $test, $parentVariable = null, $flush = true)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $is_new = false;
@@ -108,7 +115,8 @@ class TestVariableService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function createVariablesFromSourceTest(User $user, Test $dstTest, $flush = true) {
+    public function createVariablesFromSourceTest(User $user, Test $dstTest, $flush = true)
+    {
         $wizard = $dstTest->getSourceWizard();
         foreach ($wizard->getTest()->getVariables() as $variable) {
             $description = $variable->getDescription();
@@ -130,7 +138,8 @@ class TestVariableService extends ASectionService {
         }
     }
 
-    private function updateChildVariables(User $user, TestVariable $parentVariable, $flush = true) {
+    private function updateChildVariables(User $user, TestVariable $parentVariable, $flush = true)
+    {
         $description = $parentVariable->getDescription();
         $name = $parentVariable->getName();
         $url = $parentVariable->isPassableThroughUrl();
@@ -155,14 +164,16 @@ class TestVariableService extends ASectionService {
         }
     }
 
-    private function onObjectSaved(User $user, TestVariable $object, $is_new, $flush = true) {
+    private function onObjectSaved(User $user, TestVariable $object, $is_new, $flush = true)
+    {
         $this->updateChildVariables($user, $object, $flush);
         $this->testNodePortService->onTestVariableSaved($user, $object, $is_new, $flush);
         if (!$is_new)
             $this->testNodeConnectionService->onTestVariableSaved($user, $object, $is_new, $flush);
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -176,13 +187,15 @@ class TestVariableService extends ASectionService {
         return $result;
     }
 
-    public function deleteAll($test_id, $type) {
+    public function deleteAll($test_id, $type)
+    {
         $test = parent::authorizeObject($this->testRepository->find($test_id));
         if ($test)
             $this->repository->deleteByTestAndType($test_id, $type);
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    {
         $pre_queue = array();
         if (!array_key_exists("TestVariable", $map))
             $map["TestVariable"] = array();
@@ -207,9 +220,9 @@ class TestVariableService extends ASectionService {
         }
 
         $parent_instruction = self::getObjectImportInstruction(array(
-                    "class_name" => "Test",
-                    "id" => $obj["test"]
-                        ), $instructions);
+            "class_name" => "Test",
+            "id" => $obj["test"]
+        ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
@@ -222,7 +235,8 @@ class TestVariableService extends ASectionService {
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test, $parentVariable) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test, $parentVariable)
+    {
         $ent = new TestVariable();
         $ent->setName($obj["name"]);
         $ent->setDescription($obj["description"]);
@@ -246,7 +260,8 @@ class TestVariableService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         $test = $map["Test"]["id" . $obj["test"]];
         $type = $obj["type"];
         $name = $obj["name"];
@@ -261,7 +276,8 @@ class TestVariableService extends ASectionService {
         return $this->get($ent->getId());
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test, $parentVariable) {
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test, $parentVariable)
+    {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($obj["name"]);
@@ -289,11 +305,13 @@ class TestVariableService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($new_ent, $old_ent) {
+    protected function onConverted($new_ent, $old_ent)
+    {
         //TODO 
     }
 
-    public function authorizeObject($object) {
+    public function authorizeObject($object)
+    {
         if (!self::$securityOn)
             return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
@@ -301,7 +319,8 @@ class TestVariableService extends ASectionService {
         return null;
     }
 
-    public function update(User $user, $obj, $flush = true) {
+    public function update(User $user, $obj, $flush = true)
+    {
         $this->repository->save($obj, $flush);
         $this->onObjectSaved($user, $obj, false, $flush);
     }

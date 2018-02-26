@@ -2,29 +2,45 @@
 
 namespace Concerto\PanelBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Concerto\PanelBundle\Service\RDataCacheService;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\DomCrawler\Crawler;
 
-class ConcertoRCacheCommand extends ContainerAwareCommand {
+class ConcertoRCacheCommand extends Command
+{
+    private $cacheService;
+    private $kernel;
+    private $testRunnerSettings;
 
-    protected function configure() {
+    public function __construct(RDataCacheService $cacheService, KernelInterface $kernel, $testRunnerSettings)
+    {
+        $this->cacheService = $cacheService;
+        $this->kernel = $kernel;
+        $this->testRunnerSettings = $testRunnerSettings;
+
+        parent::__construct();
+    }
+
+    protected function configure()
+    {
         $this->setName("concerto:r:cache")->setDescription("Caches R functions documentation.");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         gc_enable();
         $output->writeln("Generating R documentation cache. This might take several minutes...");
         $lastLibrary = null;
 
-        $function_cache = $this->getContainer()->get('concerto_panel.r_data_cache_service');
-        $script_path = $this->getContainer()->get("kernel")->getRootDir() . "/../src/Concerto/PanelBundle/Resources/R/function_documentation.R";
-        $p = "\"" . $this->getContainer()->getParameter('test_runner_settings')['rscript_exec'] . "\" --no-save --no-restore --quiet \"" . $script_path . "\"";
+        $script_path = $this->kernel->getRootDir() . "/../src/Concerto/PanelBundle/Resources/R/function_documentation.R";
+        $p = "\"" . $this->testRunnerSettings['rscript_exec'] . "\" --no-save --no-restore --quiet \"" . $script_path . "\"";
         $process = new Process($p);
 
-        $r_environ_path = $this->getContainer()->getParameter('test_runner_settings')['r_environ_path'];
+        $r_environ_path = $this->testRunnerSettings['r_environ_path'];
         if ($r_environ_path != null) {
             $env = array();
             $env["R_ENVIRON"] = $r_environ_path;
@@ -35,7 +51,7 @@ class ConcertoRCacheCommand extends ContainerAwareCommand {
         $process->run();
         $out = explode("\n", $process->getOutput());
         gc_collect_cycles();
-        $function_cache->createNewFunctionCacheSet();
+        $this->cacheService->createNewFunctionCacheSet();
 
         $successful = 0;
         $failed = 0;
@@ -71,7 +87,7 @@ class ConcertoRCacheCommand extends ContainerAwareCommand {
                 foreach ($names as $name) {
                     if ($this->isDocumentationValid($name, $doc)) {
                         $successful++;
-                        $function_cache->addRFunction($lib, $name, $doc, $obj->args, $obj->defs);
+                        $this->cacheService->addRFunction($lib, $name, $doc, $obj->args, $obj->defs);
                         $output->writeln($lib . "::" . $name);
                     }
                 }
@@ -80,7 +96,7 @@ class ConcertoRCacheCommand extends ContainerAwareCommand {
             unset($obj);
             gc_collect_cycles();
         }
-        $function_cache->saveCache();
+        $this->cacheService->saveCache();
 
         $total = $failed + $successful;
         if ($total > 0) {
@@ -91,7 +107,8 @@ class ConcertoRCacheCommand extends ContainerAwareCommand {
         $output->writeln("R documentation cache generated.");
     }
 
-    private function isDocumentationValid($name, $doc) {
+    private function isDocumentationValid($name, $doc)
+    {
         $crawler = new Crawler($doc);
         $crawler = $crawler->filter("h3:contains('Usage')");
         if ($crawler->count() == 0) {

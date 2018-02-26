@@ -4,7 +4,8 @@ namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-abstract class ATopEntity extends AEntity {
+abstract class ATopEntity extends AEntity
+{
 
     const ACCESS_PUBLIC = 2;
     const ACCESS_GROUP = 1;
@@ -30,7 +31,7 @@ abstract class ATopEntity extends AEntity {
      * @ORM\Column(type="boolean")
      */
     protected $archived;
-    
+
     /**
      *
      * @var boolean
@@ -38,7 +39,8 @@ abstract class ATopEntity extends AEntity {
      */
     protected $starterContent;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->accessibility = self::ACCESS_PRIVATE;
@@ -52,7 +54,8 @@ abstract class ATopEntity extends AEntity {
      *
      * @param integer $access
      */
-    public function setAccessibility($access) {
+    public function setAccessibility($access)
+    {
         $this->accessibility = $access;
 
         return $this;
@@ -61,9 +64,10 @@ abstract class ATopEntity extends AEntity {
     /**
      * Get accessibility
      *
-     * @return integer 
+     * @return integer
      */
-    public function getAccessibility() {
+    public function getAccessibility()
+    {
         return $this->accessibility;
     }
 
@@ -72,7 +76,8 @@ abstract class ATopEntity extends AEntity {
      *
      * @param boolean $archived
      */
-    public function setArchived($archived) {
+    public function setArchived($archived)
+    {
         $this->archived = $archived;
 
         return $this;
@@ -81,18 +86,20 @@ abstract class ATopEntity extends AEntity {
     /**
      * Is archived
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function isArchived() {
+    public function isArchived()
+    {
         return $this->archived;
     }
-    
+
     /**
      * Set starter content
      *
      * @param boolean $starterContent
      */
-    public function setStarterContent($starterContent) {
+    public function setStarterContent($starterContent)
+    {
         $this->starterContent = $starterContent;
 
         return $this;
@@ -101,9 +108,10 @@ abstract class ATopEntity extends AEntity {
     /**
      * Is starter content
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function isStarterContent() {
+    public function isStarterContent()
+    {
         return $this->starterContent;
     }
 
@@ -112,7 +120,8 @@ abstract class ATopEntity extends AEntity {
      *
      * @param string $groups
      */
-    public function setGroups($groups) {
+    public function setGroups($groups)
+    {
         $this->groups = trim($groups);
 
         return $this;
@@ -121,18 +130,20 @@ abstract class ATopEntity extends AEntity {
     /**
      * Get groups
      *
-     * @return string 
+     * @return string
      */
-    public function getGroups() {
+    public function getGroups()
+    {
         return $this->groups;
     }
 
     /**
      * Get groups array
      *
-     * @return array 
+     * @return array
      */
-    public function getGroupsArray() {
+    public function getGroupsArray()
+    {
         $groups = explode(",", $this->groups);
         $result = array();
         foreach ($groups as $group) {
@@ -146,11 +157,12 @@ abstract class ATopEntity extends AEntity {
 
     /**
      * Has group
-     * 
+     *
      * @param string $group
-     * @return boolean 
+     * @return boolean
      */
-    public function hasGroup($group) {
+    public function hasGroup($group)
+    {
         if (!trim($group)) {
             return false;
         }
@@ -165,11 +177,12 @@ abstract class ATopEntity extends AEntity {
 
     /**
      * Has any of the group
-     * 
+     *
      * @param array $other_groups
-     * @return boolean 
+     * @return boolean
      */
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {

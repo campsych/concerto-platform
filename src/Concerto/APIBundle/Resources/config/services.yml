@@ -1,16 +1,29 @@
 services:
-    
-  API.Client_metadata:
-    class: Doctrine\ORM\Mapping\ClassMetadata
-    arguments: ["Concerto\\APIBundle\\Entity\\Client"]
-  API.Client_repository:
-    class: Concerto\APIBundle\Repository\ClientRepository
-    arguments: ["@doctrine.orm.entity_manager","@API.Client_metadata"]
-    
-  API.DataRecord_service:
-    class: Concerto\APIBundle\Service\DataRecordService
-    arguments: ["@concerto_panel.DataTable_service", "@concerto_panel.db_data_dao", "@concerto_panel.db_structure_dao"] 
-  API.DataRecord_controller:
-    class: Concerto\APIBundle\Controller\DataRecordController
-    arguments: ["@request","@API.DataRecord_service","@concerto_panel.Administration_service"]
-    scope: request
+
+  # default configuration for services in *this* file
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+  Concerto\APIBundle\:
+    resource: '../../{Command,Service}'
+
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+  Concerto\APIBundle\Controller\:
+    resource: '../../Controller'
+    public: true
+    tags: ['controller.service_arguments']
+
+#repositories
+  Concerto\APIBundle\Repository\ClientRepository:
+    factory: doctrine.orm.entity_manager:getRepository
+    arguments: [ Concerto\APIBundle\Entity\Client]
+
+#aliases
+  FOS\OAuthServerBundle\Model\ClientManagerInterface: '@fos_oauth_server.client_manager.default'

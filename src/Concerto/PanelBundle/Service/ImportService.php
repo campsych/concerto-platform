@@ -3,10 +3,10 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\User;
-use Concerto\PanelBundle\Repository\AEntityRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
-class ImportService {
+class ImportService
+{
 
     const MIN_EXPORT_VERSION = "5.0.beta.2.167";
 
@@ -26,7 +26,8 @@ class ImportService {
     private $entityManager;
     public $serviceMap;
 
-    public function __construct(EntityManager $entityManager, DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version) {
+    public function __construct(EntityManagerInterface $entityManager, DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version)
+    {
         $this->entityManager = $entityManager;
         $this->dataTableService = $dataTableService;
         $this->testService = $testService;
@@ -56,11 +57,13 @@ class ImportService {
         );
     }
 
-    public static function is_array_assoc($arr) {
+    public static function is_array_assoc($arr)
+    {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
-    public function isVersionValid($export_version) {
+    public function isVersionValid($export_version)
+    {
         $eve = explode(".", $export_version);
         $mve = explode(".", self::MIN_EXPORT_VERSION);
 
@@ -88,7 +91,8 @@ class ImportService {
         return true;
     }
 
-    public function getImportFileContents($file, $unlink = true) {
+    public function getImportFileContents($file, $unlink = true)
+    {
         $file_content = file_get_contents($file);
         $data = json_decode($file_content, true);
         if (is_null($data)) {
@@ -101,14 +105,15 @@ class ImportService {
         return $data;
     }
 
-    private function getAllTopObjectsFromImportData($data, &$top_data) {
+    private function getAllTopObjectsFromImportData($data, &$top_data)
+    {
         foreach ($data as $obj) {
             if (array_key_exists("class_name", $obj) && in_array($obj["class_name"], array(
-                        "DataTable",
-                        "Test",
-                        "TestWizard",
-                        "ViewTemplate"
-                    ))) {
+                    "DataTable",
+                    "Test",
+                    "TestWizard",
+                    "ViewTemplate"
+                ))) {
                 $found = false;
                 foreach ($top_data as $cur_obj) {
                     if ($cur_obj["class_name"] == $obj["class_name"] && $cur_obj["id"] == $obj["id"]) {
@@ -130,7 +135,8 @@ class ImportService {
         }
     }
 
-    public function getPreImportStatus($data) {
+    public function getPreImportStatus($data)
+    {
         $top_data = array();
         $this->getAllTopObjectsFromImportData($data, $top_data);
         $result = array();
@@ -174,7 +180,8 @@ class ImportService {
         return $result;
     }
 
-    public function getPreImportStatusFromFile($file) {
+    public function getPreImportStatusFromFile($file)
+    {
         $data = $this->getImportFileContents($file, false);
         $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
         if (!$valid)
@@ -182,11 +189,13 @@ class ImportService {
         return array("result" => 0, "status" => $this->getPreImportStatus($data["collection"]));
     }
 
-    public function reset() {
+    public function reset()
+    {
         $this->map = array();
     }
 
-    public function importFromFile(User $user, $file, $instructions, $unlink = true) {
+    public function importFromFile(User $user, $file, $instructions, $unlink = true)
+    {
         $data = $this->getImportFileContents($file, $unlink);
         $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
         if (!$valid)
@@ -194,7 +203,8 @@ class ImportService {
         return $this->import($user, $instructions, $data["collection"]);
     }
 
-    public function import(User $user, $instructions, $data) {
+    public function import(User $user, $instructions, $data)
+    {
         $result = array("result" => 0, "import" => array());
         $this->queue = $data;
         while (count($this->queue) > 0) {
@@ -220,7 +230,8 @@ class ImportService {
         return $result;
     }
 
-    public function copy($class_name, User $user, $object_id, $name) {
+    public function copy($class_name, User $user, $object_id, $name)
+    {
         $ent = $this->serviceMap[$class_name]->get($object_id);
         $dependencies = array();
         $ent->jsonSerialize($dependencies);
@@ -242,9 +253,9 @@ class ImportService {
             }
         }
         $result = $this->import(
-                $user, //
-                json_decode(json_encode($instructions), true), //
-                $collection
+            $user, //
+            json_decode(json_encode($instructions), true), //
+            $collection
         );
         return $result;
     }

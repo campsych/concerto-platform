@@ -9,10 +9,11 @@ use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table
- * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestRepository") 
+ * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestRepository")
  * @UniqueEntity(fields="name", message="validate.test.name.unique")
  */
-class Test extends ATopEntity implements \JsonSerializable {
+class Test extends ATopEntity implements \JsonSerializable
+{
 
     const VISIBILITY_REGULAR = 0;
     const VISIBILITY_FEATURED = 1;
@@ -112,7 +113,7 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @ORM\Column(type="string", length=64, unique=true )
      */
     private $slug;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
@@ -122,7 +123,8 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->logs = new ArrayCollection();
@@ -141,9 +143,10 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get source test wizard
      *
-     * @return TestWizard 
+     * @return TestWizard
      */
-    public function getSourceWizard() {
+    public function getSourceWizard()
+    {
         return $this->sourceWizard;
     }
 
@@ -153,7 +156,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param $sourceWizard
      * @return Test
      */
-    public function setSourceWizard($sourceWizard) {
+    public function setSourceWizard($sourceWizard)
+    {
         $this->sourceWizard = $sourceWizard;
 
         return $this;
@@ -161,10 +165,11 @@ class Test extends ATopEntity implements \JsonSerializable {
 
     /**
      * Tells if test is based on test wizard
-     * 
+     *
      * @return boolean
      */
-    public function isBasedOnWizard() {
+    public function isBasedOnWizard()
+    {
         return $this->sourceWizard != null;
     }
 
@@ -174,7 +179,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param string $name
      * @return Test
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -183,9 +189,10 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -195,7 +202,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param string $description
      * @return Test
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
 
         return $this;
@@ -204,27 +212,30 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
     /**
      * Is newer version of source test available?
-     * 
+     *
      * @return boolean
      */
-    public function isOutdated() {
+    public function isOutdated()
+    {
         return $this->outdated;
     }
 
     /**
      * Set if newer version of source test is available.
-     * 
+     *
      * @param boolean $outdated
      */
-    public function setOutdated($outdated) {
+    public function setOutdated($outdated)
+    {
         $this->outdated = $outdated;
     }
 
@@ -234,7 +245,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param string $code
      * @return Test
      */
-    public function setCode($code) {
+    public function setCode($code)
+    {
         $this->code = $code;
 
         return $this;
@@ -243,9 +255,10 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
-    public function getCode() {
+    public function getCode()
+    {
         return $this->code;
     }
 
@@ -255,7 +268,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param integer $visibility
      * @return Test
      */
-    public function setVisibility($visibility) {
+    public function setVisibility($visibility)
+    {
         $this->visibility = $visibility;
 
         return $this;
@@ -264,9 +278,10 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get visibility
      *
-     * @return integer 
+     * @return integer
      */
-    public function getVisibility() {
+    public function getVisibility()
+    {
         return $this->visibility;
     }
 
@@ -276,7 +291,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param integer $type
      * @return Test
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
 
         return $this;
@@ -285,9 +301,10 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -297,7 +314,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestSessionLog $logs
      * @return Test
      */
-    public function addLog(TestSessionLog $logs) {
+    public function addLog(TestSessionLog $logs)
+    {
         $this->logs[] = $logs;
 
         return $this;
@@ -308,16 +326,18 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestSessionLog $logs
      */
-    public function removeLog(TestSessionLog $logs) {
+    public function removeLog(TestSessionLog $logs)
+    {
         $this->logs->removeElement($logs);
     }
 
     /**
      * Get logs
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getLogs() {
+    public function getLogs()
+    {
         return $this->logs;
     }
 
@@ -327,7 +347,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestVariable $variables
      * @return Test
      */
-    public function addVariable(TestVariable $variables) {
+    public function addVariable(TestVariable $variables)
+    {
         $this->variables[] = $variables;
 
         return $this;
@@ -338,25 +359,28 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestVariable $variables
      */
-    public function removeVariable(TestVariable $variables) {
+    public function removeVariable(TestVariable $variables)
+    {
         $this->variables->removeElement($variables);
     }
 
     /**
      * Get variables
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getVariables() {
+    public function getVariables()
+    {
         return $this->variables;
     }
 
     /**
      * Get test wizards
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getWizards() {
+    public function getWizards()
+    {
         return $this->wizards;
     }
 
@@ -366,7 +390,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestWizard $wizards
      * @return Test
      */
-    public function addWizard(TestWizard $wizards) {
+    public function addWizard(TestWizard $wizards)
+    {
         $this->wizards[] = $wizards;
 
         return $this;
@@ -377,7 +402,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestWizard $wizards
      */
-    public function removeWizards(TestWizard $wizards) {
+    public function removeWizards(TestWizard $wizards)
+    {
         $this->wizards->removeElement($wizards);
     }
 
@@ -387,7 +413,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestSession $sessions
      * @return Test
      */
-    public function addSession(TestSession $sessions) {
+    public function addSession(TestSession $sessions)
+    {
         $this->sessions[] = $sessions;
 
         return $this;
@@ -398,16 +425,18 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestSession $sessions
      */
-    public function removeSession(TestSession $sessions) {
+    public function removeSession(TestSession $sessions)
+    {
         $this->sessions->removeElement($sessions);
     }
 
     /**
      * Get sessions
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getSessions() {
+    public function getSessions()
+    {
         return $this->sessions;
     }
 
@@ -417,7 +446,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestNode $node
      * @return Test
      */
-    public function addNode(TestNode $node) {
+    public function addNode(TestNode $node)
+    {
         $this->nodes[] = $node;
 
         return $this;
@@ -428,20 +458,23 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestNode $node
      */
-    public function removeNode(TestNode $node) {
+    public function removeNode(TestNode $node)
+    {
         $this->nodes->removeElement($node);
     }
 
-    public function clearNodes() {
+    public function clearNodes()
+    {
         $this->nodes->clear();
     }
 
     /**
      * Get nodes
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getNodes() {
+    public function getNodes()
+    {
         return $this->nodes;
     }
 
@@ -451,7 +484,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestNodeConnection $connection
      * @return Test
      */
-    public function addNodeConnection(TestNodeConnection $connection) {
+    public function addNodeConnection(TestNodeConnection $connection)
+    {
         $this->nodesConnections[] = $connection;
 
         return $this;
@@ -462,16 +496,18 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestNodeConnection $connection
      */
-    public function removeNodeConnection(TestNodeConnection $connection) {
+    public function removeNodeConnection(TestNodeConnection $connection)
+    {
         $this->nodesConnections->removeElement($connection);
     }
 
     /**
      * Get nodes connections
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getNodesConnections() {
+    public function getNodesConnections()
+    {
         return $this->nodesConnections;
     }
 
@@ -481,7 +517,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param TestNode $node
      * @return Test
      */
-    public function addSourceForNode(TestNode $node) {
+    public function addSourceForNode(TestNode $node)
+    {
         $this->sourceForNodes[] = $node;
 
         return $this;
@@ -492,16 +529,18 @@ class Test extends ATopEntity implements \JsonSerializable {
      *
      * @param TestNode $node
      */
-    public function removeSourceForNode(TestNode $node) {
+    public function removeSourceForNode(TestNode $node)
+    {
         $this->sourceForNodes->removeElement($node);
     }
 
     /**
      * Get source for nodes
      *
-     * @return ArrayCollection 
+     * @return ArrayCollection
      */
-    public function getSourceForNodes() {
+    public function getSourceForNodes()
+    {
         return $this->sourceForNodes;
     }
 
@@ -511,7 +550,8 @@ class Test extends ATopEntity implements \JsonSerializable {
      * @param string $slug
      * @return Test
      */
-    public function setSlug($slug) {
+    public function setSlug($slug)
+    {
         $this->slug = $slug;
         return $this;
     }
@@ -519,27 +559,30 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get url token
      *
-     * @return string 
+     * @return string
      */
-    public function getSlug() {
+    public function getSlug()
+    {
         return $this->slug;
     }
 
     /**
      * Checks if source test is selected for test wizard.
-     * 
+     *
      * @return boolean
      * @Assert\IsTrue(message = "validate.test.wizard.source")
      */
-    public function hasWizardSource() {
+    public function hasWizardSource()
+    {
         return $this->type != self::TYPE_WIZARD || ($this->type == self::TYPE_WIZARD && $this->sourceWizard != null);
     }
-    
+
     /**
      * Set owner
      * @param User $user
      */
-    public function setOwner($user) {
+    public function setOwner($user)
+    {
         $this->owner = $user;
 
         return $this;
@@ -548,13 +591,15 @@ class Test extends ATopEntity implements \JsonSerializable {
     /**
      * Get owner
      *
-     * @return User 
+     * @return User
      */
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->owner;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedBy"]);
@@ -578,11 +623,13 @@ class Test extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return "Test (name:" . $this->getName() . ")";
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array())
+    {
         if (self::isDependencyReserved($dependencies, "Test", $this->id))
             return null;
         self::reserveDependency($dependencies, "Test", $this->id);

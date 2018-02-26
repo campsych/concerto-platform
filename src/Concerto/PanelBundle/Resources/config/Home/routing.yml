@@ -1,7 +1,0 @@
-home:
-    path:  /
-    defaults: { _controller: concerto_panel.home_controller:indexAction }
-    
-home_featured_collection:
-    path: /featured/collection/{format}
-    defaults: { _controller: concerto_panel.home_controller:featuredCollectionAction, format: json }

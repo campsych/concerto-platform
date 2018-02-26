@@ -2,7 +2,8 @@
 
 namespace Concerto\PanelBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Concerto\PanelBundle\Entity\User;
@@ -10,65 +11,33 @@ use Concerto\PanelBundle\Entity\Role;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Concerto\PanelBundle\Service\SystemCheckService;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
-class ConcertoSetupCommand extends ContainerAwareCommand {
+class ConcertoSetupCommand extends Command
+{
+    private $doctrine;
+    private $kernel;
+    private $encoderFactory;
 
-    protected function configure() {
+    public function __construct(ManagerRegistry $doctrine, KernelInterface $kernel, EncoderFactoryInterface $encoderFactory)
+    {
+        $this->doctrine = $doctrine;
+        $this->kernel = $kernel;
+        $this->encoderFactory = $encoderFactory;
+
+        parent::__construct();
+    }
+
+    protected function configure()
+    {
         $this->setName("concerto:setup")->setDescription("Sets up Concerto.");
-        $this->addOption("check", null, InputOption::VALUE_NONE, "Perform system checks?");
         $this->addOption("admin-pass", null, InputOption::VALUE_REQUIRED, "Password for admin user", "admin");
     }
 
-    protected function verifySystemSoftware(InputInterface $input, OutputInterface $output, SystemCheckService $syscheck_service) {
-        $executables = $this->getContainer()->getParameter('requirements')['executables'];
-
-        foreach ($executables as $name => $requirements) {
-            $output->writeln("   -> checking if " . $requirements['command'] .
-                    ( isset($requirements['version']['min']) ? " (version >= " . $requirements['version']['min'] . ")" : "" ) .
-                    " is available in this system...");
-
-            $status = $syscheck_service->checkExecutable($name, $requirements);
-            if (!$status->isOk())
-                throw new InvalidConfigurationException($status->getErrorsString());
-            $output->writeln("     -> all ok");
-        }
-    }
-
-    protected function verifyConcertoDirectories(InputInterface $input, OutputInterface $output, SystemCheckService $syscheck_service) {
-
-        $directories = $this->getContainer()->getParameter('requirements')['paths'];
-        foreach ($directories as $name => $requirements) {
-            $nicename = SystemCheckService::getDirNicename($name, $requirements);
-            $output->writeln("   -> verifying {$nicename}, please wait...");
-            $status = $syscheck_service->checkPath($name, $requirements);
-            if (!$status->isOk())
-                throw new InvalidConfigurationException($status->getErrorsString());
-            if ($status->wasFixed())
-                $output->writeln("     -> fixed a problem discovered with $nicename");
-            $output->writeln("     -> all ok");
-        }
-    }
-
-    protected function verifySystemConfiguration(InputInterface $input, OutputInterface $output) {
-
-        $syscheck_service = $this->getContainer()->get('concerto_panel.system_check_service');
-        $output->writeln("verifying system configuration...");
-
-        $output->writeln(" -> verifying installed software...");
-        $this->verifySystemSoftware($input, $output, $syscheck_service);
-
-        $output->writeln(" -> verifying Concerto directories...");
-        $this->verifyConcertoDirectories($input, $output, $syscheck_service);
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $output->writeln("concerto setup (" . $input->getOption("env") . ")");
-
-        if ($input->getOption("check")) {
-            $this->verifySystemConfiguration($input, $output);
-        }
 
         $output->writeln("updating database...");
         $command = $this->getApplication()->get("doctrine:schema:update");
@@ -79,14 +48,14 @@ class ConcertoSetupCommand extends ContainerAwareCommand {
         $command->run($updateInput, $output);
         $output->writeln("database up to date");
 
-        $em = $this->getContainer()->get("doctrine")->getManager();
+        $em = $this->doctrine->getManager();
         if ($em->getConnection()->getDriver()->getDatabasePlatform() instanceof PostgreSqlPlatform) {
             $trigger_command = $this->getApplication()->get("doctrine:query:sql");
-            $sql_file = $this->getContainer()->get('kernel')->locateResource('@ConcertoPanelBundle/Resources/SQL/postgresql_customization.sql');
+            $sql_file = $this->kernel->locateResource('@ConcertoPanelBundle/Resources/SQL/postgresql_customization.sql');
             $trigger_command->run(new ArrayInput(array(
                 'command' => 'doctrine:query:sql',
                 'sql' => file_get_contents($sql_file)
-                    )), $output);
+            )), $output);
         }
 
         $output->writeln("checking for user roles...");
@@ -114,9 +83,8 @@ class ConcertoSetupCommand extends ContainerAwareCommand {
         $user = null;
         if (count($users) === 0) {
 
-            $factory = $this->getContainer()->get('security.encoder_factory');
             $user = new User();
-            $encoder = $factory->getEncoder($user);
+            $encoder = $this->encoderFactory->getEncoder($user);
             $user->setSalt(md5(time()));
             $pass = $encoder->encodePassword($input->getOption("admin-pass"), $user->getSalt());
             $user->addRole($role);

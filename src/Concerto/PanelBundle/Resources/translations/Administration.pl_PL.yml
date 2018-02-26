@@ -73,7 +73,6 @@ packages:
         fields:
             method: Metoda
             method.tooltip: Metoda instalacji pakietu R
-            method:
             method.latest: Najnowsza wersja
             method.specific: Konkretna wersja
             name: Nazwa

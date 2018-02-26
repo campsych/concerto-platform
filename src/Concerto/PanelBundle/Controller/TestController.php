@@ -3,22 +3,26 @@
 namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
+use Concerto\PanelBundle\Service\TestService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Concerto\PanelBundle\Service\AExportableSectionService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
 use Concerto\PanelBundle\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
+ * @Route("/admin")
  * @Security("has_role('ROLE_TEST') or has_role('ROLE_SUPER_ADMIN')")
  */
-class TestController extends AExportableTabController {
+class TestController extends AExportableTabController
+{
 
     const ENTITY_NAME = "Test";
     const EXPORT_FILE_PREFIX = "Test_";
@@ -26,8 +30,9 @@ class TestController extends AExportableTabController {
     private $testWizardService;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, Request $request, TranslatorInterface $translator, TokenStorage $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService) {
-        parent::__construct($environment, $templating, $service, $request, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+    public function __construct($environment, EngineInterface $templating, TestService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    {
+        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -36,10 +41,49 @@ class TestController extends AExportableTabController {
         $this->userService = $userService;
     }
 
-    public function updateDependentAction($object_id) {
+    /**
+     * @Route("/Test/fetch/{object_id}/{format}", name="Test_object", defaults={"format":"json"})
+     * @param $object_id
+     * @param string $format
+     * @return Response
+     */
+    public function objectAction($object_id, $format = "json")
+    {
+        return parent::objectAction($object_id, $format);
+    }
+
+    /**
+     * @Route("/Test/collection/{format}", name="Test_collection", defaults={"format":"json"})
+     * @param string $format
+     * @return Response
+     */
+    public function collectionAction($format = "json")
+    {
+        return parent::collectionAction($format);
+    }
+
+    /**
+     * @Route("/Test/form/{action}", name="Test_form", defaults={"action":"edit"})
+     * @param string $action
+     * @param array $params
+     * @return Response
+     */
+    public function formAction($action = "edit", $params = array())
+    {
+        return parent::formAction($action, $params);
+    }
+
+    /**
+     * @Route("/Test/{object_id}/update", name="Test_update_dependent")
+     * @Method(methods={"POST"})
+     * @param $object_id
+     * @return Response
+     */
+    public function updateDependentAction($object_id)
+    {
         $result = $this->service->updateDependentTests(
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $this->service->get($object_id)
+            $this->securityTokenStorage->getToken()->getUser(), //
+            $this->service->get($object_id)
         );
         $errors = array();
         foreach ($result as $r) {
@@ -56,40 +100,118 @@ class TestController extends AExportableTabController {
         return $response;
     }
 
-    public function saveAction($object_id) {
+    /**
+     * @Route("/Test/{object_id}/save", name="Test_save")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function saveAction(Request $request, $object_id)
+    {
         $result = $this->service->save(
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $object_id, //
-                $this->request->get("name"), //
-                $this->request->get("description"), //
-                $this->request->get("accessibility"), //
-                $this->request->get("archived") === "1", //
-                $this->userService->get($this->request->get("owner")), //
-                $this->request->get("groups"), //
-                $this->request->get("visibility"), //
-                $this->request->get("type"), //
-                $this->request->get("code"), //
-                $this->testWizardService->get($this->request->get("sourceWizard"), false), //
-                $this->request->get("slug"), //
-                $this->request->get("serializedVariables") //
+            $this->securityTokenStorage->getToken()->getUser(),
+            $object_id,
+            $request->get("name"),
+            $request->get("description"),
+            $request->get("accessibility"),
+            $request->get("archived") === "1",
+            $this->userService->get($request->get("owner")),
+            $request->get("groups"),
+            $request->get("visibility"),
+            $request->get("type"),
+            $request->get("code"),
+            $this->testWizardService->get($request->get("sourceWizard"), false),
+            $request->get("slug"),
+            $request->get("serializedVariables")
         );
         return $this->getSaveResponse($result);
     }
 
-    public function addNodeAction($object_id) {
-        $result = $this->service->addFlowNode(//
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $this->request->get("type"), //
-                $this->request->get("posX"), //
-                $this->request->get("posY"), //
-                $this->service->get($this->request->get("flowTest")), //
-                $this->service->get($this->request->get("sourceTest")), //
-                "", //
-                false);
+    /**
+     * @Route("/Test/{object_id}/copy", name="Test_copy")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function copyAction(Request $request, $object_id)
+    {
+        return parent::copyAction($request, $object_id);
+    }
+
+    /**
+     * @Route("/Test/{object_ids}/delete", name="Test_delete")
+     * @Method(methods={"POST"})
+     * @param $object_ids
+     * @return Response
+     */
+    public function deleteAction($object_ids)
+    {
+        return parent::deleteAction($object_ids);
+    }
+
+    /**
+     * @Route("/Test/{object_ids}/export/{format}", name="Test_export", defaults={"format":"compressed"})
+     * @param $object_ids
+     * @param string $format
+     * @return Response
+     */
+    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    {
+        return parent::exportAction($object_ids, $format);
+    }
+
+    /**
+     * @Route("/Test/import", name="Test_import")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function importAction(Request $request)
+    {
+        return parent::importAction($request);
+    }
+
+    /**
+     * @Route("/Test/import/status", name="Test_pre_import_status")
+     * @param Request $request
+     * @return Response
+     */
+    public function preImportStatusAction(Request $request)
+    {
+        return parent::preImportStatusAction($request);
+    }
+
+    /**
+     * @Route("/Test/{object_id}/node/add", name="Test_add_node")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function addNodeAction(Request $request, $object_id)
+    {
+        $result = $this->service->addFlowNode(
+            $this->securityTokenStorage->getToken()->getUser(),
+            $request->get("type"),
+            $request->get("posX"),
+            $request->get("posY"),
+            $this->service->get($request->get("flowTest")),
+            $this->service->get($request->get("sourceTest")),
+            "",
+            false);
         return $this->getSaveResponse($result);
     }
 
-    public function removeNodeAction($node_ids) {
+    /**
+     * @Route("/Test/node/{node_ids}/remove", name="Test_remove_node")
+     * @Method(methods={"POST"})
+     * @param $node_ids
+     * @return Response
+     */
+    public function removeNodeAction($node_ids)
+    {
         $collections = false;
         $result = $this->service->removeFlowNode($node_ids, $collections);
 
@@ -115,22 +237,37 @@ class TestController extends AExportableTabController {
         return $response;
     }
 
-    public function addNodeConnectionAction($object_id) {
-        $result = $this->service->addFlowConnection(//
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $this->service->get($this->request->get("flowTest")), //
-                $this->request->get("sourceNode"), //
-                $this->request->get("sourcePort") ? $this->request->get("sourcePort") : null, //
-                $this->request->get("destinationNode"), //
-                $this->request->get("destinationPort") ? $this->request->get("destinationPort") : null, //
-                $this->request->get("returnFunction"), //
-                false, //
-                $this->request->get("default") == "1", //
-                false);
+    /**
+     * @Route("/Test/{object_id}/connection/add", name="Test_add_connection")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function addNodeConnectionAction(Request $request, $object_id)
+    {
+        $result = $this->service->addFlowConnection(
+            $this->securityTokenStorage->getToken()->getUser(),
+            $this->service->get($request->get("flowTest")),
+            $request->get("sourceNode"),
+            $request->get("sourcePort") ? $request->get("sourcePort") : null,
+            $request->get("destinationNode"),
+            $request->get("destinationPort") ? $request->get("destinationPort") : null,
+            $request->get("returnFunction"),
+            false,
+            $request->get("default") == "1",
+            false);
         return $this->getSaveResponse($result);
     }
 
-    public function removeNodeConnectionAction($connection_id) {
+    /**
+     * @Route("/Test/connection/{connection_id}/remove", name="Test_remove_connection")
+     * @Method(methods={"POST"})
+     * @param $connection_id
+     * @return Response
+     */
+    public function removeNodeConnectionAction($connection_id)
+    {
         $collections = false;
         $result = $this->service->removeFlowConnection($connection_id, $collections);
 
@@ -153,8 +290,15 @@ class TestController extends AExportableTabController {
         return $response;
     }
 
-    public function moveNodeAction() {
-        $nodes = json_decode($this->request->get("nodes"), true);
+    /**
+     * @Route("/Test/node/move", name="Test_move_node")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function moveNodeAction(Request $request)
+    {
+        $nodes = json_decode($request->get("nodes"), true);
         $result = $this->service->moveFlowNode($nodes);
 
         $response = new Response(json_encode(array("result" => 0)));
@@ -162,22 +306,37 @@ class TestController extends AExportableTabController {
         return $response;
     }
 
-    public function pasteNodesAction($object_id) {
-        $result = $this->service->pasteNodes(//
-                $this->securityTokenStorage->getToken()->getUser(), //
-                $this->service->get($object_id), //
-                json_decode($this->request->get("nodes"), true), //
-                false);
+    /**
+     * @Route("/Test/{object_id}/node/paste", name="Test_paste_nodes")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function pasteNodesAction(Request $request, $object_id)
+    {
+        $result = $this->service->pasteNodes(
+            $this->securityTokenStorage->getToken()->getUser(),
+            $this->service->get($object_id),
+            json_decode($request->get("nodes"), true),
+            false);
         return $this->getSaveResponse($result);
     }
 
-    public function exportNodeAction($object_ids, $format = ExportService::FORMAT_COMPRESSED) {
+    /**
+     * @Route("/Test/Node/{object_ids}/export/{format}", name="Test_node_export", defaults={"format":"compressed"})
+     * @param $object_ids
+     * @param string $format
+     * @return Response
+     */
+    public function exportNodeAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    {
         $response = new Response($this->exportService->exportNodeToFile($object_ids, $format));
-        $ext = ( $format == ExportService::FORMAT_COMPRESSED ) ? 'concerto' : 'concerto.json';
+        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.json';
         $name = "TestNode_" . $object_ids . '.' . $ext;
         $response->headers->set('Content-Type', 'application/x-download');
         $response->headers->set(
-                'Content-Disposition', 'attachment; filename="' . $name . '"'
+            'Content-Disposition', 'attachment; filename="' . $name . '"'
         );
         return $response;
     }

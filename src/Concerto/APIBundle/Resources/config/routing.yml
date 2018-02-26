@@ -1,4 +1,4 @@
-app:
+concerto_api:
     resource: "@ConcertoAPIBundle/Controller/"
     type:     annotation
     

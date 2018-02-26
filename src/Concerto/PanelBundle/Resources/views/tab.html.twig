@@ -7,6 +7,6 @@
     </div>
 
     <div class="moduleForm" ng-if="tabSection == 'form'">
-        {{ render(controller("concerto_panel." ~ class_name ~ "_controller:formAction")) }}
+        {{ render(controller("ConcertoPanelBundle:"~ class_name ~":form")) }}
     </div>
 {% endblock %}

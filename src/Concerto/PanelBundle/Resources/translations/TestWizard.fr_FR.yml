@@ -97,7 +97,8 @@ param:
             type.group: Groupe
             type.list: Liste
             hide_condition: Masquer la condition
-            hide_condition.tooltip: "Masquer la condition. Utilise la syntaxe javascript. L\'objet courant de collection de valeurs de paramètres est appelé <strong>values</strong>. Pour accéder à la portée du paramètre parent utilisez <strong>parent</strong>. Exemple : <strong>values.param1.subparam3 != \"1\" </strong>"
+            hide_condition.tooltip: >
+                Masquer la condition. Utilise la syntaxe javascript. L\'objet courant de collection de valeurs de paramètres est appelé <strong>values</strong>. Pour accéder à la portée du paramètre parent utilisez <strong>parent</strong>. Exemple : <strong>values.param1.subparam3 != \"1\" </strong>
             setter.icon.tooltip: Afficher l'éditeur
     list:
         button: 

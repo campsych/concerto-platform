@@ -6,22 +6,24 @@ use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestNodePortRepository;
 use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Entity\TestNode;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Concerto\PanelBundle\Security\ObjectVoter;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TestNodePortService extends ASectionService {
+class TestNodePortService extends ASectionService
+{
 
     private $validator;
     private $testVariableRepository;
     private $testNodeRepository;
     private $logger;
 
-    public function __construct(TestNodePortRepository $repository, RecursiveValidator $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationChecker $securityAuthorizationChecker, LoggerInterface $logger) {
+    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->validator = $validator;
@@ -30,7 +32,8 @@ class TestNodePortService extends ASectionService {
         $this->logger = $logger;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestNodePort();
@@ -38,11 +41,13 @@ class TestNodePortService extends ASectionService {
         return $object;
     }
 
-    public function getOneByNodeAndVariable(TestNode $node, TestVariable $variable) {
+    public function getOneByNodeAndVariable(TestNode $node, TestVariable $variable)
+    {
         return $this->authorizeObject($this->repository->findOneByNodeAndVariable($node, $variable));
     }
 
-    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $flush = true) {
+    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $flush = true)
+    {
         $errors = array();
         $object = $this->get($object_id);
         if ($object === null) {
@@ -70,7 +75,8 @@ class TestNodePortService extends ASectionService {
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function saveCollection(User $user, $encoded_collection) {
+    public function saveCollection(User $user, $encoded_collection)
+    {
         $decoded_collection = json_decode($encoded_collection, true);
         $result = array("errors" => array());
         for ($i = 0; $i < count($decoded_collection); $i++) {
@@ -87,11 +93,13 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    public function update($object, $flush = true) {
+    public function update($object, $flush = true)
+    {
         $this->repository->save($object, $flush);
     }
 
-    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new, $flush = true) {
+    public function onTestVariableSaved(User $user, TestVariable $variable, $is_new, $flush = true)
+    {
         $nodes = $variable->getTest()->getSourceForNodes();
         foreach ($nodes as $node) {
             $ports = $node->getPorts();
@@ -113,7 +121,8 @@ class TestNodePortService extends ASectionService {
         }
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -127,7 +136,8 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    {
         $pre_queue = array();
         if (!array_key_exists("TestNodePort", $map))
             $map["TestNodePort"] = array();
@@ -163,9 +173,9 @@ class TestNodePortService extends ASectionService {
             }
         }
         $parent_instruction = self::getObjectImportInstruction(array(
-                    "class_name" => "Test",
-                    "id" => $exported_parent_id
-                        ), $instructions);
+            "class_name" => "Test",
+            "id" => $exported_parent_id
+        ), $instructions);
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
@@ -178,7 +188,8 @@ class TestNodePortService extends ASectionService {
         return $result;
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $node, $variable) {
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $node, $variable)
+    {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setNode($node);
@@ -199,7 +210,8 @@ class TestNodePortService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         $node = $map["TestNode"]["id" . $obj["node"]];
         $variable = $map["TestVariable"]["id" . $obj["variable"]];
         $ent = $this->repository->findOneBy(array("node" => $node, "variable" => $variable));
@@ -209,7 +221,8 @@ class TestNodePortService extends ASectionService {
         return $this->get($ent->getId());
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $node, $variable) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $node, $variable)
+    {
         $ent = new TestNodePort();
         $ent->setNode($node);
         $ent->setValue($obj["value"]);
@@ -229,7 +242,8 @@ class TestNodePortService extends ASectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    public function authorizeObject($object) {
+    public function authorizeObject($object)
+    {
         if (!self::$securityOn)
             return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getNode()))

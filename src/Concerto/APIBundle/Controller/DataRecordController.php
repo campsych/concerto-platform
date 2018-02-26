@@ -10,16 +10,16 @@ use Concerto\APIBundle\Service\DataRecordService;
 use Concerto\PanelBundle\Service\AdministrationService;
 
 /**
- * @Route("/api/data/{table_id}", service="API.DataRecord_controller")
+ * @Route("/api/data/{table_id}")
  */
-class DataRecordController {
+class DataRecordController
+{
 
-    private $request;
     private $service;
-    private $administrationService; 
+    private $administrationService;
 
-    public function __construct(Request $request, DataRecordService $service, AdministrationService $administrationService) {
-        $this->request = $request;
+    public function __construct(DataRecordService $service, AdministrationService $administrationService)
+    {
         $this->service = $service;
         $this->administrationService = $administrationService;
     }
@@ -27,36 +27,51 @@ class DataRecordController {
     /**
      * @Route("")
      * @Method({"GET","POST","PUT"})
+     * @param Request $request
+     * @param int $table_id
+     * @return Response
      */
-    public function dataCollectionAction($table_id) {
+    public function dataCollectionAction(Request $request, $table_id)
+    {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        switch ($this->request->getMethod()) {
-            case "GET": return $this->getDataCollection($table_id);
+        switch ($request->getMethod()) {
+            case "GET":
+                return $this->getDataCollection($request, $table_id);
             case "PUT":
-            case "POST": return $this->insertDataObject($table_id);
+            case "POST":
+                return $this->insertDataObject($request, $table_id);
         }
     }
 
     /**
      * @Route("/{id}")
      * @Method({"GET","POST","PUT","DELETE"})
+     * @param Request $request
+     * @param int $table_id
+     * @param int $id
+     * @return Response
      */
-    public function dataObjectAction($table_id, $id) {
+    public function dataObjectAction(Request $request, $table_id, $id)
+    {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        switch ($this->request->getMethod()) {
-            case "GET": return $this->getDataObject($table_id, $id);
+        switch ($request->getMethod()) {
+            case "GET":
+                return $this->getDataObject($request, $table_id, $id);
             case "PUT":
-            case "POST": return $this->updateDataObject($table_id, $id);
-            case "DELETE": return $this->deleteDataObject($table_id, $id);
+            case "POST":
+                return $this->updateDataObject($request, $table_id, $id);
+            case "DELETE":
+                return $this->deleteDataObject($table_id, $id);
         }
     }
 
-    private function getDataObject($table_id, $id) {
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
+    private function getDataObject(Request $request, $table_id, $id)
+    {
+        $format = $request->get("format") ? $request->get("format") : "json";
         $data = $this->service->getData($table_id, $id, $format);
 
         switch ($data["response"]) {
@@ -69,9 +84,10 @@ class DataRecordController {
         }
     }
 
-    private function getDataCollection($table_id) {
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
-        $filter = $this->request->query->all();
+    private function getDataCollection(Request $request, $table_id)
+    {
+        $format = $request->get("format") ? $request->get("format") : "json";
+        $filter = $request->query->all();
         $data = $this->service->getDataCollection($table_id, $filter, $format);
 
         switch ($data["response"]) {
@@ -86,12 +102,13 @@ class DataRecordController {
         }
     }
 
-    private function updateDataObject($table_id, $id) {
-        if (strpos($this->request->getContentType(), "json") === false) {
+    private function updateDataObject(Request $request, $table_id, $id)
+    {
+        if (strpos($request->getContentType(), "json") === false) {
             return new Response("Content-Type: application/json expected", Response::HTTP_BAD_REQUEST);
         }
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
-        $newSerializedData = $this->request->getContent();
+        $format = $request->get("format") ? $request->get("format") : "json";
+        $newSerializedData = $request->getContent();
         $data = $this->service->updateData($table_id, $id, $newSerializedData, $format);
 
         switch ($data["response"]) {
@@ -106,12 +123,13 @@ class DataRecordController {
         }
     }
 
-    private function insertDataObject($table_id) {
-        if (strpos($this->request->getContentType(), "json") === false) {
+    private function insertDataObject(Request $request, $table_id)
+    {
+        if (strpos($request->getContentType(), "json") === false) {
             return new Response("Content-Type: application/json expected", Response::HTTP_BAD_REQUEST);
         }
-        $format = $this->request->get("format") ? $this->request->get("format") : "json";
-        $serializedData = $this->request->getContent();
+        $format = $request->get("format") ? $request->get("format") : "json";
+        $serializedData = $request->getContent();
         $data = $this->service->insertData($table_id, $serializedData, $format);
 
         switch ($data["response"]) {
@@ -126,7 +144,8 @@ class DataRecordController {
         }
     }
 
-    private function deleteDataObject($table_id, $id) {
+    private function deleteDataObject($table_id, $id)
+    {
         $data = $this->service->deleteData($table_id, $id);
 
         switch ($data["response"]) {

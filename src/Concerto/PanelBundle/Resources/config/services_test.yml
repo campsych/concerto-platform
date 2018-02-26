@@ -1,0 +1,7 @@
+imports:
+    - { resource: services.yml }
+
+services:
+    test.security.encoder_factory:
+        alias: security.encoder_factory
+        public: true

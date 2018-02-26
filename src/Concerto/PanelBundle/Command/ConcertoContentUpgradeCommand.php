@@ -2,16 +2,25 @@
 
 namespace Concerto\PanelBundle\Command;
 
-use Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand;
+use Concerto\PanelBundle\Service\AdministrationService;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 use Concerto\PanelBundle\Entity\ScheduledTask;
-use DateTime;
+use Symfony\Component\Templating\EngineInterface;
 
 class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
 {
+    private $templating;
+    private $testRunnerSettings;
+
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, $testRunnerSettings)
+    {
+        $this->templating = $templating;
+        $this->testRunnerSettings = $testRunnerSettings;
+
+        parent::__construct($administrationService, $administration, $doctrine);
+    }
 
     protected function configure()
     {
@@ -26,8 +35,7 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
     {
         if (!parent::check($error, $code, $input)) return false;
 
-        $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        if ($input->getOption("init-only") && $service->getInstalledContentVersion()) {
+        if ($input->getOption("init-only") && $this->administrationService->getInstalledContentVersion()) {
             $error = "init-only and content already installed";
             $code = 0;
             return false;
@@ -38,8 +46,8 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
     protected function getCommand(ScheduledTask $task, InputInterface $input)
     {
         $concerto_path = $this->getConcertoPath();
-        $php_exec = $this->getContainer()->getParameter("test_runner_settings")["php_exec"];
-        $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "console");
+        $php_exec = $this->testRunnerSettings["php_exec"];
+        $console_path = realpath($concerto_path . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console");
         $task_result_file = $this->getTaskResultFile($task);
         $task_output_file = $this->getTaskOutputFile($task);
 
@@ -51,20 +59,18 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
 
     public function getTaskDescription(ScheduledTask $task)
     {
-        $service = $this->getContainer()->get("concerto_panel.Administration_service");
-        $desc = $this->getContainer()->get('templating')->render("ConcertoPanelBundle:Administration:task_content_upgrade.html.twig", array(
-            "current_version" => $service->getInstalledContentVersion(),
-            "new_version" => $service->getAvailableContentVersion()
+        $desc = $this->templating->render("ConcertoPanelBundle:Administration:task_content_upgrade.html.twig", array(
+            "current_version" => $this->administrationService->getInstalledContentVersion(),
+            "new_version" => $this->administrationService->getAvailableContentVersion()
         ));
         return $desc;
     }
 
     public function getTaskInfo(ScheduledTask $task, InputInterface $input)
     {
-        $service = $this->getContainer()->get("concerto_panel.Administration_service");
         $info = array_merge(parent::getTaskInfo($task, $input), array(
-            "changelog" => json_encode($service->getIncrementalContentChangelog()),
-            "version" => $service->getAvailableContentVersion()
+            "changelog" => json_encode($this->administrationService->getIncrementalContentChangelog()),
+            "version" => $this->administrationService->getAvailableContentVersion()
         ));
         return $info;
     }

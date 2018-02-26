@@ -3,22 +3,24 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\TestSessionLog;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
-use Concerto\PanelBundle\Service\TestService;
-use Concerto\PanelBundle\Repository\AEntityRepository;
+use Concerto\PanelBundle\Repository\TestSessionLogRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class TestSessionLogService extends ASectionService {
+class TestSessionLogService extends ASectionService
+{
 
     private $testService;
 
-    public function __construct(AEntityRepository $repository, TestService $testService, AuthorizationChecker $securityAuthorizationChecker) {
+    public function __construct(TestSessionLogRepository $repository, TestService $testService, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    {
         parent::__construct($repository, $securityAuthorizationChecker);
 
         $this->testService = $testService;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = parent::get($object_id, $createNew, $secure);
         if ($createNew && $object === null) {
             $object = new TestSessionLog();
@@ -26,11 +28,13 @@ class TestSessionLogService extends ASectionService {
         return $object;
     }
 
-    public function getByTest($test_id) {
+    public function getByTest($test_id)
+    {
         return $this->authorizeCollection($this->repository->findByTest($test_id));
     }
 
-    public function delete($object_ids, $secure = true) {
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -44,14 +48,16 @@ class TestSessionLogService extends ASectionService {
         return $result;
     }
 
-    public function clear($test_id) {
+    public function clear($test_id)
+    {
         $test = parent::authorizeObject($this->testService->get($test_id));
         if ($test)
             $this->repository->deleteByTest($test_id);
         return array("errors" => array());
     }
 
-    public function authorizeObject($object) {
+    public function authorizeObject($object)
+    {
         if (!self::$securityOn)
             return $object;
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
