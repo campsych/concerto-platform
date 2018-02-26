@@ -31,6 +31,9 @@ services:
             - { name: doctrine.event_subscriber }
 
 #commands
+    Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand:
+        autoconfigure: false
+
     Concerto\PanelBundle\Command\ConcertoBackupCommand:
         arguments:
             $administration: "%administration%"
