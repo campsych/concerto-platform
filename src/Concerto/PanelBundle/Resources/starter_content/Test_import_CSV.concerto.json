@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 12,
+            "id": 16,
             "name": "source_import_CSV",
             "accessibility": 2,
             "archived": "0",
@@ -15,79 +15,79 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 188,
+                    "id": 273,
                     "name": "success",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 189,
+                    "id": 274,
                     "name": "data_table",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 190,
+                    "id": 275,
                     "name": "failure",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 191,
+                    "id": 276,
                     "name": "error_message",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 192,
+                    "id": 277,
                     "name": "stop_on_error",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 193,
+                    "id": 278,
                     "name": "file_path",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 194,
+                    "id": 279,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 16,
                     "parentVariable": null
                 }
             ],
@@ -95,7 +95,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:18",
+            "updatedOn": "2018-02-19 18:19:49",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -103,11 +103,11 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "0e9ad928122651db0480a839a7d9bece20a33d51"
+            "hash": "6f4f7d2236766de566b8ee162d7e466bca5d7024"
         },
         {
             "class_name": "TestWizard",
-            "id": 6,
+            "id": 15,
             "name": "import_CSV",
             "description": "",
             "accessibility": 2,
@@ -115,28 +115,28 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 15,
+                    "id": 36,
                     "title": "CSV import",
                     "description": "<p>Import options<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 6,
+                    "wizard": 15,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 52,
+                            "id": 127,
                             "label": "Data table",
                             "description": "<p>Data table to import to<\/p>\n",
                             "hideCondition": "",
                             "type": 6,
                             "passableThroughUrl": "0",
                             "value": null,
-                            "testVariable": 189,
+                            "testVariable": 274,
                             "name": "data_table",
-                            "wizardStep": 15,
+                            "wizardStep": 36,
                             "stepTitle": "CSV import",
                             "order": 0,
-                            "wizard": 6,
+                            "wizard": 15,
                             "definition": {
                                 "placeholder": 0,
                                 "defvalue": null
@@ -144,19 +144,19 @@
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 53,
+                            "id": 128,
                             "label": "Should stop on error",
                             "description": "<p>If this is checked, execution will stop on validation errors and&nbsp;<strong>failure<\/strong>&nbsp;branch will never be executed.<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 192,
+                            "testVariable": 277,
                             "name": "stop_on_error",
-                            "wizardStep": 15,
+                            "wizardStep": 36,
                             "stepTitle": "CSV import",
                             "order": 0,
-                            "wizard": 6,
+                            "wizard": 15,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -164,9 +164,9 @@
                     ]
                 }
             ],
-            "test": 12,
+            "test": 16,
             "testName": "source_import_CSV",
-            "updatedOn": "2017-10-24 09:47:18",
+            "updatedOn": "2018-02-19 18:19:52",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -175,7 +175,7 @@
         },
         {
             "class_name": "Test",
-            "id": 23,
+            "id": 29,
             "name": "import_CSV",
             "accessibility": 2,
             "archived": "0",
@@ -187,95 +187,95 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 312,
+                    "id": 378,
                     "name": "success",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 23,
-                    "parentVariable": 188
+                    "test": 29,
+                    "parentVariable": 273
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 313,
+                    "id": 379,
                     "name": "data_table",
                     "type": 0,
                     "description": "<p>Data table to import to<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 23,
-                    "parentVariable": 189
+                    "test": 29,
+                    "parentVariable": 274
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 314,
+                    "id": 380,
                     "name": "failure",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 23,
-                    "parentVariable": 190
+                    "test": 29,
+                    "parentVariable": 275
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 315,
+                    "id": 381,
                     "name": "error_message",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 23,
-                    "parentVariable": 191
+                    "test": 29,
+                    "parentVariable": 276
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 316,
+                    "id": 382,
                     "name": "stop_on_error",
                     "type": 0,
                     "description": "<p>If this is checked, execution will stop on validation errors and&nbsp;<strong>failure<\/strong>&nbsp;branch will never be executed.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 23,
-                    "parentVariable": 192
+                    "test": 29,
+                    "parentVariable": 277
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 317,
+                    "id": 383,
                     "name": "file_path",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 23,
-                    "parentVariable": 193
+                    "test": 29,
+                    "parentVariable": 278
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 318,
+                    "id": 384,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 23,
-                    "parentVariable": 194
+                    "test": 29,
+                    "parentVariable": 279
                 }
             ],
-            "sourceWizard": 6,
+            "sourceWizard": 15,
             "sourceWizardName": "import_CSV",
-            "sourceWizardTest": 12,
+            "sourceWizardTest": 16,
             "sourceWizardTestName": "source_import_CSV",
-            "updatedOn": "2017-10-24 09:47:21",
-            "updatedBy": "",
+            "updatedOn": "2018-02-19 18:19:54",
+            "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
             "tags": "_concerto_core",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "84e2335809cc184963fcfe819c7fe9387755e2ba"
+            "hash": "6ce31baf2b98ce772366b51e3ac7e7db2d4bfead"
         }
     ]
 }

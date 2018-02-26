@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 35,
+            "id": 22,
             "name": "merge_lists",
             "accessibility": 2,
             "archived": "0",
@@ -15,68 +15,68 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 481,
+                    "id": 312,
                     "name": "merged_list",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 35,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 482,
+                    "id": 313,
                     "name": "list1",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 35,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 483,
+                    "id": 314,
                     "name": "list2",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 35,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 484,
+                    "id": 315,
                     "name": "list3",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 35,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 485,
+                    "id": 316,
                     "name": "list4",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 35,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 486,
+                    "id": 317,
                     "name": "list5",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 35,
+                    "test": 22,
                     "parentVariable": null
                 }
             ],
@@ -84,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:32",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -92,7 +92,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "26a58bbf54a39f1d4d63bbcb5f8f8556c1688310"
+            "hash": "1c10a021296bb370dca0b9c154faaecc99327a2d"
         }
     ]
 }

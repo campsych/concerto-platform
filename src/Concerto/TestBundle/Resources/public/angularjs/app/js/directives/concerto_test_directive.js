@@ -449,7 +449,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         var vars = {
           timeTaken: ((new Date()).getTime() - lastResponseTime.getTime()) / 1000
         };
-        element.find("input:text, input[type='range'], input[type='file'], input[type='hidden'], input:password, textarea, select, input:checkbox:checked, input:radio:checked").each(function () {
+        element.find("input:text, input[type='range'], input[type='file'], input[type='hidden'], input:password, input[type='date'], textarea, select, input:checkbox:checked, input:radio:checked").each(function () {
           var name = $(this).attr("name");
           if (name == null) return;
           var value = $(this).val();

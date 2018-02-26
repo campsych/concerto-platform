@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 21,
+            "id": 23,
             "name": "source_create_template_definition",
             "accessibility": 2,
             "archived": "0",
@@ -15,68 +15,68 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 300,
+                    "id": 318,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 301,
+                    "id": 319,
                     "name": "layout",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 302,
+                    "id": 320,
                     "name": "header",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 303,
+                    "id": 321,
                     "name": "footer",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 304,
+                    "id": 322,
                     "name": "template_def",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 305,
+                    "id": 323,
                     "name": "set_as_default",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "1",
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 }
             ],
@@ -84,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -92,7 +92,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "1e844c0dbba1ed6d4bc06a5a8f3e6309ec4a37e4"
+            "hash": "30c34e0c4e4fc911b004d8ef489786ca6371ca70"
         }
     ]
 }

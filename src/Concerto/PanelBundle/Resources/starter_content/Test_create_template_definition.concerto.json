@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 21,
+            "id": 23,
             "name": "source_create_template_definition",
             "accessibility": 2,
             "archived": "0",
@@ -15,68 +15,68 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 300,
+                    "id": 318,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 301,
+                    "id": 319,
                     "name": "layout",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 302,
+                    "id": 320,
                     "name": "header",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 303,
+                    "id": 321,
                     "name": "footer",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 304,
+                    "id": 322,
                     "name": "template_def",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 305,
+                    "id": 323,
                     "name": "set_as_default",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "1",
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 }
             ],
@@ -84,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -92,11 +92,11 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "1e844c0dbba1ed6d4bc06a5a8f3e6309ec4a37e4"
+            "hash": "30c34e0c4e4fc911b004d8ef489786ca6371ca70"
         },
         {
             "class_name": "TestWizard",
-            "id": 11,
+            "id": 10,
             "name": "create_template_definition",
             "description": "",
             "accessibility": 2,
@@ -104,85 +104,85 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 23,
+                    "id": 21,
                     "title": "Template Properties",
                     "description": "",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 11,
+                    "wizard": 10,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 82,
+                            "id": 75,
                             "label": "Layout",
                             "description": "",
                             "hideCondition": "",
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 301,
+                            "testVariable": 319,
                             "name": "layout",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 83,
+                            "id": 76,
                             "label": "Template header",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 302,
+                            "testVariable": 320,
                             "name": "header",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 84,
+                            "id": 77,
                             "label": "Template footer",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 303,
+                            "testVariable": 321,
                             "name": "footer",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 85,
+                            "id": 78,
                             "label": "Set as default",
                             "description": "<p>Should this template definition be set as default?<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 305,
+                            "testVariable": 323,
                             "name": "set_as_default",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 4,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -190,9 +190,9 @@
                     ]
                 }
             ],
-            "test": 21,
+            "test": 23,
             "testName": "source_create_template_definition",
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -201,7 +201,7 @@
         },
         {
             "class_name": "Test",
-            "id": 22,
+            "id": 24,
             "name": "create_template_definition",
             "accessibility": 2,
             "archived": "0",
@@ -213,76 +213,76 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 306,
+                    "id": 324,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 22,
-                    "parentVariable": 300
+                    "test": 24,
+                    "parentVariable": 318
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 307,
+                    "id": 325,
                     "name": "layout",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "default_layout",
-                    "test": 22,
-                    "parentVariable": 301
+                    "test": 24,
+                    "parentVariable": 319
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 308,
+                    "id": 326,
                     "name": "header",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "<p>Your header goes here. For example, it could be a logo.<\/p>\n",
-                    "test": 22,
-                    "parentVariable": 302
+                    "test": 24,
+                    "parentVariable": 320
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 309,
+                    "id": 327,
                     "name": "footer",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "<p>Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.<\/p>\n",
-                    "test": 22,
-                    "parentVariable": 303
+                    "test": 24,
+                    "parentVariable": 321
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 310,
+                    "id": 328,
                     "name": "template_def",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
-                    "parentVariable": 304
+                    "test": 24,
+                    "parentVariable": 322
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 311,
+                    "id": 329,
                     "name": "set_as_default",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "1",
-                    "test": 22,
-                    "parentVariable": 305
+                    "test": 24,
+                    "parentVariable": 323
                 }
             ],
-            "sourceWizard": 11,
+            "sourceWizard": 10,
             "sourceWizardName": "create_template_definition",
-            "sourceWizardTest": 21,
+            "sourceWizardTest": 23,
             "sourceWizardTestName": "source_create_template_definition",
-            "updatedOn": "2017-10-24 09:47:28",
+            "updatedOn": "2018-02-19 18:19:53",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -290,11 +290,11 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "a51bb9f96b4782d5c96899e61e1785b3f4c14757"
+            "hash": "06d859298ef0c84b5f22bc994ace6fdbb09f9c55"
         },
         {
             "class_name": "ViewTemplate",
-            "id": 16,
+            "id": 14,
             "name": "default_layout",
             "description": "",
             "accessibility": 2,
@@ -303,7 +303,7 @@
             "css": "@import url(\"https:\/\/fonts.googleapis.com\/css?family=Roboto\");\n\nbody {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-style: normal;\n  font-weight: 400;\n}\np {\n  margin: 10px 0 10px;\n}\nh1 {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.5em;\n  font-style: normal;\n  font-weight: 500;\n  margin: 0 auto;\n  padding-bottom: 10px;\n  padding-top: 10px;\n  max-width: 900px;\n}\nh2 {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.3em;\n  font-style: normal;\n  font-weight: 500;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\nh3 {\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.2em;\n  font-style: normal;\n  font-weight: 500;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\na:link {\n  color: #000000;\n  text-decoration: underline;\n}\na:visited {\n  color: #000000;\n  text-decoration: underline;\n}\na:hover {\n  color: #000000;\n  text-decoration: underline;\n}\nol, ul, li {\n  padding-bottom: 10px;\n}\ntable.decorated {\n  border: 1px solid #42424b;\n  border-collapse: collapse;\n  margin-bottom: 10px;\n}\ntd, th {\n  padding: 5px;\n}\nth, table.decorated tr:first-child td {\n  background-color: #e8eff5;\n  border: 1px solid #42424b;\n}\ntable.decorated td {\n  border: 1px solid #42424b;\n  text-align: left;\n  vertical-align: top;\n}\nheader {\n  background-color: #FFFFFF;\n  color: #2c343a;\n  margin: 0;\n  padding-top: 5px;\n  padding-bottom: 5px;\n}\nheader > * {\n  margin: auto;\n  max-width: 900px;\n}\nfooter {\n  background-color: #414d58;\n  color: #ffffff;\n  font-size: 0.8em;\n  margin: 20px 0 0 0;\n  padding-bottom: 10px;\n  padding-top: 10px;\n  position:absolute;\n  width: 100%;\n  bottom:0;\n  left:0;\n  height: 70px;\n}\nfooter > * {\n  margin: auto;\n  max-width: 900px;\n}\nfooter a:link {\n  color: #ffffff;\n  text-decoration: underline;\n}\nfooter a:visited {\n  color: #ffffff;\n  text-decoration: underline;\n}\nfooter a:hover {\n  color: #ffffff;\n  text-decoration: underline;\n}\nimg {\n  border: 0 none;\n}\nlabel {\n  font-weight: normal;\n  margin-bottom: 0;\n}\n.feature {\n  background-color: #e8eff5;\n  color: #000000;\n  margin-bottom: 20px;\n  margin-top: 20px;\n  padding: 20px;\n}\n#content {\n  margin: auto;\n  max-width: 900px;\n  padding-bottom: 70px;\n}\n#subheader {\n  background-color: #b9d979;\n  margin-bottom: 20px;\n}\n#subheader-content {\n  max-width: 900px;\n  color: #2c343a;\n  font-family: \"Roboto\";\n  font-size: 1.5em;\n  font-style: normal;\n  font-weight: 500;\n  margin: 0 auto;\n  padding-bottom: 10px;\n  padding-top: 10px;\n}\n#subheader-left {\n  text-align: left; \n  float: left;\n}\n#subheader-right {\n  text-align: right; \n  float: right;\n}\n#timer {\n  letter-spacing: 2px;\n}\n#cnrto-platform-blurb {\n  color: #b9d979;\n}\n#cnrto-platform-link {\n  color: #b9d979;\n}\n#cnrto-platform-link:hover {\n  text-decoration: none;\n}\n.warning {\n  margin: 5px;\n  padding: 5px;\n  background-color: #D9C978;\n  font-weight: bold;\n}\n.warning:empty {\n  display: none;\n}\n.clearing {\n  height: 1px;\n}\n#test-wrapper {\n  background-color: #FFFFFF;\n  min-height:100%;\n  position: relative;\n}",
             "js": "$(function(){\n  if ($('#warning').is(':empty')) {\n    document.getElementById(\"warning\").scrollIntoView();\n  }\n});",
             "html": "<div id=\"test-wrapper\">\n<header>\n<div id=\"header_wrapper\">{{header}}<\/div>\n<\/header>\n\n<div id=\"subheader\">\n<div id=\"subheader-content\">\n<div id=\"subheader-left\">{{title}}<\/div>\n\n<div id=\"subheader-right\">\n<div id=\"timer\">[[timeLeft]]<\/div>\n<\/div>\n\n<div class=\"clearing\" style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n<\/div>\n\n<div id=\"content\">{{content}}\n<div id=\"actionContainer\">\n<div class=\"warning\" id=\"warning\">{{warning_msg}}<\/div>\n{{buttons}}<\/div>\n<\/div>\n\n<footer>\n<div id=\"footer_content\">\n<div>{{footer}}<\/div>\n<span id=\"cnrto-platform-blurb\">Created with <a href=\"http:\/\/www.concertoplatform.com\" id=\"cnrto-platform-link\" target=\"_blank\">Concerto Platform<\/a><\/span><\/div>\n<\/footer>\n<\/div>\n",
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

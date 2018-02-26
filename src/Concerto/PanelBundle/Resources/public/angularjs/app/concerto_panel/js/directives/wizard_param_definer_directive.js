@@ -114,13 +114,14 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
         enableCellEditOnFocus: true
       };
 
+      scope.colMap = [];
       scope.colMapOptions = {
         enableFiltering: false,
         enableGridMenu: true,
         exporterMenuCsv: false,
         exporterMenuPdf: false,
         importerShowMenu: false,
-        data: 'param.definition.cols',
+        data: 'colMap',
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
         gridMenuCustomItems: [
@@ -408,12 +409,16 @@ angular.module('concertoPanel').directive('wizardParamDefiner', ["$compile", "$f
         $compile(element.contents())(scope);
       });
 
-      scope.$watch('param.definition.fields', function(newValue) {
+      scope.$watch('param.definition.fields', function (newValue) {
         scope.fields = newValue;
       });
 
-      scope.$watch('param.definition.options', function(newValue) {
+      scope.$watch('param.definition.options', function (newValue) {
         scope.options = newValue;
+      });
+
+      scope.$watch('param.definition.cols', function (newValue) {
+        scope.colMap = newValue;
       });
 
       scope.$watch('param.definition.element.type', function (newValue, oldValue) {

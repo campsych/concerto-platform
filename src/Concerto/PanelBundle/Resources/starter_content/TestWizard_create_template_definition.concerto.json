@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 21,
+            "id": 23,
             "name": "source_create_template_definition",
             "accessibility": 2,
             "archived": "0",
@@ -15,68 +15,68 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 300,
+                    "id": 318,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 301,
+                    "id": 319,
                     "name": "layout",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 302,
+                    "id": 320,
                     "name": "header",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 303,
+                    "id": 321,
                     "name": "footer",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 304,
+                    "id": 322,
                     "name": "template_def",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 305,
+                    "id": 323,
                     "name": "set_as_default",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "1",
-                    "test": 21,
+                    "test": 23,
                     "parentVariable": null
                 }
             ],
@@ -84,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -92,11 +92,11 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "1e844c0dbba1ed6d4bc06a5a8f3e6309ec4a37e4"
+            "hash": "30c34e0c4e4fc911b004d8ef489786ca6371ca70"
         },
         {
             "class_name": "TestWizard",
-            "id": 11,
+            "id": 10,
             "name": "create_template_definition",
             "description": "",
             "accessibility": 2,
@@ -104,85 +104,85 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 23,
+                    "id": 21,
                     "title": "Template Properties",
                     "description": "",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 11,
+                    "wizard": 10,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 82,
+                            "id": 75,
                             "label": "Layout",
                             "description": "",
                             "hideCondition": "",
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 301,
+                            "testVariable": 319,
                             "name": "layout",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 83,
+                            "id": 76,
                             "label": "Template header",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 302,
+                            "testVariable": 320,
                             "name": "header",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 84,
+                            "id": 77,
                             "label": "Template footer",
                             "description": "",
                             "hideCondition": "",
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 303,
+                            "testVariable": 321,
                             "name": "footer",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 0,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
                         },
                         {
                             "class_name": "TestWizardParam",
-                            "id": 85,
+                            "id": 78,
                             "label": "Set as default",
                             "description": "<p>Should this template definition be set as default?<\/p>\n",
                             "hideCondition": "",
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 305,
+                            "testVariable": 323,
                             "name": "set_as_default",
-                            "wizardStep": 23,
+                            "wizardStep": 21,
                             "stepTitle": "Template Properties",
                             "order": 4,
-                            "wizard": 11,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": 0
                             }
@@ -190,9 +190,9 @@
                     ]
                 }
             ],
-            "test": 21,
+            "test": 23,
             "testName": "source_create_template_definition",
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:50",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

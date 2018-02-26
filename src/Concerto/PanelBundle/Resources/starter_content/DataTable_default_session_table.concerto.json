@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "DataTable",
-            "id": 3,
+            "id": 2,
             "name": "default_session_table",
             "description": "",
             "accessibility": 2,
@@ -38,14 +38,19 @@
                     "name": "finished",
                     "type": "boolean",
                     "nullable": false
+                },
+                {
+                    "name": "started_time",
+                    "type": "datetime",
+                    "nullable": false
                 }
             ],
-            "updatedOn": "2017-10-24 09:47:26",
+            "updatedOn": "2018-02-19 18:19:49",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "929f6b4bf9ed51039d13f8b97d00e2a422a97397"
+            "hash": "82b109bd1cc10783159cb20cc14c64b0be328a8b"
         }
     ]
 }

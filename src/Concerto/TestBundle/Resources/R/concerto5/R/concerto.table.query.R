@@ -3,6 +3,8 @@ function(sql, params=list(), n=-1){
   sql <- gsub("^\\s+|\\s+$", "", sql)
   sql <- concerto.table.insertParams(sql, params)
 
+  concerto.log(sql)
+
   result <- NULL
   output <- NULL
   if(toupper(substring(sql, 1, 6)) == "SELECT") {

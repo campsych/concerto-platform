@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 13,
+            "id": 26,
             "name": "source_consent",
             "accessibility": 2,
             "archived": "0",
@@ -15,134 +15,134 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 195,
+                    "id": 356,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 196,
+                    "id": 357,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 197,
+                    "id": 358,
                     "name": "consents",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 198,
+                    "id": 359,
                     "name": "button_label",
                     "type": 0,
                     "description": "<p>Label of continue button.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "continue",
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 199,
+                    "id": 360,
                     "name": "response",
                     "type": 1,
                     "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response<\/span><\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 200,
+                    "id": 361,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 201,
+                    "id": 362,
                     "name": "title",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 202,
+                    "id": 363,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 203,
+                    "id": 364,
                     "name": "form_field_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 204,
+                    "id": 365,
                     "name": "form_field_checkbox_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 205,
+                    "id": 366,
                     "name": "form_alert_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 206,
+                    "id": 367,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 13,
+                    "test": 26,
                     "parentVariable": null
                 }
             ],
@@ -150,7 +150,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:18",
+            "updatedOn": "2018-02-19 18:19:51",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -158,7 +158,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "f75af76518f0374df3e229bbfe14ca061cdf1823"
+            "hash": "94276d42f990b9545046779dd9f7ccbc6e104620"
         }
     ]
 }

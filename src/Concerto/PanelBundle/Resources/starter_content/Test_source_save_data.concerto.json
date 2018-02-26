@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 25,
+            "id": 27,
             "name": "source_save_data",
             "accessibility": 2,
             "archived": "0",
@@ -15,57 +15,57 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 331,
+                    "id": 368,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 332,
+                    "id": 369,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 333,
+                    "id": 370,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 334,
+                    "id": 371,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 335,
+                    "id": 372,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 }
             ],
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:51",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -81,7 +81,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "60172363e94a04358bd0580358ea0535de0831ac"
+            "hash": "db1ad7dcaf10674c063f6a6351eddcd1f7378984"
         }
     ]
 }

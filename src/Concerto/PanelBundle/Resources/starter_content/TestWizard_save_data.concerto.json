@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 25,
+            "id": 27,
             "name": "source_save_data",
             "accessibility": 2,
             "archived": "0",
@@ -15,57 +15,57 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 331,
+                    "id": 368,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 332,
+                    "id": 369,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 333,
+                    "id": 370,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 334,
+                    "id": 371,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 335,
+                    "id": 372,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 25,
+                    "test": 27,
                     "parentVariable": null
                 }
             ],
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:51",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -81,7 +81,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "60172363e94a04358bd0580358ea0535de0831ac"
+            "hash": "db1ad7dcaf10674c063f6a6351eddcd1f7378984"
         },
         {
             "class_name": "TestWizard",
@@ -93,7 +93,7 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 25,
+                    "id": 29,
                     "title": "Data bank",
                     "description": "<p>Session data bank definition<\/p>\n",
                     "orderNum": 0,
@@ -102,16 +102,16 @@
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 87,
+                            "id": 105,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"\",\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 332,
+                            "testVariable": 369,
                             "name": "data_bank",
-                            "wizardStep": 25,
+                            "wizardStep": 29,
                             "stepTitle": "Data bank",
                             "order": 0,
                             "wizard": 13,
@@ -183,9 +183,9 @@
                     ]
                 }
             ],
-            "test": 25,
+            "test": 27,
             "testName": "source_save_data",
-            "updatedOn": "2017-10-24 09:47:21",
+            "updatedOn": "2018-02-19 18:19:51",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

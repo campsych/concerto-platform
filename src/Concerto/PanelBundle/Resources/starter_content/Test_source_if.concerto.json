@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 264,
+                    "id": 290,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 265,
+                    "id": 291,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 266,
+                    "id": 292,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 267,
+                    "id": 293,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 268,
+                    "id": 294,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:20",
+            "updatedOn": "2018-02-19 18:19:49",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -81,7 +81,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "3ca6eee6425faa331ed6e4f72a079cd89a9b8498"
+            "hash": "777e07ae287c994bdaafce5c0b7764ab76d63434"
         }
     ]
 }

@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "Test",
-            "id": 34,
+            "id": 20,
             "name": "get_promoted_var",
             "accessibility": 2,
             "archived": "0",
@@ -15,24 +15,24 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 479,
+                    "id": 300,
                     "name": "name",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 34,
+                    "test": 20,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 480,
+                    "id": 301,
                     "name": "value",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 34,
+                    "test": 20,
                     "parentVariable": null
                 }
             ],
@@ -40,7 +40,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2017-10-24 09:47:30",
+            "updatedOn": "2018-02-19 18:19:49",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -48,7 +48,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "3c7024050a474ca80bc7d6ebb69dddac54a9325a"
+            "hash": "e19b9bbe7aa7244ed0dcc8655381ead154d38487"
         }
     ]
 }

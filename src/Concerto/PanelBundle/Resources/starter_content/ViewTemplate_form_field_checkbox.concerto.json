@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.4",
+    "version": "5.0.beta.3.18",
     "collection": [
         {
             "class_name": "ViewTemplate",
-            "id": 3,
+            "id": 16,
             "name": "form_field_checkbox",
             "description": "",
             "accessibility": 2,
@@ -12,7 +12,7 @@
             "css": "",
             "js": "",
             "html": "<input id=\"{{id}}\" name=\"{{name}}\" type=\"checkbox\" \/>",
-            "updatedOn": "2017-10-24 09:47:16",
+            "updatedOn": "2018-02-19 18:19:51",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
