@@ -4,9 +4,16 @@ changelog:
       description: >
         Fixes
       categories:
+          - label: Improvements
+            changes:
+                - upgraded to Symfony v3.4
           - label: Fixes
             changes:
                 - fixed table map definer
+          - label: R
+            changes:
+                - >
+                  'concerto.template.insertParams' now accepts {{template:name}} inserts
     - version: "5.0.beta.3.17"
       description: >
         Customization

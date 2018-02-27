@@ -6,7 +6,13 @@ concerto.template.insertParams = function(html,params=list(),removeMissing=T){
     while(index<=length(matches)){
       value <- gsub("\\{\\{", "", matches[index])
       value <- gsub("\\}\\}", "", value)
-      if(!is.null(params[[value]])){
+      if(substring(value, 1, 9) == "template:") {
+        insert = concerto.template.join(templateId=substring(value,10), params=params)
+        if(Sys.info()['sysname'] == "Windows") {
+          if(Encoding(insert) == "UTF-8") { insert = enc2native(insert) }
+        }
+        html <- gsub(matches[index], insert, html, fixed=TRUE)
+      } else if(!is.null(params[[value]])){
         insert = as.character(params[[value]])
         if(Sys.info()['sysname'] == "Windows") {
             if(Encoding(insert) == "UTF-8") { insert = enc2native(insert) }
