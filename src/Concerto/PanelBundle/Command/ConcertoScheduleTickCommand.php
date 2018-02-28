@@ -22,6 +22,7 @@ class ConcertoScheduleTickCommand extends Command
     private $maintenanceService;
     private $administrationService;
     private $templating;
+    private $doctrine;
 
     public function __construct(TestSessionCountService $testSessionCountService, MaintenanceService $maintenanceService, ManagerRegistry $doctrine, AdministrationService $administrationService, EngineInterface $templating)
     {
@@ -29,6 +30,7 @@ class ConcertoScheduleTickCommand extends Command
         $this->maintenanceService = $maintenanceService;
         $this->administrationService = $administrationService;
         $this->templating = $templating;
+        $this->doctrine = $doctrine;
 
         parent::__construct();
     }
