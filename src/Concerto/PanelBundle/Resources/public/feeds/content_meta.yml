@@ -1,8 +1,16 @@
-version: "1.3"
+version: "1.4"
 changelog:
-    - version: "1.3"
+    - version: "1.4"
       description: >
         Improvements
+      categories:
+          - label: Improvements
+            changes:
+                - >
+                  'CAT': Added content params processor
+    - version: "1.3"
+      description: >
+        Fixes
       categories:
           - label: Fixes
             changes:

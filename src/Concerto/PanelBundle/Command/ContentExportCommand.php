@@ -20,7 +20,7 @@ class ContentExportCommand extends Command
     {
         $this->doctrine = $doctrine;
         $this->importService = $importService;
-        $this->version;
+        $this->version = $version;
 
         parent::__construct();
     }
