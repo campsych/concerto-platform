@@ -39,7 +39,7 @@ COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
 
-RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','ggplot2','base64enc','rjson'), repos='$CRAN_MIRROR')" \
+RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','ggplot2','base64enc','rjson','httr'), repos='$CRAN_MIRROR')" \
  && R CMD INSTALL /usr/src/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /usr/src/concerto/bin/console concerto:r:cache \

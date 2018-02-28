@@ -57,6 +57,7 @@ concerto$mediaUrl <- commandArgs(TRUE)[8]
 concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[9])
 
 concerto$test_node <- fromJSON(commandArgs(TRUE)[2])
+concerto$client <- fromJSON(commandArgs(TRUE)[4])
 submitter <- fromJSON(commandArgs(TRUE)[3])
 concerto$submitter.host <- submitter$host
 concerto$submitter.port <- submitter$port
