@@ -65,7 +65,7 @@ class PanelController
     {
         $request->setLocale($locale);
         $request->setDefaultLocale($locale);
-        $this->service->setLocale($request->getSession(), $locale);
+        $request->getSession()->set("_locale", $locale);
 
         return new RedirectResponse($request->getUriForPath("/admin"));
     }

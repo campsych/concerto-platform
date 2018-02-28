@@ -17,9 +17,4 @@ class PanelService {
         }
         return $errors;
     }
-
-    public function setLocale(Session $session, $locale) {
-        $session->set("_locale", $locale);
-    }
-
 }

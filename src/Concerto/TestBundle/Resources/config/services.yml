@@ -31,3 +31,10 @@ services:
             $panelNodes: "%panel_nodes%"
             $settings: "%test_runner_settings%"
             $environment: "%kernel.environment%"
+
+#event subscribers
+    Concerto\PanelBundle\EventSubscriber\LocaleSubscriber:
+        arguments:
+            $defaultLocale: "%kernel.default_locale%"
+        tags:
+            - { name: kernel.event_subscriber }

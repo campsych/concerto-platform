@@ -48,6 +48,13 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
+        $locale = $request->get("locale");
+        if($locale) {
+            $request->setLocale($locale);
+            $request->setDefaultLocale($locale);
+            $request->getSession()->set("_locale", $locale);
+        }
+
         $params = json_decode($params, true);
         $keys = $request->query->keys();
         foreach ($keys as $k) {

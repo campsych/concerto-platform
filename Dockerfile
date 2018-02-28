@@ -57,6 +57,7 @@ CMD php bin/console concerto:setup \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
+ && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \

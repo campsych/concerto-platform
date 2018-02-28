@@ -7,6 +7,7 @@ changelog:
           - label: Improvements
             changes:
                 - upgraded to Symfony v3.4
+                - locale URL param changes test runner default locale
           - label: Fixes
             changes:
                 - fixed table map definer
