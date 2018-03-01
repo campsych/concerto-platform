@@ -187,3 +187,8 @@ concertoPanel.run(['$state', function ($state) {
 jsPlumb.importDefaults({
   Connector: ["Straight", {stub: 30}]
 });
+
+$.each(CKEDITOR.dtd.$removeEmpty, function (i, value) {
+  CKEDITOR.dtd.$removeEmpty[i] = false;
+});
+CKEDITOR.dtd.$removeEmpty.div = false;

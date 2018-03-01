@@ -1,8 +1,15 @@
-version: "5.0.beta.3.18"
+version: "5.0.beta.3.19"
 changelog:
+    - version: "5.0.beta.3.19"
+      description: >
+        Improvements
+      categories:
+          - label: Improvements
+            changes:
+                - CKEditor will no longer automatically remove empty tags
     - version: "5.0.beta.3.18"
       description: >
-        Fixes
+        Symfony v3.4 update
       categories:
           - label: Improvements
             changes:
