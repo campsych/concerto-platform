@@ -49,10 +49,11 @@ class TestRunnerController
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
         $locale = $request->get("locale");
-        if($locale) {
+        if($locale && $locale != $request->getLocale()) {
             $request->setLocale($locale);
             $request->setDefaultLocale($locale);
             $request->getSession()->set("_locale", $locale);
+            return new RedirectResponse($request->getUri());
         }
 
         $params = json_decode($params, true);
