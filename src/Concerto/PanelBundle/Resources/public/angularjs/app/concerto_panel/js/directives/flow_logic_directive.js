@@ -1262,8 +1262,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           return false;
         }).mousemove(function (event) {
           scope.currentMouseEvent = event;
-        }).keyup(function (event) {
-          scope.onKeyUp(event);
         });
       });
 
