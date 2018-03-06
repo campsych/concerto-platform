@@ -83,7 +83,7 @@ class TestNodeService extends ASectionService
             case self::TYPE_BEGIN_TEST:
                 $params = array();
                 $returns = $this->testVariableService->getParameters($sourceTest->getId());
-                $outs = $this->testVariableService->getBranches($sourceTest->getId());
+                $outs = array();
                 break;
             case self::TYPE_FINISH_TEST:
                 $params = $this->testVariableService->getReturns($sourceTest->getId());

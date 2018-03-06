@@ -264,8 +264,10 @@ flow:
     ports:
         names:
             in: in
+            out: out
         descriptions:
             in: Node entry point.
+            out: Node branch point.
         dialog:
             fields:
                 string: As string?

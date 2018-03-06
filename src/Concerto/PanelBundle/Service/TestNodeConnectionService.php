@@ -64,7 +64,11 @@ class TestNodeConnectionService extends ASectionService
         $object->setDestinationPort($destinationPort);
         $object->setDefaultReturnFunction($default);
         if ($default || !$returnFunction) {
-            $object->setReturnFunction($sourcePort->getVariable()->getName());
+            if(!$sourcePort) {
+                $object->setReturnFunction("");
+            } else {
+                $object->setReturnFunction($sourcePort->getVariable()->getName());
+            }
         } else {
             $object->setReturnFunction($returnFunction);
         }
@@ -91,7 +95,7 @@ class TestNodeConnectionService extends ASectionService
 
     private function addSameInputReturnConnection(User $user, TestNodeConnection $object)
     {
-        if ($object->getSourcePort()->getVariable()->getType() == 2) {
+        if (!$object->getSourcePort() || $object->getSourcePort()->getVariable()->getType() == 2) {
             $srcNode = $object->getSourceNode();
             $dstNode = $object->getDestinationNode();
 

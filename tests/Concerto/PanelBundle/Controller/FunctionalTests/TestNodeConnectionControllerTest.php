@@ -103,8 +103,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "flowTest" => 1,
             "sourceNode" => 3,
             "destinationNode" => 4,
-            "sourcePort" => 3,
-            "destinationPort" => 5
+            "sourcePort" => 1,
+            "destinationPort" => 3
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -122,48 +122,48 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "id" => 1,
                 "flowTest" => 1,
                 "sourceNode" => 3,
-                "sourcePort" => 3,
+                "sourcePort" => 1,
                 "destinationNode" => 4,
-                "destinationPort" => 5,
-                "returnFunction" => "out",
+                "destinationPort" => 3,
+                "returnFunction" => "response",
                 "defaultReturnFunction" => "0",
                 "automatic" => "0",
                 "sourcePortObject" => array(
                     "class_name" => "TestNodePort",
-                    "id" => 3,
-                    "value" => '0',
+                    "id" => 1,
+                    "value" => null,
                     "node" => 3,
                     "string" => "1",
                     "defaultValue" => "1",
-                    "variable" => 2,
+                    "variable" => 4,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
-                        "id" => 2,
-                        "name" => "out",
-                        "type" => 2,
+                        "id" => 4,
+                        "name" => "response",
+                        "type" => 1,
                         "description" => "",
                         "passableThroughUrl" => '0',
-                        "value" => '0',
+                        "value" => null,
                         "test" => 2,
                         "parentVariable" => null
                     )
                 ),
                 "destinationPortObject" => array(
                     "class_name" => "TestNodePort",
-                    "id" => 5,
-                    "value" => '0',
+                    "id" => 3,
+                    "value" => null,
                     "node" => 4,
                     "string" => "1",
                     "defaultValue" => "1",
-                    "variable" => 3,
+                    "variable" => 5,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
-                        "id" => 3,
-                        "name" => "out",
-                        "type" => 2,
+                        "id" => 5,
+                        "name" => "params",
+                        "type" => 0,
                         "description" => "",
                         "passableThroughUrl" => '0',
-                        "value" => '0',
+                        "value" => null,
                         "test" => 3,
                         "parentVariable" => null
                     )
@@ -191,7 +191,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestNodeConnection/-1/save", array(
             "flowTest" => 1,
             "sourceNode" => 3,
-            "sourcePort" => 4,
+            "sourcePort" => null,
             "destinationNode" => 4,
             "destinationPort" => null,
             "returnFunction" => "",
@@ -204,33 +204,14 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "id" => 2,
             "flowTest" => 1,
             "sourceNode" => 3,
-            "sourcePort" => 4,
+            "sourcePort" => null,
             "destinationNode" => 4,
             "destinationPort" => null,
-            "returnFunction" => "params",
+            "returnFunction" => "",
             "defaultReturnFunction" => "0",
             "automatic" => "0",
-            "sourcePortObject" => array(
-                "class_name" => "TestNodePort",
-                "id" => 4,
-                "value" => null,
-                "node" => 4,
-                "string" => "1",
-                "defaultValue" => "1",
-                "variable" => 5,
-                "variableObject" => array(
-                    "class_name" => "TestVariable",
-                    "id" => 5,
-                    "name" => "params",
-                    "type" => 0,
-                    "description" => "",
-                    "passableThroughUrl" => '0',
-                    "value" => null,
-                    "test" => 3,
-                    "parentVariable" => null
-                )
-            ),
-            "destinationPortObject" => null
+            "sourcePortObject" => null,
+            "destinationPortObject" => null,
         );
 
         $this->assertEquals(array(
@@ -247,10 +228,10 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestNodeConnection/1/save", array(
             "flowTest" => 1,
             "sourceNode" => 3,
-            "sourcePort" => 4,
+            "sourcePort" => 1,
             "destinationNode" => 4,
-            "destinationPort" => null,
-            "returnFunction" => "",
+            "destinationPort" => 3,
+            "returnFunction" => "zzz",
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -260,15 +241,35 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "id" => 1,
             "flowTest" => 1,
             "sourceNode" => 3,
-            "sourcePort" => 4,
+            "sourcePort" => 1,
             "destinationNode" => 4,
-            "destinationPort" => null,
-            "returnFunction" => "params",
+            "destinationPort" => 3,
+            "returnFunction" => "zzz",
             "defaultReturnFunction" => "0",
             "automatic" => "0",
             "sourcePortObject" => array(
                 "class_name" => "TestNodePort",
-                "id" => 4,
+                "id" => 1,
+                "value" => null,
+                "node" => 3,
+                "string" => "1",
+                "defaultValue" => "1",
+                "variable" => 4,
+                "variableObject" => array(
+                    "class_name" => "TestVariable",
+                    "id" => 4,
+                    "name" => "response",
+                    "type" => 1,
+                    "description" => "",
+                    "passableThroughUrl" => '0',
+                    "value" => null,
+                    "test" => 2,
+                    "parentVariable" => null
+                )
+            ),
+            "destinationPortObject" => array(
+                "class_name" => "TestNodePort",
+                "id" => 3,
                 "value" => null,
                 "node" => 4,
                 "string" => "1",
@@ -285,8 +286,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "test" => 3,
                     "parentVariable" => null
                 )
-            ),
-            "destinationPortObject" => null
+            )
         );
 
         $this->assertEquals(array(

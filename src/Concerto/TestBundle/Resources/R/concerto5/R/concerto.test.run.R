@@ -168,24 +168,26 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                     }
                 }
 
-                if (!is.null(branch_port)) {
-                    for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
-                        connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
-                        if (connection$sourcePort_id == branch_port$id) {
-                            concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$nodes[[as.character(connection$destinationNode_id)]]
-                            break
-                        }
+                for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
+                    connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
+                    if (!is.null(branch_port) && !is.na(connection$sourcePort_id) && connection$sourcePort_id == branch_port$id) {
+                        concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$nodes[[as.character(connection$destinationNode_id)]]
+                        break
+                    } else if(node$type == 1 && connection$sourceNode_id == node$id && is.na(connection$sourcePort_id)) {
+                        concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$nodes[[as.character(connection$destinationNode_id)]]
+                        break
                     }
                 }
             }
 
             #values connections
             return_type = 1
-            if (node$type == 1)return_type = 0
+            if (node$type == 1) return_type = 0
             for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
                 connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
-                if (connection$sourceNode_id != node$id) { next}
-                if (concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != return_type) { next}
+                if (connection$sourceNode_id != node$id) { next }
+                if (is.na(connection$sourcePort_id)) { next }
+                if (concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != return_type) { next }
 
                 func = paste("retFunc = function(", concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name, "){ ", connection$returnFunction, " }", sep = "")
                 eval(parse(text = func))

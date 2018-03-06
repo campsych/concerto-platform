@@ -69,26 +69,6 @@ class TestNodePortControllerTest extends AFunctionalTest {
             array(
                 "class_name" => "TestNodePort",
                 "id" => 1,
-                "node" => 1,
-                "string" => "1",
-                "defaultValue" => "1",
-                "variable" => 1,
-                "value" => "0",
-                "variableObject" => array(
-                    "class_name" => "TestVariable",
-                    "id" => 1,
-                    "name" => "out",
-                    "type" => 2,
-                    "description" => "",
-                    "passableThroughUrl" => "0",
-                    "value" => '0',
-                    "test" => 1,
-                    "parentVariable" => null
-                )
-            ),
-            array(
-                "class_name" => "TestNodePort",
-                "id" => 2,
                 "node" => 3,
                 "string" => "1",
                 "defaultValue" => "1",
@@ -161,7 +141,7 @@ class TestNodePortControllerTest extends AFunctionalTest {
             "errors" => array(),
             "object" => $expected
                 ), json_decode($client->getResponse()->getContent(), true));
-        $this->assertCount(2, self::$repository->findAll());
+        $this->assertCount(1, self::$repository->findAll());
     }
 
 }

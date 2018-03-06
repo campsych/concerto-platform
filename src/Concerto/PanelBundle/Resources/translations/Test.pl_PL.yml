@@ -266,8 +266,10 @@ flow:
     ports:
         names:
             in: wejście
+            out: wyjście
         descriptions:
             in: Punkt wejścia węzła.
+            out: Punkt rozgałęzienia węzła.
         dialog:
             fields:
                 string: Ciąg znaków?

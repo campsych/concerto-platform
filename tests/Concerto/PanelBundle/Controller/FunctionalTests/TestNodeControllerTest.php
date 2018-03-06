@@ -95,28 +95,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
-                "ports" => array(
-                    array(
-                        "class_name" => "TestNodePort",
-                        "id" => 1,
-                        "node" => 1,
-                        "string" => "1",
-                        "defaultValue" => "1",
-                        "variable" => 1,
-                        "value" => '0',
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 1,
-                            "name" => "out",
-                            "type" => 2,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => '0',
-                            "test" => 1,
-                            "parentVariable" => null
-                        )
-                    )
-                )
+                "ports" => array()
             ),
             array(
                 "class_name" => "TestNode",
@@ -145,7 +124,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
-                        "id" => 2,
+                        "id" => 1,
                         "node" => 3,
                         "string" => "1",
                         "defaultValue" => "1",
@@ -165,7 +144,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     ),
                     array(
                         "class_name" => "TestNodePort",
-                        "id" => 3,
+                        "id" => 2,
                         "node" => 3,
                         "string" => "1",
                         "defaultValue" => "1",
@@ -185,7 +164,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     ),
                     array(
                         "class_name" => "TestNodePort",
-                        "id" => 4,
+                        "id" => 3,
                         "node" => 3,
                         "string" => "1",
                         "defaultValue" => "1",
@@ -226,28 +205,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "sourceTest" => 1,
                 "sourceTestName" => "testFlow",
                 "sourceTestDescription" => "description",
-                "ports" => array(
-                    array(
-                        "class_name" => "TestNodePort",
-                        "id" => 1,
-                        "node" => 1,
-                        "string" => "1",
-                        "defaultValue" => "1",
-                        "variable" => 1,
-                        "value" => '0',
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 1,
-                            "name" => "out",
-                            "type" => 2,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => '0',
-                            "test" => 1,
-                            "parentVariable" => null
-                        )
-                    )
-                )
+                "ports" => array()
             ),
             array(
                 "class_name" => "TestNode",
@@ -276,7 +234,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 "ports" => array(
                     array(
                         "class_name" => "TestNodePort",
-                        "id" => 2,
+                        "id" => 1,
                         "node" => 3,
                         "string" => "1",
                         "defaultValue" => "1",
@@ -296,7 +254,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     ),
                     array(
                         "class_name" => "TestNodePort",
-                        "id" => 3,
+                        "id" => 2,
                         "node" => 3,
                         "string" => "1",
                         "defaultValue" => "1",
@@ -316,7 +274,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     ),
                     array(
                         "class_name" => "TestNodePort",
-                        "id" => 4,
+                        "id" => 3,
                         "node" => 3,
                         "string" => "1",
                         "defaultValue" => "1",
@@ -384,7 +342,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "ports" => array(
                 array(
                     "class_name" => "TestNodePort",
-                    "id" => 5,
+                    "id" => 4,
                     "node" => 4,
                     "string" => "1",
                     "defaultValue" => "1",
@@ -404,7 +362,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 ),
                 array(
                     "class_name" => "TestNodePort",
-                    "id" => 6,
+                    "id" => 5,
                     "node" => 4,
                     "string" => "1",
                     "defaultValue" => "1",
@@ -424,7 +382,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 ),
                 array(
                     "class_name" => "TestNodePort",
-                    "id" => 7,
+                    "id" => 6,
                     "node" => 4,
                     "string" => "1",
                     "defaultValue" => "1",
@@ -481,7 +439,7 @@ class TestNodeControllerTest extends AFunctionalTest {
             "ports" => array(
                 array(
                     "class_name" => "TestNodePort",
-                    "id" => 2,
+                    "id" => 1,
                     "node" => 3,
                     "string" => "1",
                     "defaultValue" => "1",
@@ -501,7 +459,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 ),
                 array(
                     "class_name" => "TestNodePort",
-                    "id" => 3,
+                    "id" => 2,
                     "node" => 3,
                     "string" => "1",
                     "defaultValue" => "1",
@@ -521,7 +479,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                 ),
                 array(
                     "class_name" => "TestNodePort",
-                    "id" => 4,
+                    "id" => 3,
                     "node" => 3,
                     "string" => "1",
                     "defaultValue" => "1",

@@ -58,10 +58,6 @@ services:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
 
-    Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand:
-        arguments:
-            $administration: "%administration%"
-
     Concerto\PanelBundle\Command\ConcertoUpgradeCommand:
         arguments:
             $administration: "%administration%"

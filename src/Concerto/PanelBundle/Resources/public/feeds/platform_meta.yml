@@ -1,12 +1,16 @@
-version: "5.0.beta.3.20"
+version: "5.0.beta.4.0"
 changelog:
-    - version: "5.0.beta.3.20"
+    - version: "5.0.beta.4.0"
       description: >
         Fixes
       categories:
           - label: Fixes
             changes:
                 - fixed R code autocompletion inside ports and connections on flow
+                - fixed flow test branch variables from start node
+          - label: Non backwards compatible
+            changes:
+                - fixed flow test branch variables from start node (connection from start node might be missing from current tests)
     - version: "5.0.beta.3.19"
       description: >
         Improvements
