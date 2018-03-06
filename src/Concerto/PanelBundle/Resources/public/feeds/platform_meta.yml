@@ -1,5 +1,12 @@
-version: "5.0.beta.3.19"
+version: "5.0.beta.3.20"
 changelog:
+    - version: "5.0.beta.3.20"
+      description: >
+        Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - fixed R code autocompletion inside ports and connections on flow
     - version: "5.0.beta.3.19"
       description: >
         Improvements
