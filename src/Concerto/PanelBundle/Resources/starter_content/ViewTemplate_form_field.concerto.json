@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.18",
+    "version": "5.0.beta.3.19",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,8 +12,8 @@
             "css": ".form-field {\n  padding-bottom: 10px;\n}",
             "js": "",
             "html": "<div class=\"form-field {{classes}}\"><label for=\"{{id}}\">{{label}}<\/label><br \/>\n{{control}}<\/div>\n",
-            "updatedOn": "2018-02-19 18:19:48",
-            "updatedBy": "",
+            "updatedOn": "2018-02-28 14:17:46",
+            "updatedBy": "admin",
             "owner": 1,
             "groups": "",
             "starterContent": true,
