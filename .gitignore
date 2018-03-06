@@ -1,4 +1,5 @@
 .idea
+*.iml
 /vendor/
 /web/bundles/concertopanel/
 /nbproject/
