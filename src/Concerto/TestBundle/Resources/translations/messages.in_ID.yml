@@ -1,0 +1,15 @@
+session.resuming: Melanjutkan Tes
+session.resuming.question: Tampaknya Anda sudah memulai Tes, namun belum menyelesaikannya. Pilih 'OK' untuk kembali melanjutkan, atau beri tanda di kotak berikut untuk memulai Tes dari awal.
+session.resuming.start_new_checkbox_label: Memulai ulang Tes
+OK: OK
+ignition.noscript: Mesin Perambah (browser) Anda tidak mendukung javascript. Mohon sesuaikan pengaturannya agar mengijinkan javascript lalu refresh mesin penjelajah Anda.
+ignition.ip: "IP:"
+ignition.browser: "Mesin Penjelajah:"
+ignition.time: "Waktu:"
+ignition.browser.notsupported: Versi Mesin Perambah Anda tidak sesuai untuk Tes ini. Silakan perbaharui ke versi terkini atau gunakan alternatif lain seperti Chrome atau Firefox.
+ignition.browser.potentionallynotsupported: Jika pesan ini tidak hilang sendiri setelah beberapa waktu, Anda harus menggunakan Mesin Perambah lain.
+default.template:
+    error: Ada kesalahan. Eksekusi program terhambat.
+    finished: Test Anda sudah selesai.
+    loading: Mohon menunggu...
+    unresumable: Tes Anda terlalu lama tidak dikerjakan. Silakan refresh mesin perambah Anda untuk melanjutkan/memulai ulang.
