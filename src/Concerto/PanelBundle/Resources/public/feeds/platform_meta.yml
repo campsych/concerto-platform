@@ -9,6 +9,7 @@ changelog:
                 - fixed R code autocompletion inside ports and connections on flow
                 - fixed flow test branch variables from start node
                 - context menu on unselected node now properly clears current node selection
+                - test error logs are now shown properly
           - label: Non backwards compatible
             changes:
                 - fixed flow test branch variables from start node (connection from start node might be missing from current tests)

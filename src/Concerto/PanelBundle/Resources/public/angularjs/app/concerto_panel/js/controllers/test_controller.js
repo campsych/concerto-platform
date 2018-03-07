@@ -101,6 +101,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
   $scope.params = [];
   $scope.returns = [];
   $scope.branches = [];
+  $scope.logs = [];
 
   $scope.varsSectionCollapsed = true;
 
@@ -143,7 +144,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     enableGridMenu: true,
     exporterMenuCsv: false,
     exporterMenuPdf: false,
-    data: "object.logs",
+    data: "logs",
     exporterCsvFilename: 'export.csv',
     showGridFooter: true,
     gridMenuCustomItems: [
@@ -637,6 +638,17 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
   $scope.resetObject();
   $scope.initializeColumnDefs();
+
+  $scope.$watchCollection("object.logs", function () {
+    if ($scope.logsGridApi)
+      $scope.logsGridApi.selection.clearSelectedRows();
+
+    if ($scope.object.logs != null) {
+      $scope.logs = $scope.object.logs;
+    } else {
+      $scope.logs = [];
+    }
+  });
 
   $scope.$watchCollection("object.variables", function () {
     if ($scope.paramsGridApi)
