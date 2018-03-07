@@ -177,6 +177,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       };
 
       scope.onNodeCtxOpened = function ($event, nodeId) {
+        if (scope.selectedNodeIds.indexOf(nodeId) === -1) {
+          scope.clearNodeSelection();
+        }
+
         scope.setLastActiveNodeId(nodeId);
         for (var i = 0; i < scope.object.nodes.length; i++) {
           var node = scope.object.nodes[i];
