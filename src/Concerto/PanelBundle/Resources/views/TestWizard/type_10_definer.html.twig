@@ -1,4 +1,5 @@
 <script type="text/ng-template" id="type_10_definer.html">
+    <div ng-controller="WizardParamDefiner10Controller">
     {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
         {% trans_default_domain "TestWizard" %}
         {% block definition %}
@@ -12,11 +13,11 @@
                         {% block label %}{{ 'param.form.field.type'|trans }}{% endblock%}
                         {% block tooltip %}{{ 'param.form.field.type.tooltip'|trans }}{% endblock%}
                         {% block control %}
-                            <select ng-model="param.definition.element.type" ng-options="type.id as type.label for type in typesCollection" style="width:100%;" class='form-control'>
+                            <select ng-model="param.definition.element.type" ng-options="type.id as type.label for type in typesCollection | orderBy:'label'" style="width:100%;" class='form-control'>
                             </select>
                         {% endblock %}
                     {% endembed %}
-                        
+
                     {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                         {% trans_default_domain "TestWizard" %}
                         {% block row %}<tr ng-if="typesCollection[param.definition.element.type].definer">{% endblock %}
@@ -28,7 +29,8 @@
                         {% endblock %}
                     {% endembed %}
                 {% endblock %}
-            {% endembed %} 
+            {% endembed %}
         {% endblock %}
     {% endembed %}
+    </div>
 </script>

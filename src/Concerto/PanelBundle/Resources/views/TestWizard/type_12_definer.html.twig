@@ -1,30 +1,39 @@
 <script type="text/ng-template" id="type_12_definer.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block definition %}
-            {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+    <div ng-controller="WizardParamDefiner12Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
             {% trans_default_domain "TestWizard" %}
-            {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
-            {% block legend_tooltip %}{{ 'param.definer.titles.column_map.tooltip'|trans }}{% endblock %}
-                    
-            {% block elements %}
-                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+            {% block definition %}
+                {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
                     {% trans_default_domain "TestWizard" %}
-                    {% block label %}{{ 'param.definer.column_map.columns'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'param.definer.column_map.columns.tooltip'|trans }}{% endblock%}
-                    {% block control %}
-                        <div class="center">
-                            <button class="btn btn-success btn-sm" ng-click="addColumn()">{{ 'param.definer.column_map.column.add'|trans }}</button>
-                            <button class="btn btn-danger btn-sm" ng-click="deleteSelectedColumns()">{{ 'param.definer.column_map.column.remove.selected'|trans }}</button>
-                            <button class="btn btn-danger btn-sm" ng-click="deleteAllColumns()">{{ 'param.definer.column_map.column.remove.all'|trans }}</button>
-                            <button ng-click="gridService.downloadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
-                            <button ng-click="gridService.uploadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
-                        </div>
-                        <div ui-grid="colMapOptions" ui-grid-edit ui-grid-row-edit ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-importer ui-grid-selection ui-grid-move-columns class="grid"></div>
+                    {% block legend %}{% verbatim %}{{ testWizardParamService.getDefinerTitle(param) }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.definer.titles.column_map.tooltip'|trans }}{% endblock %}
+
+                    {% block elements %}
+                        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                            {% trans_default_domain "TestWizard" %}
+                            {% block label %}{{ 'param.definer.column_map.columns'|trans }}{% endblock %}
+                            {% block tooltip %}{{ 'param.definer.column_map.columns.tooltip'|trans }}{% endblock %}
+                            {% block control %}
+                                <div class="center">
+                                    <button class="btn btn-success btn-sm"
+                                            ng-click="addColumn()">{{ 'param.definer.column_map.column.add'|trans }}</button>
+                                    <button class="btn btn-danger btn-sm"
+                                            ng-click="deleteSelectedColumns()">{{ 'param.definer.column_map.column.remove.selected'|trans }}</button>
+                                    <button class="btn btn-danger btn-sm"
+                                            ng-click="deleteAllColumns()">{{ 'param.definer.column_map.column.remove.all'|trans }}</button>
+                                    <button ng-click="gridService.downloadList(selectGridApi);"
+                                            class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                                    <button ng-click="gridService.uploadList(selectGridApi);"
+                                            class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                                </div>
+                                <div ui-grid="colMapOptions" ui-grid-edit ui-grid-row-edit ui-grid-auto-resize
+                                     ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-importer
+                                     ui-grid-selection ui-grid-move-columns class="grid"></div>
+                            {% endblock %}
+                        {% endembed %}
                     {% endblock %}
                 {% endembed %}
             {% endblock %}
-        {% endembed %}            
-    {% endblock %}
-{% endembed %}
+        {% endembed %}
+    </div>
 </script>

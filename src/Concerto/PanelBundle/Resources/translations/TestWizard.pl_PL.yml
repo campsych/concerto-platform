@@ -102,6 +102,7 @@ param:
             type.group: Grupa
             type.list: Lista
             type.column_map: Mapa kolumn tabeli danych
+            type.wizard: Kreator testu
             hide_condition: Warunek ukrycia
             hide_condition.tooltip: 'Warunek ukrycia. Używa składni javascript. Obecny obiekt kolekcji wartości parametrów to: <strong>values</strong>. Aby użyć parametr nadrzędny do obecnego parametru, użyj <strong>parent</strong>. Przykład: <strong>values.param1.subparam3 != "1"</strong>'
             setter.icon.tooltip: Uruchom dialog ustawiający wartość
@@ -155,6 +156,8 @@ param:
             r_code.tooltip: Domyślna wartość parametru
             column_map: "{0} - zdefiniuj wymagane komulny"
             column_map.tooltip: Mapa kolumn
+            wizard: "{0} - wypełnij kreator testu"
+            wizard.tooltip: Kreator testu
         summaries:
             select: "Ilość opcji: {0}"
             group: "Ilość pól: {0}"
@@ -205,6 +208,8 @@ param:
             r.tooltip: Kod R
             column_map: "{0} - mapa kolumn"
             column_map.tooltip: Mapa kolumn
+            wizard: "{0} - kreator testu"
+            wizard.tooltip: Kreator testu
         summaries:
             textarea: "{0}"
             html: "{0}"

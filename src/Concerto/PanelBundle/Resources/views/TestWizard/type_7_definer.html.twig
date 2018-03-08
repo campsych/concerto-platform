@@ -1,8 +1,10 @@
 <script type="text/ng-template" id="type_7_definer.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block definition %}
-            
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamDefiner7Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block definition %}
+
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>

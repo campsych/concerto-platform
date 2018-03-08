@@ -1,18 +1,22 @@
 <script type="text/ng-template" id="type_5_definer.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block definition %}
-            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
-                {% trans_default_domain "TestWizard" %}
-                {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
-                {% block legend_tooltip %}{{ 'param.definer.titles.template.tooltip'|trans }}{% endblock %}
-                {% block control %}
-                    <select ng-model="param.definition.defvalue" ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable" class='form-control'
-                        ng-options="template.name as template.name for template in viewTemplateCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
-                        <option value="">{{"none.choosen"|trans({},"panel")}}</option>
-                    </select>
-                {% endblock %}
-            {% endembed %} 
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamDefiner5Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block definition %}
+                {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                    {% trans_default_domain "TestWizard" %}
+                    {% block legend %}{% verbatim %}{{ testWizardParamService.getDefinerTitle(param) }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.definer.titles.template.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <select ng-model="param.definition.defvalue"
+                                ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"
+                                class='form-control'
+                                ng-options="template.name as template.name for template in viewTemplateCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
+                            <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                        </select>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>

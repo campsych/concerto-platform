@@ -102,6 +102,7 @@ param:
             type.group: Group
             type.list: List
             type.column_map: Data table column map
+            type.wizard: Test wizard
             hide_condition: Hide condition
             hide_condition.tooltip: 'Hide condition. Uses javascript syntax. Current parameters values collection object is called <strong>values</strong>. To access current parameter parent scope use <strong>parent</strong>. Example: <strong>values.param1.subparam3 != "1"</strong>'
             setter.icon.tooltip: Launch setter dialog
@@ -155,6 +156,8 @@ param:
             r_code.tooltip: Parameter default value
             column_map: "{0} - define required columns"
             column_map.tooltip: Column map
+            wizard: "{0} - fill in test wizard"
+            wizard.tooltip: Test wizard
         summaries:
             select: "Options count: {0}"
             group: "Fields count: {0}"
@@ -205,6 +208,8 @@ param:
             r.tooltip: R code
             column_map: "{0} - column map"
             column_map.tooltip: Column map
+            wizard: "{0} - test wizard"
+            wizard.tooltip: Test wizard
         summaries:
             textarea: "{0}"
             html: "{0}"

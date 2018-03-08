@@ -1,16 +1,20 @@
 <script type="text/ng-template" id="type_11_definer.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block definition %}
-            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
-                {% trans_default_domain "TestWizard" %}
-                {% block legend %}{%verbatim%}{{testWizardParamService.getDefinerTitle(param)}}{%endverbatim%}{% endblock %}
-                {% block legend_tooltip %}{{ 'param.definer.titles.r_code.tooltip'|trans }}{% endblock %}
-                {% block control %}
-                    {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
-                    <ui-codemirror ng-model="param.definition.defvalue" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"></ui-codemirror>
-                {% endblock %}
-            {% endembed %} 
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamDefiner11Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block definition %}
+                {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                    {% trans_default_domain "TestWizard" %}
+                    {% block legend %}{% verbatim %}{{ testWizardParamService.getDefinerTitle(param) }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.definer.titles.r_code.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
+                        <ui-codemirror ng-model="param.definition.defvalue" ui-codemirror-opts="codeEditorOptions"
+                                       ui-refresh='codemirrorForceRefresh'
+                                       ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"></ui-codemirror>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>
