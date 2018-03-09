@@ -1,22 +1,30 @@
 <script type="text/ng-template" id="type_10_setter.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block setter %}
-            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
-                {% trans_default_domain "TestWizard" %}
-                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
-                {% block legend_tooltip %}{{ 'param.setter.titles.list.tooltip'|trans }}{% endblock %}
-                {% block control %}
-                    <div class="center">
-                        <button class="btn btn-success btn-sm" ng-click="addElement()">{{ 'param.setter.list.element.add'|trans }}</button>
-                        <button class="btn btn-danger btn-sm" ng-click="removeSelectedElements()">{{ 'param.setter.list.element.remove.selected'|trans }}</button>
-                        <button class="btn btn-danger btn-sm" ng-click="removeAllElements()">{{ 'param.setter.list.element.remove.all'|trans }}</button>
-                        <button ng-click="gridService.downloadList(listGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
-                        <button ng-click="gridService.uploadList(listGridApi);" class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
-                    </div>
-                    <div ui-grid="listOptions" ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns ui-grid-importer class="grid"></div>
-                {% endblock %}
-            {% endembed %}    
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamSetter10Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block setter %}
+                {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                    {% trans_default_domain "TestWizard" %}
+                    {% block legend %}{% verbatim %}{{ title }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.setter.titles.list.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <div class="center">
+                            <button class="btn btn-success btn-sm"
+                                    ng-click="addElement()">{{ 'param.setter.list.element.add'|trans }}</button>
+                            <button class="btn btn-danger btn-sm"
+                                    ng-click="removeSelectedElements()">{{ 'param.setter.list.element.remove.selected'|trans }}</button>
+                            <button class="btn btn-danger btn-sm"
+                                    ng-click="removeAllElements()">{{ 'param.setter.list.element.remove.all'|trans }}</button>
+                            <button ng-click="gridService.downloadList(listGridApi);"
+                                    class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                            <button ng-click="gridService.uploadList(listGridApi);"
+                                    class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                        </div>
+                        <div ui-grid="listOptions" ui-grid-resize-columns ui-grid-exporter ui-grid-selection
+                             ui-grid-move-columns ui-grid-importer class="grid"></div>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>

@@ -1,16 +1,20 @@
 <script type="text/ng-template" id="type_11_setter.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block setter %}
-            {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
-                {% trans_default_domain "TestWizard" %}
-                {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
-                {% block legend_tooltip %}{{ 'param.setter.titles.r.tooltip'|trans }}{% endblock %}
-                {% block control %}
-                    {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
-                    <ui-codemirror ng-model="output" ui-codemirror-opts="codeEditorOptions" ui-refresh='codemirrorForceRefresh' ng-change="onPrimitiveValueChange(output)"></ui-codemirror>
-                {% endblock %}
-            {% endembed %}    
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamSetter11Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block setter %}
+                {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                    {% trans_default_domain "TestWizard" %}
+                    {% block legend %}{% verbatim %}{{ title }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.setter.titles.r.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
+                        <ui-codemirror ng-model="output" ui-codemirror-opts="codeEditorOptions"
+                                       ui-refresh='codemirrorForceRefresh'
+                                       ng-change="onPrimitiveValueChange(output)"></ui-codemirror>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>

@@ -1,5 +1,5 @@
 /**
- * HTML
+ * Select
  *
  * @param $scope
  * @constructor

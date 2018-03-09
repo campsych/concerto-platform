@@ -1,8 +1,12 @@
 <script type="text/ng-template" id="type_0_setter.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block setter %}
-            <input type="text" ng-model="output" ng-trim="false" ng-change="onPrimitiveValueChange(output)" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable" />
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamSetter0Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block setter %}
+                <input type="text" ng-model="output" ng-trim="false" ng-change="onPrimitiveValueChange(output)"
+                       class='form-control' ng-model-options='{ updateOn: "blur" }'
+                       ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable" />
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>

@@ -1,11 +1,15 @@
 <script type="text/ng-template" id="type_8_setter.html">
-    {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
-        {% trans_default_domain "TestWizard" %}
-        {% block setter %}
-            <select ng-model="output" ng-change="onPrimitiveValueChange(output)" ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable" class='form-control'
-                ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
-                <option value="">{{"none.choosen"|trans({},"panel")}}</option>
-            </select>
-        {% endblock %}
-    {% endembed %}
+    <div ng-controller="WizardParamSetter8Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block setter %}
+                <select ng-model="output" ng-change="onPrimitiveValueChange(output)"
+                        ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"
+                        class='form-control'
+                        ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
+                    <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                </select>
+            {% endblock %}
+        {% endembed %}
+    </div>
 </script>
