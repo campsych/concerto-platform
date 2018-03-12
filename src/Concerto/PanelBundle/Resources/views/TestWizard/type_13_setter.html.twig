@@ -1,0 +1,43 @@
+<script type="text/ng-template" id="type_13_setter.html">
+    <div ng-controller="WizardParamSetter13Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_setter.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block setter %}
+                {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                    {% trans_default_domain "TestWizard" %}
+                    {% block legend %}{% verbatim %}{{ title }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.setter.titles.wizard.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <uib-alert type="warning" ng-if="object.steps == 0">
+                            <i class="glyphicon glyphicon-exclamation-sign"></i>
+                            {{ 'alerts.no_steps'|trans }}
+                        </uib-alert>
+
+                        <uib-tabset ng-if="object.steps != 0">
+                            <uib-tab ng-repeat="step in object.steps">
+                                <uib-tab-heading>{% verbatim %}{{ step.title }}{% endverbatim %}</uib-tab-heading>
+                                <div ng-controller="TestWizardCarouselStepController">
+                                    <div class="bs-callout bs-callout-info" align="left">
+                                        <h3 ng-bind="step.title"></h3>
+                                        <p ng-bind-html="step.description | trustedHtml"></p>
+                                    </div>
+                                    <uib-alert type="warning" ng-if="step.params == 0">
+                                        <i class="glyphicon glyphicon-exclamation-sign"></i>
+                                        {{ 'alerts.no_params'|trans }}
+                                    </uib-alert>
+                                    <div ng-repeat="param in step.params | orderBy: 'order' track by $index">
+                                        <wizard-param-setter param="param" parent="output" output="output[param.name]"
+                                                             mode="outer"
+                                                             wizard-mode="prod" values="values"
+                                                             wizard-object="object"
+                                                             under-list="false"></wizard-param-setter>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
+</script>

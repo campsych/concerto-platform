@@ -300,7 +300,7 @@ class TestWizardParamService extends ASectionService
                     $var->setValue($val);
                     $this->testVariableService->update($user, $var, $flush);
 
-                    ///
+                    // ports update
 
                     $nodes = $var->getTest()->getSourceForNodes();
                     foreach ($nodes as $node) {

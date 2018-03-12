@@ -1,0 +1,22 @@
+<script type="text/ng-template" id="type_13_definer.html">
+    <div ng-controller="WizardParamDefiner13Controller">
+        {% embed "ConcertoPanelBundle:TestWizard:type_base_definer.html.twig" %}
+            {% trans_default_domain "TestWizard" %}
+            {% block definition %}
+                {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+                    {% trans_default_domain "TestWizard" %}
+                    {% block legend %}{% verbatim %}{{ testWizardParamService.getDefinerTitle(param) }}{% endverbatim %}{% endblock %}
+                    {% block legend_tooltip %}{{ 'param.definer.titles.wizard.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <select ng-model="param.definition.test"
+                                ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"
+                                class='form-control'
+                                ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1','type':1} | orderBy: 'name'">
+                            <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                        </select>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
+</script>

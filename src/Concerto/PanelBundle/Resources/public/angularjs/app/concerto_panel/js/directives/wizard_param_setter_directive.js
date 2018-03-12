@@ -13,7 +13,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
       scope.testWizardParamService = TestWizardParam;
       scope.mode = "dialog";
       scope.wizardMode = "prod";
-      scope.complexSetters = [1, 2, 7, 9, 10, 11, 12];
+      scope.complexSetters = [1, 2, 7, 9, 10, 11, 12, 13];
       scope.isSetterComplex = false;
       scope.title = "";
       scope.summary = "";
