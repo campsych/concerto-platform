@@ -617,7 +617,7 @@ class TestSessionService
 
     private function submitToTestNode($test_node, $test_node_port, $panel_node, $panel_node_port, $client_ip, $client_browser, $values, $code = self::RESPONSE_SUBMIT)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $panel_node_port, $client_ip, $client_browser, $values");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . $test_node["sock_host"] . ", $test_node_port, " . $panel_node["sock_host"] . ", $panel_node_port, $client_ip, $client_browser, $values");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
@@ -637,7 +637,7 @@ class TestSessionService
 
     private function keepAliveTestNode($test_node, $test_node_port, $panel_node, $client_ip)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $client_ip");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . $test_node["sock_host"] . ", $test_node_port, " . $panel_node["sock_host"] . ", $client_ip");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
@@ -656,7 +656,7 @@ class TestSessionService
 
     private function killTestNode($test_node, $test_node_port, $panel_node, $client_ip)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . json_encode($test_node) . ", $test_node_port, " . json_encode($panel_node) . ", $client_ip");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - " . $test_node["sock_host"] . ", $test_node_port, " . $panel_node["sock_host"] . ", $client_ip");
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             return false;
         }
@@ -695,7 +695,7 @@ class TestSessionService
 
     private function initiateTestNode($session_hash, $panel_node, $panel_node_port, $test_node, $client_ip, $client_browser, $debug, $values = null)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, " . json_encode($panel_node) . ", " . json_encode($test_node) . ", $client_ip, $client_browser, $debug, $values");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $panel_node_port, $client_ip, $client_browser, $debug, $values");
 
         if ($test_node["local"] != "true") {
             $web_host = $test_node["web_host"];
@@ -720,32 +720,28 @@ class TestSessionService
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
         $response = "";
-        do {
-            $client_sock = @socket_accept($sock);
-            if ($client_sock === false) {
-                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_accept() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
-                break;
-            }
+
+        $client_sock = @socket_accept($sock);
+        if ($client_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_accept() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
+        } else {
             do {
                 $buf = socket_read($client_sock, 8388608, PHP_NORMAL_READ);
                 if ($buf === false) {
                     $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_read() failed, " . socket_strerror(socket_last_error($client_sock)) . ", $session_hash");
-                    break 2;
+                    break;
                 }
                 $buf = trim($buf);
-                $this->logger->info($buf);
                 if (!$buf) {
-                    usleep(10000);
                     continue;
                 }
 
                 $response .= $buf;
-                socket_close($client_sock);
-                break 2;
-            } while (true);
+                break;
+            } while (usleep(100 * 1000) || true);
             socket_close($client_sock);
-            usleep(10000);
-        } while (true);
+        }
+
         socket_close($sock);
 
         return json_decode($response, true);

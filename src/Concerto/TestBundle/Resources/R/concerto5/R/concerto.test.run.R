@@ -1,15 +1,8 @@
 concerto.test.run <-
 function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
-    test <- concerto.test.get(testId)
-    if (dim(test)[1] == 0) stop(paste("Test #", testId, " not found!", sep = ''))
-
+    test <- concerto.test.get(testId, T)
+    if (is.null(test)) stop(paste("Test #", testId, " not found!", sep = ''))
     concerto.log(paste0("running test #", test$id, ": ", test$name, " ..."))
-
-    test <- as.list(test)
-    test$variables <- concerto5:::concerto.test.getVariables(test$id)
-    test$nodes <- concerto5:::concerto.test.getNodes(test$id)
-    test$connections <- concerto5:::concerto.test.getConnections(test$id)
-    test$ports <- concerto5:::concerto.test.getPorts(test$id)
 
     r <- list()
     testenv = new.env()
@@ -52,10 +45,8 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                 if (test$variables[i, "type"] != 1) { next}
                 if (exists(test$variables[i, "name"], envir = testenv)) {
                     r[[test$variables[i, "name"]]] <- get(test$variables[i, "name"], envir = testenv)
-                } else {
-                    if (!is.null(test$variables[i, "value"])) {
-                        r[[test$variables[i, "name"]]] <- test$variables[i, "value"]
-                    }
+                } else if (!is.null(test$variables[i, "value"])) {
+                    r[[test$variables[i, "name"]]] <- test$variables[i, "value"]
                 }
             }
         }
@@ -94,7 +85,6 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                                     runNode(source_node)
                                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                                 }
-
                                 break
                             }
                         }

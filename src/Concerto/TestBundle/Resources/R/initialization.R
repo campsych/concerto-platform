@@ -43,6 +43,7 @@ STATUS_FINALIZED = 2
 STATUS_ERROR = 3
 
 concerto <- list()
+concerto$cache <- list(tests=list(), templates=list(), tables=list())
 concerto$promoted <- list()
 concerto$templateParams <- list()
 
@@ -73,6 +74,7 @@ concerto$session$status <- STATUS_RUNNING
 concerto$session$params <- fromJSON(concerto$session$params)
 
 concerto$flow <- list()
+concerto$cache <- list(tables=list(), templates=list(), tests=list())
 
 returns <<- list()
 tryCatch({

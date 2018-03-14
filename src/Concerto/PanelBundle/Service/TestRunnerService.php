@@ -25,7 +25,6 @@ class TestRunnerService {
     public function startNewSession($test_slug, $test_name, $node_id, $params, $client_ip, $client_browser, $debug) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $node_id, $params, $client_ip, $client_browser, $debug");
 
-        $panel_node = $this->getPanelNodeById($node_id);
         $test_node = $this->loadBalancerService->getOptimalTestNode();
 
         $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $test_name, $params, $client_ip, $client_browser, false, $debug);

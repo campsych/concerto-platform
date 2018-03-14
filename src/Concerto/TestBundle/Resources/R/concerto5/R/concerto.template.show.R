@@ -18,7 +18,7 @@ concerto.template.show = function(
       concerto$session$templateJs <<- ""
     } else {
       template <- concerto.template.get(templateId)
-      if(dim(template)[1]==0) stop(paste("Template #",templateId," not found!",sep=''))
+      if(is.null(template)) stop(paste("Template #",templateId," not found!",sep=''))
       concerto$session$templateHead <<- concerto.template.insertParams(template$head,params,removeMissing=removeMissingParams)
       concerto$session$templateCss <<- concerto.template.insertParams(template$css,params,removeMissing=removeMissingParams)
       concerto$session$templateJs <<- concerto.template.insertParams(template$js,params,removeMissing=removeMissingParams)

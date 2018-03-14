@@ -284,7 +284,6 @@ class StartProcessCommand extends Command
 
         do {
             if (($client_sock = socket_accept($submitter_sock)) === false) {
-                usleep(100 * 1000);
                 continue;
             }
 
@@ -292,7 +291,7 @@ class StartProcessCommand extends Command
 
             socket_write($client_sock, $response . "\n");
             break;
-        } while (true);
+        } while (usleep(100 * 1000) || true);
         $this->log(__FUNCTION__, "submitter ended");
     }
 

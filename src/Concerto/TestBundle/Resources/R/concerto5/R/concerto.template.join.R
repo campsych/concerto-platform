@@ -2,7 +2,7 @@ concerto.template.join = function(html="",css="",js="",templateId=NULL,params=li
   if(!is.list(params)) stop("'params' must be a list!")
   if(!is.null(templateId)) {
     template = concerto.template.get(templateId)
-    if(dim(template)[1]==0) stop(paste("Template #",templateId," not found!",sep=''))
+    if(is.null(template)) stop(paste("Template #",templateId," not found!",sep=''))
     html = template$html
     css = template$css
     js = template$js

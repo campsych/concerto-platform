@@ -13,7 +13,7 @@ function(
     concerto$session$loaderHead <<- concerto.template.insertParams(head,params)
     concerto$session$loaderHtml <<- concerto.template.insertParams(html,params)
   } else {
-    if(dim(template)[1]==0) stop(paste("Template #",workspaceID,":",templateId," not found!",sep=''))
+    if(is.null(template)) stop(paste("Template #",workspaceID,":",templateId," not found!",sep=''))
     concerto$session$loaderHead <<- concerto.template.insertParams(template$head,params)
     concerto$session$loaderCss <<- concerto.template.insertParams(template$css,params)
     concerto$session$loaderJs <<- concerto.template.insertParams(template$js,params)
