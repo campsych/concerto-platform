@@ -2,7 +2,7 @@ concerto.server.listen = function(){
     concerto.log("listening to server...")
 
     dbDisconnect(concerto$connection)
-    closeAllConnections()
+    #closeAllConnections()
     concerto.log("connections closed")
 
     concerto.log(paste0("waiting for response from ", concerto$submitter.host, ":", concerto$submitter.port))
@@ -16,17 +16,14 @@ concerto.server.listen = function(){
     concerto.log("received response")
     concerto.log(response)
 
-    connection <- fromJSON(commandArgs(TRUE)[1])
-    concerto$connection <<- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
-    rm(connection)
+    concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
 
     if (response$code == RESPONSE_STOP) {
         concerto$session$status <<- STATUS_STOPPED
         concerto5:::concerto.session.update()
         dbDisconnect(concerto$connection)
         concerto.log("stopped")
-        concerto5:::concerto.server.respond(RESPONSE_STOPPED)
-        stop("stopped")
+        q("no")
     }
 
     concerto.log("listened to server")

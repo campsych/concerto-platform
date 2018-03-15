@@ -43,7 +43,7 @@ class TestSessionCountService {
         if ($this->getOS() !== RRunnerService::OS_LINUX)
             return false;
 
-        $count = exec("ps -F -C R --width 500 | grep '/Resources/R/initialization.R ' | wc -l", $arr, $retVal);
+        $count = exec("ps -F -C R --width 500 | grep '/Resources/R/standalone.R ' | wc -l", $arr, $retVal);
         if ($retVal === 0) {
             return (int) $count;
         }

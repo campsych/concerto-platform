@@ -143,6 +143,22 @@ class StartProcessCommand extends Command
         return $sock;
     }
 
+    private function createChildProcessResponseSocket()
+    {
+        $this->log(__FUNCTION__);
+
+        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
+            $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
+            return false;
+        }
+        if (socket_connect($sock, gethostbyname("localhost"), 9099) === false) {
+            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
+            socket_close($sock);
+            return false;
+        }
+        return $sock;
+    }
+
     private function startListener($server_sock, $submitter_sock)
     {
         $this->log(__FUNCTION__);
@@ -212,12 +228,14 @@ class StartProcessCommand extends Command
 
         $msg = json_decode($message);
         switch ($msg->source) {
-            case self::SOURCE_PROCESS: {
-                return $this->interpretProcessMessage($message);
-            }
-            case self::SOURCE_PANEL_NODE: {
-                return $this->interpretPanelNodeMessage($submitter_sock, $message);
-            }
+            case self::SOURCE_PROCESS:
+                {
+                    return $this->interpretProcessMessage($message);
+                }
+            case self::SOURCE_PANEL_NODE:
+                {
+                    return $this->interpretPanelNodeMessage($submitter_sock, $message);
+                }
         }
     }
 
@@ -227,27 +245,31 @@ class StartProcessCommand extends Command
 
         $msg = json_decode($message);
         switch ($msg->code) {
-            case self::RESPONSE_SUBMIT: {
-                $this->panelNode = $msg->panelNode;
-                $this->lastClientTime = time();
-                $this->lastKeepAliveTime = time();
-                $this->respondToProcess($submitter_sock, $message);
-                return false;
-            }
-            case self::RESPONSE_WORKER: {
-                $this->panelNode = $msg->panelNode;
-                $this->lastKeepAliveTime = time();
-                $this->respondToProcess($submitter_sock, $message);
-                return false;
-            }
-            case self::RESPONSE_KEEPALIVE_CHECKIN: {
-                $this->lastKeepAliveTime = time();
-                return false;
-            }
-            case self::RESPONSE_STOP: {
-                $this->stopProcess($submitter_sock);
-                return true;
-            }
+            case self::RESPONSE_SUBMIT:
+                {
+                    $this->panelNode = $msg->panelNode;
+                    $this->lastClientTime = time();
+                    $this->lastKeepAliveTime = time();
+                    $this->respondToProcess($submitter_sock, $message);
+                    return false;
+                }
+            case self::RESPONSE_WORKER:
+                {
+                    $this->panelNode = $msg->panelNode;
+                    $this->lastKeepAliveTime = time();
+                    $this->respondToProcess($submitter_sock, $message);
+                    return false;
+                }
+            case self::RESPONSE_KEEPALIVE_CHECKIN:
+                {
+                    $this->lastKeepAliveTime = time();
+                    return false;
+                }
+            case self::RESPONSE_STOP:
+                {
+                    $this->stopProcess($submitter_sock);
+                    return true;
+                }
         }
     }
 
@@ -257,24 +279,28 @@ class StartProcessCommand extends Command
 
         $msg = json_decode($message, true);
         switch ($msg["code"]) {
-            case self::RESPONSE_VIEW_TEMPLATE: {
-                if(!$this->respondToPanelNode($message)) return true;
-                return false;
-            }
-            case self::RESPONSE_WORKER: {
-                if(!$this->respondToPanelNode($message)) return true;
-                return false;
-            }
+            case self::RESPONSE_VIEW_TEMPLATE:
+                {
+                    if (!$this->respondToPanelNode($message)) return true;
+                    return false;
+                }
+            case self::RESPONSE_WORKER:
+                {
+                    if (!$this->respondToPanelNode($message)) return true;
+                    return false;
+                }
             case self::RESPONSE_UNRESUMABLE:
             case self::RESPONSE_ERROR:
             case self::RESPONSE_FINISHED:
-            case self::RESPONSE_VIEW_FINAL_TEMPLATE: {
-                $this->respondToPanelNode($message);
-                return true;
-            }
-            case self::RESPONSE_STOPPED: {
-                return true;
-            }
+            case self::RESPONSE_VIEW_FINAL_TEMPLATE:
+                {
+                    $this->respondToPanelNode($message);
+                    return true;
+                }
+            case self::RESPONSE_STOPPED:
+                {
+                    return true;
+                }
         }
     }
 
@@ -306,7 +332,7 @@ class StartProcessCommand extends Command
         $this->log(__FUNCTION__, $response);
 
         $resp_sock = $this->createPanelNodeResponseSocket();
-        if($resp_sock) {
+        if ($resp_sock) {
             socket_write($resp_sock, $response . "\n");
             socket_close($resp_sock);
             return true;
@@ -429,7 +455,7 @@ class StartProcessCommand extends Command
         $test_node = json_encode($decoded_test_node);
 
         $submitter_sock = $this->createListenerSocket();
-        if($submitter_sock === false) {
+        if ($submitter_sock === false) {
             socket_close($test_node_sock);
             $this->log(__FUNCTION__, "creating listener socket for submitter failed; prematurely closing process");
             return 1;
@@ -438,6 +464,18 @@ class StartProcessCommand extends Command
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
+        //@TODO values possibly not needed to be passed here
+        //$this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+
+        $this->startListener($test_node_sock, $submitter_sock);
+        socket_close($submitter_sock);
+        socket_close($test_node_sock);
+        $this->log(__FUNCTION__, "closing process");
+    }
+
+    protected function standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    {
         $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
 
         $this->log(__FUNCTION__, $cmd);
@@ -451,10 +489,27 @@ class StartProcessCommand extends Command
             $process->setEnv($env);
         }
         $process->mustRun();
-        $this->startListener($test_node_sock, $submitter_sock);
-        socket_close($submitter_sock);
-        socket_close($test_node_sock);
-        $this->log(__FUNCTION__, "closing process");
     }
 
+    protected function childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    {
+        $response = json_encode(array(
+            "workingDir" => $wd,
+            "publicDir" => $pd,
+            "mediaUrl" => $murl,
+            "maxExecTime" => $max_exec_time,
+            "testNode" => json_decode($test_node, true),
+            "client" => json_decode($client, true),
+            "submitter" => json_decode($submitter, true),
+            "connection" => json_decode($panel_node_connection, true),
+            "sessionId" => $test_session_id,
+            "rLogPath" => $this->rLogPath
+        ));
+
+        $sock = $this->createChildProcessResponseSocket();
+        if ($sock) {
+            socket_write($sock, $response . "\n");
+            socket_close($sock);
+        }
+    }
 }

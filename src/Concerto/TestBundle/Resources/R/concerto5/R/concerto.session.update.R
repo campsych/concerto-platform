@@ -34,7 +34,7 @@ concerto.session.update = function(returns=list()){
   dbEscapeStrings(concerto$connection, toString(concerto$session$loaderJs)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$loaderHtml)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$timeLimit)),
-  dbEscapeStrings(concerto$connection, toString(concerto$test_node$port)),
+  dbEscapeStrings(concerto$connection, toString(concerto$testNode$port)),
   dbEscapeStrings(concerto$connection, toString(toJSON(returns))),
   dbEscapeStrings(concerto$connection, toString(concerto$session$error)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$id)))

@@ -52,21 +52,20 @@ concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Y
 #DEFAULTS END
 
 concerto$workingDir <- commandArgs(TRUE)[6]
-concerto$sessionFile <- paste0(concerto$workingDir,"session.Rs")
 concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
 concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[9])
-
-concerto$test_node <- fromJSON(commandArgs(TRUE)[2])
+concerto$testNode <- fromJSON(commandArgs(TRUE)[2])
 concerto$client <- fromJSON(commandArgs(TRUE)[4])
 submitter <- fromJSON(commandArgs(TRUE)[3])
+concerto$connectionParams <- fromJSON(commandArgs(TRUE)[1])
+
+concerto$sessionFile <- paste0(concerto$workingDir,"session.Rs")
 concerto$submitter.host <- submitter$host
 concerto$submitter.port <- submitter$port
+rm(submitter)
 
-connection <- fromJSON(commandArgs(TRUE)[1])
-concerto$connection <- concerto5:::concerto.db.connect(connection$driver, connection$username, connection$password, connection$dbname, connection$host, connection$unix_socket, connection$port)
-concerto$driver <- connection$driver
-rm(connection)
+concerto$connection <- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
 
 concerto$session <- as.list(concerto5:::concerto.session.get(commandArgs(TRUE)[5]))
 concerto$session$previousStatus <- concerto$session$status
@@ -82,6 +81,11 @@ tryCatch({
     setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
     returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
+    if(concerto$session$status == STATUS_FINALIZED){
+        concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
+    } else if(concerto$session$status == STATUS_RUNNING){
+        concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
+    }
 }, error = function(e) {
     if(concerto$session$status == STATUS_RUNNING){
         concerto.log(e)
@@ -93,12 +97,7 @@ tryCatch({
         concerto$session$error <<- e
         concerto$session$status <<- STATUS_ERROR
         concerto5:::concerto.session.update()
-        stop("Error executing test logic.")
+        q("no",1)
     }
 })
-
-if(concerto$session$status == STATUS_FINALIZED){
-    concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
-} else if(concerto$session$status == STATUS_RUNNING){
-    concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
-}
+q("no")

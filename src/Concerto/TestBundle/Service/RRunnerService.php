@@ -114,7 +114,7 @@ class RRunnerService
 
     public function getIniFilePath()
     {
-        return $this->root . "/../src/Concerto/TestBundle/Resources/R/initialization.R";
+        return $this->root . "/../src/Concerto/TestBundle/Resources/R/standalone.R";
     }
 
     private function getOutputFilePath($node_id, $session_hash)

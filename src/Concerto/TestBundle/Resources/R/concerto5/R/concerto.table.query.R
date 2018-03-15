@@ -11,7 +11,7 @@ function(sql, params=list(), n=-1){
     result <- dbSendQuery(concerto$connection, sql)
     output <- fetch(result, n=n)
   } else if(toupper(substring(sql, 1, 6)) == "INSERT") {
-    if(concerto$driver == "pdo_sqlsrv") {
+    if(concerto$connection$driver == "pdo_sqlsrv") {
          result <- dbSendQuery(concerto$connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
          output <- fetch(result, n=1)[1,1]
          concerto$sqlsrv_last_insert_id <<- output
