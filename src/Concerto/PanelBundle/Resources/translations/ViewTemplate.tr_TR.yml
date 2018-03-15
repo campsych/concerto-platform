@@ -30,5 +30,9 @@ source:
     field:
         head: Başlık etiketi
         head.tooltip: Görüntü şablonunun başlık etiketi
+        css: CSS
+        css.tooltip: CSS stilleri
+        js: javascript
+        js.tooltip: javascript kodu
         html: HTML body
         html.tooltip:  görüntü şablonununa ait HTML body
