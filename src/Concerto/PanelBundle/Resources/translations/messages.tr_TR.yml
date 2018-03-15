@@ -61,6 +61,7 @@ validate:
             step.null: Test sihirbazı adımları seçilmelidir
         
         steps:
+            unique: Her adım eşsiz olmalıdır
             title.min: Başlık alanı en az 1 karakter içermelidir
             title.max: Başlık alanı en fazla 64 karakter içermelidir
             title.blank: Başlık alanı boş bırakılamaz
@@ -68,4 +69,4 @@ validate:
 errors:
     title: Sistem hataları
     table:
-        column.conversion: Seçili dönüştürme, yapılandırılmış veri tabanıyla uyumlu değildir
+        column.conversion: Seçili dönüştürme, yapılandırılmış veri tabanıyla uyumlu değildir.
