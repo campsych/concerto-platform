@@ -56,7 +56,6 @@ concerto.log("starting listener")
 while (T) {
     concerto.log("waiting for session request")
     con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 60 * 60, open = "r")
-    concerto.log("incoming session request")
     response = readLines(con, warn = FALSE)
     prc = mcparallel({
         response <- fromJSON(response)
@@ -68,8 +67,6 @@ while (T) {
         concerto$client <- response$client
         submitter <- response$submitter
         concerto$connectionParams <- response$connection
-
-        concerto.log("child execution started")
 
         concerto$sessionFile <- paste0(concerto$workingDir, "session.Rs")
         concerto$submitter.host <- submitter$host

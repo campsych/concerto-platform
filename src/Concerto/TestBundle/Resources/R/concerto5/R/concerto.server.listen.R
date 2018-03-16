@@ -2,7 +2,6 @@ concerto.server.listen = function(){
     concerto.log("listening to server...")
 
     dbDisconnect(concerto$connection)
-    #closeAllConnections()
     concerto.log("connections closed")
 
     concerto.log(paste0("waiting for response from ", concerto$submitter.host, ":", concerto$submitter.port))

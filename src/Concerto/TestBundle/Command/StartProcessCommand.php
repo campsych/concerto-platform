@@ -151,7 +151,15 @@ class StartProcessCommand extends Command
             $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
             return false;
         }
-        if (@socket_connect($sock, gethostbyname("localhost"), 9099) === false) {
+
+        $retries = 100; //10 secs
+        while ($retries > 0) {
+            if (@socket_connect($sock, gethostbyname("localhost"), 9099) === false) {
+                $retries--;
+                usleep(100 * 1000);
+            } else break;
+        }
+        if ($retries == 0) {
             $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
             socket_close($sock);
             return false;
@@ -166,7 +174,7 @@ class StartProcessCommand extends Command
         $this->lastClientTime = time();
         $this->lastKeepAliveTime = time();
         do {
-            if($this->checkIdleTimeout($submitter_sock) || $this->checkKeepAliveTimeout($submitter_sock)) {
+            if ($this->checkIdleTimeout($submitter_sock) || $this->checkKeepAliveTimeout($submitter_sock)) {
                 break;
             }
             if (($client_sock = @socket_accept($server_sock)) === false) {
