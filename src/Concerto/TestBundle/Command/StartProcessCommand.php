@@ -151,7 +151,7 @@ class StartProcessCommand extends Command
             $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
             return false;
         }
-        if (socket_connect($sock, gethostbyname("localhost"), 9099) === false) {
+        if (@socket_connect($sock, gethostbyname("localhost"), 9099) === false) {
             $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
             socket_close($sock);
             return false;
@@ -445,6 +445,10 @@ class StartProcessCommand extends Command
 
         $test_node_sock = $this->createListenerSocket();
         if ($test_node_sock === false) {
+            $this->respondToPanelNode(json_encode(array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            )));
             $this->log(__FUNCTION__, "creating listener socket for test node failed; prematurely closing process");
             return 1;
         }
@@ -456,7 +460,12 @@ class StartProcessCommand extends Command
 
         $submitter_sock = $this->createListenerSocket();
         if ($submitter_sock === false) {
+            $this->respondToPanelNode(json_encode(array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            )));
             socket_close($test_node_sock);
+            socket_close($submitter_sock);
             $this->log(__FUNCTION__, "creating listener socket for submitter failed; prematurely closing process");
             return 1;
         }
@@ -465,8 +474,18 @@ class StartProcessCommand extends Command
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
         //@TODO values possibly not needed to be passed here
-        //$this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
-        $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        $success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        //$success = $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        if (!$success) {
+            $this->respondToPanelNode(json_encode(array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            )));
+            socket_close($test_node_sock);
+            socket_close($submitter_sock);
+            $this->log(__FUNCTION__, "creating child process failed; prematurely closing process");
+            return 1;
+        }
 
         $this->startListener($test_node_sock, $submitter_sock);
         socket_close($submitter_sock);
@@ -489,6 +508,7 @@ class StartProcessCommand extends Command
             $process->setEnv($env);
         }
         $process->mustRun();
+        return true;
     }
 
     protected function childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
@@ -507,9 +527,11 @@ class StartProcessCommand extends Command
         ));
 
         $sock = $this->createChildProcessResponseSocket();
-        if ($sock) {
+        if ($sock !== false) {
             socket_write($sock, $response . "\n");
             socket_close($sock);
+            return true;
         }
+        return false;
     }
 }

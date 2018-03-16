@@ -9,5 +9,5 @@ concerto.session.finalize <- function(response = RESPONSE_FINISHED, returns = li
   concerto.log("session finalized")
 
   concerto5:::concerto.server.respond(response)
-  stop("session finalized")
+  q("no")
 }

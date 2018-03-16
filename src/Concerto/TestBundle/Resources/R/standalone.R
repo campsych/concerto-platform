@@ -93,10 +93,10 @@ tryCatch({
         if(e$message == "session unresumable") {
             response = RESPONSE_UNRESUMABLE
         }
-        concerto5:::concerto.server.respond(response)
         concerto$session$error <<- e
         concerto$session$status <<- STATUS_ERROR
         concerto5:::concerto.session.update()
+        concerto5:::concerto.server.respond(response)
         q("no",1)
     }
 })
