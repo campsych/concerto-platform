@@ -58,9 +58,8 @@ while (T) {
     con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 60 * 60, open = "r")
     concerto.log("incoming session request")
     response = readLines(con, warn = FALSE)
-    close(con)
-    response <- fromJSON(response)
     prc = mcparallel({
+        response <- fromJSON(response)
         concerto$workingDir <- response$workingDir
         concerto$publicDir <- response$publicDir
         concerto$mediaUrl <- response$mediaUrl
@@ -116,6 +115,6 @@ while (T) {
 
         q("no")
     }, detached = TRUE)
-    print(concerto$cache)
+    close(con)
 }
 concerto.log("listener closing")

@@ -166,7 +166,9 @@ class StartProcessCommand extends Command
         $this->lastClientTime = time();
         $this->lastKeepAliveTime = time();
         do {
-            $this->checkIdleTimeout($submitter_sock) || $this->checkKeepAliveTimeout($submitter_sock);
+            if($this->checkIdleTimeout($submitter_sock) || $this->checkKeepAliveTimeout($submitter_sock)) {
+                break;
+            }
             if (($client_sock = @socket_accept($server_sock)) === false) {
                 continue;
             }
@@ -474,8 +476,8 @@ class StartProcessCommand extends Command
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
         //@TODO values possibly not needed to be passed here
-        $success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
-        //$success = $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        //$success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        $success = $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
         if (!$success) {
             $this->respondToPanelNode(json_encode(array(
                 "source" => self::SOURCE_TEST_NODE,
