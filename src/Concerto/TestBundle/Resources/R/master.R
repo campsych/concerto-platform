@@ -55,7 +55,7 @@ concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Y
 concerto.log("starting listener")
 while (T) {
     concerto.log("waiting for session request")
-    con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 60 * 60, open = "r")
+    con = fifo("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/master.sock", blocking = TRUE, open = "r")
     response = readLines(con, warn = FALSE)
     prc = mcparallel({
         response <- fromJSON(response)
