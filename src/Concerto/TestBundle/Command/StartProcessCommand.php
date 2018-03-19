@@ -523,14 +523,18 @@ class StartProcessCommand extends Command
             "rLogPath" => $this->rLogPath
         ));
 
-        $con = @fopen("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/master.sock","a");
-        if($con === false) {
+        $con = @fopen("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/master.sock", "at");
+        if ($con === false) {
             $this->log(__FUNCTION__, "couldn't open fifo", true);
             return false;
         }
-        $success = @fwrite($con,$response . "\n");
+        $read = null;
+        $except = null;
+        $write = array($con);
+        stream_select($read, $write, $except, 0, 30 * 1000 * 1000);
+        $success = @fwrite($con, $response . "\n");
         fclose($con);
-        if($success === false) {
+        if ($success === false) {
             $this->log(__FUNCTION__, "couldn't write to fifo", true);
         }
         return $success;
