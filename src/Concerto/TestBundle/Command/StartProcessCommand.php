@@ -151,10 +151,14 @@ class StartProcessCommand extends Command
             return false;
         }
 
-        socket_set_block($sock);
-
-        if (@socket_connect($sock, gethostbyname("localhost"), 9099) === false) {
-            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
+        $retries = 0;
+        while (($success = @socket_connect($sock, gethostbyname("localhost"), 9099)) === false) {
+            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " (retry: $retries)");
+            $retries++;
+            usleep(200 * 1000);
+        }
+        if ($success === false) {
+            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " - aborting", true);
             socket_close($sock);
             return false;
         }
