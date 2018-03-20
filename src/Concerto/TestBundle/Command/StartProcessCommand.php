@@ -147,8 +147,20 @@ class StartProcessCommand extends Command
     {
         $this->log(__FUNCTION__);
 
-        if (($sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
+        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
+            return false;
+        }
+
+        $retries = 0;
+        while (($success = @socket_connect($sock, gethostbyname("localhost"), 9099)) === false) {
+            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " (retry: $retries)");
+            $retries++;
+            usleep(200 * 1000);
+        }
+        if($success === false) {
+            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " - aborting", true);
+            socket_close($sock);
             return false;
         }
         return $sock;
@@ -523,20 +535,12 @@ class StartProcessCommand extends Command
             "rLogPath" => $this->rLogPath
         ));
 
-        $con = @fopen("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/master.sock", "at");
-        if ($con === false) {
-            $this->log(__FUNCTION__, "couldn't open fifo", true);
-            return false;
+        $sock = $this->createChildProcessResponseSocket();
+        if ($sock !== false) {
+            socket_write($sock, $response . "\n");
+            socket_close($sock);
+            return true;
         }
-        $read = null;
-        $except = null;
-        $write = array($con);
-        stream_select($read, $write, $except, 0, 30 * 1000 * 1000);
-        $success = @fwrite($con, $response . "\n");
-        fclose($con);
-        if ($success === false) {
-            $this->log(__FUNCTION__, "couldn't write to fifo", true);
-        }
-        return $success;
+        return false;
     }
 }

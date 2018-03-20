@@ -54,84 +54,64 @@ concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Y
 
 concerto.log("starting listener")
 while (T) {
-    con = fifo("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/master.sock")
-    open(con, blocking = TRUE, n = 1, open = "rt", ok = FALSE)
-    response = tryCatch({
-        response = readLines(con)
-        concerto.log(response)
-        response
-    }, error = function(e){
-        concerto.log(e)
-        character(0)
-    })
+    concerto.log("waiting for session request")
+    con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 60 * 60, open = "rt")
+    response = readLines(con, warn = FALSE)
     close(con)
-    if (length(response) > 0) {
-        responses = strsplit(response, "\n")[[1]]
-        for(i in 1:length(responses)) {
-            response = responses[i]
-            prc = mcparallel({
-                org_response = response
-                response = tryCatch({
-                    fromJSON(response)
-                }, error = function(e) {
-                    message(e)
-                    message(org_response)
-                    stop("terminating")
-                })
-                concerto$workingDir <- response$workingDir
-                concerto$publicDir <- response$publicDir
-                concerto$mediaUrl <- response$mediaUrl
-                concerto$maxExecTime <- as.numeric(response$maxExecTime)
-                concerto$testNode <- response$testNode
-                concerto$client <- response$client
-                submitter <- response$submitter
-                concerto$connectionParams <- response$connection
+    prc = mcparallel({
+        response <- fromJSON(response)
+        concerto$workingDir <- response$workingDir
+        concerto$publicDir <- response$publicDir
+        concerto$mediaUrl <- response$mediaUrl
+        concerto$maxExecTime <- as.numeric(response$maxExecTime)
+        concerto$testNode <- response$testNode
+        concerto$client <- response$client
+        submitter <- response$submitter
+        concerto$connectionParams <- response$connection
 
-                concerto$sessionFile <- paste0(concerto$workingDir, "session.Rs")
-                concerto$submitter.host <- submitter$host
-                concerto$submitter.port <- submitter$port
-                rm(submitter)
+        concerto$sessionFile <- paste0(concerto$workingDir, "session.Rs")
+        concerto$submitter.host <- submitter$host
+        concerto$submitter.port <- submitter$port
+        rm(submitter)
 
-                concerto$connection <- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+        concerto$connection <- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
 
-                concerto$session <- as.list(concerto5:::concerto.session.get(response$sessionId))
-                concerto$session$previousStatus <- concerto$session$status
-                concerto$session$status <- STATUS_RUNNING
-                concerto$session$params <- fromJSON(concerto$session$params)
+        concerto$session <- as.list(concerto5:::concerto.session.get(response$sessionId))
+        concerto$session$previousStatus <- concerto$session$status
+        concerto$session$status <- STATUS_RUNNING
+        concerto$session$params <- fromJSON(concerto$session$params)
 
-                concerto$flow <- list()
-                concerto$cache <- list(tables = list(), templates = list(), tests = list())
+        concerto$flow <- list()
+        concerto$cache <- list(tables = list(), templates = list(), tests = list())
 
-                returns <<- list()
-                tryCatch({
-                    setwd(concerto$workingDir)
-                    sink(file = response$rLogPath, append = TRUE, type = "output", split = TRUE)
-                    setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
-                    returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
+        returns <<- list()
+        tryCatch({
+            setwd(concerto$workingDir)
+            sink(file = response$rLogPath, append = TRUE, type = "output", split = TRUE)
+            setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
+            returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
-                    if (concerto$session$status == STATUS_FINALIZED) {
-                        concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
-                    } else if (concerto$session$status == STATUS_RUNNING) {
-                        concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
-                    }
-                }, error = function(e) {
-                    if (concerto$session$status == STATUS_RUNNING) {
-                        concerto.log(e)
-                        response = RESPONSE_ERROR
-                        if (e$message == "session unresumable") {
-                            response = RESPONSE_UNRESUMABLE
-                        }
-                        concerto$session$error <<- e
-                        concerto$session$status <<- STATUS_ERROR
-                        concerto5:::concerto.session.update()
-                        concerto5:::concerto.server.respond(response)
-                        q("no", 1)
-                    }
-                })
+            if (concerto$session$status == STATUS_FINALIZED) {
+                concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
+            } else if (concerto$session$status == STATUS_RUNNING) {
+                concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
+            }
+        }, error = function(e) {
+            if (concerto$session$status == STATUS_RUNNING) {
+                concerto.log(e)
+                response = RESPONSE_ERROR
+                if (e$message == "session unresumable") {
+                    response = RESPONSE_UNRESUMABLE
+                }
+                concerto$session$error <<- e
+                concerto$session$status <<- STATUS_ERROR
+                concerto5:::concerto.session.update()
+                concerto5:::concerto.server.respond(response)
+                q("no",1)
+            }
+        })
 
-                q("no")
-            }, detached = TRUE)
-        }
-    }
+        q("no")
+    }, detached = TRUE)
 }
 concerto.log("listener closing")
