@@ -51,12 +51,12 @@ class TestSessionCountService
             return false;
 
         $sum = 0;
-        $count = exec("ps -F -C R --width 500 | grep '/Resources/R/standalone.R ' | wc -l", $arr, $retVal);
-        if ($retVal === 0) {
+        $count = exec("ps -F -C R --width 500 | grep '/Resources/R/standalone.R ' | wc -l", $arr1, $retVal1);
+        if ($retVal1 === 0) {
             $sum += (int)$count;
         }
-        $count = exec("ps -F -C R --width 500 | grep '=master.R' | wc -l", $arr, $retVal);
-        if ($retVal === 0) {
+        $count = exec("ps -F -C R --width 500 | grep 'master.R' | wc -l", $arr2, $retVal2);
+        if ($retVal2 === 0) {
             $sum += max((int)$count - 1, 0);
         }
         return $sum;
