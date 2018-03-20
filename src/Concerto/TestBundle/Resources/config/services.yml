@@ -32,6 +32,11 @@ services:
             $settings: "%test_runner_settings%"
             $environment: "%kernel.environment%"
 
+#commands
+    Concerto\TestBundle\Command\StartProcessCommand:
+        arguments:
+            $testRunnerSettings: "%test_runner_settings%"
+
 #event subscribers
     Concerto\PanelBundle\EventSubscriber\LocaleSubscriber:
         arguments:

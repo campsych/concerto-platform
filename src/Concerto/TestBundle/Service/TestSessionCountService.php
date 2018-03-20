@@ -6,16 +6,19 @@ use Concerto\TestBundle\Entity\TestSessionCount;
 use Concerto\TestBundle\Service\RRunnerService;
 use Concerto\TestBundle\Repository\TestSessionCountRepository;
 
-class TestSessionCountService {
+class TestSessionCountService
+{
 
     private $sessionCountRepo;
 
-    public function __construct(TestSessionCountRepository $sessionCountRepo) {
+    public function __construct(TestSessionCountRepository $sessionCountRepo)
+    {
         $this->sessionCountRepo = $sessionCountRepo;
     }
-    
+
     //TODO proper OS detection
-    public function getOS() {
+    public function getOS()
+    {
         if (strpos(strtolower(PHP_OS), "win") !== false) {
             return RRunnerService::OS_WIN;
         } else {
@@ -23,15 +26,18 @@ class TestSessionCountService {
         }
     }
 
-    public function save(TestSessionCount $entity) {
+    public function save(TestSessionCount $entity)
+    {
         $this->sessionCountRepo->save($entity);
     }
 
-    public function getCollection($filter) {
+    public function getCollection($filter)
+    {
         return $this->sessionCountRepo->findByFilter($filter);
     }
 
-    public function getLastRecordedCount() {
+    public function getLastRecordedCount()
+    {
         $last = $this->sessionCountRepo->findLast();
         if ($last === null) {
             return 0;
@@ -39,18 +45,25 @@ class TestSessionCountService {
         return $last->getCount();
     }
 
-    public function getCurrentCount() {
+    public function getCurrentCount()
+    {
         if ($this->getOS() !== RRunnerService::OS_LINUX)
             return false;
 
+        $sum = 0;
         $count = exec("ps -F -C R --width 500 | grep '/Resources/R/standalone.R ' | wc -l", $arr, $retVal);
         if ($retVal === 0) {
-            return (int) $count;
+            $sum += (int)$count;
         }
-        return false;
+        $count = exec("ps -F -C R --width 500 | grep '--file=master.R' | wc -l", $arr, $retVal);
+        if ($retVal === 0) {
+            $sum += max((int)$count - 1, 0);
+        }
+        return $sum;
     }
 
-    public function updateCountRecord($offset = 0) {
+    public function updateCountRecord($offset = 0)
+    {
         $last = $this->getLastRecordedCount();
         $now = $this->getCurrentCount();
         if ($now === false)
@@ -64,7 +77,8 @@ class TestSessionCountService {
         }
     }
 
-    public function clear() {
+    public function clear()
+    {
         $this->sessionCountRepo->deleteAll();
     }
 

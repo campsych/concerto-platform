@@ -55,10 +55,10 @@ concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Y
 concerto.log("starting listener")
 while (T) {
     concerto.log("waiting for session request")
-    con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 60 * 60, open = "rt")
+    con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 24 * 60 * 60, open = "rt")
     response = readLines(con, warn = FALSE)
     close(con)
-    prc = mcparallel({
+    mcparallel({
         response <- fromJSON(response)
         concerto$workingDir <- response$workingDir
         concerto$publicDir <- response$publicDir
@@ -112,6 +112,6 @@ while (T) {
         })
 
         q("no")
-    }, detached = TRUE)
+    }, detached = FALSE)
 }
 concerto.log("listener closing")

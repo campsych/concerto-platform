@@ -61,12 +61,14 @@ class StartProcessCommand extends Command
      * @var LoggerInterface $logger
      */
     private $logger;
+    private $testRunnerSettings;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, $testRunnerSettings)
     {
         parent::__construct();
 
         $this->logger = $logger;
+        $this->testRunnerSettings = $testRunnerSettings;
     }
 
     protected function configure()
@@ -75,7 +77,6 @@ class StartProcessCommand extends Command
         $this->isDebug = false;
         $this->debugOffset = 0;
         $this->setName("concerto:r:start")->setDescription("Starts new R session.");
-        $this->addArgument("rscript_exec_path", InputArgument::REQUIRED, "Rscript executable file path");
         $this->addArgument("ini_path", InputArgument::REQUIRED, "initialization file path");
         $this->addArgument("test_node", InputArgument::REQUIRED, "test node json serialized data");
         $this->addArgument("panel_node", InputArgument::REQUIRED, "panel node json serialized data");
@@ -87,8 +88,6 @@ class StartProcessCommand extends Command
         $this->addArgument("media_url", InputArgument::REQUIRED, "media URL");
         $this->addArgument("log_path", InputArgument::REQUIRED, "log path");
         $this->addArgument("debug", InputArgument::REQUIRED, "debug test execution");
-        $this->addArgument("max_idle_time", InputArgument::REQUIRED, "max time without any R code interpretation");
-        $this->addArgument("max_exec_time", InputArgument::REQUIRED, "max time R code can be interpreted");
         $this->addArgument("keep_alive_interval_time", InputArgument::REQUIRED, "keep-alive interval time");
         $this->addArgument("keep_alive_tolerance_time", InputArgument::REQUIRED, "keep-alive tolerance time");
         $this->addArgument("submit", InputArgument::OPTIONAL, "submitted variables");
@@ -158,7 +157,7 @@ class StartProcessCommand extends Command
             $retries++;
             usleep(200 * 1000);
         }
-        if($success === false) {
+        if ($success === false) {
             $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " - aborting", true);
             socket_close($sock);
             return false;
@@ -427,7 +426,7 @@ class StartProcessCommand extends Command
         $this->output = $output;
         $this->log(__FUNCTION__);
 
-        $rscript_exec = $input->getArgument("rscript_exec_path");
+        $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $panel_node = $input->getArgument("panel_node");
         $this->panelNode = json_decode($panel_node);
         $panel_node_connection = $input->getArgument("panel_node_connection");
@@ -444,8 +443,8 @@ class StartProcessCommand extends Command
         if (!$values) {
             $values = "";
         }
-        $max_exec_time = $input->getArgument("max_exec_time");
-        $this->maxIdleTime = $input->getArgument("max_idle_time");
+        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        $this->maxIdleTime = $this->testRunnerSettings["max_idle_time"];
         $this->keepAliveIntervalTime = $input->getArgument("keep_alive_interval_time");
         $this->keepAliveToleranceTime = $input->getArgument("keep_alive_tolerance_time");
         $this->rEnviron = $input->getOption("r_environ");
@@ -483,8 +482,12 @@ class StartProcessCommand extends Command
         $submitter = json_encode(array("host" => $submitter_ip, "port" => $submitter_port));
 
         //@TODO values possibly not needed to be passed here
-        //$success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
-        $success = $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        $success = false;
+        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+            $success = $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        } else {
+            $success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        }
         if (!$success) {
             $this->respondToPanelNode(json_encode(array(
                 "source" => self::SOURCE_TEST_NODE,

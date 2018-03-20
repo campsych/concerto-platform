@@ -153,8 +153,6 @@ class RRunnerService
     private function getCommand($panel_node, $panel_node_connection, $client, $session_hash, $values, $debug)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node, $panel_node_connection, $client, $session_hash, $values, $debug");
-        $max_idle_time = $this->settings["max_idle_time"];
-        $max_exec_time = $this->settings["max_execution_time"];
         $keep_alive_interval_time = $this->settings["keep_alive_interval_time"];
         $keep_alive_tolerance_time = $this->settings["keep_alive_tolerance_time"];
         $renviron = "";
@@ -170,7 +168,6 @@ class RRunnerService
                 return "start cmd /C \""
                     . "\"" . $this->escapeWindowsArg($this->settings["php_exec"]) . "\" "
                     . "\"" . $this->escapeWindowsArg($this->root) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console'\" concerto:r:start --env=" . $this->environment . " "
-                    . "\"" . $this->escapeWindowsArg($this->settings["rscript_exec"]) . "\" "
                     . "\"" . $this->escapeWindowsArg($this->getIniFilePath()) . "\" "
                     . "\"" . $this->escapeWindowsArg($test_node) . "\" "
                     . "\"" . $this->escapeWindowsArg($panel_node) . "\" "
@@ -182,8 +179,6 @@ class RRunnerService
                     . "\"" . $this->escapeWindowsArg($this->getMediaUrl($decoded_test_node)) . "\" "
                     . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($decoded_panel_node["id"], $session_hash)) . "\" "
                     . "$debug "
-                    . "$max_idle_time "
-                    . "$max_exec_time "
                     . "$keep_alive_interval_time "
                     . "$keep_alive_tolerance_time "
                     . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
@@ -195,7 +190,6 @@ class RRunnerService
                 return "nohup "
                     . $this->settings["php_exec"] . " "
                     . "'" . $this->root . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console' concerto:r:start --env=" . $this->environment . " "
-                    . "'" . $this->settings["rscript_exec"] . "' "
                     . "'" . $this->getIniFilePath() . "' "
                     . "'$test_node' "
                     . "'$panel_node' "
@@ -207,8 +201,6 @@ class RRunnerService
                     . "'" . $this->getMediaUrl($decoded_test_node) . "' "
                     . "'" . $this->getOutputFilePath($decoded_panel_node["id"], $session_hash) . "' "
                     . "$debug "
-                    . "$max_idle_time "
-                    . "$max_exec_time "
                     . "$keep_alive_interval_time "
                     . "$keep_alive_tolerance_time "
                     . ($values ? "'" . $values . "'" : "'{}'") . " "
