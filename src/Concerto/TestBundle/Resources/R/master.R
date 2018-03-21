@@ -65,10 +65,11 @@ while (T) {
         q("no", 1)
     })
     close(con)
+    message(response$sessionId)
     mcparallel({
         concerto$workingDir <- response$workingDir
-        concerto$publicDir <- response$publicDir
-        concerto$mediaUrl <- response$mediaUrl
+        concerto$publicDir <- "/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files"
+        concerto$mediaUrl <- "/bundles/concertopanel/files"
         concerto$maxExecTime <- as.numeric(response$maxExecTime)
         concerto$testNode <- response$testNode
         concerto$client <- response$client

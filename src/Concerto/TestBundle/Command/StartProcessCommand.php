@@ -503,9 +503,7 @@ class StartProcessCommand extends Command
     protected function childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
     {
         $response = json_encode(array(
-            "workingDir" => $wd,
-            "publicDir" => $pd,
-            "mediaUrl" => $murl,
+            "workingDir" => realpath($wd),
             "maxExecTime" => $max_exec_time,
             "testNode" => json_decode($test_node, true),
             "client" => json_decode($client, true),
