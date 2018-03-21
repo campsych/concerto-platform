@@ -57,7 +57,13 @@ while (T) {
     concerto.log("waiting for session request")
     con = fifo("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/forker.fifo", blocking=TRUE, open="rt")
     response = readLines(con, warn = FALSE, n = 1, ok = FALSE)
-    response <- fromJSON(response)
+    response = tryCatch({
+        fromJSON(response)
+    }, error = function(e) {
+        message(e)
+        message(response)
+        q("no", 1)
+    })
     close(con)
     mcparallel({
         concerto$workingDir <- response$workingDir

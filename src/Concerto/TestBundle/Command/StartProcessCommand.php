@@ -515,7 +515,7 @@ class StartProcessCommand extends Command
             "rLogPath" => $this->rLogPath
         ));
 
-        $fh = fopen("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/forker.fifo", "at");
+        $fh = fopen("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/forker.fifo", "wt");
         if ($fh === false) {
             $this->log(__FUNCTION__, "fopen() failed", true);
             return false;
