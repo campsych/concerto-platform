@@ -515,45 +515,22 @@ class StartProcessCommand extends Command
             "rLogPath" => $this->rLogPath
         ));
 
-        $sock = $this->createChildProcessResponseSocket();
-        if ($sock !== false) {
-            socket_set_block($sock);
-            $buffer = $response . "\n";
-            $sent = socket_write($sock, $buffer);
-            $success = $sent !== false;
-            if (!$success) {
-                $this->log(__FUNCTION__, "socket_write() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
-            }
-            if (strlen($buffer) != $sent) {
-                $this->log(__FUNCTION__, "socket_write() failed, response socket, sent only $sent/" . strlen($buffer), true);
-                $success = false;
-            }
-            socket_close($sock);
-            return $success;
-        }
-        return false;
-    }
-
-    private function createChildProcessResponseSocket()
-    {
-        $this->log(__FUNCTION__);
-
-        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
+        $fh = fopen("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/forker.fifo", "at");
+        if ($fh === false) {
+            $this->log(__FUNCTION__, "fopen() failed", true);
             return false;
         }
-
-        $retries = 0;
-        while (($success = @socket_connect($sock, gethostbyname("localhost"), 9099)) === false) {
-            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " (retry: $retries)");
-            $retries++;
-            usleep(200 * 1000);
+        $buffer = $response . "\n";
+        $sent = fwrite($fh, $buffer);
+        $success = $sent !== false;
+        if (!$success) {
+            $this->log(__FUNCTION__, "fwrite() failed", true);
         }
-        if ($success === false) {
-            $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)) . " - aborting", true);
-            socket_close($sock);
-            return false;
+        if (strlen($buffer) != $sent) {
+            $this->log(__FUNCTION__, "fwrite() failed, sent only $sent/" . strlen($buffer), true);
+            $success = false;
         }
-        return $sock;
+        fclose($fh);
+        return $success;
     }
 }
