@@ -53,9 +53,22 @@ concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Y
 #DEFAULTS END
 
 concerto.log("starting listener")
+queue = c()
+unlink("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/fifo/*")
 while (T) {
-    concerto.log("waiting for session request")
-    con = fifo("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/forker.fifo", blocking=TRUE, open="rt")
+    fpath = ""
+    if(length(queue) == 0) {
+        queue = list.files("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/fifo", full.names=TRUE)
+    }
+    if(length(queue) > 0) {
+        fpath = queue[1]
+        queue = queue[-1]
+    } else {
+        Sys.sleep(0.25)
+        next
+    }
+    con = fifo(fpath, blocking=TRUE, open="rt")
+    concerto.log("incoming session request")
     response = readLines(con, warn = FALSE, n = 1, ok = FALSE)
     response = tryCatch({
         fromJSON(response)
@@ -65,6 +78,7 @@ while (T) {
         q("no", 1)
     })
     close(con)
+    unlink(fpath)
     message(response$sessionId)
     mcparallel({
         concerto$workingDir <- response$workingDir
