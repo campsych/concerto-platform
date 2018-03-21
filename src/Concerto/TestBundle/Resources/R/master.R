@@ -1,3 +1,4 @@
+options(digits.secs = 6)
 if (Sys.info()['sysname'] != "Windows") {
     options(encoding = 'UTF-8')
     Sys.setlocale("LC_ALL", "en_US.utf8")
