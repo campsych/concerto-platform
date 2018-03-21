@@ -56,10 +56,10 @@ concerto.log("starting listener")
 while (T) {
     concerto.log("waiting for session request")
     con = socketConnection(port = 9099, server = TRUE, blocking = TRUE, timeout = 24 * 60 * 60, open = "rt")
-    response = readLines(con, warn = FALSE)
+    response = readLines(con, warn = FALSE, n = 1, ok = FALSE)
+    response <- fromJSON(response)
     close(con)
     mcparallel({
-        response <- fromJSON(response)
         concerto$workingDir <- response$workingDir
         concerto$publicDir <- response$publicDir
         concerto$mediaUrl <- response$mediaUrl

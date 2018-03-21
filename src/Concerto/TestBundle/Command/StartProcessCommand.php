@@ -524,6 +524,10 @@ class StartProcessCommand extends Command
             if (!$success) {
                 $this->log(__FUNCTION__, "socket_write() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
             }
+            if (strlen($buffer) != $sent) {
+                $this->log(__FUNCTION__, "socket_write() failed, response socket, sent only $sent/" . strlen($buffer), true);
+                $success = false;
+            }
             socket_close($sock);
             return $success;
         }
