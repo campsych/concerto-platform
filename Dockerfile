@@ -44,6 +44,8 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && chmod +x /wait-for-it.sh \
  && php /usr/src/concerto/bin/console concerto:r:cache \
  && crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "0 0 * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "*/5 * * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
@@ -55,12 +57,14 @@ CMD php bin/console concerto:setup \
  && php bin/console concerto:r:cache \
  && rm -rf var/cache/prod \
  && php bin/console cache:warmup --env=prod \
+ && mkdir src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
+ && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && cron \
  && service nginx start \
  && php-fpm

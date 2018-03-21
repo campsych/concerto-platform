@@ -3,6 +3,8 @@
 namespace Concerto\PanelBundle\Service;
 
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class MaintenanceService
 {
     private $expirationTime;
@@ -20,24 +22,13 @@ class MaintenanceService
     public function deleteOldSessions()
     {
         $borderTime = time() - ((int)$this->expirationTime * 86400);
+        $fs = new Filesystem();
         foreach (new \DirectoryIterator($this->getSessionsPath()) as $nodeDir) {
             if ($nodeDir->isDir() && !$nodeDir->isDot()) {
                 foreach (new \DirectoryIterator($nodeDir->getRealPath()) as $sessionDir) {
                     if ($sessionDir->isDir() && !$sessionDir->isDot()) {
-                        $expired = true;
-                        foreach (new \DirectoryIterator($sessionDir->getRealPath()) as $fileInfo) {
-                            if ($fileInfo->isFile() && $fileInfo->getMTime() > $borderTime) {
-                                $expired = false;
-                                break;
-                            }
-                        }
-                        if($expired) {
-                            foreach (new \DirectoryIterator($sessionDir->getRealPath()) as $fileInfo) {
-                                if ($fileInfo->isFile()) {
-                                    unlink($fileInfo->getRealPath());
-                                }
-                            }
-                            rmdir($sessionDir->getRealPath());
+                        if ($sessionDir->getMTime() > $borderTime && $fs->exists($sessionDir->getRealPath())) {
+                            @$fs->remove($sessionDir->getRealPath());
                         }
                     }
                 }

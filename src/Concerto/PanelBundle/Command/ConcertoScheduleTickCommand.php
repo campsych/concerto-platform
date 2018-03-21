@@ -18,16 +18,12 @@ use Symfony\Component\Templating\EngineInterface;
 
 class ConcertoScheduleTickCommand extends Command
 {
-    private $testSessionCountService;
-    private $maintenanceService;
     private $administrationService;
     private $templating;
     private $doctrine;
 
-    public function __construct(TestSessionCountService $testSessionCountService, MaintenanceService $maintenanceService, ManagerRegistry $doctrine, AdministrationService $administrationService, EngineInterface $templating)
+    public function __construct(ManagerRegistry $doctrine, AdministrationService $administrationService, EngineInterface $templating)
     {
-        $this->testSessionCountService = $testSessionCountService;
-        $this->maintenanceService = $maintenanceService;
         $this->administrationService = $administrationService;
         $this->templating = $templating;
         $this->doctrine = $doctrine;
@@ -42,9 +38,6 @@ class ConcertoScheduleTickCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->testSessionCountService->updateCountRecord();
-        $this->maintenanceService->deleteOldSessions();
-
         $em = $this->doctrine->getManager();
         $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
 
