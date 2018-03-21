@@ -518,6 +518,7 @@ class StartProcessCommand extends Command
             $this->log(__FUNCTION__, "fopen() failed", true);
             return false;
         }
+        stream_set_blocking($fh,1);
         $buffer = $response . "\n";
         $sent = fwrite($fh, $buffer);
         $success = $sent !== false;
