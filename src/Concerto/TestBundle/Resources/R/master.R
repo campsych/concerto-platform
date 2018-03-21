@@ -81,6 +81,8 @@ while (T) {
     unlink(fpath)
     message(response$sessionId)
     mcparallel({
+        sink(file = response$rLogPath, append = TRUE, type = "output", split = FALSE)
+        concerto.log("starting session")
         concerto$workingDir <- response$workingDir
         concerto$publicDir <- "/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files"
         concerto$mediaUrl <- "/bundles/concertopanel/files"
@@ -108,7 +110,6 @@ while (T) {
         returns <<- list()
         tryCatch({
             setwd(concerto$workingDir)
-            sink(file = response$rLogPath, append = TRUE, type = "output", split = TRUE)
             setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
             returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
