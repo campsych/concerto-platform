@@ -8,6 +8,9 @@ if (Sys.info()['sysname'] != "Windows") {
 require(concerto5)
 require(parallel)
 
+#library should be loaded according to driver
+require(RMySQL)
+
 fromJSON = function(txt, simplifyVector = FALSE, simplifyDataFrame = simplifyVector,
 simplifyMatrix = simplifyVector, flatten = FALSE, ...){
     result = jsonlite::fromJSON(txt, simplifyVector, simplifyDataFrame, simplifyMatrix, flatten, ...)

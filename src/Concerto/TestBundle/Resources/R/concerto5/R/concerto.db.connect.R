@@ -1,4 +1,5 @@
 concerto.db.connect = function(driver, username, password, dbname, host, unix_socket, port){
+    concerto.log(paste0("connecting with db using ",driver))
     con = NULL
     if (driver == "pdo_mysql") {
         require("RMySQL")
@@ -29,7 +30,7 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
             properties = list(user = username, password = password)
         )
     } else if (driver == "oci8" || driver == "pdo_oci") {
-        require("ROracle")
+        #require("ROracle")
         stop("oci8 and pdo_oci driver not implemented yet")
     } else if (driver == "sqlanywhere") {
         stop("sqlanywhere driver not supported yet")
