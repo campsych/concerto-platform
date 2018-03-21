@@ -8,8 +8,12 @@ if (Sys.info()['sysname'] != "Windows") {
 require(concerto5)
 require(parallel)
 
-#library should be loaded according to driver
-require(RMySQL)
+dbDriver = commandArgs(TRUE)[4]
+switch(dbDriver,
+    pdo_mysql = require("RMySQL"),
+    pdo_sqlsrv = require("RSQLServer")
+)
+rm(dbDriver)
 
 fromJSON = function(txt, simplifyVector = FALSE, simplifyDataFrame = simplifyVector,
 simplifyMatrix = simplifyVector, flatten = FALSE, ...){
@@ -56,13 +60,17 @@ concerto$templateParams <- list()
 concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Your header goes here. For example, it could be a logo.\",\"footer\":\"Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.\"}"
 #DEFAULTS END
 
+fifo_path = commandArgs(TRUE)[1]
+public_dir = commandArgs(TRUE)[2]
+media_url = commandArgs(TRUE)[3]
+
 concerto.log("starting listener")
 queue = c()
-unlink("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/fifo/*")
+unlink(paste0(fifo_path,"/*"))
 while (T) {
     fpath = ""
     if(length(queue) == 0) {
-        queue = list.files("/usr/src/concerto/src/Concerto/TestBundle/Resources/R/fifo", full.names=TRUE)
+        queue = list.files(fifo_path, full.names=TRUE)
     }
     if(length(queue) > 0) {
         fpath = queue[1]
@@ -87,9 +95,15 @@ while (T) {
     mcparallel({
         sink(file = response$rLogPath, append = TRUE, type = "output", split = FALSE)
         concerto.log("starting session")
+        rm(fifo_path)
+        rm(queue)
+        rm(fpath)
+        rm(con)
         concerto$workingDir <- response$workingDir
-        concerto$publicDir <- "/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files"
-        concerto$mediaUrl <- "/bundles/concertopanel/files"
+        concerto$publicDir <- public_dir
+        rm(public_dir)
+        concerto$mediaUrl <- media_url
+        rm(media_url)
         concerto$maxExecTime <- as.numeric(response$maxExecTime)
         concerto$testNode <- response$testNode
         concerto$client <- response$client

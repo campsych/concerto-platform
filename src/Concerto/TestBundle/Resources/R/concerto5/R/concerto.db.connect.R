@@ -15,10 +15,10 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
         dbSendQuery(con, statement = 'SET NAMES \"utf8\"')
         dbSendQuery(con, statement = 'SET SESSION sql_mode = \"\"')
     } else if (driver == "pdo_sqlite") {
-        require("RSQLite")
+        #require("RSQLite")
         stop("pdo_sqlite driver not implemented yet")
     } else if (driver == "pdo_pgsql") {
-        require("RPostgreSQL")
+        #require("RPostgreSQL")
         stop("pdo_pgsql driver not implemented yet")
     } else if (driver == "pdo_sqlsrv") {
         require("RSQLServer")

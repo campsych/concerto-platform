@@ -7,6 +7,7 @@ if(Sys.info()['sysname'] != "Windows") {
 } else {
     Sys.setlocale("LC_ALL","English")
 }
+
 require(concerto5)
 
 fromJSON = function(txt, simplifyVector = FALSE, simplifyDataFrame = simplifyVector,
