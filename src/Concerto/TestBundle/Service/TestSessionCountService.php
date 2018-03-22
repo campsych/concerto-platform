@@ -55,7 +55,7 @@ class TestSessionCountService
         if ($retVal1 === 0) {
             $sum += (int)$count;
         }
-        $count = exec("ps -F -C R --width 500 | grep 'master.R' | wc -l", $arr2, $retVal2);
+        $count = exec("ps -F -C R --width 500 | grep 'forker.R' | wc -l", $arr2, $retVal2);
         if ($retVal2 === 0) {
             $sum += max((int)$count - 1, 0);
         }
