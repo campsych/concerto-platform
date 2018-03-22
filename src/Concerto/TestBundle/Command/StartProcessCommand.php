@@ -503,7 +503,7 @@ class StartProcessCommand extends Command
     protected function childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
     {
         $response = json_encode(array(
-            "workingDir" => realpath($wd),
+            "workingDir" => realpath($wd) . DIRECTORY_SEPARATOR,
             "maxExecTime" => $max_exec_time,
             "testNode" => json_decode($test_node, true),
             "client" => json_decode($client, true),
@@ -520,7 +520,7 @@ class StartProcessCommand extends Command
             $this->log(__FUNCTION__, "fopen() failed", true);
             return false;
         }
-        stream_set_blocking($fh,1);
+        stream_set_blocking($fh, 1);
         $buffer = $response . "\n";
         $sent = fwrite($fh, $buffer);
         $success = $sent !== false;
