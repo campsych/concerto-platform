@@ -152,6 +152,6 @@ while (T) {
         })
 
         q("no")
-    }, detached = FALSE)
+    }, detached = TRUE)
 }
 concerto.log("listener closing")
