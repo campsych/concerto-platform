@@ -1,7 +1,3 @@
-session.resuming: Melanjutkan Tes
-session.resuming.question: Tampaknya Anda sudah memulai Tes, namun belum menyelesaikannya. Pilih 'OK' untuk kembali melanjutkan, atau beri tanda di kotak berikut untuk memulai Tes dari awal.
-session.resuming.start_new_checkbox_label: Memulai ulang Tes
-OK: OK
 ignition.noscript: Mesin Perambah (browser) Anda tidak mendukung javascript. Mohon sesuaikan pengaturannya agar mengijinkan javascript lalu refresh mesin penjelajah Anda.
 ignition.ip: "IP:"
 ignition.browser: "Mesin Penjelajah:"
