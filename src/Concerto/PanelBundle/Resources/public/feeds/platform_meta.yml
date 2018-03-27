@@ -5,6 +5,7 @@ changelog:
         R session forking
       categories:
           - label: Features
+            changes:
                 - R session forking
           - label: Fixes
             changes:
