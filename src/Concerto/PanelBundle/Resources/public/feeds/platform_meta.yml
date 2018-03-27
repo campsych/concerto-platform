@@ -2,8 +2,10 @@ version: "5.0.beta.4.0"
 changelog:
     - version: "5.0.beta.4.0"
       description: >
-        Fixes
+        R session forking
       categories:
+          - label: Features
+                - R session forking
           - label: Fixes
             changes:
                 - fixed R code autocompletion inside ports and connections on flow
@@ -11,6 +13,7 @@ changelog:
                 - context menu on unselected node now properly clears current node selection
                 - test error logs are now shown properly
                 - fixed usage charts on some setups
+                - object rename now updates wizard param references
           - label: Non backwards compatible
             changes:
                 - fixed flow test branch variables from start node (connection from start node might be missing from current tests)

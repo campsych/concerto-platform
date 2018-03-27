@@ -6,7 +6,6 @@ use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
-use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -17,10 +16,10 @@ class TestService extends AExportableSectionService
     private $testNodeService;
     private $testNodeConnectionService;
     private $testNodePortService;
-    private $testWizardRepository;
     private $slugifier;
+    private $testWizardParamService;
 
-    public function __construct(TestRepository $repository, ValidatorInterface $validator, Slugify $slugifier, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    public function __construct(TestRepository $repository, ValidatorInterface $validator, Slugify $slugifier, TestVariableService $testVariableService, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
@@ -28,8 +27,8 @@ class TestService extends AExportableSectionService
         $this->testNodeService = $testNodeService;
         $this->testNodeConnectionService = $testNodeConnectionService;
         $this->testNodePortService = $testNodePortService;
-        $this->testWizardRepository = $testWizardRepository;
         $this->slugifier = $slugifier;
+        $this->testWizardParamService = $testWizardParamService;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -65,10 +64,13 @@ class TestService extends AExportableSectionService
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
+        $old_name = null;
         if ($object === null) {
             $object = new Test();
             $new = true;
             $object->setOwner($user);
+        } else {
+            $old_name = $object->getName();
         }
         $object->setName($name);
         if ($description !== null) {
@@ -99,10 +101,10 @@ class TestService extends AExportableSectionService
             $object->setSlug($urlslug . '-' . $slug_postfix++);
         }
 
-        return $this->resave($new, $user, $object, $serializedVariables, $errors);
+        return $this->resave($new, $user, $object, $old_name, $serializedVariables, $errors);
     }
 
-    public function resave($new, User $user, Test $object, $serializedVariables = null, $errors = array(), $flush = true)
+    private function resave($new, User $user, Test $object, $old_name, $serializedVariables = null, $errors = array(), $flush = true)
     {
         $object->setUpdated();
         if ($user !== null)
@@ -120,31 +122,35 @@ class TestService extends AExportableSectionService
         }
 
         $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $new, $user, $serializedVariables, true, $flush);
+        $this->onObjectSaved($object, $old_name, $new, $user, $serializedVariables, true, $flush);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function onObjectSaved($test, $is_new, User $user, $serializedVariables, $insert_initial_objects = true, $flush = true)
+    private function onObjectSaved($test, $oldName, $new, User $user, $serializedVariables, $insertInitialObjects = true, $flush = true)
     {
         if ($test->getSourceWizard() != null) {
-            if ($is_new) {
+            if ($new) {
                 $this->testVariableService->createVariablesFromSourceTest($user, $test, $flush);
             } else {
                 $this->testVariableService->saveCollection($user, $serializedVariables, $test, $flush);
             }
         }
-        if ($is_new && count($this->testVariableService->getBranches($test->getId())) == 0 && $insert_initial_objects) {
+        if ($new && count($this->testVariableService->getBranches($test->getId())) == 0 && $insertInitialObjects) {
             $result = $this->testVariableService->save($user, 0, "out", 2, "", false, 0, $test, null, $flush);
             $test->addVariable($result["object"]);
         }
         $this->updateDependentTests($user, $test, $flush);
 
-        if ($test->getType() == Test::TYPE_FLOW && $is_new && $insert_initial_objects) {
+        if ($test->getType() == Test::TYPE_FLOW && $new && $insertInitialObjects) {
             $result = $this->testNodeService->save($user, 0, 1, 15000, 15000, $test, $test, "", $flush);
             $test->addNode($result["object"]);
             $result = $this->testNodeService->save($user, 0, 2, 15500, 15100, $test, $test, "", $flush);
             $test->addNode($result["object"]);
+        }
+
+        if (!$new && $oldName != $test->getName()) {
+            $this->testWizardParamService->onObjectRename($user, $test, $oldName);
         }
     }
 
@@ -159,7 +165,7 @@ class TestService extends AExportableSectionService
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave(false, $user, $test, null, array(), $flush);
+            $data = $this->resave(false, $user, $test, null, null, array(), $flush);
             array_push($result, $data);
         }
         return $result;

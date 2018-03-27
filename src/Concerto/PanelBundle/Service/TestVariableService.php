@@ -324,5 +324,4 @@ class TestVariableService extends ASectionService
         $this->repository->save($obj, $flush);
         $this->onObjectSaved($user, $obj, false, $flush);
     }
-
 }

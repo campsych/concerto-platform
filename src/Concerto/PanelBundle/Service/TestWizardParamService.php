@@ -2,6 +2,9 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Entity\DataTable;
+use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Repository\TestWizardParamRepository;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use Psr\Log\LoggerInterface;
@@ -430,4 +433,123 @@ class TestWizardParamService extends ASectionService
         return null;
     }
 
+    public function onObjectRename(User $user, $object, $oldName)
+    {
+        foreach ($this->testWizardRepository->findAll() as $wizard) {
+            foreach ($wizard->getParams() as $param) {
+                $def = $param->getDefinition();
+                $type = $param->getType();
+                $pval = $param->getValue();
+                if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $pval)) {
+                    $oldParam = clone $param;
+                    $param->setDefinition($def);
+                    if (is_array($pval)) $pval = json_encode($pval);
+                    $param->setValue($pval);
+                    $this->update($user, $param, $oldParam);
+                }
+
+                foreach ($wizard->getResultingTests() as $test) {
+                    foreach ($test->getVariables() as $var) {
+                        if ($var->getParentVariable()->getId() == $param->getVariable()->getId()) {
+                            $vval = $var->getValue();
+                            if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $vval, true)) {
+                                if (is_array($vval)) $vval = json_encode($vval);
+                                $var->setValue($vval);
+                                $this->testVariableService->update($user, $var);
+                            }
+                            break 2;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static function modifyPropertiesOnRename($object, $oldName, $type, &$def, &$val, $onlyVal = false)
+    {
+        $moded = false;
+
+        //ViewTemplate
+        if ($type === 5 && is_a($object, ViewTemplate::class)) {
+            if ($val == $oldName) {
+                $moded = true;
+                $val = $object->getName();
+            }
+            if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
+                $moded = true;
+                $def["defvalue"] = $object->getName();
+            }
+        }
+        //DataTable
+        if ($type === 6 && is_a($object, DataTable::class)) {
+            if ($val == $oldName) {
+                $moded = true;
+                $val = $object->getName();
+            }
+            if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
+                $moded = true;
+                $def["defvalue"] = $object->getName();
+            }
+        }
+        //DataTable column
+        if ($type == 7 && is_a($object, DataTable::class)) {
+            if (!is_array($val))
+                $val = json_decode($val, true);
+            if (array_key_exists("table", $val) && $val["table"] == $oldName) {
+                $moded = true;
+                $val["table"] = $object->getName();
+            }
+        }
+        //Test
+        if ($type === 8 && is_a($object, Test::class)) {
+            if ($val == $oldName) {
+                $moded = true;
+                $val = $object->getName();
+            }
+            if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
+                $moded = true;
+                $def["defvalue"] = $object->getName();
+            }
+        }
+        //Group
+        if ($type == 9) {
+            if (!is_array($val))
+                $val = json_decode($val, true);
+            if (array_key_exists("fields", $def)) {
+                for ($i = 0; $i < count($def["fields"]); $i++) {
+                    $field = $def["fields"][$i];
+                    $moded |= self::modifyPropertiesOnRename($object, $oldName, $field["type"], $def["fields"][$i]["definition"], $val[$field["name"]], $onlyVal);
+                }
+            }
+        }
+        //List
+        if ($type == 10) {
+            if (!is_array($val))
+                $val = json_decode($val, true);
+            if (array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
+                for ($i = 0; $i < count($val); $i++) {
+                    $moded |= self::modifyPropertiesOnRename($object, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
+                }
+            }
+        }
+        //DataTable map
+        if ($type === 12 && is_a($object, DataTable::class)) {
+            if (!is_array($val))
+                $val = json_decode($val, true);
+            if (array_key_exists("table", $val) && $val["table"] == $oldName) {
+                $moded = true;
+                $val["table"] = $object->getName();
+            }
+        }
+        //Nested wizard
+        if ($type == 13 && is_a($object, Test::class)) {
+            if (!is_array($val))
+                $val = json_decode($val, true);
+            if (array_key_exists("test", $val) && $val["test"] == $oldName) {
+                $moded = true;
+                $val["test"] = $object->getName();
+            }
+        }
+        return $moded;
+    }
 }

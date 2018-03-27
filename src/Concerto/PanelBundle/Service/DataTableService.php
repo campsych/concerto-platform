@@ -14,13 +14,15 @@ class DataTableService extends AExportableSectionService
 
     public $dbStructureService;
     public $dbDataDao;
+    private $testWizardParamService;
 
-    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
 
         $this->dbStructureService = $dbStructureService;
         $this->dbDataDao = $dbDataDao;
+        $this->testWizardParamService = $testWizardParamService;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -49,6 +51,7 @@ class DataTableService extends AExportableSectionService
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
+        $old_name = null;
         if ($object !== null) {
             $old_name = $object->getName();
         } else {
@@ -88,7 +91,15 @@ class DataTableService extends AExportableSectionService
         }
 
         $this->repository->save($object);
+        $this->onObjectSaved($user, $object, $new, $old_name);
         return array("object" => $object, "errors" => $errors);
+    }
+
+    private function onObjectSaved(User $user, DataTable $object, $new, $oldName)
+    {
+        if (!$new && $oldName != $object->getName()) {
+            $this->testWizardParamService->onObjectRename($user, $object, $oldName);
+        }
     }
 
     public function delete($object_ids, $secure = true)

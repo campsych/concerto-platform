@@ -8,14 +8,20 @@ use Concerto\PanelBundle\Repository\ViewTemplateRepository;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ViewTemplateService extends AExportableSectionService {
+class ViewTemplateService extends AExportableSectionService
+{
 
-    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    private $testWizardParamService;
+
+    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker);
+
+        $this->testWizardParamService = $testWizardParamService;
     }
 
-    public function get($object_id, $createNew = false, $secure = true) {
+    public function get($object_id, $createNew = false, $secure = true)
+    {
         $object = null;
         if (is_numeric($object_id)) {
             $object = parent::get($object_id, $createNew, $secure);
@@ -31,13 +37,17 @@ class ViewTemplateService extends AExportableSectionService {
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $html, $head, $css, $js) {
+    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $html, $head, $css, $js)
+    {
         $errors = array();
         $object = $this->get($object_id);
         $new = false;
+        $old_name = null;
         if ($object === null) {
             $object = new ViewTemplate();
             $new = true;
+        } else {
+            $old_name = $object->getName();
         }
         $object->setUpdated();
         if ($user !== null)
@@ -73,10 +83,19 @@ class ViewTemplateService extends AExportableSectionService {
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object);
+        $this->onObjectSaved($user, $object, $new, $old_name);
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function delete($object_ids, $secure = true) {
+    private function onObjectSaved(User $user, ViewTemplate $object, $new, $oldName)
+    {
+        if (!$new && $oldName != $object->getName()) {
+            $this->testWizardParamService->onObjectRename($user, $object, $oldName);
+        }
+    }
+
+    public function delete($object_ids, $secure = true)
+    {
         $object_ids = explode(",", $object_ids);
 
         $result = array();
@@ -90,7 +109,8 @@ class ViewTemplateService extends AExportableSectionService {
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue) {
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    {
         $pre_queue = array();
         if (!array_key_exists("ViewTemplate", $map))
             $map["ViewTemplate"] = array();
@@ -116,9 +136,10 @@ class ViewTemplateService extends AExportableSectionService {
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue) {
+    protected function importNew(User $user, $new_name, $obj, &$map, &$queue)
+    {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
-        
+
         $ent = new ViewTemplate();
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
@@ -145,11 +166,13 @@ class ViewTemplateService extends AExportableSectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function findConversionSource($obj, $map) {
+    protected function findConversionSource($obj, $map)
+    {
         return $this->get($obj["name"]);
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue) {
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue)
+    {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);
@@ -179,7 +202,8 @@ class ViewTemplateService extends AExportableSectionService {
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function onConverted($new_ent, $old_ent) {
+    protected function onConverted($new_ent, $old_ent)
+    {
         //TODO 
     }
 

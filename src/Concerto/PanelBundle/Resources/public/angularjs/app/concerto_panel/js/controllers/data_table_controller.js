@@ -418,7 +418,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
       $scope.setWorkingCopyObject();
       $scope.fetchObjectCollection();
     }, function (dirty) {
-      if(dirty === true) {
+      if (dirty === true) {
         $scope.setWorkingCopyObject();
         $scope.fetchObjectCollection();
       }
@@ -431,6 +431,11 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
       $scope.structureGridApi.selection.clearSelectedRows();
     $scope.dataFilterOptions.filters = {};
     $scope.dataFilterOptions.sorting = [];
+  };
+
+  $scope.onAfterPersist = function () {
+    $scope.testCollectionService.fetchObjectCollection();
+    $scope.testWizardCollectionService.fetchObjectCollection();
   };
 
   $scope.resetObject = function () {

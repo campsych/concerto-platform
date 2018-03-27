@@ -436,6 +436,15 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
                     }
                     break;
                 }
+            case 13: {
+                if (is_array($def) && $def["test"]) {
+                    if (!array_key_exists("Test", $dependencies["ids"]))
+                        $dependencies["ids"]["Test"] = array();
+                    if (!in_array($def["test"], $dependencies["ids"]["Test"]))
+                        array_push($dependencies["ids"]["Test"], $def["test"]);
+                }
+                break;
+            }
         }
     }
 

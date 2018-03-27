@@ -636,6 +636,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     return obj;
   };
 
+  $scope.onAfterPersist = function () {
+    $scope.testWizardCollectionService.fetchObjectCollection();
+  };
+
   $scope.resetObject();
   $scope.initializeColumnDefs();
 
