@@ -4,7 +4,7 @@
  * @param $scope
  * @constructor
  */
-function WizardParamSetter11Controller($scope, AdministrationSettingsService, RDocumentation) {
+function WizardParamSetter11Controller($scope, AdministrationSettingsService, RDocumentation, $http) {
   $scope.administrationSettingsService = AdministrationSettingsService;
 
   $scope.codeEditorOptions = {
@@ -50,4 +50,4 @@ function WizardParamSetter11Controller($scope, AdministrationSettingsService, RD
   }
 };
 
-concertoPanel.controller('WizardParamSetter11Controller', ["$scope", "AdministrationSettingsService", "RDocumentation", WizardParamSetter11Controller]);
+concertoPanel.controller('WizardParamSetter11Controller', ["$scope", "AdministrationSettingsService", "RDocumentation", "$http", WizardParamSetter11Controller]);
