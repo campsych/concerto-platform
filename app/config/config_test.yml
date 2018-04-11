@@ -3,10 +3,6 @@ imports:
 
 parameters:
     secret: secret
-    panel_nodes:
-        - { id: local, local: true, protocol: http, sock_host: localhost, web_host: localhost, web_port: 80, dir: /, connection: local, hash: someHash }
-    test_nodes:
-        - { id: local, local: true, protocol: http, sock_host: localhost, web_host: localhost, web_port: 80, dir: /, connection: local, hash: someHash }
 
 framework:
     test: ~

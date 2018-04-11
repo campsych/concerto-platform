@@ -4,89 +4,64 @@ namespace Concerto\PanelBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Service\TestSessionService;
-use Concerto\PanelBundle\Service\LoadBalancerInterface;
 
 class TestRunnerService {
 
-    private $panelNodes;
     private $logger;
     private $environment;
-    public $loadBalancerService;
     private $sessionService;
 
-    public function __construct($environment, $panelNodes, LoggerInterface $logger, TestSessionService $sessionService, LoadBalancerInterface $loadBalancerService) {
+    public function __construct($environment, LoggerInterface $logger, TestSessionService $sessionService) {
         $this->environment = $environment;
-        $this->panelNodes = $panelNodes;
         $this->logger = $logger;
         $this->sessionService = $sessionService;
-        $this->loadBalancerService = $loadBalancerService;
     }
 
-    public function startNewSession($test_slug, $test_name, $node_id, $params, $client_ip, $client_browser, $debug) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $node_id, $params, $client_ip, $client_browser, $debug");
+    public function startNewSession($test_slug, $test_name, $params, $client_ip, $client_browser, $debug) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug");
 
-        $test_node = $this->loadBalancerService->getOptimalTestNode();
-
-        $response = $this->sessionService->startNewSession($test_node["hash"], $test_slug, $test_name, $params, $client_ip, $client_browser, false, $debug);
+        $response = $this->sessionService->startNewSession($test_slug, $test_name, $params, $client_ip, $client_browser, $debug);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
     }
 
-    public function submitToSession($session_hash, $node_id, $values, $client_ip, $client_browser, $time) {
+    public function submitToSession($session_hash, $values, $client_ip, $client_browser, $time) {
         $values = json_encode($values);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
 
-        $response = $this->sessionService->submit($session_hash, $values, $client_ip, $client_browser, false, $time);
+        $response = $this->sessionService->submit($session_hash, $values, $client_ip, $client_browser, $time);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
     }
 
-    public function backgroundWorker($session_hash, $node_id, $values, $client_ip, $client_browser, $time) {
+    public function backgroundWorker($session_hash, $values, $client_ip, $client_browser, $time) {
         $values = json_encode($values);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
 
-        $response = $this->sessionService->backgroundWorker($session_hash, $values, $client_ip, $client_browser, false, $time);
+        $response = $this->sessionService->backgroundWorker($session_hash, $values, $client_ip, $client_browser, $time);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
     }
 
-    public function keepAliveSession($session_hash, $node_id, $client_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $client_ip");
+    public function keepAliveSession($session_hash, $client_ip, $client_browser) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
-        $response = $this->sessionService->keepAlive($session_hash, $client_ip, false);
+        $response = $this->sessionService->keepAlive($session_hash, $client_ip, $client_browser);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
     }
 
-    public function killSession($session_hash, $node_id, $client_ip) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id, $client_ip");
+    public function killSession($session_hash, $client_ip, $client_browser) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
-        $response = $this->sessionService->kill($session_hash, $client_ip, false);
+        $response = $this->sessionService->kill($session_hash, $client_ip, $client_browser);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
-    }
-
-    public function resultsFromSession($session_hash, $node_id) {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $node_id");
-
-        $response = $this->sessionService->results($session_hash, false);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
-    }
-
-    public function getPanelNodeById($node_id) {
-        foreach ($this->panelNodes as $node) {
-            if ($node["id"] == $node_id) {
-                return $node;
-            }
-        }
-        return $this->panelNodes[0];
     }
 
     public function isBrowserValid($user_agent) {
@@ -100,14 +75,14 @@ class TestRunnerService {
     public function uploadFile($session_hash, $files, $name) {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $name");
 
-        $response = $this->sessionService->uploadFile($session_hash, false, $files, $name);
+        $response = $this->sessionService->uploadFile($session_hash, $files, $name);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;
     }
 
-    public function logError($session_hash, $node_id, $error, $type) {
-        $response = $this->sessionService->logError($session_hash, false, $error, $type);
+    public function logError($session_hash, $error, $type) {
+        $response = $this->sessionService->logError($session_hash, $error, $type);
         $response = json_encode($response);
         return $response;
     }

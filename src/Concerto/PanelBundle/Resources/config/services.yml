@@ -156,10 +156,6 @@ services:
         arguments:
             $version: "%version%"
 
-    Concerto\PanelBundle\Service\LoadBalancerService:
-        arguments:
-            $testNodes: "%test_nodes%"
-
     Concerto\PanelBundle\Service\MaintenanceService:
         arguments:
             $administration: "%administration%"
@@ -167,12 +163,10 @@ services:
     Concerto\PanelBundle\Service\TestRunnerService:
         arguments:
             $environment: "%kernel.environment%"
-            $panelNodes: "%panel_nodes%"
 
     Concerto\PanelBundle\Service\TestSessionService:
         arguments:
             $environment: "%kernel.environment%"
-            $panelNodes: "%panel_nodes%"
             $secret: "%secret%"
             $testRunnerSettings: "%test_runner_settings%"
 
@@ -199,7 +193,7 @@ services:
     Concerto\PanelBundle\Controller\TestRunnerController:
         arguments:
             $environment: "%kernel.environment%"
-            $settings: "%test_runner_settings%"
+            $testRunnerSettings: "%test_runner_settings%"
         public: true
 
     Concerto\PanelBundle\Controller\TestWizardController:

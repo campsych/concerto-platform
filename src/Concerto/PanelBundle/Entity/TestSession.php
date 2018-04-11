@@ -20,21 +20,9 @@ class TestSession extends AEntity {
 
     /**
      *
-     * @ORM\Column(type="string")
-     */
-    private $panelNodeId;
-
-    /**
-     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $panelNodePort;
-
-    /**
-     *
-     * @ORM\Column(type="string")
-     */
-    private $testNodeId;
 
     /**
      *
@@ -130,12 +118,6 @@ class TestSession extends AEntity {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $returns;
-
-    /**
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
     private $error;
 
     /**
@@ -174,27 +156,6 @@ class TestSession extends AEntity {
     }
 
     /**
-     * Set panel node id
-     *
-     * @param string $panelNodeId
-     * @return TestSession
-     */
-    public function setPanelNodeId($panelNodeId) {
-        $this->panelNodeId = $panelNodeId;
-
-        return $this;
-    }
-
-    /**
-     * Get panel node id
-     *
-     * @return string 
-     */
-    public function getPanelNodeId() {
-        return $this->panelNodeId;
-    }
-
-    /**
      * Set panel node port
      *
      * @param integer $panelNodePort
@@ -213,27 +174,6 @@ class TestSession extends AEntity {
      */
     public function getPanelNodePort() {
         return $this->panelNodePort;
-    }
-
-    /**
-     * Set test node id
-     *
-     * @param string $testNodeId
-     * @return TestSession
-     */
-    public function setTestNodeId($testNodeId) {
-        $this->testNodeId = $testNodeId;
-
-        return $this;
-    }
-
-    /**
-     * Get test node id
-     *
-     * @return string 
-     */
-    public function getTestNodeId() {
-        return $this->testNodeId;
     }
 
     /**
@@ -570,27 +510,6 @@ class TestSession extends AEntity {
      */
     public function getTemplateParams() {
         return $this->templateParams;
-    }
-
-    /**
-     * Set returns
-     *
-     * @param string $returns
-     * @return TestSession
-     */
-    public function setReturns($returns) {
-        $this->returns = $returns;
-
-        return $this;
-    }
-
-    /**
-     * Get returns
-     *
-     * @return string 
-     */
-    public function getReturns() {
-        return $this->returns;
     }
 
     /**

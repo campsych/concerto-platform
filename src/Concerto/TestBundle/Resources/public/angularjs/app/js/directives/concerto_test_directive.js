@@ -30,7 +30,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var RESPONSE_FINISHED = 1;
       var RESPONSE_SUBMIT = 2;
       var RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-      var RESPONSE_RESULTS = 7;
       var RESPONSE_AUTHENTICATION_FAILED = 8;
       var RESPONSE_STARTING = 9;
       var RESPONSE_KEEPALIVE_CHECKIN = 10;
@@ -48,7 +47,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         clientDebug: false,
         params: null,
         directory: "/",
-        nodeId: null,
         testSlug: null,
         testName: null,
         hash: null,
@@ -63,7 +61,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         timeFormat: "HH:mm:ss",
         keepAliveInterval: 0
       }, scope.options);
-      var results = {};
       var timeLimit = 0;
       var timer = 0;
       var timerId;
@@ -100,7 +97,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
       scope.logClientSideError = function (error) {
         $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
-          node_id: settings.nodeId,
           error: error
         });
         console.error(error);
@@ -330,30 +326,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             submitViewPostValueGetter(btnName, isTimeout, passedVals, values);
           }
         }
-      }
-
-      function getResults(callback) {
-        if (settings.clientDebug)
-          console.log("result");
-        $http.post(settings.directory + "test/session/" + settings.hash + "/results", {
-          node_id: settings.nodeId
-        }).success(function (response) {
-          if (settings.clientDebug)
-            console.log(response);
-          if (settings.debug && response.debug)
-            console.log(response.debug);
-          lastResponse = response;
-          lastResponseTime = new Date();
-          switch (lastResponse.code) {
-            case RESPONSE_RESULTS: {
-              results = response.results;
-              if (callback != null) {
-                callback.call(this, response.results);
-              }
-              break;
-            }
-          }
-        });
       }
 
       function showView() {

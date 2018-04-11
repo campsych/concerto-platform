@@ -59,7 +59,7 @@ concerto$workingDir <- commandArgs(TRUE)[6]
 concerto$publicDir <- commandArgs(TRUE)[7]
 concerto$mediaUrl <- commandArgs(TRUE)[8]
 concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[9])
-concerto$testNode <- fromJSON(commandArgs(TRUE)[2])
+concerto$testNodePort <- commandArgs(TRUE)[2]
 concerto$client <- fromJSON(commandArgs(TRUE)[4])
 submitter <- fromJSON(commandArgs(TRUE)[3])
 concerto$connectionParams <- fromJSON(commandArgs(TRUE)[1])
@@ -79,16 +79,15 @@ concerto$session$params <- fromJSON(concerto$session$params)
 concerto$flow <- list()
 concerto$cache <- list(tables=list(), templates=list(), tests=list())
 
-returns <<- list()
 tryCatch({
     setwd(concerto$workingDir)
     setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
-    returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
+    concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
     if(concerto$session$status == STATUS_FINALIZED){
-        concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
+        concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE)
     } else if(concerto$session$status == STATUS_RUNNING){
-        concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
+        concerto5:::concerto.session.finalize(RESPONSE_FINISHED)
     }
 }, error = function(e) {
     if(concerto$session$status == STATUS_RUNNING){

@@ -24,12 +24,15 @@ concerto.session.restoreFlow <- function(sessionHash){
     stop("top most test on stack is not flow based!")
   }
 
-  returns <<- list()
   tryCatch({
         setwd(concerto$workingDir)
+        concerto.test.run(concerto$flow[[1]]$id, mainTest=TRUE, ongoingResumeFlowIndex=1)
 
-        returns <<- concerto.test.run(concerto$flow[[1]]$id, mainTest=TRUE, ongoingResumeFlowIndex=1)
-
+        if(concerto$session$status == STATUS_FINALIZED){
+          concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE)
+        } else if(concerto$session$status == STATUS_RUNNING){
+          concerto5:::concerto.session.finalize(RESPONSE_FINISHED)
+        }
   }, error = function(e) {
         if(concerto$session$status == STATUS_RUNNING){
           concerto.log(e)
@@ -41,13 +44,7 @@ concerto.session.restoreFlow <- function(sessionHash){
           concerto$session$error <<- e
           concerto$session$status <<- STATUS_ERROR
           concerto5:::concerto.session.update()
-          stop("Error executing test logic.")
+          q("no",1)
         }
   })
-
-  if(concerto$session$status == STATUS_FINALIZED){
-        concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
-  } else if(concerto$session$status == STATUS_RUNNING){
-        concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
-  }
 }

@@ -9,7 +9,6 @@ concerto.session.get = function(sessionHash){
                                                     timeLimit,
                                                     status,
                                                     params,
-                                                    returns,
                                                     error,
                                                     clientIp,
                                                     clientBrowser,

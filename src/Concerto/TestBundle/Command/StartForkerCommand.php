@@ -2,7 +2,6 @@
 
 namespace Concerto\TestBundle\Command;
 
-use Concerto\PanelBundle\Service\LoadBalancerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,16 +12,14 @@ class StartForkerCommand extends Command
 {
 
     private $testRunnerSettings;
-    private $loadBalancerService;
     private $doctrine;
 
-    public function __construct($testRunnerSettings, LoadBalancerInterface $loadBalancerService, RegistryInterface $doctrine)
+    public function __construct($testRunnerSettings, RegistryInterface $doctrine)
     {
         parent::__construct();
 
         $this->doctrine = $doctrine;
         $this->testRunnerSettings = $testRunnerSettings;
-        $this->loadBalancerService = $loadBalancerService;
     }
 
     protected function configure()
@@ -52,11 +49,9 @@ class StartForkerCommand extends Command
         $fifoPath = realpath(dirname(__FILE__) . "/../Resources/R/fifo");
         $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
 
-        $testNode = $this->loadBalancerService->getLocalTestNode();
-        $panelNode = $testNode;
-        $dbConnection = $this->doctrine->getConnection($panelNode["connection"]);
+        $dbConnection = $this->testRunnerSettings["connection"];
         $dbDriver = $dbConnection->getDriver()->getName();
-        $mediaUrl = $testNode["dir"] . "bundles/concertopanel/files/";
+        $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
 
         $cmd = $this->getCommand($forkerPath, $logPath, $fifoPath, $publicDir, $mediaUrl, $dbDriver);
         $process = new Process($cmd);

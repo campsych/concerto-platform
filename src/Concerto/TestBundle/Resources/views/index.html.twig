@@ -10,7 +10,7 @@
     {{ include("ConcertoTestBundle::test_not_found_template.html.twig") }}
     {{ include("ConcertoTestBundle::session_lost_template.html.twig") }}
     {{ include("ConcertoTestBundle::connection_retry_template.html.twig") }}
-    <div ng-controller="testRunnerController" id="testContainer" ng-init="init('{{ node_id }}', '{{directory}}', '{{ test_slug }}', {% if test_name %} '{{ test_name }}' {% else %} null {% endif %}, '{{ params }}', {% if debug %}true{% else %}false{% endif %}, {{ keep_alive_interval }})">
+    <div ng-controller="testRunnerController" id="testContainer" ng-init="init('{{directory}}', '{{ test_slug }}', {% if test_name %} '{{ test_name }}' {% else %} null {% endif %}, '{{ params }}', {% if debug %}true{% else %}false{% endif %}, {{ keep_alive_interval }})">
         <div class="center">
             <table>
                 <tr><td align="left">{{ 'ignition.ip'|trans }}</td><td align="left" style="padding-left: 15px; font-weight: bold;">{{ app.request.clientip }}</td></tr>

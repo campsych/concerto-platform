@@ -105,7 +105,7 @@ while (T) {
         concerto$mediaUrl <- media_url
         rm(media_url)
         concerto$maxExecTime <- as.numeric(response$maxExecTime)
-        concerto$testNode <- response$testNode
+        concerto$testNodePort <- response$testNodePort
         concerto$client <- response$client
         submitter <- response$submitter
         concerto$connectionParams <- response$connection
@@ -125,16 +125,15 @@ while (T) {
         concerto$flow <- list()
         concerto$cache <- list(tables = list(), templates = list(), tests = list())
 
-        returns <<- list()
         tryCatch({
             setwd(concerto$workingDir)
             setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
-            returns <<- concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
+            concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
             if (concerto$session$status == STATUS_FINALIZED) {
-                concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE, returns)
+                concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE)
             } else if (concerto$session$status == STATUS_RUNNING) {
-                concerto5:::concerto.session.finalize(RESPONSE_FINISHED, returns)
+                concerto5:::concerto.session.finalize(RESPONSE_FINISHED)
             }
         }, error = function(e) {
             if (concerto$session$status == STATUS_RUNNING) {

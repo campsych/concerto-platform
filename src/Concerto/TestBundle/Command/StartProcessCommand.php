@@ -25,7 +25,6 @@ class StartProcessCommand extends Command
     const RESPONSE_STOP = 3;
     const RESPONSE_STOPPED = 4;
     const RESPONSE_VIEW_FINAL_TEMPLATE = 5;
-    const RESPONSE_RESULTS = 7;
     const RESPONSE_AUTHENTICATION_FAILED = 8;
     const RESPONSE_STARTING = 9;
     const RESPONSE_KEEPALIVE_CHECKIN = 10;
@@ -39,7 +38,7 @@ class StartProcessCommand extends Command
     const STATUS_ERROR = 3;
     const STATUS_REJECTED = 4;
 
-    private $panelNode;
+    private $panelNodePort;
     private $lastClientTime;    //for idle timeout
     private $lastKeepAliveTime; //for keep alive timeout
     private $maxIdleTime;
@@ -78,8 +77,7 @@ class StartProcessCommand extends Command
         $this->debugOffset = 0;
         $this->setName("concerto:r:start")->setDescription("Starts new R session.");
         $this->addArgument("ini_path", InputArgument::REQUIRED, "initialization file path");
-        $this->addArgument("test_node", InputArgument::REQUIRED, "test node json serialized data");
-        $this->addArgument("panel_node", InputArgument::REQUIRED, "panel node json serialized data");
+        $this->addArgument("panel_node_port", InputArgument::REQUIRED, "panel node port");
         $this->addArgument("test_session_id", InputArgument::REQUIRED, "test session id");
         $this->addArgument("panel_node_connection", InputArgument::REQUIRED, "panel node connection json serialized data");
         $this->addArgument("client", InputArgument::REQUIRED, "client json serialized data");
@@ -134,7 +132,7 @@ class StartProcessCommand extends Command
             $this->log(__FUNCTION__, "socket_create() failed, response socket, " . socket_strerror(socket_last_error()), true);
             return false;
         }
-        if (socket_connect($sock, gethostbyname($this->panelNode->sock_host), $this->panelNode->port) === false) {
+        if (socket_connect($sock, "127.0.0.1", $this->panelNodePort) === false) {
             $this->log(__FUNCTION__, "socket_connect() failed, response socket, " . socket_strerror(socket_last_error($sock)), true);
             socket_close($sock);
             return false;
@@ -232,7 +230,7 @@ class StartProcessCommand extends Command
         switch ($msg->code) {
             case self::RESPONSE_SUBMIT:
                 {
-                    $this->panelNode = $msg->panelNode;
+                    $this->panelNodePort = $msg->panelNodePort;
                     $this->lastClientTime = time();
                     $this->lastKeepAliveTime = time();
                     $this->respondToProcess($submitter_sock, $message);
@@ -240,7 +238,7 @@ class StartProcessCommand extends Command
                 }
             case self::RESPONSE_WORKER:
                 {
-                    $this->panelNode = $msg->panelNode;
+                    $this->panelNodePort = $msg->panelNodePort;
                     $this->lastKeepAliveTime = time();
                     $this->respondToProcess($submitter_sock, $message);
                     return false;
@@ -355,14 +353,14 @@ class StartProcessCommand extends Command
         return $arg;
     }
 
-    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
     {
         switch ($this->getOS()) {
             case self::OS_LINUX:
                 return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
                     . "'$ini_path' "
                     . "'$panel_node_connection' "
-                    . "'$test_node' "
+                    . "$test_node_port "
                     . "'$submitter' "
                     . "'$client' "
                     . "$test_session_id "
@@ -381,7 +379,7 @@ class StartProcessCommand extends Command
                     . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
                     . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
                     . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
-                    . "\"" . $this->escapeWindowsArg($test_node) . "\" "
+                    . "$test_node_port "
                     . "\"" . $this->escapeWindowsArg($submitter) . "\" "
                     . "\"" . $this->escapeWindowsArg($client) . "\" "
                     . "$test_session_id "
@@ -404,8 +402,7 @@ class StartProcessCommand extends Command
         $this->log(__FUNCTION__);
 
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
-        $panel_node = $input->getArgument("panel_node");
-        $this->panelNode = json_decode($panel_node);
+        $this->panelNodePort = $input->getArgument("panel_node_port");
         $panel_node_connection = $input->getArgument("panel_node_connection");
         $client = $input->getArgument("client");
         $ini_path = $input->getArgument("ini_path");
@@ -426,8 +423,6 @@ class StartProcessCommand extends Command
         $this->keepAliveToleranceTime = $input->getArgument("keep_alive_tolerance_time");
         $this->rEnviron = $input->getOption("r_environ");
 
-        $test_node = $input->getArgument("test_node");
-
         $test_node_sock = $this->createListenerSocket();
         if ($test_node_sock === false) {
             $this->respondToPanelNode(json_encode(array(
@@ -439,9 +434,6 @@ class StartProcessCommand extends Command
         }
 
         socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
-        $decoded_test_node = json_decode($test_node, true);
-        $decoded_test_node["port"] = $test_node_port;
-        $test_node = json_encode($decoded_test_node);
 
         $submitter_sock = $this->createListenerSocket();
         if ($submitter_sock === false) {
@@ -461,9 +453,10 @@ class StartProcessCommand extends Command
         //@TODO values possibly not needed to be passed here
         $success = false;
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
-            $success = $this->childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+            $success = $this->childProcess($panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
         } else {
-            $success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+            $success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+            //$success = $this->startCheckpointProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
         }
         if (!$success) {
             $this->respondToPanelNode(json_encode(array(
@@ -482,9 +475,9 @@ class StartProcessCommand extends Command
         $this->log(__FUNCTION__, "closing process");
     }
 
-    protected function standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
     {
-        $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
 
         $this->log(__FUNCTION__, $cmd);
 
@@ -500,12 +493,12 @@ class StartProcessCommand extends Command
         return true;
     }
 
-    protected function childProcess($panel_node_connection, $test_node, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function childProcess($panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
     {
         $response = json_encode(array(
             "workingDir" => realpath($wd) . DIRECTORY_SEPARATOR,
             "maxExecTime" => $max_exec_time,
-            "testNode" => json_decode($test_node, true),
+            "testNodePort" => $test_node_port,
             "client" => json_decode($client, true),
             "submitter" => json_decode($submitter, true),
             "connection" => json_decode($panel_node_connection, true),
@@ -533,5 +526,45 @@ class StartProcessCommand extends Command
         }
         fclose($fh);
         return $success;
+    }
+
+    private function getStartCheckpointCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    {
+        $portFile = $wd . "coord_port";
+        return "/usr/src/concerto/temp/dmtcp-2.5.2/bin/dmtcp_launch --new-coordinator --coord-port 0 --port-file '$portFile' --ckptdir '$wd' " . $rscript_exec . " --no-save --no-restore --quiet "
+            . "'$ini_path' "
+            . "'$panel_node_connection' "
+            . "'$test_node_port' "
+            . "'$submitter' "
+            . "'$client' "
+            . "$test_session_id "
+            . "'$wd' "
+            . "'$pd' "
+            . "'$murl' "
+            . "$max_exec_time "
+            . "'$values' "
+            . ">> "
+            . "'" . $this->logPath . "' "
+            . "> "
+            . "'" . $this->rLogPath . "' "
+            . "2>&1 & echo $!";
+    }
+
+    private function startCheckpointProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    {
+        $cmd = $this->getStartCheckpointCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time, true);
+
+        $this->log(__FUNCTION__, $cmd);
+
+        $process = new Process($cmd);
+        $process->setEnhanceWindowsCompatibility(false);
+        if ($this->rEnviron != null) {
+            $this->log(__FUNCTION__, "setting process renviron to: " . $this->rEnviron);
+            $env = array();
+            $env["R_ENVIRON"] = $this->rEnviron;
+            $process->setEnv($env);
+        }
+        $process->mustRun();
+        return true;
     }
 }

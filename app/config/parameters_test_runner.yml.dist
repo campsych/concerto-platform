@@ -9,3 +9,5 @@ parameters:
         rscript_exec: Rscript
         timer_type: server #client or server
         session_forking: false #experimental
+        dir: /
+        connection: local

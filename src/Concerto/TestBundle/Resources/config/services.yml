@@ -28,7 +28,6 @@ services:
     Concerto\TestBundle\Service\RRunnerService:
         arguments:
             $root: "%kernel.root_dir%"
-            $panelNodes: "%panel_nodes%"
             $settings: "%test_runner_settings%"
             $environment: "%kernel.environment%"
 

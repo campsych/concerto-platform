@@ -1,4 +1,4 @@
-concerto.session.update = function(returns=list()){
+concerto.session.update = function(){
   concerto.log("updating session...")
 
   if(concerto$session$template_id == 0 || !is.null(concerto$session$template_id) && is.na(concerto$session$template_id) || is.null(concerto$session$template_id)) concerto$session$template_id <<- "NULL"
@@ -18,7 +18,6 @@ concerto.session.update = function(returns=list()){
     loaderHtml = '%s',
     timeLimit = %s,
     testNodePort = '%s',
-    returns = '%s',
     error = '%s'
     WHERE id='%s'",
   dbEscapeStrings(concerto$connection, toString(concerto$session$templateHead)),
@@ -34,8 +33,7 @@ concerto.session.update = function(returns=list()){
   dbEscapeStrings(concerto$connection, toString(concerto$session$loaderJs)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$loaderHtml)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$timeLimit)),
-  dbEscapeStrings(concerto$connection, toString(concerto$testNode$port)),
-  dbEscapeStrings(concerto$connection, toString(toJSON(returns))),
+  dbEscapeStrings(concerto$connection, toString(concerto$testNodePort)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$error)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$id)))
 

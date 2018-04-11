@@ -1,10 +1,10 @@
-concerto.session.finalize <- function(response = RESPONSE_FINISHED, returns = list()){
+concerto.session.finalize <- function(response = RESPONSE_FINISHED){
   concerto.log("finalizing session...")
 
   #closeAllConnections()
   
   concerto$session$status <<- STATUS_FINALIZED
-  concerto5:::concerto.session.update(returns)
+  concerto5:::concerto.session.update()
   dbDisconnect(concerto$connection)
   concerto.log("session finalized")
 
