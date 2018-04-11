@@ -4,7 +4,7 @@
  * @param $scope
  * @constructor
  */
-function WizardParamSetter10Controller($scope, AdministrationSettingsService, uiGridConstants, GridService) {
+function WizardParamSetter10Controller($scope, AdministrationSettingsService, uiGridConstants, GridService, $filter) {
   $scope.administrationSettingsService = AdministrationSettingsService;
   $scope.gridService = GridService;
 
@@ -174,4 +174,4 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
   });
 };
 
-concertoPanel.controller('WizardParamSetter10Controller', ["$scope", "AdministrationSettingsService", "uiGridConstants", "GridService", WizardParamSetter10Controller]);
+concertoPanel.controller('WizardParamSetter10Controller', ["$scope", "AdministrationSettingsService", "uiGridConstants", "GridService", "$filter", WizardParamSetter10Controller]);
