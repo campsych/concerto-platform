@@ -31,6 +31,16 @@ services:
             $settings: "%test_runner_settings%"
             $environment: "%kernel.environment%"
 
+    Concerto\TestBundle\Service\TestRunnerService:
+        arguments:
+            $environment: "%kernel.environment%"
+
+    Concerto\TestBundle\Controller\TestRunnerController:
+        arguments:
+            $environment: "%kernel.environment%"
+            $testRunnerSettings: "%test_runner_settings%"
+        public: true
+
 #commands
     Concerto\TestBundle\Command\StartProcessCommand:
         arguments:

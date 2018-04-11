@@ -1,6 +1,6 @@
 <?php
 
-namespace Concerto\PanelBundle\Service;
+namespace Concerto\TestBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Service\TestSessionService;

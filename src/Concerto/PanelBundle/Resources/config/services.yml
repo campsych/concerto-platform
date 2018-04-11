@@ -160,10 +160,6 @@ services:
         arguments:
             $administration: "%administration%"
 
-    Concerto\PanelBundle\Service\TestRunnerService:
-        arguments:
-            $environment: "%kernel.environment%"
-
     Concerto\PanelBundle\Service\TestSessionService:
         arguments:
             $environment: "%kernel.environment%"
@@ -188,12 +184,6 @@ services:
     Concerto\PanelBundle\Controller\TestController:
         arguments:
             $environment: "%kernel.environment%"
-        public: true
-
-    Concerto\PanelBundle\Controller\TestRunnerController:
-        arguments:
-            $environment: "%kernel.environment%"
-            $testRunnerSettings: "%test_runner_settings%"
         public: true
 
     Concerto\PanelBundle\Controller\TestWizardController:

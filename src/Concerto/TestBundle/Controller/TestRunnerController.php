@@ -1,6 +1,6 @@
 <?php
 
-namespace Concerto\PanelBundle\Controller;
+namespace Concerto\TestBundle\Controller;
 
 use Concerto\PanelBundle\Service\TestRunnerService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
