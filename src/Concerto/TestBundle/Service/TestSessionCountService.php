@@ -3,11 +3,12 @@
 namespace Concerto\TestBundle\Service;
 
 use Concerto\TestBundle\Entity\TestSessionCount;
-use Concerto\TestBundle\Service\RRunnerService;
 use Concerto\TestBundle\Repository\TestSessionCountRepository;
 
 class TestSessionCountService
 {
+    const OS_WIN = 0;
+    const OS_LINUX = 1;
 
     private $sessionCountRepo;
 
@@ -20,9 +21,9 @@ class TestSessionCountService
     public function getOS()
     {
         if (strpos(strtolower(PHP_OS), "win") !== false) {
-            return RRunnerService::OS_WIN;
+            return self::OS_WIN;
         } else {
-            return RRunnerService::OS_LINUX;
+            return self::OS_LINUX;
         }
     }
 
@@ -47,7 +48,7 @@ class TestSessionCountService
 
     public function getCurrentCount()
     {
-        if ($this->getOS() !== RRunnerService::OS_LINUX)
+        if ($this->getOS() !== self::OS_LINUX)
             return false;
 
         $sum = 0;

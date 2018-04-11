@@ -24,22 +24,23 @@ services:
         factory: doctrine.orm.entity_manager:getRepository
         arguments: [ Concerto\TestBundle\Entity\TestSessionCount]
 
-#services
-    Concerto\TestBundle\Service\RRunnerService:
-        arguments:
-            $root: "%kernel.root_dir%"
-            $settings: "%test_runner_settings%"
-            $environment: "%kernel.environment%"
-
-    Concerto\TestBundle\Service\TestRunnerService:
-        arguments:
-            $environment: "%kernel.environment%"
-
+#controller
     Concerto\TestBundle\Controller\TestRunnerController:
         arguments:
             $environment: "%kernel.environment%"
             $testRunnerSettings: "%test_runner_settings%"
         public: true
+
+#services
+    Concerto\TestBundle\Service\TestRunnerService:
+        arguments:
+            $environment: "%kernel.environment%"
+
+    Concerto\TestBundle\Service\PersistantSessionRunnerService:
+        arguments:
+            $testRunnerSettings: "%test_runner_settings%"
+            $root: "%kernel.root_dir%"
+            $environment: "%kernel.environment%"
 
 #commands
     Concerto\TestBundle\Command\StartProcessCommand:
@@ -56,3 +57,6 @@ services:
             $defaultLocale: "%kernel.default_locale%"
         tags:
             - { name: kernel.event_subscriber }
+
+#aliases
+    Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\PersistantSessionRunnerService'

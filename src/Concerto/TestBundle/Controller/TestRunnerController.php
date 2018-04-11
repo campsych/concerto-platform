@@ -2,7 +2,7 @@
 
 namespace Concerto\TestBundle\Controller;
 
-use Concerto\PanelBundle\Service\TestRunnerService;
+use Concerto\TestBundle\Service\TestRunnerService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;

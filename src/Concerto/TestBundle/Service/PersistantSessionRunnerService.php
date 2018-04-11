@@ -7,18 +7,33 @@ use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\PanelBundle\Service\TestSessionService;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Process\Process;
 
 class PersistantSessionRunnerService extends ASessionRunnerService
 {
+    const OS_WIN = 0;
+    const OS_LINUX = 1;
+
+    private $root;
     private $logger;
+    private $doctrine;
     private $testSessionRepository;
     private $administrationService;
+    private $testSessionCountService;
+    private $testRunnerSettings;
+    private $environment;
 
-    public function __construct(LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService)
+    public function __construct(LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root, $environment)
     {
+        $this->root = $root;
         $this->logger = $logger;
         $this->testSessionRepository = $testSessionRepository;
         $this->administrationService = $administrationService;
+        $this->testSessionCountService = $testSessionCountService;
+        $this->doctrine = $doctrine;
+        $this->testRunnerSettings = $testRunnerSettings;
+        $this->environment = $environment;
     }
 
     public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false)
@@ -42,7 +57,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
         $response = null;
         switch ($rresult["code"]) {
-            case self::RESPONSE_SESSION_LIMIT_REACHED:
+            case TestSessionService::RESPONSE_SESSION_LIMIT_REACHED:
                 {
                     $response = $rresult;
                     $session->setStatus(self::STATUS_REJECTED);
