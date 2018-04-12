@@ -15,24 +15,18 @@ class PersistantSessionRunnerService extends ASessionRunnerService
     const OS_WIN = 0;
     const OS_LINUX = 1;
 
-    private $root;
-    private $logger;
-    private $doctrine;
     private $testSessionRepository;
     private $administrationService;
     private $testSessionCountService;
-    private $testRunnerSettings;
     private $environment;
 
     public function __construct(LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root, $environment)
     {
-        $this->root = $root;
-        $this->logger = $logger;
+        parent::__construct($logger, $testRunnerSettings, $root, $doctrine);
+
         $this->testSessionRepository = $testSessionRepository;
         $this->administrationService = $administrationService;
         $this->testSessionCountService = $testSessionCountService;
-        $this->doctrine = $doctrine;
-        $this->testRunnerSettings = $testRunnerSettings;
         $this->environment = $environment;
     }
 
@@ -267,40 +261,13 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             return $response;
         }
 
-        $panel_node_connection = $this->getSerializedConnection();
         $client = json_encode(array(
             "ip" => $client_ip,
             "browser" => $client_browser
         ));
-        $this->startProcess($panel_node_port, $panel_node_connection, $client, $session_hash, $values, $debug);
+        $this->startProcess($panel_node_port, $client, $session_hash, $values, $debug);
 
         return $response;
-    }
-
-    private function getSerializedConnection()
-    {
-        $con = $this->doctrine->getConnection("local");
-        $con_array = array(
-            "driver" => $con->getDriver()->getName(),
-            "host" => $con->getHost(),
-            "port" => $con->getPort(),
-            "dbname" => $con->getDatabase(),
-            "username" => $con->getUsername(),
-            "password" => $con->getPassword());
-
-        //@TODO there should be no default port
-        if (!$con_array["port"]) {
-            $con_array["port"] = 3306;
-        }
-        $params = $con->getParams();
-        if (array_key_exists("path", $params)) {
-            $con_array["path"] = $params["path"];
-        }
-        if (array_key_exists("unix_socket", $params)) {
-            $con_array["unix_socket"] = $params["unix_socket"];
-        }
-        $json_connection = json_encode($con_array);
-        return $json_connection;
     }
 
     //@TODO proper OS detection
@@ -313,35 +280,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         }
     }
 
-    private function getIniFilePath()
-    {
-        return $this->root . "/../src/Concerto/TestBundle/Resources/R/standalone.R";
-    }
-
-    private function getOutputFilePath($session_hash)
-    {
-        return $this->getWorkingDirPath($session_hash) . "concerto.log";
-    }
-
-    private function getPublicDirPath()
-    {
-        return $this->root . "/../src/Concerto/PanelBundle/Resources/public/files/";
-    }
-
-    private function getMediaUrl()
-    {
-        return $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
-    }
-
-    private function getWorkingDirPath($session_hash)
-    {
-        $path = $this->root . "/../src/Concerto/TestBundle/Resources/sessions/$session_hash/";
-        if (!file_exists($path)) {
-            mkdir($path, 0755, true);
-        }
-        return $path;
-    }
-
     private function escapeWindowsArg($arg)
     {
         $arg = addcslashes($arg, '"');
@@ -351,35 +289,19 @@ class PersistantSessionRunnerService extends ASessionRunnerService
     }
 
     //@TODO must not send plain password through command line
-    private function getCommand($panel_node_port, $panel_node_connection, $client, $session_hash, $values, $debug)
+    private function getCommand($panel_node_port, $client, $session_hash, $values, $debug)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $panel_node_connection, $client, $session_hash, $values, $debug");
-        $keep_alive_interval_time = $this->testRunnerSettings["keep_alive_interval_time"];
-        $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
-        $renviron = "";
-        if ($this->testRunnerSettings["r_environ_path"] != null) {
-            //@TODO is addcslashes required below?
-            $renviron = "--r_environ=\"" . addcslashes($this->testRunnerSettings["r_environ_path"], "\\") . "\"";
-        }
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $client, $session_hash, $values, $debug");
         switch ($this->getOS()) {
             case self::OS_WIN:
                 return "start cmd /C \""
                     . "\"" . $this->escapeWindowsArg($this->testRunnerSettings["php_exec"]) . "\" "
                     . "\"" . $this->escapeWindowsArg($this->root) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console'\" concerto:r:start --env=" . $this->environment . " "
-                    . "\"" . $this->escapeWindowsArg($this->getIniFilePath()) . "\" "
                     . "$panel_node_port "
                     . "$session_hash "
-                    . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
                     . "\"" . $this->escapeWindowsArg($client) . "\" "
-                    . "\"" . $this->escapeWindowsArg($this->getWorkingDirPath($session_hash)) . "\" "
-                    . "\"" . $this->escapeWindowsArg($this->getPublicDirPath()) . "\" "
-                    . "\"" . $this->escapeWindowsArg($this->getMediaUrl()) . "\" "
-                    . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
                     . "$debug "
-                    . "$keep_alive_interval_time "
-                    . "$keep_alive_tolerance_time "
                     . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
-                    . "$renviron "
                     . ">> "
                     . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
                     . "2>&1\"";
@@ -387,30 +309,21 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                 return "nohup "
                     . $this->testRunnerSettings["php_exec"] . " "
                     . "'" . $this->root . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console' concerto:r:start --env=" . $this->environment . " "
-                    . "'" . $this->getIniFilePath() . "' "
                     . "$panel_node_port "
                     . "$session_hash "
-                    . "'$panel_node_connection' "
                     . "'$client' "
-                    . "'" . $this->getWorkingDirPath($session_hash) . "' "
-                    . "'" . $this->getPublicDirPath() . "' "
-                    . "'" . $this->getMediaUrl() . "' "
-                    . "'" . $this->getOutputFilePath($session_hash) . "' "
                     . "$debug "
-                    . "$keep_alive_interval_time "
-                    . "$keep_alive_tolerance_time "
                     . ($values ? "'" . $values . "'" : "'{}'") . " "
-                    . "$renviron "
                     . ">> "
                     . $this->getOutputFilePath($session_hash) . " "
                     . "2>&1 & echo $!";
         }
     }
 
-    private function startProcess($panel_node_port, $panel_node_connection, $client, $session_hash, $values, $debug)
+    private function startProcess($panel_node_port, $client, $session_hash, $values, $debug)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $panel_node_connection, $client, $session_hash, $values, $debug");
-        $command = $this->getCommand($panel_node_port, $panel_node_connection, $client, $session_hash, $values, $debug);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $client, $session_hash, $values, $debug");
+        $command = $this->getCommand($panel_node_port, $client, $session_hash, $values, $debug);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ":command: $command");
 
         $process = new Process($command);

@@ -2,10 +2,10 @@
 
 namespace Concerto\TestBundle\Command;
 
+use Concerto\TestBundle\Service\ASessionRunnerService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -47,9 +47,7 @@ class StartProcessCommand extends Command
     private $isSerializing;
     private $isDebug;
     private $debugOffset;
-    private $logPath;
-    private $rLogPath;
-    private $rEnviron;
+    private $session_hash;
 
     /**
      * @var OutputInterface $output
@@ -61,13 +59,17 @@ class StartProcessCommand extends Command
      */
     private $logger;
     private $testRunnerSettings;
+    private $root;
+    private $sessionRunnerService;
 
-    public function __construct(LoggerInterface $logger, $testRunnerSettings)
+    public function __construct(LoggerInterface $logger, $testRunnerSettings, $root, ASessionRunnerService $sessionRunnerService)
     {
         parent::__construct();
 
         $this->logger = $logger;
         $this->testRunnerSettings = $testRunnerSettings;
+        $this->root = $root;
+        $this->sessionRunnerService = $sessionRunnerService;
     }
 
     protected function configure()
@@ -76,21 +78,11 @@ class StartProcessCommand extends Command
         $this->isDebug = false;
         $this->debugOffset = 0;
         $this->setName("concerto:r:start")->setDescription("Starts new R session.");
-        $this->addArgument("ini_path", InputArgument::REQUIRED, "initialization file path");
         $this->addArgument("panel_node_port", InputArgument::REQUIRED, "panel node port");
-        $this->addArgument("test_session_id", InputArgument::REQUIRED, "test session id");
-        $this->addArgument("panel_node_connection", InputArgument::REQUIRED, "panel node connection json serialized data");
+        $this->addArgument("session_hash", InputArgument::REQUIRED, "test session id");
         $this->addArgument("client", InputArgument::REQUIRED, "client json serialized data");
-        $this->addArgument("working_directory", InputArgument::REQUIRED, "session working directory");
-        $this->addArgument("public_directory", InputArgument::REQUIRED, "public directory");
-        $this->addArgument("media_url", InputArgument::REQUIRED, "media URL");
-        $this->addArgument("log_path", InputArgument::REQUIRED, "log path");
         $this->addArgument("debug", InputArgument::REQUIRED, "debug test execution");
-        $this->addArgument("keep_alive_interval_time", InputArgument::REQUIRED, "keep-alive interval time");
-        $this->addArgument("keep_alive_tolerance_time", InputArgument::REQUIRED, "keep-alive tolerance time");
         $this->addArgument("submit", InputArgument::OPTIONAL, "submitted variables");
-
-        $this->addOption("r_environ", "renv", InputOption::VALUE_OPTIONAL, "R Renviron file path", null);
     }
 
     private function log($fun, $msg = null, $error = false)
@@ -325,8 +317,8 @@ class StartProcessCommand extends Command
 
     private function appendDebugDataToResponse($response)
     {
-        if (file_exists($this->rLogPath)) {
-            $new_data = file_get_contents($this->rLogPath, false, null, $this->debugOffset);
+        if (file_exists($this->sessionRunnerService->getROutputFilePath($this->session_hash))) {
+            $new_data = file_get_contents($this->sessionRunnerService->getROutputFilePath($this->session_hash), false, null, $this->debugOffset);
             $this->debugOffset += strlen($new_data);
             $decoded_response = json_decode($response, true);
             $decoded_response["debug"] = mb_convert_encoding($new_data, "UTF-8");
@@ -353,45 +345,53 @@ class StartProcessCommand extends Command
         return $arg;
     }
 
-    private function getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function getCommand($test_node_port, $submitter, $client, $values)
     {
+        $rscript_exec = $this->testRunnerSettings["rscript_exec"];
+        $ini_path = $this->getRDir() . "/standalone.R";
+        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        $database_connection = $this->sessionRunnerService->getSerializedConnection();
+        $working_directory = $this->sessionRunnerService->getWorkingDirPath($this->session_hash);
+        $public_directory = $this->sessionRunnerService->getPublicDirPath();
+        $media_url = $this->sessionRunnerService->getMediaUrl();
+
         switch ($this->getOS()) {
             case self::OS_LINUX:
                 return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
                     . "'$ini_path' "
-                    . "'$panel_node_connection' "
+                    . "'$database_connection' "
                     . "$test_node_port "
                     . "'$submitter' "
                     . "'$client' "
-                    . "$test_session_id "
-                    . "'$wd' "
-                    . "'$pd' "
-                    . "'$murl' "
+                    . $this->session_hash . " "
+                    . "'$working_directory' "
+                    . "'$public_directory' "
+                    . "'$media_url' "
                     . "$max_exec_time "
                     . "'$values' "
                     . ">> "
-                    . "'" . $this->logPath . "' "
+                    . "'" . $this->sessionRunnerService->getOutputFilePath($this->session_hash) . "' "
                     . "> "
-                    . "'" . $this->rLogPath . "' "
+                    . "'" . $this->sessionRunnerService->getROutputFilePath($this->session_hash) . "' "
                     . "2>&1 & echo $!";
             default:
                 return "start cmd /C \""
                     . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
                     . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
-                    . "\"" . $this->escapeWindowsArg($panel_node_connection) . "\" "
+                    . "\"" . $this->escapeWindowsArg($database_connection) . "\" "
                     . "$test_node_port "
                     . "\"" . $this->escapeWindowsArg($submitter) . "\" "
                     . "\"" . $this->escapeWindowsArg($client) . "\" "
-                    . "$test_session_id "
-                    . "\"" . $this->escapeWindowsArg($wd) . "\" "
-                    . "\"" . $this->escapeWindowsArg($pd) . "\" "
-                    . "$murl "
+                    . $this->session_hash . " "
+                    . "\"" . $this->escapeWindowsArg($working_directory) . "\" "
+                    . "\"" . $this->escapeWindowsArg($public_directory) . "\" "
+                    . "$media_url "
                     . "$max_exec_time "
                     . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
                     . ">> "
-                    . "\"" . $this->escapeWindowsArg($this->logPath) . "\" "
+                    . "\"" . $this->escapeWindowsArg($this->sessionRunnerService->getOutputFilePath($this->session_hash)) . "\" "
                     . "> "
-                    . "\"" . $this->escapeWindowsArg($this->rLogPath) . "\" "
+                    . "\"" . $this->escapeWindowsArg($this->sessionRunnerService->getROutputFilePath($this->session_hash)) . "\" "
                     . "2>&1\"";
         }
     }
@@ -401,27 +401,17 @@ class StartProcessCommand extends Command
         $this->output = $output;
         $this->log(__FUNCTION__);
 
-        $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $this->panelNodePort = $input->getArgument("panel_node_port");
-        $panel_node_connection = $input->getArgument("panel_node_connection");
         $client = $input->getArgument("client");
-        $ini_path = $input->getArgument("ini_path");
-        $test_session_id = $input->getArgument("test_session_id");
-        $wd = $input->getArgument("working_directory");
-        $pd = $input->getArgument("public_directory");
-        $murl = $input->getArgument("media_url");
-        $this->logPath = $input->getArgument("log_path");
-        $this->rLogPath = $this->logPath . ".r";
+        $this->session_hash = $input->getArgument("session_hash");
         $values = $input->getArgument("submit");
         $this->isDebug = $input->getArgument("debug") == 1;
         if (!$values) {
             $values = "";
         }
-        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         $this->maxIdleTime = $this->testRunnerSettings["max_idle_time"];
-        $this->keepAliveIntervalTime = $input->getArgument("keep_alive_interval_time");
-        $this->keepAliveToleranceTime = $input->getArgument("keep_alive_tolerance_time");
-        $this->rEnviron = $input->getOption("r_environ");
+        $this->keepAliveIntervalTime = $this->testRunnerSettings["keep_alive_interval_time"];
+        $this->keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
 
         $test_node_sock = $this->createListenerSocket();
         if ($test_node_sock === false) {
@@ -453,10 +443,9 @@ class StartProcessCommand extends Command
         //@TODO values possibly not needed to be passed here
         $success = false;
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
-            $success = $this->childProcess($panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+            $success = $this->childProcess($test_node_port, $submitter, $client, $values);
         } else {
-            $success = $this->standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
-            //$success = $this->startCheckpointProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+            $success = $this->standaloneProcess($test_node_port, $submitter, $client, $values);
         }
         if (!$success) {
             $this->respondToPanelNode(json_encode(array(
@@ -475,38 +464,38 @@ class StartProcessCommand extends Command
         $this->log(__FUNCTION__, "closing process");
     }
 
-    private function standaloneProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function standaloneProcess($test_node_port, $submitter, $client, $values)
     {
-        $cmd = $this->getCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time);
+        $cmd = $this->getCommand($test_node_port, $submitter, $client, $values);
 
         $this->log(__FUNCTION__, $cmd);
 
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
-        if ($this->rEnviron != null) {
-            $this->log(__FUNCTION__, "setting process renviron to: " . $this->rEnviron);
+        if ($this->testRunnerSettings["r_environ_path"] != null) {
+            $this->log(__FUNCTION__, "setting process renviron to: " . $this->testRunnerSettings["r_environ_path"]);
             $env = array();
-            $env["R_ENVIRON"] = $this->rEnviron;
+            $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
             $process->setEnv($env);
         }
         $process->mustRun();
         return true;
     }
 
-    private function childProcess($panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function childProcess($test_node_port, $submitter, $client, $values)
     {
         $response = json_encode(array(
-            "workingDir" => realpath($wd) . DIRECTORY_SEPARATOR,
-            "maxExecTime" => $max_exec_time,
+            "workingDir" => realpath($this->sessionRunnerService->getWorkingDirPath($this->session_hash)) . DIRECTORY_SEPARATOR,
+            "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
             "testNodePort" => $test_node_port,
             "client" => json_decode($client, true),
             "submitter" => json_decode($submitter, true),
-            "connection" => json_decode($panel_node_connection, true),
-            "sessionId" => $test_session_id,
-            "rLogPath" => $this->rLogPath
+            "connection" => json_decode($this->sessionRunnerService->getSerializedConnection(), true),
+            "sessionId" => $this->session_hash,
+            "rLogPath" => $this->sessionRunnerService->getROutputFilePath($this->session_hash)
         ));
 
-        $path = "/usr/src/concerto/src/Concerto/TestBundle/Resources/R/fifo/" . $test_session_id;
+        $path = $this->getFifoDir() . "/" . $this->session_hash;
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
@@ -528,43 +517,13 @@ class StartProcessCommand extends Command
         return $success;
     }
 
-    private function getStartCheckpointCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function getRDir()
     {
-        $portFile = $wd . "coord_port";
-        return "/usr/src/concerto/temp/dmtcp-2.5.2/bin/dmtcp_launch --new-coordinator --coord-port 0 --port-file '$portFile' --ckptdir '$wd' " . $rscript_exec . " --no-save --no-restore --quiet "
-            . "'$ini_path' "
-            . "'$panel_node_connection' "
-            . "'$test_node_port' "
-            . "'$submitter' "
-            . "'$client' "
-            . "$test_session_id "
-            . "'$wd' "
-            . "'$pd' "
-            . "'$murl' "
-            . "$max_exec_time "
-            . "'$values' "
-            . ">> "
-            . "'" . $this->logPath . "' "
-            . "> "
-            . "'" . $this->rLogPath . "' "
-            . "2>&1 & echo $!";
+        return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R");
     }
 
-    private function startCheckpointProcess($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time)
+    private function getFifoDir()
     {
-        $cmd = $this->getStartCheckpointCommand($rscript_exec, $ini_path, $panel_node_connection, $test_node_port, $submitter, $client, $test_session_id, $wd, $pd, $murl, $values, $max_exec_time, true);
-
-        $this->log(__FUNCTION__, $cmd);
-
-        $process = new Process($cmd);
-        $process->setEnhanceWindowsCompatibility(false);
-        if ($this->rEnviron != null) {
-            $this->log(__FUNCTION__, "setting process renviron to: " . $this->rEnviron);
-            $env = array();
-            $env["R_ENVIRON"] = $this->rEnviron;
-            $process->setEnv($env);
-        }
-        $process->mustRun();
-        return true;
+        return $this->getRDir() . "/fifo";
     }
 }

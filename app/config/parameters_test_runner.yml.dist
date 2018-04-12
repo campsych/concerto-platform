@@ -11,3 +11,4 @@ parameters:
         session_forking: false #experimental
         dir: /
         connection: local
+        dmtcp_bin_path: /usr/src/dmtcp-2.5.2/bin
