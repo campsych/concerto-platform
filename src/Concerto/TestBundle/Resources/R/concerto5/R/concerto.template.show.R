@@ -1,10 +1,13 @@
+
 concerto.template.show = function(
   templateId=-1, 
   html="", 
   head="", 
   params=list(),
   timeLimit=0,
-  finalize=F) {
+  finalize=F,
+  css="",
+  js="") {
     if(!is.list(params)) stop("'params' must be a list!")
   
     if(templateId==-1 && html=="") stop("templateId or html must be declared")
@@ -12,6 +15,8 @@ concerto.template.show = function(
     if(html!=""){
       concerto$session$templateHead <<- concerto.template.insertParams(head,params)
       concerto$session$templateHtml <<- concerto.template.insertParams(html,params)
+      concerto$session$templateCss <<- concerto.template.insertParams(css,params)
+      concerto$session$templateJs <<- concerto.template.insertParams(js,params)
     } else {
       template <- concerto.template.get(templateId)
       if(dim(template)[1]==0) stop(paste("Template #",templateId," not found!",sep=''))
