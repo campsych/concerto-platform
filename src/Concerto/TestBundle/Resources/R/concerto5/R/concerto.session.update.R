@@ -17,7 +17,6 @@ concerto.session.update = function(){
     loaderJs = '%s',
     loaderHtml = '%s',
     timeLimit = %s,
-    testNodePort = '%s',
     error = '%s'
     WHERE id='%s'",
   dbEscapeStrings(concerto$connection, toString(concerto$session$templateHead)),
@@ -33,7 +32,6 @@ concerto.session.update = function(){
   dbEscapeStrings(concerto$connection, toString(concerto$session$loaderJs)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$loaderHtml)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$timeLimit)),
-  dbEscapeStrings(concerto$connection, toString(concerto$testNodePort)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$error)),
   dbEscapeStrings(concerto$connection, toString(concerto$session$id)))
 

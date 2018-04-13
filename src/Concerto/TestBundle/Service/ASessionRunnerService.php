@@ -8,6 +8,9 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 abstract class ASessionRunnerService
 {
+    const OS_WIN = 0;
+    const OS_LINUX = 1;
+
     protected $logger;
     protected $testRunnerSettings;
     protected $root;
@@ -23,9 +26,9 @@ abstract class ASessionRunnerService
 
     abstract public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false);
 
-    abstract public function submit(TestSession $session, $values, $client_ip, $client_browser, $time = null);
+    abstract public function submit(TestSession $session, $values, $client_ip, $client_browser);
 
-    abstract public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser, $time = null);
+    abstract public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser);
 
     abstract public function keepAlive(TestSession $session, $client_ip, $client_browser);
 
@@ -89,5 +92,28 @@ abstract class ASessionRunnerService
             mkdir($path, 0755, true);
         }
         return $path;
+    }
+
+    //@TODO proper OS detection
+    public function getOS()
+    {
+        if (strpos(strtolower(PHP_OS), "win") !== false) {
+            return self::OS_WIN;
+        } else {
+            return self::OS_LINUX;
+        }
+    }
+
+    public function escapeWindowsArg($arg)
+    {
+        $arg = addcslashes($arg, '"');
+        $arg = str_replace("(", "^(", $arg);
+        $arg = str_replace(")", "^)", $arg);
+        return $arg;
+    }
+
+    public function getFifoDir()
+    {
+        return $this->getRDir() . "/fifo";
     }
 }

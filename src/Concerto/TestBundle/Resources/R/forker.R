@@ -42,6 +42,7 @@ RESPONSE_SUBMIT = 2
 RESPONSE_STOP = 3
 RESPONSE_STOPPED = 4
 RESPONSE_VIEW_FINAL_TEMPLATE = 5
+RESPONSE_KEEPALIVE_CHECKIN = 10
 RESPONSE_UNRESUMABLE = 11
 RESPONSE_WORKER = 15
 RESPONSE_ERROR = - 1
@@ -105,15 +106,14 @@ while (T) {
         concerto$mediaUrl <- media_url
         rm(media_url)
         concerto$maxExecTime <- as.numeric(response$maxExecTime)
-        concerto$testNodePort <- response$testNodePort
+        concerto$maxIdleTime <- as.numeric(response$maxIdleTime)
+        concerto$keepAliveToleranceTime <- as.numeric(response$keepAliveToleranceTime)
+        concerto$lastSubmitTime <- as.numeric(Sys.time())
+        concerto$lastKeepAliveTime <- as.numeric(Sys.time())
         concerto$client <- response$client
-        submitter <- response$submitter
         concerto$connectionParams <- response$connection
 
         concerto$sessionFile <- paste0(concerto$workingDir, "session.Rs")
-        concerto$submitter.host <- submitter$host
-        concerto$submitter.port <- submitter$port
-        rm(submitter)
 
         concerto$connection <- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
 
@@ -130,27 +130,12 @@ while (T) {
             setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
             concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
-            if (concerto$session$status == STATUS_FINALIZED) {
-                concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE)
-            } else if (concerto$session$status == STATUS_RUNNING) {
-                concerto5:::concerto.session.finalize(RESPONSE_FINISHED)
-            }
+            concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
         }, error = function(e) {
-            if (concerto$session$status == STATUS_RUNNING) {
-                concerto.log(e)
-                response = RESPONSE_ERROR
-                if (e$message == "session unresumable") {
-                    response = RESPONSE_UNRESUMABLE
-                }
-                concerto$session$error <<- e
-                concerto$session$status <<- STATUS_ERROR
-                concerto5:::concerto.session.update()
-                concerto5:::concerto.server.respond(response)
-                q("no",1)
-            }
+            concerto.log(e)
+            concerto$session$error <<- e
+            concerto5:::concerto.session.stop(STATUS_ERROR, RESPONSE_ERROR)
         })
-
-        q("no")
     }, detached = TRUE)
 }
 concerto.log("listener closing")

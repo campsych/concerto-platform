@@ -22,13 +22,13 @@ class TestSession extends AEntity {
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $panelNodePort;
+    private $testNodePort;
 
     /**
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $testNodePort;
+    private $submitterPort;
 
     /**
      *
@@ -149,31 +149,12 @@ class TestSession extends AEntity {
 
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
+        $this->submitterPort = 0;
+        $this->testNodePort = 0;
     }
 
     public function getOwner() {
         return $this->getTest()->getOwner();
-    }
-
-    /**
-     * Set panel node port
-     *
-     * @param integer $panelNodePort
-     * @return TestSession
-     */
-    public function setPanelNodePort($panelNodePort) {
-        $this->panelNodePort = $panelNodePort;
-
-        return $this;
-    }
-
-    /**
-     * Get panel node port
-     *
-     * @return integer 
-     */
-    public function getPanelNodePort() {
-        return $this->panelNodePort;
     }
 
     /**
@@ -195,6 +176,27 @@ class TestSession extends AEntity {
      */
     public function getTestNodePort() {
         return $this->testNodePort;
+    }
+
+    /**
+     * Set submitter port
+     *
+     * @param integer $submitterPort
+     * @return TestSession
+     */
+    public function setSubmitterPort($submitterPort) {
+        $this->submitterPort = $submitterPort;
+
+        return $this;
+    }
+
+    /**
+     * Get submitter port
+     *
+     * @return integer
+     */
+    public function getSubmitterPort() {
+        return $this->submitterPort;
     }
 
     /**

@@ -28,23 +28,10 @@ concerto.session.restoreFlow <- function(sessionHash){
         setwd(concerto$workingDir)
         concerto.test.run(concerto$flow[[1]]$id, mainTest=TRUE, ongoingResumeFlowIndex=1)
 
-        if(concerto$session$status == STATUS_FINALIZED){
-          concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE)
-        } else if(concerto$session$status == STATUS_RUNNING){
-          concerto5:::concerto.session.finalize(RESPONSE_FINISHED)
-        }
+        concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
   }, error = function(e) {
-        if(concerto$session$status == STATUS_RUNNING){
-          concerto.log(e)
-          response = RESPONSE_ERROR
-          if(e$message == "session unresumable") {
-            response = RESPONSE_UNRESUMABLE
-          }
-          concerto5:::concerto.server.respond(response)
-          concerto$session$error <<- e
-          concerto$session$status <<- STATUS_ERROR
-          concerto5:::concerto.session.update()
-          q("no",1)
-        }
+        concerto.log(e)
+        concerto$session$error <<- e
+        concerto5:::concerto.session.stop(STATUS_ERROR, RESPONSE_ERROR)
   })
 }

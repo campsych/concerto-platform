@@ -232,19 +232,8 @@ class TestSessionService
             ));
         }
 
-        $checked = $this->sessionRunnerService->keepAlive($session, $client_ip, $client_browser);
-        if (!$checked) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, keep alive check in to test node failed.");
-            return $this->prepareResponse($session_hash, array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_SESSION_LOST
-            ));
-        }
-
-        return $this->prepareResponse($session_hash, array(
-            "source" => self::SOURCE_PANEL_NODE,
-            "code" => self::RESPONSE_KEEPALIVE_CHECKIN
-        ));
+        $response = $this->sessionRunnerService->keepAlive($session, $client_ip, $client_browser);
+        return $response;
     }
 
     public function kill($session_hash, $client_ip, $client_browser)
@@ -267,19 +256,8 @@ class TestSessionService
             ));
         }
 
-        $killed = $this->sessionRunnerService->kill($session, $client_ip, $client_browser);
-        if (!$killed) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, killing test node failed.");
-            return $this->prepareResponse($session_hash, array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_SESSION_LOST
-            ));
-        }
-
-        return $this->prepareResponse($session_hash, array(
-            "source" => self::SOURCE_PANEL_NODE,
-            "code" => self::RESPONSE_STOPPED
-        ));
+        $response = $this->sessionRunnerService->kill($session, $client_ip, $client_browser);
+        return $response;
     }
 
     public function uploadFile($session_hash, $files, $name)

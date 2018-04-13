@@ -12,8 +12,7 @@ use Symfony\Component\Process\Process;
 
 class PersistantSessionRunnerService extends ASessionRunnerService
 {
-    const OS_WIN = 0;
-    const OS_LINUX = 1;
+    const LISTENER_TIMEOUT = 5;
 
     private $testSessionRepository;
     private $administrationService;
@@ -34,102 +33,191 @@ class PersistantSessionRunnerService extends ASessionRunnerService
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $params, $client_ip, $client_ip, $client_browser, $debug");
-        if (($panel_node_sock = $this->createListenerSocket("127.0.0.1", null)) === false) {
+
+        if (!$this->checkSessionLimit()) {
+            $session->setStatus(TestSessionService::STATUS_REJECTED);
+            $this->testSessionRepository->save($session);
+            $this->administrationService->insertSessionLimitMessage($session);
             return array(
-                "source" => self::SOURCE_PANEL_NODE,
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SESSION_LIMIT_REACHED
+            );
+        }
+
+        $client = array(
+            "ip" => $client_ip,
+            "browser" => $client_browser
+        );
+
+        $test_node_sock = $this->createListenerSocket();
+        if ($test_node_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for test node failed");
+            return array(
+                "source" => self::SOURCE_TEST_NODE,
                 "code" => self::RESPONSE_ERROR
             );
         }
-        socket_getsockname($panel_node_sock, $panel_node_host, $panel_node_port);
 
-        $session->setPanelNodePort($panel_node_port);
-        $this->testSessionRepository->save($session);
+        socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
 
-        $rresult = $this->startR($panel_node_port, $session_hash, null, $client_ip, $client_browser, $debug ? 1 : 0);
-
-        $this->testSessionRepository->clear();
-        $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-        $response = null;
-        switch ($rresult["code"]) {
-            case TestSessionService::RESPONSE_SESSION_LIMIT_REACHED:
-                {
-                    $response = $rresult;
-                    $session->setStatus(self::STATUS_REJECTED);
-                    $this->testSessionRepository->save($session);
-                    $this->administrationService->insertSessionLimitMessage($session);
-                    socket_close($panel_node_sock);
-                    break;
-                }
-            default:
-                {
-                    $response = $this->startListener($panel_node_sock, $session_hash);
-                    $this->testSessionRepository->clear();
-                    break;
-                }
+        $submitter_sock = $this->createListenerSocket();
+        if ($submitter_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
+            socket_close($test_node_sock);
+            return array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            );
         }
 
+        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+        $session->setSubmitterPort($submitter_port);
+        $session->setTestNodePort($test_node_port);
+        $this->testSessionRepository->save($session);
+
+        $success = false;
+        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+            $success = $this->startChildProcess($client, $session_hash);
+        } else {
+            $success = $this->startStandaloneProcess($client, $session_hash);
+        }
+        if (!$success) {
+            socket_close($test_node_sock);
+            socket_close($submitter_sock);
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
+            return array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            );
+        }
+
+        $response = json_decode($this->startListener($test_node_sock), true);
+        socket_close($submitter_sock);
+        socket_close($test_node_sock);
+
+        $this->testSessionRepository->clear();
         return $response;
     }
 
-    public function submit(TestSession $session, $values, $client_ip, $client_browser, $time = null)
+    public function submit(TestSession $session, $values, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser, $time");
-        if (($client_sock = $this->createListenerSocket("127.0.0.1", $session_hash)) === false) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+
+        $client = array(
+            "ip" => $client_ip,
+            "browser" => $client_browser
+        );
+
+        $test_node_sock = $this->createListenerSocket();
+        if ($test_node_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for test node failed");
             return array(
-                "source" => self::SOURCE_PANEL_NODE,
+                "source" => self::SOURCE_TEST_NODE,
                 "code" => self::RESPONSE_ERROR
             );
         }
-        socket_getsockname($client_sock, $panel_node_ip, $panel_node_port);
 
-        $test_node_port = $session->getTestNodePort();
+        socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
 
-        $session->setPanelNodePort($panel_node_port);
-        $this->testSessionRepository->save($session);
-        $this->testSessionRepository->clear();
-
-        $submitted = $this->submitToTestNode($test_node_port, $panel_node_port, $client_ip, $client_browser, $values);
-        if (!$submitted) {
+        $submitter_sock = $this->createListenerSocket();
+        if ($submitter_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
+            socket_close($test_node_sock);
             return array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_SESSION_LOST,
-                "systemError" => "Submit to process failed."
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            );
+        }
+        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+
+        $session->setSubmitterPort($submitter_port);
+        $session->setTestNodePort($test_node_port);
+        $this->testSessionRepository->save($session);
+
+        $this->savePhpListenerPortFile($session_hash, $submitter_port);
+
+        $sent = $this->writeToProcess($submitter_sock, array(
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
+            "code" => TestSessionService::RESPONSE_SUBMIT,
+            "client" => $client,
+            "values" => $values
+        ));
+        if ($sent === false) {
+            socket_close($submitter_sock);
+            socket_close($test_node_sock);
+            return $response = array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SESSION_LOST
             );
         }
 
-        $response = $this->startListener($client_sock, $session_hash);
+        $response = json_decode($this->startListener($test_node_sock), true);
+        socket_close($submitter_sock);
+        socket_close($test_node_sock);
+
+        $this->testSessionRepository->clear();
         return $response;
     }
 
-    public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser, $time = null)
+    public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser, $time");
-        if (($client_sock = $this->createListenerSocket("127.0.0.1", $session_hash)) === false) {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+
+        $client = array(
+            "ip" => $client_ip,
+            "browser" => $client_browser
+        );
+
+        $test_node_sock = $this->createListenerSocket();
+        if ($test_node_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for test node failed");
             return array(
-                "source" => self::SOURCE_PANEL_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
-        socket_getsockname($client_sock, $panel_node_ip, $panel_node_port);
 
-        $test_node_port = $session->getTestNodePort();
+        socket_getsockname($test_node_sock, $test_node_ip, $test_node_port);
 
-        $session->setPanelNodePort($panel_node_port);
+        $submitter_sock = $this->createListenerSocket();
+        if ($submitter_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
+            socket_close($test_node_sock);
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+
+        $session->setSubmitterPort($submitter_port);
+        $session->setTestNodePort($test_node_port);
         $this->testSessionRepository->save($session);
-        $this->testSessionRepository->clear();
 
-        $submitted = $this->submitToTestNode($test_node_port, $panel_node_port, $client_ip, $client_browser, $values, TestSessionService::RESPONSE_WORKER);
-        if (!$submitted) {
-            return array(
-                "source" => TestSessionService::SOURCE_PANEL_NODE,
-                "code" => TestSessionService::RESPONSE_SESSION_LOST,
-                "systemError" => "Submit to process failed."
+        $this->savePhpListenerPortFile($session_hash, $submitter_port);
+
+        $sent = $this->writeToProcess($submitter_sock, array(
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
+            "code" => TestSessionService::RESPONSE_WORKER,
+            "client" => $client,
+            "values" => $values
+        ));
+        if ($sent === false) {
+            socket_close($submitter_sock);
+            socket_close($test_node_sock);
+            return $response = array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SESSION_LOST
             );
         }
 
-        $response = $this->startListener($client_sock, $session_hash);
+        $response = json_decode($this->startListener($test_node_sock), true);
+        socket_close($submitter_sock);
+        socket_close($test_node_sock);
+
+        $this->testSessionRepository->clear();
         return $response;
     }
 
@@ -137,202 +225,283 @@ class PersistantSessionRunnerService extends ASessionRunnerService
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
-        $test_node_port = $session->getTestNodePort();
 
-        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            return false;
+        $client = array(
+            "ip" => $client_ip,
+            "browser" => $client_browser
+        );
+
+        $submitter_sock = $this->createListenerSocket();
+        if ($submitter_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
         }
-        if (socket_connect($sock, "127.0.0.1", $test_node_port) === false) {
-            socket_close($sock);
-            return false;
+        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+
+        $session->setSubmitterPort($submitter_port);
+        $this->testSessionRepository->save($session);
+
+        $this->savePhpListenerPortFile($session_hash, $submitter_port);
+
+        $sent = $this->writeToProcess($submitter_sock, array(
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
+            "code" => TestSessionService::RESPONSE_KEEPALIVE_CHECKIN,
+            "client" => $client
+        ));
+        if ($sent === false) {
+            socket_close($submitter_sock);
+            return $response = array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SESSION_LOST
+            );
         }
-        socket_write($sock, json_encode(array(
-                "source" => TestSessionService::SOURCE_PANEL_NODE,
-                "code" => TestSessionService::RESPONSE_KEEPALIVE_CHECKIN,
-                "client" => array("ip" => $client_ip, "browser" => $client_browser)
-            )) . "\n");
-        socket_close($sock);
-        return true;
+        socket_close($submitter_sock);
+
+        $this->testSessionRepository->clear();
+        return array(
+            "source" => TestSessionService::SOURCE_PROCESS,
+            "code" => TestSessionService::RESPONSE_KEEPALIVE_CHECKIN
+        );
     }
 
     public function kill(TestSession $session, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
-        $test_node_port = $session->getTestNodePort();
-        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            return false;
+
+        $client = array(
+            "ip" => $client_ip,
+            "browser" => $client_browser
+        );
+
+        $submitter_sock = $this->createListenerSocket();
+        if ($submitter_sock === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
+            return array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
+            );
         }
-        if (socket_connect($sock, "127.0.0.1", $test_node_port) === false) {
-            socket_close($sock);
-            return false;
+        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+
+        $session->setSubmitterPort($submitter_port);
+        $this->testSessionRepository->save($session);
+
+        $this->savePhpListenerPortFile($session_hash, $submitter_port);
+
+        $sent = $this->writeToProcess($submitter_sock, array(
+            "source" => TestSessionService::SOURCE_PANEL_NODE,
+            "code" => TestSessionService::RESPONSE_STOP,
+            "client" => $client
+        ));
+        if ($sent === false) {
+            socket_close($submitter_sock);
+            return $response = array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SESSION_LOST
+            );
         }
-        socket_write($sock, json_encode(array(
-                "source" => TestSessionService::SOURCE_PANEL_NODE,
-                "code" => TestSessionService::RESPONSE_STOP,
-                "client" => array("ip" => $client_ip, "browser" => $client_browser)
-            )) . "\n");
-        socket_close($sock);
-        return true;
+
+        socket_close($submitter_sock);
+        $this->testSessionRepository->clear();
+        return array(
+            "source" => TestSessionService::SOURCE_PROCESS,
+            "code" => TestSessionService::RESPONSE_STOPPED
+        );
     }
 
-    private function submitToTestNode($test_node_port, $panel_node_port, $client_ip, $client_browser, $values, $code = TestSessionService::RESPONSE_SUBMIT)
+    private function savePhpListenerPortFile($session_hash, $port)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_node_port, $panel_node_port, $client_ip, $client_browser, $values");
-        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            return false;
+        while (($fh = @fopen($this->getPhpListenerPortFilePath($session_hash), "x")) === false) {
+            usleep(100 * 1000);
         }
-        if (socket_connect($sock, "127.0.0.1", $test_node_port) === false) {
-            socket_close($sock);
-            return false;
-        }
-        socket_write($sock, json_encode(array(
-                "source" => TestSessionService::SOURCE_PANEL_NODE,
-                "code" => $code,
-                "panelNodePort" => $panel_node_port,
-                "client" => array("ip" => $client_ip, "browser" => $client_browser),
-                "values" => $values
-            )) . "\n");
-        socket_close($sock);
-        return true;
+        fwrite($fh, $port);
+        fclose($fh);
     }
 
-    private function startListener($sock, $session_hash)
+    private function getPhpListenerPortFilePath($session_hash)
+    {
+        return $this->getWorkingDirPath($session_hash) . "/php.port";
+    }
+
+    private function writeToProcess($submitter_sock, $response)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
-        $response = "";
 
-        $client_sock = @socket_accept($sock);
-        if ($client_sock === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_accept() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
-        } else {
-            do {
-                $buf = socket_read($client_sock, 8388608, PHP_NORMAL_READ);
-                if ($buf === false) {
-                    $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_read() failed, " . socket_strerror(socket_last_error($client_sock)) . ", $session_hash");
-                    break;
-                }
-                $buf = trim($buf);
-                if (!$buf) {
-                    continue;
-                }
+        $startTime = time();
+        do {
+            if (($client_sock = socket_accept($submitter_sock)) === false) {
+                if (time() - $startTime > self::LISTENER_TIMEOUT) return false;
+                continue;
+            }
 
-                $response .= $buf;
-                break;
-            } while (usleep(100 * 1000) || true);
-            socket_close($client_sock);
-        }
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - socket accepted");
 
-        socket_close($sock);
-
-        return json_decode($response, true);
+            socket_write($client_sock, json_encode($response) . "\n");
+            break;
+        } while (usleep(100 * 1000) || true);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - submitter ended");
+        return true;
     }
 
-    private function createListenerSocket($ip, $session_hash)
+    private function createListenerSocket($port = 0)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $ip");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_create() failed, " . socket_strerror(socket_last_error()) . ", $session_hash");
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - socket_create() failed, listener socket, " . socket_strerror(socket_last_error()));
             return false;
         }
-        if (socket_bind($sock, "0.0.0.0") === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_bind() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
+        if (socket_bind($sock, "0.0.0.0", $port) === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - socket_bind() failed, listener socket, " . socket_strerror(socket_last_error($sock)));
             socket_close($sock);
             return false;
         }
         if (socket_listen($sock, SOMAXCONN) === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . ":socket_listen() failed, " . socket_strerror(socket_last_error($sock)) . ", $session_hash");
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - socket_listen() failed, listener socket, " . socket_strerror(socket_last_error($sock)));
             socket_close($sock);
             return false;
         }
+        socket_set_nonblock($sock);
         return $sock;
     }
 
-    private function startR($panel_node_port, $session_hash, $values, $client_ip, $client_browser, $debug)
+    private function startStandaloneProcess($client, $session_hash)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $session_hash, $values, $client_ip, $client_browser, $debug");
+        $cmd = $this->getCommand($client, $session_hash);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
 
-        $response = array("source" => TestSessionService::SOURCE_PROCESS, "code" => TestSessionService::RESPONSE_STARTING);
+        $process = new Process($cmd);
+        $process->setEnhanceWindowsCompatibility(false);
+        if ($this->testRunnerSettings["r_environ_path"] != null) {
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - setting process renviron to: " . $this->testRunnerSettings["r_environ_path"]);
+            $env = array();
+            $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
+            $process->setEnv($env);
+        }
+        $process->mustRun();
+        return true;
+    }
 
+    private function startChildProcess($client, $session_hash)
+    {
+        $response = json_encode(array(
+            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . DIRECTORY_SEPARATOR,
+            "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
+            "maxIdleTime" => $this->testRunnerSettings["max_idle_time"],
+            "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
+            "client" => json_decode($client, true),
+            "connection" => json_decode($this->getSerializedConnection(), true),
+            "sessionId" => $session_hash,
+            "rLogPath" => $this->getROutputFilePath($session_hash)
+        ));
+
+        $path = $this->getFifoDir() . "/" . $session_hash;
+        posix_mkfifo($path, POSIX_S_IFIFO | 0644);
+        $fh = fopen($path, "wt");
+        if ($fh === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fopen() failed");
+            return false;
+        }
+        stream_set_blocking($fh, 1);
+        $buffer = $response . "\n";
+        $sent = fwrite($fh, $buffer);
+        $success = $sent !== false;
+        if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fwrite() failed");
+        }
+        if (strlen($buffer) != $sent) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fwrite() failed, sent only $sent/" . strlen($buffer));
+            $success = false;
+        }
+        fclose($fh);
+        return $success;
+    }
+
+    private function checkSessionLimit()
+    {
         $session_limit = $this->administrationService->getSessionLimit();
         $session_count = $this->testSessionCountService->getCurrentCount();
         if ($session_limit > 0 && $session_limit < $session_count + 1) {
-            $response["code"] = TestSessionService::RESPONSE_SESSION_LIMIT_REACHED;
-            return $response;
+            return false;
         }
-
-        $client = json_encode(array(
-            "ip" => $client_ip,
-            "browser" => $client_browser
-        ));
-        $this->startProcess($panel_node_port, $client, $session_hash, $values, $debug);
-
-        return $response;
+        return true;
     }
 
-    //@TODO proper OS detection
-    private function getOS()
+    private function startListener($server_sock)
     {
-        if (strpos(strtolower(PHP_OS), "win") !== false) {
-            return self::OS_WIN;
-        } else {
-            return self::OS_LINUX;
-        }
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+        do {
+            if (($client_sock = @socket_accept($server_sock)) === false) {
+                continue;
+            }
+
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - socket accepted");
+
+            if (false === ($buf = socket_read($client_sock, 8388608, PHP_NORMAL_READ))) {
+                continue;
+            }
+            if (!$msg = trim($buf)) {
+                continue;
+            }
+
+            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $msg");
+            return $msg;
+        } while (usleep(100 * 1000) || true);
     }
 
-    private function escapeWindowsArg($arg)
+    private function getCommand($client, $session_hash)
     {
-        $arg = addcslashes($arg, '"');
-        $arg = str_replace("(", "^(", $arg);
-        $arg = str_replace(")", "^)", $arg);
-        return $arg;
-    }
+        $rscript_exec = $this->testRunnerSettings["rscript_exec"];
+        $ini_path = $this->getRDir() . "/standalone.R";
+        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        $max_idle_time = $this->testRunnerSettings["max_idle_time"];
+        $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
+        $database_connection = $this->getSerializedConnection();
+        $working_directory = $this->getWorkingDirPath($session_hash);
+        $public_directory = $this->getPublicDirPath();
+        $media_url = $this->getMediaUrl();
+        $client = json_encode($client);
 
-    //@TODO must not send plain password through command line
-    private function getCommand($panel_node_port, $client, $session_hash, $values, $debug)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $client, $session_hash, $values, $debug");
         switch ($this->getOS()) {
-            case self::OS_WIN:
+            case self::OS_LINUX:
+                return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
+                    . "'$ini_path' "
+                    . "'$database_connection' "
+                    . "'$client' "
+                    . $session_hash . " "
+                    . "'$working_directory' "
+                    . "'$public_directory' "
+                    . "'$media_url' "
+                    . "$max_exec_time "
+                    . "$max_idle_time "
+                    . "$keep_alive_tolerance_time "
+                    . ">> "
+                    . "'" . $this->getOutputFilePath($session_hash) . "' "
+                    . "> "
+                    . "'" . $this->getROutputFilePath($session_hash) . "' "
+                    . "2>&1 & echo $!";
+            default:
                 return "start cmd /C \""
-                    . "\"" . $this->escapeWindowsArg($this->testRunnerSettings["php_exec"]) . "\" "
-                    . "\"" . $this->escapeWindowsArg($this->root) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console'\" concerto:r:start --env=" . $this->environment . " "
-                    . "$panel_node_port "
-                    . "$session_hash "
+                    . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
+                    . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
+                    . "\"" . $this->escapeWindowsArg($database_connection) . "\" "
                     . "\"" . $this->escapeWindowsArg($client) . "\" "
-                    . "$debug "
-                    . "\"" . ($values ? $this->escapeWindowsArg($values) : "{}") . "\" "
+                    . $session_hash . " "
+                    . "\"" . $this->escapeWindowsArg($working_directory) . "\" "
+                    . "\"" . $this->escapeWindowsArg($public_directory) . "\" "
+                    . "$media_url "
+                    . "$max_exec_time "
+                    . "$max_idle_time "
+                    . "$keep_alive_tolerance_time "
                     . ">> "
                     . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
+                    . "> "
+                    . "\"" . $this->escapeWindowsArg($this->getROutputFilePath($session_hash)) . "\" "
                     . "2>&1\"";
-            default:
-                return "nohup "
-                    . $this->testRunnerSettings["php_exec"] . " "
-                    . "'" . $this->root . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "bin" . DIRECTORY_SEPARATOR . "console' concerto:r:start --env=" . $this->environment . " "
-                    . "$panel_node_port "
-                    . "$session_hash "
-                    . "'$client' "
-                    . "$debug "
-                    . ($values ? "'" . $values . "'" : "'{}'") . " "
-                    . ">> "
-                    . $this->getOutputFilePath($session_hash) . " "
-                    . "2>&1 & echo $!";
         }
-    }
-
-    private function startProcess($panel_node_port, $client, $session_hash, $values, $debug)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $panel_node_port, $client, $session_hash, $values, $debug");
-        $command = $this->getCommand($panel_node_port, $client, $session_hash, $values, $debug);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ":command: $command");
-
-        $process = new Process($command);
-        $process->mustRun();
-        $this->logger->info($process->getOutput());
-        $this->logger->info($process->getErrorOutput());
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": status: " . $process->getStatus() . " / " . $process->getExitCode());
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . ": process initiation finished");
-
-        return $process->getExitCode();
     }
 }

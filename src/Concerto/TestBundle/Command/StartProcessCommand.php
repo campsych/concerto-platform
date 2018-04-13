@@ -97,7 +97,6 @@ class StartProcessCommand extends Command
     private function createListenerSocket()
     {
         $this->log(__FUNCTION__);
-
         if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
             $this->log(__FUNCTION__, "socket_create() failed, listener socket, " . socket_strerror(socket_last_error()), true);
             return false;

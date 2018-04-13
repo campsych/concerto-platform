@@ -39,30 +39,13 @@ concerto.template.show = function(
     }
 
     if(finalize) {
-        concerto$session$status <<- STATUS_FINALIZED
+        concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE)
     } else {
         concerto5:::concerto.session.update()
         concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
 
         concerto$templateParams <<- list()
 
-        while(T) {
-            resp = concerto5:::concerto.server.listen()
-            if (resp$code == RESPONSE_SUBMIT) {
-                values = fromJSON(resp$values)
-                if(exists("concerto.onTemplateSubmit")) {
-                    do.call("concerto.onTemplateSubmit",list(response=values), envir = .GlobalEnv)
-                }
-                return(values)
-            } else if(resp$code == RESPONSE_WORKER) {
-                values = fromJSON(resp$values)
-                result = list()
-                if(!is.null(values$bgWorker) && values$bgWorker %in% ls(bgWorkers)) {
-                    concerto.log(paste0("running worker: ",values$bgWorker))
-                    result = do.call(bgWorkers[[values$bgWorker]], list(response=values))
-                }
-                concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
-            } else return(resp)
-        }
+        return(concerto5:::concerto.server.listen())
     }
 }

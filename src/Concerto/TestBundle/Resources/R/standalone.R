@@ -37,6 +37,7 @@ RESPONSE_SUBMIT = 2
 RESPONSE_STOP = 3
 RESPONSE_STOPPED = 4
 RESPONSE_VIEW_FINAL_TEMPLATE = 5
+RESPONSE_KEEPALIVE_CHECKIN = 10
 RESPONSE_UNRESUMABLE = 11
 RESPONSE_WORKER = 15
 RESPONSE_ERROR = -1
@@ -55,23 +56,22 @@ concerto$templateParams <- list()
 concerto$promoted$template_def <- "{\"layout\":\"default_layout\",\"header\":\"Your header goes here. For example, it could be a logo.\",\"footer\":\"Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.\"}"
 #DEFAULTS END
 
-concerto$workingDir <- commandArgs(TRUE)[6]
-concerto$publicDir <- commandArgs(TRUE)[7]
-concerto$mediaUrl <- commandArgs(TRUE)[8]
-concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[9])
-concerto$testNodePort <- commandArgs(TRUE)[2]
-concerto$client <- fromJSON(commandArgs(TRUE)[4])
-submitter <- fromJSON(commandArgs(TRUE)[3])
+concerto$workingDir <- commandArgs(TRUE)[4]
+concerto$publicDir <- commandArgs(TRUE)[5]
+concerto$mediaUrl <- commandArgs(TRUE)[6]
+concerto$maxExecTime <- as.numeric(commandArgs(TRUE)[7])
+concerto$maxIdleTime <- as.numeric(commandArgs(TRUE)[8])
+concerto$keepAliveToleranceTime <- as.numeric(commandArgs(TRUE)[9])
+concerto$lastSubmitTime <- as.numeric(Sys.time())
+concerto$lastKeepAliveTime <- as.numeric(Sys.time())
+concerto$client <- fromJSON(commandArgs(TRUE)[2])
 concerto$connectionParams <- fromJSON(commandArgs(TRUE)[1])
 
 concerto$sessionFile <- paste0(concerto$workingDir,"session.Rs")
-concerto$submitter.host <- submitter$host
-concerto$submitter.port <- submitter$port
-rm(submitter)
 
 concerto$connection <- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
 
-concerto$session <- as.list(concerto5:::concerto.session.get(commandArgs(TRUE)[5]))
+concerto$session <- as.list(concerto5:::concerto.session.get(commandArgs(TRUE)[3]))
 concerto$session$previousStatus <- concerto$session$status
 concerto$session$status <- STATUS_RUNNING
 concerto$session$params <- fromJSON(concerto$session$params)
@@ -84,23 +84,9 @@ tryCatch({
     setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
     concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
 
-    if(concerto$session$status == STATUS_FINALIZED){
-        concerto5:::concerto.session.finalize(RESPONSE_VIEW_FINAL_TEMPLATE)
-    } else if(concerto$session$status == STATUS_RUNNING){
-        concerto5:::concerto.session.finalize(RESPONSE_FINISHED)
-    }
+    concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
 }, error = function(e) {
-    if(concerto$session$status == STATUS_RUNNING){
-        concerto.log(e)
-        response = RESPONSE_ERROR
-        if(e$message == "session unresumable") {
-            response = RESPONSE_UNRESUMABLE
-        }
-        concerto$session$error <<- e
-        concerto$session$status <<- STATUS_ERROR
-        concerto5:::concerto.session.update()
-        concerto5:::concerto.server.respond(response)
-        q("no",1)
-    }
+    concerto.log(e)
+    concerto$session$error <<- e
+    concerto5:::concerto.session.stop(STATUS_ERROR, RESPONSE_ERROR)
 })
-q("no")
