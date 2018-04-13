@@ -48,11 +48,6 @@ services:
             $root: "%kernel.root_dir%"
 
 #commands
-    Concerto\TestBundle\Command\StartProcessCommand:
-        arguments:
-            $testRunnerSettings: "%test_runner_settings%"
-            $root: "%kernel.root_dir%"
-
     Concerto\TestBundle\Command\StartForkerCommand:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"

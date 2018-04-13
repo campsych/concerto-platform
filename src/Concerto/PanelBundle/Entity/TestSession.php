@@ -22,12 +22,6 @@ class TestSession extends AEntity {
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $testNodePort;
-
-    /**
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
     private $submitterPort;
 
     /**
@@ -150,32 +144,10 @@ class TestSession extends AEntity {
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
         $this->submitterPort = 0;
-        $this->testNodePort = 0;
     }
 
     public function getOwner() {
         return $this->getTest()->getOwner();
-    }
-
-    /**
-     * Set test node port
-     *
-     * @param integer $testNodePort
-     * @return TestSession
-     */
-    public function setTestNodePort($testNodePort) {
-        $this->testNodePort = $testNodePort;
-
-        return $this;
-    }
-
-    /**
-     * Get test node port
-     *
-     * @return integer 
-     */
-    public function getTestNodePort() {
-        return $this->testNodePort;
     }
 
     /**

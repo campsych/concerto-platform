@@ -4,14 +4,14 @@ concerto.server.listen = function(){
     dbDisconnect(concerto$connection)
     concerto.log("connections closed")
 
-    concerto.log(paste0("waiting for response from port:", concerto$session$submitterPort))
+    concerto.log(paste0("waiting for response..."))
     setTimeLimit(transient = TRUE)
-    port = NULL
 
     while(T) {
         if(file.exists("php.port")) {
             fh = file("php.port", open="rt")
-            port = readLines(fh)
+            concerto$session$submitterPort = readLines(fh)
+            close(fh)
             unlink("php.port")
             break
         }
@@ -19,15 +19,19 @@ concerto.server.listen = function(){
         currentTime = as.numeric(Sys.time())
         if(currentTime - concerto$lastSubmitTime > concerto$maxIdleTime) {
             concerto.log("idle timeout")
+            concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+            concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
             concerto5:::concerto.session.stop(STATUS_STOPPED)
         }
         if(currentTime - concerto$lastKeepAliveTime > concerto$keepAliveToleranceTime) {
             concerto.log("keep alive timeout")
+            concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+            concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
             concerto5:::concerto.session.stop(STATUS_STOPPED)
         }
         Sys.sleep(0.1)
     }
-    con = socketConnection("localhost", port, blocking = TRUE, timeout = 60 * 60 * 24, open = "r")
+    con = socketConnection("localhost", concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "r")
     response = readLines(con, warn = FALSE)
     response <- fromJSON(response)
     close(con)
