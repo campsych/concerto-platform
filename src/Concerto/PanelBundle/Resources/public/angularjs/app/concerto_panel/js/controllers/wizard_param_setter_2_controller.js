@@ -17,6 +17,7 @@ function WizardParamSetter2Controller($scope, AdministrationSettingsService) {
   if ($scope.output === undefined || $scope.output === null) {
     $scope.output = "";
   }
+  $scope.onPrimitiveValueChange($scope.output);
 };
 
 concertoPanel.controller('WizardParamSetter2Controller', ["$scope", "AdministrationSettingsService", WizardParamSetter2Controller]);

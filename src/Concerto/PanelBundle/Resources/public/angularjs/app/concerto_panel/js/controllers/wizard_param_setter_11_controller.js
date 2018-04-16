@@ -48,6 +48,7 @@ function WizardParamSetter11Controller($scope, AdministrationSettingsService, RD
   if ($scope.output === undefined || $scope.output === null) {
     $scope.output = "";
   }
+  $scope.onPrimitiveValueChange($scope.output);
 };
 
 concertoPanel.controller('WizardParamSetter11Controller', ["$scope", "AdministrationSettingsService", "RDocumentation", "$http", WizardParamSetter11Controller]);

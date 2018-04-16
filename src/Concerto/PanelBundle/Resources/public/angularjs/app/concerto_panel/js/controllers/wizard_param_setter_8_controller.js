@@ -17,6 +17,7 @@ function WizardParamSetter8Controller($scope, TestCollectionService, Administrat
   if ($scope.output === undefined || $scope.output === null) {
     $scope.output = "";
   }
+  $scope.onPrimitiveValueChange($scope.output);
 };
 
 concertoPanel.controller('WizardParamSetter8Controller', ["$scope", "TestCollectionService", "AdministrationSettingsService", WizardParamSetter8Controller]);

@@ -17,6 +17,7 @@ function WizardParamSetter6Controller($scope, DataTableCollectionService, Admini
   if ($scope.output === undefined || $scope.output === null) {
     $scope.output = "";
   }
+  $scope.onPrimitiveValueChange($scope.output);
 };
 
 concertoPanel.controller('WizardParamSetter6Controller', ["$scope", "DataTableCollectionService", "AdministrationSettingsService", WizardParamSetter6Controller]);
