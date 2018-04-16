@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "ViewTemplate",
-            "id": 21,
+            "id": 5,
             "name": "CAT_content",
             "description": "",
             "accessibility": 2,
@@ -12,8 +12,8 @@
             "css": ".CAT-response-table {\n  border: 0 none;\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.CAT-response-table td {\n  padding: 0 5px 0 0;\n}\n.CAT-response-section-horizontal {\n  float: left; \n  margin: 5px;\n  display: block;\n}\n.CAT-response-section-vertical {\n  margin: 5px;\n}\n.CAT-response-group {\n  text-align: left;\n}\n.CAT-question {\n  text-align: left;\n}\n.CAT-response-label-cell p {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.CAT-response-button-cell {\n  padding-right: 5px;\n}",
             "js": "testRunner.controllerProvider.register(\"cat\", function($scope) {\n  $scope.paragraph = testRunner.R.paragraph;\n  $scope.question = angular.fromJson(testRunner.R.question);\n  $scope.responsesLayout = testRunner.R.responses_layout;\n  $scope.responsesStyles = testRunner.R.response_styles;\n});",
             "html": "<div ng-controller=\"cat\">\n<div ng-bing-html=\"paragraph\">&nbsp;<\/div>\n\n<div class=\"CAT-question\" ng-bind-html=\"question.question\">&nbsp;<\/div>\n\n<div class=\"CAT-response-group\" ng-if=\"question.response_options.length &gt; 0\">\n<div ng-class=\"{'CAT-response-section-horizontal':responsesLayout=='horizontal', 'CAT-response-section-vertical':responsesLayout=='vertical'}\" ng-repeat=\"option in question.response_options track by $index\" style=\"{{response_styles}}\">\n<table class=\"CAT-response-table\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"CAT-response-button-cell\"><input id=\"input_response_[[$index+1]]\" name=\"response\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t\t<td class=\"CAT-response-label-cell\"><label for=\"input_response_[[$index+1]]\" ng-bind-html=\"option.label\">&nbsp;<\/label><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n<\/div>\n\n<div style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n\n<div ng-if=\"question.response_options === undefined || question.response_options.length == 0\"><input name=\"response\" style=\"width:100%;\" type=\"text\" \/><\/div>\n<\/div>\n",
-            "updatedOn": "2018-03-01 13:08:35",
-            "updatedBy": "admin",
+            "updatedOn": "2018-04-13 16:22:48",
+            "updatedBy": "",
             "owner": 1,
             "groups": "",
             "starterContent": true,

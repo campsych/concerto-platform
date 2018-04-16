@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "DataTable",
-            "id": 1,
+            "id": 6,
             "name": "default_cat_response_table",
             "description": "",
             "accessibility": 2,
@@ -55,7 +55,7 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2018-02-19 18:19:47",
+            "updatedOn": "2018-04-13 16:22:48",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
