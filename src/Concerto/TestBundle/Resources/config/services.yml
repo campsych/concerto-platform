@@ -58,6 +58,3 @@ services:
             $defaultLocale: "%kernel.default_locale%"
         tags:
             - { name: kernel.event_subscriber }
-
-#aliases
-    Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\PersistantSessionRunnerService'

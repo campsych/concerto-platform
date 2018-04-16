@@ -42,10 +42,8 @@ concerto.template.show = function(
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE)
     } else {
         concerto5:::concerto.session.update()
-        concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
-
         concerto$templateParams <<- list()
-
+        concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
         return(concerto5:::concerto.server.listen())
     }
 }

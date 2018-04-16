@@ -12,20 +12,12 @@ use Symfony\Component\Process\Process;
 
 class PersistantSessionRunnerService extends ASessionRunnerService
 {
-    const LISTENER_TIMEOUT = 5;
-
-    private $testSessionRepository;
-    private $administrationService;
-    private $testSessionCountService;
     private $environment;
 
     public function __construct(LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root, $environment)
     {
-        parent::__construct($logger, $testRunnerSettings, $root, $doctrine);
+        parent::__construct($logger, $testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
 
-        $this->testSessionRepository = $testSessionRepository;
-        $this->administrationService = $administrationService;
-        $this->testSessionCountService = $testSessionCountService;
         $this->environment = $environment;
     }
 
@@ -34,33 +26,14 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $params, $client_ip, $client_ip, $client_browser, $debug");
 
-        if (!$this->checkSessionLimit()) {
-            $session->setStatus(TestSessionService::STATUS_REJECTED);
-            $this->testSessionRepository->save($session);
-            $this->administrationService->insertSessionLimitMessage($session);
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_SESSION_LIMIT_REACHED
-            );
-        }
+        if (!$this->checkSessionLimit($session, $response)) return $response;
 
         $client = array(
             "ip" => $client_ip,
             "browser" => $client_browser
         );
 
-        $submitter_sock = $this->createListenerSocket();
-        if ($submitter_sock === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
-            return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
-            );
-        }
-
-        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
+        if (!$this->createSubmitterSock($session, false, $submitter_sock, $error_response)) return $error_response;
 
         $success = false;
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
@@ -77,8 +50,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = json_decode($this->startListener($submitter_sock), true);
-        if ($session->isDebug()) $response = $this->appendDebugDataToResponse($session_hash, $response);
+        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->appendDebugDataToResponse($session, $response);
         socket_close($submitter_sock);
 
         $this->testSessionRepository->clear();
@@ -95,22 +68,9 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        $submitter_sock = $this->createListenerSocket();
-        if ($submitter_sock === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
-            return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
-            );
-        }
-        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+        if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
+        $debugOffset = $this->getDebugDataOffset($session);
 
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
-
-        $this->savePhpListenerPortFile($session_hash, $submitter_port);
-        $debugOffset = 0;
-        if ($session->isDebug()) $debugOffset = $this->getDebugDataOffset($session_hash);
         $sent = $this->writeToProcess($submitter_sock, array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_SUBMIT,
@@ -125,8 +85,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = json_decode($this->startListener($submitter_sock), true);
-        if ($session->isDebug()) $response = $this->appendDebugDataToResponse($session_hash, $response, $debugOffset);
+        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->appendDebugDataToResponse($session, $response, $debugOffset);
         socket_close($submitter_sock);
 
         $this->testSessionRepository->clear();
@@ -143,22 +103,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        $submitter_sock = $this->createListenerSocket();
-        if ($submitter_sock === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
-        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
-
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
-
-        $this->savePhpListenerPortFile($session_hash, $submitter_port);
-        $debugOffset = 0;
-        if ($session->isDebug()) $debugOffset = $this->getDebugDataOffset($session_hash);
+        if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
+        $debugOffset = $this->getDebugDataOffset($session);
 
         $sent = $this->writeToProcess($submitter_sock, array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -174,8 +120,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = json_decode($this->startListener($submitter_sock), true);
-        if ($session->isDebug()) $response = $this->appendDebugDataToResponse($session_hash, $response, $debugOffset);
+        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->appendDebugDataToResponse($session, $response, $debugOffset);
         socket_close($submitter_sock);
 
         $this->testSessionRepository->clear();
@@ -192,20 +138,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        $submitter_sock = $this->createListenerSocket();
-        if ($submitter_sock === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
-        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
-
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
-
-        $this->savePhpListenerPortFile($session_hash, $submitter_port);
+        if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
 
         $sent = $this->writeToProcess($submitter_sock, array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -238,20 +171,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        $submitter_sock = $this->createListenerSocket();
-        if ($submitter_sock === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
-            return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
-            );
-        }
-        socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
-
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
-
-        $this->savePhpListenerPortFile($session_hash, $submitter_port);
+        if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
 
         $sent = $this->writeToProcess($submitter_sock, array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
@@ -272,81 +192,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "source" => TestSessionService::SOURCE_PROCESS,
             "code" => TestSessionService::RESPONSE_STOPPED
         );
-    }
-
-    private function getDebugDataOffset($session_hash)
-    {
-        $out_path = $this->getROutputFilePath($session_hash);
-        if (file_exists($out_path)) {
-            return filesize($out_path);
-        }
-        return 0;
-    }
-
-    private function appendDebugDataToResponse($session_hash, $response, $offset = 0)
-    {
-        $out_path = $this->getROutputFilePath($session_hash);
-        if (file_exists($out_path)) {
-            $new_data = file_get_contents($out_path, false, null, $offset);
-            $response["debug"] = mb_convert_encoding($new_data, "UTF-8");
-        }
-        return $response;
-    }
-
-    private function savePhpListenerPortFile($session_hash, $port)
-    {
-        while (($fh = @fopen($this->getPhpListenerPortFilePath($session_hash), "x")) === false) {
-            usleep(100 * 1000);
-        }
-        fwrite($fh, $port . "\n");
-        fclose($fh);
-    }
-
-    private function getPhpListenerPortFilePath($session_hash)
-    {
-        return $this->getWorkingDirPath($session_hash) . "/php.port";
-    }
-
-    private function writeToProcess($submitter_sock, $response)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
-
-        $startTime = time();
-        do {
-            if (($client_sock = socket_accept($submitter_sock)) === false) {
-                if (time() - $startTime > self::LISTENER_TIMEOUT) return false;
-                continue;
-            }
-
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - socket accepted");
-
-            socket_write($client_sock, json_encode($response) . "\n");
-            break;
-        } while (usleep(100 * 1000) || true);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - submitter ended");
-        return true;
-    }
-
-    private function createListenerSocket($port = 0)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
-
-        if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - socket_create() failed, listener socket, " . socket_strerror(socket_last_error()));
-            return false;
-        }
-        if (socket_bind($sock, "0.0.0.0", $port) === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - socket_bind() failed, listener socket, " . socket_strerror(socket_last_error($sock)));
-            socket_close($sock);
-            return false;
-        }
-        if (socket_listen($sock, SOMAXCONN) === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - socket_listen() failed, listener socket, " . socket_strerror(socket_last_error($sock)));
-            socket_close($sock);
-            return false;
-        }
-        socket_set_nonblock($sock);
-        return $sock;
     }
 
     private function startStandaloneProcess($client, $session_hash)
@@ -399,38 +244,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         }
         fclose($fh);
         return $success;
-    }
-
-    private function checkSessionLimit()
-    {
-        $session_limit = $this->administrationService->getSessionLimit();
-        $session_count = $this->testSessionCountService->getCurrentCount();
-        if ($session_limit > 0 && $session_limit < $session_count + 1) {
-            return false;
-        }
-        return true;
-    }
-
-    private function startListener($server_sock)
-    {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
-        do {
-            if (($client_sock = @socket_accept($server_sock)) === false) {
-                continue;
-            }
-
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - socket accepted");
-
-            if (false === ($buf = socket_read($client_sock, 8388608, PHP_NORMAL_READ))) {
-                continue;
-            }
-            if (!$msg = trim($buf)) {
-                continue;
-            }
-
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $msg");
-            return $msg;
-        } while (usleep(100 * 1000) || true);
     }
 
     private function getCommand($client, $session_hash)

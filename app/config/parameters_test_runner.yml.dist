@@ -12,3 +12,7 @@ parameters:
         dir: /
         connection: local
         dmtcp_bin_path: /usr/src/dmtcp-2.5.2/bin
+
+services:
+    Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\PersistantSessionRunnerService'
+    #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\CheckpointSessionRunnerService' #only linux, experimental
