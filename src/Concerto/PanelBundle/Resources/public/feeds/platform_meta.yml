@@ -7,6 +7,7 @@ changelog:
           - label: Fixes
             changes:
                 - fixed default value assignment to primitive fields
+                - fixed clearing elements of list type wizard param
     - version: "5.0.beta.4.0"
       description: >
         R session forking

@@ -155,7 +155,7 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
     }
   };
   $scope.removeAllElements = function () {
-    $scope.output = [];
+    $scope.output.length = 0;
   };
 
   if ($scope.output === null || $scope.output === undefined || $scope.output.constructor !== Array) {
