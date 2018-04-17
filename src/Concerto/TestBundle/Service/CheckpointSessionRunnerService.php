@@ -4,10 +4,12 @@ namespace Concerto\TestBundle\Service;
 
 use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Service\TestSessionService;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 class CheckpointSessionRunnerService extends ASessionRunnerService
 {
+    const LOCK_TIMEOUT = 5;
 
     public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false)
     {
@@ -21,13 +23,40 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         ));
 
-        if (!$this->createSubmitterSock($session, false, $submitter_sock, $error_response)) return $error_response;
-
-        $success = $this->startProcess($client, $session_hash);
+        $success = null;
+        if ($this->isCheckpointedSessionInitOn()) {
+            if (!$this->isInitSessionCheckpointReady()) {
+                $success = $this->createInitSessionCheckpoint();
+                if (!$success) {
+                    return array(
+                        "source" => TestSessionService::SOURCE_TEST_NODE,
+                        "code" => TestSessionService::RESPONSE_ERROR
+                    );
+                }
+            }
+            $success = $this->restoreInitProcess($session_hash);
+        } else {
+            $success = $this->startProcess($client, $session_hash);
+        }
         if (!$success) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+
+        if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
+
+        $sent = $this->writeToProcess($submitter_sock, array(
+            "workingDir" => $this->getWorkingDirPath($session_hash),
+            "client" => $client,
+            "sessionHash" => $session_hash
+        ));
+        if ($sent === false) {
+            socket_close($submitter_sock);
+            return $response = array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_SESSION_LOST
             );
         }
 
@@ -63,6 +92,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             );
         }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
+
         $success = $this->restoreProcess($session_hash);
         if (!$success) {
             socket_close($submitter_sock);
@@ -162,12 +192,18 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
     public function keepAlive(TestSession $session, $client_ip, $client_browser)
     {
-
+        return array(
+            "source" => TestSessionService::SOURCE_PROCESS,
+            "code" => TestSessionService::RESPONSE_KEEPALIVE_CHECKIN
+        );
     }
 
     public function kill(TestSession $session, $client_ip, $client_browser)
     {
-
+        return array(
+            "source" => TestSessionService::SOURCE_PROCESS,
+            "code" => TestSessionService::RESPONSE_STOPPED
+        );
     }
 
     private function getStartProcessCommand($client, $session_hash)
@@ -189,6 +225,9 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "--port-file '$portFile' "
             . "--ckptdir '$working_dir' "
             . "--coord-logfile '$coord_log_path' "
+            //. "--checkpoint-open-files "
+            //. "--allow-file-overwrite "
+            //. "--disable-all-plugins "
             . "-i 0 "
             . "--no-gzip "
             . $rscript . " --no-save --no-restore --quiet "
@@ -204,7 +243,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "0 " //keep_alive_tolerance_time
             . ">> "
             . "'$rout_path' "
-            . "2>&1 & echo $!";
+            . "2>&1 3>/dev/null & echo $!";
     }
 
     private function getRestoreProcessCommand($session_hash)
@@ -260,6 +299,11 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         return $this->getWorkingDirPath($session_hash) . "ckpt_*.dmtcp";
     }
 
+    private function getInitCheckpointFilePath()
+    {
+        return $this->getInitCheckpointDirPath() . "/ckpt_*.dmtcp";
+    }
+
     private function getCheckpointLockFilePath($session_hash)
     {
         return $this->getWorkingDirPath($session_hash) . "ckpt.lock";
@@ -275,7 +319,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $startTime = time();
         while (file_exists($this->getCheckpointLockFilePath($session_hash))) {
             usleep(100 * 1000);
-            if (time() - $startTime > self::LISTENER_TIMEOUT) return false;
+            if (time() - $startTime > self::LOCK_TIMEOUT) return false;
         }
         return true;
     }
@@ -290,7 +334,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_command -q -p $port "
             . "&& "
             . "rm " . $this->getCheckpointLockFilePath($session_hash)
-            . "' &";
+            . "' > /dev/null &";
         $process = new Process($cmd);
         $process->start();
         return true;
@@ -303,5 +347,197 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $process->setWorkingDirectory($this->getWorkingDirPath($session_hash));
         $process->start();
         return true;
+    }
+
+    private function restoreInitProcess($session_hash)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+        $cmd = $this->getRestoreInitProcessCommand($session_hash);
+        $this->logger->info($cmd);
+        $process = new Process($cmd);
+        $process->setWorkingDirectory($this->getWorkingDirPath($session_hash));
+        $process->start();
+        return true;
+    }
+
+    private function isCheckpointedSessionInitOn()
+    {
+        return $this->testRunnerSettings["checkpointed_session_init"] == "true";
+    }
+
+    private function isInitSessionCheckpointReady()
+    {
+        return count(glob($this->getInitCheckpointDirPath() . "/ckpt_*.dmtcp")) > 0;
+    }
+
+    private function createInitSessionCheckpoint()
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+        $workingDir = $this->getInitCheckpointDirPath();
+        $renviron = $this->testRunnerSettings["r_environ_path"];
+
+        $this->cleaningPreviousCheckpoints();
+        touch($this->getInitCheckpointLockPath());
+        $exitCode = $this->startInitCheckpointProcess($workingDir, $renviron);
+        if ($exitCode != 0) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - something went wrong when starting initialization checkpoint process: non zero exit code");
+            return false;
+        }
+
+        if (!$this->waitForUnlockedInitCheckpoint()) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - init checkpoint lock timeout #1");
+            return false;
+        }
+
+        $exitCode = $this->checkpointInitProcess();
+        if ($exitCode != 0) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - something went wrong with checkpointing: non zero exit code");
+            return false;
+        }
+        return true;
+    }
+
+    private function cleaningPreviousCheckpoints()
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+        $fs = new Filesystem();
+        foreach (glob($this->getInitCheckpointDirPath() . "/*") as $content) {
+            @$fs->remove($content);
+        }
+    }
+
+    private function startInitCheckpointProcess($workingDir, $renviron)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+        $cmd = $this->getInitCheckpointProcessCommand($workingDir);
+        $this->logger->info($cmd);
+        $process = new Process($cmd);
+        $process->setWorkingDirectory($workingDir);
+        if ($renviron != null) {
+            $env = array();
+            $env["R_ENVIRON"] = $renviron;
+            $process->setEnv($env);
+        }
+        $process->start();
+        return 0;
+    }
+
+    private function getInitCheckpointPortPath()
+    {
+        return $this->getInitCheckpointDirPath() . "/init.port";
+    }
+
+    private function waitForUnlockedInitCheckpoint()
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+        $startTime = time();
+        while (file_exists($this->getInitCheckpointLockPath())) {
+            usleep(100 * 1000);
+            if (time() - $startTime > self::LOCK_TIMEOUT) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function getInitCheckpointLockPath()
+    {
+        return $this->getInitCheckpointDirPath() . "/checkpoint.lock";
+    }
+
+    private function readCheckpointInitPort()
+    {
+        return file_get_contents($this->getInitCheckpointPortPath());
+    }
+
+    public function getInitCheckpointDirPath()
+    {
+        return $this->getRDir() . "/init_checkpoint";
+    }
+
+    private function getInitCheckpointProcessCommand($workingDir)
+    {
+        $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
+        $checkpointPath = realpath(dirname(__FILE__) . "/../Resources/R/checkpoint.R");
+        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
+        $connection = $this->getSerializedConnection();
+        $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
+        $maxExecTime = $this->testRunnerSettings["max_execution_time"];
+        $rscriptBinPath = $this->testRunnerSettings["rscript_exec"];
+        $outPath = $this->getCheckpointInitLogPath();
+        $portFile = $this->getInitCheckpointPortPath();
+        $coordLog = $this->getInitCheckpointDirPath() . "/coord.log";
+
+        return "exec $dmtcpBinPath/dmtcp_launch "
+            . "--new-coordinator "
+            . "--coord-port 0 "
+            . "--port-file '$portFile' "
+            . "--ckptdir '$workingDir' "
+            . "--coord-logfile '$coordLog' "
+            //. "--checkpoint-open-files "
+            //. "--allow-file-overwrite "
+            //. "--disable-all-plugins "
+            . "-i 0 "
+            . "--no-gzip "
+            . "$rscriptBinPath --no-save --no-restore --quiet "
+            . "'$checkpointPath' "
+            . "'$publicDir' "
+            . "'$mediaUrl' "
+            . "'$connection' "
+            . "$maxExecTime "
+            . ">> "
+            . "'$outPath' "
+            . "2>&1 6<&- &";
+    }
+
+    private function checkpointInitProcess()
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+
+        $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
+        $port = $this->readCheckpointInitPort();
+        $outPath = $this->getCheckpointInitLogPath();
+
+        $cmd = "$dmtcpBinPath/dmtcp_command -bc -p $port >> $outPath 2>&1";
+        $this->logger->info($cmd);
+        $process = new Process($cmd);
+        $process->run();
+        if ($process->getExitCode() !== 0) return $process->getExitCode();
+        $this->logger->info("init process checkpointed");
+
+        $cmd = "$dmtcpBinPath/dmtcp_command -q -p $port >> $outPath 2>&1";
+        $this->logger->info($cmd);
+        $process = new Process($cmd);
+        $process->run();
+        if ($process->getExitCode() !== 0) return $process->getExitCode();
+        $this->logger->info("init process closed");
+
+        return 0;
+    }
+
+    private function getRestoreInitProcessCommand($session_hash)
+    {
+        $portFile = $this->getCoordinatorPortPath($session_hash);
+        $dmtcp_path = $this->getInitCheckpointFilePath();
+        $out = $this->getROutputFilePath($session_hash);
+        $working_dir = $this->getWorkingDirPath($session_hash);
+        $coord_log_path = $this->getCoordinatorLogFilePath($session_hash);
+
+        return $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_restart "
+            . "--new-coordinator "
+            . "--coord-port 0 "
+            . "--port-file '$portFile' "
+            . "--ckptdir '$working_dir' "
+            . "--coord-logfile '$coord_log_path' "
+            . "-i 0 "
+            . "--no-strict-checking "
+            . "$dmtcp_path "
+            . ">> '$out' "
+            . "2>&1";
+    }
+
+    private function getCheckpointInitLogPath()
+    {
+        return $this->getInitCheckpointDirPath() . "/init.log";
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 abstract class ASessionRunnerService
 {
-    const LISTENER_TIMEOUT = 15;
+    const WRITER_TIMEOUT = 5;
     const OS_WIN = 0;
     const OS_LINUX = 1;
 
@@ -249,7 +249,7 @@ abstract class ASessionRunnerService
         $startTime = time();
         do {
             if (($client_sock = socket_accept($submitter_sock)) === false) {
-                if (time() - $startTime > self::LISTENER_TIMEOUT) return false;
+                if (time() - $startTime > self::WRITER_TIMEOUT) return false;
                 continue;
             }
 

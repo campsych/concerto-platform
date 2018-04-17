@@ -19,7 +19,7 @@ switch(concerto$connectionParams$driver,
 
 concerto.log("starting listener")
 queue = c()
-unlink(paste0(commandArgs(TRUE)[1],"/*"))
+unlink(paste0(commandArgs(TRUE)[1],"/*.fifo"))
 while (T) {
     fpath = ""
     if(length(queue) == 0) {

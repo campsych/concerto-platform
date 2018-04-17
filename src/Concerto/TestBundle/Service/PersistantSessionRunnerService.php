@@ -16,7 +16,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
 
     public function __construct(LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root, $environment)
     {
-        parent::__construct($logger, $testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
+        parent::__construct($testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository, $logger);
 
         $this->environment = $environment;
     }
@@ -224,7 +224,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "rLogPath" => $this->getROutputFilePath($session_hash)
         ));
 
-        $path = $this->getFifoDir() . "/" . $session_hash;
+        $path = $this->getFifoDir() . "/" . $session_hash . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
