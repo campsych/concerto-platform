@@ -11,7 +11,7 @@ parameters:
         session_forking: false #only linux, only on PersistantSessionRunnerService, experimental
         dir: /
         connection: local
-        dmtcp_bin_path: /usr/src/dmtcp-2.5.2/bin
+        dmtcp_bin_path: /usr/src/dmtcp/bin
         checkpointed_session_init: true #only linux, only on CheckpointSessionRunnerService, experimental
 
 services:
