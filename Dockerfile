@@ -3,7 +3,7 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org/
 
-RUN echo "deb http://cran.rstudio.com/bin/linux/bin/linux/debian stretch-cran34/" | tee -a /etc/apt/sources.list \
+RUN echo "deb http://cran.rstudio.com/bin/linux/debian stretch-cran34/" | tee -a /etc/apt/sources.list \
  && apt-get update -y \
  && apt-get -y install \
     cron \
