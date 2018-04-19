@@ -51,10 +51,10 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
 RUN mkdir -p /usr/src/dmtp \
+ && cd /usr/src/dmtp \
  && git clone https://github.com/dmtcp/dmtcp.git /usr/src/dmtp \
  && git checkout master \
  && git log -n 1 \
- && cd /usr/src/dmtp \
  && ./configure --prefix=/usr && make -j 2 && make install
  
 EXPOSE 80 9000
