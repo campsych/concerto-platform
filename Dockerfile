@@ -3,8 +3,8 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org/
 
-RUN echo "deb http://cran.rstudio.com/bin/linux/bin/linux/debian stretch-cran34/" | tee -a /etc/apt/sources.list \
- && apt-key adv --keyserver keys.gnupg.net --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF' \
+RUN echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /etc/apt/sources.list \
+ && apt-key adv --keyserver keys.gnupg.net --recv-key 6212B7B7931C4BB16280BA1306F90DE5381BA480 \
  && apt-get update -y \
  && apt-get -y install \
     cron \
