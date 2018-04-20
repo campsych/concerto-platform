@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 
 class CheckpointSessionRunnerService extends ASessionRunnerService
 {
-    const LOCK_TIMEOUT = 5;
+    const LOCK_TIMEOUT = 30;
 
     public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false)
     {
@@ -506,16 +506,15 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
         $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
         $port = $this->readCheckpointInitPort();
-        $outPath = $this->getCheckpointInitLogPath();
 
-        $cmd = "$dmtcpBinPath/dmtcp_command -bc -p $port >> $outPath 2>&1";
+        $cmd = "$dmtcpBinPath/dmtcp_command -bc -p $port > /dev/null 2>&1";
         $this->logger->info($cmd);
         $process = new Process($cmd);
         $process->run();
         if ($process->getExitCode() !== 0) return $process->getExitCode();
         $this->logger->info("init process checkpointed");
 
-        $cmd = "$dmtcpBinPath/dmtcp_command -q -p $port >> $outPath 2>&1";
+        $cmd = "$dmtcpBinPath/dmtcp_command -q -p $port > /dev/null 2>&1";
         $this->logger->info($cmd);
         $process = new Process($cmd);
         $process->run();

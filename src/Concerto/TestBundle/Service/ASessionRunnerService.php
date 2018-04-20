@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 abstract class ASessionRunnerService
 {
-    const WRITER_TIMEOUT = 5;
+    const WRITER_TIMEOUT = 30;
     const OS_WIN = 0;
     const OS_LINUX = 1;
 
