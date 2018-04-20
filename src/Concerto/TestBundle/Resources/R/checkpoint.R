@@ -14,6 +14,10 @@ switch(concerto$connectionParams$driver,
     pdo_sqlsrv = require("RSQLServer")
 )
 
+fh = file("aaa.log", open="w")
+writeLines(system("ls -l /proc/self/fd", intern=T), fh)
+close(fh)
+
 concerto.log(paste0("waiting for submitter port..."))
 initPort = NULL
 file.remove("checkpoint.lock")

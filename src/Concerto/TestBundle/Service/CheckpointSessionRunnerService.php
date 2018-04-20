@@ -255,7 +255,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "0 " //keep_alive_tolerance_time
             . ">> "
             . "'$rout_path' "
-            . "2>&1 3>/dev/null & echo $!";
+            . "2>&1 & echo $!";
     }
 
     private function getRestoreProcessCommand($session_hash)
@@ -476,7 +476,6 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $rscriptBinPath = $this->testRunnerSettings["rscript_exec"];
-        $outPath = $this->getCheckpointInitLogPath();
         $portFile = $this->getInitCheckpointPortPath();
         $coordLog = $this->getInitCheckpointDirPath() . "/coord.log";
 
@@ -497,9 +496,8 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "'$mediaUrl' "
             . "'$connection' "
             . "$maxExecTime "
-            . ">> "
-            . "'$outPath' "
-            . "2>&1 6<&- &";
+            . "> /dev/null "
+            . "2>&1 4<&- 5<&- 6<&- 7<&- 8<&- 9<&- &";
     }
 
     private function checkpointInitProcess()
