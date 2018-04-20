@@ -28,6 +28,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             if (!$this->isInitSessionCheckpointReady()) {
                 $success = $this->createInitSessionCheckpoint();
                 if (!$success) {
+                    $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating init checkpoint failed");
                     return array(
                         "source" => TestSessionService::SOURCE_TEST_NODE,
                         "code" => TestSessionService::RESPONSE_ERROR
@@ -39,6 +40,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             $success = $this->startProcess($client, $session_hash);
         }
         if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - starting session failed");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -53,6 +55,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             "sessionHash" => $session_hash
         ));
         if ($sent === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process failed");
             socket_close($submitter_sock);
             return $response = array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
@@ -66,6 +69,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
         $success = $this->saveProcess($session_hash);
         if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - saving process failed");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -86,6 +90,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         );
 
         if (!$this->waitForUnlockedCheckpoint($session_hash)) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - submit lock timeout");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -95,6 +100,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
         $success = $this->restoreProcess($session_hash);
         if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - restoring process failed");
             socket_close($submitter_sock);
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
@@ -110,6 +116,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             "values" => $values
         ));
         if ($sent === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process failed");
             socket_close($submitter_sock);
             return $response = array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
@@ -124,6 +131,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
         $success = $this->saveProcess($session_hash);
         if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - saving process failed");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -144,6 +152,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         );
 
         if (!$this->waitForUnlockedCheckpoint($session_hash)) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - background worker lock timeout");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -152,6 +161,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $success = $this->restoreProcess($session_hash);
         if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - restoring process failed");
             socket_close($submitter_sock);
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
@@ -167,6 +177,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             "values" => $values
         ));
         if ($sent === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process failed");
             socket_close($submitter_sock);
             return $response = array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
@@ -181,6 +192,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
         $success = $this->saveProcess($session_hash);
         if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - saving process failed");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
