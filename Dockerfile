@@ -50,9 +50,9 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-RUN mkdir -p /usr/src/dmtp \
- && cd /usr/src/dmtp \
- && git clone https://github.com/dmtcp/dmtcp.git /usr/src/dmtp \
+RUN mkdir -p /usr/src/dmtcp \
+ && cd /usr/src/dmtcp \
+ && git clone https://github.com/dmtcp/dmtcp.git /usr/src/dmtcp \
  && git checkout master \
  && git log -n 1 \
  && ./configure --prefix=/usr && make -j 2 && make install
