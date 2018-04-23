@@ -64,7 +64,6 @@ CMD rm -rf var/cache/* \
  && php bin/console concerto:r:cache \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
- && mkdir src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
