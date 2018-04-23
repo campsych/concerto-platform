@@ -538,7 +538,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "--no-strict-checking "
             . "$dmtcp_path "
             //. ">> '$out' "
-            ."> /dev/null "
+            . "> /dev/null "
             . "2>&1 4<&- 5<&- 6<&- 7<&- 8<&- 9<&-";
     }
 
@@ -546,6 +546,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
 
+        /*
         $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
         $port = $this->getCoordinatorPort($session_hash);
 
@@ -570,8 +571,8 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $this->logger->info("process closed");
 
         return true;
+        */
 
-        /*
         touch($this->getCheckpointLockFilePath($session_hash));
         $port = $this->getCoordinatorPort($session_hash);
         $cmd = "nohup sh -c '"
@@ -582,8 +583,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "rm " . $this->getCheckpointLockFilePath($session_hash)
             . "' > /dev/null 2>&1 &";
         $process = new Process($cmd);
-        $process->start();
+        $process->mustRun();
         return true;
-        */
     }
 }
