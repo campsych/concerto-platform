@@ -439,14 +439,20 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $this->logger->info($cmd);
         $process = new Process($cmd);
         $process->run();
-        if ($process->getExitCode() !== 0) return $process->getExitCode();
+        if ($process->getExitCode() !== 0) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - checkpointing init process failed");
+            return $process->getExitCode();
+        }
         $this->logger->info("init process checkpointed");
 
         $cmd = "$dmtcpBinPath/dmtcp_command -q -p $port > /dev/null 2>&1";
         $this->logger->info($cmd);
         $process = new Process($cmd);
         $process->run();
-        if ($process->getExitCode() !== 0) return $process->getExitCode();
+        if ($process->getExitCode() !== 0) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - closing init process failed");
+            return $process->getExitCode();
+        }
         $this->logger->info("init process closed");
 
         return 0;
@@ -547,14 +553,20 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $this->logger->info($cmd);
         $process = new Process($cmd);
         $process->run();
-        if ($process->getExitCode() !== 0) return false;
+        if ($process->getExitCode() !== 0) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - checkpointing process failed");
+            return false;
+        }
         $this->logger->info("process checkpointed");
 
         $cmd = "$dmtcpBinPath/dmtcp_command -q -p $port > /dev/null 2>&1";
         $this->logger->info($cmd);
         $process = new Process($cmd);
         $process->run();
-        if ($process->getExitCode() !== 0) return false;
+        if ($process->getExitCode() !== 0) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - closing process failed");
+            return false;
+        }
         $this->logger->info("process closed");
 
         return true;
