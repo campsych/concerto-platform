@@ -218,67 +218,6 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         );
     }
 
-    private function getStartProcessCommand($client, $session_hash)
-    {
-        $ini_path = $this->getRDir() . "/standalone.R";
-        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
-        $rscript = $this->testRunnerSettings["rscript_exec"];
-        $db_connection = $this->getSerializedConnection();
-        $working_dir = $this->getWorkingDirPath($session_hash);
-        $public_dir = $this->getPublicDirPath();
-        $media_url = $this->getMediaUrl();
-        $portFile = $this->getCoordinatorPortPath($session_hash);
-        $rout_path = $this->getROutputFilePath($session_hash);
-        $coord_log_path = $this->getCoordinatorLogFilePath($session_hash);
-
-        return "nohup " . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_launch "
-            . "--new-coordinator "
-            . "--coord-port 0 "
-            . "--port-file '$portFile' "
-            . "--ckptdir '$working_dir' "
-            . "--coord-logfile '$coord_log_path' "
-            //. "--checkpoint-open-files "
-            //. "--allow-file-overwrite "
-            //. "--disable-all-plugins "
-            . "-i 0 "
-            . "--no-gzip "
-            . $rscript . " --no-save --no-restore --quiet "
-            . "'$ini_path' "
-            . "'$db_connection' "
-            . "'$client' "
-            . "$session_hash "
-            . "'$working_dir' "
-            . "'$public_dir' "
-            . "'$media_url' "
-            . "$max_exec_time "
-            . "0 " //max_idle_time
-            . "0 " //keep_alive_tolerance_time
-            . ">> "
-            . "'$rout_path' "
-            . "2>&1 & echo $!";
-    }
-
-    private function getRestoreProcessCommand($session_hash)
-    {
-        $portFile = $this->getCoordinatorPortPath($session_hash);
-        $dmtcp_path = $this->getCheckpointFilePath($session_hash);
-        $out = $this->getROutputFilePath($session_hash);
-        $working_dir = $this->getWorkingDirPath($session_hash);
-        $coord_log_path = $this->getCoordinatorLogFilePath($session_hash);
-
-        return $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_restart "
-            . "--new-coordinator "
-            . "--coord-port 0 "
-            . "--port-file '$portFile' "
-            . "--ckptdir '$working_dir' "
-            . "--coord-logfile '$coord_log_path' "
-            . "-i 0 "
-            . "--no-strict-checking "
-            . "$dmtcp_path "
-            . ">> '$out' "
-            . "2>&1 & echo $!";
-    }
-
     private function startProcess($client, $session_hash)
     {
         $cmd = $this->getStartProcessCommand($client, $session_hash);
@@ -333,22 +272,6 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             usleep(100 * 1000);
             if (time() - $startTime > self::LOCK_TIMEOUT) return false;
         }
-        return true;
-    }
-
-    private function saveProcess($session_hash)
-    {
-        touch($this->getCheckpointLockFilePath($session_hash));
-        $port = $this->getCoordinatorPort($session_hash);
-        $cmd = "nohup sh -c '"
-            . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_command -bc -p $port "
-            . "&& "
-            . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_command -q -p $port "
-            . "&& "
-            . "rm " . $this->getCheckpointLockFilePath($session_hash)
-            . "' > /dev/null &";
-        $process = new Process($cmd);
-        $process->start();
         return true;
     }
 
@@ -467,6 +390,11 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         return $this->getRDir() . "/init_checkpoint";
     }
 
+    private function getCheckpointInitLogPath()
+    {
+        return $this->getInitCheckpointDirPath() . "/init.log";
+    }
+
     private function getInitCheckpointProcessCommand($workingDir)
     {
         $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
@@ -541,12 +469,86 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "-i 0 "
             . "--no-strict-checking "
             . "$dmtcp_path "
-            . ">> '$out' "
-            . "2>&1";
+            //. ">> '$out' "
+            . "> /dev/null "
+            . "2>&1 4<&- 5<&- 6<&- 7<&- 8<&- 9<&-";
     }
 
-    private function getCheckpointInitLogPath()
+    private function getStartProcessCommand($client, $session_hash)
     {
-        return $this->getInitCheckpointDirPath() . "/init.log";
+        $ini_path = $this->getRDir() . "/standalone.R";
+        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        $rscript = $this->testRunnerSettings["rscript_exec"];
+        $db_connection = $this->getSerializedConnection();
+        $working_dir = $this->getWorkingDirPath($session_hash);
+        $public_dir = $this->getPublicDirPath();
+        $media_url = $this->getMediaUrl();
+        $portFile = $this->getCoordinatorPortPath($session_hash);
+        $rout_path = $this->getROutputFilePath($session_hash);
+        $coord_log_path = $this->getCoordinatorLogFilePath($session_hash);
+
+        return "nohup " . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_launch "
+            . "--new-coordinator "
+            . "--coord-port 0 "
+            . "--port-file '$portFile' "
+            . "--ckptdir '$working_dir' "
+            . "--coord-logfile '$coord_log_path' "
+            //. "--checkpoint-open-files "
+            //. "--allow-file-overwrite "
+            //. "--disable-all-plugins "
+            . "-i 0 "
+            . "--no-gzip "
+            . $rscript . " --no-save --no-restore --quiet "
+            . "'$ini_path' "
+            . "'$db_connection' "
+            . "'$client' "
+            . "$session_hash "
+            . "'$working_dir' "
+            . "'$public_dir' "
+            . "'$media_url' "
+            . "$max_exec_time "
+            . "0 " //max_idle_time
+            . "0 " //keep_alive_tolerance_time
+            . ">> "
+            . "'$rout_path' "
+            . "2>&1 & echo $!";
+    }
+
+    private function getRestoreProcessCommand($session_hash)
+    {
+        $portFile = $this->getCoordinatorPortPath($session_hash);
+        $dmtcp_path = $this->getCheckpointFilePath($session_hash);
+        $out = $this->getROutputFilePath($session_hash);
+        $working_dir = $this->getWorkingDirPath($session_hash);
+        $coord_log_path = $this->getCoordinatorLogFilePath($session_hash);
+
+        return $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_restart "
+            . "--new-coordinator "
+            . "--coord-port 0 "
+            . "--port-file '$portFile' "
+            . "--ckptdir '$working_dir' "
+            . "--coord-logfile '$coord_log_path' "
+            . "-i 0 "
+            . "--no-strict-checking "
+            . "$dmtcp_path "
+            //. ">> '$out' "
+            ."> /dev/null "
+            . "2>&1 4<&- 5<&- 6<&- 7<&- 8<&- 9<&-";
+    }
+
+    private function saveProcess($session_hash)
+    {
+        touch($this->getCheckpointLockFilePath($session_hash));
+        $port = $this->getCoordinatorPort($session_hash);
+        $cmd = "nohup sh -c '"
+            . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_command -bc -p $port "
+            . "&& "
+            . $this->testRunnerSettings["dmtcp_bin_path"] . "/dmtcp_command -q -p $port "
+            . "&& "
+            . "rm " . $this->getCheckpointLockFilePath($session_hash)
+            . "' > /dev/null 2>&1 &";
+        $process = new Process($cmd);
+        $process->start();
+        return true;
     }
 }
