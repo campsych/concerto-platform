@@ -16,7 +16,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
 
     public function __construct(LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root, $environment)
     {
-        parent::__construct($testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository, $logger);
+        parent::__construct($logger, $testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
 
         $this->environment = $environment;
     }
