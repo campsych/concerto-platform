@@ -538,6 +538,28 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
     private function saveProcess($session_hash)
     {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+
+        $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
+        $port = $this->getCoordinatorPort($session_hash);
+
+        $cmd = "$dmtcpBinPath/dmtcp_command -bc -p $port > /dev/null 2>&1";
+        $this->logger->info($cmd);
+        $process = new Process($cmd);
+        $process->run();
+        if ($process->getExitCode() !== 0) return false;
+        $this->logger->info("process checkpointed");
+
+        $cmd = "$dmtcpBinPath/dmtcp_command -q -p $port > /dev/null 2>&1";
+        $this->logger->info($cmd);
+        $process = new Process($cmd);
+        $process->run();
+        if ($process->getExitCode() !== 0) return false;
+        $this->logger->info("process closed");
+
+        return true;
+
+        /*
         touch($this->getCheckpointLockFilePath($session_hash));
         $port = $this->getCoordinatorPort($session_hash);
         $cmd = "nohup sh -c '"
@@ -550,5 +572,6 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $process = new Process($cmd);
         $process->start();
         return true;
+        */
     }
 }
