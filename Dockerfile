@@ -52,8 +52,7 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
 
 RUN mkdir -p /usr/src/dmtcp \
  && cd /usr/src/dmtcp \
- && git clone https://github.com/dmtcp/dmtcp.git /usr/src/dmtcp \
- && git log -n 1 \
+ && git clone -b master https://github.com/dmtcp/dmtcp.git /usr/src/dmtcp \
  && ./configure --prefix=/usr && make -j 2 && make install
  
 EXPOSE 80 9000
