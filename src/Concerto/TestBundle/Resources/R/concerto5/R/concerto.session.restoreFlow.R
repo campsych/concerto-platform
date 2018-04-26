@@ -28,7 +28,7 @@ concerto.session.restoreFlow <- function(sessionHash){
   tryCatch({
         setwd(concerto$workingDir)
 
-        returns <<- concerto.test.run(concerto$flow[[1]]$id, mainTest=TRUE, ongoingResumeFlowIndex=1)
+        returns <<- concerto.test.run(concerto$flow[[1]]$id, params=concerto$flow[[1]]$params, mainTest=TRUE, ongoingResumeFlowIndex=1)
 
   }, error = function(e) {
         if(concerto$session$status == STATUS_RUNNING){

@@ -31,13 +31,17 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
         concerto$mainTest <<- test
     }
 
-    flowIndex = length(concerto$flow) + 1
-    if (ongoingResumeFlowIndex != -1) {
-        flowIndex = ongoingResumeFlowIndex
-    } else {
-        concerto$flow[[flowIndex]] <<- list()
-        concerto$flow[[flowIndex]]$id <<- test$id
-        concerto$flow[[flowIndex]]$type <<- test$type
+    flowIndex = length(concerto$flow)
+    if (test$type != 1) {
+        flowIndex = flowIndex + 1
+        if (ongoingResumeFlowIndex != -1) {
+            flowIndex = ongoingResumeFlowIndex
+        } else {
+            concerto$flow[[flowIndex]] <<- list()
+            concerto$flow[[flowIndex]]$id <<- test$id
+            concerto$flow[[flowIndex]]$type <<- test$type
+            concerto$flow[[flowIndex]]$params <<- params
+        }
     }
 
     if (test$type == 1) {

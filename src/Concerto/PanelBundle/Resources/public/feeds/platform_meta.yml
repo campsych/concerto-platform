@@ -7,6 +7,7 @@ changelog:
           - label: Fixes
             changes:
                 - now possible to run flow based test as a source for wizard
+                - now possible to resume session when top test is flow but behind a wizard
     - version: "5.0.beta.4.1"
       description: >
         R session forking
