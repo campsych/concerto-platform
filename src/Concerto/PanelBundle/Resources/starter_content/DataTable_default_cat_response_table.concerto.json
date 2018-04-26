@@ -3,7 +3,7 @@
     "collection": [
         {
             "class_name": "DataTable",
-            "id": 6,
+            "id": 1,
             "name": "default_cat_response_table",
             "description": "",
             "accessibility": 2,
@@ -55,7 +55,7 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2018-04-13 16:22:48",
+            "updatedOn": "2018-04-24 14:38:45",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

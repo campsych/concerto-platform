@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 46,
+                    "id": 45,
                     "name": "answered",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 47,
+                    "id": 46,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 48,
+                    "id": 47,
                     "name": "next_button_label",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 49,
+                    "id": 48,
                     "name": "previous_button_label",
                     "type": 0,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 50,
+                    "id": 49,
                     "name": "item_bank",
                     "type": 0,
                     "description": "",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 51,
+                    "id": 50,
                     "name": "response_bank",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 52,
+                    "id": 51,
                     "name": "stopping_time",
                     "type": 0,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 53,
+                    "id": 52,
                     "name": "stopping_item_count",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 54,
+                    "id": 53,
                     "name": "randomized_response_options",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 55,
+                    "id": 54,
                     "name": "order",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 56,
+                    "id": 55,
                     "name": "session",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 57,
+                    "id": 56,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 58,
+                    "id": 57,
                     "name": "response_required",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 59,
+                    "id": 58,
                     "name": "no_response_alert",
                     "type": 0,
                     "description": "",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 60,
+                    "id": 59,
                     "name": "scores",
                     "type": 1,
                     "description": "",
@@ -180,7 +180,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 61,
+                    "id": 60,
                     "name": "can_go_back",
                     "type": 0,
                     "description": "",
@@ -191,7 +191,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 62,
+                    "id": 61,
                     "name": "item_debug",
                     "type": 0,
                     "description": "<p><span style=\"line-height: 20.8px;\">1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/span><\/p>\n",
@@ -202,7 +202,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 63,
+                    "id": 62,
                     "name": "out_of_time",
                     "type": 2,
                     "description": "",
@@ -213,7 +213,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 64,
+                    "id": 63,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -224,7 +224,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 65,
+                    "id": 64,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -235,7 +235,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 66,
+                    "id": 65,
                     "name": "responses_layout",
                     "type": 0,
                     "description": "",
@@ -246,7 +246,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 67,
+                    "id": 66,
                     "name": "response_width",
                     "type": 0,
                     "description": "",
@@ -257,7 +257,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 68,
+                    "id": 67,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
@@ -268,7 +268,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 69,
+                    "id": 68,
                     "name": "linear_test_template",
                     "type": 0,
                     "description": "",
@@ -279,7 +279,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 70,
+                    "id": 69,
                     "name": "item_debug_template",
                     "type": 0,
                     "description": "",
@@ -290,7 +290,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 71,
+                    "id": 70,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -304,7 +304,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-02-19 18:19:48",
+            "updatedOn": "2018-04-24 14:38:45",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -340,7 +340,7 @@
                             "type": 2,
                             "passableThroughUrl": "0",
                             "value": "<p>Please answer question below:<\/p>\n",
-                            "testVariable": 47,
+                            "testVariable": 46,
                             "name": "paragraph",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -360,7 +360,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "DEMO TEST",
-                            "testVariable": 64,
+                            "testVariable": 63,
                             "name": "title",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -380,7 +380,7 @@
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "vertical",
-                            "testVariable": 66,
+                            "testVariable": 65,
                             "name": "responses_layout",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -412,7 +412,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "",
-                            "testVariable": 67,
+                            "testVariable": 66,
                             "name": "response_width",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -431,7 +431,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "next",
-                            "testVariable": 48,
+                            "testVariable": 47,
                             "name": "next_button_label",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -451,7 +451,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "previous",
-                            "testVariable": 49,
+                            "testVariable": 48,
                             "name": "previous_button_label",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -471,7 +471,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "linear_test_content",
-                            "testVariable": 69,
+                            "testVariable": 68,
                             "name": "linear_test_template",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -491,7 +491,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "test_item_debug",
-                            "testVariable": 70,
+                            "testVariable": 69,
                             "name": "item_debug_template",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -511,7 +511,7 @@
                             "type": 5,
                             "passableThroughUrl": "0",
                             "value": "buttons_linear_test",
-                            "testVariable": 71,
+                            "testVariable": 70,
                             "name": "buttons_template",
                             "wizardStep": 2,
                             "stepTitle": "Presentation",
@@ -542,7 +542,7 @@
                             "type": 3,
                             "passableThroughUrl": "0",
                             "value": "manual",
-                            "testVariable": 55,
+                            "testVariable": 54,
                             "name": "order",
                             "wizardStep": 3,
                             "stepTitle": "Items and navigation",
@@ -572,7 +572,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"direct\",\"direct_table\":[],\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 50,
+                            "testVariable": 49,
                             "name": "item_bank",
                             "wizardStep": 3,
                             "stepTitle": "Items and navigation",
@@ -977,7 +977,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 54,
+                            "testVariable": 53,
                             "name": "randomized_response_options",
                             "wizardStep": 3,
                             "stepTitle": "Items and navigation",
@@ -997,7 +997,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "1",
-                            "testVariable": 61,
+                            "testVariable": 60,
                             "name": "can_go_back",
                             "wizardStep": 3,
                             "stepTitle": "Items and navigation",
@@ -1028,7 +1028,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"type\":\"\",\"time_limit\":null}",
-                            "testVariable": 52,
+                            "testVariable": 51,
                             "name": "stopping_time",
                             "wizardStep": 4,
                             "stepTitle": "Stopping rules",
@@ -1078,7 +1078,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"enabled\":\"0\",\"count\":\"\"}",
-                            "testVariable": 53,
+                            "testVariable": 52,
                             "name": "stopping_item_count",
                             "wizardStep": 4,
                             "stepTitle": "Stopping rules",
@@ -1124,7 +1124,7 @@
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"default\",\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 51,
+                            "testVariable": 50,
                             "name": "response_bank",
                             "wizardStep": 5,
                             "stepTitle": "Response bank",
@@ -1221,7 +1221,7 @@
                             "type": 4,
                             "passableThroughUrl": "0",
                             "value": "0",
-                            "testVariable": 58,
+                            "testVariable": 57,
                             "name": "response_required",
                             "wizardStep": 5,
                             "stepTitle": "Response bank",
@@ -1241,7 +1241,7 @@
                             "type": 0,
                             "passableThroughUrl": "0",
                             "value": "No answer given!",
-                            "testVariable": 59,
+                            "testVariable": 58,
                             "name": "no_response_alert",
                             "wizardStep": 5,
                             "stepTitle": "Response bank",
@@ -1257,7 +1257,7 @@
             ],
             "test": 4,
             "testName": "source_linear_test",
-            "updatedOn": "2018-02-19 18:19:48",
+            "updatedOn": "2018-04-24 14:38:45",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -1278,118 +1278,129 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 72,
+                    "id": 71,
                     "name": "answered",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 5,
-                    "parentVariable": 46
+                    "parentVariable": 45
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 73,
+                    "id": 72,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "<p>Please answer question below:<\/p>\n",
                     "test": 5,
-                    "parentVariable": 47
+                    "parentVariable": 46
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 74,
+                    "id": 73,
                     "name": "next_button_label",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "next",
                     "test": 5,
-                    "parentVariable": 48
+                    "parentVariable": 47
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 75,
+                    "id": 74,
                     "name": "previous_button_label",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "previous",
                     "test": 5,
-                    "parentVariable": 49
+                    "parentVariable": 48
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 76,
+                    "id": 75,
                     "name": "item_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"direct\",\"direct_table\":[{\"id\":\"1\",\"question\":\"<p>If you have a nose bleed, what should you do?<\\\/p>\\n\",\"order\":\"1\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"tilt_back\",\"label\":\"Tilt your head back\",\"points\":\"0\"},{\"value\":\"tilt_forwards\",\"label\":\"Tilt your head forwards\",\"points\":\"0.5\"},{\"value\":\"tilt_forwards_pinch\",\"label\":\"Tilt your head forwards and pinch your nose\",\"points\":\"1\"}]},\"trait\":\"first_aid\",\"order_index\":\"\"},{\"id\":\"2\",\"question\":\"<p>In first aid,&nbsp;ABC stands for what?<\\\/p>\\n\",\"order\":\"2\",\"response_options\":{\"response_type\":\"multiple_choice\",\"correct_answer\":\"\",\"response_options\":[{\"value\":\"airway_breathing_circulation\",\"label\":\"Airway, breathing, circulation\",\"points\":\"1\"},{\"value\":\"alcoholic_beverage_control\",\"label\":\"Alcoholic Beverage Control\",\"points\":\"0\"}]},\"trait\":\"first_aid\",\"order_index\":\"\"},{\"id\":\"3\",\"question\":\"<p>In CPR, how many chest compressions per minute should be performed?<\\\/p>\\n\",\"order\":\"3\",\"response_options\":{\"response_type\":\"open_text\",\"correct_answer\":\"100\",\"response_options\":[]},\"trait\":\"first_aid\",\"order_index\":\"\"}],\"custom_table\":[],\"custom_question_column\":[],\"custom_order_column\":[],\"custom_response_options\":[],\"custom_correct_column\":[],\"custom_trait_column\":[],\"custom_test_id_column\":[],\"data_set_id\":\"\"}",
                     "test": 5,
-                    "parentVariable": 50
+                    "parentVariable": 49
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 77,
+                    "id": 76,
                     "name": "response_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"default\",\"custom_table\":[],\"custom_item_id_column\":[],\"custom_response_column\":[],\"custom_trait_column\":[],\"custom_correct_column\":[],\"custom_session_id_column\":[],\"custom_time_taken_column\":[],\"data_set_id\":\"\"}",
                     "test": 5,
-                    "parentVariable": 51
+                    "parentVariable": 50
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 78,
+                    "id": 77,
                     "name": "stopping_time",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"enabled\":\"0\",\"time_limit\":\"\",\"type\":\"\"}",
                     "test": 5,
-                    "parentVariable": 52
+                    "parentVariable": 51
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 79,
+                    "id": 78,
                     "name": "stopping_item_count",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "{\"enabled\":\"0\",\"count\":\"\"}",
                     "test": 5,
-                    "parentVariable": 53
+                    "parentVariable": 52
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 80,
+                    "id": 79,
                     "name": "randomized_response_options",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "1",
                     "test": 5,
-                    "parentVariable": 54
+                    "parentVariable": 53
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 81,
+                    "id": 80,
                     "name": "order",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "random",
                     "test": 5,
+                    "parentVariable": 54
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 81,
+                    "name": "session",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 5,
                     "parentVariable": 55
                 },
                 {
                     "class_name": "TestVariable",
                     "id": 82,
-                    "name": "session",
+                    "name": "inserts",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
@@ -1400,174 +1411,163 @@
                 {
                     "class_name": "TestVariable",
                     "id": 83,
-                    "name": "inserts",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 5,
-                    "parentVariable": 57
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 84,
                     "name": "response_required",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 5,
-                    "parentVariable": 58
+                    "parentVariable": 57
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 85,
+                    "id": 84,
                     "name": "no_response_alert",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "No answer given!",
                     "test": 5,
-                    "parentVariable": 59
+                    "parentVariable": 58
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 86,
+                    "id": 85,
                     "name": "scores",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 5,
-                    "parentVariable": 60
+                    "parentVariable": 59
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 87,
+                    "id": 86,
                     "name": "can_go_back",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "1",
                     "test": 5,
-                    "parentVariable": 61
+                    "parentVariable": 60
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 88,
+                    "id": 87,
                     "name": "item_debug",
                     "type": 0,
                     "description": "<p><span style=\"line-height: 20.8px;\">1 to turn item debug mode on. 0 to turn it off. Item debug mode let&#39;s you specify which item you want to&nbsp;view from your item bank.<\/span><\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "0",
                     "test": 5,
-                    "parentVariable": 62
+                    "parentVariable": 61
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 89,
+                    "id": 88,
                     "name": "out_of_time",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 5,
-                    "parentVariable": 63
+                    "parentVariable": 62
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 90,
+                    "id": 89,
                     "name": "title",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "DEMO TEST",
                     "test": 5,
-                    "parentVariable": 64
+                    "parentVariable": 63
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 91,
+                    "id": 90,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 5,
-                    "parentVariable": 65
+                    "parentVariable": 64
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 92,
+                    "id": 91,
                     "name": "responses_layout",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "vertical",
                     "test": 5,
-                    "parentVariable": 66
+                    "parentVariable": 65
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 93,
+                    "id": 92,
                     "name": "response_width",
                     "type": 0,
                     "description": "<p>Can be any valid CSS width property value. E.g.:&nbsp;<strong>200px<\/strong>,&nbsp;<strong>20%<\/strong>.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "",
                     "test": 5,
-                    "parentVariable": 67
+                    "parentVariable": 66
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 94,
+                    "id": 93,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
                     "test": 5,
-                    "parentVariable": 68
+                    "parentVariable": 67
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 95,
+                    "id": 94,
                     "name": "linear_test_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "linear_test_content",
                     "test": 5,
-                    "parentVariable": 69
+                    "parentVariable": 68
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 96,
+                    "id": 95,
                     "name": "item_debug_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "test_item_debug",
                     "test": 5,
-                    "parentVariable": 70
+                    "parentVariable": 69
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 97,
+                    "id": 96,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "buttons_linear_test",
                     "test": 5,
-                    "parentVariable": 71
+                    "parentVariable": 70
                 }
             ],
             "sourceWizard": 2,
             "sourceWizardName": "linear_test",
             "sourceWizardTest": 4,
             "sourceWizardTestName": "source_linear_test",
-            "updatedOn": "2018-02-19 18:19:53",
+            "updatedOn": "2018-04-24 14:38:49",
             "updatedBy": "admin",
             "nodes": [],
             "nodesConnections": [],
@@ -1588,7 +1588,7 @@
             "css": ".linear-test-response-table {\n  border: 0 none;\n  border-collapse: separate;\n  border-spacing: 0;\n}\n.linear-test-response-table td {\n  padding: 0 5px 0 0;\n}\n.linear-test-response-section-horizontal {\n  float: left; \n  margin: 5px;\n  display: block;\n}\n.linear-test-response-section-vertical {\n  margin: 5px;\n}\n.linear-test-response-group {\n  text-align: left;\n}\n.linear-test-response-label-cell p {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.linear-test-response-button-cell {\n  padding-right: 5px;\n}",
             "js": "testRunner.controllerProvider.register(\"linearTest\", function($scope) {\n  $scope.currentItem = {{current_item}} - 1;\n  $scope.answers = {{answers}};\n  if(typeof $scope.answers === 'object' && $scope.answers.constructor !== Array || $scope.answers === null) $scope.answers = [];                                    \n  if($scope.answers.constructor !== Array) $scope.answers = [$scope.answers];                                     \n  $scope.responseOptions = {{response_options}};\n  $scope.value = null;\n  if($scope.answers.length > $scope.currentItem) $scope.value = $scope.answers[$scope.currentItem];\n});",
             "html": "{{paragraph}}\n<div ng-controller=\"linearTest\">{{question}}\n<div class=\"linear-test-response-group\" ng-if=\"'{{response_type}}'=='multiple_choice'\">\n<div class=\"{{response_classes}}\" ng-repeat=\"option in responseOptions track by $index\" style=\"{{response_styles}}\">\n<table class=\"linear-test-response-table\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"linear-test-response-button-cell\"><label for=\"input_response_[[$index+1]]\"><input id=\"input_response_[[$index+1]]\" name=\"response\" ng-attr-checked=\"[[answers[currentItem] == option.value ? 'checked' : undefined]]\" ng-model=\"value\" type=\"radio\" value=\"[[option.value]]\" \/> <\/label><\/td>\n\t\t\t<td class=\"linear-test-response-label-cell\"><label for=\"input_response_[[$index+1]]\">[[option.label]]<\/label><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n<\/div>\n\n<div style=\"clear:both;\">&nbsp;<\/div>\n<\/div>\n\n<div ng-if=\"'{{response_type}}'=='open_text'\"><input name=\"response\" ng-model=\"value\" style=\"width:100%;\" type=\"text\" \/><\/div>\n<\/div>\n",
-            "updatedOn": "2018-02-19 18:19:48",
+            "updatedOn": "2018-04-24 14:38:45",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -1606,7 +1606,7 @@
             "css": "",
             "js": "",
             "html": "<div class=\"debug\">\n<p>Current item id: #{{id}}<\/p>\n\n<p>Next item id: <input name=\"item_debug\" type=\"text\" \/><\/p>\n<\/div>\n",
-            "updatedOn": "2018-02-19 18:19:48",
+            "updatedOn": "2018-04-24 14:38:45",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -1624,7 +1624,7 @@
             "css": ".button-group {\n  width: 100%;\n  display: table;\n  table-layout: fixed;\n}\n.button-group ul {\n  display: table-row;\n}\nbutton {\n  background-color: #b9d979;\n  border: 0 none;\n  color: #000000;\n  font-family: \"Roboto\";\n  font-size: 1.1em;\n  font-style: normal;\n  font-weight: 500;\n  padding: 7px;\n}\n.button-group li {\n  display: table-cell;\n  text-align: center;\n  padding: 5px;\n}\n.button-group li button {\n  width: 100%;\n}",
             "js": "",
             "html": "<div class=\"button-group\">\n<ul>\n\t<li><button class=\"linear_test_button\" name=\"previous\" ng-show=\"{{show_previous}}\">{{label_previous}}<\/button><\/li>\n\t<li ng-if=\"{{show_pager}}\">{{current_item}} \/ {{max_items}}<\/li>\n\t<li><button class=\"linear_test_button\" name=\"next\" ng-show=\"{{show_next}}\">{{label_next}}<\/button><\/li>\n<\/ul>\n<\/div>\n",
-            "updatedOn": "2018-02-19 18:19:48",
+            "updatedOn": "2018-04-24 14:38:45",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

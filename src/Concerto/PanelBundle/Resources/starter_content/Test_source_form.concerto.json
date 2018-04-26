@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 119,
+                    "id": 117,
                     "name": "submit",
                     "type": 2,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 120,
+                    "id": 118,
                     "name": "form",
                     "type": 0,
                     "description": "",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 121,
+                    "id": 119,
                     "name": "button_label",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 122,
+                    "id": 120,
                     "name": "paragraph",
                     "type": 0,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 123,
+                    "id": 121,
                     "name": "response",
                     "type": 1,
                     "description": "<p><span style=\"line-height: 20.8px;\">Submitted user response R list object<\/span><\/p>",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 124,
+                    "id": 122,
                     "name": "inserts",
                     "type": 0,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 125,
+                    "id": 123,
                     "name": "warning_msg",
                     "type": 0,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 126,
+                    "id": 124,
                     "name": "title",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 127,
+                    "id": 125,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 128,
+                    "id": 126,
                     "name": "form_field_template",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 129,
+                    "id": 127,
                     "name": "form_field_input_template",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 130,
+                    "id": 128,
                     "name": "form_field_multiline_template",
                     "type": 0,
                     "description": "",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 131,
+                    "id": 129,
                     "name": "form_field_select_template",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 132,
+                    "id": 130,
                     "name": "form_field_checkbox_template",
                     "type": 0,
                     "description": "",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 133,
+                    "id": 131,
                     "name": "form_field_slider_template",
                     "type": 0,
                     "description": "",
@@ -180,7 +180,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 134,
+                    "id": 132,
                     "name": "form_alert_template",
                     "type": 0,
                     "description": "",
@@ -191,7 +191,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 135,
+                    "id": 133,
                     "name": "buttons_template",
                     "type": 0,
                     "description": "",
@@ -202,7 +202,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 136,
+                    "id": 134,
                     "name": "form_field_file_template",
                     "type": 0,
                     "description": "",
@@ -213,7 +213,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 137,
+                    "id": 135,
                     "name": "custom_button_1",
                     "type": 0,
                     "description": "",
@@ -224,7 +224,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 138,
+                    "id": 136,
                     "name": "custom_button_1",
                     "type": 2,
                     "description": "",
@@ -235,7 +235,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 139,
+                    "id": 137,
                     "name": ".branch",
                     "type": 1,
                     "description": "",
@@ -249,8 +249,8 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-03-03 15:29:37",
-            "updatedBy": "admin",
+            "updatedOn": "2018-04-24 14:38:45",
+            "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",

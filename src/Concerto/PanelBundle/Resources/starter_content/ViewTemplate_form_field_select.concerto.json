@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,7 +12,7 @@
             "css": "",
             "js": "testRunner.controllerProvider.register(\"_select{{id}}\", function($scope) {\n  $scope.options = {{options}};\n  $scope.value = \"{{value}}\";\n});",
             "html": "<select id=\"{{id}}\" name=\"{{name}}\" ng-controller=\"_select{{id}}\"><option ng-repeat=\"option in options\" ng-selected=\"[[option.value == value]]\" value=\"[[option.value]]\">[[option.label]]<\/option> <\/select>",
-            "updatedOn": "2018-02-19 18:19:51",
+            "updatedOn": "2018-04-24 14:38:48",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

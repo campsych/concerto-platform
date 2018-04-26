@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,7 +12,7 @@
             "css": "",
             "js": "testRunner.controllerProvider.register(\"slider{{id}}\", function($scope) {\n  $scope.definition = {{definition}};\n  $scope.value = {{value}};\n});",
             "html": "<table class=\"tableFormSlider\" ng-controller=\"slider{{id}}\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td class=\"tdFormSliderExtremeLabel tdFormSliderExtremeLabelLeft\">[[definition.label_extreme_left]]<\/td>\n\t\t\t<td class=\"tdFormSlider\"><input id=\"{{id}}\" max=\"[[definition.max]]\" min=\"[[definition.min]]\" name=\"{{name}}\" ng-model=\"value\" step=\"[[definition.step]]\" type=\"range\" \/><\/td>\n\t\t\t<td class=\"tdFormSliderExtremeLabel tdFormSliderExtremeLabelRight\">[[definition.label_extreme_right]]<\/td>\n\t\t<\/tr>\n\t\t<tr ng-show=\"[[definition.hide_number]] == 0\">\n\t\t\t<td>&nbsp;<\/td>\n\t\t\t<td class=\"tdFormSliderNumber\">[[definition.prefix_text]][[value]][[definition.suffix_text]]<\/td>\n\t\t\t<td>&nbsp;<\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2018-02-19 18:19:51",
+            "updatedOn": "2018-04-24 14:38:48",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

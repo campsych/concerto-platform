@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.3.19",
+    "version": "5.0.beta.5.0",
     "collection": [
         {
             "class_name": "Test",
@@ -15,7 +15,7 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 26,
+                    "id": 25,
                     "name": "type",
                     "type": 0,
                     "description": "",
@@ -26,7 +26,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 27,
+                    "id": 26,
                     "name": "user",
                     "type": 1,
                     "description": "<p>Returned user object list:<\/p>\n\n<ul>\n\t<li><strong>user$id<\/strong>&nbsp;- user unique id<\/li>\n\t<li><strong>user$login&nbsp;<\/strong>- user login<\/li>\n<\/ul>\n",
@@ -37,7 +37,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 28,
+                    "id": 27,
                     "name": "user_bank",
                     "type": 0,
                     "description": "",
@@ -48,7 +48,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 29,
+                    "id": 28,
                     "name": "user_bank",
                     "type": 1,
                     "description": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 30,
+                    "id": 29,
                     "name": "session_bank",
                     "type": 0,
                     "description": "",
@@ -70,7 +70,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 31,
+                    "id": 30,
                     "name": "session",
                     "type": 1,
                     "description": "",
@@ -81,7 +81,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 32,
+                    "id": 31,
                     "name": "session_bank",
                     "type": 1,
                     "description": "",
@@ -92,7 +92,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 33,
+                    "id": 32,
                     "name": "registration",
                     "type": 0,
                     "description": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 34,
+                    "id": 33,
                     "name": "ecuid",
                     "type": 0,
                     "description": "<p>Email confirmation user id<\/p>\n",
@@ -114,7 +114,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 35,
+                    "id": 34,
                     "name": "template_def",
                     "type": 0,
                     "description": "",
@@ -125,7 +125,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 36,
+                    "id": 35,
                     "name": "login_form",
                     "type": 0,
                     "description": "",
@@ -136,7 +136,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 37,
+                    "id": 36,
                     "name": "registration_enabled",
                     "type": 0,
                     "description": "",
@@ -147,7 +147,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 38,
+                    "id": 37,
                     "name": "registration_form",
                     "type": 0,
                     "description": "",
@@ -158,7 +158,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 39,
+                    "id": 38,
                     "name": "email_conf_request_page",
                     "type": 0,
                     "description": "",
@@ -169,7 +169,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 40,
+                    "id": 39,
                     "name": "email_conf_success_page",
                     "type": 0,
                     "description": "",
@@ -180,7 +180,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 41,
+                    "id": 40,
                     "name": "email_confirmation",
                     "type": 0,
                     "description": "",
@@ -191,7 +191,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 42,
+                    "id": 41,
                     "name": "new_session",
                     "type": 2,
                     "description": "",
@@ -202,7 +202,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 43,
+                    "id": 42,
                     "name": "resume_session",
                     "type": 0,
                     "description": "",
@@ -213,7 +213,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 44,
+                    "id": 43,
                     "name": "direct_user",
                     "type": 0,
                     "description": "",
@@ -224,7 +224,7 @@
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 45,
+                    "id": 44,
                     "name": "resume_session_time_limit",
                     "type": 0,
                     "description": "",
@@ -238,8 +238,8 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-02-21 14:47:28",
-            "updatedBy": "admin",
+            "updatedOn": "2018-04-24 14:38:45",
+            "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "",

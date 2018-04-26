@@ -12,7 +12,11 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
             if (!exists(test$variables[i, "name"]) &&
                 !is.null(test$variables[i, "value"]) &&
                 test$variables[i, "type"] == 0) {
+
                 assign(test$variables[i, "name"], test$variables[i, "value"], envir = testenv)
+                if(is.null(params[[test$variables[i, "name"]]])) {
+                    params[[test$variables[i, "name"]]] = test$variables[i, "value"]
+                }
             }
         }
     }
@@ -36,8 +40,11 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
         concerto$flow[[flowIndex]]$type <<- test$type
     }
 
-    if (test$type != 2) {
-        #not flow
+    if (test$type == 1) {
+        #wizard
+        return(concerto.test.run(test$sourceTest$id, params, mainTest, ongoingResumeFlowIndex))
+    } else if (test$type == 0) {
+        #code
         eval(parse(text = test$code), envir = testenv)
 
         if (dim(test$variables)[1] > 0) {
@@ -51,6 +58,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
             }
         }
     } else {
+        #flow
         isGetterNode = function(node){
             if (node$type != 0) return(F)
             for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
