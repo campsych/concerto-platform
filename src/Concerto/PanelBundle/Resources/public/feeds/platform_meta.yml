@@ -1,5 +1,12 @@
-version: "5.0.beta.4.2"
+version: "5.0.beta.4.3"
 changelog:
+    - version: "5.0.beta.4.3"
+      description: >
+        Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - fixed import of flow based test
     - version: "5.0.beta.4.2"
       description: >
         Fixes

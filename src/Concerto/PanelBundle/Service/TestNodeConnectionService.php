@@ -64,7 +64,7 @@ class TestNodeConnectionService extends ASectionService
         $object->setDestinationPort($destinationPort);
         $object->setDefaultReturnFunction($default);
         if ($default || !$returnFunction) {
-            if(!$sourcePort) {
+            if (!$sourcePort) {
                 $object->setReturnFunction("");
             } else {
                 $object->setReturnFunction($sourcePort->getVariable()->getName());
@@ -220,7 +220,9 @@ class TestNodeConnectionService extends ASectionService
 
     protected function findConversionSource($obj, $map)
     {
-        $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]]->getId();
+        $sourcePortId = null;
+        if ($obj["sourcePort"])
+            $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]]->getId();
         $destinationPortId = null;
         if ($obj["destinationPort"])
             $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]]->getId();
