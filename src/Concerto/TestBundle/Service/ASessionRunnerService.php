@@ -7,6 +7,7 @@ use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Concerto\PanelBundle\Service\TestSessionService;
 
 abstract class ASessionRunnerService
 {
@@ -249,13 +250,21 @@ abstract class ASessionRunnerService
         $startTime = time();
         do {
             if (($client_sock = socket_accept($submitter_sock)) === false) {
-                if (time() - $startTime > self::WRITER_TIMEOUT) return false;
+                if (time() - $startTime > self::WRITER_TIMEOUT) {
+                    $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process timeout");
+                    return false;
+                }
                 continue;
             }
 
             $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - socket accepted");
 
-            socket_write($client_sock, json_encode($response) . "\n");
+            $buffer = json_encode($response) . "\n";
+            $sent = socket_write($client_sock, $buffer);
+            if($sent === false) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process failed");
+                return false;
+            }
             break;
         } while (usleep(100 * 1000) || true);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - submitter ended");

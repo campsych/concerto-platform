@@ -10,7 +10,7 @@ concerto.server.listen = function(){
     while(T) {
         if(file.exists("submitter.port")) {
             fh = file("submitter.port", open="rt")
-            concerto$session$submitterPort = readLines(fh)
+            concerto$session$submitterPort <<- readLines(fh)
             close(fh)
             unlink("submitter.port")
             break
