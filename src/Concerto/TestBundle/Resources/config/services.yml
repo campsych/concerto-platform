@@ -24,23 +24,34 @@ services:
         factory: doctrine.orm.entity_manager:getRepository
         arguments: [ Concerto\TestBundle\Entity\TestSessionCount]
 
-#services
-    Concerto\TestBundle\Service\RRunnerService:
+#controller
+    Concerto\TestBundle\Controller\TestRunnerController:
         arguments:
-            $root: "%kernel.root_dir%"
-            $panelNodes: "%panel_nodes%"
-            $settings: "%test_runner_settings%"
             $environment: "%kernel.environment%"
+            $testRunnerSettings: "%test_runner_settings%"
+        public: true
+
+#services
+    Concerto\TestBundle\Service\TestRunnerService:
+        arguments:
+            $environment: "%kernel.environment%"
+
+    Concerto\TestBundle\Service\PersistantSessionRunnerService:
+        arguments:
+            $testRunnerSettings: "%test_runner_settings%"
+            $root: "%kernel.root_dir%"
+            $environment: "%kernel.environment%"
+
+    Concerto\TestBundle\Service\CheckpointSessionRunnerService:
+        arguments:
+            $testRunnerSettings: "%test_runner_settings%"
+            $root: "%kernel.root_dir%"
 
     Concerto\TestBundle\Service\TestSessionCountService:
         arguments:
             $administration: "%administration%"
 
 #commands
-    Concerto\TestBundle\Command\StartProcessCommand:
-        arguments:
-            $testRunnerSettings: "%test_runner_settings%"
-
     Concerto\TestBundle\Command\StartForkerCommand:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"

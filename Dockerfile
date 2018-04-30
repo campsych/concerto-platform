@@ -49,15 +49,20 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
+
+RUN mkdir -p /usr/src/dmtcp \
+ && cd /usr/src/dmtcp \
+ && git clone -b master https://github.com/dmtcp/dmtcp.git /usr/src/dmtcp \
+ && ./configure --prefix=/usr && make -j 2 && make install
  
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
  
-CMD php bin/console concerto:setup \
+CMD rm -rf var/cache/* \
+ && php bin/console concerto:setup \
  && php bin/console concerto:r:cache \
- && rm -rf var/cache/prod \
+ && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
- && mkdir src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
@@ -65,6 +70,8 @@ CMD php bin/console concerto:setup \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
+ && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/init_checkpoint \
+ && rm -rf src/Concerto/TestBundle/Resources/R/init_checkpoint/* \
  && cron \
  && service nginx start \
  && php-fpm

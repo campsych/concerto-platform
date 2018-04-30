@@ -5,10 +5,9 @@ testRunner.controller('testRunnerController', [
   function ($scope, $compile) {
 
     $scope.concertoOptions = {};
-    $scope.init = function (node, directory, testSlug, testName, params, debug, keepAliveInterval) {
+    $scope.init = function (directory, testSlug, testName, params, debug, keepAliveInterval) {
 
       $scope.concertoOptions = angular.extend($scope.concertoOptions, {
-        nodeId: node,
         directory: directory,
         testSlug: testSlug,
         testName: testName,

@@ -39,8 +39,6 @@ class TestRunnerControllerTest extends AFunctionalTest {
         $session->setTest(self::$testRepository->find(1));
         $session->setClientIp("192.168.0.100");
         $session->setClientBrowser("Gecko");
-        $session->setTestNodeId("local");
-        $session->setPanelNodeId("local");
         $session->setPanelNodePort("8888");
         $session->setDebug(false);
         $session->setParams(json_encode(array()));
@@ -68,52 +66,6 @@ class TestRunnerControllerTest extends AFunctionalTest {
             "code" => TestSessionService::RESPONSE_ERROR
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
-    public function testResultsActionNonExistantSession() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
-
-        $client->request("POST", "/test/session/abc123/results", array(
-            "test_node_hash" => "someHash"
-        ));
-        $fail_msg = "";
-        if (!$client->getResponse()->isSuccessful()) {
-            $crawler = $client->getCrawler();
-            $fail_msg = $crawler->filter("title")->text();
-        }
-        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_ERROR
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
-    }
-
-    public function testResultsAction() {
-        $client = self::createClient();
-        $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
-
-        $session = self::$repository->find(1);
-        $client->request("POST", "/test/session/" . $session->getHash() . "/results", array(
-            "test_node_hash" => "someHash"
-        ));
-        $fail_msg = "";
-        if (!$client->getResponse()->isSuccessful()) {
-            $crawler = $client->getCrawler();
-            $fail_msg = $crawler->filter("title")->text();
-        }
-        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
-
-        $actual = json_decode($client->getResponse()->getContent(), true);
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_RESULTS,
-            "results" => $session->getReturns(),
-            "hash" => $actual["hash"]
-        );
-        $this->assertEquals($expected, $actual);
     }
 
 }

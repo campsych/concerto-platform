@@ -68,9 +68,6 @@
     "symfony-assets-install": "relative",
     "incenteev-parameters": [
       {
-        "file": "app/config/parameters_nodes.yml"
-      },
-      {
         "file": "app/config/parameters_test_runner.yml"
       },
       {

@@ -1,5 +1,15 @@
-version: "5.0.beta.4.4"
+version: "5.0.beta.5.0"
 changelog:
+    - version: "5.0.beta.5.0"
+      description: >
+        New session runners
+      categories:
+          - label: Features
+            changes:
+                - checkpointed session runner (based on DMTCP)
+          - label: Improvements
+            changes:
+                - independent R sessions (no PHP supervisor needed)
     - version: "5.0.beta.4.4"
       description: >
         Platform independent usage charts

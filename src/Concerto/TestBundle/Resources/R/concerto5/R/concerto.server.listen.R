@@ -4,9 +4,35 @@ concerto.server.listen = function(){
     dbDisconnect(concerto$connection)
     concerto.log("connections closed")
 
-    concerto.log(paste0("waiting for response from ", concerto$submitter.host, ":", concerto$submitter.port))
     setTimeLimit(transient = TRUE)
-    con = socketConnection("localhost", concerto$submitter.port, blocking = TRUE, timeout = 60 * 60 * 24, open = "r")
+
+    concerto.log(paste0("waiting for submitter port..."))
+    while(T) {
+        if(file.exists("submitter.port")) {
+            fh = file("submitter.port", open="rt")
+            concerto$session$submitterPort = readLines(fh)
+            close(fh)
+            unlink("submitter.port")
+            break
+        }
+
+        currentTime = as.numeric(Sys.time())
+        if(concerto$maxIdleTime > 0 && currentTime - concerto$lastSubmitTime > concerto$maxIdleTime) {
+            concerto.log("idle timeout")
+            concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+            concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
+            concerto5:::concerto.session.stop(STATUS_STOPPED)
+        }
+        if(concerto$keepAliveToleranceTime > 0 && currentTime - concerto$lastKeepAliveTime > concerto$keepAliveToleranceTime) {
+            concerto.log("keep alive timeout")
+            concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+            concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
+            concerto5:::concerto.session.stop(STATUS_STOPPED)
+        }
+        Sys.sleep(0.1)
+    }
+    concerto.log(paste0("waiting for submit (port: ",concerto$session$submitterPort,")..."))
+    con = socketConnection("localhost", concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "r")
     response = readLines(con, warn = FALSE)
     response <- fromJSON(response)
     close(con)
@@ -16,15 +42,32 @@ concerto.server.listen = function(){
     concerto.log(response)
 
     concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
-
-    if (response$code == RESPONSE_STOP) {
-        concerto$session$status <<- STATUS_STOPPED
-        concerto5:::concerto.session.update()
-        dbDisconnect(concerto$connection)
-        concerto.log("stopped")
-        q("no")
-    }
+    concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
 
     concerto.log("listened to server")
-    return(response)
+
+    if (response$code == RESPONSE_SUBMIT) {
+        concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
+        concerto$lastSubmitTime <<- as.numeric(Sys.time())
+        values = fromJSON(response$values)
+        if(exists("concerto.onTemplateSubmit")) {
+            do.call("concerto.onTemplateSubmit",list(response=values), envir = .GlobalEnv)
+        }
+        return(values)
+    } else if(response$code == RESPONSE_KEEPALIVE_CHECKIN) {
+        concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
+        return(concerto.server.listen())
+    } else if(response$code == RESPONSE_STOP) {
+        concerto5:::concerto.session.stop(STATUS_STOPPED)
+    } else if(response$code == RESPONSE_WORKER) {
+        concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
+        values = fromJSON(response$values)
+        result = list()
+        if(!is.null(values$bgWorker) && values$bgWorker %in% ls(bgWorkers)) {
+            concerto.log(paste0("running worker: ",values$bgWorker))
+            result = do.call(bgWorkers[[values$bgWorker]], list(response=values))
+        }
+        concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
+        return(concerto.server.listen())
+    } else return(response)
 }

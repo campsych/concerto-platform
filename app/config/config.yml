@@ -1,5 +1,5 @@
 parameters:
-    version: "5.0.beta.4.4"
+    version: "5.0.beta.5.0"
     available_locales:
         en_GB: english
         zh_CN: 中文
@@ -11,7 +11,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml } 
     - { resource: parameters_administration.yml }
-    - { resource: parameters_nodes.yml }
     - { resource: parameters_test_runner.yml }
     - { resource: parameters_uio.yml }
 

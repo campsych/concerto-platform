@@ -2,7 +2,7 @@
 
 namespace Concerto\TestBundle\Command;
 
-use Concerto\PanelBundle\Service\LoadBalancerInterface;
+use Concerto\TestBundle\Service\ASessionRunnerService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,16 +13,16 @@ class StartForkerCommand extends Command
 {
 
     private $testRunnerSettings;
-    private $loadBalancerService;
     private $doctrine;
+    private $sessionRunnerService;
 
-    public function __construct($testRunnerSettings, LoadBalancerInterface $loadBalancerService, RegistryInterface $doctrine)
+    public function __construct($testRunnerSettings, RegistryInterface $doctrine, ASessionRunnerService $sessionRunnerService)
     {
         parent::__construct();
 
         $this->doctrine = $doctrine;
         $this->testRunnerSettings = $testRunnerSettings;
-        $this->loadBalancerService = $loadBalancerService;
+        $this->sessionRunnerService = $sessionRunnerService;
     }
 
     protected function configure()
@@ -30,14 +30,27 @@ class StartForkerCommand extends Command
         $this->setName("concerto:forker:start")->setDescription("Start forker process.");
     }
 
-    private function getCommand($forkerPath, $logPath, $fifoPath, $publicDir, $mediaUrl, $dbDriver)
+    private function getCommand()
     {
+        $forkerPath = realpath(dirname(__FILE__) . "/../Resources/R/forker.R");
+        $logPath = realpath(dirname(__FILE__) . "/../Resources/R") . "/forker.log";
+        $fifoPath = realpath(dirname(__FILE__) . "/../Resources/R/fifo");
+        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
+        $connection = $this->sessionRunnerService->getSerializedConnection();
+        $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
+        $maxExecTime = $this->testRunnerSettings["max_exec_time"];
+        $maxIdleTime = $this->testRunnerSettings["max_idle_time"];
+        $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
+
         $cmd = "nohup " . $this->testRunnerSettings["rscript_exec"] . " --no-save --no-restore --quiet "
             . "'$forkerPath' "
             . "'$fifoPath' "
             . "'$publicDir' "
             . "'$mediaUrl' "
-            . "'$dbDriver' "
+            . "'$connection' "
+            . "$maxExecTime "
+            . "$maxIdleTime "
+            . "$keepAliveToleranceTime "
             . ">> "
             . "'" . $logPath . "' "
             . "2>&1 & echo $!";
@@ -47,20 +60,9 @@ class StartForkerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("starting forker...");
-        $forkerPath = realpath(dirname(__FILE__) . "/../Resources/R/forker.R");
-        $logPath = realpath(dirname(__FILE__) . "/../Resources/R") . "/forker.log";
-        $fifoPath = realpath(dirname(__FILE__) . "/../Resources/R/fifo");
-        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
 
-        $testNode = $this->loadBalancerService->getLocalTestNode();
-        $panelNode = $testNode;
-        $dbConnection = $this->doctrine->getConnection($panelNode["connection"]);
-        $dbDriver = $dbConnection->getDriver()->getName();
-        $mediaUrl = $testNode["dir"] . "bundles/concertopanel/files/";
-
-        $cmd = $this->getCommand($forkerPath, $logPath, $fifoPath, $publicDir, $mediaUrl, $dbDriver);
+        $cmd = $this->getCommand();
         $process = new Process($cmd);
-        $process->setEnhanceWindowsCompatibility(false);
         if ($this->testRunnerSettings["r_environ_path"] != null) {
             $env = array();
             $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
@@ -70,7 +72,7 @@ class StartForkerCommand extends Command
         if ($process->getExitCode() == 0) {
             $output->writeln("forker started");
         } else {
-            $output->writeln("forker started");
+            $output->writeln("something went wrong: non zero exit code");
         }
     }
 

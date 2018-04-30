@@ -20,27 +20,9 @@ class TestSession extends AEntity {
 
     /**
      *
-     * @ORM\Column(type="string")
-     */
-    private $panelNodeId;
-
-    /**
-     *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $panelNodePort;
-
-    /**
-     *
-     * @ORM\Column(type="string")
-     */
-    private $testNodeId;
-
-    /**
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $testNodePort;
+    private $submitterPort;
 
     /**
      *
@@ -130,12 +112,6 @@ class TestSession extends AEntity {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $returns;
-
-    /**
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
     private $error;
 
     /**
@@ -167,6 +143,7 @@ class TestSession extends AEntity {
 
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
+        $this->submitterPort = 0;
     }
 
     public function getOwner() {
@@ -174,87 +151,24 @@ class TestSession extends AEntity {
     }
 
     /**
-     * Set panel node id
+     * Set submitter port
      *
-     * @param string $panelNodeId
+     * @param integer $submitterPort
      * @return TestSession
      */
-    public function setPanelNodeId($panelNodeId) {
-        $this->panelNodeId = $panelNodeId;
+    public function setSubmitterPort($submitterPort) {
+        $this->submitterPort = $submitterPort;
 
         return $this;
     }
 
     /**
-     * Get panel node id
+     * Get submitter port
      *
-     * @return string 
+     * @return integer
      */
-    public function getPanelNodeId() {
-        return $this->panelNodeId;
-    }
-
-    /**
-     * Set panel node port
-     *
-     * @param integer $panelNodePort
-     * @return TestSession
-     */
-    public function setPanelNodePort($panelNodePort) {
-        $this->panelNodePort = $panelNodePort;
-
-        return $this;
-    }
-
-    /**
-     * Get panel node port
-     *
-     * @return integer 
-     */
-    public function getPanelNodePort() {
-        return $this->panelNodePort;
-    }
-
-    /**
-     * Set test node id
-     *
-     * @param string $testNodeId
-     * @return TestSession
-     */
-    public function setTestNodeId($testNodeId) {
-        $this->testNodeId = $testNodeId;
-
-        return $this;
-    }
-
-    /**
-     * Get test node id
-     *
-     * @return string 
-     */
-    public function getTestNodeId() {
-        return $this->testNodeId;
-    }
-
-    /**
-     * Set test node port
-     *
-     * @param integer $testNodePort
-     * @return TestSession
-     */
-    public function setTestNodePort($testNodePort) {
-        $this->testNodePort = $testNodePort;
-
-        return $this;
-    }
-
-    /**
-     * Get test node port
-     *
-     * @return integer 
-     */
-    public function getTestNodePort() {
-        return $this->testNodePort;
+    public function getSubmitterPort() {
+        return $this->submitterPort;
     }
 
     /**
@@ -570,27 +484,6 @@ class TestSession extends AEntity {
      */
     public function getTemplateParams() {
         return $this->templateParams;
-    }
-
-    /**
-     * Set returns
-     *
-     * @param string $returns
-     * @return TestSession
-     */
-    public function setReturns($returns) {
-        $this->returns = $returns;
-
-        return $this;
-    }
-
-    /**
-     * Get returns
-     *
-     * @return string 
-     */
-    public function getReturns() {
-        return $this->returns;
     }
 
     /**

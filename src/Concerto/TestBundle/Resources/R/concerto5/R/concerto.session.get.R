@@ -9,10 +9,10 @@ concerto.session.get = function(sessionHash){
                                                     timeLimit,
                                                     status,
                                                     params,
-                                                    returns,
                                                     error,
                                                     clientIp,
                                                     clientBrowser,
+                                                    submitterPort,
                                                     hash
                                                     FROM TestSession WHERE hash='%s'",sessionHash))
   response <- fetch(result,n=-1)
