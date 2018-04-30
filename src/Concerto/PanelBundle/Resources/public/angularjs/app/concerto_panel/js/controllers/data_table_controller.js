@@ -91,7 +91,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
       name: "_action",
       enableSorting: false,
       enableFiltering: false,
-      exporterSuppressExport: true,
+      exporterSuppressExport: true
     });
     $scope.fetchDataCollection($scope.object.id);
   });

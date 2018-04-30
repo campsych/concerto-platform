@@ -66,7 +66,8 @@ class DBDataDAO
         $f = json_decode($filters, true);
 
         foreach ($f["filters"] as $k => $v) {
-            $builder->orWhere("d.$k LIKE :filter")->setParameter('filter', '%' . $v . '%');
+            if (!$v) continue;
+            $builder->andWhere("d.$k LIKE :filter")->setParameter('filter', '%' . $v . '%');
         }
         foreach ($f["sorting"] as $sort) {
             $builder->addOrderBy("d." . $sort["name"], $sort["dir"]);
@@ -83,7 +84,8 @@ class DBDataDAO
             $f = json_decode($filters, true);
 
             foreach ($f["filters"] as $k => $v) {
-                $builder->orWhere("d.$k LIKE :filter")->setParameter('filter', '%' . $v . '%');
+                if (!$v) continue;
+                $builder->andWhere("d.$k LIKE :filter")->setParameter('filter', '%' . $v . '%');
             }
         }
 
@@ -123,14 +125,16 @@ class DBDataDAO
     {
         $driver = $this->connection->getDriver()->getName();
         switch ($driver) {
-            case 'pdo_pgsql': {
-                $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
-                break;
-            }
-            case 'pdo_sqlsrv': {
-                $this->connection->query('INSERT INTO ' . $table_name . ' DEFAULT VALUES ');
-                break;
-            }
+            case 'pdo_pgsql':
+                {
+                    $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
+                    break;
+                }
+            case 'pdo_sqlsrv':
+                {
+                    $this->connection->query('INSERT INTO ' . $table_name . ' DEFAULT VALUES ');
+                    break;
+                }
             default:
                 $this->connection->insert($table_name, array());
                 break;
