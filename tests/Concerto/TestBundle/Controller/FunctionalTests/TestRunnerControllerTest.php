@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Concerto\PanelBundle\Controller\FunctionalTests;
+namespace Tests\Concerto\TestBundle\Controller\FunctionalTests;
 
 use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
@@ -39,7 +39,6 @@ class TestRunnerControllerTest extends AFunctionalTest {
         $session->setTest(self::$testRepository->find(1));
         $session->setClientIp("192.168.0.100");
         $session->setClientBrowser("Gecko");
-        $session->setPanelNodePort("8888");
         $session->setDebug(false);
         $session->setParams(json_encode(array()));
         $session->setHash(sha1("secret1"));
