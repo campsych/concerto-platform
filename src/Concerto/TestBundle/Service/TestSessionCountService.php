@@ -2,28 +2,21 @@
 
 namespace Concerto\TestBundle\Service;
 
+use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Concerto\TestBundle\Entity\TestSessionCount;
-use Concerto\TestBundle\Service\RRunnerService;
 use Concerto\TestBundle\Repository\TestSessionCountRepository;
 
 class TestSessionCountService
 {
-
+    private $sessionRepo;
     private $sessionCountRepo;
+    private $administration;
 
-    public function __construct(TestSessionCountRepository $sessionCountRepo)
+    public function __construct(TestSessionCountRepository $sessionCountRepo, TestSessionRepository $sessionRepo, $administration)
     {
         $this->sessionCountRepo = $sessionCountRepo;
-    }
-
-    //TODO proper OS detection
-    public function getOS()
-    {
-        if (strpos(strtolower(PHP_OS), "win") !== false) {
-            return RRunnerService::OS_WIN;
-        } else {
-            return RRunnerService::OS_LINUX;
-        }
+        $this->sessionRepo = $sessionRepo;
+        $this->administration = $administration;
     }
 
     public function save(TestSessionCount $entity)
@@ -47,19 +40,7 @@ class TestSessionCountService
 
     public function getCurrentCount()
     {
-        if ($this->getOS() !== RRunnerService::OS_LINUX)
-            return false;
-
-        $sum = 0;
-        $count = exec("ps -F -C R --width 500 | grep '/Resources/R/standalone.R ' | wc -l", $arr1, $retVal1);
-        if ($retVal1 === 0) {
-            $sum += (int)$count;
-        }
-        $count = exec("ps -F -C R --width 500 | grep 'forker.R' | wc -l", $arr2, $retVal2);
-        if ($retVal2 === 0) {
-            $sum += max((int)$count - 1, 0);
-        }
-        return $sum;
+        return $this->sessionRepo->getActiveSessionsCount($this->administration["internal"]["session_count_idle_limit"]);
     }
 
     public function updateCountRecord($offset = 0)

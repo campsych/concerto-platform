@@ -32,6 +32,10 @@ services:
             $settings: "%test_runner_settings%"
             $environment: "%kernel.environment%"
 
+    Concerto\TestBundle\Service\TestSessionCountService:
+        arguments:
+            $administration: "%administration%"
+
 #commands
     Concerto\TestBundle\Command\StartProcessCommand:
         arguments:
