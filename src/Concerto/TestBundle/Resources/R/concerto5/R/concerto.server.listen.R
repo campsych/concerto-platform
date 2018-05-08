@@ -12,6 +12,10 @@ concerto.server.listen = function(){
             fh = file("submitter.port", open="rt")
             concerto$session$submitterPort <<- readLines(fh)
             close(fh)
+            if(concerto$session$submitterPort == "") {
+                Sys.sleep(0.1)
+                next
+            }
             unlink("submitter.port")
             break
         }
