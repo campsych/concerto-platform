@@ -52,6 +52,8 @@ while (T) {
         rm(fpath)
         rm(con)
 
+        concerto$lastSubmitTime <<- as.numeric(Sys.time())
+        concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         concerto5:::concerto.run(
             workingDir = response$workingDir,
             client = response$client,
