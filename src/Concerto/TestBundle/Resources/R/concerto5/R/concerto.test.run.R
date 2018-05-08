@@ -14,7 +14,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                 test$variables[i, "type"] == 0) {
 
                 assign(test$variables[i, "name"], test$variables[i, "value"], envir = testenv)
-                if(is.null(params[[test$variables[i, "name"]]])) {
+                if(!(test$variables[i, "name"] %in% names(params))) {
                     params[[test$variables[i, "name"]]] = test$variables[i, "value"]
                 }
             }
