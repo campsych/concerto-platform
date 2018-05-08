@@ -38,7 +38,7 @@ class StartForkerCommand extends Command
         $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
         $connection = $this->sessionRunnerService->getSerializedConnection();
         $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
-        $maxExecTime = $this->testRunnerSettings["max_exec_time"];
+        $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $maxIdleTime = $this->testRunnerSettings["max_idle_time"];
         $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
 
