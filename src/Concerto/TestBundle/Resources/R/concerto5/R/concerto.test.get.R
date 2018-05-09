@@ -1,4 +1,4 @@
-concerto.test.get = function(testId, includeSubObjects=F){
+concerto.test.get = function(testId, cache=F, includeSubObjects=F){
 
   test = concerto$cache$tests[[as.character(testId)]]
   if(!is.null(test)) {
@@ -40,7 +40,7 @@ concerto.test.get = function(testId, includeSubObjects=F){
         SELECT test_id FROM TestWizard WHERE id=",dbEscapeStrings(concerto$connection,toString(test$sourceWizard_id)),"
         "))
         sourceTestId = fetch(result,n=-1)
-        test$sourceTest <- concerto.test.get(sourceTestId, includeSubObjects)
+        test$sourceTest <- concerto.test.get(sourceTestId, cache, includeSubObjects)
       }
       if(test$type == 2) {
         test$nodes <- concerto5:::concerto.test.getNodes(test$id)
@@ -49,8 +49,10 @@ concerto.test.get = function(testId, includeSubObjects=F){
       }
     }
 
-    concerto$cache$tests[[as.character(response$id)]] <<- test
-    concerto$cache$tests[[response$name]] <<- test
+    if(cache) {
+        concerto$cache$tests[[as.character(test$id)]] <<- test
+        concerto$cache$tests[[test$name]] <<- test
+    }
   }
 
   return(test)

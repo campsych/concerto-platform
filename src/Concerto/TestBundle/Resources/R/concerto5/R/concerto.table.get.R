@@ -1,5 +1,5 @@
 concerto.table.get <-
-function(tableId){
+function(tableId, cache=F){
 
   if(!is.null(concerto$cache$tables[[as.character(tableId)]])) {
     return(concerto$cache$tables[[as.character(tableId)]])
@@ -14,12 +14,14 @@ function(tableId){
   result <- dbSendQuery(concerto$connection,sprintf("SELECT id,name FROM Table WHERE %s='%s'",objField,tableId))
   response <- fetch(result,n=-1)
 
-  table = NULL
   if(dim(response)[1] > 0){
     table = as.list(response)
-    concerto$cache$tables[[as.character(response$id)]] <<- response
-    concerto$cache$tables[[response$name]] <<- response
+    if(cache) {
+        concerto$cache$tables[[as.character(response$id)]] <<- table
+        concerto$cache$tables[[response$name]] <<- table
+    }
+    return(table)
   }
 
-  return(table)
+  return(NULL)
 }
