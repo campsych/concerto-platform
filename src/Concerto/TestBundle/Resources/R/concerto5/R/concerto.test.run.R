@@ -1,6 +1,6 @@
 concerto.test.run <-
 function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
-    test <- concerto.test.get(testId, T)
+    test <- concerto.test.get(testId, cache=F, includeSubObjects=T)
     if (is.null(test)) stop(paste("Test #", testId, " not found!", sep = ''))
     concerto.log(paste0("running test #", test$id, ": ", test$name, " ..."))
 
