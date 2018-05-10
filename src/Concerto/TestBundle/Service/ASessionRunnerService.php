@@ -261,8 +261,12 @@ abstract class ASessionRunnerService
 
             $buffer = json_encode($response) . "\n";
             $sent = socket_write($client_sock, $buffer);
-            if($sent === false) {
+            if ($sent === false) {
                 $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process failed");
+                return false;
+            }
+            if ($sent != strlen($buffer)) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - writing to process failed (length)");
                 return false;
             }
             break;

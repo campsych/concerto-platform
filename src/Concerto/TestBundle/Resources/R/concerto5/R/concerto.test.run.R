@@ -28,7 +28,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
     }
 
     if (mainTest) {
-        concerto$mainTest <<- test
+        concerto$mainTest <<- list(id=test$id)
     }
 
     flowIndex = length(concerto$flow)

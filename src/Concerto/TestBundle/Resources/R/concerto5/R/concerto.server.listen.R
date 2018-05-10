@@ -36,7 +36,7 @@ concerto.server.listen = function(){
         Sys.sleep(0.1)
     }
     concerto.log(paste0("waiting for submit (port: ",concerto$session$submitterPort,")..."))
-    con = socketConnection("localhost", concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "r")
+    con = socketConnection(host = "localhost", port = concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "rt")
     response = readLines(con, warn = FALSE)
     response <- fromJSON(response)
     close(con)

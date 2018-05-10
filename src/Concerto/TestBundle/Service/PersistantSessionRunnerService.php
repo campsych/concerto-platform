@@ -218,7 +218,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
             "maxIdleTime" => $this->testRunnerSettings["max_idle_time"],
             "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
-            "client" => json_decode($client, true),
+            "client" => $client,
             "connection" => json_decode($this->getSerializedConnection(), true),
             "sessionId" => $session_hash,
             "rLogPath" => $this->getROutputFilePath($session_hash)
