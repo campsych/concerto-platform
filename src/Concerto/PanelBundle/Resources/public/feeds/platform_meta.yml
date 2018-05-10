@@ -1,5 +1,13 @@
-version: "5.0.beta.5.0"
+version: "5.0.beta.5.1"
 changelog:
+    - version: "5.0.beta.5.1"
+      description: >
+        Decreased memory usage
+      categories:
+          - label: Improvements
+            changes:
+                - downgraded to R 3.3 (lesser memory usage)
+                - R_GC_MEM_GROW set to 0 (decreases memory usage)
     - version: "5.0.beta.5.0"
       description: >
         New session runners
