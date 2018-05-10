@@ -63,11 +63,13 @@ class StartForkerCommand extends Command
 
         $cmd = $this->getCommand();
         $process = new Process($cmd);
+        $env = array(
+            "R_GC_MEM_GROW" => 0
+        );
         if ($this->testRunnerSettings["r_environ_path"] != null) {
-            $env = array();
             $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
-            $process->setEnv($env);
         }
+        $process->setEnv($env);
         $process->mustRun();
         if ($process->getExitCode() == 0) {
             $output->writeln("forker started");

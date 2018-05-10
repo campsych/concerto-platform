@@ -201,12 +201,14 @@ class PersistantSessionRunnerService extends ASessionRunnerService
 
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
+
+        $env = array(
+            "R_GC_MEM_GROW" => 0
+        );
         if ($this->testRunnerSettings["r_environ_path"] != null) {
-            $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - setting process renviron to: " . $this->testRunnerSettings["r_environ_path"]);
-            $env = array();
             $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
-            $process->setEnv($env);
         }
+        $process->setEnv($env);
         $process->mustRun();
         return true;
     }
