@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.5.0",
+    "version": "5.0.beta.5.1",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,7 +12,7 @@
             "css": ".polyCAT-response-table {\n  border: 0 none;\n  width: 100%;\n  table-layout: fixed;\n}\n.polyCAT-response-table td {\n  padding: 0 5px 0 0;\n}\n.polyCAT-response-button-cell {\n  text-align: center;\n}\n.polyCAT-header-cell {\n  text-align: center;\n  background-color: #b9d979;\n  font-weight: 500; \n}",
             "js": "testRunner.controllerProvider.register(\"polyCAT\", function($scope) {\n  $scope.responseOptions = {{options}};\n})",
             "html": "{{paragraph}}\n<p class=\"polyCat-question\">{{question}}<\/p>\n<table class=\"polyCAT-response-table\" ng-controller=\"polyCAT\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<th class=\"polyCAT-header-cell\" ng-bind-html=\"option.label\" ng-repeat=\"option in responseOptions track by $index\">&nbsp;<\/th>\n\t\t<\/tr>\n\t\t<tr>\n\t\t\t<td class=\"polyCAT-response-button-cell\" ng-repeat=\"option in responseOptions track by $index\"><input id=\"input_response_[[$index+1]]\" name=\"response\" type=\"radio\" value=\"[[option.value]]\" \/><\/td>\n\t\t<\/tr>\n\t<\/tbody>\n<\/table>\n",
-            "updatedOn": "2018-04-24 14:38:47",
+            "updatedOn": "2018-05-16 18:17:09",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

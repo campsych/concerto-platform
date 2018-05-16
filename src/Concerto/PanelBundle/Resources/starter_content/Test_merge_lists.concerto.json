@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.5.0",
+    "version": "5.0.beta.5.1",
     "collection": [
         {
             "class_name": "Test",
-            "id": 24,
+            "id": 22,
             "name": "merge_lists",
             "accessibility": 2,
             "archived": "0",
@@ -15,68 +15,68 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 327,
+                    "id": 311,
                     "name": "merged_list",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 24,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 328,
+                    "id": 312,
                     "name": "list1",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 24,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 329,
+                    "id": 313,
                     "name": "list2",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 24,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 330,
+                    "id": 314,
                     "name": "list3",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 24,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 331,
+                    "id": 315,
                     "name": "list4",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 24,
+                    "test": 22,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 332,
+                    "id": 316,
                     "name": "list5",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 24,
+                    "test": 22,
                     "parentVariable": null
                 }
             ],
@@ -84,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-04-24 14:38:47",
+            "updatedOn": "2018-05-16 18:17:09",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

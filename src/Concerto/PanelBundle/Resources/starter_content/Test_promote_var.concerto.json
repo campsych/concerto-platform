@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.5.0",
+    "version": "5.0.beta.5.1",
     "collection": [
         {
             "class_name": "Test",
-            "id": 37,
+            "id": 36,
             "name": "promote_var",
             "accessibility": 2,
             "archived": "0",
@@ -15,46 +15,46 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 498,
+                    "id": 493,
                     "name": "name",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 37,
+                    "test": 36,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 499,
+                    "id": 494,
                     "name": "value",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 37,
+                    "test": 36,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 500,
+                    "id": 495,
                     "name": "value",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 37,
+                    "test": 36,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 501,
+                    "id": 496,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 37,
+                    "test": 36,
                     "parentVariable": null
                 }
             ],
@@ -62,7 +62,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-04-24 14:38:50",
+            "updatedOn": "2018-05-16 18:17:12",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

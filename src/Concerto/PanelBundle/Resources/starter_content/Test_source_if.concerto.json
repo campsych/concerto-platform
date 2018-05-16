@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.5.0",
+    "version": "5.0.beta.5.1",
     "collection": [
         {
             "class_name": "Test",
-            "id": 20,
+            "id": 18,
             "name": "source_if",
             "accessibility": 2,
             "archived": "0",
@@ -15,57 +15,57 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 305,
+                    "id": 289,
                     "name": "if_true",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to TRUE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 306,
+                    "id": 290,
                     "name": "if_condition",
                     "type": 0,
                     "description": "<p>Condition to be evaluated within if statement&nbsp;in R code, e.g. &quot;ifdata$var1&nbsp;== ifdata$var2&quot; or &quot;ifdata == 10&quot;.<\/p>\n\n<p>Note that in the condition you can refer to data that you&#39;re passing to the ifdata input variable. if you&#39;re using the data input as a list, then those list elements will be available from ifdata$whatever. If you&#39;re passing in just one number or string&nbsp;then it&#39;ll be ifdata.<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "TRUE",
-                    "test": 20,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 307,
+                    "id": 291,
                     "name": ".branch",
                     "type": 1,
                     "description": "<p>Contains a character string based on the branch. Can be either &quot;if_true&quot; or &quot;if_false&quot;<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": "if_true",
-                    "test": 20,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 308,
+                    "id": 292,
                     "name": "ifdata",
                     "type": 0,
                     "description": "<p>Data to be made available for the if statement<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 18,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 309,
+                    "id": 293,
                     "name": "if_false",
                     "type": 2,
                     "description": "<p>Follows this path if condition is evaluated to FALSE<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 20,
+                    "test": 18,
                     "parentVariable": null
                 }
             ],
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-04-24 14:38:46",
+            "updatedOn": "2018-05-16 18:17:08",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

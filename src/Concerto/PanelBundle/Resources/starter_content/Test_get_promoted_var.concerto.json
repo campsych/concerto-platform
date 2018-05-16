@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.5.0",
+    "version": "5.0.beta.5.1",
     "collection": [
         {
             "class_name": "Test",
-            "id": 22,
+            "id": 20,
             "name": "get_promoted_var",
             "accessibility": 2,
             "archived": "0",
@@ -15,24 +15,24 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 315,
+                    "id": 299,
                     "name": "name",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
+                    "test": 20,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 316,
+                    "id": 300,
                     "name": "value",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 22,
+                    "test": 20,
                     "parentVariable": null
                 }
             ],
@@ -40,7 +40,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-04-24 14:38:47",
+            "updatedOn": "2018-05-16 18:17:09",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

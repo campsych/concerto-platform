@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.5.0",
+    "version": "5.0.beta.5.1",
     "collection": [
         {
             "class_name": "DataTable",
@@ -55,7 +55,7 @@
                     "nullable": false
                 }
             ],
-            "updatedOn": "2018-04-24 14:38:45",
+            "updatedOn": "2018-05-16 18:17:07",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
