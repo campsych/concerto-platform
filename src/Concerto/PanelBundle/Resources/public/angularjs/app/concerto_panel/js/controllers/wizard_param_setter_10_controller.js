@@ -52,8 +52,8 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
             }
           }
         }
+        $scope.output.push(newObjects[i]);
       }
-      $scope.output = $scope.output.concat(newObjects);
     },
     exporterFieldCallback: function (grid, row, col, value) {
       if (value !== undefined && value !== null && typeof value === 'object') {

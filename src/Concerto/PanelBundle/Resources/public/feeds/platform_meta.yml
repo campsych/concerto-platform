@@ -1,5 +1,12 @@
-version: "5.0.beta.5.1"
+version: "5.0.beta.5.2"
 changelog:
+    - version: "5.0.beta.5.2"
+      description: >
+        Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - fixed grid CSV upload
     - version: "5.0.beta.5.1"
       description: >
         Decreased memory usage
