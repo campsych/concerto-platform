@@ -8,7 +8,7 @@ parameters:
         php_exec: php
         rscript_exec: Rscript
         timer_type: server #client or server
-        session_forking: false #only Linux, only on PersistantSessionRunnerService, experimental
+        session_forking: false #only Linux, experimental
         dir: /
         connection: local
         dmtcp_bin_path: /usr/src/dmtcp/bin
@@ -17,3 +17,4 @@ parameters:
 services:
     Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\PersistantSessionRunnerService'
     #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\CheckpointSessionRunnerService' #only Linux, experimental
+    #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService' #experimental

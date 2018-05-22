@@ -10,13 +10,21 @@ concerto.run = function(workingDir, client, sessionHash) {
     concerto$session$status <<- STATUS_RUNNING
     concerto$session$params <<- fromJSON(concerto$session$params)
 
-    concerto$flow <<- list()
-    concerto$cache <<- list(tables=list(), templates=list(), tests=list())
-
     tryCatch({
         setwd(concerto$workingDir)
         setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
-        concerto.test.run(concerto$session["test_id"], concerto$session$params, TRUE)
+
+        testId = concerto$session["test_id"]
+        params = concerto$session$params
+        ongoingResumeFlowIndex = -1
+
+        if(concerto$runnerType == RUNNER_SERIALIZED && concerto.session.unserialize()) {
+            testId = concerto$flow[[1]]$id
+            params = concerto$flow[[1]]$params
+            ongoingResumeFlowIndex = 1
+        }
+
+        concerto.test.run(testId, params, TRUE, ongoingResumeFlowIndex)
 
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
     }, error = function(e) {
