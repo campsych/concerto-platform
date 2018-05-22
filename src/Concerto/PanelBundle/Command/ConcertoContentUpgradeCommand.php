@@ -35,10 +35,22 @@ class ConcertoContentUpgradeCommand extends ConcertoScheduledTaskCommand
     {
         if (!parent::check($error, $code, $input)) return false;
 
-        if ($input->getOption("init-only") && $this->administrationService->getInstalledContentVersion()) {
-            $error = "init-only and content already installed";
-            $code = 0;
-            return false;
+        if ($input->getOption("init-only")) {
+            $classes = array(
+                "DataTable",
+                "Test",
+                "TestWizard",
+                "ViewTemplate"
+            );
+            $em = $this->doctrine->getManager();
+            foreach ($classes as $class_name) {
+                $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
+                if($repo->findOneBy(array())) {
+                    $error = "init-only and content already installed";
+                    $code = 0;
+                    return false;
+                }
+            }
         }
         return true;
     }
