@@ -190,6 +190,25 @@ class DataTableService extends AExportableSectionService
         }
     }
 
+    public function streamCsvData($table_id)
+    {
+        $object = $this->get($table_id);
+        if ($object) {
+            $fh = fopen('php://output', 'w');
+            $cols = $object->getColumns();
+            $header = array();
+            foreach ($cols as $col) {
+                array_push($header, $col["name"]);
+            }
+            fputcsv($fh, $header, ',');
+            $iterator = $this->dbDataDao->getFilteredDataResult($object->getName());
+            while (($row = $iterator->fetch()) !== false) {
+                fputcsv($fh, $row, ',');
+            }
+            fclose($fh);
+        }
+    }
+
     public function deleteColumns($object_id, $column_names)
     {
         $object = $this->get($object_id);

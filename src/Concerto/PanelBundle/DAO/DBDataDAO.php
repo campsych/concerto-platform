@@ -22,6 +22,7 @@ class DBDataDAO
 
     public function getFilteredDataResult($table_name, $id = null, $filter = null)
     {
+        $this->connection->getWrappedConnection()->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
         $q = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
 
         $i = 0;
@@ -39,16 +40,14 @@ class DBDataDAO
             }
         }
 
-        $result = null;
         if ($id) {
             if ($i == 0)
                 $q = $q->where("d.id = :id");
             else
                 $q = $q->andWhere("d.id = :id");
-            $result = $q->setParameter(":id", $id)->execute();
-        } else
-            $result = $q->execute();
-        return $result;
+            $q = $q->setParameter(":id", $id);
+        }
+        return $q->execute();
     }
 
     /**

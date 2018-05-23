@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Controller;
 use Concerto\PanelBundle\Service\FileService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Concerto\PanelBundle\DAO\DAOUnsupportedOperationException;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -28,8 +29,6 @@ class DataTableController extends AExportableTabController
     const ENTITY_NAME = "DataTable";
     const EXPORT_FILE_PREFIX = "DataTable_";
 
-    private static $stream_param_data_collection_action_table_id;
-    private static $stream_param_data_collection_action_prefixed;
     private $userService;
 
     public function __construct($environment, EngineInterface $templating, DataTableService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
@@ -149,11 +148,9 @@ class DataTableController extends AExportableTabController
     protected function getStreamingDataCollectionResponse($table_id, $prefixed = 0)
     {
         set_time_limit(0);
-        self::$stream_param_data_collection_action_prefixed = $prefixed;
-        self::$stream_param_data_collection_action_table_id = $table_id;
         $response = new StreamedResponse();
-        $response->setCallback(function () {
-            $this->service->streamJsonData(DataTableController::$stream_param_data_collection_action_table_id, DataTableController::$stream_param_data_collection_action_prefixed == 1);
+        $response->setCallback(function () use ($table_id, $prefixed) {
+            $this->service->streamJsonData($table_id, $prefixed == 1);
         });
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -177,6 +174,31 @@ class DataTableController extends AExportableTabController
 
         $response = new Response(json_encode($result_data));
         $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/DataTable/{table_id}/data/csv/{name}", name="DataTable_data_collection_csv")
+     * @param Request $request
+     * @param $table_id
+     * @return Response
+     */
+    public function streamedCsvDataCollectionAction(Request $request, $table_id)
+    {
+        $name = $request->get("name");
+
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($table_id) {
+            $this->service->streamCsvData($table_id);
+        });
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $name
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+
         return $response;
     }
 
