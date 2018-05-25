@@ -1,5 +1,15 @@
-version: "1.4"
+version: "1.5"
 changelog:
+    - version: "1.5"
+      description: >
+        Improvements
+      categories:
+          - label: Improvements
+            changes:
+                - >
+                  'CAT': added fixed index field to item bank record
+                  'CAT': added starting_theta argument
+                  'linear_test': response option label now uses HTML editor for value changing
     - version: "1.4"
       description: >
         Improvements
