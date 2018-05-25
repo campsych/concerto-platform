@@ -3,9 +3,9 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org/
 
-RUN echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /etc/apt/sources.list \
- && apt-get update -y \
+RUN apt-get update -y \
  && apt-get -y install gnupg \
+ && echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/" | tee -a /etc/apt/sources.list \
  && apt-key adv --keyserver 68.187.0.77 --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF' \
  && apt-get update -y \
  && apt-get -y install \
