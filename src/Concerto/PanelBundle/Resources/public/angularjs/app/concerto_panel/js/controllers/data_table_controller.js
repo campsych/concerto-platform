@@ -14,6 +14,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
   $scope.deleteColumnPath = Paths.DATA_TABLE_COLUMNS_DELETE;
   $scope.fetchColumnObjectPath = Paths.DATA_TABLE_COLUMNS_FETCH_OBJECT;
   $scope.dataCollectionPath = Paths.DATA_TABLE_DATA_COLLECTION;
+  $scope.dataAllCsvPath = Paths.DATA_TABLE_DATA_ALL_CSV;
   $scope.dataUpdatePath = Paths.DATA_TABLE_DATA_UPDATE;
   $scope.dataInsertPath = Paths.DATA_TABLE_DATA_INSERT;
   $scope.deleteDataPath = Paths.DATA_TABLE_DATA_DELETE;
@@ -172,7 +173,24 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
 
   $scope.downloadDataList = function () {
     $scope.dataOptions.exporterCsvFilename = $scope.object.name + ".csv";
-    $scope.gridService.downloadList($scope.dataGridApi);
+
+    var modalInstance = $uibModal.open({
+      templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'download_list_dialog.html',
+      controller: DownloadListController,
+      size: "lg"
+    });
+    modalInstance.result.then(function (options) {
+      if (options.format === 'csv') {
+        if (options.rows === "all") {
+          window.open($scope.dataAllCsvPath.pf($scope.object.id, $scope.object.name + ".csv"), "_blank");
+        } else {
+          var elem = angular.element(document.querySelectorAll(".custom-csv-link-location"));
+          $scope.dataGridApi.exporter.csvExport(options.rows, options.cols, elem);
+        }
+      } else if (options.format === 'pdf') {
+        $scope.dataGridApi.exporter.pdfExport(options.rows, options.cols);
+      }
+    });
   };
 
   $scope.dataOptions = {
@@ -306,6 +324,13 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     if ($scope.dataGridApi) {
       $scope.dataGridApi.selection.clearSelectedRows();
     }
+
+    if (tableId === 0) {
+      $scope.data = [];
+      $scope.dataOptions.totalItems = 0;
+      return;
+    }
+
     $http.post($scope.dataCollectionPath.pf(tableId), {
       filters: angular.toJson($scope.dataFilterOptions)
     }).success(function (collection) {

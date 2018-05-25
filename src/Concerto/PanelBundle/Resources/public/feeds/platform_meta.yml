@@ -1,5 +1,12 @@
-version: "5.0.beta.5.2"
+version: "5.0.beta.5.3"
 changelog:
+    - version: "5.0.beta.5.3"
+      description: >
+        Improvements
+      categories:
+          - label: Improvements
+            changes:
+                - now streaming data table csv download
     - version: "5.0.beta.5.2"
       description: >
         Fixes

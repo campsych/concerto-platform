@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.5.1",
+    "version": "5.0.beta.5.3",
     "collection": [
         {
             "class_name": "Test",
@@ -571,7 +571,7 @@
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
-                            "value": "{\"table_type\":\"direct\",\"direct_table\":[],\"custom_table\":[],\"data_set_id\":null}",
+                            "value": "{\"table_type\":\"direct\",\"direct_table\":[],\"custom_table\":[],\"data_set_id\":\"\"}",
                             "testVariable": 49,
                             "name": "item_bank",
                             "wizardStep": 3,
@@ -799,7 +799,7 @@
                                                                                             "order": 0
                                                                                         },
                                                                                         {
-                                                                                            "type": 0,
+                                                                                            "type": 2,
                                                                                             "name": "label",
                                                                                             "label": "Label",
                                                                                             "definition": {
@@ -960,7 +960,8 @@
                                         "name": "data_set_id",
                                         "label": "Data set id",
                                         "definition": {
-                                            "placeholder": 0
+                                            "placeholder": 0,
+                                            "defvalue": ""
                                         },
                                         "hideCondition": "parent.table_type == \"direct\"",
                                         "order": 1
@@ -1262,7 +1263,7 @@
             "owner": 1,
             "groups": "",
             "starterContent": true,
-            "hash": "80640c5c426f91c06a0b272df06cf0729650f6d6"
+            "hash": "01378d1f3e05f8893fd2c9b21748c7a4e8075b85"
         },
         {
             "class_name": "Test",
