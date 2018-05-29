@@ -7,7 +7,8 @@ concerto5:::concerto.init(
     mediaUrl = commandArgs(TRUE)[3],
     maxExecTime = as.numeric(commandArgs(TRUE)[5]),
     maxIdleTime = as.numeric(commandArgs(TRUE)[6]),
-    keepAliveToleranceTime = as.numeric(commandArgs(TRUE)[7])
+    keepAliveToleranceTime = as.numeric(commandArgs(TRUE)[7]),
+    runnerType = as.numeric(commandArgs(TRUE)[8])
 )
 
 switch(concerto$connectionParams$driver,
@@ -57,7 +58,8 @@ while (T) {
         concerto5:::concerto.run(
             workingDir = response$workingDir,
             client = response$client,
-            sessionHash = response$sessionId
+            sessionHash = response$sessionId,
+            response = response$response
         )
     }, detached = TRUE)
 }

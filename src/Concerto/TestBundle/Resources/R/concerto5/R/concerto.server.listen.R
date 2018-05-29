@@ -67,9 +67,9 @@ concerto.server.listen = function(){
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         values = fromJSON(response$values)
         result = list()
-        if(!is.null(values$bgWorker) && values$bgWorker %in% ls(bgWorkers)) {
+        if(!is.null(values$bgWorker) && values$bgWorker %in% ls(concerto$bgWorkers)) {
             concerto.log(paste0("running worker: ",values$bgWorker))
-            result = do.call(bgWorkers[[values$bgWorker]], list(response=values))
+            result = do.call(concerto$bgWorkers[[values$bgWorker]], list(response=values))
         }
         concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         return(concerto.server.listen())

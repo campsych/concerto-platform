@@ -47,6 +47,12 @@ services:
             $testRunnerSettings: "%test_runner_settings%"
             $root: "%kernel.root_dir%"
 
+    Concerto\TestBundle\Service\SerializedSessionRunnerService:
+        arguments:
+            $testRunnerSettings: "%test_runner_settings%"
+            $root: "%kernel.root_dir%"
+            $environment: "%kernel.environment%"
+
     Concerto\TestBundle\Service\TestSessionCountService:
         arguments:
             $administration: "%administration%"

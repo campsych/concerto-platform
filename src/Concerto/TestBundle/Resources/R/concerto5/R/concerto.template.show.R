@@ -7,8 +7,13 @@ concerto.template.show = function(
   finalize=F,
   removeMissingParams=T,
   bgWorkers=list()) {
+    if(!is.null(concerto$queuedResponse)) {
+        response = concerto$queuedResponse
+        concerto$queuedResponse <<- NULL
+        return(response)
+    }
+
     if(!is.list(params)) stop("'params' must be a list!")
-  
     if(templateId==-1 && html=="") stop("templateId or html must be declared")
    
     if(html!=""){
@@ -26,6 +31,7 @@ concerto.template.show = function(
       concerto$session$template_id <<- template$id
     }
     concerto$session$timeLimit <<- timeLimit
+    concerto$bgWorkers <<- bgWorkers
 
     if(length(params) > 0) {
         for(name in ls(params)) {
@@ -44,6 +50,12 @@ concerto.template.show = function(
         concerto5:::concerto.session.update()
         concerto$templateParams <<- list()
         concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
+
+        if(concerto$runnerType == RUNNER_SERIALIZED) {
+            concerto5:::concerto.session.serialize()
+            concerto5:::concerto.session.stop(STATUS_RUNNING)
+        }
+
         return(concerto5:::concerto.server.listen())
     }
 }
