@@ -1,4 +1,4 @@
-concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, runnerType = RUNNER_SERIALIZED){
+concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, runnerType = 0){
     options(digits.secs = 6)
     concerto.log("starting session")
     if(Sys.info()['sysname'] != "Windows") {
@@ -46,6 +46,7 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
 
     RUNNER_PERSISTENT <<- 0
     RUNNER_SERIALIZED <<- 1
+    RUNNER_CHECKPOINT <<- 2
 
     concerto <<- list()
     concerto$cache <<- list(tests=list(), templates=list(), tables=list())

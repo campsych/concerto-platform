@@ -6,7 +6,8 @@ concerto5:::concerto.init(
     mediaUrl = commandArgs(TRUE)[2],
     maxExecTime = as.numeric(commandArgs(TRUE)[4]),
     maxIdleTime = 0,
-    keepAliveToleranceTime = 0
+    keepAliveToleranceTime = 0,
+    runnerType = 2
 )
 
 switch(concerto$connectionParams$driver,

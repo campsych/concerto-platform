@@ -1,4 +1,4 @@
-concerto.run = function(workingDir, client, sessionHash, response) {
+concerto.run = function(workingDir, client, sessionHash, response = NULL) {
     concerto$workingDir <<- workingDir
     concerto$client <<- client
     concerto$sessionHash <<- sessionHash
