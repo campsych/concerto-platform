@@ -14,7 +14,6 @@ RUN apt-get update -y \
     git \
     libcurl4-openssl-dev \
     libxml2-dev \
-    libmysqlclient-dev \
     locales \
     mysql-client \
     nginx \
