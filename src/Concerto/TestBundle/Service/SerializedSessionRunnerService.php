@@ -35,7 +35,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
 
         if (!$this->createSubmitterSock($session, false, $submitter_sock, $error_response)) return $error_response;
 
-        $success = false;
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, $session_hash);
         } else {
@@ -60,7 +59,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
 
     public function submit(TestSession $session, $values, $client_ip, $client_browser)
     {
-        //@TODO
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
 
@@ -72,17 +70,24 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $debugOffset = $this->getDebugDataOffset($session);
 
-        $sent = $this->writeToProcess($submitter_sock, array(
+        $response = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_SUBMIT,
             "client" => $client,
             "values" => $values
-        ));
-        if ($sent === false) {
+        );
+
+        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+            $success = $this->startChildProcess($client, $session_hash, $response);
+        } else {
+            $success = $this->startStandaloneProcess($client, $session_hash, $response);
+        }
+        if (!$success) {
             socket_close($submitter_sock);
-            return $response = array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_SESSION_LOST
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
+            return array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
             );
         }
 
@@ -96,7 +101,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
 
     public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser)
     {
-        //@TODO
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
 
@@ -108,17 +112,24 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $debugOffset = $this->getDebugDataOffset($session);
 
-        $sent = $this->writeToProcess($submitter_sock, array(
+        $response = array(
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_WORKER,
             "client" => $client,
             "values" => $values
-        ));
-        if ($sent === false) {
+        );
+
+        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+            $success = $this->startChildProcess($client, $session_hash, $response);
+        } else {
+            $success = $this->startStandaloneProcess($client, $session_hash, $response);
+        }
+        if (!$success) {
             socket_close($submitter_sock);
-            return $response = array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_SESSION_LOST
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
+            return array(
+                "source" => self::SOURCE_TEST_NODE,
+                "code" => self::RESPONSE_ERROR
             );
         }
 
@@ -152,9 +163,9 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         );
     }
 
-    private function startStandaloneProcess($client, $session_hash)
+    private function startStandaloneProcess($client, $session_hash, $response = null)
     {
-        $cmd = $this->getCommand($client, $session_hash);
+        $cmd = $this->getCommand($client, $session_hash, $response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
 
         $process = new Process($cmd);
@@ -171,7 +182,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return true;
     }
 
-    private function startChildProcess($client, $session_hash)
+    private function startChildProcess($client, $session_hash, $response = null)
     {
         $response = json_encode(array(
             "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . DIRECTORY_SEPARATOR,
@@ -181,7 +192,8 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "client" => $client,
             "connection" => json_decode($this->getSerializedConnection(), true),
             "sessionId" => $session_hash,
-            "rLogPath" => $this->getROutputFilePath($session_hash)
+            "rLogPath" => $this->getROutputFilePath($session_hash),
+            "response" => $response
         ));
 
         $path = $this->getFifoDir() . "/" . $session_hash . ".fifo";
@@ -206,7 +218,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return $success;
     }
 
-    private function getCommand($client, $session_hash)
+    private function getCommand($client, $session_hash, $response)
     {
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $ini_path = $this->getRDir() . "/standalone.R";
@@ -218,6 +230,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         $public_directory = $this->getPublicDirPath();
         $media_url = $this->getMediaUrl();
         $client = json_encode($client);
+        $response = json_encode($response ? $response : array());
 
         switch ($this->getOS()) {
             case self::OS_LINUX:
@@ -232,9 +245,10 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$max_exec_time "
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
+                    . "'$response' "
                     . ">> "
                     . "'" . $this->getOutputFilePath($session_hash) . "' "
-                    . "> "
+                    . ">> "
                     . "'" . $this->getROutputFilePath($session_hash) . "' "
                     . "2>&1 & echo $!";
             default:
@@ -250,9 +264,10 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$max_exec_time "
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
+                    . "\"" . $this->escapeWindowsArg($response) . "\" "
                     . ">> "
                     . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
-                    . "> "
+                    . ">> "
                     . "\"" . $this->escapeWindowsArg($this->getROutputFilePath($session_hash)) . "\" "
                     . "2>&1\"";
         }

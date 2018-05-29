@@ -58,7 +58,8 @@ while (T) {
         concerto5:::concerto.run(
             workingDir = response$workingDir,
             client = response$client,
-            sessionHash = response$sessionId
+            sessionHash = response$sessionId,
+            response = response$response
         )
     }, detached = TRUE)
 }

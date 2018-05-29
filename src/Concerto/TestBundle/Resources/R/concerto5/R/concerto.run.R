@@ -1,4 +1,4 @@
-concerto.run = function(workingDir, client, sessionHash) {
+concerto.run = function(workingDir, client, sessionHash, response) {
     concerto$workingDir <<- workingDir
     concerto$client <<- client
     concerto$sessionHash <<- sessionHash
@@ -18,7 +18,7 @@ concerto.run = function(workingDir, client, sessionHash) {
         params = concerto$session$params
         ongoingResumeFlowIndex = -1
 
-        if(concerto$runnerType == RUNNER_SERIALIZED && concerto.session.unserialize()) {
+        if(concerto$runnerType == RUNNER_SERIALIZED && concerto.session.unserialize(response)) {
             testId = concerto$flow[[1]]$id
             params = concerto$flow[[1]]$params
             ongoingResumeFlowIndex = 1

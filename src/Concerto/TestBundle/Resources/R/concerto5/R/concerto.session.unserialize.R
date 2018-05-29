@@ -5,7 +5,7 @@ concerto.session.unserialize <- function(response){
         concerto.log("starting new session")
         return(F)
     }
-    con = file(concerto$sessionFile, open="r")
+    con = file(concerto$sessionFile, open="rb")
     prevConcerto = unserialize(con)
     close(con)
 

@@ -12,5 +12,6 @@ concerto5:::concerto.init(
 concerto5:::concerto.run(
     workingDir = commandArgs(TRUE)[4],
     client = fromJSON(commandArgs(TRUE)[2]),
-    sessionHash = commandArgs(TRUE)[3]
+    sessionHash = commandArgs(TRUE)[3],
+    response = fromJSON(commandArgs(TRUE)[10])
 )
