@@ -1,11 +1,11 @@
-FROM php:7.1-fpm
+FROM php:7.2-fpm
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org/
 
 RUN apt-get update -y \
  && apt-get -y install gnupg \
- && echo "deb http://cran.rstudio.com/bin/linux/debian jessie-cran35/" | tee -a /etc/apt/sources.list \
+ && echo "deb http://cran.rstudio.com/bin/linux/debian stretch-cran35/" | tee -a /etc/apt/sources.list \
  && apt-key adv --keyserver 68.187.0.77 --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF' \
  && apt-get update -y \
  && apt-get -y install \
@@ -14,9 +14,11 @@ RUN apt-get update -y \
     git \
     libcurl4-openssl-dev \
     libxml2-dev \
+    libmysqlclient-dev \
     locales \
     mysql-client \
     nginx \
+    npm \
     r-base \
     r-base-dev \
     unzip \
