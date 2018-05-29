@@ -14,11 +14,9 @@ RUN apt-get update -y \
     git \
     libcurl4-openssl-dev \
     libxml2-dev \
-    libmysqlclient-dev \
     locales \
     mysql-client \
     nginx \
-    npm \
     r-base \
     r-base-dev \
     unzip \
