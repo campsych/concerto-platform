@@ -1,0 +1,3 @@
+#home:
+#    path:  /
+#    defaults: { _controller: Concerto\TestBundle\Controller\TestRunnerController:startNewTestAction, test_slug: null, test_name: "some_name", params: "{}" }

@@ -21,3 +21,8 @@
 /.idea
 *.iml
 /.web-server-pid
+/docker-compose/concerto/R
+/docker-compose/concerto/rcache
+/docker-compose/concerto/files
+/docker-compose/database/mysql
+/docker-compose/logs

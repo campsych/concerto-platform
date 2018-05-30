@@ -1,0 +1,20 @@
+parameters:
+    test_runner_settings:
+        max_idle_time: 3900
+        max_execution_time: 30
+        keep_alive_interval_time: 60 #0 for none
+        keep_alive_tolerance_time: 130
+        r_environ_path: null
+        php_exec: php
+        rscript_exec: Rscript
+        timer_type: server #client or server
+        session_forking: false #only Linux, experimental
+        dir: /
+        connection: local
+        dmtcp_bin_path: /usr/src/dmtcp/bin
+        checkpointed_session_init: true #only linux, only on CheckpointSessionRunnerService, experimental
+
+services:
+    Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\PersistantSessionRunnerService'
+    #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\CheckpointSessionRunnerService' #only Linux, experimental
+    #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService' #experimental

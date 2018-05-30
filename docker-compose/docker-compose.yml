@@ -1,0 +1,43 @@
+version: '3.0'
+services:
+    database:
+      image: mysql:5.7
+      container_name: database
+      restart: unless-stopped
+      ports:
+        - "3306:3306"
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=concerto
+        - TZ=Europe/London
+      volumes:
+        - ./database/mysql:/var/lib/mysql
+        - ./database/conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+        - ./logs/database:/var/log/mysql
+
+    concerto:
+      build: ./concerto
+      container_name: concerto
+      restart: unless-stopped
+      volumes:
+        - ./concerto/config/parameters.yml:/usr/src/concerto/app/config/parameters.yml
+        - ./concerto/config/parameters_administration.yml:/usr/src/concerto/app/config/parameters_administration.yml
+        - ./concerto/config/parameters_test_runner.yml:/usr/src/concerto/app/config/parameters_test_runner.yml
+        - ./concerto/config/parameters_uio.yml:/usr/src/concerto/app/config/parameters_uio.yml
+        - ./concerto/config/routing_custom.yml:/usr/src/concerto/app/config/routing_custom.yml
+        - ./concerto/config/test_base.html.twig:/usr/src/concerto/app/Resources/views/test_base.html.twig
+        - ./concerto/R:/usr/src/concerto/R
+        - ./concerto/rcache:/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/rcache
+        - ./concerto/files:/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files
+        - ./concerto/favicon.ico:/usr/src/concerto/web/favicon.ico
+        - ./concerto/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+        - ./concerto/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+        - ./concerto/php/php.ini:/usr/local/etc/php/php.ini
+        - ./concerto/nginx/nginx.conf:/etc/nginx/nginx.conf
+        - ./concerto/nginx/sites/concerto.conf:/etc/nginx/sites-available/concerto.conf
+        - ./logs/concerto/nginx:/var/log/nginx
+        - ./logs/concerto/php-fpm:/var/log/php-fpm
+        - ./logs/concerto/app:/usr/src/concerto/var/logs
+        - ./logs/concerto/sessions:/usr/src/concerto/src/Concerto/TestBundle/Resources/sessions
+      ports:
+        - "80:80"
