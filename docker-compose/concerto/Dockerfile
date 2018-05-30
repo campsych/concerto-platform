@@ -8,6 +8,8 @@ CMD /wait-for-it.sh database:3306 -t 300 \
  && rm -rf var/cache/* \
  && php bin/console concerto:setup \
  && php bin/console concerto:r:cache \
+ && php bin/console concerto:content:upgrade --init-only \
+ && php bin/console concerto:schedule:tick \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \
