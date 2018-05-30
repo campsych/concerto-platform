@@ -1,6 +1,10 @@
 breadcrumb:
     list: Tüm Sihirbazlar
 
+alerts:
+    no_steps: Test Sihirbazı tanımlanmadı!
+    no_params: Bu adım için test sihirbazı parametresi belirlenmemiş!
+
 form:
   title:
     add: Yeni test sihirbazı yaratılıyor
