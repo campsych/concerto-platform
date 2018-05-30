@@ -179,7 +179,12 @@ class DataTableControllerTest extends AFunctionalTest {
                 )
             ))
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $new_entity = self::$repository->find(2);
         $this->assertNotNull($new_entity);

@@ -1,5 +1,12 @@
-version: "5.0.beta.6.0"
+version: "5.0.beta.6.1"
 changelog:
+    - version: "5.0.beta.6.1"
+      description: >
+        Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - fixed object import regression
     - version: "5.0.beta.6.0"
       description: >
         Serialized session runner

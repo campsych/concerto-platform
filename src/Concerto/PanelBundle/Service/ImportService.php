@@ -75,9 +75,10 @@ class ImportService
             if ($ei < $mi)
                 return false;
         }
-        if (count($ei) < count($mi))
+
+        if (count($eve) < count($mve))
             return true;
-        if (count($ei) > count($mi))
+        if (count($eve) > count($mve))
             return false;
 
         for ($i = 2; $i < count($eve); $i++) {
