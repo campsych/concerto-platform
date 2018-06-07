@@ -276,6 +276,8 @@ flow:
                 string.tooltip: Jeśli zaznaczone, wartość będzie traktowana jako ciąg znaków, w innym przypadku jako kod R
                 value: Wartość
                 value.tooltip: Wartość zmiennej w tym porcie
+        add:
+            input: Dodaj/eksponuj zmienną wejścia
                 
     buttons:
         reset_view: Resetuj widok

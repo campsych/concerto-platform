@@ -13,7 +13,8 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodePortRepository")
  */
-class TestNodePort extends AEntity implements \JsonSerializable {
+class TestNodePort extends AEntity implements \JsonSerializable
+{
 
     /**
      * @ORM\JoinColumn(onDelete="CASCADE")
@@ -57,27 +58,44 @@ class TestNodePort extends AEntity implements \JsonSerializable {
     private $defaultValue;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $dynamic;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    private $type;
+
+    /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->string = true;
         $this->defaultValue = true;
+        $this->dynamic = false;
         $this->sourceForConnections = new ArrayCollection();
         $this->destinationForConnections = new ArrayCollection();
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->getNode()->getFlowTest()->getOwner();
     }
 
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
@@ -87,7 +105,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      * @param string $value
      * @return TestNodePort
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = $value;
 
         return $this;
@@ -99,7 +118,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      * @param TestNode $node
      * @return TestNodePort
      */
-    public function setNode($node) {
+    public function setNode($node)
+    {
         $this->node = $node;
 
         return $this;
@@ -110,7 +130,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      *
      * @return TestNode
      */
-    public function getNode() {
+    public function getNode()
+    {
         return $this->node;
     }
 
@@ -120,7 +141,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      * @param TestVariable $var
      * @return TestNodePort
      */
-    public function setVariable($var) {
+    public function setVariable($var)
+    {
         $this->variable = $var;
 
         return $this;
@@ -131,7 +153,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      *
      * @return TestVariable
      */
-    public function getVariable() {
+    public function getVariable()
+    {
         return $this->variable;
     }
 
@@ -141,7 +164,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      * @param TestNodeConnection $connection
      * @return TestNode
      */
-    public function addSourceForConnection(TestNodeConnection $connection) {
+    public function addSourceForConnection(TestNodeConnection $connection)
+    {
         $this->sourceForConnections[] = $connection;
 
         return $this;
@@ -152,16 +176,18 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      *
      * @param TestNodeConnection $connection
      */
-    public function removeSourceForConnection(TestNodeConnection $connection) {
+    public function removeSourceForConnection(TestNodeConnection $connection)
+    {
         $this->sourceForConnections->removeElement($connection);
     }
 
     /**
      * Get source for connections
      *
-     * @return Collection 
+     * @return Collection
      */
-    public function getSourceForConnections() {
+    public function getSourceForConnections()
+    {
         return $this->sourceForConnections;
     }
 
@@ -171,7 +197,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      * @param TestNodeConnection $connection
      * @return TestNode
      */
-    public function addDestinationForConnection(TestNodeConnection $connection) {
+    public function addDestinationForConnection(TestNodeConnection $connection)
+    {
         $this->destinationForConnections[] = $connection;
 
         return $this;
@@ -182,60 +209,113 @@ class TestNodePort extends AEntity implements \JsonSerializable {
      *
      * @param TestNodeConnection $connection
      */
-    public function removeDestinationForConnection(TestNodeConnection $connection) {
+    public function removeDestinationForConnection(TestNodeConnection $connection)
+    {
         $this->destinationForConnections->removeElement($connection);
     }
 
     /**
      * Get destination for connections
      *
-     * @return Collection 
+     * @return Collection
      */
-    public function getDestinationForConnections() {
+    public function getDestinationForConnections()
+    {
         return $this->destinationForConnections;
     }
 
     /**
      * Returns if a port value should be treated as string.
-     * 
+     *
      * @return boolean
      */
-    public function isString() {
+    public function isString()
+    {
         return $this->string;
     }
 
     /**
      * Set if port value should be treated as string.
-     * 
+     *
      * @param boolean $string
      */
-    public function setString($string) {
+    public function setString($string)
+    {
         $this->string = $string;
     }
 
     /**
      * Returns true if port has default value.
-     * 
+     *
      * @return boolean
      */
-    public function hasDefaultValue() {
+    public function hasDefaultValue()
+    {
         return $this->defaultValue;
     }
 
     /**
      * Set whether port has default value.
-     * 
+     *
      * @param boolean $defaultValue
      */
-    public function setDefaultValue($defaultValue) {
+    public function setDefaultValue($defaultValue)
+    {
         $this->defaultValue = $defaultValue;
     }
-    
-    public function getAccessibility() {
+
+    /**
+     * Returns true if port is dynamic.
+     *
+     * @return boolean
+     */
+    public function isDynamic()
+    {
+        return $this->dynamic;
+    }
+
+    /**
+     * Set whether port is dynamic.
+     *
+     * @param boolean $dynamic
+     * @return TestNodePort
+     */
+    public function setDynamic($dynamic)
+    {
+        $this->dynamic = $dynamic;
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     * @return TestNodePort
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getAccessibility()
+    {
         return $this->getNode()->getFlowTest()->getAccessibility();
     }
 
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getNode()->getFlowTest()->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {
@@ -247,7 +327,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
         return false;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["node"]);
         unset($arr["variable"]);
@@ -257,7 +338,8 @@ class TestNodePort extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array())
+    {
         $wizard = $this->variable->getTest()->getSourceWizard();
         if ($wizard) {
             foreach ($wizard->getParams() as $param) {
@@ -278,7 +360,9 @@ class TestNodePort extends AEntity implements \JsonSerializable {
             "variable" => $this->variable->getId(),
             "variableObject" => $this->variable->jsonSerialize($dependencies),
             "string" => $this->string ? "1" : "0",
-            "defaultValue" => $this->defaultValue ? "1" : "0"
+            "defaultValue" => $this->defaultValue ? "1" : "0",
+            "dynamic" => $this->dynamic ? "1" : "0",
+            "type" => $this->type
         );
     }
 

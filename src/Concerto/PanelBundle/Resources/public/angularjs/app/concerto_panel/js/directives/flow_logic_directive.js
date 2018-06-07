@@ -301,6 +301,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           jsPlumb.setSuspendDrawing(false, true);
       }
 
+      scope.addInput = function (nodeId) {
+        var node = scope.collectionService.getNode(nodeId);
+        //@TODO add input
+      };
+
       scope.drawNode = function (node) {
 
         /* SETTINGS START */
@@ -372,6 +377,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         var elemContentRight = elemContent.find(".node-content-right");
         var leftCount = 0;
         var rightCount = 0;
+
         //in port
         if (node.type != 1 && !scope.isGetterNode(node)) {
           var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
@@ -399,7 +405,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             var port = node.ports[i];
             if (!port.variable) continue;
 
-            if (port.variableObject.type == 2) { //branches
+            //branches
+            if (port.type === 2) {
 
               var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
               $compile(overlayElem)(scope);
@@ -420,32 +427,47 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               rightCount++;
             }
           }
-
-          if (node.type == 1) {
-            var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_DESCRIPTION_OUT + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_OUT + "</div>");
-            $compile(overlayElem)(scope);
-            overlayElem.appendTo(elemContentRight);
-
-            jsPlumb.addEndpoint(elemContent, {
-              uuid: "node" + node.id + "-ep_out",
-              isSource: true,
-              maxConnections: 1,
-              endpoint: flowEndpoint,
-              anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-              paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
-              parameters: {
-                sourceNode: node,
-                sourcePort: null
-              }
-            }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
-            rightCount++;
-          }
         }
 
+        //out for start node
+        if (node.type == 1) {
+          var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_DESCRIPTION_OUT + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_OUT + "</div>");
+          $compile(overlayElem)(scope);
+          overlayElem.appendTo(elemContentRight);
+
+          jsPlumb.addEndpoint(elemContent, {
+            uuid: "node" + node.id + "-ep_out",
+            isSource: true,
+            maxConnections: 1,
+            endpoint: flowEndpoint,
+            anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+            paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
+            parameters: {
+              sourceNode: node,
+              sourcePort: null
+            }
+          }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
+          rightCount++;
+        }
+
+        //add input
+        if (node.type == 0) {
+          var overlayElem = $(
+              "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'>" +
+              "<i class='glyphInteractable glyphicon glyphicon-plus portInputIcon' ng-click='addInput(" + node.id + ")'></i>" +
+              "</div>"
+          );
+          $compile(overlayElem)(scope);
+          overlayElem.appendTo(elemContentLeft);
+
+          leftCount++;
+        }
+
+        //input param
         for (var i = 0; i < node.ports.length; i++) {
           var port = node.ports[i];
 
-          if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1))) { //input param
+          if (scope.isPortVisible(node, port) && port.type === 0) {
 
             var overlayElem = $("<div " +
                 "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}' " +
@@ -459,7 +481,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               isTarget: true,
               endpoint: varEndpoint,
               anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
-              paintStyle: {fillStyle: "blue", strokeStyle: "grey"},
+              paintStyle: {fillStyle: "#337ab7", strokeStyle: "grey"},
               overlays: [[
                 "Custom", {
                   create: function (component) {
@@ -490,7 +512,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               }
             }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
             leftCount++;
-          } else if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0))) { //return vars
+          } else if (scope.isPortVisible(node, port) && port.type === 1) { //return vars
 
             var overlayElem = $("<div>" +
                 "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>" +

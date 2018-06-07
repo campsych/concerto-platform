@@ -274,6 +274,9 @@ flow:
                 string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
                 value: Value
                 value.tooltip: Variable value in this port
+        add:
+            input: Add/expose input variable
+
     buttons:
         reset_view: Reset view
         rename_node: Rename node

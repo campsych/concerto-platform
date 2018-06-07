@@ -78,7 +78,6 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
             #PARAMS
             node_params = list()
             input_type = 0
-            if (node$type == 2) { input_type = 1}
 
             if (node$type == 0 || node$type == 2) {
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
@@ -123,7 +122,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                 }
 
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
-                    port = concerto$flow[[flowIndex]]$ports[[port_id]]
+                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                     if (port$node_id == node$id && port$type == 1) {
                         concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]$value <<- node_returns[[port$name]]
                     }
@@ -131,7 +130,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
             } else if (node$type == 1) {
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                    if (port$node_id == node$id && port$type == 0) {
+                    if (port$node_id == node$id && port$type == 1) {
                         concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]$value <<- params[[port$name]]
                     }
                 }
@@ -184,7 +183,6 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
 
             #values connections
             return_type = 1
-            if (node$type == 1) return_type = 0
             for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
                 connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
                 if (connection$sourceNode_id != node$id) { next }

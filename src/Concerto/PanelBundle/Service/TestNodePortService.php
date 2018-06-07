@@ -46,7 +46,7 @@ class TestNodePortService extends ASectionService
         return $this->authorizeObject($this->repository->findOneByNodeAndVariable($node, $variable));
     }
 
-    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $flush = true)
+    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $type, $dynamic, $flush = true)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -56,6 +56,15 @@ class TestNodePortService extends ASectionService
         $object->setUpdated();
         $object->setNode($node);
         $object->setVariable($variable);
+
+        if($type === null) {
+            $type = $variable->getType();
+            if ($node->getType() === 1 && $variable->getType() === 0) $type = 1;
+            if ($node->getType() === 2 && $variable->getType() === 1) $type = 0;
+        }
+        $object->setType($type);
+        $object->setDynamic($dynamic);
+
         $object->setDefaultValue($default);
         if ($default) {
             $object->setValue($variable->getValue());
@@ -83,7 +92,7 @@ class TestNodePortService extends ASectionService
             $port = $decoded_collection[$i];
             $node = $this->testNodeRepository->find($port["node"]);
             $variable = $this->testVariableRepository->find($port["variable"]);
-            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"]);
+            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"]);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);
@@ -115,7 +124,7 @@ class TestNodePortService extends ASectionService
                 }
             }
             if (!$found) {
-                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, $flush);
+                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, null, false, $flush);
                 $node->addPort($result["object"]);
             }
         }

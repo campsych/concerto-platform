@@ -1,140 +1,141 @@
 #accordion-group-test-flow > div > .panel-body {
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 
 .flow-maximized {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 12;
-    background-color: #ffffff;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 12;
+  background-color: #ffffff;
 }
 
 #flowContainerWrapper {
-    width: 30000px;
-    height: 30000px;
-    overflow: hidden;
+  width: 30000px;
+  height: 30000px;
+  overflow: hidden;
 }
 
 #flowContainerScroll {
-    width: 100%;
-    height: 819px;
-    overflow: scroll;
+  width: 100%;
+  height: 819px;
+  overflow: scroll;
 }
 
 .flow-maximized #flowContainerScroll {
-    height: 100%;
+  height: 100%;
 }
 
 #flowContainer {
-    position: relative;
-    width: 30000px;
-    height: 30000px;
-    background-color: #FBFBFB;
+  position: relative;
+  width: 30000px;
+  height: 30000px;
+  background-color: #FBFBFB;
 
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Chrome/Safari/Opera */
-    -khtml-user-select: none;    /* Konqueror */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* Internet Explorer/Edge */
-    user-select: none;           /* Non-prefixed version, currently
-                                    not supported by any browser */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                           not supported by any browser */
 }
 
 .cursor-move {
-    cursor: move;
+  cursor: move;
 }
 
 .cursor-resize {
-    cursor: nwse-resize;
+  cursor: nwse-resize;
 }
 
 #selection-rectangle {
-    border: 1px dotted #000;
-    position: absolute;
+  border: 1px dotted #000;
+  position: absolute;
 }
 
 #flow-menu-wrapper {
-    width: 100%;
-    position: relative;
-    right: 0px;
-    z-index: 11;
+  width: 100%;
+  position: relative;
+  right: 0px;
+  z-index: 11;
 }
 
 #flow-menu {
-    position: absolute;
-    top: 10px;
-    right: 30px;
+  position: absolute;
+  top: 10px;
+  right: 30px;
 }
 
 #flow-menu * {
-    margin: 10px;
+  margin: 10px;
 }
 
 .node {
-    width: 250px;
-    border: 1px solid black;
-    position: absolute;
-    z-index: 7;
-    background-color: rgba(255, 255, 255, 0.9);
+  width: 250px;
+  border: 1px solid black;
+  position: absolute;
+  z-index: 7;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .node-content {
 }
 
 .node-content-left {
-    width: 50%;
-    float: left;
+  width: 50%;
+  float: left;
 }
 
 .node-content-right {
-    width: 50%;
-    float: right;
+  width: 50%;
+  float: right;
 }
 
 .node-expanded {
 }
 
 .node-active {
-    z-index: 8;
+  z-index: 8;
 }
 
 .node-selected {
-    border: 1px solid blue;
-    background-color: #DFEFF5;
+  border: 1px solid blue;
+  background-color: #DFEFF5;
 }
 
 .node-selected-candidate {
-    border: 1px solid orange;
-    background-color: #DFEFF5;
+  border: 1px solid orange;
+  background-color: #DFEFF5;
 }
 
 .node-header-icons {
-    float: right;
-    position: relative;
-    top: 0;
-    right: 0;
-    height: 16px;
+  float: right;
+  position: relative;
+  top: 0;
+  right: 0;
+  height: 16px;
 }
 
 .node-header {
-    word-wrap: break-word;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-weight: bold;
-    border-bottom: solid grey 1px;
+  word-wrap: break-word;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: bold;
+  border-bottom: solid grey 1px;
 }
 
 .node-header a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .node-footer {
-    width: 100%;
-    padding: 3px;
+  width: 100%;
+  padding: 3px;
 }
 
 .nodeStart {
@@ -143,95 +144,111 @@
 .nodeEnd {
 }
 
-.portLabel{
-    padding-left: 3px;
-    padding-right: 3px;
-    margin-top: 12px;
-    font-size: small;
-    overflow: hidden;
-    white-space: nowrap;
-    height: 18px;
+.portLabel {
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-top: 12px;
+  font-size: small;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 18px;
 }
 
 .portLabelIn {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+.portInputIcon {
+  color: #337ab7;
 }
 
 .portLabelInput {
 }
 
+
 .portLabelBranch {
-    font-weight: bold;
-    text-align: right;
+  font-weight: bold;
+  text-align: right;
 }
 
 .portLabelReturn {
-    text-align: right;
+  text-align: right;
 }
 
-.portLabelInputString{
+.portLabelInputString {
 }
 
-.portLabelInputR{
-    text-decoration: underline;
+.portLabelInputR {
+  text-decoration: underline;
 }
 
 .port-value-default {
-    color: #1bd334;
+  color: #1bd334;
 }
 
 .return-function-default {
-    color: #1bd334;
+  color: #1bd334;
 }
 
 .connectionLabel {
-    font-size: small;
-    width: 100px; 
-    text-align: center;
+  font-size: small;
+  width: 100px;
+  text-align: center;
 }
 
 .glyphInteractable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .ctx-menu {
-    z-index: 10;
-    position: fixed;
+  z-index: 10;
+  position: fixed;
 }
 
 .ctx-menu-ul {
-    max-height: 400px;
-    overflow-y: auto;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .ctx-element {
-    padding-left: 10px;
-    padding-right: 10px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    white-space: nowrap;
+  padding-left: 10px;
+  padding-right: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
 }
 
 .ctx-action {
 }
 
 .ctx-action-active {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .ctx-action-inactive {
-    color: #d7d8d7;
+  color: #d7d8d7;
 }
 
 .ctx-action-active:hover {
-    background-color: #FBFBFB;
+  background-color: #FBFBFB;
 }
 
-._jsPlumb_connector { z-index:4; }
-._jsPlumb_endpoint { z-index:5; }
-._jsPlumb_overlay { z-index:6; }
-._jsPlumb_hover._jsPlumb_connector { z-index: 9; }
+._jsPlumb_connector {
+  z-index: 4;
+}
+
+._jsPlumb_endpoint {
+  z-index: 5;
+}
+
+._jsPlumb_overlay {
+  z-index: 6;
+}
+
+._jsPlumb_hover._jsPlumb_connector {
+  z-index: 9;
+}

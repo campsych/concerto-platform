@@ -107,7 +107,7 @@ class TestNodeService extends ASectionService
                 }
                 $port = $this->testNodePortService->getOneByNodeAndVariable($node, $var);
                 if (!$port) {
-                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", $flush);
+                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", null, false, $flush);
                     $node->addPort($result["object"]);
                 }
             }
