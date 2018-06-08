@@ -272,3 +272,23 @@ ul.breadcrumb li {
 .changelog {
     margin-bottom: 32px;
 }
+
+.port-list-container {
+    width: 100%;
+    padding: 8px;
+    max-height: 400px;
+}
+
+.port-list-element {
+    width: 200px;
+    float: left;
+    overflow: hidden;
+    padding: 8px;
+    margin: 0px 8px 8px 0px;
+    border: 1px #eee solid;
+}
+
+.control-button-group {
+    text-align: right;
+    margin: 8px 0px 8px 0px;
+}

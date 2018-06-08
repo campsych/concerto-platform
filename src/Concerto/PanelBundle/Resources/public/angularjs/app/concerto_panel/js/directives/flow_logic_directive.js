@@ -303,7 +303,37 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.addInput = function (nodeId) {
         var node = scope.collectionService.getNode(nodeId);
-        //@TODO add input
+
+        var modalInstance = $uibModal.open({
+          templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "port_input_add_dialog.html",
+          controller: PortInputAddController,
+          scope: scope,
+          resolve: {
+            node: function () {
+              return node;
+            },
+            editable: function () {
+              return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
+            }
+          },
+          size: "lg"
+        });
+
+        //@TODO add TestNodePort::exposed field and continue here
+
+        modalInstance.result.then(function (response) {
+          $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(response.id), {
+            "node": response.node,
+            "variable": response.variable,
+            "value": response.value,
+            "string": response.string,
+            "default": response.defaultValue
+          }).success(function (data) {
+            port.value = data.object.value;
+          });
+        }, function () {
+          port.value = oldValue;
+        });
       };
 
       scope.drawNode = function (node) {

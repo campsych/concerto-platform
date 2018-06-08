@@ -269,11 +269,18 @@ flow:
             in: Node entry point.
             out: Node branch point.
         dialog:
+            titles:
+                input.add: Adding input parameters
+                input.add.tooltip: Adding dynamic inputs or exposing/hiding current input parameters
             fields:
                 string: As string?
                 string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
                 value: Value
                 value.tooltip: Variable value in this port
+                exposed.inputs: Exposed inputs
+                exposed.inputs.tooltip: Exposing/hiding inputs parameters
+                dynamic.input: Dynamic input
+                dynamic.input.tooltip: Adding dynamic input
         add:
             input: Add/expose input variable
 

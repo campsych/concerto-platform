@@ -63,6 +63,7 @@ form:
     ok: Ok
     apply: Zastosuj
     upload: Wyślij
+    add: Dodaj
     
 dialog:
   title:
