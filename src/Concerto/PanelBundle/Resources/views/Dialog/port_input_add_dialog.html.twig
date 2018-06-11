@@ -30,7 +30,7 @@
                     {% block label %}{{ 'flow.ports.dialog.fields.dynamic.input'|trans }}{% endblock%}
                     {% block tooltip %}{{ 'flow.ports.dialog.fields.dynamic.input.tooltip'|trans }}{% endblock%}
                     {% block control %}
-                        <input ng-model="dynamicInputName" type="text" style="width:100%;" class='form-control' />
+                        <input ng-model="dynamicInputName" type="text" style="width:100%;" class='form-control' ng-disabled="!editable" />
                         <div class="control-button-group">
                             <button class="btn btn-success" ng-click="addDynamic()" ng-disabled="!editable">{{ 'form.button.add'|trans({},"panel") }}</button>
                         </div>

@@ -107,7 +107,7 @@ class TestNodeService extends ASectionService
                 }
                 $port = $this->testNodePortService->getOneByNodeAndVariable($node, $var);
                 if (!$port) {
-                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", null, false, $flush);
+                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", null, false, false, null, $flush);
                     $node->addPort($result["object"]);
                 }
             }
@@ -223,4 +223,18 @@ class TestNodeService extends ASectionService
         return null;
     }
 
+    public function exposePorts($ports)
+    {
+        $this->testNodePortService->exposePorts($ports);
+    }
+
+    public function addDynamicPort(User $user, $object_id, $name, $type)
+    {
+        return $this->testNodePortService->addDynamic(
+            $user,
+            $this->get($object_id),
+            $name,
+            $type
+        );
+    }
 }

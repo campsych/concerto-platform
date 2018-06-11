@@ -36,7 +36,14 @@ validate:
       name.blank: Pole "nazwa" nie może być puste
       wizard.source: Musi zostać wybrany źródłowy wizard dla testu typu wizard
       delete.referenced: Test nie może zostać usunięty gdyż jest powiązany z przynajmniej jednym kreatorem testu
-      
+
+      ports:
+        unique: Zmienna wejścia o tej nazwie już istnieje
+        name.min: Minimalna długość pola "nazwa" to 1
+        name.max: Maksymalna długość pola "nazwa" to 64
+        name.blank: Pole "nazwa" nie może być puste
+        name.incorrect: Niepoprawna nazwa
+
       variables:
         unique: Zmienna o tej nazwie i typie jest już przypisana do testu
         name.min: Minimalna długość pola "nazwa" to 1

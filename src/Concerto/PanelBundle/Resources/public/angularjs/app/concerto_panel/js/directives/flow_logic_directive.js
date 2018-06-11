@@ -250,7 +250,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           return false;
         for (var i = 0; i < node.ports.length; i++) {
           var port = node.ports[i];
-          if (port.variableObject !== null && port.variableObject.type == 2)
+          if (port.type == 2)
             return false;
         }
         return true;
@@ -259,8 +259,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       scope.isNodeCollapsable = function (node) {
         for (var i = 0; i < node.ports.length; i++) {
           var port = node.ports[i];
-          if (port.variableObject && (port.variableObject.type == 0 || port.variableObject.type == 1))
-            return true;
+          if (port.type == 0 || port.type == 1) return true;
         }
         return false;
       };
@@ -319,20 +318,34 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           size: "lg"
         });
 
-        //@TODO add TestNodePort::exposed field and continue here
-
         modalInstance.result.then(function (response) {
-          $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(response.id), {
-            "node": response.node,
-            "variable": response.variable,
-            "value": response.value,
-            "string": response.string,
-            "default": response.defaultValue
-          }).success(function (data) {
-            port.value = data.object.value;
-          });
+          if (response.action == 0) {
+            //exposing nodes
+            scope.refreshNode(node);
+          }
+          else {
+            //adding dynamic input node
+            $http.post(Paths.TEST_FLOW_PORT_ADD_DYNAMIC.pf(nodeId, 0), {
+              "name": response.name
+            }).success(function (data) {
+              switch (data.result) {
+                case 0:
+                  node.ports.push(JSON.parse(data.object));
+                  console.log(node);
+                  scope.refreshNode(node);
+                  break;
+                case 1:
+                  DialogsService.alertDialog(
+                      Trans.TEST_FLOW_DIALOG_NODE_INPUT_ADD_TITLE,
+                      data.errors[0],
+                      "danger",
+                      "sm"
+                  );
+                  break;
+              }
+            })
+          }
         }, function () {
-          port.value = oldValue;
         });
       };
 
@@ -346,7 +359,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         var varEndpoint = ["Dot", {radius: 12.5}];
         /* SETTINGS END */
 
-        node.ports = $filter('orderBy')(node.ports, "variableObject.name");
+        node.ports = $filter('orderBy')(node.ports, "name");
         var fullName = "";
         var title = "";
         var nodeClass = "";
@@ -438,7 +451,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             //branches
             if (port.type === 2) {
 
-              var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
+              var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</div>");
               $compile(overlayElem)(scope);
               overlayElem.appendTo(elemContentRight);
 
@@ -483,11 +496,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         //add input
         if (node.type == 0) {
           var overlayElem = $(
-              "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'>" +
-              "<i class='glyphInteractable glyphicon glyphicon-plus portInputIcon' ng-click='addInput(" + node.id + ")'></i>" +
+              "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'  ng-click='addInput(" + node.id + ")'>" +
+              "<i class='glyphInteractable glyphicon glyphicon-plus portInputIcon'></i>" +
               "</div>"
           );
-          $compile(overlayElem)(scope);
           overlayElem.appendTo(elemContentLeft);
 
           leftCount++;
@@ -501,7 +513,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
             var overlayElem = $("<div " +
                 "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}' " +
-                "uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
+                "uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</div>");
             $compile(overlayElem)(scope);
             overlayElem.appendTo(elemContentLeft);
 
@@ -545,7 +557,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           } else if (scope.isPortVisible(node, port) && port.type === 1) { //return vars
 
             var overlayElem = $("<div>" +
-                "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>" +
+                "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</div>" +
                 "</div>");
             $compile(overlayElem)(scope);
             overlayElem.appendTo(elemContentRight);
@@ -645,11 +657,14 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.getPortTooltip = function (portId) {
         var port = scope.collectionService.getPort(portId);
-        var varName = port.variableObject.name;
-        var description = port.variableObject.description;
+        var varName = port.name;
+        var description = "";
+        if(port.variableObject) {
+          description = port.variableObject.description;
+        }
         var tooltip = "<b>" + varName + "</b>";
         if (description && description != "")
-          tooltip += "<br/><br/>" + port.variableObject.description;
+          tooltip += "<br/><br/>" + description;
         return tooltip;
       }
 
@@ -797,7 +812,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               return connection;
             },
             title: function () {
-              return connection.sourcePortObject.variableObject.name + "->" + connection.destinationPortObject.variableObject.name;
+              return connection.sourcePortObject.name + "->" + connection.destinationPortObject.name;
             },
             editable: function () {
               return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
@@ -1103,8 +1118,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           },
           paintStyle: {
             dashstyle: "dot",
-            strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.variableObject.type : 2),
-            lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.variableObject.type : 2)
+            strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.type : 2),
+            lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.type : 2)
           }
         });
       };
@@ -1137,7 +1152,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         var params = jspConnection.getParameters();
         if (params.targetPort)
           $("#divPortControl" + params.targetPort.id).hide();
-        if ((params.sourceNode.type == 1 && params.sourcePort && params.sourcePort.variableObject.type == 0) || (params.sourceNode.type == 0 && params.sourcePort.variableObject.type == 1)) {
+        if (params.sourcePort.type == 1) {
           if (jspConnection.getOverlay("overlayConnection" + params.concertoConnection.id))
             return;
           jspConnection.addOverlay(
@@ -1155,7 +1170,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 location: 0.5,
                 id: "overlayConnection" + params.concertoConnection.id
               }]);
-        } else if (!params.sourcePort || params.sourcePort.variableObject.type == 2) {
+        } else if (!params.sourcePort || params.sourcePort.type == 2) {
           jspConnection.addOverlay(
               ["Arrow", {location: 0.5, paintStyle: {fillStyle: "orange", strokeStyle: "grey"}}]);
         }
@@ -1193,12 +1208,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.isPortVisible = function (node, port) {
         //input
-        if ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1)) {
+        if (port.type == 0) {
           if (node.expanded || scope.isPortConnected(port))
             return true;
         }
         //returns
-        if ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0)) {
+        if (port.type == 1) {
           if (node.expanded || scope.isPortConnected(port))
             return true;
         }
@@ -1242,12 +1257,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           if (!sourceParams.sourcePort || !sourceParams.sourcePort.variableObject) {
             sourcePortType = 2;
           } else {
-            sourcePortType = sourceParams.sourcePort.variableObject.type;
+            sourcePortType = sourceParams.sourcePort.type;
           }
 
           var targetPortType = null;
-          if (targetParams.targetPort && targetParams.targetPort.variableObject)
-            targetPortType = targetParams.targetPort.variableObject.type;
+          if (targetParams.targetPort)
+            targetPortType = targetParams.targetPort.type;
           var targetNodeType = targetParams.targetNode.type;
           if (sourceNodeType == 1) {
             if (sourcePortType == 0)

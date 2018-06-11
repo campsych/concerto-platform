@@ -8,10 +8,13 @@ use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodePortRepository")
+ * @UniqueEntity(fields={"node","type","name"}, message="validate.test.ports.unique")
  */
 class TestNodePort extends AEntity implements \JsonSerializable
 {
@@ -65,10 +68,26 @@ class TestNodePort extends AEntity implements \JsonSerializable
     private $dynamic;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $exposed;
+
+    /**
      * @var integer
      * @ORM\Column(type="integer")
      */
     private $type;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64)
+     * @Assert\Length(min="1", max="64", minMessage="validate.test.ports.name.min", maxMessage="validate.test.ports.name.max")
+     * @Assert\NotBlank(message="validate.test.ports.name.blank")
+     * @Assert\Regex("/^\.?[a-zA-Z][a-zA-Z0-9_]*(?<!_)$/", message="validate.test.ports.name.incorrect")
+     */
+    private $name;
 
     /**
      * Constructor
@@ -80,6 +99,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
         $this->string = true;
         $this->defaultValue = true;
         $this->dynamic = false;
+        $this->exposed = false;
         $this->sourceForConnections = new ArrayCollection();
         $this->destinationForConnections = new ArrayCollection();
     }
@@ -287,6 +307,28 @@ class TestNodePort extends AEntity implements \JsonSerializable
     }
 
     /**
+     * Returns true if port is exposed.
+     *
+     * @return boolean
+     */
+    public function isExposed()
+    {
+        return $this->exposed;
+    }
+
+    /**
+     * Set whether port is exposed.
+     *
+     * @param boolean $exposed
+     * @return TestNodePort
+     */
+    public function setExposed($exposed)
+    {
+        $this->exposed = $exposed;
+        return $this;
+    }
+
+    /**
      * Get type
      *
      * @return integer
@@ -305,6 +347,29 @@ class TestNodePort extends AEntity implements \JsonSerializable
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return TestNodePort
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
         return $this;
     }
@@ -340,14 +405,16 @@ class TestNodePort extends AEntity implements \JsonSerializable
 
     public function jsonSerialize(&$dependencies = array())
     {
-        $wizard = $this->variable->getTest()->getSourceWizard();
-        if ($wizard) {
-            foreach ($wizard->getParams() as $param) {
-                if ($this->variable->getParentVariable() == null)
-                    continue;
-                if ($param->getVariable()->getId() == $this->variable->getParentVariable()->getId()) {
-                    TestWizardParam::getParamValueDependencies($this->value, $param->getDefinition(), $param->getType(), $dependencies);
-                    break;
+        if ($this->variable) {
+            $wizard = $this->variable->getTest()->getSourceWizard();
+            if ($wizard) {
+                foreach ($wizard->getParams() as $param) {
+                    if ($this->variable->getParentVariable() == null)
+                        continue;
+                    if ($param->getVariable()->getId() == $this->variable->getParentVariable()->getId()) {
+                        TestWizardParam::getParamValueDependencies($this->value, $param->getDefinition(), $param->getType(), $dependencies);
+                        break;
+                    }
                 }
             }
         }
@@ -357,12 +424,14 @@ class TestNodePort extends AEntity implements \JsonSerializable
             "id" => $this->id,
             "value" => $this->value,
             "node" => $this->node->getId(),
-            "variable" => $this->variable->getId(),
-            "variableObject" => $this->variable->jsonSerialize($dependencies),
+            "variable" => $this->variable ? $this->variable->getId() : null,
+            "variableObject" => $this->variable ? $this->variable->jsonSerialize($dependencies) : null,
             "string" => $this->string ? "1" : "0",
             "defaultValue" => $this->defaultValue ? "1" : "0",
             "dynamic" => $this->dynamic ? "1" : "0",
-            "type" => $this->type
+            "type" => $this->type,
+            "exposed" => $this->exposed ? "1" : "0",
+            "name" => $this->getName()
         );
     }
 
