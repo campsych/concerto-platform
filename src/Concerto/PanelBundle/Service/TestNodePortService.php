@@ -269,7 +269,7 @@ class TestNodePortService extends ASectionService
         foreach ($ports as $port) {
             $obj = $this->get($port["id"]);
             if (!$obj) continue;
-            $this->setExposed($port["exposed"] == 1);
+            $obj->setExposed($port["exposed"] == 1);
             $this->update($obj);
         }
     }

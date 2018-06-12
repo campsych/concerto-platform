@@ -256,14 +256,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         return true;
       };
 
-      scope.isNodeCollapsable = function (node) {
-        for (var i = 0; i < node.ports.length; i++) {
-          var port = node.ports[i];
-          if (port.type == 0 || port.type == 1) return true;
-        }
-        return false;
-      };
-
       scope.refreshNode = function (node) {
         scope.jsPlumbEventsEnabled = false;
         jsPlumb.setSuspendDrawing(true);
@@ -322,6 +314,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           if (response.action == 0) {
             //exposing nodes
             scope.refreshNode(node);
+            $http.post(Paths.TEST_FLOW_PORT_EXPOSE, {
+              "exposedPorts": JSON.stringify(response.exposedPorts)
+            });
           }
           else {
             //adding dynamic input node
@@ -343,7 +338,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                   );
                   break;
               }
-            })
+            });
           }
         }, function () {
         });
@@ -392,28 +387,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
         }
 
-        var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
+        var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
         var headerIcons = "";
         if (node.type == 1 || node.type == 2) {
-          elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
+          elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
         } else {
           headerIcons = "<div class='node-header-icons'>" +
               "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
               "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ")' />" +
               "</div>";
         }
-        var collapseHtml = "";
-        if (scope.isNodeCollapsable(node)) {
-          collapseHtml = "<div style='width: 100%; text-align: center;'><button class='btn btn-default btn-xs btn-block' ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")'>" +
-              "<i class='glyphicon' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
-              "></i></button></div>" +
-              "</div>";
-        }
         elemHtml += "<div class='node-header' tooltip-append-to-body='true' uib-tooltip-html='\"" + description + "\"'>" + headerIcons + title + "</div>" +
-            "<div class='node-content'><div class='node-content-left'></div><div class='node-content-right'></div></div>" +
-            "<div class='node-footer'>" +
-            collapseHtml +
-            "</div>";
+            "<div class='node-content'><div class='node-content-left'></div><div class='node-content-right'></div></div>";
         var elem = $(elemHtml).appendTo("#flowContainer");
         var elemContent = elem.find(".node-content");
         var elemContentLeft = elemContent.find(".node-content-left");
@@ -1198,23 +1183,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         });
       };
 
-      scope.toggleUnconnectedPortsCollapse = function (nodeId) {
-        var node = scope.collectionService.getNode(nodeId);
-        var expanded = !node.expanded;
-        node.expanded = expanded;
-
-        scope.refreshNode(node);
-      };
-
       scope.isPortVisible = function (node, port) {
-        //input
-        if (port.type == 0) {
-          if (node.expanded || scope.isPortConnected(port))
-            return true;
-        }
-        //returns
-        if (port.type == 1) {
-          if (node.expanded || scope.isPortConnected(port))
+        if (port.type == 2 || port.exposed == 1) {
             return true;
         }
         return false;

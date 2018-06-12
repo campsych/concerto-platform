@@ -19,7 +19,8 @@ function PortInputAddController($scope, $uibModalInstance, $http, node, editable
   $scope.changeExposed = function () {
     $uibModalInstance.close({
       action: 0,
-      node: node
+      node: node,
+      exposedPorts: $scope.getExposedPorts()
     });
   };
 
