@@ -354,7 +354,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         var varEndpoint = ["Dot", {radius: 12.5}];
         /* SETTINGS END */
 
-        node.ports = $filter('orderBy')(node.ports, "name");
+        node.ports = $filter('orderBy')(node.ports, ["-dynamic", "name"]);
         var fullName = "";
         var title = "";
         var nodeClass = "";
@@ -508,7 +508,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               isTarget: true,
               endpoint: varEndpoint,
               anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
-              paintStyle: {fillStyle: "#337ab7", strokeStyle: "grey"},
+              paintStyle: {fillStyle: port.dynamic == "1" ? "#a8c6e0" : "#337ab7", strokeStyle: "grey"},
               overlays: [[
                 "Custom", {
                   create: function (component) {
