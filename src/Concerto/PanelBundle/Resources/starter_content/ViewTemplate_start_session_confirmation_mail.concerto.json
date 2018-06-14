@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.5.3",
+    "version": "5.0.beta.6.1",
     "collection": [
         {
             "class_name": "ViewTemplate",
-            "id": 9,
+            "id": 17,
             "name": "start_session_confirmation_mail",
             "description": "",
             "accessibility": 2,
@@ -12,7 +12,7 @@
             "css": "",
             "js": "",
             "html": "{{paragraph}}\n<p><a href=\"{{url}}\">{{url}}<\/a><\/p>",
-            "updatedOn": "2018-05-16 18:17:08",
+            "updatedOn": "2018-06-14 18:35:08",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

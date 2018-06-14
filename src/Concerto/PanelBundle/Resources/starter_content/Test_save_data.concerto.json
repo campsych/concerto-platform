@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.5.3",
+    "version": "5.0.beta.6.1",
     "collection": [
         {
             "class_name": "Test",
-            "id": 27,
+            "id": 12,
             "name": "source_save_data",
             "accessibility": 2,
             "archived": "0",
@@ -15,57 +15,57 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 367,
+                    "id": 161,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 27,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 368,
+                    "id": 162,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 27,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 369,
+                    "id": 163,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 27,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 370,
+                    "id": 164,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 27,
+                    "test": 12,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 371,
+                    "id": 165,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 27,
+                    "test": 12,
                     "parentVariable": null
                 }
             ],
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-05-16 18:17:09",
+            "updatedOn": "2018-06-14 18:35:07",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -85,7 +85,7 @@
         },
         {
             "class_name": "TestWizard",
-            "id": 13,
+            "id": 10,
             "name": "save_data",
             "description": "",
             "accessibility": 2,
@@ -93,28 +93,28 @@
             "steps": [
                 {
                     "class_name": "TestWizardStep",
-                    "id": 29,
+                    "id": 27,
                     "title": "Data bank",
                     "description": "<p>Session data bank definition<\/p>\n",
                     "orderNum": 0,
                     "colsNum": 0,
-                    "wizard": 13,
+                    "wizard": 10,
                     "params": [
                         {
                             "class_name": "TestWizardParam",
-                            "id": 105,
+                            "id": 101,
                             "label": "Data bank",
                             "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                             "hideCondition": "",
                             "type": 9,
                             "passableThroughUrl": "0",
                             "value": "{\"table_type\":\"\",\"custom_table\":[],\"data_set_id\":null}",
-                            "testVariable": 368,
+                            "testVariable": 162,
                             "name": "data_bank",
-                            "wizardStep": 29,
+                            "wizardStep": 27,
                             "stepTitle": "Data bank",
                             "order": 0,
-                            "wizard": 13,
+                            "wizard": 10,
                             "definition": {
                                 "placeholder": "0",
                                 "fields": [
@@ -183,9 +183,9 @@
                     ]
                 }
             ],
-            "test": 27,
+            "test": 12,
             "testName": "source_save_data",
-            "updatedOn": "2018-05-16 18:17:10",
+            "updatedOn": "2018-06-14 18:35:11",
             "updatedBy": "",
             "owner": 1,
             "groups": "",
@@ -194,7 +194,7 @@
         },
         {
             "class_name": "Test",
-            "id": 28,
+            "id": 30,
             "name": "save_data",
             "accessibility": 2,
             "archived": "0",
@@ -206,66 +206,66 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 372,
+                    "id": 434,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 28,
-                    "parentVariable": 367
+                    "test": 30,
+                    "parentVariable": 161
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 373,
+                    "id": 435,
                     "name": "data_bank",
                     "type": 0,
                     "description": "<p>Define data bank:<\/p>\n\n<ul>\n\t<li><strong>default<\/strong>&nbsp;- uses default data table<\/li>\n\t<li><strong>custom&nbsp;<\/strong>- define your own data table<\/li>\n<\/ul>\n",
                     "passableThroughUrl": "0",
                     "value": "{\"table_type\":\"default\",\"custom_table\":\"\",\"custom_session_id_column\":{},\"custom_name_column\":{},\"custom_value_column\":{}}",
-                    "test": 28,
-                    "parentVariable": 368
+                    "test": 30,
+                    "parentVariable": 162
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 374,
+                    "id": 436,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 28,
-                    "parentVariable": 369
+                    "test": 30,
+                    "parentVariable": 163
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 375,
+                    "id": 437,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 28,
-                    "parentVariable": 370
+                    "test": 30,
+                    "parentVariable": 164
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 376,
+                    "id": 438,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 28,
-                    "parentVariable": 371
+                    "test": 30,
+                    "parentVariable": 165
                 }
             ],
-            "sourceWizard": 13,
+            "sourceWizard": 10,
             "sourceWizardName": "save_data",
-            "sourceWizardTest": 27,
+            "sourceWizardTest": 12,
             "sourceWizardTestName": "source_save_data",
-            "updatedOn": "2018-05-16 18:17:10",
-            "updatedBy": "admin",
+            "updatedOn": "2018-06-14 18:35:14",
+            "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
             "tags": "_concerto_core",
