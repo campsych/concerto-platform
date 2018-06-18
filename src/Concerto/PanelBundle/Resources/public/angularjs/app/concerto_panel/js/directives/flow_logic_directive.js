@@ -1014,7 +1014,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         $http.post(Paths.TEST_FLOW_CONNECTION_SAVE.pf(id), {
           "flowTest": scope.object.id,
           "sourceNode": params.sourceNode.id,
-          "sourcePort": params.sourcePort.id,
+          "sourcePort": params.sourcePort ? params.sourcePort.id : null,
           "destinationNode": params.targetNode.id,
           "destinationPort": params.targetPort ? params.targetPort.id : null,
           "default": "1"
