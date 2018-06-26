@@ -326,15 +326,6 @@ class TestSessionService
                     case self::RESPONSE_VIEW_FINAL_TEMPLATE:
                     case self::RESPONSE_VIEW_TEMPLATE:
                         $response["timeLimit"] = $session->getTimeLimit();
-                        $response["templateHead"] = $session->getTemplateHead();
-                        $response["templateCss"] = $session->getTemplateCss();
-                        $response["templateJs"] = $session->getTemplateJs();
-                        $response["templateHtml"] = $session->getTemplateHtml();
-                        $response["loaderHead"] = $session->getLoaderHead();
-                        $response["loaderCss"] = $session->getLoaderCss();
-                        $response["loaderJs"] = $session->getLoaderJs();
-                        $response["loaderHtml"] = $session->getLoaderHtml();
-                        $response["templateParams"] = $session->getTemplateParams();
                         break;
                     case self::RESPONSE_WORKER:
                         break;

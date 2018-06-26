@@ -1,5 +1,12 @@
-version: "5.0.beta.6.2"
+version: "5.0.beta.7.0"
 changelog:
+    - version: "5.0.beta.7.0"
+      description: >
+        Test session optimizations
+      categories:
+          - label: Optimizations
+            changes:
+                - optimized test session records
     - version: "5.0.beta.6.2"
       description: >
         Fixes

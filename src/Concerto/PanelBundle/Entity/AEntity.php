@@ -30,22 +30,7 @@ abstract class AEntity {
      */
     protected $created;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $updatedBy;
-
-    /**
-     *
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $tags;
-
     public function __construct() {
-        $this->tags = "";
-        $this->updatedBy = "";
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
     }
@@ -88,67 +73,12 @@ abstract class AEntity {
     }
 
     /**
-     * Set updated by 
-     * @param string $user
-     */
-    public function setUpdatedBy($user) {
-        $this->updatedBy = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get updated by
-     *
-     * @return string 
-     */
-    public function getUpdatedBy() {
-        return $this->updatedBy;
-    }
-
-    /**
      * Get created
      *
      * @return DateTime 
      */
     public function getCreated() {
         return $this->created;
-    }
-
-    /**
-     * Set tags
-     *
-     * @param string $tags
-     */
-    public function setTags($tags) {
-        $this->tags = trim($tags);
-
-        return $this;
-    }
-
-    /**
-     * Get tags
-     *
-     * @return string 
-     */
-    public function getTags() {
-        return $this->tags;
-    }
-
-    /**
-     * Get tags array
-     *
-     * @return string 
-     */
-    public function getTagsArray() {
-        $result = array();
-        $tags = explode(" ", $this->tags);
-        for ($i = 0; $i < count($tags); $i++) {
-            if ($tags[$i]) {
-                array_push($result, ucwords(str_replace("_", " ", $tags[$i])));
-            }
-        }
-        return $result;
     }
 
     public static function reserveDependency(&$dependencies, $class, $id) {

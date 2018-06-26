@@ -187,14 +187,26 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             case RESPONSE_VIEW_FINAL_TEMPLATE: {
               settings.hash = response.hash;
               timeLimit = response.timeLimit;
-              if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
-                settings.loaderHtml = joinHtml(response.loaderCss, response.loaderJs, response.loaderHtml);
+              updateLoader(response.data);
               break;
             }
           }
 
           showView();
         });
+      }
+
+      function updateLoader(data) {
+        var loaderHead = data.loaderHead ? data.loaderHead.trim() : null;
+        var loaderCss = data.loaderCss ? data.loaderCss.trim() : null;
+        var loaderJs = data.loaderJs ? data.loaderJs.trim() : null;
+        var loaderHtml = data.loaderHtml ? data.loaderHtml.trim() : null;
+        if (loaderCss || loaderJs || loaderHtml) {
+          settings.loaderHtml = joinHtml(loaderCss, loaderJs, loaderHtml);
+        }
+        if (loaderHead) {
+          settings.loaderHead = loaderHead;
+        }
       }
 
       scope.runWorker = function (name, passedVals, successCallback, errorCallback) {
@@ -280,8 +292,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             case RESPONSE_VIEW_FINAL_TEMPLATE: {
               settings.hash = response.hash;
               timeLimit = response.timeLimit;
-              if (response.loaderHead.trim() != "" || response.loaderCss != "" || response.loaderJs != "" || response.loaderHtml != "")
-                settings.loaderHtml = joinHtml(response.loaderCss, response.loaderJs, response.loaderHtml);
+              updateLoader(response.data);
               break;
             }
           }
@@ -344,10 +355,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           switch (lastResponse.code) {
             case RESPONSE_VIEW_TEMPLATE:
             case RESPONSE_VIEW_FINAL_TEMPLATE:
-              css = lastResponse.templateCss.trim();
-              js = lastResponse.templateJs.trim();
-              html = lastResponse.templateHtml.trim();
-              head = lastResponse.templateHead.trim();
+              css = lastResponse.data.templateCss ? lastResponse.data.templateCss.trim() : "";
+              js = lastResponse.data.templateJs ? lastResponse.data.templateJs.trim() : "";
+              html = lastResponse.data.templateHtml ? lastResponse.data.templateHtml.trim() : "";
+              head = lastResponse.data.templateHead ? lastResponse.data.templateHead.trim() : "";
               break;
             case RESPONSE_AUTHENTICATION_FAILED:
             case RESPONSE_ERROR:
@@ -404,7 +415,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
         }
 
-        if (settings.loaderHead != null && settings.loaderHead.trim() !== "")
+        if (settings.loaderHead != null)
           angular.element("head").append($compile(settings.loaderHead)(scope));
 
         scope.html = settings.loaderHtml;
