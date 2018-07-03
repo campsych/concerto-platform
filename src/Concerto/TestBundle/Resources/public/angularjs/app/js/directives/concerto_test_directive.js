@@ -382,8 +382,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
           displayState = DISPLAY_VIEW_SHOWN;
 
-          if (lastResponse.templateParams != null) {
-            scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
+          if (lastResponse.data.templateParams != null) {
+            scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
           }
 
           if (head != null && head.trim() !== "") {
@@ -411,8 +411,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           console.log("showLoader");
         displayState = DISPLAY_LOADER_SHOWN;
 
-        if (lastResponse != null && lastResponse.templateParams != null) {
-          scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.templateParams));
+        if (lastResponse != null && lastResponse.data.templateParams != null) {
+          scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
         }
 
         if (settings.loaderHead != null)
