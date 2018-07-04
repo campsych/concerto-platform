@@ -1,9 +1,9 @@
 {
-    "version": "5.0.beta.6.1",
+    "version": "5.0.beta.7.1",
     "collection": [
         {
             "class_name": "Test",
-            "id": 12,
+            "id": 19,
             "name": "source_save_data",
             "accessibility": 2,
             "archived": "0",
@@ -15,57 +15,57 @@
             "variables": [
                 {
                     "class_name": "TestVariable",
-                    "id": 161,
+                    "id": 290,
                     "name": "out",
                     "type": 2,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": "0",
-                    "test": 12,
+                    "test": 19,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 162,
+                    "id": 291,
                     "name": "data_bank",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 19,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 163,
+                    "id": 292,
                     "name": "new_data",
                     "type": 0,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 19,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 164,
+                    "id": 293,
                     "name": "session",
                     "type": 0,
                     "description": "<p>Current session R list object<\/p>\n",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 19,
                     "parentVariable": null
                 },
                 {
                     "class_name": "TestVariable",
-                    "id": 165,
+                    "id": 294,
                     "name": "data_bank",
                     "type": 1,
                     "description": "",
                     "passableThroughUrl": "0",
                     "value": null,
-                    "test": 12,
+                    "test": 19,
                     "parentVariable": null
                 }
             ],
@@ -73,7 +73,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-06-14 18:35:07",
+            "updatedOn": "2018-07-04 15:39:05",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],

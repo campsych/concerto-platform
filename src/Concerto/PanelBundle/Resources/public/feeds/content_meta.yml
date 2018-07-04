@@ -1,5 +1,14 @@
-version: "1.5"
+version: "1.6"
 changelog:
+    - version: "1.6"
+      description: >
+        Fixes
+      categories:
+          - label: Improvements
+            changes:
+                - >
+                  'default_layout': CSS height fixes
+                  'CAT': fixed missing default values for processor subtests
     - version: "1.5"
       description: >
         Improvements

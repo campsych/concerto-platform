@@ -411,10 +411,10 @@ class TestWizardParamService extends ASectionService
                             $oldElemType = $oldDef["element"]["type"];
                             if (array_key_exists("definition", $oldDef["element"]))
                                 $oldElemDef = $oldDef["element"]["definition"];
-                            if (count($oldVal) > $i)
+                            if ($oldVal !== null && count($oldVal) > $i)
                                 $oldElemVal = $oldVal[$i];
                             $newElemVal = null;
-                            if (count($newVal) > $i)
+                            if ($newVal !== null && count($newVal) > $i)
                                 $newElemVal = $newVal[$i];
                         }
                         self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);

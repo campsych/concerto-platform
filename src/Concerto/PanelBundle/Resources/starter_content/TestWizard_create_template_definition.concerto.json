@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.6.1",
+    "version": "5.0.beta.7.1",
     "collection": [
         {
             "class_name": "Test",
@@ -84,7 +84,7 @@
             "sourceWizardName": null,
             "sourceWizardTest": null,
             "sourceWizardTestName": null,
-            "updatedOn": "2018-06-14 18:35:04",
+            "updatedOn": "2018-07-04 15:38:52",
             "updatedBy": "",
             "nodes": [],
             "nodesConnections": [],
@@ -192,7 +192,7 @@
             ],
             "test": 1,
             "testName": "source_create_template_definition",
-            "updatedOn": "2018-06-14 18:35:04",
+            "updatedOn": "2018-07-04 15:38:52",
             "updatedBy": "",
             "owner": 1,
             "groups": "",

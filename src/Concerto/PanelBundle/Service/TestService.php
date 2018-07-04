@@ -165,7 +165,7 @@ class TestService extends AExportableSectionService
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave(false, $user, $test, null, null, array(), $flush);
+            $data = $this->resave(false, $user, $test, $test->getName(), null, array(), $flush);
             array_push($result, $data);
         }
         return $result;
