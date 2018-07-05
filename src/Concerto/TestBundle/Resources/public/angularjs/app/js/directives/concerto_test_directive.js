@@ -382,7 +382,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
           displayState = DISPLAY_VIEW_SHOWN;
 
-          if (lastResponse.data.templateParams != null) {
+          if (typeof(lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
             scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
           }
 

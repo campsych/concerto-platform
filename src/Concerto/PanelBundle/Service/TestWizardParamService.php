@@ -404,6 +404,10 @@ class TestWizardParamService extends ASectionService
                 //list type
                 case 10:
                     for ($i = 0; $i < count($mergedVal); $i++) {
+
+                        //invalid data check
+                        if(!array_key_exists($i, $mergedVal)) continue;
+
                         $oldElemType = null;
                         $oldElemDef = null;
                         $oldElemVal = null;
@@ -411,11 +415,13 @@ class TestWizardParamService extends ASectionService
                             $oldElemType = $oldDef["element"]["type"];
                             if (array_key_exists("definition", $oldDef["element"]))
                                 $oldElemDef = $oldDef["element"]["definition"];
-                            if ($oldVal !== null && count($oldVal) > $i)
+                            if ($oldVal !== null && count($oldVal) > $i) {
                                 $oldElemVal = $oldVal[$i];
+                            }
                             $newElemVal = null;
-                            if ($newVal !== null && count($newVal) > $i)
+                            if ($newVal !== null && count($newVal) > $i) {
                                 $newElemVal = $newVal[$i];
+                            }
                         }
                         self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                     }
