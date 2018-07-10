@@ -17,18 +17,17 @@ concerto.template.show = function(
     if(templateId==-1 && html=="") stop("templateId or html must be declared")
    
     if(html!=""){
-      concerto$session$templateHead <<- concerto.template.insertParams(head,params,removeMissing=removeMissingParams)
-      concerto$session$templateHtml <<- concerto.template.insertParams(html,params,removeMissing=removeMissingParams)
-      concerto$session$templateCss <<- ""
-      concerto$session$templateJs <<- ""
+      concerto$response$templateHead <<- concerto.template.insertParams(head,params,removeMissing=removeMissingParams)
+      concerto$response$templateHtml <<- concerto.template.insertParams(html,params,removeMissing=removeMissingParams)
+      concerto$response$templateCss <<- ""
+      concerto$response$templateJs <<- ""
     } else {
       template <- concerto.template.get(templateId)
       if(is.null(template)) stop(paste("Template #",templateId," not found!",sep=''))
-      concerto$session$templateHead <<- concerto.template.insertParams(template$head,params,removeMissing=removeMissingParams)
-      concerto$session$templateCss <<- concerto.template.insertParams(template$css,params,removeMissing=removeMissingParams)
-      concerto$session$templateJs <<- concerto.template.insertParams(template$js,params,removeMissing=removeMissingParams)
-      concerto$session$templateHtml <<- concerto.template.insertParams(template$html,params,removeMissing=removeMissingParams)
-      concerto$session$template_id <<- template$id
+      concerto$response$templateHead <<- concerto.template.insertParams(template$head,params,removeMissing=removeMissingParams)
+      concerto$response$templateCss <<- concerto.template.insertParams(template$css,params,removeMissing=removeMissingParams)
+      concerto$response$templateJs <<- concerto.template.insertParams(template$js,params,removeMissing=removeMissingParams)
+      concerto$response$templateHtml <<- concerto.template.insertParams(template$html,params,removeMissing=removeMissingParams)
     }
     concerto$session$timeLimit <<- timeLimit
     concerto$bgWorkers <<- bgWorkers
@@ -38,18 +37,20 @@ concerto.template.show = function(
             concerto$templateParams[[name]] <<- params[[name]]
         }
     }
-    concerto$session$templateParams <<- toJSON(concerto$templateParams)
 
     if(exists("concerto.onBeforeTemplateShow")) {
         do.call("concerto.onBeforeTemplateShow",list(params=concerto$templateParams), envir = .GlobalEnv)
     }
 
+    data = concerto$response
+    data$templateParams = concerto$templateParams
     if(finalize) {
-        concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE)
+        concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE, data)
     } else {
         concerto5:::concerto.session.update()
         concerto$templateParams <<- list()
-        concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE)
+        concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE, data)
+        concerto$response <<- list()
 
         if(concerto$runnerType == RUNNER_SERIALIZED) {
             concerto5:::concerto.session.serialize()

@@ -55,6 +55,7 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
     concerto$flow <<- list()
     concerto$bgWorkers <<- list()
     concerto$queuedResponse <<- NULL
+    concerto$response <<- list()
 
     #DEFAULTS START
     concerto$promoted$template_def <<- "{\"layout\":\"default_layout\",\"header\":\"Your header goes here. For example, it could be a logo.\",\"footer\":\"Your footer goes here. For example, it could be a copyright sign. You might also have links to a privacy policy.\"}"

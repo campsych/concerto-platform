@@ -39,6 +39,19 @@ abstract class ATopEntity extends AEntity
      */
     protected $starterContent;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $updatedBy;
+
+    /**
+     *
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $tags;
+
     public function __construct()
     {
         parent::__construct();
@@ -47,6 +60,8 @@ abstract class ATopEntity extends AEntity
         $this->groups = "";
         $this->archived = false;
         $this->starterContent = false;
+        $this->tags = "";
+        $this->updatedBy = "";
     }
 
     /**
@@ -113,6 +128,61 @@ abstract class ATopEntity extends AEntity
     public function isStarterContent()
     {
         return $this->starterContent;
+    }
+
+    /**
+     * Set updated by
+     * @param string $user
+     */
+    public function setUpdatedBy($user) {
+        $this->updatedBy = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get updated by
+     *
+     * @return string
+     */
+    public function getUpdatedBy() {
+        return $this->updatedBy;
+    }
+
+    /**
+     * Set tags
+     *
+     * @param string $tags
+     */
+    public function setTags($tags) {
+        $this->tags = trim($tags);
+
+        return $this;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return string
+     */
+    public function getTags() {
+        return $this->tags;
+    }
+
+    /**
+     * Get tags array
+     *
+     * @return string
+     */
+    public function getTagsArray() {
+        $result = array();
+        $tags = explode(" ", $this->tags);
+        for ($i = 0; $i < count($tags); $i++) {
+            if ($tags[$i]) {
+                array_push($result, ucwords(str_replace("_", " ", $tags[$i])));
+            }
+        }
+        return $result;
     }
 
     /**

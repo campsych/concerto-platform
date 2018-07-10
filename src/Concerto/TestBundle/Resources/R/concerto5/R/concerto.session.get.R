@@ -3,9 +3,6 @@ concerto.session.get = function(sessionHash){
   result <- dbSendQuery(concerto$connection,sprintf("SELECT 
                                                     id, 
                                                     test_id,
-                                                    template_id,
-                                                    templateHead,
-                                                    templateHtml,
                                                     timeLimit,
                                                     status,
                                                     params,
