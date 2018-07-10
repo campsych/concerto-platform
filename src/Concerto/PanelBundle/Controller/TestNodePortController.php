@@ -117,4 +117,19 @@ class TestNodePortController extends ASectionController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    /**
+     * @Route("/TestNodePort/{object_id}/hide", name="TestNodePort_hide")
+     * @Method(methods={"POST"})
+     * @param Request $request
+     * @param integer $object_id
+     * @return Response
+     */
+    public function hideAction(Request $request, $object_id)
+    {
+        $this->service->hide($object_id);
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

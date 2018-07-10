@@ -72,6 +72,7 @@
   Paths.TEST_FLOW_NODE_EXPORT = "{{ path("Test_node_export", {"object_ids":"{0}"}) }}";
   Paths.TEST_FLOW_PORT_ADD_DYNAMIC = "{{ path("TestNode_add_dynamic_port", {"object_id":"{0}", "type":"{1}"}) }}";
   Paths.TEST_FLOW_PORT_EXPOSE = "{{ path("TestNode_expose_ports") }}";
+  Paths.TEST_FLOW_PORT_HIDE = "{{ path("TestNodePort_hide", {"object_id":"{0}"}) }}";
 
   Paths.TEST_COLLECTION = "{{ path("Test_collection") }}";
   Paths.TEST_DELETE = "{{ path("Test_delete", {'object_ids':"{0}"}) }}";
@@ -377,6 +378,9 @@
   Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TITLE = "{{ "flow.nodes.dialog.title.title"|trans }}";
   Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TOOLTIP = "{{ "flow.nodes.dialog.title.tooltip"|trans }}";
   Trans.TEST_FLOW_DIALOG_NODE_INPUT_ADD_TITLE = "{{ "flow.ports.dialog.titles.input.add"|trans }}";
+  Trans.TEST_FLOW_PORT_REMOVE_INPUT = "{{ "flow.ports.remove.input"|trans }}";
+  Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_INPUT = "{{ "flow.ports.dialog.titles.input.remove"|trans }}";
+  Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_INPUT = "{{ "flow.ports.dialog.content.input.remove"|trans }}";
 
   {% trans_default_domain "ViewTemplate" %}
   Trans.VIEW_TEMPLATE_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";

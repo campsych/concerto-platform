@@ -107,6 +107,7 @@ class TestNodePortService extends ASectionService
 
     public function update($object, $flush = true)
     {
+        $object->setUpdated();
         $this->repository->save($object, $flush);
     }
 
@@ -290,5 +291,18 @@ class TestNodePortService extends ASectionService
             $name
         );
         return $result;
+    }
+
+    public function hide($id)
+    {
+        $port = $this->get($id);
+        if ($port) {
+            if ($port->isDynamic()) {
+                $this->delete($id);
+            } else {
+                $port->setExposed(false);
+                $this->update($port);
+            }
+        }
     }
 }

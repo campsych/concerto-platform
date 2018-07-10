@@ -272,8 +272,11 @@ flow:
             out: Punkt rozgałęzienia węzła.
         dialog:
             titles:
-                input.add: Dodawanie zmiennych wejścia
+                input.add: Dodawanie portów zmiennych wejścia
                 input.add.tooltip: Dodawanie dynamicznych zmiennych wejścia, lub eksponowanie/ukrywanie obecnych zmiennych wejścia
+                input.remove: Usuwanie/ukrywanie portu zmiennej wejścia
+            content:
+                input.remove: Napewno usunąć/ukryć port zmiennej wejścia {0}?
             fields:
                 string: Ciąg znaków?
                 string.tooltip: Jeśli zaznaczone, wartość będzie traktowana jako ciąg znaków, w innym przypadku jako kod R
@@ -284,7 +287,9 @@ flow:
                 dynamic.input: Dynamiczne zmienne wejścia
                 dynamic.input.tooltip: Dodawanie dynamicznych zmiennych wejścia
         add:
-            input: Dodaj/eksponuj zmienną wejścia
+            input: Dodaj/eksponuj port zmiennej wejścia
+        remove:
+            input: Usuń/ukryj port zmiennej wejścia
                 
     buttons:
         reset_view: Resetuj widok

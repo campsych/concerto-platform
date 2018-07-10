@@ -1,7 +1,18 @@
-function PortInputAddController($scope, $uibModalInstance, $http, node, editable) {
+function PortInputAddController($scope, $uibModalInstance, $http, node, connections, editable) {
   $scope.node = node;
+  $scope.connections = connections;
   $scope.editable = editable;
   $scope.dynamicInputName = "";
+
+  $scope.isPortConnected = function (port) {
+    for (var i = 0; i <connections.length; i++) {
+      var conn = connections[i];
+      if (conn.sourcePort === port.id || conn.destinationPort === port.id) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   $scope.getExposedPorts = function () {
     var result = [];

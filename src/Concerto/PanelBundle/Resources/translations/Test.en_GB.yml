@@ -270,8 +270,11 @@ flow:
             out: Node branch point.
         dialog:
             titles:
-                input.add: Adding input parameters
+                input.add: Adding input ports
                 input.add.tooltip: Adding dynamic inputs or exposing/hiding current input parameters
+                input.remove: Removing/hiding input ports
+            content:
+                input.remove: Are you sure you want to remove/hide input port {0}?
             fields:
                 string: As string?
                 string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
@@ -282,7 +285,9 @@ flow:
                 dynamic.input: Dynamic input
                 dynamic.input.tooltip: Adding dynamic input
         add:
-            input: Add/expose input variable
+            input: Add/expose input port
+        remove:
+            input: Remove/hide input port
 
     buttons:
         reset_view: Reset view
