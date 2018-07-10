@@ -67,7 +67,7 @@ class TestNodeConnectionService extends ASectionService
             if (!$sourcePort) {
                 $object->setReturnFunction("");
             } else {
-                $object->setReturnFunction($sourcePort->getVariable()->getName());
+                $object->setReturnFunction($sourcePort->getName());
             }
         } else {
             $object->setReturnFunction($returnFunction);
@@ -95,25 +95,15 @@ class TestNodeConnectionService extends ASectionService
 
     private function addSameInputReturnConnection(User $user, TestNodeConnection $object)
     {
-        if (!$object->getSourcePort() || $object->getSourcePort()->getVariable()->getType() == 2) {
+        if (!$object->getSourcePort() || $object->getSourcePort()->getType() == 2) {
             $srcNode = $object->getSourceNode();
             $dstNode = $object->getDestinationNode();
 
             foreach ($srcNode->getPorts() as $srcPort) {
-                $srcVar = $srcPort->getVariable();
-                if (!$srcVar) {
-                    continue;
-                }
-
-                if ($srcVar->getType() == 1) {
+                if ($srcPort->getType() == 1) {
                     foreach ($dstNode->getPorts() as $dstPort) {
-                        $dstVar = $dstPort->getVariable();
-                        if (!$dstVar) {
-                            continue;
-                        }
-
-                        if ($dstVar->getType() == 0 && $srcPort->getVariable()->getName() == $dstPort->getVariable()->getName()) {
-                            $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getVariable()->getName(), true, true);
+                        if ($dstPort->getType() == 0 && $srcPort->getName() == $dstPort->getName()) {
+                            $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getName(), true, true);
                             break;
                         }
                     }

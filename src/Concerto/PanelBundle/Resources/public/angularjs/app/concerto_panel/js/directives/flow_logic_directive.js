@@ -292,12 +292,26 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           jsPlumb.setSuspendDrawing(false, true);
       };
 
-      scope.hideInput = function (portId) {
+      scope.hidePort = function (portId) {
         var port = scope.collectionService.getPort(portId);
+        var title = null;
+        var message = null;
+        switch (port.type) {
+          case 0: {
+            title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_INPUT;
+            message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_INPUT.pf(port.name);
+            break;
+          }
+          case 2: {
+            title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_BRANCH;
+            message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_BRANCH.pf(port.name);
+            break;
+          }
+        }
 
         DialogsService.confirmDialog(
-            Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_INPUT,
-            Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_INPUT.pf(port.name),
+            title,
+            message,
             function (data) {
               $http.post(Paths.TEST_FLOW_PORT_HIDE.pf(port.id)).success(
                   function () {
@@ -314,12 +328,24 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         );
       };
 
-      scope.addInput = function (nodeId) {
+      scope.addPort = function (nodeId, type) {
         var node = scope.collectionService.getNode(nodeId);
+        var template = null;
+        switch (type) {
+          case 0:
+            template = "port_input_add_dialog.html";
+            break;
+          case 1:
+            template = "port_return_add_dialog.html";
+            break;
+          case 2:
+            template = "port_branch_add_dialog.html";
+            break;
+        }
 
         var modalInstance = $uibModal.open({
-          templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "port_input_add_dialog.html",
-          controller: PortInputAddController,
+          templateUrl: Paths.DIALOG_TEMPLATE_ROOT + template,
+          controller: PortAddController,
           scope: scope,
           resolve: {
             node: function () {
@@ -345,13 +371,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
           else {
             //adding dynamic input node
-            $http.post(Paths.TEST_FLOW_PORT_ADD_DYNAMIC.pf(nodeId, 0), {
+            $http.post(Paths.TEST_FLOW_PORT_ADD_DYNAMIC.pf(nodeId, type), {
               "name": response.name
             }).success(function (data) {
               switch (data.result) {
                 case 0:
                   node.ports.push(JSON.parse(data.object));
-                  console.log(node);
                   scope.refreshNode(node);
                   break;
                 case 1:
@@ -453,16 +478,31 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           leftCount++;
         }
 
+        //add branch
+        if (node.type == 0) {
+          var overlayElem = $(
+              "<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_BRANCH + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 2)'>" +
+              "<i class='glyphInteractable glyphicon glyphicon-plus portBranchIcon'></i>" +
+              "</div>"
+          );
+          overlayElem.appendTo(elemContentRight);
+
+          rightCount++;
+        }
+
         if (node.type != 2) {
           for (var i = 0; i < node.ports.length; i++) {
             var port = node.ports[i];
-            if (!port.variable) continue;
 
             //branches
-            if (port.type === 2) {
+            if (scope.isPortVisible(node, port) && port.type === 2) {
 
-              var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</div>");
-              $compile(overlayElem)(scope);
+              var overlayElem = $(
+                  "<div class='portLabel portLabelBranch'>" +
+                  "<span uib-tooltip-html='getPortTooltip(\"" + port.id + "\")' tooltip-append-to-body='true'>" + port.name + "</span>" +
+                  (!scope.canRemovePort(node, port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portBranchIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_BRANCH + "\"' tooltip-append-to-body='true' ng-click='hidePort(" + port.id + ")'></i>") +
+                  "</div>"
+              );
               overlayElem.appendTo(elemContentRight);
 
               jsPlumb.addEndpoint(elemContent, {
@@ -471,7 +511,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 maxConnections: 1,
                 endpoint: flowEndpoint,
                 anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-                paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
+                paintStyle: {fillStyle: port.dynamic == 1 ? "#ffdd84" : "#cca335", strokeStyle: "grey"},
                 parameters: {
                   sourceNode: node,
                   sourcePort: port
@@ -494,7 +534,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             maxConnections: 1,
             endpoint: flowEndpoint,
             anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-            paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
+            paintStyle: {fillStyle: "#cca335", strokeStyle: "grey"},
             parameters: {
               sourceNode: node,
               sourcePort: null
@@ -506,7 +546,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         //add input
         if (node.type == 0) {
           var overlayElem = $(
-              "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'  ng-click='addInput(" + node.id + ")'>" +
+              "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 0)'>" +
               "<i class='glyphInteractable glyphicon glyphicon-plus portInputIcon'></i>" +
               "</div>"
           );
@@ -522,7 +562,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           if (scope.isPortVisible(node, port) && port.type === 0) {
             var overlayElem = $("<div " +
                 "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}'>" +
-                (scope.isPortConnected(port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portInputIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_INPUT + "\"' tooltip-append-to-body='true' ng-click='hideInput(" + port.id + ")'></i>") +
+                (!scope.canRemovePort(node, port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portInputIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_INPUT + "\"' tooltip-append-to-body='true' ng-click='hidePort(" + port.id + ")'></i>") +
                 "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</span>" +
                 "</div>");
             overlayElem.appendTo(elemContentLeft);
@@ -1211,16 +1251,21 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       };
 
       scope.isPortVisible = function (node, port) {
-        if (port.type == 2 || port.exposed == 1) {
+        if (node.type != 0 || port.exposed == 1) {
           return true;
         }
         return false;
       };
 
+      scope.canRemovePort = function (node, port) {
+        if (node.type == 0 && !scope.isPortConnected(port)) return true;
+        else return false;
+      };
+
       scope.isPortConnected = function (port) {
         for (var i = 0; i < scope.object.nodesConnections.length; i++) {
           var conn = scope.object.nodesConnections[i];
-          if (conn.sourcePort === port.id || conn.destinationPort === port.id)
+          if (conn.sourcePort == port.id || conn.destinationPort == port.id)
             return true;
         }
         return false;

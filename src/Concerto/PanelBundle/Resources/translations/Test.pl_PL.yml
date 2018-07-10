@@ -275,8 +275,12 @@ flow:
                 input.add: Dodawanie portów zmiennych wejścia
                 input.add.tooltip: Dodawanie dynamicznych zmiennych wejścia, lub eksponowanie/ukrywanie obecnych zmiennych wejścia
                 input.remove: Usuwanie/ukrywanie portu zmiennej wejścia
+                branch.add: Dodawanie portów rozgałęzienia
+                branch.add.tooltip: Dodawanie dynamicznych portów rozgałęzienia, lub eksponowanie/ukrywanie obecnych portów rozgałęzienia
+                branch.remove: Usuwanie/ukrywanie portów rozgałęzienia
             content:
                 input.remove: Napewno usunąć/ukryć port zmiennej wejścia {0}?
+                branch.remove: Napewno usunąć/ukryć port rozgałęzienia {0}?
             fields:
                 string: Ciąg znaków?
                 string.tooltip: Jeśli zaznaczone, wartość będzie traktowana jako ciąg znaków, w innym przypadku jako kod R
@@ -286,10 +290,16 @@ flow:
                 exposed.inputs.tooltip: Eksponowanie/ukrywanie zmiennych wejścia
                 dynamic.input: Dynamiczne zmienne wejścia
                 dynamic.input.tooltip: Dodawanie dynamicznych zmiennych wejścia
+                exposed.branches: Eskponowane porty rozgałęzienia
+                exposed.branches.tooltip: Eksponowanie/ukrywanie portów rozgałęzienia
+                dynamic.branch: Dynamiczne porty rozgałęzienia
+                dynamic.branch.tooltip: Dodawanie dynamicznego portu rozgałęzienia
         add:
             input: Dodaj/eksponuj port zmiennej wejścia
+            branch: Dodaj/eksponuj port rozgałęzienia
         remove:
             input: Usuń/ukryj port zmiennej wejścia
+            branch: Usuń/ukryj port rozgałęzienia
                 
     buttons:
         reset_view: Resetuj widok

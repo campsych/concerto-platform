@@ -39,7 +39,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
         var node = test.nodes[j];
         for (var k = 0; k < node.ports.length; k++) {
           var port = node.ports[k];
-          if (port.id === portId)
+          if (port.id == portId)
             return port;
         }
       }
@@ -54,7 +54,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
         var node = test.nodes[j];
         for (var k = 0; k < node.ports.length; k++) {
           var port = node.ports[k];
-          if (port.id === portId) {
+          if (port.id == portId) {
             node.ports.splice(k, 1);
           }
         }
@@ -67,7 +67,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
       var test = this.collection[i];
       for (var j = 0; j < test.nodes.length; j++) {
         var node = test.nodes[j];
-        if (node.id === nodeId)
+        if (node.id == nodeId)
           return node;
       }
     }
@@ -79,7 +79,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
       var test = this.collection[i];
       for (var j = 0; j < test.nodes.length; j++) {
         var node = test.nodes[j];
-        if (node.id === newNode.id) {
+        if (node.id == newNode.id) {
           angular.merge(test.nodes[j], newNode);
           return null;
         }
@@ -109,7 +109,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
       var test = this.collection[i];
       for (var j = 0; j < test.nodesConnections.length; j++) {
         var connection = test.nodesConnections[j];
-        if (connection.id === connectionId)
+        if (connection.id == connectionId)
           return connection;
       }
     }

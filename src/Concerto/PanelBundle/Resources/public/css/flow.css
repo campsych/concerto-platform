@@ -162,6 +162,10 @@
 .portLabelInput {
 }
 
+.portBranchIcon {
+  color: #cca335;
+}
+
 .portLabelBranch {
   font-weight: bold;
   text-align: right;

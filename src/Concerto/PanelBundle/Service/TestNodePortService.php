@@ -59,8 +59,8 @@ class TestNodePortService extends ASectionService
 
         if ($type === null) {
             $type = $variable->getType();
-            if ($node->getType() === 1 && $variable->getType() === 0) $type = 1;
-            if ($node->getType() === 2 && $variable->getType() === 1) $type = 0;
+            if ($node->getType() == 1 && $variable->getType() == 0) $type = 1;
+            if ($node->getType() == 2 && $variable->getType() == 1) $type = 0;
         }
         $object->setType($type);
         $object->setDynamic($dynamic);
@@ -129,7 +129,14 @@ class TestNodePortService extends ASectionService
                 }
             }
             if (!$found) {
-                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, null, false, false, null, $flush);
+                if ($node->getType() == 1) {
+                    if ($variable->getType() == 1 || $variable->getType() == 2) continue;
+                }
+                if ($node->getType() == 2) {
+                    if ($variable->getType() == 0 || $variable->getType() == 2) continue;
+                }
+                $exposed = $variable->getType() == 2;
+                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, null, false, $exposed, null, $flush);
                 $node->addPort($result["object"]);
             }
         }

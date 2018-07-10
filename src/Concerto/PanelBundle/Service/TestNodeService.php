@@ -51,10 +51,8 @@ class TestNodeService extends ASectionService
     {
         $errors = array();
         $object = $this->get($object_id);
-        $is_new = false;
         if ($object === null) {
             $object = new TestNode();
-            $is_new = true;
         }
         $object->setUpdated();
         $object->setType($type);
@@ -101,13 +99,10 @@ class TestNodeService extends ASectionService
 
         foreach ($vars as $collection) {
             foreach ($collection as $var) {
-                $value = $var->getValue();
-                if ($value) {
-                    $value = '"' . addslashes($var->getValue()) . '"';
-                }
                 $port = $this->testNodePortService->getOneByNodeAndVariable($node, $var);
                 if (!$port) {
-                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", null, false, false, null, $flush);
+                    $exposed = $var->getType() == 2;
+                    $result = $this->testNodePortService->save($user, 0, $node, $var, "1", $var->getValue(), "1", null, false, $exposed, null, $flush);
                     $node->addPort($result["object"]);
                 }
             }

@@ -273,8 +273,12 @@ flow:
                 input.add: Adding input ports
                 input.add.tooltip: Adding dynamic inputs or exposing/hiding current input parameters
                 input.remove: Removing/hiding input ports
+                branch.add: Adding branch ports
+                branch.add.tooltip: Adding dynamic branches or exposing/hiding current branch ports
+                branch.remove: Removing/hiding branch ports
             content:
                 input.remove: Are you sure you want to remove/hide input port {0}?
+                branch.remove: Are you sure you want to remove/hide branch port {0}?
             fields:
                 string: As string?
                 string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
@@ -284,10 +288,16 @@ flow:
                 exposed.inputs.tooltip: Exposing/hiding inputs parameters
                 dynamic.input: Dynamic input
                 dynamic.input.tooltip: Adding dynamic input
+                exposed.branches: Exposed branches
+                exposed.branches.tooltip: Exposing/hiding branch ports
+                dynamic.branch: Dynamic branch
+                dynamic.branch.tooltip: Adding dynamic branch
         add:
             input: Add/expose input port
+            branch: Add/expose branch port
         remove:
             input: Remove/hide input port
+            branch: Remove/hide branch port
 
     buttons:
         reset_view: Reset view

@@ -1,4 +1,4 @@
-function PortInputAddController($scope, $uibModalInstance, $http, node, connections, editable) {
+function PortAddController($scope, $uibModalInstance, $http, node, connections, editable) {
   $scope.node = node;
   $scope.connections = connections;
   $scope.editable = editable;
