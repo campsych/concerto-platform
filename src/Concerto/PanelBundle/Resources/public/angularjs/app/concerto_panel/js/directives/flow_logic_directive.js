@@ -1253,6 +1253,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
         }
 
+
         $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(id), {}).success(function (data) {
           if (data.result === 0) {
             $("#overlayConnection" + id).remove();
@@ -1260,8 +1261,16 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               var connection = scope.object.nodesConnections[i];
               if (connection.id == id) {
                 scope.object.nodesConnections.splice(i, 1);
-                scope.refreshNode(scope.collectionService.getNode(connection.sourceNode));
-                scope.refreshNode(scope.collectionService.getNode(connection.destinationNode));
+
+                if (!connection.sourcePort || connection.sourcePort.type == 2) {
+                  for (var j = scope.object.nodesConnections.length - 1; j >= 0; j--) {
+                    var otherConn = scope.object.nodesConnections[j];
+                    if (otherConn.sourceNode == connection.sourceNode && otherConn.targetNode == connection.targetNode && otherConn.automatic == 1) {
+                      scope.object.nodesConnections.splice(j, 1);
+                    }
+                  }
+                }
+                scope.refreshConnections([connection.sourceNode, connection.destinationNode], false);
                 break;
               }
             }
@@ -1313,9 +1322,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           var targetParams = info.dropEndpoint.getParameters();
 
           var sourcePortType = null;
-          var sourceNodeType = sourceParams.sourceNode.type;
-
-          if (!sourceParams.sourcePort || !sourceParams.sourcePort.variableObject) {
+          if (!sourceParams.sourcePort) {
             sourcePortType = 2;
           } else {
             sourcePortType = sourceParams.sourcePort.type;
@@ -1324,15 +1331,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           var targetPortType = null;
           if (targetParams.targetPort)
             targetPortType = targetParams.targetPort.type;
-          var targetNodeType = targetParams.targetNode.type;
-          if (sourceNodeType == 1) {
-            if (sourcePortType == 0)
-              sourcePortType = 1;
-          }
-          if (targetNodeType == 2) {
-            if (targetPortType == 1)
-              targetPortType = 0;
-          }
 
           switch (parseInt(sourcePortType)) {
               //return
