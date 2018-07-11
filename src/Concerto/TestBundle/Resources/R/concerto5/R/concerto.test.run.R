@@ -1,5 +1,5 @@
 concerto.test.run <-
-function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
+function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
     test <- concerto.test.get(testId, cache=F, includeSubObjects=T)
     if (is.null(test)) stop(paste("Test #", testId, " not found!", sep = ''))
     concerto.log(paste0("running test #", test$id, ": ", test$name, " ..."))
@@ -46,7 +46,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
 
     if (test$type == 1) {
         #wizard
-        return(concerto.test.run(test$sourceTest$id, params, mainTest, ongoingResumeFlowIndex))
+        return(concerto.test.run(test$sourceTest$id, params, extraReturns, mainTest, ongoingResumeFlowIndex))
     } else if (test$type == 0) {
         #code
         eval(parse(text = test$code), envir = testenv)
@@ -58,6 +58,13 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                     r[[test$variables[i, "name"]]] <- get(test$variables[i, "name"], envir = testenv)
                 } else if (!is.null(test$variables[i, "value"])) {
                     r[[test$variables[i, "name"]]] <- test$variables[i, "value"]
+                }
+            }
+        }
+        if(length(extraReturns) > 0) {
+             for (i in 1 : length(extraReturns)) {
+                if (exists(extraReturns[i], envir = testenv)) {
+                    r[extraReturns[i]] <- get(extraReturns[i], envir = testenv)
                 }
             }
         }
@@ -111,14 +118,21 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
 
             #EXECUTION, RETURNS
             if (node$type == 0) {
+                extraReturns = c()
+                for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
+                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                    if (port$node_id == node$id && port$type == 1 && port$dynamic == 1) {
+                        extraReturns = c(extraReturns, port$name)
+                    }
+                }
 
                 if (ongoingResumeFlowIndex != -1 &&
                     length(concerto$flow) > flowIndex &&
                     concerto$flow[[flowIndex]]$type == 2 &&
                     concerto$flow[[flowIndex + 1]]$id == node$sourceTest_id) {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, ongoingResumeFlowIndex = flowIndex + 1)
+                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=extraReturns, ongoingResumeFlowIndex = flowIndex + 1)
                 } else {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params)
+                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=extraReturns)
                 }
 
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
@@ -157,7 +171,7 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
 
                     if (port$node_id == node$id && port$type == 2) {
-                        if (is.na(branch_name)) {
+                        if (is.null(branch_name) || is.na(branch_name)) {
                             branch_port = port
                             break
                         } else {

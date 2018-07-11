@@ -94,8 +94,11 @@ class TestNodePortService extends ASectionService
         for ($i = 0; $i < count($decoded_collection); $i++) {
             $port = $decoded_collection[$i];
             $node = $this->testNodeRepository->find($port["node"]);
-            $variable = $this->testVariableRepository->find($port["variable"]);
-            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["dynamicName"]);
+            $variable = null;
+            if ($port["variable"] !== null) {
+                $variable = $this->testVariableRepository->find($port["variable"]);
+            }
+            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["name"]);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);

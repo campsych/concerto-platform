@@ -24,7 +24,7 @@ concerto.run = function(workingDir, client, sessionHash, response = NULL) {
             ongoingResumeFlowIndex = 1
         }
 
-        concerto.test.run(testId, params, TRUE, ongoingResumeFlowIndex)
+        concerto.test.run(testId, params, mainTest=TRUE, ongoingResumeFlowIndex=ongoingResumeFlowIndex)
 
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
     }, error = function(e) {

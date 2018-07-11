@@ -861,7 +861,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             "variable": response.variable,
             "value": response.value,
             "string": response.string,
-            "default": response.defaultValue
+            "default": response.defaultValue,
+            "type": response.type,
+            "dynamic": response.dynamic,
+            "exposed": response.exposed,
+            "name": response.name
           }).success(function (data) {
             port.value = data.object.value;
           });
@@ -898,7 +902,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             "destinationNode": object.destinationNode,
             "destinationPort": object.destinationPort,
             "returnFunction": object.returnFunction,
-            "default": object.defaultReturnFunction
+            "default": object.defaultReturnFunction,
+            "type": object.type,
+            "dynamic": object.dynamic,
+            "exposed": object.exposed,
+            "name": object.name
           }).success(function (data) {
             connection.returnFunction = data.object.returnFunction
           });
