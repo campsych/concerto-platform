@@ -1,0 +1,45 @@
+{% trans_default_domain "Test" %}
+<div type="text/ng-template" id="port_return_add_dialog.html">
+    <div class="modal-body">
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "Test" %}
+            {% block legend %}{{ "flow.ports.dialog.titles.return.add"|trans }}{% endblock %}
+            {% block legend_tooltip %}{{ "flow.ports.dialog.titles.return.add.tooltip"|trans }}{% endblock %}
+            {% block description %}{% endblock %}
+            {% block elements %}
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.exposed.returns'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.exposed.returns.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <div class="port-list-container">
+                            <div class="port-list-element" ng-repeat="port in node.ports | filter:{ type: 1, dynamic: 0 }">
+                                <input type="checkbox" ng-model="port.exposed" ng-true-value='"1"' ng-false-value='"0"' ng-disabled="!editable || isPortConnected(port)" />
+                                {% verbatim %}{{port.variableObject.name}}{% endverbatim %}
+                            </div>
+                        </div>
+                        <div style="clear: left;"></div>
+                        <div class="control-button-group">
+                            <button class="btn btn-success" ng-click="changeExposed()" ng-disabled="!editable">{{ 'form.button.change'|trans({},"panel") }}</button>
+                        </div>
+                    {% endblock %}
+                {% endembed %}
+                
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.dynamic.return'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.dynamic.return.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <input ng-model="dynamicInputName" type="text" style="width:100%;" class='form-control' ng-disabled="!editable" />
+                        <div class="control-button-group">
+                            <button class="btn btn-success" ng-click="addDynamic()" ng-disabled="!editable">{{ 'form.button.add'|trans({},"panel") }}</button>
+                        </div>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
+</div>

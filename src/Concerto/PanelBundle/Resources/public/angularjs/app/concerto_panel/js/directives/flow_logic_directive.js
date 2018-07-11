@@ -302,6 +302,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_INPUT.pf(port.name);
             break;
           }
+          case 1: {
+            title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_RETURN;
+            message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_RETURN.pf(port.name);
+            break;
+          }
           case 2: {
             title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_BRANCH;
             message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_BRANCH.pf(port.name);
@@ -522,6 +527,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
         }
 
+        //add return
+        if (node.type == 0) {
+          var overlayElem = $(
+              "<div class='portLabel portLabelReturn' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_RETURN + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 1)'>" +
+              "<i class='glyphInteractable glyphicon glyphicon-plus portReturnIcon'></i>" +
+              "</div>"
+          );
+          overlayElem.appendTo(elemContentRight);
+
+          rightCount++;
+        }
+
         //out for start node
         if (node.type == 1) {
           var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_DESCRIPTION_OUT + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_OUT + "</div>");
@@ -606,10 +623,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             leftCount++;
           } else if (scope.isPortVisible(node, port) && port.type === 1) { //return vars
 
-            var overlayElem = $("<div>" +
-                "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</div>" +
-                "</div>");
-            $compile(overlayElem)(scope);
+            var overlayElem = $(
+                "<div class='portLabel portLabelReturn'>" +
+                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</span>" +
+                (!scope.canRemovePort(node, port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portReturnIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_RETURN + "\"' tooltip-append-to-body='true' ng-click='hidePort(" + port.id + ")'></i>") +
+                "</div>"
+            );
             overlayElem.appendTo(elemContentRight);
 
             jsPlumb.addEndpoint(elemContent, {
@@ -618,7 +637,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               maxConnections: -1,
               endpoint: varEndpoint,
               anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-              paintStyle: {fillStyle: "red", strokeStyle: "grey"},
+              paintStyle: {fillStyle: port.dynamic == "1" ? "#ef7785" : "#a52937", strokeStyle: "grey"},
               parameters: {
                 sourceNode: node,
                 sourcePort: port
