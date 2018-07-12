@@ -6,6 +6,7 @@ use Concerto\PanelBundle\Repository\TestNodeConnectionRepository;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
 use Concerto\PanelBundle\Entity\TestNode;
+use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestRepository;
@@ -93,6 +94,15 @@ class TestNodeConnectionService extends ASectionService
         }
     }
 
+    private function isPairEligibleForAutoConnection(TestNodePort $src, TestNodePort $dst)
+    {
+        if ($src->getType() != 1 || $dst->getType() != 0) return false;
+        if ($src->getName() != $dst->getName()) return false;
+        if ($src->getNode()->getType() == 0 && !$src->isDynamic() && !$src->isExposed()) return false;
+        if ($dst->getNode()->getType() == 0 && !$dst->isDynamic() && !$dst->isExposed()) return false;
+        return true;
+    }
+
     private function addSameInputReturnConnection(User $user, TestNodeConnection $object)
     {
         if (!$object->getSourcePort() || $object->getSourcePort()->getType() == 2) {
@@ -102,7 +112,7 @@ class TestNodeConnectionService extends ASectionService
             foreach ($srcNode->getPorts() as $srcPort) {
                 if ($srcPort->getType() == 1) {
                     foreach ($dstNode->getPorts() as $dstPort) {
-                        if ($dstPort->getType() == 0 && $srcPort->getName() == $dstPort->getName()) {
+                        if ($this->isPairEligibleForAutoConnection($srcPort, $dstPort)) {
                             $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getName(), true, true);
                             break;
                         }
