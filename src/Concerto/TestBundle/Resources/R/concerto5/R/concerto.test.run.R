@@ -79,39 +79,55 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
             return(T)
         }
 
+        evalPortValue = function(port, inserts = list()) {
+            port_connected = FALSE
+            for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
+                connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
+                if (!is.na(connection$destinationPort_id) && connection$destinationPort_id == port$id) {
+                    port_connected = TRUE
+
+                    #check for getter node
+                    source_node = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
+                    if (isGetterNode(source_node)) {
+                        #getters shouldn't be resumable
+                        runNode(source_node)
+                        port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                    }
+                    break
+                }
+            }
+
+            if (port$string == 0 && !port_connected) {
+                portEnv = new.env()
+                for(insertName in ls(inserts)) {
+                    assign(insertName, inserts[[insertName]], envir=portEnv)
+                }
+                return(eval(parse(text = port$value), envir=portEnv))
+            } else {
+                return(concerto.template.insertParams(port$value, inserts, removeMissing=F))
+            }
+        }
+
         runNode = function(node){
             r = list()
 
             #PARAMS
             node_params = list()
             input_type = 0
+            dynamicPorts = list()
 
             if (node$type == 0 || node$type == 2) {
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                    if (port$node_id == node$id && port$type == input_type) {
-                        port_connected = FALSE
-                        for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
-                            connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
-                            if (!is.na(connection$destinationPort_id) && connection$destinationPort_id == port$id) {
-                                port_connected = TRUE
-
-                                #check for getter node
-                                source_node = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
-                                if (isGetterNode(source_node)) {
-                                    #getters shouldn't be resumable
-                                    runNode(source_node)
-                                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                                }
-                                break
-                            }
-                        }
-
-                        if (port$string == 0 && !port_connected) {
-                            node_params[[port$name]] = eval(parse(text = port$value))
-                        } else {
-                            node_params[[port$name]] = port$value
-                        }
+                    if (port$node_id == node$id && port$type == input_type && port$dynamic == 1) {
+                        node_params[[port$name]] = evalPortValue(port)
+                        dynamicPorts[[port$name]] = node_params[[port$name]]
+                    }
+                }
+                for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
+                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                    if (port$node_id == node$id && port$type == input_type && port$dynamic == 0) {
+                        node_params[[port$name]] = evalPortValue(port, dynamicPorts)
                     }
                 }
             }
