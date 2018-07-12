@@ -320,10 +320,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             function (data) {
               $http.post(Paths.TEST_FLOW_PORT_HIDE.pf(port.id)).success(
                   function () {
-                    if (port.dynamic) {
+                    if (port.dynamic == 1) {
                       scope.collectionService.removePort(portId);
                     } else {
-                      port.exposed = false;
+                      port.exposed = 0;
                     }
                     var node = scope.collectionService.getNode(port.node);
                     scope.refreshNode(node);

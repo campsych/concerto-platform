@@ -10,6 +10,7 @@ function NodeWizardController($scope, $uibModalInstance, TestWizardParam, TestWi
             var port = $scope.node.ports[j];
             if (variable.id === port.variable) {
                 variable.value = port.value;
+                variable.exposed = port.exposed;
                 variable.defaultValue = originalVariable.value === port.value ? "1" : "0";
             }
         }

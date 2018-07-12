@@ -231,6 +231,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
 
             if (variable.name === param.name && variable.type == 0) {
               param.value = variable.value;
+              param.exposed = variable.exposed;
               this.unserializeParamValue(param);
               break;
             }

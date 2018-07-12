@@ -3,7 +3,7 @@ breadcrumb:
     
 alerts:
     no_steps: Nie zdefiniowano kroków kreatora!
-    no_params: Nie zdefiniowano parametrów kreatora w tym kroku!
+    no_params: Nie ma żadnych dostępnych edytowalnych parametrów kreatora w tym kroku!
 
 form:
   title:
