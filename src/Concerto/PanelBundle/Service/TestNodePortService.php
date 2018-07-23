@@ -121,7 +121,7 @@ class TestNodePortService extends ASectionService
             $ports = $node->getPorts();
             $found = false;
             foreach ($ports as $port) {
-                if ($port->getVariable()->getId() == $variable->getId()) {
+                if ($port->getVariable() && $port->getVariable()->getId() == $variable->getId()) {
                     $found = true;
                     if ($port->hasDefaultValue()) {
                         $port->setValue($variable->getValue());
