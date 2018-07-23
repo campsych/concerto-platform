@@ -19,6 +19,7 @@ RUN apt-get update -y \
     locales \
     mysql-client \
     nginx \
+    procps \
     r-base \
     r-base-dev \
     unzip \
