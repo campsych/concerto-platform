@@ -100,7 +100,7 @@ abstract class AExportableTabController extends ASectionController
             if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
                 $show_index = $j;
 
-            if (!array_key_exists("errors", $r))
+            if (!array_key_exists("errors", $r) || !$r['errors'])
                 continue;
             for ($i = 0; $i < count($r['errors']); $i++) {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);

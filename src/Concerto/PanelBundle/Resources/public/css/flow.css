@@ -80,10 +80,11 @@
   border: 1px solid black;
   position: absolute;
   z-index: 7;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .node-content {
+  width: 100%;
 }
 
 .node-content-left {
@@ -146,9 +147,18 @@
   padding-right: 3px;
   margin-top: 12px;
   font-size: small;
-  overflow: hidden;
   white-space: nowrap;
   height: 18px;
+}
+
+.portLabel span {
+  overflow: hidden;
+  display: inline-grid;
+  width: 97px;
+}
+
+.portLabel i {
+  width: 17px;
 }
 
 .portLabelIn {
@@ -192,12 +202,6 @@
 
 .return-function-default {
   color: #1bd334;
-}
-
-.connectionLabel {
-  font-size: small;
-  width: 100px;
-  text-align: center;
 }
 
 .glyphInteractable {

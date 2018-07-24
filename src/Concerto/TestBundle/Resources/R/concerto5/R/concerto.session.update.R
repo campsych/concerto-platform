@@ -3,7 +3,7 @@ concerto.session.update = function(){
 
   sql = sprintf("UPDATE TestSession SET
     status = '%s',
-    timeLimit = %s,
+    timeLimit = '%s',
     error = '%s'
     WHERE id='%s'",
   dbEscapeStrings(concerto$connection, toString(concerto$session$status)),

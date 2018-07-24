@@ -18,7 +18,7 @@ function PortAddController($scope, $uibModalInstance, $http, node, connections, 
     var result = [];
     for (var i = 0; i < $scope.node.ports.length; i++) {
       var port = $scope.node.ports[i]
-      if (port.type !== 0 || port.dynamic != 0) continue;
+      if (port.dynamic != 0) continue;
       if (port.exposed) result.push({
         id: port.id,
         exposed: port.exposed
