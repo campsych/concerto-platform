@@ -1,13 +1,22 @@
-version: "1.6"
+version: "1.7"
 changelog:
-    - version: "1.6"
+    - version: "1.7"
       description: >
         Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - >
+                  'linear_test': cleaned default item bank
+    - version: "1.6"
+      description: >
+        Improvements
       categories:
           - label: Improvements
             changes:
                 - >
                   'default_layout': CSS height fixes
+                - >
                   'CAT': fixed missing default values for processor subtests
     - version: "1.5"
       description: >
@@ -17,7 +26,9 @@ changelog:
             changes:
                 - >
                   'CAT': added fixed index field to item bank record
+                - >
                   'CAT': added starting_theta argument
+                - >
                   'linear_test': response option label now uses HTML editor for value changing
     - version: "1.4"
       description: >
