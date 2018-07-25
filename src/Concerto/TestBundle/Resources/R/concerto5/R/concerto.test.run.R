@@ -97,14 +97,18 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
                 }
             }
 
-            if (port$string == 0 && !port_connected) {
-                portEnv = new.env()
-                for(insertName in ls(inserts)) {
-                    assign(insertName, inserts[[insertName]], envir=portEnv)
-                }
-                return(eval(parse(text = port$value), envir=portEnv))
+            if (port_connected) {
+                return(port$value)
             } else {
-                return(concerto.template.insertParams(port$value, inserts, removeMissing=F))
+                if (port$string == 0) {
+                    portEnv = new.env()
+                    for(insertName in ls(inserts)) {
+                        assign(insertName, inserts[[insertName]], envir=portEnv)
+                    }
+                    return(eval(parse(text = port$value), envir=portEnv))
+                } else {
+                    return(concerto.template.insertParams(port$value, inserts, removeMissing=F))
+                }
             }
         }
 
@@ -219,7 +223,7 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
                 if (is.na(connection$sourcePort_id)) { next }
                 if (concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != return_type) { next }
 
-                func = paste("retFunc = function(", concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name, "){ ", connection$returnFunction, " }", sep = "")
+                func = paste0("retFunc = function(", concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name, "){ ", connection$returnFunction, " }")
                 eval(parse(text = func))
                 concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
             }
