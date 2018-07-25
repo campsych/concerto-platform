@@ -1,5 +1,13 @@
-version: "1.7"
+version: "1.8"
 changelog:
+    - version: "1.8"
+      description: >
+        Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - >
+                  'polyCAT': cleaned default item bank
     - version: "1.7"
       description: >
         Fixes
