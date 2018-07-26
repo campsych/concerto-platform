@@ -1,5 +1,16 @@
-version: "5.0.beta.7.2"
+version: "5.0.beta.8.0"
 changelog:
+    - version: "5.0.beta.8.0"
+      description: >
+        Improvements
+      categories:
+          - label: Improvements
+            changes:
+                - testRunner.addEventListener and testRunner.removeEventListener helper method
+                - submitView event
+          - label: Non backwards compatible
+            changes:
+                - removed testRunner.onSubmitView
     - version: "5.0.beta.7.2"
       description: >
         Fixes

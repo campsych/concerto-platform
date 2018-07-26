@@ -254,7 +254,12 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         var values = getControlsValues();
         hideView();
 
-        testRunner.onSubmitView(values);
+        var eventSubmitView = new CustomEvent('submitView', {
+          detail: {
+            values: values
+          }
+        });
+        $window.dispatchEvent(eventSubmitView);
 
         if (scope.fileUploader.queue.length > 0) {
           scope.fileUploader.onCompleteAll = function () {
@@ -535,11 +540,20 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         extraControls = {};
       }
 
+      scope.addEventListener = function (name, callback) {
+        $window.addEventListener(name, callback);
+      };
+      scope.removeEventListener = function(name, callback) {
+        $window.removeEventListener(name, callback);
+      };
+
       testRunner.R = scope.R;
       testRunner.submitView = scope.submitView;
       testRunner.runWorker = scope.runWorker;
       testRunner.logClientSideError = scope.logClientSideError;
       testRunner.addExtraControl = scope.addExtraControl;
+      testRunner.addEventListener = scope.addEventListener;
+      testRunner.removeEventListener = scope.removeEventListener;
 
       var options = scope.options;
       if (settings.clientDebug)

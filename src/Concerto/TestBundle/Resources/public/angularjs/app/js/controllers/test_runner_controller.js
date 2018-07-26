@@ -37,5 +37,3 @@ testRunner.loadScripts = function (urls) {
     document.head.appendChild(script);
   });
 };
-
-testRunner.onSubmitView = function(values) {};
