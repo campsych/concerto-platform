@@ -11,7 +11,7 @@ concerto.session.restoreFlow <- function(sessionHash){
   new_c = concerto
   concerto <<- old_c
   concerto$flow <<- new_c$flow
-  concerto$promoted <<- new_c$promoted
+  concerto$globals <<- new_c$globals
 
   unlink(file)
 

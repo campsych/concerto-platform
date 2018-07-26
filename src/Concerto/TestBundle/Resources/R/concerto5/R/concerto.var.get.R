@@ -1,3 +1,3 @@
-concerto.var.get = function(name){
-    return(concerto$promoted[[name]])
+concerto.var.get = c.get = function(name){
+    return(concerto$globals[[name]])
 }

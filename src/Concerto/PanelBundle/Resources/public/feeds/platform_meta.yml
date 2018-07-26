@@ -8,6 +8,10 @@ changelog:
             changes:
                 - testRunner.addEventListener and testRunner.removeEventListener helper method
                 - submitView event
+                - beforeSubmitView event
+                - c.get alias for concerto.var.get
+                - c.set alias for concerto.var.set
+                - testRunner.queueUpload helper method
           - label: Non backwards compatible
             changes:
                 - removed testRunner.onSubmitView

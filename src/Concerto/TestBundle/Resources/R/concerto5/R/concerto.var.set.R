@@ -1,4 +1,4 @@
-concerto.var.set = function(name, value){
-    concerto$promoted[[name]] <<- value
+concerto.var.set = c.set = function(name, value){
+    concerto$globals[[name]] <<- value
     return(value)
 }

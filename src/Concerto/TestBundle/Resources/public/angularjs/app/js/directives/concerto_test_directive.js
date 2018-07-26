@@ -246,6 +246,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           return;
         }
 
+        var eventBeforeSubmitView = new CustomEvent('beforeSubmitView', {
+          detail: {
+            buttonPressed: btnName
+          }
+        });
+        $window.dispatchEvent(eventBeforeSubmitView);
+
         if (settings.clientDebug)
           console.log("submit");
 
@@ -256,6 +263,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
         var eventSubmitView = new CustomEvent('submitView', {
           detail: {
+            buttonPressed: btnName,
             values: values
           }
         });
@@ -466,13 +474,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if ($(this)[0].files.length == 0)
               return;
             var file = $(this)[0].files[0];
-            scope.fileUploader.url = settings.directory + "test/session/" + settings.hash + "/upload";
-            scope.fileUploader.formData = [{
-              node_id: settings.nodeId
-            }, {
-              name: name
-            }];
-            scope.fileUploader.addToQueue(file);
+            scope.queueUpload(name, file);
             return;
           }
           addPairToValues(vars, name, value);
@@ -546,6 +548,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       scope.removeEventListener = function(name, callback) {
         $window.removeEventListener(name, callback);
       };
+      scope.queueUpload = function(name, file) {
+        scope.fileUploader.url = settings.directory + "test/session/" + settings.hash + "/upload";
+        scope.fileUploader.formData = [{
+          name: name
+        }];
+        if(typeof(file) !== 'File') {
+          file = new File([file], name);
+        }
+        scope.fileUploader.addToQueue(file);
+      };
 
       testRunner.R = scope.R;
       testRunner.submitView = scope.submitView;
@@ -554,6 +566,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       testRunner.addExtraControl = scope.addExtraControl;
       testRunner.addEventListener = scope.addEventListener;
       testRunner.removeEventListener = scope.removeEventListener;
+      testRunner.queueUpload = scope.queueUpload;
 
       var options = scope.options;
       if (settings.clientDebug)

@@ -1,1 +1,9 @@
 {% extends "ConcertoTestBundle::base.html.twig" %}
+
+{% block head %}
+    {{ parent() }}
+
+    <script src="/bundles/concertopanel/files/audio.js"></script>
+    <script src="/bundles/concertopanel/files/question.js"></script>
+    <script src="/bundles/concertopanel/files/practice-question.js"></script>
+{% endblock %}

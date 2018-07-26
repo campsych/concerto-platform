@@ -10,7 +10,7 @@ concerto.session.unserialize <- function(response){
     close(con)
 
     concerto$cache <<- prevConcerto$cache
-    concerto$promoted <<- prevConcerto$promoted
+    concerto$globals <<- prevConcerto$globals
     concerto$templateParams <<- prevConcerto$templateParams
     concerto$flow <<- prevConcerto$flow
     concerto$lastSubmitTime <<- prevConcerto$lastSubmitTime

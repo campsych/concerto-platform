@@ -1,10 +1,10 @@
 \name{concerto.var.set}
 \alias{concerto.var.set}
 \title{
-Promoted variables
+Global variables
 }
 \description{
-Sets promoted variable value
+Sets global variable value
 }
 \usage{
 concerto.var.set(name, value)
@@ -20,7 +20,7 @@ Variable value
 \details{
 }
 \value{
-Value of promoted variable
+Value of global variable
 }
 \references{
 }
