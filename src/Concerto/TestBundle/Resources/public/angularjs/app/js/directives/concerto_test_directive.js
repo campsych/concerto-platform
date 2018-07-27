@@ -256,7 +256,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         if (settings.clientDebug)
           console.log("submit");
 
-        removeSubmitEvents()
+        removeSubmitEvents();
         clearTimer();
         var values = getControlsValues();
         hideView();

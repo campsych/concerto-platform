@@ -399,7 +399,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
     {
         $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
         $checkpointPath = realpath(dirname(__FILE__) . "/../Resources/R/checkpoint.R");
-        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
+        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files/");
         $connection = $this->getSerializedConnection();
         $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
