@@ -72,7 +72,7 @@ abstract class ASessionRunnerService
 
     public function getRDir()
     {
-        return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R");
+        return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R") . "/";
     }
 
     public function getOutputFilePath($session_hash)
@@ -87,7 +87,7 @@ abstract class ASessionRunnerService
 
     public function getPublicDirPath()
     {
-        return $this->root . "/../src/Concerto/PanelBundle/Resources/public/files/";
+        return realpath($this->root . "/../src/Concerto/PanelBundle/Resources/public/files") . "/";
     }
 
     public function getMediaUrl()
@@ -124,7 +124,7 @@ abstract class ASessionRunnerService
 
     public function getFifoDir()
     {
-        return $this->getRDir() . "/fifo";
+        return realpath($this->getRDir() . "fifo") . "/";
     }
 
     protected function checkSessionLimit($session, &$response)

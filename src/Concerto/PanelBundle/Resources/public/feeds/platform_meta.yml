@@ -15,6 +15,9 @@ changelog:
           - label: Non backwards compatible
             changes:
                 - removed testRunner.onSubmitView
+          - label: Fixes
+            changes:
+                - paths trailing slashes unification
     - version: "5.0.beta.7.2"
       description: >
         Fixes

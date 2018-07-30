@@ -387,7 +387,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
     public function getInitCheckpointDirPath()
     {
-        return $this->getRDir() . "/init_checkpoint";
+        return $this->getRDir() . "init_checkpoint";
     }
 
     private function getCheckpointInitLogPath()
@@ -399,9 +399,9 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
     {
         $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
         $checkpointPath = realpath(dirname(__FILE__) . "/../Resources/R/checkpoint.R");
-        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files/");
+        $publicDir = $this->getPublicDirPath();
         $connection = $this->getSerializedConnection();
-        $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
+        $mediaUrl = $this->getMediaUrl();
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $rscriptBinPath = $this->testRunnerSettings["rscript_exec"];
         $portFile = $this->getInitCheckpointPortPath();
@@ -482,7 +482,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
     private function getStartProcessCommand($client, $session_hash)
     {
-        $ini_path = $this->getRDir() . "/standalone.R";
+        $ini_path = $this->getRDir() . "standalone.R";
         $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         $rscript = $this->testRunnerSettings["rscript_exec"];
         $db_connection = $this->getSerializedConnection();

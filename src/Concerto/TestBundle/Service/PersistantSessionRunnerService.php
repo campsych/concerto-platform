@@ -226,7 +226,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "rLogPath" => $this->getROutputFilePath($session_hash)
         ));
 
-        $path = $this->getFifoDir() . "/" . $session_hash . ".fifo";
+        $path = $this->getFifoDir() . $session_hash . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
@@ -251,7 +251,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
     private function getCommand($client, $session_hash)
     {
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
-        $ini_path = $this->getRDir() . "/standalone.R";
+        $ini_path = $this->getRDir() . "standalone.R";
         $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         $max_idle_time = $this->testRunnerSettings["max_idle_time"];
         $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
