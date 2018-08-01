@@ -12,7 +12,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           url: settings.directory + "test/session/" + lastResponse.hash + "/kill",
           async: false,
           data: {
-            node_id: settings.nodeId
           }
         });
       });
@@ -134,7 +133,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         if (settings.keepAliveInterval > 0) {
           keepAliveTimerPromise = $interval(function () {
             $http.post(settings.directory + "test/session/" + lastResponse.hash + "/keepalive", {
-              node_id: settings.nodeId
             }).success(function (response) {
               if (settings.clientDebug)
                 console.log("keep-alive ping");
@@ -172,7 +170,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
 
         $http.post(path, {
-          node_id: settings.nodeId
         }).success(function (response) {
           if (settings.clientDebug)
             console.log(response);
@@ -220,7 +217,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         values["bgWorker"] = name;
 
         $http.post(settings.directory + "test/session/" + settings.hash + "/worker", {
-          node_id: settings.nodeId,
           values: values
         }).success(function (response) {
           if (settings.clientDebug)
@@ -278,7 +274,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           angular.merge(values, passedVals);
         }
         $http.post(settings.directory + "test/session/" + settings.hash + "/submit", {
-          node_id: settings.nodeId,
           values: values
         }).success(function (response) {
           if (settings.clientDebug)

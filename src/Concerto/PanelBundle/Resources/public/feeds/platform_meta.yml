@@ -1,5 +1,12 @@
-version: "5.0.beta.7.2"
+version: "5.0.beta.7.3"
 changelog:
+    - version: "5.0.beta.7.3"
+      description: >
+        Exposed test runner methods for API
+      categories:
+          - label: API
+            changes:
+                - exposed test runner methods
     - version: "5.0.beta.7.2"
       description: >
         Fixes
