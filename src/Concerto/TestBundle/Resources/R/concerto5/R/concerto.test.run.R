@@ -9,8 +9,7 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
 
     if (dim(test$variables)[1] > 0) {
         for (i in 1 : dim(test$variables)[1]) {
-            if (!exists(test$variables[i, "name"]) &&
-                !is.null(test$variables[i, "value"]) &&
+            if (!is.null(test$variables[i, "value"]) &&
                 test$variables[i, "type"] == 0) {
 
                 assign(test$variables[i, "name"], test$variables[i, "value"], envir = testenv)
@@ -21,8 +20,35 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
         }
     }
 
+    if(!(".inputs" %in% ls(params, all.names=T))) {
+        params[[".inputs"]] = ls(params, all.names=T)
+    }
+    if(!(".returns" %in% ls(params, all.names=T))) {
+        params[[".returns"]] = c()
+        if (dim(test$variables)[1] > 0) {
+            for (i in 1 : dim(test$variables)[1]) {
+                if (test$variables[i, "type"] == 1) {
+                    params[[".returns"]] = c(params[[".returns"]], test$variables[i, "name"])
+                }
+            }
+        }
+    }
+    if(!(".branches" %in% ls(params, all.names=T))) {
+        params[[".branches"]] = c()
+        if (dim(test$variables)[1] > 0) {
+            for (i in 1 : dim(test$variables)[1]) {
+                if (test$variables[i, "type"] == 2) {
+                    params[[".branches"]] = c(params[[".branches"]], test$variables[i, "name"])
+                }
+            }
+        }
+    }
+    if(!(".dynamicInputs" %in% ls(params, all.names=T))) { params[".dynamicInputs"] = list(NULL) }
+    if(!(".dynamicReturns" %in% ls(params, all.names=T))) { params[".dynamicReturns"] = list(NULL) }
+    if(!(".dynamicBranches" %in% ls(params, all.names=T))) { params[".dynamicBranches"] = list(NULL) }
+
     if (length(params) > 0) {
-        for (param in ls(params)) {
+        for (param in ls(params, all.names=T)) {
             assign(param, params[[param]], envir = testenv)
         }
     }
@@ -116,43 +142,59 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
             r = list()
 
             #PARAMS
-            node_params = list()
+            node_params = list(
+                .inputs=c(),
+                .returns=c(),
+                .branches=c(),
+                .dynamicInputs=c(),
+                .dynamicReturns=c(),
+                .dynamicBranches=c()
+            )
             input_type = 0
-            dynamicPorts = list()
+            dynamicInputs = list()
+            dynamicReturns = c()
+            dynamicBranches = c()
 
-            if (node$type == 0 || node$type == 2) {
-                for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
-                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                    if (port$node_id == node$id && port$type == input_type && port$dynamic == 1) {
-                        node_params[[port$name]] = evalPortValue(port)
-                        dynamicPorts[[port$name]] = node_params[[port$name]]
+            for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
+                port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                if (port$node_id != node$id) next
+
+                if (port$type == input_type && port$dynamic == 1) {
+                    node_params[[port$name]] = evalPortValue(port)
+                    dynamicInputs[[port$name]] = node_params[[port$name]]
+                    node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
+                    node_params[[".dynamicInputs"]] = c(node_params[[".dynamicInputs"]], port$name)
+                } else if (port$type == 1) {
+                    if (port$dynamic == 1) {
+                        dynamicReturns = c(dynamicReturns, port$name)
+                        node_params[[".dynamicReturns"]] = c(node_params[[".dynamicReturns"]], port$name)
                     }
+                    node_params[[".returns"]] = c(node_params[[".returns"]], port$name)
+                } else if (port$type == 2) {
+                    if (port$dynamic == 1) {
+                        dynamicBranches = c(dynamicBranches, port$name)
+                        node_params[[".dynamicBranches"]] = c(node_params[[".dynamicBranches"]], port$name)
+                    }
+                    node_params[[".branches"]] = c(node_params[[".branches"]], port$name)
                 }
-                for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
-                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                    if (port$node_id == node$id && port$type == input_type && port$dynamic == 0) {
-                        node_params[[port$name]] = evalPortValue(port, dynamicPorts)
-                    }
+            }
+            for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
+                port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                if (port$node_id == node$id && port$type == input_type && port$dynamic == 0) {
+                    node_params[[port$name]] = evalPortValue(port, dynamicInputs)
+                    node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
                 }
             }
 
             #EXECUTION, RETURNS
             if (node$type == 0) {
-                extraReturns = c()
-                for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
-                    port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                    if (port$node_id == node$id && port$type == 1 && port$dynamic == 1) {
-                        extraReturns = c(extraReturns, port$name)
-                    }
-                }
-
                 if (ongoingResumeFlowIndex != -1 &&
                     length(concerto$flow) > flowIndex &&
                     concerto$flow[[flowIndex]]$type == 2 &&
                     concerto$flow[[flowIndex + 1]]$id == node$sourceTest_id) {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=extraReturns, ongoingResumeFlowIndex = flowIndex + 1)
+                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=dynamicReturns, ongoingResumeFlowIndex = flowIndex + 1)
                 } else {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=extraReturns)
+                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=dynamicReturns)
                 }
 
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {

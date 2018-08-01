@@ -2,8 +2,11 @@ version: "5.0.beta.8.0"
 changelog:
     - version: "5.0.beta.8.0"
       description: >
-        Exposed test runner methods for API
+        New features
       categories:
+          - label: R package
+            changes:
+                - added .inputs, .returns, .branches, .dynamicInputs, .dynamicReturns and .dynamicBranches variable to test env
           - label: API
             changes:
                 - exposed test runner methods
