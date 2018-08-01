@@ -2,8 +2,11 @@ version: "5.0.beta.8.0"
 changelog:
     - version: "5.0.beta.8.0"
       description: >
-        Improvements
+        Exposed test runner methods for API
       categories:
+          - label: API
+            changes:
+                - exposed test runner methods
           - label: Improvements
             changes:
                 - testRunner.addEventListener and testRunner.removeEventListener helper method
