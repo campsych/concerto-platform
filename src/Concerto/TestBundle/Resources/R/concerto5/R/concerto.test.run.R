@@ -63,10 +63,17 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
         if (ongoingResumeFlowIndex != -1) {
             flowIndex = ongoingResumeFlowIndex
         } else {
-            concerto$flow[[flowIndex]] <<- list()
-            concerto$flow[[flowIndex]]$id <<- test$id
-            concerto$flow[[flowIndex]]$type <<- test$type
-            concerto$flow[[flowIndex]]$params <<- params
+            concerto$flow[[flowIndex]] <<- list(
+                id = test$id,
+                type = test$type,
+                params = params,
+                globals = list()
+            )
+            if (length(params) > 0) {
+                for (param in ls(params, all.names=T)) {
+                    c.set(param,  params[[param]])
+                }
+            }
         }
     }
 
@@ -90,7 +97,7 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
         if(length(extraReturns) > 0) {
              for (i in 1 : length(extraReturns)) {
                 if (exists(extraReturns[i], envir = testenv)) {
-                    r[extraReturns[i]] <- get(extraReturns[i], envir = testenv)
+                    r[[extraReturns[i]]] <- get(extraReturns[i], envir = testenv)
                 }
             }
         }
@@ -317,6 +324,15 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
             concerto$flow[[flowIndex]]$nextNode <<- NULL
 
             r = runNode(node)
+        }
+    }
+    if(length(extraReturns) > 0) {
+        for (i in 1 : length(extraReturns)) {
+            name = extraReturns[i]
+            val = c.get(name)
+            if (is.null(r[[name]]) && !is.null(val)) {
+                r[[name]] <- val
+            }
         }
     }
     concerto$flow[[flowIndex]] <<- NULL
