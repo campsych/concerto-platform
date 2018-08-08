@@ -167,8 +167,14 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
                 if (port$node_id != node$id) next
 
                 if (port$type == input_type && port$dynamic == 1) {
-                    node_params[[port$name]] = evalPortValue(port)
-                    dynamicInputs[[port$name]] = node_params[[port$name]]
+                    portValue = evalPortValue(port)
+                    if(is.null(portValue)) {
+                        node_params[port$name] = list(NULL)
+                        dynamicInputs[port$name] = list(NULL)
+                    } else {
+                        node_params[[port$name]] = portValue
+                        dynamicInputs[[port$name]] = portValue
+                    }
                     node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
                     node_params[[".dynamicInputs"]] = c(node_params[[".dynamicInputs"]], port$name)
                 } else if (port$type == 1) {
@@ -188,7 +194,12 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
             for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
                 port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                 if (port$node_id == node$id && port$type == input_type && port$dynamic == 0) {
-                    node_params[[port$name]] = evalPortValue(port, dynamicInputs)
+                    portValue = evalPortValue(port, dynamicInputs)
+                    if(is.null(portValue)) {
+                        node_params[port$name] = list(NULL)
+                    } else {
+                        node_params[[port$name]] = portValue
+                    }
                     node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
                 }
             }
@@ -331,7 +342,11 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
             name = extraReturns[i]
             val = c.get(name)
             if (is.null(r[[name]]) && !is.null(val)) {
-                r[[name]] <- val
+                if(is.null(val)) {
+                    r[name] <- list(NULL)
+                } else {
+                    r[[name]] <- val
+                }
             }
         }
     }

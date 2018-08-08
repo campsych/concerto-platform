@@ -1,9 +1,17 @@
 concerto.var.set = c.set = function(name, value, global=F){
     if(global) {
-        concerto$globals[[name]] <<- value
+        if(is.null(value)) {
+            concerto$globals[name] <<- list(NULL)
+        } else {
+            concerto$globals[[name]] <<- value
+        }
     } else {
         flowIndex = length(concerto$flow)
-        concerto$flow[[flowIndex]]$globals[[name]] <<- value
+        if(is.null(value)) {
+            concerto$flow[[flowIndex]]$globals[name] <<- list(NULL)
+        } else {
+            concerto$flow[[flowIndex]]$globals[[name]] <<- value
+        }
     }
     return(value)
 }

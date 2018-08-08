@@ -17,5 +17,6 @@ concerto.template.show,
 concerto.test.get,
 concerto.test.run,
 concerto.var.get,
+concerto.var.getDynamicInputs,
 concerto.var.set
 )

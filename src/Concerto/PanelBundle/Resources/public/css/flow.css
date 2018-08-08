@@ -260,3 +260,8 @@
 ._jsPlumb_hover._jsPlumb_connector {
   z-index: 9;
 }
+
+._jsPlumb_hover._jsPlumb_connector path {
+  stroke: black;
+  stroke-width: 4;
+}

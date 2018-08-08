@@ -1,5 +1,4 @@
 concerto.test.get = function(testId, cache=F, includeSubObjects=F){
-  concerto.log(testId, "getting test")
   test = concerto$cache$tests[[as.character(testId)]]
   if(!is.null(test)) {
     if(includeSubObjects && is.null(test$variables)) {
