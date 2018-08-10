@@ -9,6 +9,8 @@ concerto.run = function(workingDir, client, sessionHash, response = NULL) {
     concerto$session$previousStatus <<- concerto$session$status
     concerto$session$status <<- STATUS_RUNNING
     concerto$session$params <<- fromJSON(concerto$session$params)
+    concerto$mainTest <<- list(id=concerto$session["test_id"])
+    concerto$resuming <<- F
 
     tryCatch({
         setwd(concerto$workingDir)
@@ -16,16 +18,16 @@ concerto.run = function(workingDir, client, sessionHash, response = NULL) {
 
         testId = concerto$session["test_id"]
         params = concerto$session$params
-        ongoingResumeFlowIndex = -1
-
         if(concerto$runnerType == RUNNER_SERIALIZED && concerto.session.unserialize(response)) {
+
+            concerto$resuming <<- T
+            concerto$resumeIndex <<- 0
             testId = concerto$flow[[1]]$id
             params = concerto$flow[[1]]$params
-            ongoingResumeFlowIndex = 1
+            concerto.test.run(testId, params)
+        } else {
+            concerto.test.run(testId, params)
         }
-
-        concerto.test.run(testId, params, mainTest=TRUE, ongoingResumeFlowIndex=ongoingResumeFlowIndex)
-
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
     }, error = function(e) {
         concerto.log(e)

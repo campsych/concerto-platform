@@ -1,68 +1,63 @@
 concerto.test.run <-
-function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
+function(testId, params=list(), extraReturns=c()) {
     test <- concerto.test.get(testId, cache=F, includeSubObjects=T)
     if (is.null(test)) stop(paste("Test #", testId, " not found!", sep = ''))
     concerto.log(paste0("running test #", test$id, ": ", test$name, " ..."))
 
+    getParams = function(params) {
+        if (dim(test$variables)[1] > 0) {
+            for (i in 1 : dim(test$variables)[1]) {
+                if (!is.null(test$variables[i, "value"]) &&
+                    test$variables[i, "type"] == 0) {
+
+                    if(!(test$variables[i, "name"] %in% names(params))) {
+                        params[[test$variables[i, "name"]]] = test$variables[i, "value"]
+                    }
+                }
+            }
+        }
+
+        if(!(".inputs" %in% ls(params, all.names=T))) {
+            params[[".inputs"]] = ls(params, all.names=T)
+        }
+        if(!(".returns" %in% ls(params, all.names=T))) {
+            params[[".returns"]] = c()
+            if (dim(test$variables)[1] > 0) {
+                for (i in 1 : dim(test$variables)[1]) {
+                    if (test$variables[i, "type"] == 1) {
+                        params[[".returns"]] = c(params[[".returns"]], test$variables[i, "name"])
+                    }
+                }
+            }
+        }
+        if(!(".branches" %in% ls(params, all.names=T))) {
+            params[[".branches"]] = c()
+            if (dim(test$variables)[1] > 0) {
+                for (i in 1 : dim(test$variables)[1]) {
+                    if (test$variables[i, "type"] == 2) {
+                        params[[".branches"]] = c(params[[".branches"]], test$variables[i, "name"])
+                    }
+                }
+            }
+        }
+        if(!(".dynamicInputs" %in% ls(params, all.names=T))) { params[".dynamicInputs"] = list(NULL) }
+        if(!(".dynamicReturns" %in% ls(params, all.names=T))) { params[".dynamicReturns"] = list(NULL) }
+        if(!(".dynamicBranches" %in% ls(params, all.names=T))) { params[".dynamicBranches"] = list(NULL) }
+        return(params)
+    }
+
     r <- list()
-    testenv = new.env()
-
-    if (dim(test$variables)[1] > 0) {
-        for (i in 1 : dim(test$variables)[1]) {
-            if (!is.null(test$variables[i, "value"]) &&
-                test$variables[i, "type"] == 0) {
-
-                assign(test$variables[i, "name"], test$variables[i, "value"], envir = testenv)
-                if(!(test$variables[i, "name"] %in% names(params))) {
-                    params[[test$variables[i, "name"]]] = test$variables[i, "value"]
-                }
-            }
-        }
-    }
-
-    if(!(".inputs" %in% ls(params, all.names=T))) {
-        params[[".inputs"]] = ls(params, all.names=T)
-    }
-    if(!(".returns" %in% ls(params, all.names=T))) {
-        params[[".returns"]] = c()
-        if (dim(test$variables)[1] > 0) {
-            for (i in 1 : dim(test$variables)[1]) {
-                if (test$variables[i, "type"] == 1) {
-                    params[[".returns"]] = c(params[[".returns"]], test$variables[i, "name"])
-                }
-            }
-        }
-    }
-    if(!(".branches" %in% ls(params, all.names=T))) {
-        params[[".branches"]] = c()
-        if (dim(test$variables)[1] > 0) {
-            for (i in 1 : dim(test$variables)[1]) {
-                if (test$variables[i, "type"] == 2) {
-                    params[[".branches"]] = c(params[[".branches"]], test$variables[i, "name"])
-                }
-            }
-        }
-    }
-    if(!(".dynamicInputs" %in% ls(params, all.names=T))) { params[".dynamicInputs"] = list(NULL) }
-    if(!(".dynamicReturns" %in% ls(params, all.names=T))) { params[".dynamicReturns"] = list(NULL) }
-    if(!(".dynamicBranches" %in% ls(params, all.names=T))) { params[".dynamicBranches"] = list(NULL) }
-
-    if (length(params) > 0) {
-        for (param in ls(params, all.names=T)) {
-            assign(param, params[[param]], envir = testenv)
-        }
-    }
-
-    if (mainTest) {
-        concerto$mainTest <<- list(id=test$id)
-    }
-
     flowIndex = length(concerto$flow)
-    if (test$type != 1) {
-        flowIndex = flowIndex + 1
-        if (ongoingResumeFlowIndex != -1) {
-            flowIndex = ongoingResumeFlowIndex
-        } else {
+    if(concerto$resuming) {
+        if (test$type != 1) {
+            concerto$resumeIndex <<- concerto$resumeIndex + 1
+        }
+        flowIndex = concerto$resumeIndex
+        params = concerto$flow[[flowIndex]]$params
+    } else {
+        params = getParams(params)
+        if (test$type != 1) {
+            flowIndex = flowIndex + 1
             concerto$flow[[flowIndex]] <<- list(
                 id = test$id,
                 type = test$type,
@@ -79,9 +74,21 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
 
     if (test$type == 1) {
         #wizard
-        return(concerto.test.run(test$sourceTest$id, params, extraReturns, mainTest, ongoingResumeFlowIndex))
+        return(concerto.test.run(test$sourceTest$id, params, extraReturns))
     } else if (test$type == 0) {
         #code
+
+        getCodeTestEnv = function(params) {
+            testenv = new.env()
+            if (length(params) > 0) {
+                for (param in ls(params, all.names=T)) {
+                    assign(param, params[[param]], envir = testenv)
+                }
+            }
+            return(testenv)
+        }
+
+        testenv = getCodeTestEnv(params)
         eval(parse(text = test$code), envir = testenv)
 
         if (dim(test$variables)[1] > 0) {
@@ -206,14 +213,7 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
 
             #EXECUTION, RETURNS
             if (node$type == 0) {
-                if (ongoingResumeFlowIndex != -1 &&
-                    length(concerto$flow) > flowIndex &&
-                    concerto$flow[[flowIndex]]$type == 2 &&
-                    concerto$flow[[flowIndex + 1]]$id == node$sourceTest_id) {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=dynamicReturns, ongoingResumeFlowIndex = flowIndex + 1)
-                } else {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=dynamicReturns)
-                }
+                node_returns = concerto.test.run(node$sourceTest_id, params = node_params, extraReturns=dynamicReturns)
 
                 for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
@@ -291,7 +291,7 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
         }
 
         #persist flow
-        if (ongoingResumeFlowIndex == -1) {
+        if(!concerto$resuming) {
             concerto$flow[[flowIndex]]$nodes <<- list()
             concerto$flow[[flowIndex]]$connections <<- list()
             concerto$flow[[flowIndex]]$ports <<- list()
@@ -326,14 +326,16 @@ function(testId, params=list(), extraReturns=c(), mainTest=FALSE, ongoingResumeF
             concerto$flow[[flowIndex]]$nextNode <<- beginNode
         } else {
             concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$currentNode
+            if(length(concerto$flow) == flowIndex + 1) {
+                concerto$resuming <<- F
+                concerto$flow[[flowIndex + 1]] <<- NULL
+            }
         }
-
         while (!is.null(concerto$flow[[flowIndex]]$nextNode)) {
             node = concerto$flow[[flowIndex]]$nextNode
 
             concerto$flow[[flowIndex]]$currentNode <<- node
             concerto$flow[[flowIndex]]$nextNode <<- NULL
-
             r = runNode(node)
         }
     }

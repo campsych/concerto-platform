@@ -16,9 +16,6 @@ Test ID or name.
   \item{params}{
 Named list of parameters you want to pass to the test logic.
 }
-  \item{mainTest}{
-Logical. If TRUE will set record test final return variables in session.
-}
 }
 \details{
 }
