@@ -20,16 +20,14 @@ class TestRunnerController
     private $logger;
     private $testRunnerSettings;
     private $environment;
-    private $session;
 
-    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $testRunnerSettings, SessionInterface $session)
+    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $testRunnerSettings)
     {
         $this->templating = $templating;
         $this->testRunnerService = $testRunnerService;
         $this->logger = $logger;
         $this->testRunnerSettings = $testRunnerSettings;
         $this->environment = $environment;
-        $this->session = $session;
     }
 
     /**
@@ -38,13 +36,14 @@ class TestRunnerController
      * @Route("/test/{test_slug}/{params}", name="test_runner_start", defaults={"test_name":null,"params":"{}","debug":false})
      * @Route("/test_n/{test_name}/{params}", name="test_runner_start_name", defaults={"test_slug":null,"params":"{}"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $test_slug
      * @param string $test_name
      * @param string $params
      * @param boolean $debug
      * @return Response
      */
-    public function startNewTestAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
+    public function startNewTestAction(Request $request, SessionInterface $session, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
@@ -52,7 +51,7 @@ class TestRunnerController
         if ($locale && $locale != $request->getLocale()) {
             $request->setLocale($locale);
             $request->setDefaultLocale($locale);
-            $request->getSession()->set("_locale", $locale);
+            $session->set("_locale", $locale);
             return new RedirectResponse($request->getUri());
         }
 
@@ -80,13 +79,14 @@ class TestRunnerController
     /**
      * @Route("/admin/test/{test_slug}/debug/{params}", name="test_runner_start_debug", defaults={"params":"{}"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $test_slug
      * @param string $params
      * @return Response
      */
-    public function startNewDebugTestAction(Request $request, $test_slug, $params = "{}")
+    public function startNewDebugTestAction(Request $request, SessionInterface $session, $test_slug, $params = "{}")
     {
-        return $this->startNewTestAction($request, $test_slug, null, $params, true);
+        return $this->startNewTestAction($request, $session, $test_slug, null, $params, true);
     }
 
     /**
@@ -94,13 +94,14 @@ class TestRunnerController
      * @Route("/test_n/{test_name}/session/start/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false})
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param $test_slug
      * @param $test_name
      * @param string $params
      * @param bool $debug
      * @return RedirectResponse|Response
      */
-    public function startNewSessionAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
+    public function startNewSessionAction(Request $request, SessionInterface $session, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $debug");
 
@@ -115,7 +116,7 @@ class TestRunnerController
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
 
-        $this->session->set("templateStartTime", microtime(true));
+        $session->set("templateStartTime", microtime(true));
         return $response;
     }
 
@@ -123,23 +124,25 @@ class TestRunnerController
      * @Route("/admin/test/{test_slug}/session/start/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"})
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $test_slug
      * @param string $params
      * @return RedirectResponse|Response
      */
-    public function startNewDebugSessionAction(Request $request, $test_slug, $params = "{}")
+    public function startNewDebugSessionAction(Request $request, SessionInterface $session, $test_slug, $params = "{}")
     {
-        return $this->startNewSessionAction($request, $test_slug, null, $params, true);
+        return $this->startNewSessionAction($request, $session, $test_slug, null, $params, true);
     }
 
     /**
      * @Route("/test/session/{session_hash}/submit", name="test_runner_session_submit")
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $session_hash
      * @return RedirectResponse|Response
      */
-    public function submitToSessionAction(Request $request, $session_hash)
+    public function submitToSessionAction(Request $request, SessionInterface $session, $session_hash)
     {
         $time = microtime(true);
 
@@ -155,7 +158,7 @@ class TestRunnerController
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
 
-        $this->session->set("templateStartTime", microtime(true));
+        $session->set("templateStartTime", microtime(true));
         return $response;
     }
 
@@ -163,10 +166,11 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/worker", name="test_runner_worker")
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $session_hash
      * @return RedirectResponse|Response
      */
-    public function backgroundWorkerAction(Request $request, $session_hash)
+    public function backgroundWorkerAction(Request $request, SessionInterface $session, $session_hash)
     {
         $time = microtime(true);
 
@@ -189,10 +193,11 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/kill", name="test_runner_session_kill")
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param $session_hash
      * @return RedirectResponse|Response
      */
-    public function killSessionAction(Request $request, $session_hash)
+    public function killSessionAction(Request $request, SessionInterface $session, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
@@ -211,10 +216,11 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/keepalive", name="test_runner_session_keepalive")
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $session_hash
      * @return RedirectResponse|Response
      */
-    public function keepAliveSessionAction(Request $request, $session_hash)
+    public function keepAliveSessionAction(Request $request, SessionInterface $session, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
@@ -233,10 +239,11 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/upload", name="test_runner_upload_file")
      * @Method(methods={"POST","OPTIONS"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $session_hash
      * @return RedirectResponse|Response
      */
-    public function uploadFileAction(Request $request, $session_hash)
+    public function uploadFileAction(Request $request, SessionInterface $session, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
@@ -255,10 +262,11 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/log", name="test_runner_log_error")
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $session_hash
      * @return RedirectResponse|Response
      */
-    public function logErrorAction(Request $request, $session_hash)
+    public function logErrorAction(Request $request, SessionInterface $session, $session_hash)
     {
         $result = $this->testRunnerService->logError(
             $session_hash,

@@ -18,13 +18,11 @@ class TestRunnerController
 
     private $service;
     private $administrationService;
-    private $session;
 
-    public function __construct(TestRunnerService $service, AdministrationService $administrationService, SessionInterface $session)
+    public function __construct(TestRunnerService $service, AdministrationService $administrationService)
     {
         $this->service = $service;
         $this->administrationService = $administrationService;
-        $this->session = $session;
     }
 
     /**
@@ -32,13 +30,14 @@ class TestRunnerController
      * @Route("/test_n/{test_name}/session/start/{params}", defaults={"test_slug":null,"params":"{}","debug":false})
      * @Method({"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param $test_slug
      * @param $test_name
      * @param string $params
      * @param bool $debug
      * @return Response
      */
-    public function startNewSessionAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
+    public function startNewSessionAction(Request $request, SessionInterface $session, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
@@ -61,7 +60,7 @@ class TestRunnerController
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
 
-        $this->session->set("templateStartTime", microtime(true));
+        $session->set("templateStartTime", microtime(true));
         return $response;
     }
 
@@ -69,10 +68,11 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/submit")
      * @Method(methods={"POST"})
      * @param Request $request
+     * @param SessionInterface $session
      * @param string $session_hash
      * @return Response
      */
-    public function submitToSessionAction(Request $request, $session_hash)
+    public function submitToSessionAction(Request $request, SessionInterface $session, $session_hash)
     {
         $time = microtime(true);
         $content = json_decode($request->getContent(), true);
@@ -89,7 +89,7 @@ class TestRunnerController
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
 
-        $this->session->set("templateStartTime", microtime(true));
+        $session->set("templateStartTime", microtime(true));
         return $response;
     }
 
