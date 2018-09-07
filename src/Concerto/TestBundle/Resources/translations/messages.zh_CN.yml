@@ -4,7 +4,6 @@ ignition.browser: "浏览器:"
 ignition.time: "时间:" 
 ignition.browser.notsupported: 浏览器版本不予支持。 请将浏览器升级到Internet Explorer 9或更高版本，或切换到其他浏览器，例如Chrome或Firefox。
 ignition.browser.potentionallynotsupported: 如果此消息不会立即消失，您可能需要使用其他浏览器。
-default.template: 
-    error: 遇到错误。停止运行。
+default.template:
     finished: 测验完成。
     loading: 请等待……

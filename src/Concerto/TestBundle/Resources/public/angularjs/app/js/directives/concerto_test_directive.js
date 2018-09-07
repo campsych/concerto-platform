@@ -11,8 +11,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           type: "POST",
           url: settings.directory + "test/session/" + lastResponse.hash + "/kill",
           async: false,
-          data: {
-          }
+          data: {}
         });
       });
 
@@ -43,7 +42,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var SOURCE_TEST_NODE = 2;
       var settings = angular.extend({
         debug: false,
-        clientDebug: false,
+        clientDebug: true,
         params: null,
         directory: "/",
         testSlug: null,
@@ -51,7 +50,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         hash: null,
         unresumableHtml: $templateCache.get("unresumable_template.html"),
         finishedHtml: $templateCache.get("finished_template.html"),
-        errorHtml: $templateCache.get("error_template.html"),
+        testErrorHtml: $templateCache.get("test_error_template.html"),
+        serverErrorHtml: $templateCache.get("server_error_template.html"),
+        clientErrorHtml: $templateCache.get("client_error_template.html"),
         sessionLimitReachedHtml: $templateCache.get("session_limit_reached_template.html"),
         testNotFoundHtml: $templateCache.get("test_not_found_template.html"),
         sessionLostHtml: $templateCache.get("session_lost_template.html"),
@@ -132,8 +133,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           console.log("start keep alive (" + settings.keepAliveInterval + ")");
         if (settings.keepAliveInterval > 0) {
           keepAliveTimerPromise = $interval(function () {
-            $http.post(settings.directory + "test/session/" + lastResponse.hash + "/keepalive", {
-            }).success(function (response) {
+            $http.post(settings.directory + "test/session/" + lastResponse.hash + "/keepalive", {}).success(function (response) {
               if (settings.clientDebug)
                 console.log("keep-alive ping");
               if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || response.code !== RESPONSE_KEEPALIVE_CHECKIN)
@@ -169,8 +169,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
         }
 
-        $http.post(path, {
-        }).success(function (response) {
+        $http.post(path, {}).success(function (response) {
           if (settings.clientDebug)
             console.log(response);
           if (settings.debug && response.debug)
@@ -312,6 +311,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if (settings.clientDebug)
               console.log("connection failed");
             showConnectionProblems(btnName, isTimeout, passedVals, values);
+          } else if (status >= 500 && status < 600) {
+            if (settings.clientDebug)
+              console.log("server error");
+            isViewReady = true;
+            showView(settings.serverErrorHtml);
+          } else if (status >= 400 && status < 500) {
+            if (settings.clientDebug)
+              console.log("client error");
+            isViewReady = true;
+            showView(settings.clientErrorHtml);
           }
         });
       }
@@ -347,57 +356,60 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
       }
 
-      function showView() {
+      function showView(content) {
         if (settings.clientDebug)
           console.log("showView (" + displayState + ")");
         if (displayState === DISPLAY_LOADER_SHOWN) {
-          hideLoader();
+          hideLoader(content);
         }
         if (displayState === DISPLAY_VIEW_HIDDEN || displayState === DISPLAY_LOADER_HIDDEN) {
 
           var head = null;
           var css = "";
           var js = "";
-          var html = "";
+          var html = (content != null) ? content : "";
           clearExtraControlsValues();
-          switch (lastResponse.code) {
-            case RESPONSE_VIEW_TEMPLATE:
-            case RESPONSE_VIEW_FINAL_TEMPLATE:
-              css = lastResponse.data.templateCss ? lastResponse.data.templateCss.trim() : "";
-              js = lastResponse.data.templateJs ? lastResponse.data.templateJs.trim() : "";
-              html = lastResponse.data.templateHtml ? lastResponse.data.templateHtml.trim() : "";
-              head = lastResponse.data.templateHead ? lastResponse.data.templateHead.trim() : "";
-              break;
-            case RESPONSE_AUTHENTICATION_FAILED:
-            case RESPONSE_ERROR:
-              html = settings.errorHtml;
-              break;
-            case RESPONSE_FINISHED:
-              html = settings.finishedHtml;
-              break;
-            case RESPONSE_UNRESUMABLE:
-              html = settings.unresumableHtml;
-              break;
-            case RESPONSE_SESSION_LIMIT_REACHED:
-              html = settings.sessionLimitReachedHtml;
-              break;
-            case RESPONSE_TEST_NOT_FOUND:
-              html = settings.testNotFoundHtml;
-              break;
-            case RESPONSE_SESSION_LOST:
-              html = settings.sessionLostHtml;
-              break;
+
+          if (content == null) {
+            switch (lastResponse.code) {
+              case RESPONSE_VIEW_TEMPLATE:
+              case RESPONSE_VIEW_FINAL_TEMPLATE:
+                css = lastResponse.data.templateCss ? lastResponse.data.templateCss.trim() : "";
+                js = lastResponse.data.templateJs ? lastResponse.data.templateJs.trim() : "";
+                html = lastResponse.data.templateHtml ? lastResponse.data.templateHtml.trim() : "";
+                head = lastResponse.data.templateHead ? lastResponse.data.templateHead.trim() : "";
+                break;
+              case RESPONSE_AUTHENTICATION_FAILED:
+              case RESPONSE_ERROR:
+                html = settings.testErrorHtml;
+                break;
+              case RESPONSE_FINISHED:
+                html = settings.finishedHtml;
+                break;
+              case RESPONSE_UNRESUMABLE:
+                html = settings.unresumableHtml;
+                break;
+              case RESPONSE_SESSION_LIMIT_REACHED:
+                html = settings.sessionLimitReachedHtml;
+                break;
+              case RESPONSE_TEST_NOT_FOUND:
+                html = settings.testNotFoundHtml;
+                break;
+              case RESPONSE_SESSION_LOST:
+                html = settings.sessionLostHtml;
+                break;
+            }
+
+            if (typeof(lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
+              scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
+            }
+
+            if (head != null && head.trim() !== "") {
+              angular.element("head").append($compile(head)(scope));
+            }
           }
+
           displayState = DISPLAY_VIEW_SHOWN;
-
-          if (typeof(lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
-            scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
-          }
-
-          if (head != null && head.trim() !== "") {
-            angular.element("head").append($compile(head)(scope));
-          }
-
           scope.html = joinHtml(css, js, html);
         }
       }
@@ -429,11 +441,11 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         scope.html = settings.loaderHtml;
       }
 
-      function hideLoader() {
+      function hideLoader(content) {
         if (settings.clientDebug)
           console.log("hideLoader");
         displayState = DISPLAY_LOADER_HIDDEN;
-        showView();
+        showView(content);
       }
 
       function getControlsValues() {
@@ -540,15 +552,15 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       scope.addEventListener = function (name, callback) {
         $window.addEventListener(name, callback);
       };
-      scope.removeEventListener = function(name, callback) {
+      scope.removeEventListener = function (name, callback) {
         $window.removeEventListener(name, callback);
       };
-      scope.queueUpload = function(name, file) {
+      scope.queueUpload = function (name, file) {
         scope.fileUploader.url = settings.directory + "test/session/" + settings.hash + "/upload";
         scope.fileUploader.formData = [{
           name: name
         }];
-        if(typeof(file) !== 'File') {
+        if (typeof(file) !== 'File') {
           file = new File([file], name);
         }
         scope.fileUploader.addToQueue(file);
