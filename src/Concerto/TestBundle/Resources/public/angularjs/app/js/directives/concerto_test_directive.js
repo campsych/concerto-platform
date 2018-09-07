@@ -42,7 +42,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var SOURCE_TEST_NODE = 2;
       var settings = angular.extend({
         debug: false,
-        clientDebug: true,
+        clientDebug: false,
         params: null,
         directory: "/",
         testSlug: null,
