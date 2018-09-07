@@ -189,6 +189,18 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
 
           showView();
+        }).error(function(error, status) {
+          if (status >= 500 && status < 600) {
+            if (settings.clientDebug)
+              console.log("server error");
+            isViewReady = true;
+            showView(settings.serverErrorHtml);
+          } else if (status >= 400 && status < 500) {
+            if (settings.clientDebug)
+              console.log("client error");
+            isViewReady = true;
+            showView(settings.clientErrorHtml);
+          }
         });
       }
 
