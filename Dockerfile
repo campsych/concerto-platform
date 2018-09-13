@@ -58,6 +58,13 @@ RUN mkdir -p /usr/src/dmtcp \
  && cd /usr/src/dmtcp \
  && git clone -b master https://github.com/dmtcp/dmtcp.git /usr/src/dmtcp \
  && ./configure --prefix=/usr && make -j 2 && make install
+
+RUN echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/backports.list \
+ && apt-get update -y \
+ && apt-get install -y python-certbot-nginx -t stretch-backports \
+ && mkdir -p /var/www/html \
+ && chown -R www-data:www-data /var/www/html \
+ && crontab -l | { cat; echo "0 0 10 * * /usr/bin/certbot renew"; } | crontab -
  
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
