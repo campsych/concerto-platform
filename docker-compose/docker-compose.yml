@@ -36,9 +36,9 @@ services:
         - ./concerto/php/php.ini:/usr/local/etc/php/php.ini
         - ./concerto/nginx/nginx.conf:/etc/nginx/nginx.conf
         - ./concerto/nginx/sites/concerto.conf:/etc/nginx/sites-available/concerto.conf
+        - ./concerto/sessions:/usr/src/concerto/src/Concerto/TestBundle/Resources/sessions
         - ./logs/concerto/nginx:/var/log/nginx
         - ./logs/concerto/php-fpm:/var/log/php-fpm
         - ./logs/concerto/app:/usr/src/concerto/var/logs
-        - ./logs/concerto/sessions:/usr/src/concerto/src/Concerto/TestBundle/Resources/sessions
       ports:
         - "80:80"
