@@ -79,10 +79,11 @@ CMD rm -rf var/cache/* \
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
- && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
+ && chown www-data:www-data src/Concerto/TestBundle/Resources/sessions \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/init_checkpoint \
  && rm -rf src/Concerto/TestBundle/Resources/R/init_checkpoint/* \
  && cron \
  && service nginx start \
- && php-fpm
+ && php bin/console concerto:forker:start \
+ && php-fpm >> /var/log/php-fpm/out.log 2>&1
