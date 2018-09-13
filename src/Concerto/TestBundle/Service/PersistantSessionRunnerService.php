@@ -274,8 +274,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "$max_exec_time "
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
-                    . ">> "
-                    . "'" . $this->getOutputFilePath($session_hash) . "' "
                     . "> "
                     . "'" . $this->getROutputFilePath($session_hash) . "' "
                     . "2>&1 & echo $!";
@@ -292,8 +290,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "$max_exec_time "
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
-                    . ">> "
-                    . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
                     . "> "
                     . "\"" . $this->escapeWindowsArg($this->getROutputFilePath($session_hash)) . "\" "
                     . "2>&1\"";

@@ -23,4 +23,4 @@ CMD /wait-for-it.sh database:3306 -t 300 \
  && rm -rf src/Concerto/TestBundle/Resources/R/init_checkpoint/* \
  && cron \
  && service nginx start \
- && php-fpm
+ && php-fpm >> /var/log/php-fpm/out.log 2>&1

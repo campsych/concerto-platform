@@ -247,8 +247,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$keep_alive_tolerance_time "
                     . "'$response' "
                     . ">> "
-                    . "'" . $this->getOutputFilePath($session_hash) . "' "
-                    . ">> "
                     . "'" . $this->getROutputFilePath($session_hash) . "' "
                     . "2>&1 & echo $!";
             default:
@@ -265,8 +263,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
                     . "\"" . $this->escapeWindowsArg($response) . "\" "
-                    . ">> "
-                    . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
                     . ">> "
                     . "\"" . $this->escapeWindowsArg($this->getROutputFilePath($session_hash)) . "\" "
                     . "2>&1\"";

@@ -75,14 +75,9 @@ abstract class ASessionRunnerService
         return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R") . "/";
     }
 
-    public function getOutputFilePath($session_hash)
-    {
-        return $this->getWorkingDirPath($session_hash) . "concerto.log";
-    }
-
     public function getROutputFilePath($session_hash)
     {
-        return $this->getOutputFilePath($session_hash) . ".r";
+        return realpath($this->root . "/../var/logs/sessions") . "/$session_hash.log";
     }
 
     public function getPublicDirPath()
