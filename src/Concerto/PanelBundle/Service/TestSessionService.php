@@ -45,10 +45,9 @@ class TestSessionService
     private $secret;
     private $fileService;
     private $testRunnerSettings;
-    private $session;
     private $sessionRunnerService;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $secret, LoggerInterface $logger, FileService $fileService, $testRunnerSettings, SessionInterface $session, ASessionRunnerService $sessionRunnerService)
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $secret, LoggerInterface $logger, FileService $fileService, $testRunnerSettings, ASessionRunnerService $sessionRunnerService)
     {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
@@ -58,7 +57,6 @@ class TestSessionService
         $this->logger = $logger;
         $this->fileService = $fileService;
         $this->testRunnerSettings = $testRunnerSettings;
-        $this->session = $session;
         $this->sessionRunnerService = $sessionRunnerService;
     }
 
@@ -124,9 +122,9 @@ class TestSessionService
         return json_encode($result);
     }
 
-    public function setTemplateTimerValues(TestSession $session, $values, $time = null)
+    public function setTemplateTimerValues(TestSession $session, $values)
     {
-        if ($time === null) $time = microtime(true);
+        $time = microtime(true);
         $values = json_decode($values, true);
 
         $timeLimit = $session->getTimeLimit();
@@ -136,7 +134,7 @@ class TestSessionService
             $isTimeout = $values["isTimeout"];
         }
         if ($this->testRunnerSettings["timer_type"] == "server") {
-            $timeTaken = $time - $this->session->get("templateStartTime");
+            $timeTaken = $time - $session->getUpdated()->getTimestamp();
             if ($timeLimit > 0 && $timeTaken >= $timeLimit) {
                 $isTimeout = 1;
             }
@@ -150,7 +148,7 @@ class TestSessionService
         return json_encode($values);
     }
 
-    public function submit($session_hash, $values, $client_ip, $client_browser, $time)
+    public function submit($session_hash, $values, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
 
@@ -170,18 +168,18 @@ class TestSessionService
             ));
         }
 
-        $values = $this->setTemplateTimerValues($session, $values, $time);
+        $values = $this->setTemplateTimerValues($session, $values);
 
         $session->setClientIp($client_ip);
         $session->setClientBrowser($client_browser);
         $session->setUpdated();
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->submit($session, $values, $client_ip, $client_browser, $time);
+        $response = $this->sessionRunnerService->submit($session, $values, $client_ip, $client_browser);
         return $this->prepareResponse($session_hash, $response);
     }
 
-    public function backgroundWorker($session_hash, $values, $client_ip, $client_browser, $time)
+    public function backgroundWorker($session_hash, $values, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
 
@@ -201,14 +199,14 @@ class TestSessionService
             ));
         }
 
-        $values = $this->setTemplateTimerValues($session, $values, $time);
+        $values = $this->setTemplateTimerValues($session, $values);
 
         $session->setClientIp($client_ip);
         $session->setClientBrowser($client_browser);
         $session->setUpdated();
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->backgroundWorker($session, $values, $client_ip, $client_browser, $time);
+        $response = $this->sessionRunnerService->backgroundWorker($session, $values, $client_ip, $client_browser);
         return $this->prepareResponse($session_hash, $response);
     }
 

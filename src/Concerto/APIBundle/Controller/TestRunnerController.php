@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\TestBundle\Service\TestRunnerService;
 use Concerto\PanelBundle\Service\AdministrationService;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @Route("/api/runner")
@@ -30,14 +29,13 @@ class TestRunnerController
      * @Route("/test_n/{test_name}/session/start/{params}", defaults={"test_slug":null,"params":"{}","debug":false})
      * @Method({"POST"})
      * @param Request $request
-     * @param SessionInterface $session
      * @param $test_slug
      * @param $test_name
      * @param string $params
      * @param bool $debug
      * @return Response
      */
-    public function startNewSessionAction(Request $request, SessionInterface $session, $test_slug, $test_name = null, $params = "{}", $debug = false)
+    public function startNewSessionAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
@@ -59,8 +57,6 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
-        $session->set("templateStartTime", microtime(true));
         return $response;
     }
 
@@ -68,13 +64,14 @@ class TestRunnerController
      * @Route("/test/session/{session_hash}/submit")
      * @Method(methods={"POST"})
      * @param Request $request
-     * @param SessionInterface $session
      * @param string $session_hash
      * @return Response
      */
-    public function submitToSessionAction(Request $request, SessionInterface $session, $session_hash)
+    public function submitToSessionAction(Request $request, $session_hash)
     {
-        $time = microtime(true);
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $content = json_decode($request->getContent(), true);
         $values = array();
         if (array_key_exists("values", $content)) $values = $content["values"];
@@ -83,13 +80,10 @@ class TestRunnerController
             $session_hash,
             $values,
             $request->getClientIp(),
-            $request->server->get('HTTP_USER_AGENT'),
-            $time
+            $request->server->get('HTTP_USER_AGENT')
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
-        $session->set("templateStartTime", microtime(true));
         return $response;
     }
 
@@ -102,7 +96,9 @@ class TestRunnerController
      */
     public function backgroundWorkerAction(Request $request, $session_hash)
     {
-        $time = microtime(true);
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $content = json_decode($request->getContent(), true);
         $values = array();
         if (array_key_exists("values", $content)) $values = $content["values"];
@@ -111,12 +107,10 @@ class TestRunnerController
             $session_hash,
             $values,
             $request->getClientIp(),
-            $request->server->get('HTTP_USER_AGENT'),
-            $time
+            $request->server->get('HTTP_USER_AGENT')
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
@@ -129,6 +123,9 @@ class TestRunnerController
      */
     public function killSessionAction(Request $request, $session_hash)
     {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $result = $this->service->killSession(
             $session_hash,
             $request->getClientIp(),
@@ -136,7 +133,6 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
@@ -149,6 +145,9 @@ class TestRunnerController
      */
     public function keepAliveSessionAction(Request $request, $session_hash)
     {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $result = $this->service->keepAliveSession(
             $session_hash,
             $request->getClientIp(),
@@ -156,7 +155,6 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
@@ -169,6 +167,9 @@ class TestRunnerController
      */
     public function uploadFileAction(Request $request, $session_hash)
     {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $result = $this->service->uploadFile(
             $session_hash,
             $request->files,
@@ -176,7 +177,6 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
