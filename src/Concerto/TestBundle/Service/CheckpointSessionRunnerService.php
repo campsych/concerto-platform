@@ -82,7 +82,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
     public function submit(TestSession $session, $values, $client_ip, $client_browser, $time = null)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $client = array(
             "ip" => $client_ip,
@@ -144,7 +144,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
     public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser, $time = null)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $client = array(
             "ip" => $client_ip,
@@ -400,7 +400,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $dmtcpBinPath = $this->testRunnerSettings["dmtcp_bin_path"];
         $checkpointPath = realpath(dirname(__FILE__) . "/../Resources/R/checkpoint.R");
         $publicDir = $this->getPublicDirPath();
-        $connection = $this->getSerializedConnection();
+        $connection = json_encode($this->getConnection());
         $mediaUrl = $this->getMediaUrl();
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $rscriptBinPath = $this->testRunnerSettings["rscript_exec"];
@@ -485,7 +485,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         $ini_path = $this->getRDir() . "standalone.R";
         $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         $rscript = $this->testRunnerSettings["rscript_exec"];
-        $db_connection = $this->getSerializedConnection();
+        $db_connection = json_encode($this->getConnection());
         $working_dir = $this->getWorkingDirPath($session_hash);
         $public_dir = $this->getPublicDirPath();
         $media_url = $this->getMediaUrl();

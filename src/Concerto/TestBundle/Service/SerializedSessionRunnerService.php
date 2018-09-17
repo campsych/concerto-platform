@@ -60,7 +60,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
     public function submit(TestSession $session, $values, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $client = array(
             "ip" => $client_ip,
@@ -185,12 +185,12 @@ class SerializedSessionRunnerService extends ASessionRunnerService
     private function startChildProcess($client, $session_hash, $response = null)
     {
         $response = json_encode(array(
-            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . DIRECTORY_SEPARATOR,
+            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . "/",
             "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
             "maxIdleTime" => $this->testRunnerSettings["max_idle_time"],
             "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
             "client" => $client,
-            "connection" => json_decode($this->getSerializedConnection(), true),
+            "connection" => $this->getConnection(),
             "sessionId" => $session_hash,
             "rLogPath" => $this->getROutputFilePath($session_hash),
             "response" => $response
@@ -225,7 +225,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         $max_idle_time = $this->testRunnerSettings["max_idle_time"];
         $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
-        $database_connection = $this->getSerializedConnection();
+        $database_connection = json_encode($this->getConnection());
         $working_directory = $this->getWorkingDirPath($session_hash);
         $public_directory = $this->getPublicDirPath();
         $media_url = $this->getMediaUrl();

@@ -53,11 +53,10 @@ concerto.server.listen = function(){
     if (response$code == RESPONSE_SUBMIT) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         concerto$lastSubmitTime <<- as.numeric(Sys.time())
-        values = fromJSON(response$values)
         if(exists("concerto.onTemplateSubmit")) {
-            do.call("concerto.onTemplateSubmit",list(response=values), envir = .GlobalEnv)
+            do.call("concerto.onTemplateSubmit",list(response=response$values), envir = .GlobalEnv)
         }
-        return(values)
+        return(response$values)
     } else if(response$code == RESPONSE_KEEPALIVE_CHECKIN) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         return(concerto.server.listen())
@@ -65,11 +64,10 @@ concerto.server.listen = function(){
         concerto5:::concerto.session.stop(STATUS_STOPPED)
     } else if(response$code == RESPONSE_WORKER) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
-        values = fromJSON(response$values)
         result = list()
-        if(!is.null(values$bgWorker) && values$bgWorker %in% ls(concerto$bgWorkers)) {
-            concerto.log(paste0("running worker: ",values$bgWorker))
-            result = do.call(concerto$bgWorkers[[values$bgWorker]], list(response=values))
+        if(!is.null(response$values$bgWorker) && response$values$bgWorker %in% ls(concerto$bgWorkers)) {
+            concerto.log(paste0("running worker: ", response$values$bgWorker))
+            result = do.call(concerto$bgWorkers[[response$values$bgWorker]], list(response=response$values))
         }
         concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         return(concerto.server.listen())

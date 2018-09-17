@@ -27,8 +27,8 @@ class TestRunnerService {
     }
 
     public function submitToSession($session_hash, $values, $client_ip, $client_browser) {
-        $values = json_encode($values);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
+
 
         $response = $this->sessionService->submit($session_hash, $values, $client_ip, $client_browser);
         $response = json_encode($response);
@@ -37,8 +37,7 @@ class TestRunnerService {
     }
 
     public function backgroundWorker($session_hash, $values, $client_ip, $client_browser) {
-        $values = json_encode($values);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $response = $this->sessionService->backgroundWorker($session_hash, $values, $client_ip, $client_browser);
         $response = json_encode($response);

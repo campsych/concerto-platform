@@ -125,7 +125,6 @@ class TestSessionService
     public function setTemplateTimerValues(TestSession $session, $values)
     {
         $time = microtime(true);
-        $values = json_decode($values, true);
 
         $timeLimit = $session->getTimeLimit();
         $timeTaken = $values["timeTaken"];
@@ -145,12 +144,12 @@ class TestSessionService
 
         $values["timeTaken"] = $timeTaken;
         $values["isTimeout"] = $isTimeout;
-        return json_encode($values);
+        return $values;
     }
 
     public function submit($session_hash, $values, $client_ip, $client_browser)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
         if (!$session) {
@@ -181,7 +180,7 @@ class TestSessionService
 
     public function backgroundWorker($session_hash, $values, $client_ip, $client_browser)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
         if (!$session) {

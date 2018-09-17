@@ -44,7 +44,7 @@ abstract class ASessionRunnerService
 
     abstract public function kill(TestSession $session, $client_ip, $client_browser);
 
-    public function getSerializedConnection()
+    public function getConnection()
     {
         $con = $this->doctrine->getConnection($this->testRunnerSettings["connection"]);
         $con_array = array(
@@ -66,8 +66,7 @@ abstract class ASessionRunnerService
         if (array_key_exists("unix_socket", $params)) {
             $con_array["unix_socket"] = $params["unix_socket"];
         }
-        $json_connection = json_encode($con_array);
-        return $json_connection;
+        return $con_array;
     }
 
     public function getRDir()
