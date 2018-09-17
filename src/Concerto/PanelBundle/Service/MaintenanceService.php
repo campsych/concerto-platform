@@ -21,7 +21,7 @@ class MaintenanceService
 
     private function getLogsPath()
     {
-        return realpath(dirname(__FILE__) . '/../../.../.../var/logs/sessions');
+        return realpath(dirname(__FILE__) . '/../../.../.../var/logs');
     }
 
     public function deleteOldSessions()

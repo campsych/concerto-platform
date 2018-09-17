@@ -76,7 +76,7 @@ abstract class ASessionRunnerService
 
     public function getROutputFilePath($session_hash)
     {
-        return realpath($this->root . "/../var/logs/sessions") . "/$session_hash.log";
+        return realpath($this->root . "/../var/logs") . "/$session_hash.log";
     }
 
     public function getPublicDirPath()

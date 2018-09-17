@@ -1,5 +1,15 @@
-version: "5.0.beta.8.2"
+version: "5.0.beta.8.3"
 changelog:
+    - version: "5.0.beta.8.3"
+      description: >
+        Dockerfile R upgrade to v3.5.1
+      categories:
+          - label: Docker
+            changes:
+                - R upgraded to v3.5.1 in Dockerfile
+          - label: Fixes
+            changes:
+                - fixed session cleanup
     - version: "5.0.beta.8.2"
       description: >
         Separate session workdir and log dir
