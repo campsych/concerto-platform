@@ -1,4 +1,15 @@
 'use strict';
+testRunner.settings = {
+  unresumableHtml: $templateCache.get("unresumable_template.html"),
+  finishedHtml: $templateCache.get("finished_template.html"),
+  errorHtml: $templateCache.get("error_template.html"),
+  sessionLimitReachedHtml: $templateCache.get("session_limit_reached_template.html"),
+  testNotFoundHtml: $templateCache.get("test_not_found_template.html"),
+  sessionLostHtml: $templateCache.get("session_lost_template.html"),
+  connectionRetryHtml: $templateCache.get("connection_retry_template.html"),
+  loaderHtml: $templateCache.get("loading_template.html"),
+  timeFormat: "HH:mm:ss"
+};
 
 testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', '$compile', '$templateCache', 'dateFilter', 'FileUploader', '$window',
   function ($http, $interval, $timeout, $sce, $compile, $templateCache, dateFilter, FileUploader, $window) {
@@ -9,7 +20,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
         $.ajax({
           type: "POST",
-          url: settings.directory + "test/session/" + lastResponse.hash + "/kill",
+          url: internalSettings.directory + "test/session/" + lastResponse.hash + "/kill",
           async: false,
           data: {
           }
@@ -41,7 +52,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       var SOURCE_PANEL_NODE = 0;
       var SOURCE_PROCESS = 1;
       var SOURCE_TEST_NODE = 2;
-      var settings = angular.extend({
+      var internalSettings = angular.extend({
         debug: false,
         clientDebug: false,
         params: null,
@@ -49,15 +60,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         testSlug: null,
         testName: null,
         hash: null,
-        unresumableHtml: $templateCache.get("unresumable_template.html"),
-        finishedHtml: $templateCache.get("finished_template.html"),
-        errorHtml: $templateCache.get("error_template.html"),
-        sessionLimitReachedHtml: $templateCache.get("session_limit_reached_template.html"),
-        testNotFoundHtml: $templateCache.get("test_not_found_template.html"),
-        sessionLostHtml: $templateCache.get("session_lost_template.html"),
-        connectionRetryHtml: $templateCache.get("connection_retry_template.html"),
-        loaderHtml: $templateCache.get("loading_template.html"),
-        timeFormat: "HH:mm:ss",
         keepAliveInterval: 0
       }, scope.options);
       var timeLimit = 0;
@@ -74,7 +76,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       scope.timeLeft = "";
       scope.retryTimeLeft = "";
 
-      scope.html = settings.loaderHtml;
+      scope.html = testRunner.settings.loaderHtml;
       scope.fileUploader = new FileUploader();
       scope.fileUploader.removeAfterUpload = true;
       scope.R = {};
@@ -95,7 +97,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       });
 
       scope.logClientSideError = function (error) {
-        $http.post(settings.directory + "test/session/" + lastResponse.hash + "/log", {
+        $http.post(internalSettings.directory + "test/session/" + lastResponse.hash + "/log", {
           error: error
         });
         console.error(error);
@@ -118,7 +120,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       function initializeTimer() {
         if (timeLimit > 0) {
           timer = timeLimit;
-          scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), settings.timeFormat);
+          scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), testRunner.settings.timeFormat);
           timerId = $interval(function () {
             timeTick();
           }, 1000);
@@ -128,25 +130,25 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
 
       function startKeepAlive(lastResponse) {
-        if (settings.clientDebug)
-          console.log("start keep alive (" + settings.keepAliveInterval + ")");
-        if (settings.keepAliveInterval > 0) {
+        if (internalSettings.clientDebug)
+          console.log("start keep alive (" + internalSettings.keepAliveInterval + ")");
+        if (internalSettings.keepAliveInterval > 0) {
           keepAliveTimerPromise = $interval(function () {
-            $http.post(settings.directory + "test/session/" + lastResponse.hash + "/keepalive", {
+            $http.post(internalSettings.directory + "test/session/" + lastResponse.hash + "/keepalive", {
             }).success(function (response) {
-              if (settings.clientDebug)
+              if (internalSettings.clientDebug)
                 console.log("keep-alive ping");
               if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || response.code !== RESPONSE_KEEPALIVE_CHECKIN)
                 $interval.cancel(keepAliveTimerPromise);
             });
-          }, settings.keepAliveInterval * 1000);
+          }, internalSettings.keepAliveInterval * 1000);
         }
       }
 
       function timeTick() {
         if (timer > 0) {
           timer--;
-          scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), settings.timeFormat);
+          scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), testRunner.settings.timeFormat);
           if (timer === 0) {
             scope.submitView("timeout", true);
           }
@@ -154,26 +156,26 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
 
       function startNewTest() {
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("start");
 
         showLoader();
         var path = "";
-        if (settings.debug) {
-          path = settings.directory + "admin/test/" + settings.testSlug + "/session/start/debug/" + encodeURIComponent(settings.params);
+        if (internalSettings.debug) {
+          path = internalSettings.directory + "admin/test/" + internalSettings.testSlug + "/session/start/debug/" + encodeURIComponent(internalSettings.params);
         } else {
-          if (settings.testName !== null) {
-            path = settings.directory + "test_n/" + settings.testName + "/session/start/" + encodeURIComponent(settings.params);
+          if (internalSettings.testName !== null) {
+            path = internalSettings.directory + "test_n/" + internalSettings.testName + "/session/start/" + encodeURIComponent(internalSettings.params);
           } else {
-            path = settings.directory + "test/" + settings.testSlug + "/session/start/" + encodeURIComponent(settings.params);
+            path = internalSettings.directory + "test/" + internalSettings.testSlug + "/session/start/" + encodeURIComponent(internalSettings.params);
           }
         }
 
         $http.post(path, {
         }).success(function (response) {
-          if (settings.clientDebug)
+          if (internalSettings.clientDebug)
             console.log(response);
-          if (settings.debug && response.debug)
+          if (internalSettings.debug && response.debug)
             console.log(response.debug);
           lastResponse = response;
           lastResponseTime = new Date();
@@ -182,7 +184,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           switch (lastResponse.code) {
             case RESPONSE_VIEW_TEMPLATE:
             case RESPONSE_VIEW_FINAL_TEMPLATE: {
-              settings.hash = response.hash;
+              internalSettings.hash = response.hash;
               timeLimit = response.timeLimit;
               updateLoader(response.data);
               break;
@@ -199,15 +201,15 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         var loaderJs = data.loaderJs ? data.loaderJs.trim() : null;
         var loaderHtml = data.loaderHtml ? data.loaderHtml.trim() : null;
         if (loaderCss || loaderJs || loaderHtml) {
-          settings.loaderHtml = joinHtml(loaderCss, loaderJs, loaderHtml);
+          testRunner.settings.loaderHtml = joinHtml(loaderCss, loaderJs, loaderHtml);
         }
         if (loaderHead) {
-          settings.loaderHead = loaderHead;
+          internalSettings.loaderHead = loaderHead;
         }
       }
 
       scope.runWorker = function (name, passedVals, successCallback, errorCallback) {
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("worker", name);
 
         var values = getControlsValues();
@@ -216,19 +218,19 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
         values["bgWorker"] = name;
 
-        $http.post(settings.directory + "test/session/" + settings.hash + "/worker", {
+        $http.post(internalSettings.directory + "test/session/" + internalSettings.hash + "/worker", {
           values: values
         }).success(function (response) {
-          if (settings.clientDebug)
+          if (internalSettings.clientDebug)
             console.log(response);
-          if (settings.debug && response.debug)
+          if (internalSettings.debug && response.debug)
             console.log(response.debug);
 
           if (successCallback != null) {
             successCallback.call(this, response.data);
           }
         }).error(function (error, status) {
-          if (settings.clientDebug)
+          if (internalSettings.clientDebug)
             console.log("worker failed");
 
           if (errorCallback != null) {
@@ -242,7 +244,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           return;
         }
 
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("submit");
 
         removeSubmitEvents()
@@ -273,19 +275,19 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         if (passedVals) {
           angular.merge(values, passedVals);
         }
-        $http.post(settings.directory + "test/session/" + settings.hash + "/submit", {
+        $http.post(internalSettings.directory + "test/session/" + internalSettings.hash + "/submit", {
           values: values
         }).success(function (response) {
-          if (settings.clientDebug)
+          if (internalSettings.clientDebug)
             console.log(response);
-          if (settings.debug && response.debug)
+          if (internalSettings.debug && response.debug)
             console.log(response.debug);
           lastResponse = response;
           lastResponseTime = new Date();
           switch (lastResponse.code) {
             case RESPONSE_VIEW_TEMPLATE:
             case RESPONSE_VIEW_FINAL_TEMPLATE: {
-              settings.hash = response.hash;
+              internalSettings.hash = response.hash;
               timeLimit = response.timeLimit;
               updateLoader(response.data);
               break;
@@ -296,7 +298,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           showView();
         }).error(function (error, status) {
           if (status === -1) {
-            if (settings.clientDebug)
+            if (internalSettings.clientDebug)
               console.log("connection failed");
             showConnectionProblems(btnName, isTimeout, passedVals, values);
           }
@@ -305,12 +307,12 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
       function showConnectionProblems(btnName, isTimeout, passedVals, values) {
         initializeRetryTimer(btnName, isTimeout, passedVals, values);
-        scope.html = settings.connectionRetryHtml;
+        scope.html = testRunner.settings.connectionRetryHtml;
       }
 
       function initializeRetryTimer(btnName, isTimeout, passedVals, values) {
         if (retryTimeTotal > 0) {
-          if (settings.clientDebug)
+          if (internalSettings.clientDebug)
             console.log("connection retry in " + retryTimeTotal + " secs");
           retryTimer = retryTimeTotal;
           scope.retryTimeLeft = retryTimer;
@@ -335,7 +337,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
 
       function showView() {
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("showView (" + displayState + ")");
         if (displayState === DISPLAY_LOADER_SHOWN) {
           hideLoader();
@@ -357,22 +359,22 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
               break;
             case RESPONSE_AUTHENTICATION_FAILED:
             case RESPONSE_ERROR:
-              html = settings.errorHtml;
+              html = testRunner.settings.errorHtml;
               break;
             case RESPONSE_FINISHED:
-              html = settings.finishedHtml;
+              html = testRunner.settings.finishedHtml;
               break;
             case RESPONSE_UNRESUMABLE:
-              html = settings.unresumableHtml;
+              html = testRunner.settings.unresumableHtml;
               break;
             case RESPONSE_SESSION_LIMIT_REACHED:
-              html = settings.sessionLimitReachedHtml;
+              html = testRunner.settings.sessionLimitReachedHtml;
               break;
             case RESPONSE_TEST_NOT_FOUND:
-              html = settings.testNotFoundHtml;
+              html = testRunner.settings.testNotFoundHtml;
               break;
             case RESPONSE_SESSION_LOST:
-              html = settings.sessionLostHtml;
+              html = testRunner.settings.sessionLostHtml;
               break;
           }
           displayState = DISPLAY_VIEW_SHOWN;
@@ -390,7 +392,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
 
       function hideView() {
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("hideView");
         isViewReady = false;
         displayState = DISPLAY_VIEW_HIDDEN;
@@ -402,7 +404,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       }
 
       function showLoader() {
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("showLoader");
         displayState = DISPLAY_LOADER_SHOWN;
 
@@ -410,14 +412,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
         }
 
-        if (settings.loaderHead != null)
-          angular.element("head").append($compile(settings.loaderHead)(scope));
+        if (internalSettings.loaderHead != null)
+          angular.element("head").append($compile(internalSettings.loaderHead)(scope));
 
-        scope.html = settings.loaderHtml;
+        scope.html = testRunner.settings.loaderHtml;
       }
 
       function hideLoader() {
-        if (settings.clientDebug)
+        if (internalSettings.clientDebug)
           console.log("hideLoader");
         displayState = DISPLAY_LOADER_HIDDEN;
         showView();
@@ -456,9 +458,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if ($(this)[0].files.length == 0)
               return;
             var file = $(this)[0].files[0];
-            scope.fileUploader.url = settings.directory + "test/session/" + settings.hash + "/upload";
+            scope.fileUploader.url = internalSettings.directory + "test/session/" + internalSettings.hash + "/upload";
             scope.fileUploader.formData = [{
-              node_id: settings.nodeId
+              node_id: internalSettings.nodeId
             }, {
               name: name
             }];
@@ -537,13 +539,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
       testRunner.addExtraControl = scope.addExtraControl;
 
       var options = scope.options;
-      if (settings.clientDebug)
+      if (internalSettings.clientDebug)
         console.log(options);
       if (options.testSlug != null || options.testName != null) {
         startNewTest();
         return;
       }
-      if (settings.clientDebug)
+      if (internalSettings.clientDebug)
         console.log("invalid options");
     }
 
