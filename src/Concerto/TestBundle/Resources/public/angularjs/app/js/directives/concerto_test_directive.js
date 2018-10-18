@@ -1,19 +1,28 @@
 'use strict';
 testRunner.settings = {
-  unresumableHtml: $templateCache.get("unresumable_template.html"),
-  finishedHtml: $templateCache.get("finished_template.html"),
-  errorHtml: $templateCache.get("error_template.html"),
-  sessionLimitReachedHtml: $templateCache.get("session_limit_reached_template.html"),
-  testNotFoundHtml: $templateCache.get("test_not_found_template.html"),
-  sessionLostHtml: $templateCache.get("session_lost_template.html"),
-  connectionRetryHtml: $templateCache.get("connection_retry_template.html"),
-  loaderHtml: $templateCache.get("loading_template.html"),
+  unresumableHtml: null,
+  finishedHtml: null,
+  errorHtml: null,
+  sessionLimitReachedHtml: null,
+  testNotFoundHtml: null,
+  sessionLostHtml: null,
+  connectionRetryHtml: null,
+  loaderHtml: null,
   timeFormat: "HH:mm:ss"
 };
 
 testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', '$compile', '$templateCache', 'dateFilter', 'FileUploader', '$window',
   function ($http, $interval, $timeout, $sce, $compile, $templateCache, dateFilter, FileUploader, $window) {
     function link(scope, element, attrs) {
+
+      if(testRunner.settings.unresumableHtml === null) testRunner.settings.unresumableHtml = $templateCache.get("unresumable_template.html");
+      if(testRunner.settings.finishedHtml === null) testRunner.settings.finishedHtml = $templateCache.get("finished_template.html");
+      if(testRunner.settings.errorHtml === null) testRunner.settings.errorHtml = $templateCache.get("error_template.html");
+      if(testRunner.settings.sessionLimitReachedHtml === null) testRunner.settings.sessionLimitReachedHtml = $templateCache.get("session_limit_reached_template.html");
+      if(testRunner.settings.testNotFoundHtml === null) testRunner.settings.testNotFoundHtml = $templateCache.get("test_not_found_template.html");
+      if(testRunner.settings.sessionLostHtml === null) testRunner.settings.sessionLostHtml = $templateCache.get("session_lost_template.html");
+      if(testRunner.settings.connectionRetryHtml === null) testRunner.settings.connectionRetryHtml = $templateCache.get("connection_retry_template.html");
+      if(testRunner.settings.loaderHtml === null) testRunner.settings.loaderHtml = $templateCache.get("loading_template.html");
 
       $window.addEventListener('unload', function (e) {
         clearTimer();
