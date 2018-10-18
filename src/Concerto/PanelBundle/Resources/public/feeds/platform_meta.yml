@@ -1,5 +1,12 @@
-version: "5.0.beta.7.3"
+version: "5.0.beta.7.4"
 changelog:
+    - version: "5.0.beta.7.4"
+      description: >
+        Moved some test runner js settings out of directive
+      categories:
+          - label: Improvements
+            changes:
+                - moved some test runner js settings out of directive
     - version: "5.0.beta.7.3"
       description: >
         Exposed test runner methods for API
