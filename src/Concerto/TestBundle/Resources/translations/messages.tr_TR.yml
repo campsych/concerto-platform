@@ -1,9 +1,13 @@
-ignition.noscript: Tarayıcınız Javascript desteklemiyor. Lütfen Javascript'i etkinleştirin ve yeniden deneyin.
+ignition.noscript: Tarayıcınız javascript desteklemiyor. Lütfen javascript desteğini etkinleştirip sayfanızı yenileyiniz.
 ignition.ip: "IP:"
 ignition.browser: "Tarayıcı:"
-ignition.time: "Zaman:"
-ignition.browser.notsupported: Tarayıcı sürümünüz desteklenmiyor. Lütfen tarayıcınızı Internet Explorer 9 ya da üzerine güncelleyin ya da Chrome ya da Firefox tarayıcılarını kullanın.
-ignition.browser.potentionallynotsupported: Eğer bu mesaj birazdan kaybolmazsa, başka bir tarayıcı kullanmanıza ihtiyaç duyulacaktır.
+ignition.time: "Süre:"
+ignition.browser.notsupported: Tarayıcı sürümünüz destek vermiyor. Lütfen tarayıcınızı Internet Explorer 9 ve üzeri bir versiyona güncelleyiniz veya Chrome yada Firefox gibi farklı bir tarayıcı kullanınız.
+ignition.browser.potentionallynotsupported: Bu mesaj kısa bir süre içinde silinmezse farklı bir tarayıcı kullanınız.
 default.template:
-    finished: Test Tamamlandı.
-    loading: Lütfen Bekleyin...
+    finished: Test tamamlandı
+    loading: Lütfen bekleyin…
+    session_limit_reached: Üzgünüz, test şuan maksimum kullanıcı sayısına ulaşmıştır. Lütfen daha sonra tekrar deneyiniz.
+    test_not_found: Test bulunamadı
+    session_lost: Oturum kapandı. Lütfen sayfayı yenileyin.
+    connection_retry: Bağlantı problemi. [[retryTimeLeft] sn. içinde yeniden denenecek. Lütfen bekleyin.
