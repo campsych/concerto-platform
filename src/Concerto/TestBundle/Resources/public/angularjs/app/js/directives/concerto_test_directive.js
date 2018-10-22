@@ -19,9 +19,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
       if(testRunner.settings.unresumableHtml === null) testRunner.settings.unresumableHtml = $templateCache.get("unresumable_template.html");
       if(testRunner.settings.finishedHtml === null) testRunner.settings.finishedHtml = $templateCache.get("finished_template.html");
-      if(testRunner.settings.testErrorHtml === null) testRunner.settings.testErrorHtml = $templateCache.get("test_error_template.html"),
-      if(testRunner.settings.serverErrorHtml === null) testRunner.settings.serverErrorHtml = $templateCache.get("server_error_template.html"),
-      if(testRunner.settings.clientErrorHtml === null) testRunner.settings.clientErrorHtml = $templateCache.get("client_error_template.html"),
+      if(testRunner.settings.testErrorHtml === null) testRunner.settings.testErrorHtml = $templateCache.get("test_error_template.html");
+      if(testRunner.settings.serverErrorHtml === null) testRunner.settings.serverErrorHtml = $templateCache.get("server_error_template.html");
+      if(testRunner.settings.clientErrorHtml === null) testRunner.settings.clientErrorHtml = $templateCache.get("client_error_template.html");
       if(testRunner.settings.sessionLimitReachedHtml === null) testRunner.settings.sessionLimitReachedHtml = $templateCache.get("session_limit_reached_template.html");
       if(testRunner.settings.testNotFoundHtml === null) testRunner.settings.testNotFoundHtml = $templateCache.get("test_not_found_template.html");
       if(testRunner.settings.sessionLostHtml === null) testRunner.settings.sessionLostHtml = $templateCache.get("session_lost_template.html");
