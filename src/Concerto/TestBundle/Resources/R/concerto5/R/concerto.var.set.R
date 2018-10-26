@@ -1,5 +1,5 @@
 concerto.var.set = c.set = function(name, value, global=F){
-    if(global) {
+    if(global || length(concerto$flow) == 0) {
         if(is.null(value)) {
             concerto$globals[name] <<- list(NULL)
         } else {

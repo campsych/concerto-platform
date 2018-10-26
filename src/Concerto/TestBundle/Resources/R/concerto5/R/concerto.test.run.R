@@ -58,11 +58,16 @@ function(testId, params=list(), extraReturns=c()) {
         params = getParams(params)
         if (test$type != 1) {
             flowIndex = flowIndex + 1
+            globals = list()
+            if(!is.null(concerto$passedGlobals)) {
+                globals = concerto$passedGlobals
+                concerto$passedGlobals <<- NULL
+            }
             concerto$flow[[flowIndex]] <<- list(
                 id = test$id,
                 type = test$type,
                 params = params,
-                globals = list()
+                globals = globals
             )
             if (length(params) > 0) {
                 for (param in ls(params, all.names=T)) {
@@ -328,6 +333,7 @@ function(testId, params=list(), extraReturns=c()) {
             concerto$flow[[flowIndex]]$nextNode <<- concerto$flow[[flowIndex]]$currentNode
             if(length(concerto$flow) == flowIndex + 1) {
                 concerto$resuming <<- F
+                concerto$passedGlobals <<- concerto$flow[[flowIndex + 1]]$globals
                 concerto$flow[[flowIndex + 1]] <<- NULL
             }
         }

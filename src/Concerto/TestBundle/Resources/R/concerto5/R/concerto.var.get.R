@@ -1,5 +1,5 @@
 concerto.var.get = c.get = function(name, global=F, all=F){
-    if(global) {
+    if(global || length(concerto$flow) == 0) {
         if(all) { return(concerto$globals) }
         else return(concerto$globals[[name]])
     } else {
