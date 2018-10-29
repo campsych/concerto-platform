@@ -29,9 +29,9 @@ concerto.session.unserialize <- function(response){
     } else if(response$code == RESPONSE_WORKER) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         result = list()
-        if(!is.null(response$values$bgWorker) && response$values$bgWorker %in% ls(bgWorkers)) {
+        if(!is.null(response$values$bgWorker) && response$values$bgWorker %in% ls(concerto$bgWorkers)) {
             concerto.log(paste0("running worker: ", response$values$bgWorker))
-            result = do.call(bgWorkers[[response$values$bgWorker]], list(response=response$values))
+            result = do.call(concerto$bgWorkers[[response$values$bgWorker]], list(response=response$values))
         }
         concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         concerto5:::concerto.session.serialize()
