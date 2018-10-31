@@ -241,7 +241,10 @@ class TestNodePortService extends ASectionService
     protected function findConversionSource($obj, $map)
     {
         $node = $map["TestNode"]["id" . $obj["node"]];
-        $variable = $map["TestVariable"]["id" . $obj["variable"]];
+        $variable = null;
+        if ($obj["variable"] != null) {
+            $variable = $map["TestVariable"]["id" . $obj["variable"]];
+        }
         $ent = $this->repository->findOneBy(array("node" => $node, "variable" => $variable));
         if (!$ent) {
             return null;
