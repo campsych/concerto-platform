@@ -221,6 +221,10 @@ class TestNodePortService extends ASectionService
         $ent->setVariable($variable);
         $ent->setDefaultValue($obj["defaultValue"] == "1");
         $ent->setString($obj["string"] == "1");
+        $ent->setDynamic($obj["dynamic"] == "1");
+        $ent->setType($obj["type"]);
+        $ent->setExposed($obj["exposed"] == "1");
+        $ent->setName($obj["name"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -253,6 +257,10 @@ class TestNodePortService extends ASectionService
         $ent->setVariable($variable);
         $ent->setDefaultValue($obj["defaultValue"] == "1");
         $ent->setString($obj["string"] == "1");
+        $ent->setDynamic($obj["dynamic"] == "1");
+        $ent->setType($obj["type"]);
+        $ent->setExposed($obj["exposed"] == "1");
+        $ent->setName($obj["name"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
