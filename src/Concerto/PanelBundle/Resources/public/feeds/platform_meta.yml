@@ -7,6 +7,9 @@ changelog:
           - label: R package
             changes:
                 - flow layer level globals are now properly kept on serialized runner
+          - label: Fixes
+            changes:
+                - fixed flow import with convert option
           - label: Non backwards compatible
             changes:
                 - renamed concerto.template.isResponseGiven to concerto.template.isResponseQueued

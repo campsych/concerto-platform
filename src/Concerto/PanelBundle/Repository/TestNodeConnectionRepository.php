@@ -2,6 +2,8 @@
 
 namespace Concerto\PanelBundle\Repository;
 
+use Concerto\PanelBundle\Entity\Test;
+
 /**
  * TestNodeConnectionRepository
  */
@@ -24,4 +26,8 @@ class TestNodeConnectionRepository extends AEntityRepository {
         $qb->delete("Concerto\PanelBundle\Entity\TestNodeConnection", "tnc")->where("tnc.sourceNode = :sn")->setParameter("sn", $sourceNode)->andWhere("tnc.destinationNode = :dn")->setParameter("dn", $destinationNode)->andWhere("tnc.automatic = :au")->setParameter("au", true)->getQuery()->execute();
     }
 
+    public function deleteByTest(Test $test) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete("Concerto\PanelBundle\Entity\TestNodeConnection", "tnc")->where("tnc.flowTest = :ft")->setParameter("ft", $test)->getQuery()->execute();
+    }
 }
