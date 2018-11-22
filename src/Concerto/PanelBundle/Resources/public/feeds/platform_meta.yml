@@ -1,5 +1,12 @@
-version: "5.0.beta.8.4"
+version: "5.0.beta.8.5"
 changelog:
+    - version: "5.0.beta.8.5"
+      description: >
+        Fixes
+      categories:
+          - label: Fixes
+            changes:
+                - fixed port names not changing on parent variable rename
     - version: "5.0.beta.8.4"
       description: >
         R package fixes/improvements

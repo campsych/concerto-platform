@@ -123,11 +123,19 @@ class TestNodePortService extends ASectionService
             foreach ($ports as $port) {
                 if ($port->getVariable() && $port->getVariable()->getId() == $variable->getId()) {
                     $found = true;
-                    if ($port->hasDefaultValue()) {
+                    $updateNeeded = false;
+                    $changeValue = $port->hasDefaultValue() && $port->getValue() != $variable->getValue();
+                    if ($changeValue) {
                         $port->setValue($variable->getValue());
-                        $port->setName($variable->getName());
-                        $this->update($port, $flush);
+                        $updateNeeded = true;
                     }
+                    $changeName = $port->getName() != $variable->getName();
+                    if ($changeName) {
+                        $port->setName($variable->getName());
+                        $updateNeeded = true;
+                    }
+
+                    if ($updateNeeded) $this->update($port, $flush);
                     break;
                 }
             }

@@ -135,6 +135,10 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "node" => 3,
                     "string" => "1",
                     "defaultValue" => "1",
+                    "dynamic" => 0,
+                    "type" => 1,
+                    "exposed" => 0,
+                    "name" => "response",
                     "variable" => 4,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
@@ -155,6 +159,10 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "node" => 4,
                     "string" => "1",
                     "defaultValue" => "1",
+                    "dynamic" => 0,
+                    "type" => 0,
+                    "exposed" => 0,
+                    "name" => "params",
                     "variable" => 5,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
@@ -254,6 +262,10 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "node" => 3,
                 "string" => "1",
                 "defaultValue" => "1",
+                "dynamic" => 0,
+                "type" => 1,
+                "exposed" => 0,
+                "name" => "response",
                 "variable" => 4,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
@@ -274,6 +286,10 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "node" => 4,
                 "string" => "1",
                 "defaultValue" => "1",
+                "dynamic" => 0,
+                "type" => 0,
+                "exposed" => 0,
+                "name" => "params",
                 "variable" => 5,
                 "variableObject" => array(
                     "class_name" => "TestVariable",

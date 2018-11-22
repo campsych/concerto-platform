@@ -251,6 +251,10 @@
                             "id": 1,
                             "value": "0",
                             "node": 1,
+                            "dynamic": 0,
+                            "type": 2,
+                            "exposed": 1,
+                            "name": "out",
                             "variable": 7,
                             "variableObject": {
                                 "class_name": "TestVariable",
@@ -300,6 +304,10 @@
                             "id": 2,
                             "value": "bbb",
                             "node": 3,
+                            "dynamic": 0,
+                            "type": 0,
+                            "exposed": 0,
+                            "name": "simple",
                             "variable": 5,
                             "variableObject": {
                                 "class_name": "TestVariable",
@@ -320,6 +328,10 @@
                             "id": 3,
                             "value": "[\"ccc\",\"ddd\",\"eee\"]",
                             "node": 3,
+                            "dynamic": 0,
+                            "type": 0,
+                            "exposed": 0,
+                            "name": "complex",
                             "variable": 6,
                             "variableObject": {
                                 "class_name": "TestVariable",
@@ -340,6 +352,10 @@
                             "id": 4,
                             "value": "0",
                             "node": 3,
+                            "dynamic": 0,
+                            "type": 2,
+                            "exposed": 1,
+                            "name": "out",
                             "variable": 4,
                             "variableObject": {
                                 "class_name": "TestVariable",
