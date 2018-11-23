@@ -117,7 +117,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
           for (var i = 0; i < param.definition.fields.length; i++) {
             if (i > 0)
               info += ",";
-            info += param.definition.fields[i].label;
+            info += param.definition.fields[i].name;
           }
           info += "]";
           return Trans.TEST_WIZARD_PARAM_DEFINER_SUMMARIES_GROUP.pf(info);
@@ -243,13 +243,13 @@ concertoPanel.service('TestWizardParam', ["$filter",
     this.serializeParamValue = function (param) {
       try {
         if (param.type == 7 || param.type == 9 || param.type == 10 || param.type == 12 || param.type == 13) {
-          if (param.type == 10)
-            param.output = this.deobjectifyListElements(param);
+          this.deobjectifyListElements(param, param.output);
           param.value = angular.toJson(param.output);
         } else
           param.value = param.output;
-        if (param.value === null)
+        if (param.value === null) {
           throw "null param value (" + param.label + ")";
+        }
       } catch (err) {
         switch (parseInt(param.type)) {
           case 4:
@@ -280,8 +280,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
         try {
           if (param.type == 7 || param.type == 9 || param.type == 10 || param.type == 12 || param.type == 13) {
             param.output = angular.fromJson(param.value);
-            if (param.type == 10)
-              param.output = this.objectifyListElements(param);
+            this.objectifyListElements(param, param.output);
           } else
             param.output = param.value;
         } catch (err) {
@@ -312,34 +311,46 @@ concertoPanel.service('TestWizardParam', ["$filter",
       return true;
     };
 
-    this.objectifyListElements = function (param) {
-      var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
-      if (param.type != 10)
-        return param.output;
-      if (elemTypes.indexOf(param.definition.element.type) != -1) {
-        var result = [];
-        for (var i = 0; i < param.output.length; i++) {
-          result.push({
-            value: param.output[i]
-          });
+    this.objectifyListElements = function (param, output) {
+      switch (parseInt(param.type)) {
+        case 9: {
+          for (var i = 0; i < param.definition.fields.length; i++) {
+            var field = param.definition.fields[i];
+            this.objectifyListElements(field, output[field.name]);
+          }
+          break;
         }
-        return result;
+        case 10: {
+          var validSimpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
+          if (validSimpleTypes.indexOf(parseInt(param.definition.element.type)) !== -1) {
+            for (var i = 0; i < output.length; i++) {
+              output[i] = {value: output[i]};
+            }
+          }
+          break;
+        }
       }
-      return param.output;
     };
 
-    this.deobjectifyListElements = function (param) {
-      var elemTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
-      if (param.type != 10)
-        return param.output;
-      if (elemTypes.indexOf(param.definition.element.type) != -1) {
-        var result = [];
-        for (var i = 0; i < param.output.length; i++) {
-          result.push(param.output[i].value);
+    this.deobjectifyListElements = function (param, output) {
+      switch (parseInt(param.type)) {
+        case 9: {
+          for (var i = 0; i < param.definition.fields.length; i++) {
+            var field = param.definition.fields[i];
+            this.deobjectifyListElements(field, output[field.name]);
+          }
+          break;
         }
-        return result;
+        case 10: {
+          var validSimpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
+          if (validSimpleTypes.indexOf(parseInt(param.definition.element.type)) !== -1) {
+            for (var i = 0; i < output.length; i++) {
+              output[i] = output[i].value;
+            }
+          }
+          break;
+        }
       }
-      return param.output;
     };
   }
 ]);
