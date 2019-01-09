@@ -2,6 +2,7 @@ parameters:
     administration:
         exposed:
             session_limit: 0 #0 for none
+            local_session_limit: 0 #0 for none
             api_enabled: true
             session_limit_overridable: true
             api_enabled_overridable: true

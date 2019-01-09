@@ -1,5 +1,12 @@
-version: "5.0.beta.8.5"
+version: "5.0.beta.8.6"
 changelog:
+    - version: "5.0.beta.8.6"
+      description: >
+        Additional config settings
+      categories:
+          - label: Additional config settings
+            changes:
+                - added 'local_session_limit' setting
     - version: "5.0.beta.8.5"
       description: >
         Fixes

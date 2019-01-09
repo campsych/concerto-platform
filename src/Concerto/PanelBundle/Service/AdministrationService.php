@@ -224,6 +224,12 @@ class AdministrationService
         return (int)$limit;
     }
 
+    public function getLocalSessionLimit()
+    {
+        $limit = $this->getSettingValue("local_session_limit");
+        return (int)$limit;
+    }
+
     public function getGlobalFeedUrl()
     {
         return $this->getSettingValue("global_feed");

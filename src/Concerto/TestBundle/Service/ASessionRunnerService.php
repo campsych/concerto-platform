@@ -124,8 +124,10 @@ abstract class ASessionRunnerService
     protected function checkSessionLimit($session, &$response)
     {
         $session_limit = $this->administrationService->getSessionLimit();
-        $session_count = $this->testSessionCountService->getCurrentCount();
-        if ($session_limit > 0 && $session_limit < $session_count + 1) {
+        $local_session_limit = $this->administrationService->getLocalSessionLimit();
+        $total_limit_reached = $session_limit > 0 && $session_limit <= $this->testSessionCountService->getCurrentCount();
+        $local_limit_reached = $local_session_limit > 0 && $local_session_limit <= $this->testSessionCountService->getCurrentLocalCount();
+        if ($total_limit_reached || $local_limit_reached) {
             $session->setStatus(TestSessionService::STATUS_REJECTED);
             $this->testSessionRepository->save($session);
             $this->administrationService->insertSessionLimitMessage($session);
