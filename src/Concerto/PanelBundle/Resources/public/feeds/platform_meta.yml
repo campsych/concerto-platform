@@ -7,6 +7,7 @@ changelog:
           - label: Additional config settings
             changes:
                 - added 'local_session_limit' setting
+                - 'max_idle_time' and 'lockdown_browser_enabled' overridable on per test basis
     - version: "5.0.beta.8.5"
       description: >
         Fixes
