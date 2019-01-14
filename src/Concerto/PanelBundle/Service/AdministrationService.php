@@ -4,8 +4,11 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\AdministrationSetting;
 use Concerto\PanelBundle\Entity\Message;
+use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
 use Concerto\PanelBundle\Repository\MessageRepository;
+use Concerto\PanelBundle\Repository\TestRepository;
+use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -37,8 +40,10 @@ class AdministrationService
     private $kernel;
     private $apiClientRepository;
     private $testRunnerSettings;
+    private $testRepository;
+    private $testSessionRepository;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationCheckerInterface $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings)
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationCheckerInterface $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings, TestRepository $testRepository, TestSessionRepository $testSessionRepository)
     {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
@@ -53,6 +58,8 @@ class AdministrationService
         $this->kernel = $kernel;
         $this->apiClientRepository = $clientRepository;
         $this->testRunnerSettings = $testRunnerSettings;
+        $this->testRepository = $testRepository;
+        $this->testSessionRepository = $testSessionRepository;
     }
 
     public function insertSessionLimitMessage(TestSession $session)
@@ -197,6 +204,10 @@ class AdministrationService
 
     public function getSettingValue($key)
     {
+        if (array_key_exists($key, $this->testRunnerSettings)) {
+            return $this->testRunnerSettings[$key];
+        }
+
         $map = $this->getAllSettingsMap();
         if (array_key_exists($key, $map)) {
             return $map[$key];
@@ -208,6 +219,65 @@ class AdministrationService
     {
         $enabled = $this->getSettingValue("api_enabled");
         return $enabled == "1";
+    }
+
+    public function getSettingValueForTestName($name, $slug, $key)
+    {
+        $test = null;
+        if ($name !== null) {
+            $test = $this->testRepository->findRunnableByName($name);
+        } else if ($slug !== null) {
+            $test = $this->testRepository->findRunnableBySlug($slug);
+        }
+        return $this->getSettingValueForTest($test, $key);
+    }
+
+    public function getSettingValueForTest(Test $test, $key)
+    {
+        $value = $this->getSettingValue($key);
+
+        if ($test !== null) {
+            $valueTestOverride = $this->getTestConfigOverride($test->getConfigOverride(), $key);
+            if ($valueTestOverride !== null) {
+                return $valueTestOverride;
+            }
+        }
+
+        return $value;
+    }
+
+    public function getSettingValueForSessionHash($hash, $key)
+    {
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $hash));
+        return $this->getSettingValueForSession($session, $key);
+    }
+
+    public function getSettingValueForSession(TestSession $session, $key)
+    {
+        $value = $this->getSettingValue($key);
+
+        if ($session !== null) {
+            $test = $session->getTest();
+            if ($test !== null) {
+                $configOverride = $this->getTestConfigOverride($test->getConfigOverride(), $key);
+                if ($configOverride !== null) {
+                    return $configOverride;
+                }
+            }
+        }
+
+        return $value;
+    }
+
+    private function getTestConfigOverride($configString, $property)
+    {
+        $config = json_decode($configString, true);
+        if ($config) {
+            if (array_key_exists($property, $config)) {
+                return $config[$property];
+            }
+        }
+        return null;
     }
 
     public function getLastMessageFetchTime()

@@ -121,6 +121,12 @@ class Test extends ATopEntity implements \JsonSerializable
     private $owner;
 
     /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $configOverride;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -194,6 +200,29 @@ class Test extends ATopEntity implements \JsonSerializable
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set config override
+     *
+     * @param string $config
+     * @return Test
+     */
+    public function setConfigOverride($config)
+    {
+        $this->configOverride = $config;
+
+        return $this;
+    }
+
+    /**
+     * Get config override
+     *
+     * @return string
+     */
+    public function getConfigOverride()
+    {
+        return $this->configOverride;
     }
 
     /**

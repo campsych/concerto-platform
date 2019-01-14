@@ -59,6 +59,7 @@ while (T) {
             workingDir = response$workingDir,
             client = response$client,
             sessionHash = response$sessionId,
+            maxIdleTime = response$maxIdleTime,
             response = response$response
         )
     }, detached = TRUE)

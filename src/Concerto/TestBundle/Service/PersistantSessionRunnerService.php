@@ -218,7 +218,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         $response = json_encode(array(
             "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . DIRECTORY_SEPARATOR,
             "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
-            "maxIdleTime" => $this->testRunnerSettings["max_idle_time"],
+            "maxIdleTime" => $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time"),
             "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
             "client" => $client,
             "connection" => $this->getConnection(),
@@ -253,7 +253,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $ini_path = $this->getRDir() . "standalone.R";
         $max_exec_time = $this->testRunnerSettings["max_execution_time"];
-        $max_idle_time = $this->testRunnerSettings["max_idle_time"];
+        $max_idle_time = $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time");
         $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
         $database_connection = json_encode($this->getConnection());
         $working_directory = $this->getWorkingDirPath($session_hash);

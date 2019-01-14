@@ -1,8 +1,11 @@
-concerto.run = function(workingDir, client, sessionHash, response = NULL) {
+concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, response = NULL) {
     concerto$workingDir <<- workingDir
     concerto$client <<- client
     concerto$sessionHash <<- sessionHash
     concerto$sessionFile <<- paste0(concerto$workingDir,"session.Rs")
+    if(!is.null(maxIdleTime)) {
+        concerto$maxIdleTime = maxIdleTime
+    }
 
     concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
     concerto$session <<- as.list(concerto5:::concerto.session.get(concerto$sessionHash))
