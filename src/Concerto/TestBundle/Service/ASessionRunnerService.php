@@ -163,11 +163,18 @@ abstract class ASessionRunnerService
 
     protected function saveSubmitterPortFile($session_hash, $port)
     {
+        $startTime = time();
+
         while (($fh = @fopen($this->getSubmitterPortFilePath($session_hash), "x")) === false) {
+            if (time() - $startTime > self::WRITER_TIMEOUT) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - submitter port file timeout");
+                return false;
+            }
             usleep(100 * 1000);
         }
         fwrite($fh, $port . "\n");
         fclose($fh);
+        return true;
     }
 
     protected function getSubmitterPortFilePath($session_hash)
@@ -191,7 +198,15 @@ abstract class ASessionRunnerService
         $session->setSubmitterPort($submitter_port);
         $this->testSessionRepository->save($session);
 
-        if ($save_file) $this->saveSubmitterPortFile($session->getHash(), $submitter_port);
+        if ($save_file) {
+            if ($this->saveSubmitterPortFile($session->getHash(), $submitter_port) === false) {
+                $error_response = array(
+                    "source" => self::SOURCE_TEST_NODE,
+                    "code" => self::RESPONSE_ERROR
+                );
+                return false;
+            }
+        }
         return true;
     }
 
