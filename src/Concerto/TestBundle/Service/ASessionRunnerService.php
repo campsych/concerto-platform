@@ -182,6 +182,23 @@ abstract class ASessionRunnerService
         return $this->getWorkingDirPath($session_hash) . "/submitter.port";
     }
 
+    protected function isProcessReady($session_hash)
+    {
+        return !file_exists($this->getSubmitterPortFilePath($session_hash));
+    }
+
+    protected function waitForProcessReady($session_hash)
+    {
+        $startTime = time();
+        while (!$this->isProcessReady($session_hash)) {
+            if (time() - $startTime > self::WRITER_TIMEOUT) {
+                return false;
+            }
+            usleep(100 * 1000);
+        }
+        return true;
+    }
+
     protected function createSubmitterSock(TestSession $session, $save_file, &$submitter_sock, &$error_response)
     {
         $submitter_sock = $this->createListenerSocket();

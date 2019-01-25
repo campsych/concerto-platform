@@ -44,13 +44,13 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             socket_close($submitter_sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
             return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
 
         $response = $this->startListenerSocket($submitter_sock);
-        if($response === false) {
+        if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -74,6 +74,13 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
+        if (!$this->waitForProcessReady($session_hash)) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $debugOffset = $this->getDebugDataOffset($session);
 
@@ -93,13 +100,13 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             socket_close($submitter_sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
             return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
 
         $response = $this->startListenerSocket($submitter_sock);
-        if($response === false) {
+        if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -123,6 +130,13 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
+        if (!$this->waitForProcessReady($session_hash)) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $debugOffset = $this->getDebugDataOffset($session);
 
@@ -142,13 +156,13 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             socket_close($submitter_sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
             return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
 
         $response = $this->startListenerSocket($submitter_sock);
-        if($response === false) {
+        if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR

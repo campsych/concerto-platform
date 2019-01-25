@@ -16,7 +16,6 @@ concerto.server.listen = function(){
                 Sys.sleep(0.1)
                 next
             }
-            unlink("submitter.port")
             break
         }
 
@@ -49,6 +48,7 @@ concerto.server.listen = function(){
     concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
 
     concerto.log("listened to server")
+    unlink("submitter.port")
 
     if (response$code == RESPONSE_SUBMIT) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
