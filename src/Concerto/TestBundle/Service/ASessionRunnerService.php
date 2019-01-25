@@ -235,8 +235,14 @@ abstract class ASessionRunnerService
     protected function startListenerSocket($server_sock)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+
+        $startTime = time();
         do {
             if (($client_sock = @socket_accept($server_sock)) === false) {
+                if (time() - $startTime > self::WRITER_TIMEOUT) {
+                    $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - start listener timeout");
+                    return false;
+                }
                 continue;
             }
 

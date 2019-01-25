@@ -63,7 +63,14 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->startListenerSocket($submitter_sock);
+        if($response === false) {
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        $response = json_decode($response, true);
         $response = $this->appendDebugDataToResponse($session, $response);
         $this->testSessionRepository->clear();
 
@@ -124,7 +131,14 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->startListenerSocket($submitter_sock);
+        if($response === false) {
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        $response = json_decode($response, true);
         $response = $this->appendDebugDataToResponse($session, $response, $debugOffset);
         socket_close($submitter_sock);
         $this->testSessionRepository->clear();
@@ -185,7 +199,14 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->startListenerSocket($submitter_sock);
+        if($response === false) {
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        $response = json_decode($response, true);
         $response = $this->appendDebugDataToResponse($session, $response, $debugOffset);
         socket_close($submitter_sock);
         $this->testSessionRepository->clear();
