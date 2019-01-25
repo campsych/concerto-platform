@@ -188,8 +188,8 @@ abstract class ASessionRunnerService
         if ($submitter_sock === false) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
             $error_response = array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
             return false;
         }
@@ -201,8 +201,8 @@ abstract class ASessionRunnerService
         if ($save_file) {
             if ($this->saveSubmitterPortFile($session->getHash(), $submitter_port) === false) {
                 $error_response = array(
-                    "source" => self::SOURCE_TEST_NODE,
-                    "code" => self::RESPONSE_ERROR
+                    "source" => TestSessionService::SOURCE_TEST_NODE,
+                    "code" => TestSessionService::RESPONSE_ERROR
                 );
                 return false;
             }

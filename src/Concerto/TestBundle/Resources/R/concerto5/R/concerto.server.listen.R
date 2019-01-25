@@ -38,7 +38,7 @@ concerto.server.listen = function(){
     concerto.log(paste0("waiting for submit (port: ",concerto$session$submitterPort,")..."))
     con = socketConnection(host = "localhost", port = concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "rt")
     response = readLines(con, warn = FALSE)
-    response <- fromJSON(response)
+    response = fromJSON(response)
     close(con)
     setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
 
