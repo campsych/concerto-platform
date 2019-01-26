@@ -212,8 +212,6 @@ abstract class ASessionRunnerService
         }
 
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
 
         if ($save_file) {
             if ($this->saveSubmitterPortFile($session->getHash(), $submitter_port) === false) {
@@ -224,6 +222,9 @@ abstract class ASessionRunnerService
                 return false;
             }
         }
+
+        $session->setSubmitterPort($submitter_port);
+        $this->testSessionRepository->save($session);
         return true;
     }
 
@@ -255,11 +256,11 @@ abstract class ASessionRunnerService
 
         $startTime = time();
         do {
+            if (time() - $startTime > self::WRITER_TIMEOUT) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - start listener timeout");
+                return false;
+            }
             if (($client_sock = @socket_accept($server_sock)) === false) {
-                if (time() - $startTime > self::WRITER_TIMEOUT) {
-                    $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - start listener timeout");
-                    return false;
-                }
                 continue;
             }
 

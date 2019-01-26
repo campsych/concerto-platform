@@ -75,13 +75,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        if (!$this->waitForProcessReady($session_hash)) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $debugOffset = $this->getDebugDataOffset($session);
 
@@ -124,13 +117,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        if (!$this->waitForProcessReady($session_hash)) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
         $debugOffset = $this->getDebugDataOffset($session);
 
@@ -173,13 +159,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        if (!$this->waitForProcessReady($session_hash)) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
 
         $sent = $this->writeToProcess($submitter_sock, array(
@@ -213,13 +192,6 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "browser" => $client_browser
         );
 
-        if (!$this->waitForProcessReady($session_hash)) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
 
         $sent = $this->writeToProcess($submitter_sock, array(

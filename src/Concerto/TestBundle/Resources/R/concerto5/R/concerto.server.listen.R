@@ -58,9 +58,11 @@ concerto.server.listen = function(){
         }
         return(response$values)
     } else if(response$code == RESPONSE_KEEPALIVE_CHECKIN) {
+        concerto.log("keep alive checkin")
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         return(concerto.server.listen())
     } else if(response$code == RESPONSE_STOP) {
+        concerto.log("stop request")
         concerto5:::concerto.session.stop(STATUS_STOPPED)
     } else if(response$code == RESPONSE_WORKER) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())

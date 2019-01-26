@@ -103,13 +103,6 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
                 "code" => TestSessionService::RESPONSE_ERROR
             );
         }
-        if (!$this->waitForProcessReady($session_hash)) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
         if (!$this->createSubmitterSock($session, true, $submitter_sock, $error_response)) return $error_response;
 
         $success = $this->restoreProcess($session_hash);
@@ -174,13 +167,6 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 
         if (!$this->waitForUnlockedCheckpoint($session_hash)) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - background worker lock timeout");
-            return array(
-                "source" => TestSessionService::SOURCE_TEST_NODE,
-                "code" => TestSessionService::RESPONSE_ERROR
-            );
-        }
-        if (!$this->waitForProcessReady($session_hash)) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - process ready timeout");
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
