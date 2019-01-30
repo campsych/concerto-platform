@@ -894,22 +894,33 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           size: "lg"
         });
 
-        modalInstance.result.then(function (object) {
-          $http.post(Paths.TEST_FLOW_CONNECTION_SAVE.pf(connection.id), {
-            "flowTest": object.flowTest,
-            "sourceNode": object.sourceNode,
-            "sourcePort": object.sourcePort,
-            "destinationNode": object.destinationNode,
-            "destinationPort": object.destinationPort,
-            "returnFunction": object.returnFunction,
-            "default": object.defaultReturnFunction,
-            "type": object.type,
-            "dynamic": object.dynamic,
-            "exposed": object.exposed,
-            "name": object.name
-          }).success(function (data) {
-            connection.returnFunction = data.object.returnFunction
-          });
+        modalInstance.result.then(function (response) {
+          switch (response.action) {
+            case "save": {
+              var object = response.object;
+              $http.post(Paths.TEST_FLOW_CONNECTION_SAVE.pf(connection.id), {
+                "flowTest": object.flowTest,
+                "sourceNode": object.sourceNode,
+                "sourcePort": object.sourcePort,
+                "destinationNode": object.destinationNode,
+                "destinationPort": object.destinationPort,
+                "returnFunction": object.returnFunction,
+                "default": object.defaultReturnFunction,
+                "type": object.type,
+                "dynamic": object.dynamic,
+                "exposed": object.exposed,
+                "name": object.name
+              }).success(function (data) {
+                connection.returnFunction = data.object.returnFunction
+              });
+              break;
+            }
+            case "delete": {
+              scope.removeConnection(connection.id);
+              break;
+            }
+          }
+
         }, function () {
           connection.returnFunction = oldValue;
         });

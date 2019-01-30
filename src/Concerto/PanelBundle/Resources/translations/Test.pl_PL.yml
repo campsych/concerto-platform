@@ -326,5 +326,6 @@ flow:
         node_menu: Kliknij aby otworzyć menu węzła
         export_test: Eksportuj test
         export_tests: Eksportuj testy
+        remove_connection: Usuń połączenie
     tags:
         all: Wszystkie

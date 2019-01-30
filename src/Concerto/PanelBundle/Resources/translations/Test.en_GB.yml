@@ -324,6 +324,7 @@ flow:
         node_menu: Click to open node menu
         export_test: Export test
         export_tests: Export tests
+        remove_connection: Remove connection
     tags:
         all: All
         

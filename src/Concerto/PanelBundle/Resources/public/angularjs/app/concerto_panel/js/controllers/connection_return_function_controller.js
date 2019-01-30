@@ -37,12 +37,25 @@ function ConnectionReturnFunctionController($scope, $uibModalInstance, $timeout,
 
   $scope.change = function () {
     $scope.object.defaultReturnFunction = "0";
-    $uibModalInstance.close($scope.object);
+    $uibModalInstance.close({
+      action: "save",
+      object: $scope.object
+    });
+  };
+
+  $scope.delete = function () {
+    $uibModalInstance.close({
+      action: "delete",
+      object: $scope.object
+    });
   };
 
   $scope.reset = function () {
     $scope.object.defaultReturnFunction = "1";
-    $uibModalInstance.close($scope.object);
+    $uibModalInstance.close({
+      action: "save",
+      object: $scope.object
+    });
   };
 
   $scope.cancel = function () {
