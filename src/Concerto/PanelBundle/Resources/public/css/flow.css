@@ -29,6 +29,10 @@
   height: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
 #flowContainer {
   position: relative;
   width: 30000px;
@@ -149,6 +153,7 @@
   font-size: small;
   white-space: nowrap;
   height: 18px;
+  cursor: pointer;
 }
 
 .portLabel span {
@@ -183,25 +188,24 @@
 
 .portLabelReturn {
   text-align: right;
+  cursor: pointer;
 }
 
 .portReturnIcon {
   color: #a52937;
 }
 
-.portLabelInputString {
-}
-
-.portLabelInputR {
-  text-decoration: underline;
-}
-
-.port-value-default {
-  color: #1bd334;
+.port-non-default-value {
+  font-style: italic;
 }
 
 .return-function-default {
   color: #1bd334;
+}
+
+.pointer-icon {
+  color: #ffffff;
+  font-size: 1.2em;
 }
 
 .glyphInteractable {
@@ -255,6 +259,7 @@
 
 ._jsPlumb_overlay {
   z-index: 6;
+  pointer-events: none;
 }
 
 ._jsPlumb_hover._jsPlumb_connector {

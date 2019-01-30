@@ -302,14 +302,14 @@ flow:
                 exposed.returns.tooltip: Eksponowanie/ukrywanie zmiennych wyjścia
                 dynamic.return: Dynamiczne zmienne wyjścia
                 dynamic.return.tooltip: Dodawanie dynamicznych zmiennych wyjścia
+                pointer: Wskaźnik
+                pointer.tooltip: Wskaźnik na zmienną
+                pointer_variable: Wskazana zmienna
+                pointer_variable.tooltip: Nazwa wskazanej zmiennej
         add:
             input: Dodaj/eksponuj port zmiennej wejścia
             branch: Dodaj/eksponuj port rozgałęzienia
             return: Dodaj/eksponuj port zmiennej wyjścia
-        remove:
-            input: Usuń/ukryj port zmiennej wejścia
-            branch: Usuń/ukryj port rozgałęzienia
-            return: Usuń/ukryj port zmiennej wyjścia
                 
     buttons:
         reset_view: Resetuj widok
@@ -327,5 +327,6 @@ flow:
         export_test: Eksportuj test
         export_tests: Eksportuj testy
         remove_connection: Usuń połączenie
+        hide_port: Ukryj port
     tags:
         all: Wszystkie

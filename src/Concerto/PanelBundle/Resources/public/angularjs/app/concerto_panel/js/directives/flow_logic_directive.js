@@ -504,8 +504,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
               var overlayElem = $(
                   "<div class='portLabel portLabelBranch'>" +
-                  "<span uib-tooltip-html='getPortTooltip(\"" + port.id + "\")' tooltip-append-to-body='true'>" + port.name + "</span>" +
-                  (!scope.canRemovePort(node, port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portBranchIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_BRANCH + "\"' tooltip-append-to-body='true' ng-click='hidePort(" + port.id + ")'></i>") +
+                  "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
                   "</div>"
               );
               overlayElem.appendTo(elemContentRight);
@@ -577,10 +576,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           var port = node.ports[i];
 
           if (scope.isPortVisible(node, port) && port.type === 0) {
-            var overlayElem = $("<div " +
-                "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}'>" +
-                (!scope.canRemovePort(node, port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portInputIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_INPUT + "\"' tooltip-append-to-body='true' ng-click='hidePort(" + port.id + ")'></i>") +
-                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</span>" +
+            var overlayElem = $("<div class='portLabel portLabelInput' " +
+                "ng-class='{\"port-non-default-value\": !usesDefaultValue(collectionService.getPort(" + port.id + "))}'>" +
+                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
                 "</div>");
             overlayElem.appendTo(elemContentLeft);
 
@@ -595,23 +593,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 "Custom", {
                   create: function (component) {
                     var portId = component._jsPlumb.parameters.targetPort.id;
-                    var connected = false;
-                    for (var j = 0; j < scope.object.nodesConnections.length; j++) {
-                      var connection = scope.object.nodesConnections[j];
-                      if (connection.destinationPort == portId) {
-                        connected = true;
-                        break;
-                      }
-                    }
 
-                    var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
-                        "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"port-value-default\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
-                        "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
-                        "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
+                    var overlayElem = $("<span><i class='glyphicon glyphicon-arrow-down pointer-icon' ng-class='{\"hidden\": collectionService.getPort(" + portId + ").pointer === \"0\"}'></i></span>");
                     $compile(overlayElem)(scope);
                     return overlayElem;
                   },
-                  location: [-0.5, 0.5],
+                  location: [0.5, 0.6],
                   id: "overlayCode" + port.id
                 }
               ]],
@@ -625,8 +612,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
             var overlayElem = $(
                 "<div class='portLabel portLabelReturn'>" +
-                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.name + "</span>" +
-                (!scope.canRemovePort(node, port) ? "" : "<i class='glyphInteractable glyphicon glyphicon-minus portReturnIcon' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_REMOVE_RETURN + "\"' tooltip-append-to-body='true' ng-click='hidePort(" + port.id + ")'></i>") +
+                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
                 "</div>"
             );
             overlayElem.appendTo(elemContentRight);
@@ -638,6 +624,19 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               endpoint: varEndpoint,
               anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
               paintStyle: {fillStyle: port.dynamic == "1" ? "#ef7785" : "#a52937", strokeStyle: "grey"},
+              overlays: [[
+                "Custom", {
+                  create: function (component) {
+                    var portId = component._jsPlumb.parameters.sourcePort.id;
+
+                    var overlayElem = $("<span><i class='glyphicon glyphicon-arrow-up pointer-icon' ng-class='{\"hidden\": collectionService.getPort(" + portId + ").pointer === \"0\"}'></i></span>");
+                    $compile(overlayElem)(scope);
+                    return overlayElem;
+                  },
+                  location: [0.5, 0.6],
+                  id: "overlayCode" + port.id
+                }
+              ]],
               parameters: {
                 sourceNode: node,
                 sourcePort: port
@@ -840,6 +839,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.editPortCode = function (port) {
         var oldValue = port.value;
+        var editable = !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
         var modalInstance = $uibModal.open({
           templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "port_value_dialog.html",
           controller: PortValueEditController,
@@ -849,26 +849,36 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               return port;
             },
             editable: function () {
-              return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
+              return editable;
             }
           },
-          size: "prc-lg"
+          size: port.type == 2 ? "prc-sm" : "prc-lg"
         });
 
         modalInstance.result.then(function (response) {
-          $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(response.id), {
-            "node": response.node,
-            "variable": response.variable,
-            "value": response.value,
-            "string": response.string,
-            "default": response.defaultValue,
-            "type": response.type,
-            "dynamic": response.dynamic,
-            "exposed": response.exposed,
-            "name": response.name
-          }).success(function (data) {
-            port.value = data.object.value;
-          });
+          switch (response.action) {
+            case "save": {
+              var object = response.object;
+              $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(object.id), {
+                "node": object.node,
+                "variable": object.variable,
+                "value": object.value,
+                "string": object.string,
+                "default": object.defaultValue,
+                "type": object.type,
+                "dynamic": object.dynamic,
+                "exposed": object.exposed,
+                "name": object.name,
+                "pointer": object.pointer,
+                "pointerVariable": object.pointerVariable
+              });
+              break;
+            }
+            case "hide": {
+              scope.hidePort(response.object.id);
+              break;
+            }
+          }
         }, function () {
           port.value = oldValue;
         });
@@ -1238,8 +1248,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.setUpConnection = function (jspConnection) {
         var params = jspConnection.getParameters();
-        if (params.targetPort)
-          $("#divPortControl" + params.targetPort.id).hide();
         if (params.sourcePort && params.sourcePort.type == 1) {
           if (jspConnection.getOverlay("overlayConnection" + params.concertoConnection.id))
             return;
@@ -1305,7 +1313,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       };
 
       scope.canRemovePort = function (node, port) {
-        if (node.type == 0 && !scope.isPortConnected(port)) return true;
+        if (node.type == 0 && !scope.isPortConnected(port) && port.pointer != 1) return true;
         else return false;
       };
 
@@ -1316,6 +1324,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             return true;
         }
         return false;
+      };
+
+      scope.usesDefaultValue = function (port) {
+        if(port === null) return true;
+        return port.defaultValue == 1 && port.pointer == 0;
       };
 
       jsPlumb.setContainer($("#flowContainer"));
@@ -1348,8 +1361,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
 
           var targetPortType = null;
-          if (targetParams.targetPort)
+          if (targetParams.targetPort) {
+            if (targetParams.targetPort.pointer == 1) {
+              return false;
+            }
             targetPortType = targetParams.targetPort.type;
+          }
 
           switch (parseInt(sourcePortType)) {
               //return
@@ -1391,8 +1408,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           if (!params.concertoConnection)
             return;
           scope.removeConnection(params.concertoConnection.id);
-          if (params.targetPort)
-            $("#divPortControl" + params.targetPort.id).show();
         });
 
         $timeout(function () {

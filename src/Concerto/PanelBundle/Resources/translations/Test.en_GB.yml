@@ -300,14 +300,14 @@ flow:
                 exposed.returns.tooltip: Exposing/hiding return ports
                 dynamic.return: Dynamic return
                 dynamic.return.tooltip: Adding dynamic return
+                pointer: Pointer
+                pointer.tooltip: Flow variable pointer
+                pointer_variable: Pointer variable
+                pointer_variable.tooltip: Name of pointed flow variable
         add:
             input: Add/expose input port
             branch: Add/expose branch port
             return: Add/expose return port
-        remove:
-            input: Remove/hide input port
-            branch: Remove/hide branch port
-            return: Remove/hide return port
 
     buttons:
         reset_view: Reset view
@@ -325,6 +325,7 @@ flow:
         export_test: Export test
         export_tests: Export tests
         remove_connection: Remove connection
+        hide_port: Hide port
     tags:
         all: All
         

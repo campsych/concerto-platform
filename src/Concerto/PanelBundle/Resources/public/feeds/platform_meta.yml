@@ -6,6 +6,7 @@ changelog:
       categories:
           - label: Improvements
             changes:
+                - port pointers
                 - can now remove connection from return function dialog
     - version: "5.0.beta.8.7"
       description: >

@@ -86,6 +86,8 @@ class TestNodePortController extends ASectionController
         $dynamic = $request->get("dynamic") === "1";
         $exposed = $request->get("exposed") === "1";
         $name = $request->get("name");
+        $pointer = $request->get("pointer") === "1";
+        $pointerVariable = $request->get("pointerVariable");
 
         $result = $this->service->save(
             $this->securityTokenStorage->getToken()->getUser(),
@@ -98,7 +100,9 @@ class TestNodePortController extends ASectionController
             $type,
             $dynamic,
             $exposed,
-            $name
+            $name,
+            $pointer,
+            $pointerVariable
         );
         return $this->getSaveResponse($result);
     }

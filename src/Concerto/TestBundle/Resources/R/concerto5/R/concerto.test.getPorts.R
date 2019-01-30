@@ -12,7 +12,9 @@ concerto.test.getPorts = function(testId){
   TestNodePort.type AS type,
   TestNodePort.name AS name,
   string,
-  dynamic
+  dynamic,
+  pointer,
+  pointerVariable
   FROM TestNodePort 
   LEFT JOIN TestNode ON TestNode.id = TestNodePort.node_id
   WHERE %s='%s'

@@ -90,6 +90,19 @@ class TestNodePort extends AEntity implements \JsonSerializable
     private $name;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $pointer;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64)
+     */
+    private $pointerVariable;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -102,6 +115,8 @@ class TestNodePort extends AEntity implements \JsonSerializable
         $this->exposed = false;
         $this->sourceForConnections = new ArrayCollection();
         $this->destinationForConnections = new ArrayCollection();
+        $this->pointer = false;
+        $this->pointerVariable = "";
     }
 
     public function getOwner()
@@ -374,6 +389,51 @@ class TestNodePort extends AEntity implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Returns true if port is pointer.
+     *
+     * @return boolean
+     */
+    public function isPointer()
+    {
+        return $this->pointer;
+    }
+
+    /**
+     * Set whether port is pointer.
+     *
+     * @param boolean $pointer
+     * @return TestNodePort
+     */
+    public function setPointer($pointer)
+    {
+        $this->pointer = $pointer;
+        return $this;
+    }
+
+    /**
+     * Get pointer variable name
+     *
+     * @return string
+     */
+    public function getPointerVariable()
+    {
+        return $this->pointerVariable;
+    }
+
+    /**
+     * Set pointer variable
+     *
+     * @param string $name
+     * @return TestNodePort
+     */
+    public function setPointerVariable($name)
+    {
+        $this->pointerVariable = $name;
+
+        return $this;
+    }
+
     public function getAccessibility()
     {
         return $this->getNode()->getFlowTest()->getAccessibility();
@@ -431,7 +491,9 @@ class TestNodePort extends AEntity implements \JsonSerializable
             "dynamic" => $this->dynamic ? "1" : "0",
             "type" => $this->type,
             "exposed" => $this->exposed ? "1" : "0",
-            "name" => $this->getName()
+            "name" => $this->getName(),
+            "pointer" => $this->pointer ? "1" : "0",
+            "pointerVariable" => $this->pointerVariable
         );
     }
 

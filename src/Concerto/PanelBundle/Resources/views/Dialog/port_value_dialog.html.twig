@@ -9,28 +9,58 @@
             {% block elements %}
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "Test" %}
-                    {% block label %}{{ 'flow.ports.dialog.fields.string'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'flow.ports.dialog.fields.string.tooltip'|trans }}{% endblock%}
-                    {% block control %}
-                        <input type="checkbox" ng-model="object.string" ng-true-value='"1"' ng-false-value='"0"' ng-disabled="!editable" />
-                    {% endblock %}
-                {% endembed %}
-                
-                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                    {% trans_default_domain "Test" %}
-                    {% block label %}{{ 'flow.ports.dialog.fields.value'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'flow.ports.dialog.fields.value.tooltip'|trans }}{% endblock%}
+                    {% block row %}<tr class="formRowV" ng-show="object.type != 2">{% endblock %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.value'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.value.tooltip'|trans }}{% endblock %}
                     {% block control %}
                         {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
-                        <ui-codemirror ng-model="object.value" ui-codemirror-opts="codeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
+                        <ui-codemirror ng-model="object.value" ui-codemirror-opts="codeOptions"
+                                       ui-refresh='codemirrorForceRefresh'></ui-codemirror>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block row %}<tr class="formRowV" ng-show="object.type != 2">{% endblock %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.string'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.string.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <input type="checkbox" ng-model="object.string" ng-true-value='"1"' ng-false-value='"0"'
+                               ng-disabled="!editable" />
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block row %}<tr class="formRowV" ng-show="object.type != 2">{% endblock %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.pointer'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.pointer.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <input type="checkbox" ng-model="object.pointer" ng-true-value='"1"' ng-false-value='"0"'
+                               ng-disabled="!editable || !canBePointer" />
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
+                    {% block row %}<tr class="formRowV" ng-show="object.pointer == 1 && object.type != 2">{% endblock %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.pointer_variable'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.pointer_variable.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <input ng-model="object.pointerVariable" type="text" style="width:100%;" class='form-control'
+                               ng-disabled="!editable || !canBePointer" />
                     {% endblock %}
                 {% endembed %}
             {% endblock %}
         {% endembed %}
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="change()" ng-disabled="!editable">{{ 'form.button.change'|trans({},"panel") }}</button>
-        <button class="btn btn-danger" ng-click="reset()" ng-disabled="!editable">{{ 'flow.buttons.reset_to_default'|trans }}</button>
+        <button class="btn btn-success" ng-click="change()"
+                ng-disabled="!editable || object.type == 2">{{ 'form.button.change'|trans({},"panel") }}</button>
+        <button class="btn btn-danger" ng-click="reset()"
+                ng-disabled="!editable || object.type == 2">{{ 'flow.buttons.reset_to_default'|trans }}</button>
+        <button class="btn btn-danger" ng-click="hide()"
+                ng-disabled="!editable || !removable">{{ 'flow.buttons.hide_port'|trans }}</button>
         <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
     </div>
 </div>

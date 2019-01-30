@@ -125,6 +125,10 @@ function(testId, params=list(), extraReturns=c()) {
         }
 
         evalPortValue = function(port, inserts = list()) {
+            if(port$pointer == 1) {
+                return(c.get(port$pointerVariable))
+            }
+
             port_connected = FALSE
             for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
                 connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
@@ -224,6 +228,9 @@ function(testId, params=list(), extraReturns=c()) {
                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                     if (port$node_id == node$id && port$type == 1) {
                         concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]$value <<- node_returns[[port$name]]
+                        if(port$pointer == 1) {
+                            c.set(port$pointerVariable, node_returns[[port$name]])
+                        }
                     }
                 }
             } else if (node$type == 1) {
@@ -231,6 +238,9 @@ function(testId, params=list(), extraReturns=c()) {
                     port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                     if (port$node_id == node$id && port$type == 1) {
                         concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]$value <<- params[[port$name]]
+                        if(port$pointer == 1) {
+                            c.set(port$pointerVariable, params[[port$name]])
+                        }
                     }
                 }
             } else if (node$type == 2) {

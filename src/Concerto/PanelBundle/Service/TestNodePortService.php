@@ -46,7 +46,7 @@ class TestNodePortService extends ASectionService
         return $this->authorizeObject($this->repository->findOneByNodeAndVariable($node, $variable));
     }
 
-    public function save(User $user, $object_id, TestNode $node, TestVariable $variable = null, $default, $value, $string, $type, $dynamic, $exposed, $name, $flush = true)
+    public function save(User $user, $object_id, TestNode $node, TestVariable $variable = null, $default, $value, $string, $type, $dynamic, $exposed, $name, $pointer, $pointerVariable, $flush = true)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -75,6 +75,14 @@ class TestNodePortService extends ASectionService
             $object->setValue($value);
         }
         $object->setString($string);
+        if ($pointer !== null) {
+            $object->setPointer($pointer);
+        } else {
+            $object->setPointerVariable($object->getName());
+        }
+        if ($pointerVariable !== null) {
+            $object->setPointerVariable($pointerVariable);
+        }
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -98,7 +106,7 @@ class TestNodePortService extends ASectionService
             if ($port["variable"] !== null) {
                 $variable = $this->testVariableRepository->find($port["variable"]);
             }
-            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["name"]);
+            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["name"], $port["pointer"], $port["pointerVariable"]);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);
@@ -147,7 +155,7 @@ class TestNodePortService extends ASectionService
                     if ($variable->getType() == 0 || $variable->getType() == 2) continue;
                 }
                 $exposed = $variable->getType() == 2;
-                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, null, false, $exposed, null, $flush);
+                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, null, false, $exposed, null, null, null, $flush);
                 $node->addPort($result["object"]);
             }
         }
@@ -233,6 +241,14 @@ class TestNodePortService extends ASectionService
         $ent->setType($obj["type"]);
         $ent->setExposed($obj["exposed"] == "1");
         $ent->setName($obj["name"]);
+        if (array_key_exists("pointer")) {
+            $ent->setPointer($obj["pointer"]);
+        } else {
+            $ent->setPointer($ent->getName());
+        }
+        if (array_key_exists("pointerVariable")) {
+            $ent->setPointerVariable($obj["pointerVariable"]);
+        }
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -272,6 +288,14 @@ class TestNodePortService extends ASectionService
         $ent->setType($obj["type"]);
         $ent->setExposed($obj["exposed"] == "1");
         $ent->setName($obj["name"]);
+        if (array_key_exists("pointer")) {
+            $ent->setPointer($obj["pointer"]);
+        } else {
+            $ent->setPointer($ent->getName());
+        }
+        if (array_key_exists("pointerVariable")) {
+            $ent->setPointerVariable($obj["pointerVariable"]);
+        }
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -317,7 +341,9 @@ class TestNodePortService extends ASectionService
             $type,
             true,
             true,
-            $name
+            $name,
+            null,
+            null
         );
         return $result;
     }

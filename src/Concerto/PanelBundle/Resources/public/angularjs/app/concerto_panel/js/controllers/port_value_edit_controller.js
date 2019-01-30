@@ -1,6 +1,9 @@
 function PortValueEditController($scope, $uibModalInstance, $timeout, $http, RDocumentation, object, editable) {
   $scope.object = object;
   $scope.editable = editable;
+  $scope.removable = $scope.canRemovePort($scope.collectionService.getNode(object.node), object);
+  $scope.canBePointer = !$scope.isPortConnected(object);
+  console.log($scope.removable);
 
   $scope.codeOptions = {
     lineWrapping: true,
@@ -36,12 +39,25 @@ function PortValueEditController($scope, $uibModalInstance, $timeout, $http, RDo
 
   $scope.change = function () {
     $scope.object.defaultValue = "0";
-    $uibModalInstance.close($scope.object);
+    $uibModalInstance.close({
+      action: "save",
+      object: $scope.object
+    });
+  };
+
+  $scope.hide = function() {
+    $uibModalInstance.close({
+      action: "hide",
+      object: $scope.object
+    });
   };
 
   $scope.reset = function () {
     $scope.object.defaultValue = "1";
-    $uibModalInstance.close($scope.object);
+    $uibModalInstance.close({
+      action: "save",
+      object: $scope.object
+    });
   };
 
   $scope.cancel = function () {
