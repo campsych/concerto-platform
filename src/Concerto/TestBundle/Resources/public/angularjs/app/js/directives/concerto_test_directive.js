@@ -458,10 +458,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           console.log("showLoader");
         displayState = DISPLAY_LOADER_SHOWN;
 
-        if (lastResponse != null && lastResponse.data.templateParams != null) {
-          scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
-        }
-
         if (internalSettings.loaderHead != null)
           angular.element("head").append($compile(internalSettings.loaderHead)(scope));
 

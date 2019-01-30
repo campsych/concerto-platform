@@ -23,6 +23,10 @@ function(
   }
 
   for(name in ls(params)) {
-    concerto$templateParams[[name]] <<- params[[name]]
+    if(is.null(params[[name]])) {
+      concerto$templateParams[name] <<- list(NULL)
+    } else {
+      concerto$templateParams[[name]] <<- params[[name]]
+    }
   }
 }
