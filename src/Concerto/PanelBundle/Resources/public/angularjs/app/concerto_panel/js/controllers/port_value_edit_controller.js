@@ -2,8 +2,7 @@ function PortValueEditController($scope, $uibModalInstance, $timeout, $http, RDo
   $scope.object = object;
   $scope.editable = editable;
   $scope.removable = $scope.canRemovePort($scope.collectionService.getNode(object.node), object);
-  $scope.canBePointer = !$scope.isPortConnected(object);
-  console.log($scope.removable);
+  $scope.canBePointer = !$scope.isPortConnected(object) || object.type == 1;
 
   $scope.codeOptions = {
     lineWrapping: true,

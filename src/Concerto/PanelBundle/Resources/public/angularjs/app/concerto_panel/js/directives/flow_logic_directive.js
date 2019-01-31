@@ -768,7 +768,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.excludeSelfFilter = function (value, index, array) {
         return value.name != scope.object.name;
-      }
+      };
 
       scope.editNodeWizard = function (node, test) {
         var oldValue = angular.copy(node);
@@ -838,7 +838,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       };
 
       scope.editPortCode = function (port) {
-        var oldValue = port.value;
+        var oldPort = angular.copy(port);
         var editable = !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
         var modalInstance = $uibModal.open({
           templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "port_value_dialog.html",
@@ -880,7 +880,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             }
           }
         }, function () {
-          port.value = oldValue;
+          port.value = oldPort.value;
+          port.pointer = oldPort.pointer;
+          port.pointerVariable = oldPort.pointerVariable;
         });
       };
 

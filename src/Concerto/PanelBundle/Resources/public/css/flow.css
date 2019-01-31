@@ -258,8 +258,7 @@
 }
 
 ._jsPlumb_overlay {
-  z-index: 6;
-  pointer-events: none;
+  z-index: 10;
 }
 
 ._jsPlumb_hover._jsPlumb_connector {
