@@ -878,6 +878,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               scope.hidePort(response.object.id);
               break;
             }
+            case "removeConnections": {
+              scope.removeAllConnections(response.object);
+              break;
+            }
           }
         }, function () {
           port.value = oldPort.value;
@@ -1274,21 +1278,42 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         }
       };
 
-      scope.removeConnection = function (id) {
+      scope.removeAllConnections = function (port) {
+        DialogsService.confirmDialog(
+            Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_ALL_CONNECTIONS,
+            Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_ALL_CONNECTIONS.pf(port.id),
+            function (data) {
+              var connectionIds = [];
+              for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                var connection = scope.object.nodesConnections[i];
+                if (connection.sourcePort == port.id || connection.destinationPort == port.id) {
+                  connectionIds.push(connection.id);
+                }
+              }
+              scope.removeConnection(connectionIds.join(","));
+            }
+        );
+      };
+
+      scope.removeConnection = function (ids) {
+        var idsArray = String(ids).split(",");
         for (var i = 0; i < scope.object.nodesConnections.length; i++) {
           var connection = scope.object.nodesConnections[i];
-          if (id === connection.id && connection.removed) {
-            return;
+          var index = idsArray.indexOf(connection.id);
+          if (index !== -1 && connection.removed) {
+            idsArray.splice(index, 1);
           }
         }
 
-
-        $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(id), {}).success(function (data) {
+        $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(idsArray.join(",")), {}).success(function (data) {
           if (data.result === 0) {
-            $("#overlayConnection" + id).remove();
-            for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+            for (var i = 0; i < idsArray.length; i++) {
+              $("#overlayConnection" + idsArray[i]).remove();
+            }
+
+            for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
               var connection = scope.object.nodesConnections[i];
-              if (connection.id == id) {
+              if (idsArray.indexOf(String(connection.id)) != -1) {
                 scope.object.nodesConnections.splice(i, 1);
 
                 if (!connection.sourcePort || connection.sourcePort.type == 2) {
@@ -1300,7 +1325,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                   }
                 }
                 scope.refreshConnections([connection.sourceNode, connection.destinationNode], false);
-                break;
               }
             }
           }
@@ -1329,7 +1353,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       };
 
       scope.usesDefaultValue = function (port) {
-        if(port === null) return true;
+        if (port === null) return true;
         return port.defaultValue == 1 && port.pointer == 0;
       };
 
@@ -1382,6 +1406,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 return false;
               break;
           }
+
+          for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+            var connection = scope.object.nodesConnections[i];
+            if (connection.sourcePort == sourceParams.sourcePort.id && connection.destinationPort == targetParams.targetPort.id) return false;
+          }
+
           return true;
         });
 

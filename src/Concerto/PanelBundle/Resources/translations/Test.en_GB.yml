@@ -279,15 +279,17 @@ flow:
                 return.add: Adding return ports
                 return.add.tooltip: Adding dynamic returns or exposing/hiding current return variables
                 return.remove: Removing/hiding return ports
+                port.remove_all_connections: Removing port connections
             content:
                 input.remove: Are you sure you want to remove/hide input port {0}?
                 branch.remove: Are you sure you want to remove/hide branch port {0}?
                 return.remove: Are you sure you want to remove/hide return port {0}?
+                port.remove_all_connections: Are you sure you want to remove all connections of port {0}?
             fields:
-                string: As string?
-                string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
-                value: Value
-                value.tooltip: Variable value in this port
+                string: Default value as text
+                string.tooltip: If checked, port default value will be treated as text, otherwise as a R code.
+                value: Default value
+                value.tooltip: Default variable value in this port. Used when value of port is NULL.
                 exposed.inputs: Exposed inputs
                 exposed.inputs.tooltip: Exposing/hiding inputs parameters
                 dynamic.input: Dynamic input
@@ -300,9 +302,9 @@ flow:
                 exposed.returns.tooltip: Exposing/hiding return ports
                 dynamic.return: Dynamic return
                 dynamic.return.tooltip: Adding dynamic return
-                pointer: Pointer
-                pointer.tooltip: Flow variable pointer
-                pointer_variable: Pointer variable
+                pointer: Flow variable pointer
+                pointer.tooltip: If checked, this port will use value of flow variable specified
+                pointer_variable: Pointed variable name
                 pointer_variable.tooltip: Name of pointed flow variable
         add:
             input: Add/expose input port
@@ -325,7 +327,8 @@ flow:
         export_test: Export test
         export_tests: Export tests
         remove_connection: Remove connection
-        hide_port: Hide port
+        hide_port: Hide/Remove port
+        remove_all_connections: Remove all connections
     tags:
         all: All
         
