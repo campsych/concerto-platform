@@ -20,9 +20,10 @@ class TestNodePortService extends ASectionService
     private $validator;
     private $testVariableRepository;
     private $testNodeRepository;
+    private $testNodeConnectionService;
     private $logger;
 
-    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger)
+    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger, TestNodeConnectionService $testNodeConnectionService)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 
@@ -30,6 +31,7 @@ class TestNodePortService extends ASectionService
         $this->testVariableRepository = $testVariableRepository;
         $this->testNodeRepository = $testNodeRepository;
         $this->logger = $logger;
+        $this->testNodeConnectionService = $testNodeConnectionService;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -50,7 +52,9 @@ class TestNodePortService extends ASectionService
     {
         $errors = array();
         $object = $this->get($object_id);
+        $isNew = false;
         if ($object === null) {
+            $isNew = true;
             $object = new TestNodePort();
         }
         $object->setUpdated();
@@ -91,8 +95,16 @@ class TestNodePortService extends ASectionService
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object, $flush);
+        $this->onObjectSaved($user, $isNew, $object);
 
         return array("object" => $object, "errors" => $errors);
+    }
+
+    private function onObjectSaved(User $user, $isNew, TestNodePort $obj)
+    {
+        if (!$isNew) {
+            $this->testNodeConnectionService->updateDefaultReturnFunctions($obj);
+        }
     }
 
     public function saveCollection(User $user, $encoded_collection)

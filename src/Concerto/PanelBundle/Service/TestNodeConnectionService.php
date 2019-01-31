@@ -87,10 +87,23 @@ class TestNodeConnectionService extends ASectionService
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function onObjectSaved(User $user, $is_new, TestNodeConnection $object)
+    private function onObjectSaved(User $user, $is_new, TestNodeConnection $object)
     {
         if ($is_new) {
             $this->addSameInputReturnConnection($user, $object);
+        }
+    }
+
+    public function updateDefaultReturnFunctions(TestNodePort $sourcePort)
+    {
+        $connections = $this->repository->findBy(array(
+            "sourcePort" => $sourcePort,
+            "defaultReturnFunction" => true
+        ));
+
+        foreach ($connections as $connection) {
+            $connection->setReturnFunction($sourcePort->getName());
+            $this->repository->save($connection);
         }
     }
 

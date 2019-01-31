@@ -306,6 +306,8 @@ flow:
                 pointer.tooltip: If checked, this port will use value of flow variable specified
                 pointer_variable: Pointed variable name
                 pointer_variable.tooltip: Name of pointed flow variable
+                name: Name
+                name.tooltip: Dynamic variable name
         add:
             input: Add/expose input port
             branch: Add/expose branch port

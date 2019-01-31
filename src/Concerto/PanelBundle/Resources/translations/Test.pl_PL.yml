@@ -308,6 +308,8 @@ flow:
                 pointer.tooltip: Jeśli zaznaczone, port będzie używał wartości ze wskazanej zmiennej grafu.
                 pointer_variable: Nazwa wskazanej zmiennej
                 pointer_variable.tooltip: Nazwa wskazanej zmiennej grafu
+                name: Nazwa
+                name.tooltip: Nazwa dynamicznej zmiennej
         add:
             input: Dodaj/eksponuj port zmiennej wejścia
             branch: Dodaj/eksponuj port rozgałęzienia

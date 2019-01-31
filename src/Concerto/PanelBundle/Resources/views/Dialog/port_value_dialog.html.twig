@@ -9,6 +9,17 @@
             {% block elements %}
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "Test" %}
+                    {% block row %}<tr class="formRowV" ng-show="object.dynamic == 1">{% endblock %}
+                    {% block label %}{{ 'flow.ports.dialog.fields.name'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'flow.ports.dialog.fields.name.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <input ng-model="object.name" type="text" style="width:100%;" class='form-control'
+                               ng-disabled="!editable" />
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "Test" %}
                     {% block row %}<tr class="formRowV" ng-show="object.type == 0">{% endblock %}
                     {% block label %}{{ 'flow.ports.dialog.fields.value'|trans }}{% endblock %}
                     {% block tooltip %}{{ 'flow.ports.dialog.fields.value.tooltip'|trans }}{% endblock %}

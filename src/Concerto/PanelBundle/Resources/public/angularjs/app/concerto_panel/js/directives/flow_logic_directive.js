@@ -873,6 +873,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 "name": object.name,
                 "pointer": object.pointer,
                 "pointerVariable": object.pointerVariable
+              }).success(function (data) {
+                if(data.result === 0) {
+                  scope.collectionService.fetchNodesConnectionCollection(scope.object.id, function () {
+                    scope.refreshNode(scope.collectionService.getNode(object.node));
+                  });
+                } else {
+                  port.name = oldPort.name;
+                  port.value = oldPort.value;
+                  port.string = oldPort.string;
+                  port.pointer = oldPort.pointer;
+                  port.pointerVariable = oldPort.pointerVariable;
+                }
               });
               break;
             }
@@ -886,7 +898,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             }
           }
         }, function () {
+          port.name = oldPort.name;
           port.value = oldPort.value;
+          port.string = oldPort.string;
           port.pointer = oldPort.pointer;
           port.pointerVariable = oldPort.pointerVariable;
         });
