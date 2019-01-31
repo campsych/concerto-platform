@@ -212,10 +212,6 @@
   font-size: 1.2em;
 }
 
-.glyphInteractable {
-  cursor: pointer;
-}
-
 .ctx-menu {
   z-index: 10;
   position: fixed;

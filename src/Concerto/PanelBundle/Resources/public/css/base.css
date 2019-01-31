@@ -292,3 +292,8 @@ ul.breadcrumb li {
     text-align: right;
     margin: 8px 0px 8px 0px;
 }
+
+.tooltip-inner {
+    text-align: left;
+    max-width: 600px;
+}

@@ -487,7 +487,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         if (node.type == 0) {
           var overlayElem = $(
               "<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_BRANCH + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 2)'>" +
-              "<i class='glyphInteractable glyphicon glyphicon-plus portBranchIcon'></i>" +
+              "<i class='clickable glyphicon glyphicon-plus portBranchIcon'></i>" +
               "</div>"
           );
           overlayElem.appendTo(elemContentRight);
@@ -530,7 +530,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         if (node.type == 0) {
           var overlayElem = $(
               "<div class='portLabel portLabelReturn' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_RETURN + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 1)'>" +
-              "<i class='glyphInteractable glyphicon glyphicon-plus portReturnIcon'></i>" +
+              "<i class='clickable glyphicon glyphicon-plus portReturnIcon'></i>" +
               "</div>"
           );
           overlayElem.appendTo(elemContentRight);
@@ -563,7 +563,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         if (node.type == 0) {
           var overlayElem = $(
               "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 0)'>" +
-              "<i class='glyphInteractable glyphicon glyphicon-plus portInputIcon'></i>" +
+              "<i class='clickable glyphicon glyphicon-plus portInputIcon'></i>" +
               "</div>"
           );
           overlayElem.appendTo(elemContentLeft);
@@ -727,15 +727,30 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.getPortTooltip = function (portId) {
         var port = scope.collectionService.getPort(portId);
-        var varName = port.name;
         var description = "";
         if (port.variableObject) {
           description = port.variableObject.description;
         }
-        var tooltip = "<b>" + varName + "</b>";
+        var tooltip = port.name;
+        if (port.pointer == 1) {
+          tooltip += port.type == 0 ? " <- " : " -> ";
+          tooltip += "<b>" + port.pointerVariable + "</b>";
+        }
         if (description && description != "")
-          tooltip += "<br/><br/>" + description;
+          tooltip += "<div>" + description + "</div>";
+        if (port.type == 0 && port.value) {
+          tooltip += "<pre>" + port.value + "</pre>";
+        }
         return tooltip;
+      };
+
+      scope.getConnectionTooltip = function (connectionId) {
+        var connection = scope.collectionService.getConnection(connectionId);
+        var sourcePort = scope.collectionService.getPort(connection.sourcePort);
+        var destinationPort = scope.collectionService.getPort(connection.destinationPort);
+        var tip = sourcePort.name + " -> " + destinationPort.name +
+            "<pre>" + connection.returnFunction + "</pre>";
+        return tip;
       };
 
       scope.serializeSelectedNodes = function () {
@@ -874,7 +889,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 "pointer": object.pointer,
                 "pointerVariable": object.pointerVariable
               }).success(function (data) {
-                if(data.result === 0) {
+                if (data.result === 0) {
                   scope.collectionService.fetchNodesConnectionCollection(scope.object.id, function () {
                     scope.refreshNode(scope.collectionService.getNode(object.node));
                   });
@@ -1278,9 +1293,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 create: function (component) {
                   var overlayElem = $("<div>" +
                       "<div id='divConnectionControl" + params.concertoConnection.id + "'>" +
-                      "<i class='glyphInteractable glyphicon glyphicon-align-justify' ng-class='{\"return-function-default\": collectionService.getConnection(" + params.concertoConnection.id + ").defaultReturnFunction == \"1\"}' " +
+                      "<i class='clickable glyphicon glyphicon-align-justify' ng-class='{\"return-function-default\": collectionService.getConnection(" + params.concertoConnection.id + ").defaultReturnFunction == \"1\"}' " +
                       "ng-click='editConnectionCode(collectionService.getConnection(" + params.concertoConnection.id + "))' " +
-                      "uib-tooltip-html='collectionService.getConnection(" + params.concertoConnection.id + ").returnFunction' tooltip-append-to-body='true'></i></div>" +
+                      "uib-tooltip-html='getConnectionTooltip(" + params.concertoConnection.id + ")' tooltip-append-to-body='true'></i></div>" +
                       "</div>");
                   $compile(overlayElem)(scope);
                   return overlayElem;
