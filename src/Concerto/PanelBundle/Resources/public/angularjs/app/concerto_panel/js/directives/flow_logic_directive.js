@@ -598,6 +598,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $compile(overlayElem)(scope);
                     return overlayElem;
                   },
+                  cssClass: "port-overlay",
                   location: [0.5, 0.6],
                   id: "overlayCode" + port.id
                 }
@@ -633,6 +634,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     $compile(overlayElem)(scope);
                     return overlayElem;
                   },
+                  cssClass: "port-overlay",
                   location: [0.5, 0.6],
                   id: "overlayCode" + port.id
                 }
@@ -734,7 +736,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         if (description && description != "")
           tooltip += "<br/><br/>" + description;
         return tooltip;
-      }
+      };
 
       scope.serializeSelectedNodes = function () {
         var result = [];
