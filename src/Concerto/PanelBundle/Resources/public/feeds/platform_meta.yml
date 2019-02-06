@@ -8,6 +8,9 @@ changelog:
             changes:
                 - port pointers
                 - can now remove connection from return function dialog
+          - label: Fixes
+            changes:
+                - fixed updating port values with renamed object
     - version: "5.0.beta.8.7"
       description: >
         Process requests queue fixes

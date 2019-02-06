@@ -532,7 +532,7 @@ class TestWizardParamService extends ASectionService
         if ($type == 10) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if (array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
+            if ($val !== null && array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
                 for ($i = 0; $i < count($val); $i++) {
                     $moded |= self::modifyPropertiesOnRename($object, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
                 }
