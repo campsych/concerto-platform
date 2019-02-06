@@ -124,7 +124,7 @@ function(testId, params=list(), extraReturns=c()) {
             return(T)
         }
 
-        evalInputPortValue = function(port, inserts = list()) {
+        evalPortValue = function(port, inserts = list()) {
             value = port$value
             if(port$pointer == 1) {
                 pointerValue = c.get(port$pointerVariable)
@@ -177,7 +177,6 @@ function(testId, params=list(), extraReturns=c()) {
                 .dynamicReturns=c(),
                 .dynamicBranches=c()
             )
-            input_type = 0
             dynamicInputs = list()
             dynamicReturns = c()
             dynamicBranches = c()
@@ -186,15 +185,10 @@ function(testId, params=list(), extraReturns=c()) {
                 port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                 if (port$node_id != node$id) next
 
-                if (port$type == input_type && port$dynamic == 1) {
-                    portValue = evalPortValue(port, port$value)
-                    if(is.null(portValue)) {
-                        node_params[port$name] = list(NULL)
-                        dynamicInputs[port$name] = list(NULL)
-                    } else {
-                        node_params[[port$name]] = portValue
-                        dynamicInputs[[port$name]] = portValue
-                    }
+                if (port$type == 0 && port$dynamic == 1) {
+                    portValue = evalPortValue(port)
+                    node_params[port$name] = list(portValue)
+                    dynamicInputs[port$name] = list(portValue)
                     node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
                     node_params[[".dynamicInputs"]] = c(node_params[[".dynamicInputs"]], port$name)
                 } else if (port$type == 1) {
@@ -213,13 +207,9 @@ function(testId, params=list(), extraReturns=c()) {
             }
             for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
                 port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                if (port$node_id == node$id && port$type == input_type && port$dynamic == 0) {
-                    portValue = evalPortValue(port, port$value, dynamicInputs)
-                    if(is.null(portValue)) {
-                        node_params[port$name] = list(NULL)
-                    } else {
-                        node_params[[port$name]] = portValue
-                    }
+                if (port$node_id == node$id && port$type == 0 && port$dynamic == 0) {
+                    portValue = evalPortValue(port)
+                    node_params[port$name] = list(portValue)
                     node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
                 }
             }
@@ -366,11 +356,7 @@ function(testId, params=list(), extraReturns=c()) {
             name = extraReturns[i]
             val = c.get(name)
             if (is.null(r[[name]]) && !is.null(val)) {
-                if(is.null(val)) {
-                    r[name] <- list(NULL)
-                } else {
-                    r[[name]] <- val
-                }
+                r[name] = list(val)
             }
         }
     }
