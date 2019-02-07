@@ -1,5 +1,6 @@
 \name{concerto.var.get}
 \alias{concerto.var.get}
+\alias{c.get}
 \title{
 Global variables
 }
@@ -10,8 +11,17 @@ Gets global variable value
 concerto.var.get(name)
 }
 \arguments{
-  \item{name}{
+\item{name}{
 Variable name
+}
+\item{global}{
+Logical: TRUE to look for value in top most position
+}
+\item{all}{
+Logical: TRUE if to return list of all variables at specified position
+}
+\item{posOffset}{
+Numerical: position offset
 }
 }
 \details{

@@ -11,6 +11,10 @@ changelog:
           - label: Fixes
             changes:
                 - fixed updating port values with renamed object
+          - label: R package
+            changes:
+                - added 'concerto.trans'
+                - updated package description
     - version: "5.0.beta.8.7"
       description: >
         Process requests queue fixes

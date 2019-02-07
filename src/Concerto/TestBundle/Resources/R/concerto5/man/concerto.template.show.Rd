@@ -32,6 +32,12 @@ Time limit after which template will be auto submitted (in seconds).
   \item{finalize}{
 Logical: TRUE if after this template there is no more logic available.
 }
+\item{removeMissingParams}{
+Logical: TRUE if should remove unmatched insert directives
+}
+\item{bgWorkers}{
+Background worker functions
+}
 
 }
 \details{

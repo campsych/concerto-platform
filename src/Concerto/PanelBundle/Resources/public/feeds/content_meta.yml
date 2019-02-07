@@ -1,5 +1,28 @@
-version: "1.8"
+version: "2.0"
 changelog:
+    - version: "2.0"
+      description: >
+        New major version of starter content
+      categories:
+          - label: New content
+            changes:
+                - authorizeUser
+                - CAT
+                - createList
+                - dataManipulation
+                - eval
+                - form
+                - get
+                - if
+                - linearTest
+                - nestedPageHtml
+                - questionnaire
+                - runTest
+                - set
+                - setInternalTemplates
+                - showPage
+                - startSession
+                - translationDictionary
     - version: "1.8"
       description: >
         Fixes

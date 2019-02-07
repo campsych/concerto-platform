@@ -12,6 +12,12 @@ concerto.template.insertParams = function(html,params=list(),removeMissing=T){
           if(Encoding(insert) == "UTF-8") { insert = enc2native(insert) }
         }
         html <- gsub(matches[index], insert, html, fixed=TRUE)
+      } else if(substring(value, 1, 6) == "trans:") {
+        insert = c.trans(substring(value,7))
+        if(Sys.info()['sysname'] == "Windows") {
+          if(Encoding(insert) == "UTF-8") { insert = enc2native(insert) }
+        }
+        html <- gsub(matches[index], insert, html, fixed=TRUE)
       } else if(!is.null(params[[value]])){
         insert = as.character(params[[value]])
         if(Sys.info()['sysname'] == "Windows") {

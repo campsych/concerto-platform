@@ -1,5 +1,6 @@
 \name{concerto.var.set}
 \alias{concerto.var.set}
+\alias{c.set}
 \title{
 Global variables
 }
@@ -15,6 +16,12 @@ Variable name
 }
   \item{value}{
 Variable value
+}
+\item{global}{
+Logical: TRUE to set value in top most position
+}
+\item{posOffset}{
+Numerical: position offset
 }
 }
 \details{
