@@ -143,7 +143,8 @@ function(testId, params=list(), extraReturns=c()) {
                         if (isGetterNode(source_node)) {
                             #getters shouldn't be resumable
                             runNode(source_node)
-                            port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
+                            port = concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]
+                            value = port$value
                         }
                         break
                     }
