@@ -162,7 +162,8 @@ function(testId, params=list(), extraReturns=c()) {
                 }
                 return(eval(parse(text = value), envir=portEnv))
             } else {
-                return(concerto.template.insertParams(value, inserts, removeMissing=F))
+                value = concerto.template.insertParams(value, inserts, removeMissing=F)
+                return(value)
             }
         }
 
@@ -209,7 +210,7 @@ function(testId, params=list(), extraReturns=c()) {
             for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
                 port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
                 if (port$node_id == node$id && port$type == 0 && port$dynamic == 0) {
-                    portValue = evalPortValue(port)
+                    portValue = evalPortValue(port, dynamicInputs)
                     node_params[port$name] = list(portValue)
                     node_params[[".inputs"]] = c(node_params[[".inputs"]], port$name)
                 }
