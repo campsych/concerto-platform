@@ -65,7 +65,7 @@ class TestSessionService
         return sha1(time() . "_" . $this->secret . "_" . $session_id);
     }
 
-    public function startNewSession($test_slug, $test_name, $params, $client_ip, $client_browser, $debug)
+    public function startNewSession($test_slug, $test_name, $params, $client_ip, $client_browser, $debug, $max_exec_time = null)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug");
 
@@ -93,7 +93,7 @@ class TestSessionService
         $session->setHash($hash);
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->startNew($session, $params, $client_ip, $client_browser, $debug);
+        $response = $this->sessionRunnerService->startNew($session, $params, $client_ip, $client_browser, $debug, $max_exec_time);
         return $this->prepareResponse($hash, $response);
     }
 

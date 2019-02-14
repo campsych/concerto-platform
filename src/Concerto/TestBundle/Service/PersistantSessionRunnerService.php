@@ -21,7 +21,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         $this->environment = $environment;
     }
 
-    public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false)
+    public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $params, $client_ip, $client_ip, $client_browser, $debug");
@@ -37,9 +37,9 @@ class PersistantSessionRunnerService extends ASessionRunnerService
 
         $success = false;
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
-            $success = $this->startChildProcess($client, $session_hash);
+            $success = $this->startChildProcess($client, $session_hash, $max_exec_time);
         } else {
-            $success = $this->startStandaloneProcess($client, $session_hash);
+            $success = $this->startStandaloneProcess($client, $session_hash, $max_exec_time);
         }
         if (!$success) {
             socket_close($submitter_sock);
@@ -215,9 +215,9 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         );
     }
 
-    private function startStandaloneProcess($client, $session_hash)
+    private function startStandaloneProcess($client, $session_hash, $max_exec_time)
     {
-        $cmd = $this->getCommand($client, $session_hash);
+        $cmd = $this->getCommand($client, $session_hash, $max_exec_time);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
 
         $process = new Process($cmd);
@@ -234,11 +234,15 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         return true;
     }
 
-    private function startChildProcess($client, $session_hash)
+    private function startChildProcess($client, $session_hash, $max_exec_time)
     {
+        if ($max_exec_time === null) {
+            $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        }
+
         $response = json_encode(array(
             "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . DIRECTORY_SEPARATOR,
-            "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
+            "maxExecTime" => $max_exec_time,
             "maxIdleTime" => $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time"),
             "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
             "client" => $client,
@@ -269,11 +273,13 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         return $success;
     }
 
-    private function getCommand($client, $session_hash)
+    private function getCommand($client, $session_hash, $max_exec_time)
     {
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $ini_path = $this->getRDir() . "standalone.R";
-        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        if ($max_exec_time === null) {
+            $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        }
         $max_idle_time = $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time");
         $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
         $database_connection = json_encode($this->getConnection());

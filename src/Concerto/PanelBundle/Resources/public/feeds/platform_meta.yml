@@ -4,6 +4,8 @@ changelog:
       description: >
         Flow improvements
       categories:
+          - label: New features
+                - concerto.test.run CLI command
           - label: Improvements
             changes:
                 - port pointers

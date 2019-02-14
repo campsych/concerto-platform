@@ -34,7 +34,7 @@ abstract class ASessionRunnerService
         $this->testSessionRepository = $testSessionRepository;
     }
 
-    abstract public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false);
+    abstract public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
     abstract public function submit(TestSession $session, $values, $client_ip, $client_browser);
 

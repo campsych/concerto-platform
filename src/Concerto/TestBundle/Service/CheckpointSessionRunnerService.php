@@ -11,7 +11,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
 {
     const LOCK_TIMEOUT = 30;
 
-    public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false)
+    public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $params, $client_ip, $client_ip, $client_browser, $debug");
@@ -37,7 +37,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             }
             $success = $this->restoreInitProcess($session_hash);
         } else {
-            $success = $this->startProcess($client, $session_hash);
+            $success = $this->startProcess($client, $session_hash, $max_exec_time);
         }
         if (!$success) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - starting session failed");
@@ -64,7 +64,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         }
 
         $response = $this->startListenerSocket($submitter_sock);
-        if($response === false) {
+        if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -132,7 +132,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         }
 
         $response = $this->startListenerSocket($submitter_sock);
-        if($response === false) {
+        if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -200,7 +200,7 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         }
 
         $response = $this->startListenerSocket($submitter_sock);
-        if($response === false) {
+        if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
                 "code" => TestSessionService::RESPONSE_ERROR
@@ -239,9 +239,9 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
         );
     }
 
-    private function startProcess($client, $session_hash)
+    private function startProcess($client, $session_hash, $max_exec_time)
     {
-        $cmd = $this->getStartProcessCommand($client, $session_hash);
+        $cmd = $this->getStartProcessCommand($client, $session_hash, $max_exec_time);
 
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
 
@@ -501,10 +501,12 @@ class CheckpointSessionRunnerService extends ASessionRunnerService
             . "2>&1 4<&- 5<&- 6<&- 7<&- 8<&- 9<&-";
     }
 
-    private function getStartProcessCommand($client, $session_hash)
+    private function getStartProcessCommand($client, $session_hash, $max_exec_time)
     {
         $ini_path = $this->getRDir() . "standalone.R";
-        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        if ($max_exec_time === null) {
+            $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        }
         $rscript = $this->testRunnerSettings["rscript_exec"];
         $db_connection = json_encode($this->getConnection());
         $working_dir = $this->getWorkingDirPath($session_hash);
