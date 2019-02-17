@@ -253,12 +253,12 @@ class TestNodePortService extends ASectionService
         $ent->setType($obj["type"]);
         $ent->setExposed($obj["exposed"] == "1");
         $ent->setName($obj["name"]);
-        if (array_key_exists("pointer")) {
+        if (array_key_exists("pointer", $obj)) {
             $ent->setPointer($obj["pointer"]);
         } else {
             $ent->setPointer($ent->getName());
         }
-        if (array_key_exists("pointerVariable")) {
+        if (array_key_exists("pointerVariable", $obj)) {
             $ent->setPointerVariable($obj["pointerVariable"]);
         }
         $ent_errors = $this->validator->validate($ent);
@@ -300,12 +300,12 @@ class TestNodePortService extends ASectionService
         $ent->setType($obj["type"]);
         $ent->setExposed($obj["exposed"] == "1");
         $ent->setName($obj["name"]);
-        if (array_key_exists("pointer")) {
+        if (array_key_exists("pointer", $obj)) {
             $ent->setPointer($obj["pointer"]);
         } else {
             $ent->setPointer($ent->getName());
         }
-        if (array_key_exists("pointerVariable")) {
+        if (array_key_exists("pointerVariable", $obj)) {
             $ent->setPointerVariable($obj["pointerVariable"]);
         }
         $ent_errors = $this->validator->validate($ent);
