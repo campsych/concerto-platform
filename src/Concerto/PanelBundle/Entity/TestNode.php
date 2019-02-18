@@ -29,15 +29,15 @@ class TestNode extends AEntity implements \JsonSerializable {
 
     /**
      *
-     * @var float
-     * @ORM\Column(type="float")
+     * @var integer
+     * @ORM\Column(type="integer")
      */
     private $posX;
 
     /**
      *
-     * @var float
-     * @ORM\Column(type="float")
+     * @var integer
+     * @ORM\Column(type="integer")
      */
     private $posY;
 
@@ -128,7 +128,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     /**
      * Get position X
      *
-     * @return float 
+     * @return integer
      */
     public function getPosX() {
         return $this->posX;
@@ -137,7 +137,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     /**
      * Set position X
      *
-     * @param float $posX
+     * @param integer $posX
      * @return TestNode
      */
     public function setPosX($posX) {
@@ -149,7 +149,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     /**
      * Get position Y
      *
-     * @return float 
+     * @return integer
      */
     public function getPosY() {
         return $this->posY;
@@ -158,7 +158,7 @@ class TestNode extends AEntity implements \JsonSerializable {
     /**
      * Set position Y
      *
-     * @param float $posY
+     * @param integer $posY
      * @return TestNode
      */
     public function setPosY($posY) {
