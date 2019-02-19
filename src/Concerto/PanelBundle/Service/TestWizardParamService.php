@@ -309,7 +309,7 @@ class TestWizardParamService extends ASectionService
                     foreach ($nodes as $node) {
                         $ports = $node->getPorts();
                         foreach ($ports as $port) {
-                            if ($port->getVariable()->getId() == $var->getId()) {
+                            if ($port->getVariable() !== null && $port->getVariable()->getId() == $var->getId()) {
                                 $portDstVal = $port->getValue();
                                 if (!in_array($oldType, self::$simpleTypes)) {
                                     $portDstVal = json_decode($portDstVal, true);

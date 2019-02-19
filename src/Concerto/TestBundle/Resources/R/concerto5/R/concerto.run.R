@@ -12,7 +12,7 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, res
     concerto$session$previousStatus <<- concerto$session$status
     concerto$session$status <<- STATUS_RUNNING
     concerto$session$params <<- fromJSON(concerto$session$params)
-    concerto$mainTest <<- list(id=concerto$session["test_id"])
+    concerto$mainTest <<- list(id=concerto$session$test_id)
     concerto$resuming <<- F
 
     tryCatch({
@@ -27,10 +27,8 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, res
             concerto$resumeIndex <<- 0
             testId = concerto$flow[[1]]$id
             params = concerto$flow[[1]]$params
-            concerto.test.run(testId, params)
-        } else {
-            concerto.test.run(testId, params)
         }
+        concerto.test.run(testId, params)
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
     }, error = function(e) {
         concerto.log(e)

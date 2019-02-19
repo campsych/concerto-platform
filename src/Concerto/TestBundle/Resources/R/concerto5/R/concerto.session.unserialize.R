@@ -1,11 +1,19 @@
-concerto.session.unserialize <- function(response){
+concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto.log("unserializing session...")
 
-    if(!file.exists(concerto$sessionFile)) {
-        concerto.log("starting new session")
+    sessionFileName = concerto$sessionFile
+    if(!is.null(hash)) {
+        sessionFileName = gsub(concerto$session$hash, hash, sessionFileName)
+    }
+
+    if(!file.exists(sessionFileName)) {
+        concerto.log(sessionFileName, "session file not found")
         return(F)
     }
-    con = file(concerto$sessionFile, open="rb")
+
+    concerto.log(sessionFileName)
+
+    con = file(sessionFileName, open="rb")
     prevConcerto = unserialize(con)
     close(con)
 
@@ -19,14 +27,22 @@ concerto.session.unserialize <- function(response){
 
     concerto.log("session unserialized")
 
-    if (response$code == RESPONSE_SUBMIT) {
+    #non submit resume
+    if(is.null(response) && concerto$runnerType == RUNNER_SERIALIZED) {
+        concerto$resuming <<- T
+        concerto$resumeIndex <<- 0
+        concerto.test.run(concerto$flow[[1]]$id, params=concerto$flow[[1]]$params)
+        concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_FINISHED)
+    }
+
+    if (!is.null(response$code) && response$code == RESPONSE_SUBMIT) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         concerto$lastSubmitTime <<- as.numeric(Sys.time())
         if(exists("concerto.onTemplateSubmit")) {
             do.call("concerto.onTemplateSubmit",list(response=response$values), envir = .GlobalEnv)
         }
         concerto$queuedResponse <<- response$values
-    } else if(response$code == RESPONSE_WORKER) {
+    } else if(!is.null(response$code) && response$code == RESPONSE_WORKER) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         result = list()
         if(!is.null(response$values$bgWorker) && response$values$bgWorker %in% ls(concerto$bgWorkers)) {
