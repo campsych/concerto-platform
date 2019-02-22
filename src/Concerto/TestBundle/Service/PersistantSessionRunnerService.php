@@ -50,7 +50,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = $this->startListenerSocket($submitter_sock);
+        $response = $this->startListenerSocket($submitter_sock, $max_exec_time);
         if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,

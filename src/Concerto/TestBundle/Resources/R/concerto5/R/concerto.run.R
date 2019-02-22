@@ -1,10 +1,14 @@
-concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, response = NULL) {
+concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, maxExecTime = NULL, response = NULL) {
     concerto$workingDir <<- workingDir
     concerto$client <<- client
     concerto$sessionHash <<- sessionHash
     concerto$sessionFile <<- paste0(concerto$workingDir,"session.Rs")
+
     if(!is.null(maxIdleTime)) {
         concerto$maxIdleTime <<- maxIdleTime
+    }
+    if(!is.null(maxExecTime)) {
+        concerto$maxExecTime <<- maxExecTime
     }
 
     concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
@@ -17,7 +21,9 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, res
 
     tryCatch({
         setwd(concerto$workingDir)
-        setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
+        if(concerto$maxExecTime > 0) {
+            setTimeLimit(elapsed=concerto$maxExecTime, transient=TRUE)
+        }
 
         testId = concerto$session["test_id"]
         params = concerto$session$params

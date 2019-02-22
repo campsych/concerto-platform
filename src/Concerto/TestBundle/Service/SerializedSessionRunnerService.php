@@ -49,7 +49,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             );
         }
 
-        $response = $this->startListenerSocket($submitter_sock);
+        $response = $this->startListenerSocket($submitter_sock, $max_exec_time);
         if ($response === false) {
             return array(
                 "source" => TestSessionService::SOURCE_TEST_NODE,
@@ -205,7 +205,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
 
     private function startChildProcess($client, $session_hash, $response = null, $max_exec_time = null)
     {
-        if ($max_exec_time == null) {
+        if ($max_exec_time === null) {
             $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         }
 

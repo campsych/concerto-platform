@@ -60,6 +60,7 @@ while (T) {
             client = response$client,
             sessionHash = response$sessionId,
             maxIdleTime = response$maxIdleTime,
+            maxExecTime = response$maxExecTime,
             response = response$response
         )
     }, detached = TRUE)

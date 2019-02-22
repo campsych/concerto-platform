@@ -250,13 +250,20 @@ abstract class ASessionRunnerService
         return $sock;
     }
 
-    protected function startListenerSocket($server_sock)
+    protected function startListenerSocket($server_sock, $max_exec_time = NULL)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
 
         $startTime = time();
+        $timeLimit = $max_exec_time;
+        if ($timeLimit === null) {
+            $timeLimit = $this->testRunnerSettings["max_execution_time"];
+        }
+        if($timeLimit > 0) {
+            $timeLimit += 5;
+        }
         do {
-            if (time() - $startTime > self::WRITER_TIMEOUT) {
+            if ($timeLimit > 0 && time() - $startTime > $timeLimit) {
                 $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - start listener timeout");
                 return false;
             }

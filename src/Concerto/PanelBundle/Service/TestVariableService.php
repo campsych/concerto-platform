@@ -144,6 +144,7 @@ class TestVariableService extends ASectionService
         $name = $parentVariable->getName();
         $url = $parentVariable->isPassableThroughUrl();
         $type = $parentVariable->getType();
+        $value = $parentVariable->getValue();
 
         foreach ($parentVariable->getTest()->getWizards() as $wizard) {
             foreach ($wizard->getResultingTests() as $test) {
@@ -153,6 +154,10 @@ class TestVariableService extends ASectionService
                         $found = true;
                         $variable->setName($name);
                         $variable->setPassableThroughUrl($url);
+
+                        $hasWizardParam = $wizard->getParamByName($variable->getName()) !== null;
+                        if(!$hasWizardParam) $variable->setValue($value);
+
                         $this->update($user, $variable, $flush);
                         break;
                     }

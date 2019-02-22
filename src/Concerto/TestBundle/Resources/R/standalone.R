@@ -13,6 +13,5 @@ concerto5:::concerto.run(
     workingDir = commandArgs(TRUE)[4],
     client = fromJSON(commandArgs(TRUE)[2]),
     sessionHash = commandArgs(TRUE)[3],
-    maxIdleTime = NULL,
     response = fromJSON(commandArgs(TRUE)[10])
 )

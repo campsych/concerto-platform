@@ -40,7 +40,9 @@ concerto.server.listen = function(){
         response = readLines(con, warn = FALSE)
         response = fromJSON(response)
         close(con)
-        setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
+        if(concerto$maxExecTime > 0) {
+            setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
+        }
 
         concerto.log("received response")
         concerto.log(response)
