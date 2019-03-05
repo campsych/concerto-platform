@@ -38,7 +38,7 @@ class ContentImportCommand extends Command
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
     }
 
-    protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user)
+    protected function importContent(InputInterface $input, OutputInterface $output, User $user)
     {
         $output->writeln("importing content...");
 
@@ -92,7 +92,7 @@ class ContentImportCommand extends Command
             $user = $users[0];
         }
 
-        $this->importStarterContent($input, $output, $user);
+        $this->importContent($input, $output, $user);
     }
 
 }

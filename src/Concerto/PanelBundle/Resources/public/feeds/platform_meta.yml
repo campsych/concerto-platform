@@ -9,6 +9,7 @@ changelog:
                 - fixed nodes duplication on copy
                 - unparametrized input variables of test wizard now gets default values properly updated from parent variables
                 - fixed insert regex to allow inserts in insert directive
+                - 'concerto:content:export' command now also exports non starter content flagged objects
     - version: "5.0.beta.8.8"
       description: >
         Flow improvements

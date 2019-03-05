@@ -32,13 +32,13 @@ class ContentExportCommand extends Command
             "Resources" . DIRECTORY_SEPARATOR .
             "starter_content" . DIRECTORY_SEPARATOR;
 
-        $this->setName("concerto:content:export")->setDescription("Exports starter content");
+        $this->setName("concerto:content:export")->setDescription("Exports content");
         $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
     }
 
-    protected function exportStarterContent(InputInterface $input, OutputInterface $output)
+    protected function exportContent(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("exporting starter content started");
+        $output->writeln("exporting content started");
         $classes = array(
             "DataTable",
             "Test",
@@ -48,9 +48,9 @@ class ContentExportCommand extends Command
         $em = $this->doctrine->getManager();
         foreach ($classes as $class_name) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $starter_content = $repo->findBy(array("starterContent" => true));
+            $content = $repo->findAll();
             $class_service = $this->importService->serviceMap[$class_name];
-            foreach ($starter_content as $ent) {
+            foreach ($content as $ent) {
                 $dependencies = array();
                 $ent = $class_service->get($ent->getId(), false, false);
                 $ent->jsonSerialize($dependencies);
@@ -83,7 +83,7 @@ class ContentExportCommand extends Command
             }
         }
         $em->flush();
-        $output->writeln("exporting starter content finished");
+        $output->writeln("exporting content finished");
     }
 
     private function saveFile($class_name, $name, $content, $path)
@@ -98,7 +98,7 @@ class ContentExportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->exportStarterContent($input, $output);
+        $this->exportContent($input, $output);
     }
 
 }
