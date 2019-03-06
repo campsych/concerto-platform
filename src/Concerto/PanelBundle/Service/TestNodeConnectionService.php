@@ -113,6 +113,7 @@ class TestNodeConnectionService extends ASectionService
         if ($src->getName() != $dst->getName()) return false;
         if ($src->getNode()->getType() == 0 && !$src->isDynamic() && !$src->isExposed()) return false;
         if ($dst->getNode()->getType() == 0 && !$dst->isDynamic() && !$dst->isExposed()) return false;
+        if ($dst->isPointer()) return false;
         return true;
     }
 
