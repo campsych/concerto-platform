@@ -281,7 +281,14 @@ class TestNodePortService extends ASectionService
         if ($obj["variable"] != null) {
             $variable = $map["TestVariable"]["id" . $obj["variable"]];
         }
-        $ent = $this->repository->findOneBy(array("node" => $node, "variable" => $variable));
+
+        $ent = $this->repository->findOneBy(array(
+            "node" => $node,
+            "variable" => $variable,
+            "dynamic" => $obj["dynamic"],
+            "type" => $obj["type"],
+            "name" => $obj["name"]
+        ));
         if (!$ent) {
             return null;
         }

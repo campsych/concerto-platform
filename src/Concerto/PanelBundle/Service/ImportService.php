@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class ImportService
 {
 
-    const MIN_EXPORT_VERSION = "5.0.beta.2.167";
+    const MIN_EXPORT_VERSION = "5.0.beta.8.1";
 
     private $dataTableService;
     private $testService;
