@@ -156,14 +156,14 @@ class TestVariableService extends ASectionService
                         $variable->setPassableThroughUrl($url);
 
                         $hasWizardParam = $wizard->getParamByName($variable->getName()) !== null;
-                        if(!$hasWizardParam) $variable->setValue($value);
+                        if (!$hasWizardParam) $variable->setValue($value);
 
                         $this->update($user, $variable, $flush);
                         break;
                     }
                 }
                 if (!$found) {
-                    $this->save($user, 0, $name, $type, $description, $url, null, $test, $parentVariable, $flush);
+                    $this->save($user, 0, $name, $type, $description, $url, $value, $test, $parentVariable, $flush);
                 }
             }
         }
