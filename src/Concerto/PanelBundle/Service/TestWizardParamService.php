@@ -374,6 +374,19 @@ class TestWizardParamService extends ASectionService
             switch ((int)$newType) {
                 //group type
                 case 9:
+                    foreach ($oldDef["fields"] as $oldField) {
+                        $found = false;
+                        foreach ($newDef["fields"] as $field) {
+                            if ($oldField["name"] == $field["name"]) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            unset($mergedVal[$oldField["name"]]);
+                        }
+                    }
+
                     foreach ($newDef["fields"] as $field) {
                         if (!is_array($mergedVal) || !array_key_exists($field["name"], $mergedVal)) {
                             $mergedVal[$field["name"]] = null;
