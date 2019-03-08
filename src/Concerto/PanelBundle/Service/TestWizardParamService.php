@@ -406,7 +406,7 @@ class TestWizardParamService extends ASectionService
                     for ($i = 0; $i < count($mergedVal); $i++) {
 
                         //invalid data check
-                        if(!array_key_exists($i, $mergedVal)) continue;
+                        if (!array_key_exists($i, $mergedVal)) continue;
 
                         $oldElemType = null;
                         $oldElemDef = null;
@@ -445,25 +445,36 @@ class TestWizardParamService extends ASectionService
             foreach ($wizard->getParams() as $param) {
                 $def = $param->getDefinition();
                 $type = $param->getType();
-                $pval = $param->getValue();
-                if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $pval)) {
+                $paramValue = $param->getValue();
+                if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $paramValue)) {
                     $oldParam = clone $param;
                     $param->setDefinition($def);
-                    if (is_array($pval)) $pval = json_encode($pval);
-                    $param->setValue($pval);
+                    if (is_array($paramValue)) $paramValue = json_encode($paramValue);
+                    $param->setValue($paramValue);
                     $this->update($user, $param, $oldParam);
                 }
 
                 foreach ($wizard->getResultingTests() as $test) {
                     foreach ($test->getVariables() as $var) {
                         if ($var->getParentVariable()->getId() == $param->getVariable()->getId()) {
-                            $vval = $var->getValue();
-                            if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $vval, true)) {
-                                if (is_array($vval)) $vval = json_encode($vval);
-                                $var->setValue($vval);
+                            $varValue = $var->getValue();
+                            if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $varValue, true)) {
+                                if (is_array($varValue)) $varValue = json_encode($varValue);
+                                $var->setValue($varValue);
                                 $this->testVariableService->update($user, $var);
                             }
-                            break 2;
+
+                            //ports
+                            foreach ($var->getPorts() as $port) {
+                                $portValue = $port->getValue();
+
+                                if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $portValue, true)) {
+                                    if (is_array($portValue)) $portValue = json_encode($portValue);
+                                    $port->setValue($portValue);
+                                    $this->testNodePortService->update($port);
+                                }
+                            }
+                            break;
                         }
                     }
                 }

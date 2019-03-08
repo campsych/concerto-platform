@@ -7,6 +7,7 @@ changelog:
           - label: Fixes
             changes:
                 - fixed connection duplication on copy
+                - renaming object now properly updates related ports
     - version: "5.0.beta.8.9"
       description: >
         Fixes
