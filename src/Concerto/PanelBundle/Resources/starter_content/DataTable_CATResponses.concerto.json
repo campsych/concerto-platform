@@ -1,0 +1,61 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 4,
+            "name": "CATResponses",
+            "description": "",
+            "accessibility": 2,
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "item_id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "response",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "timeTaken",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "session_id",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "correct",
+                    "type": "boolean",
+                    "nullable": false
+                },
+                {
+                    "name": "theta",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "sem",
+                    "type": "float",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2018-08-06 15:10:33",
+            "updatedBy": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "19091d0035ceb9d977976912c93e30382952936b"
+        }
+    ]
+}

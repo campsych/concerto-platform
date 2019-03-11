@@ -1,0 +1,120 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 66,
+            "name": "_questionnaireInitialization",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "getItems = function(itemBankType, itemBankItems, itemBankTable, order){\n  items = NULL\n  if(itemBankType == \"table\") {\n    tableMap = fromJSON(itemBankTable)\n    table = tableMap$table\n    questionColumn = tableMap$columns$question\n    orderIndexColumn = tableMap$columns$orderIndex\n    traitColumn = tableMap$columns$trait\n    reversedScoreColumn = tableMap$columns$reversedScore\n    items = concerto.table.query(\n      \"\nSELECT \nid, \n{{questionColumn}} AS question, \n{{orderIndexColumn}} AS orderIndex,\n{{traitColumn}} AS trait,\n{{reversedScoreColumn}} AS reversedScore\nFROM {{table}} \nORDER BY {{orderIndexColumn}}\n\", \n      list(\n        questionColumn=questionColumn,\n        orderIndexColumn=orderIndexColumn,\n        traitColumn=traitColumn,\n        reversedScoreColumn=reversedScoreColumn,\n        table=table\n      ))\n  }\n  if(itemBankType == \"direct\") {\n    itemBankItems = fromJSON(itemBankItems)\n    if(length(itemBankItems) > 0) {\n      for(i in 1:length(itemBankItems)) {\n        itemBankItems[[i]]$responseOptions = as.character(toJSON(itemBankItems[[i]]$responseOptions)) #response options don't fit into flat table, so turn them back to JSON.\n        items = rbind(items, data.frame(itemBankItems[[i]], stringsAsFactors=F))\n      }\n    }\n  } \n\n  if(dim(items)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  if(order == \"random\") {\n    items = items[sample(1:dim(items)[1]),]\n  }\n  return(items)\n}\n\nitems = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$order)\n\nitemsAdministered = NULL\nscores = list()\ntraitScores = list()\n\ntestTimeStarted = as.numeric(Sys.time())\ntestTimeLeft = as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset)\nconcerto.log(settings$testTimeLimit, \"testTimeLimit\")\nconcerto.log(settings$testTimeLimitOffset, \"testTimeLimitOffset\")\nconcerto.log(testTimeLeft, \"testTimeLeft\")",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 660,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 661,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 662,
+                    "name": "items",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 663,
+                    "name": "itemsAdministered",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 664,
+                    "name": "testTimeStarted",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 665,
+                    "name": "testTimeLeft",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 666,
+                    "name": "traitScores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 705,
+                    "name": "scores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 66,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-05 16:54:43",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "78f107ed9b043fdb75526915dda208b4e176416a"
+        }
+    ]
+}

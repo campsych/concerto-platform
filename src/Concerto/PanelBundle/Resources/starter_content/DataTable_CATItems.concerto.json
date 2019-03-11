@@ -1,0 +1,71 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 5,
+            "name": "CATItems",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "question",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "responseOptions",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "a",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "b",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "c",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "d",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "correct",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "cbGroup",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "fixedIndex",
+                    "type": "integer",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2018-08-06 15:31:35",
+            "updatedBy": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "e69c6126edfcd762345ac2304d19d6b3e4b7241c"
+        }
+    ]
+}

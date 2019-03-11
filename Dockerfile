@@ -72,6 +72,7 @@ WORKDIR /usr/src/concerto
 CMD rm -rf var/cache/* \
  && php bin/console concerto:setup \
  && php bin/console concerto:r:cache \
+ && php bin/console concerto:content:import --convert \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \

@@ -59,7 +59,10 @@ class ContentExportCommand extends Command
                     foreach ($dependencies["ids"] as $k => $v) {
                         $ids_service = $this->importService->serviceMap[$k];
                         foreach ($v as $id) {
-                            $ids_service->get($id, false, false)->jsonSerialize($dependencies);
+                            $dep = $ids_service->get($id, false, false);
+                            if ($dep) {
+                                $dep->jsonSerialize($dependencies);
+                            }
                         }
                     }
                 }

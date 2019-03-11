@@ -1,0 +1,23 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 5,
+            "name": "CAT",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "head": "",
+            "css": ".CAT-response {\n  display: table;\n}\n\n.CAT-response-radio-cell {\n  display: table-cell;\n}\n\n.CAT-response-label-cell {\n  display: table-cell;\n}\n\n.CAT-timer:empty {\n  display: none;\n}",
+            "js": "testRunner.controllerProvider.register(\"CAT\", function($scope) {\n  $scope.item = testRunner.R.item;\n  $scope.responseRequired = testRunner.R.responseRequired == 1;\n  $scope.responseRequiredAlert = testRunner.R.responseRequiredAlert;\n  \n  $scope.response = {\n    value: null\n  };\n});",
+            "html": "<form name=\"form\" ng-controller=\"CAT\">\n  <div class=\"CAT-timer\">[[timeLeft]]<\/div>\n  <div class=\"CAT-question\" ng-bind-html=\"item.question\"><\/div>\n\n  <div class=\"CAT-response-group\" ng-if=\"item.responseOptions.type == 'options'\">\n    <div class=\"CAT-response\" ng-repeat=\"option in item.responseOptions.options track by $index\">\n      <div class=\"CAT-response-radio-cell\"><input id=\"input_response_[[$index+1]]\" name=\"response\" ng-model=\"response.value\" ng-required=\"responseRequired\" type=\"radio\" value=\"[[option.value]]\" \/><\/div>\n\n      <div class=\"CAT-response-label-cell\"><label for=\"input_response_[[$index+1]]\" ng-bind-html=\"option.label\">&nbsp;<\/label><\/div>\n    <\/div>\n\n    <div ng-if=\"item.responseOptions.type == 'open'\"><input name=\"response\" ng-model=\"response\" ng-required=\"responseRequired\" type=\"text\" \/><\/div>\n\n    <div class=\"CAT-error\" ng-show=\"form.response.$error.required &amp;&amp; form.response.$dirty\">[[responseRequiredAlert]]<\/div>\n  <\/div>\n  <button name=\"submit\" ng-disabled=\"!form.$valid\">submit<\/button><\/form>\n",
+            "updatedOn": "2019-02-06 14:36:36",
+            "updatedBy": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "36fa928937625934e0b2bf92160d89bbfad32882"
+        }
+    ]
+}

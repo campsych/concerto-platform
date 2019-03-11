@@ -1,0 +1,23 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "ViewTemplate",
+            "id": 19,
+            "name": "linearTest",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "head": "",
+            "css": ".linearTest-response {\n  display: table;\n}\n\n.linearTest-response-radio-cell {\n  display: table-cell;\n}\n\n.linearTest-response-label-cell {\n  display: table-cell;\n}\n\n.linearTest-error {\n}\n\n.linearTest-timer:empty {\n  display: none;\n}",
+            "js": "testRunner.controllerProvider.register(\"linearTest\", function($scope) {\n  $scope.item = testRunner.R.item;\n  $scope.canGoBack = testRunner.R.canGoBack == 1;\n  $scope.responseRequired = testRunner.R.responseRequired == 1;\n  $scope.responseRequiredAlert = testRunner.R.responeRequiredAlert;\n  \n  $scope.response = {\n    value: testRunner.R.response ? testRunner.R.response.response : null\n  }\n});",
+            "html": "<form name=\"form\" ng-controller=\"linearTest\">\n  <div class=\"linearTest-timer\">[[timeLeft]]<\/div>\n<div class=\"linearTest-question\" ng-bind-html=\"item.question\"><\/div>\n\n<div class=\"linearTest-response-group\" ng-if=\"item.responseOptions.type == 'options'\">\n<div class=\"linearTest-response\" ng-repeat=\"option in item.responseOptions.options track by $index\">\n<div class=\"linearTest-response-radio-cell\"><input id=\"input-response-[[$index+1]]\" name=\"response\" ng-model=\"response.value\" ng-required=\"responseRequired\" type=\"radio\" value=\"[[option.value]]\" \/><\/div>\n\n<div class=\"linearTest-response-label-cell\"><label for=\"input-response-[[$index+1]]\" ng-bind-html=\"option.label\">&nbsp;<\/label><\/div>\n<\/div>\n\n<div ng-if=\"item.responseOptions.type == 'open'\"><input name=\"response\" ng-model=\"response.value\" ng-required=\"responseRequired\" type=\"text\" \/><\/div>\n\n<div class=\"linearTest-error\" ng-show=\"form.response.$error.required &amp;&amp; form.response.$dirty\">[[responseRequiredAlert]]<\/div>\n<\/div>\n<button name=\"back\" ng-show=\"canGoBack\">Previous<\/button><button name=\"next\" ng-disabled=\"!form.$valid\">Next<\/button><\/form>\n",
+            "updatedOn": "2019-02-06 15:00:16",
+            "updatedBy": "admin",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "066dffa6a8042f1f70bfbb595d16e0cabee791bf"
+        }
+    ]
+}

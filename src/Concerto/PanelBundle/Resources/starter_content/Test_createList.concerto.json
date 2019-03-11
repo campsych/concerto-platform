@@ -1,0 +1,65 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 62,
+            "name": "createList",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "result = list()\nif(is.list(sourceList)) {\n  result = sourceList\n}\nfor(.name in .dynamicInputs) {\n    result[.name] = list(get(.name))\n}",
+            "outdated": "0",
+            "description": "List creation. Dynamic inputs will be used as list elements (input name as list key, input value as list value).",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 595,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 62,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 596,
+                    "name": "sourceList",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 62,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 597,
+                    "name": "result",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 62,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-03-11 12:45:06",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "_concerto_core",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "19b4dc06883e41f8445092893bb9a84e9159dbb4"
+        }
+    ]
+}

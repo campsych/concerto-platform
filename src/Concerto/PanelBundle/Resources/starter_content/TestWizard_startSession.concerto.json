@@ -1,0 +1,233 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 9,
+            "name": "_startSession",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "concerto.log(user, \"user\")\n\nformatFields = function(user, extraFields) {\n  userId = 0\n  if(!is.null(user) && !is.na(user)) { userId=user$id }\n  fields = list(\n    user_id=userId,\n    internal_id=concerto$session$id, \n    test_id=concerto$mainTest$id,\n    startedTime=Sys.time(),\n    updateTime=Sys.time(),\n    finished=0\n  )\n  if(is.list(extraFields)) {\n    for(name in ls(extraFields)) {\n      fields[[name]] = extraFields[[name]]\n    }\n  }\n  return(fields)\n}\n\ngetMappedColumns = function(fieldNames, tableMap) {\n  cols = c()\n  for(i in 1:length(fieldNames)) {\n    col = tableMap$columns[[fieldNames[i]]]\n    if(!is.null(col)) {\n      cols=c(cols,col)\n      next\n    }\n    cols=c(cols,fieldNames[i])\n  }\n  return(cols)\n}\n\ninsertSession = function(fields, tableMap) {\n  sqlColumns = paste(getMappedColumns(ls(fields), tableMap), collapse=\",\")\n  sqlValues = paste0(\"'{{\",ls(fields),\"}}'\", collapse=\",\")\n  sql = paste0(\"INSERT INTO {{table}} (\",sqlColumns,\") VALUES (\",sqlValues,\")\")\n  concerto.table.query(sql, params=append(fields, list(\n    table=tableMap$table\n  )))\n  id = concerto.table.lastInsertId()\n\n  sql = \"SELECT * FROM {{table}} WHERE {{idColumn}}={{id}}\"\n  session = concerto.table.query(sql, params=list(\n    table=tableMap$table,\n    idColumn=tableMap$columns$id,\n    id=id\n  ))\n  if(dim(session)[1] > 0) {\n    return(session[1,])\n  }\n  return(NULL)\n}\n\nresumeSession = function(user, tableMap) {\n  if(is.null(user)) { return(NULL) }\n\n  session = concerto.table.query(\"\nSELECT * FROM {{table}} \nWHERE \n{{testIdColumn}} = {{testId}} AND \n{{userIdColumn}} = '{{userId}}' AND \n{{finishedColumn}} = 0 \nORDER BY id DESC\", params=list(\n    table=tableMap$table, \n    testIdColumn=tableMap$columns$test_id, \n    testId=concerto$mainTest$id, \n    userIdColumn=tableMap$columns$user_id, \n    userId=user$id,\n    finishedColumn=tableMap$columns$finished\n  ), n=1)\n  if(dim(session)[1] == 0) {\n    return(NULL)\n  }\n  \n  session = as.list(session)\n  session$previousInternal_id = session$internal_id\n  session$internal_id = concerto$session$id\n\n  timeLimit = as.numeric(resumableExpiration)\n  if(timeLimit > 0) {\n    timeDiff = as.numeric(Sys.time()) - as.numeric(strptime(session$updateTime, \"%Y-%m-%d %H:%M:%S\"))\n    if(timeDiff > timeLimit) {\n      concerto.log(\"session resume time limit exceeded\")\n      return(NULL)\n    }\n  }\n\n  concerto.table.query(\"\nUPDATE {{table}} \nSET \n{{internalIdColumn}}='{{internal_id}}', \n{{updateTimeColumn}}=CURRENT_TIMESTAMP \nWHERE id={{id}}\", params=list(\n    table=tableMap$table,\n    internalIdColumn=tableMap$columns$internal_id,\n    internal_id=concerto$session$id,\n    id=session$id,\n    updateTimeColumn=tableMap$columns$updateTime\n  ))\n\n  return(session)\n}\n\nfields = formatFields(user, extraFields)\nconcerto.log(fields, \"fields\")\ntableMap = fromJSON(sessionBankTable)\n\nsession = NULL\nif(resumable == 1) {\n  session = resumeSession(user, tableMap)\n  if(!is.null(session)) {\n    hash = concerto.table.query(\"SELECT hash FROM TestSession WHERE id={{id}}\", list(id=session$previousInternal_id))\n    concerto.log(hash, \"resuming session...\")\n    if(!concerto.session.unserialize(hash=hash)) {\n      \tsession = NULL\n    }\n  }\n}\nif(is.null(session)) {\n\tsession = insertSession(fields, tableMap)\n}\nconcerto.log(session, \"session\")",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 53,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 9,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 54,
+                    "name": "extraFields",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 55,
+                    "name": "user",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 56,
+                    "name": "sessionBankTable",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 57,
+                    "name": "session",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 933,
+                    "name": "resumable",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 935,
+                    "name": "resumableExpiration",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 9,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-19 13:54:57",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "35b5a49d2df98b905b33c63a9cbaf363fc9416ed"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 5,
+            "name": "startSession",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 5,
+                    "title": "Session",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 5,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 10,
+                            "label": "Table",
+                            "description": "Session table column mapping.",
+                            "hideCondition": "",
+                            "type": 12,
+                            "passableThroughUrl": "0",
+                            "value": "[]",
+                            "testVariable": 56,
+                            "name": "sessionBankTable",
+                            "wizardStep": 5,
+                            "stepTitle": "Session",
+                            "order": 0,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": 0,
+                                "cols": [
+                                    {
+                                        "name": "id",
+                                        "label": "Id",
+                                        "tooltip": ""
+                                    },
+                                    {
+                                        "name": "internal_id",
+                                        "label": "Internal id",
+                                        "tooltip": ""
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "label": "User id",
+                                        "tooltip": ""
+                                    },
+                                    {
+                                        "name": "test_id",
+                                        "label": "Test id",
+                                        "tooltip": ""
+                                    },
+                                    {
+                                        "name": "startedTime",
+                                        "label": "Started time",
+                                        "tooltip": ""
+                                    },
+                                    {
+                                        "name": "updateTime",
+                                        "label": "Update time",
+                                        "tooltip": ""
+                                    },
+                                    {
+                                        "name": "finished",
+                                        "label": "Finished",
+                                        "tooltip": ""
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 131,
+                            "label": "Resumable expiration",
+                            "description": "How long should session be resumable (in seconds). <strong>0<\/strong> for no expiration.",
+                            "hideCondition": "",
+                            "type": 0,
+                            "passableThroughUrl": "0",
+                            "value": "0",
+                            "testVariable": 935,
+                            "name": "resumableExpiration",
+                            "wizardStep": 5,
+                            "stepTitle": "Session",
+                            "order": 2,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": 0,
+                                "defvalue": "0"
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 132,
+                            "label": "Resumable?",
+                            "description": "Is session resumable?",
+                            "hideCondition": "",
+                            "type": 4,
+                            "passableThroughUrl": "0",
+                            "value": "0",
+                            "testVariable": 933,
+                            "name": "resumable",
+                            "wizardStep": 5,
+                            "stepTitle": "Session",
+                            "order": 1,
+                            "wizard": 5,
+                            "definition": {
+                                "placeholder": 0
+                            }
+                        }
+                    ]
+                }
+            ],
+            "test": 9,
+            "testName": "_startSession",
+            "updatedOn": "2018-08-01 16:02:03",
+            "updatedBy": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "e9522d92b867309b98f67539fc9a09180c519b16"
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 12,
+            "name": "questionnaireItems",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "question",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "orderIndex",
+                    "type": "integer",
+                    "nullable": false
+                },
+                {
+                    "name": "trait",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "reversedScore",
+                    "type": "boolean",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2019-02-04 13:50:08",
+            "updatedBy": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "9b0f51a732e979905e7250bf573ffeeb9351b541"
+        }
+    ]
+}

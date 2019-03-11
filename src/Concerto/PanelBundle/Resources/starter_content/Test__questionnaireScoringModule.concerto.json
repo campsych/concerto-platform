@@ -1,0 +1,153 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 69,
+            "name": "_questionnaireScoringModule",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "getResponseScore = function(responseOptions, value, reversed) {\n  minScore = NULL\n  maxScore = NULL\n  selectedScore = 0\n  for(i in 1:length(responseOptions)) {\n    option = responseOptions[[i]]\n    score = as.numeric(option$score)\n    if(!is.null(value) && value == option$value) { selectedScore = score }\n    if(is.null(minScore) || score < minScore) { minScore = score }\n    if(is.null(maxScore) || score > maxScore) { maxScore = score }\n  }\n  \n  if(reversed) {\n    return(maxScore - selectedScore + minScore)\n  }\n  return(selectedScore)\n}\n\nupdateScores = function(currentItems, currentItemsIndices, scores, responseOptions, templateResponse) {\n  for(i in 1:dim(currentItems)[1]) {\n    item = currentItems[i,]\n    index = currentItemsIndices[i]\n    score = getResponseScore(\n      responseOptions, \n      templateResponse[[paste0(\"r\",item$id)]], \n      item$reversedScore == \"1\"\n    )\n    scores[index] = list(score)\n  }\n  return(scores)\n}\n\nupdateTraitScores = function(scores, items) {\n  traitScores = list()\n  for(i in 1:length(scores)) {\n    score = scores[[i]]\n    if(is.null(score)) { score = 0 }\n    item = as.list(items[i,])\n    if(is.null(traitScores[[item$trait]])) {\n      traitScores[[item$trait]] = 0\n    }\n    traitScores[[item$trait]] = traitScores[[item$trait]] + score\n  }\n  return(traitScores)\n}\n\nscores = updateScores(currentItems, currentItemsIndices, scores, fromJSON(settings$responseOptions), response)\ntraitScores = updateTraitScores(scores, items)\nconcerto.log(scores, \"scores\")\nconcerto.log(traitScores, \"traitScores\")",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 692,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 693,
+                    "name": "response",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 694,
+                    "name": "items",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 695,
+                    "name": "itemsAdministered",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 696,
+                    "name": "scores",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 697,
+                    "name": "currentItemsIndices",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 698,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 700,
+                    "name": "currentItems",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 701,
+                    "name": "traitScores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 706,
+                    "name": "traitScores",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 707,
+                    "name": "scores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 69,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-06 14:32:20",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "33033d6f3cb54dd69d668bbb62b4524fdb361096"
+        }
+    ]
+}

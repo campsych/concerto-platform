@@ -1,0 +1,56 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 13,
+            "name": "questionnaireResponses",
+            "description": "",
+            "accessibility": 2,
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "item_id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "response",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "timeTaken",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "session_id",
+                    "type": "string",
+                    "nullable": false
+                },
+                {
+                    "name": "score",
+                    "type": "float",
+                    "nullable": false
+                },
+                {
+                    "name": "trait",
+                    "type": "string",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2019-02-04 16:04:24",
+            "updatedBy": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "e7f2e55b0a0102ab25c3002c97643cf6d668a379"
+        }
+    ]
+}

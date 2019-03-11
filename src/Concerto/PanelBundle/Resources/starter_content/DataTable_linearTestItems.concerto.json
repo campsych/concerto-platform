@@ -1,0 +1,46 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "DataTable",
+            "id": 9,
+            "name": "linearTestItems",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "bigint",
+                    "nullable": false
+                },
+                {
+                    "name": "question",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "responseOptions",
+                    "type": "text",
+                    "nullable": false
+                },
+                {
+                    "name": "orderIndex",
+                    "type": "integer",
+                    "nullable": false
+                },
+                {
+                    "name": "trait",
+                    "type": "string",
+                    "nullable": false
+                }
+            ],
+            "updatedOn": "2019-01-28 10:51:29",
+            "updatedBy": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "c7a0430965944cc149b18229407c1606461b7877"
+        }
+    ]
+}

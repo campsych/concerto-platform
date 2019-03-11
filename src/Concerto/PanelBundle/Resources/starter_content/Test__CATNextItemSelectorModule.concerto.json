@@ -1,0 +1,153 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 26,
+            "name": "_CATNextItemSelectorModule",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "library(catR)\n\ngetSafeItem = function(item) {\n  item = as.list(item)\n  item$correct = NULL\n  \n  if(is.character(item$responseOptions)) { item$responseOptions = fromJSON(item$responseOptions) }\n  responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == \"1\"\n  orderedOptions = c()\n\n  if(length(item$responseOptions$options) > 0) {\n    if(responseOptionsRandomOrder) {\n      orderedOptions = item$responseOptions$options[sample(1:length(item$responseOptions$options))]\n    } else {\n      orderedOptions = item$responseOptions$options\n    }\n  }\n  item$responseOptions$options = orderedOptions\n  return(item)\n}\n\ncurrentIndex = length(itemsAdministered) + 1\nitemsNum = dim(items)[1]\nnextItemIndex = 0\nif(itemsNum > 0) {\n  for(i in 1:itemsNum) {\n    fixedIndex = items[i,\"fixedIndex\"]\n    if(!is.na(fixedIndex) && !is.null(fixedIndex) && fixedIndex != \"\" && fixedIndex != 0){\n      concerto.log(fixedIndex, \"fixedIndex\")\n      if(fixedIndex == currentIndex) {\n        nextItemIndex = i\n      } else {\n        itemsAdministered = unique(c(itemsAdministered, i))\n      }\n    }\n  }\n}\n\nif(nextItemIndex == 0) {\n  concerto.log(itemsAdministered, \"out\")\n  result = nextItem(paramBank, theta=theta, out=itemsAdministered, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)\n  nextItemIndex = result$item\n}\nconcerto.log(nextItemIndex, \"next item index\")\nnextItem = items[nextItemIndex,]\nnextItemSafe = getSafeItem(nextItem)",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 203,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 207,
+                    "name": "paramBank",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 208,
+                    "name": "theta",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 209,
+                    "name": "itemsAdministered",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 213,
+                    "name": "cbGroup",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 214,
+                    "name": "cbControl",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 215,
+                    "name": "items",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 216,
+                    "name": "nextItemIndex",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 217,
+                    "name": "nextItem",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 521,
+                    "name": "nextItemSafe",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 608,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 26,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-01 09:38:39",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "501f518778a5583471a57b81bdd6cca8ffab4b3b"
+        }
+    ]
+}

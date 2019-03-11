@@ -1,0 +1,174 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 3,
+            "name": "_setInternalTemplates",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(!is.list(params)) {\n  params = list()\n}\nfor(.name in .dynamicInputs) {\n  params[[.name]] = get(.name)\n}\n\nif(!is.na(loaderTemplate)) {\n  concerto.template.loader(loaderTemplate, params=params)\n}",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 9,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 3,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 10,
+                    "name": "loaderTemplate",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 3,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 76,
+                    "name": "params",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 3,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-11 11:36:15",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "5b9c521420d47261c0f4539dca7279080254901d"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 2,
+            "name": "setInternalTemplates",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 2,
+                    "title": "Internal Templates",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 2,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 3,
+                            "label": "Loader template",
+                            "description": "Loading page. It is shown on page submit, until new page is ready to be shown.",
+                            "hideCondition": "",
+                            "type": 5,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 10,
+                            "name": "loaderTemplate",
+                            "wizardStep": 2,
+                            "stepTitle": "Internal Templates",
+                            "order": 0,
+                            "wizard": 2,
+                            "definition": {
+                                "placeholder": 0,
+                                "defvalue": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "test": 3,
+            "testName": "_setInternalTemplates",
+            "updatedOn": "2018-08-01 16:02:03",
+            "updatedBy": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "e4ae0189fa6b48fcc95e5c8aa7da79a622cb4457"
+        },
+        {
+            "class_name": "Test",
+            "id": 4,
+            "name": "setInternalTemplates",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 1,
+            "code": "if(!is.list(params)) {\n  params = list()\n}\nfor(.name in .dynamicInputs) {\n  params[[.name]] = get(.name)\n}\n\nif(!is.na(loaderTemplate)) {\n  concerto.template.loader(loaderTemplate, params=params)\n}",
+            "outdated": "0",
+            "description": "Sets templates to use for internal Concerto Platform pages. E.g. loading template.",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 11,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 4,
+                    "parentVariable": 9
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 12,
+                    "name": "loaderTemplate",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 4,
+                    "parentVariable": 10
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 77,
+                    "name": "params",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 4,
+                    "parentVariable": 76
+                }
+            ],
+            "sourceWizard": 2,
+            "sourceWizardName": "setInternalTemplates",
+            "sourceWizardTest": 3,
+            "sourceWizardTestName": "_setInternalTemplates",
+            "updatedOn": "2019-03-11 12:54:26",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "_concerto_core",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "00135817dea05624ac9672d5952cee19bec7b11b"
+        }
+    ]
+}

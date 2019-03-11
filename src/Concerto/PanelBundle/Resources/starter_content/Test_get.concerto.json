@@ -1,0 +1,31 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 21,
+            "name": "get",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "for(.name in .dynamicReturns) {\n  assign(.name, c.get(.name, posOffset = -1))\n}",
+            "outdated": "0",
+            "description": "Gets promoted variables values. Use dynamic returns to declare which variables you want to get.",
+            "variables": [],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-03-11 12:49:19",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "_concerto_core",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "f6abb7be512694bba57799b823039244d29dbd21"
+        }
+    ]
+}

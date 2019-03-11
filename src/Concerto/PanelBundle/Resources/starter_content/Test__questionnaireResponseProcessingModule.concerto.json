@@ -1,0 +1,153 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 70,
+            "name": "_questionnaireResponseProcessingModule",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "getSessionId = function(session) {\n  id = 0\n  if(!is.null(session) && is.list(session)) {\n    id = session$id\n  } else {\n    id = paste0(\"i\",concerto$session$id)\n  }\n  return(id)\n}\n\nsaveResponses = function(responseBank, sessionId, templateResponse, currentItems, currentItemsIndices, scores) {\n  responseBank = fromJSON(responseBank)\n  if(is.null(responseBank$table)) {\n    concerto.log(\"no response bank defined, skipping response saving\")\n    return(NULL)\n  }\n\n  sql = \"SELECT * FROM {{table}} WHERE {{itemIdColumn}} IN ({{itemsIds}}) AND {{sessionIdColumn}}='{{sessionId}}'\"\n  responses = concerto.table.query(sql, params=list(\n    table=responseBank$table,\n    itemIdColumn=responseBank$columns$item_id,\n    itemsIds=paste(currentItems[,\"id\"], collapse=\",\"),\n    sessionIdColumn=responseBank$columns$session_id,\n    sessionId=sessionId\n  ))\n\n  queries = NULL\n  for(i in 1:dim(currentItems)[1]) {\n    found = F\n    item = as.list(currentItems[i,])\n    sql = \"\"\n    if(dim(responses)[1] > 0) {\n      for(j in 1:dim(responses)[1]) {\n        response = as.list(responses[j,])\n        if(response$item_id == item$id) {\n          found = T\n          sql = \"\n  UPDATE {{table}} \n  SET \n  {{itemIdColumn}}={{itemId}}, \n  {{responseColumn}}='{{response}}', \n  {{timeTakenColumn}}={{timeTaken}}, \n  {{sessionIdColumn}}='{{sessionId}}', \n  {{scoreColumn}}={{score}}, \n  {{traitColumn}}='{{trait}}'\n  WHERE {{itemIdColumn}}={{itemId}} AND {{sessionIdColumn}}='{{sessionId}}'\n  \"\n          break\n        }\n      }\n    }\n    if(!found) {\n      sql = \"\nINSERT INTO {{table}} ({{itemIdColumn}}, {{responseColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{scoreColumn}}, {{traitColumn}})\nVALUES ({{itemId}}, '{{response}}', {{timeTaken}}, '{{sessionId}}', {{score}}, '{{trait}}')\n\"\n    }\n    sql = concerto.table.insertParams(sql, list(\n      table=responseBank$table,\n      sessionIdColumn=responseBank$columns$session_id,\n      sessionId=sessionId,\n      itemIdColumn=responseBank$columns$item_id,\n      itemId=item$id,\n      responseColumn=responseBank$columns$response,\n      response=templateResponse$response,\n      timeTakenColumn=responseBank$columns$timeTaken,\n      timeTaken=response$timeTaken, #could use time difference\n      scoreColumn=responseBank$columns$score,\n      score=scores[currentItemsIndices[i]],\n      traitColumn=responseBank$columns$trait,\n      trait=item$trait\n    ))\n    queries = c(queries, sql)\n  }\n  for(i in 1:length(queries)) {\n  \tconcerto.table.query(queries[i])  \n  }\n}\n\nsessionId = getSessionId(session)\nsaveResponses(settings$responseBank, sessionId, response, currentItems, currentItemsIndices, scores)\n\ndirection = 1\nitemsAdministered = unique(c(itemsAdministered, currentItemsIndices)) \nif(settings$canGoBack == \"1\" && page > 1 && response$buttonPressed == \"back\") {\n  direction = -1\n}\nconcerto.log(itemsAdministered, \"itemsAdministered\")\nconcerto.log(direction, \"direction\")",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 709,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 710,
+                    "name": "response",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 711,
+                    "name": "session",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 712,
+                    "name": "currentItems",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 713,
+                    "name": "scores",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 714,
+                    "name": "currenttemsIndices",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 715,
+                    "name": "itemsAdministered",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 716,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 718,
+                    "name": "direction",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 719,
+                    "name": "itemsAdministered",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 720,
+                    "name": "page",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 70,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-05 19:22:15",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "639e16327e1443c451320478d5d69a0cc9358c06"
+        }
+    ]
+}

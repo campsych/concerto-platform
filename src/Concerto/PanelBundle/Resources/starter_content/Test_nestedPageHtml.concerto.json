@@ -1,0 +1,260 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 35,
+            "name": "_nestedPageHtml",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "if(!is.list(params)) {\n  params = list()\n}\nfor(.name in .dynamicInputs) {\n  params[[.name]] = get(.name)\n}\n\nhtml = concerto.template.join(templateId=layout)\ncontent = fromJSON(content)\nif(length(content) > 0) {\n  for(i in 1:length(content)) {\n    pageParam = list()\n    pageParam[[content[[i]]$name]] = concerto.template.join(templateId=content[[i]]$template)\n    html = concerto.template.insertParams(html, pageParam, removeMissing=F)\n  }\n}\n\nhtml = concerto.template.insertParams(html, params, removeMissing=F)",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 334,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 35,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 335,
+                    "name": "layout",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 35,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 336,
+                    "name": "content",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 35,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 337,
+                    "name": "params",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 35,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 338,
+                    "name": "html",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 35,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-11 11:44:38",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "4815911ef5e132349346e76e8aa47dce5984c723"
+        },
+        {
+            "class_name": "TestWizard",
+            "id": 10,
+            "name": "nestedPageHtml",
+            "description": "",
+            "accessibility": 0,
+            "archived": "0",
+            "steps": [
+                {
+                    "class_name": "TestWizardStep",
+                    "id": 18,
+                    "title": "Templates",
+                    "description": "",
+                    "orderNum": 0,
+                    "colsNum": 0,
+                    "wizard": 10,
+                    "params": [
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 49,
+                            "label": "Layout Template",
+                            "description": "Main layout template",
+                            "hideCondition": "",
+                            "type": 5,
+                            "passableThroughUrl": "0",
+                            "value": "",
+                            "testVariable": 335,
+                            "name": "layout",
+                            "wizardStep": 18,
+                            "stepTitle": "Templates",
+                            "order": 0,
+                            "wizard": 10,
+                            "definition": {
+                                "placeholder": 0,
+                                "defvalue": ""
+                            }
+                        },
+                        {
+                            "class_name": "TestWizardParam",
+                            "id": 50,
+                            "label": "Content Templates",
+                            "description": "Templates that should be included in main layout template. Where&nbsp;<strong>Name<\/strong>&nbsp;is name of inserted variable on layout template and&nbsp;<strong>Template&nbsp;<\/strong>is template content that should be inserted in place of this variable.",
+                            "hideCondition": "",
+                            "type": 10,
+                            "passableThroughUrl": "0",
+                            "value": "[]",
+                            "testVariable": 336,
+                            "name": "content",
+                            "wizardStep": 18,
+                            "stepTitle": "Templates",
+                            "order": 0,
+                            "wizard": 10,
+                            "definition": {
+                                "element": {
+                                    "type": 9,
+                                    "definition": {
+                                        "placeholder": 0,
+                                        "fields": [
+                                            {
+                                                "type": 0,
+                                                "name": "name",
+                                                "label": "Name",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            },
+                                            {
+                                                "type": 5,
+                                                "name": "template",
+                                                "label": "Template",
+                                                "definition": {
+                                                    "placeholder": 0
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "test": 35,
+            "testName": "_nestedPageHtml",
+            "updatedOn": "2018-08-09 14:40:41",
+            "updatedBy": "admin",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "3989538a2265fa71a44af95629be220678aa94cb"
+        },
+        {
+            "class_name": "Test",
+            "id": 36,
+            "name": "nestedPageHtml",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 1,
+            "code": "if(!is.list(params)) {\n  params = list()\n}\nfor(.name in .dynamicInputs) {\n  params[[.name]] = get(.name)\n}\n\nhtml = concerto.template.join(templateId=layout)\ncontent = fromJSON(content)\nif(length(content) > 0) {\n  for(i in 1:length(content)) {\n    pageParam = list()\n    pageParam[[content[[i]]$name]] = concerto.template.join(templateId=content[[i]]$template)\n    html = concerto.template.insertParams(html, pageParam, removeMissing=F)\n  }\n}\n\nhtml = concerto.template.insertParams(html, params, removeMissing=F)",
+            "outdated": "0",
+            "description": "Nested page. Creates HTML that is constructed from one main layout template that can contain multiple nested templates inside.",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 339,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 36,
+                    "parentVariable": 334
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 340,
+                    "name": "layout",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 36,
+                    "parentVariable": 335
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 341,
+                    "name": "content",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "[]",
+                    "test": 36,
+                    "parentVariable": 336
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 342,
+                    "name": "params",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 36,
+                    "parentVariable": 337
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 343,
+                    "name": "html",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 36,
+                    "parentVariable": 338
+                }
+            ],
+            "sourceWizard": 10,
+            "sourceWizardName": "nestedPageHtml",
+            "sourceWizardTest": 35,
+            "sourceWizardTestName": "_nestedPageHtml",
+            "updatedOn": "2019-03-11 12:51:41",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "_concerto_core",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "2565e0872a90eeb6c16cc607f144705a6c83f617"
+        }
+    ]
+}

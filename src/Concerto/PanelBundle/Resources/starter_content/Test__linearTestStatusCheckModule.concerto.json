@@ -1,0 +1,142 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 58,
+            "name": "_linearTestStatusCheckModule",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "isOutOfTime = function(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFullRequired) {\n  startedAgo = as.numeric(Sys.time()) - testTimeStarted\n  testTimeLeft = testTimeLimit - startedAgo\n  if(testTimeLimit > 0) {\n    if(testTimeLeft <= 0) { return(T) }\n    if(testTimeLeft < itemTimeLimit && itemTimeFullRequired) { return(T) }\n  }\n  return(F)\n}\n\ngetBranch = function(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFullRequired, itemNumLimit, itemIndex, itemsNum) {\n  if(isOutOfTime(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFullRequired)) {\n    concerto.log(\"time out\", \"test status\")\n    return(\"stop\")\n  }\n  \n  if(itemNumLimit > 0 && itemIndex >= itemNumLimit || itemIndex >= itemsNum) {\n    if(as.numeric(direction) > 0) {\n      concerto.log(\"maximum items reached\", \"test status\")\n      return(\"stop\")\n    }\n  }\n  \n  concerto.log(\"continue\", \"test status\")\n  return(\"continue\")\n}\n\n.branch = getBranch(\n  as.numeric(settings$testTimeLimit), \n  testTimeStarted, \n  as.numeric(settings$itemTimeLimit), \n  settings$itemTimeFullRequired == \"1\", \n  as.numeric(settings$itemNumLimit), \n  itemIndex, \n  dim(items)[1]\n)",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 504,
+                    "name": "continue",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 505,
+                    "name": "testTimeLeft",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 506,
+                    "name": "testTimeStarted",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 511,
+                    "name": "itemsAdministered",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 514,
+                    "name": ".branch",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 515,
+                    "name": "stop",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 586,
+                    "name": "direction",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 588,
+                    "name": "itemIndex",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 605,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 606,
+                    "name": "items",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 58,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-06 14:52:18",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "77b82989826ce49391e2da2b61066f07d56befef"
+        }
+    ]
+}

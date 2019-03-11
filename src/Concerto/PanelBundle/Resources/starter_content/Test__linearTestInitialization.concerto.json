@@ -1,0 +1,120 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 53,
+            "name": "_linearTestInitialization",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "getItems = function(itemBankType, itemBankItems, itemBankTable, order){\n  items = NULL\n  if(itemBankType == \"table\") {\n    tableMap = fromJSON(itemBankTable)\n    table = tableMap$table\n    questionColumn = tableMap$columns$question\n    responseOptionsColumn = tableMap$columns$responseOptions\n    orderIndexColumn = tableMap$columns$orderIndex\n    traitColumn = tableMap$columns$trait\n    correctColumn = tableMap$columns$correct\n    items = concerto.table.query(\n      \"\nSELECT \nid, \n{{questionColumn}} AS question, \n{{responseOptionsColumn}} AS responseOptions,\n{{orderIndexColumn}} AS orderIndex,\n{{traitColumn}} AS trait,\n{{correctColumn}} AS correct\nFROM {{table}} \nORDER BY {{orderIndexColumn}}\n\", \n      list(\n        questionColumn=questionColumn,\n        responseOptionsColumn=responseOptionsColumn,\n        orderIndexColumn=orderIndexColumn,\n        traitColumn=traitColumn,\n        correctColumn=correctColumn,\n        table=table\n      ))\n  }\n  if(itemBankType == \"direct\") {\n    itemBankItems = fromJSON(itemBankItems)\n    if(length(itemBankItems) > 0) {\n      for(i in 1:length(itemBankItems)) {\n        itemBankItems[[i]]$responseOptions = as.character(toJSON(itemBankItems[[i]]$responseOptions)) #response options don't fit into flat table, so turn them back to JSON.\n        items = rbind(items, data.frame(itemBankItems[[i]], stringsAsFactors=F))\n      }\n    }\n  } \n  \n  if(dim(items)[1] == 0) { stop(\"Item bank must not be empty!\") }\n  if(order == \"random\") {\n    items = items[sample(1:dim(items)[1]),]\n  }\n  return(items)\n}\n\nitems = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$order)\n\nitemsAdministered = NULL\nscores = NULL\ntraitScores = list()\n\ntestTimeStarted = as.numeric(Sys.time())\ntestTimeLeft = as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset)",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 426,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 437,
+                    "name": "items",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 438,
+                    "name": "testTimeStarted",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 439,
+                    "name": "testTimeLeft",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 458,
+                    "name": "itemsAdministered",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 492,
+                    "name": "scores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 598,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 816,
+                    "name": "traitScores",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 53,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-02-12 09:50:22",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": null,
+            "groups": "",
+            "starterContent": true,
+            "hash": "2ec4c0d4af879cf8774f460f7b958c57aa7ea567"
+        }
+    ]
+}

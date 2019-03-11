@@ -1,0 +1,153 @@
+{
+    "version": "5.0.beta.9.1",
+    "collection": [
+        {
+            "class_name": "Test",
+            "id": 57,
+            "name": "_linearTestResponseProcessorModule",
+            "accessibility": 0,
+            "archived": "0",
+            "visibility": 2,
+            "type": 0,
+            "code": "getSessionId = function(session) {\n  id = 0\n  if(!is.null(session) && is.list(session)) {\n    id = session$id\n  } else {\n    id = paste0(\"i\",concerto$session$id)\n  }\n  return(id)\n}\n\nsaveResponse = function(responseBank, session, response, item, score) {\n  responseBank = fromJSON(responseBank)\n  if(is.null(responseBank$table)) {\n    concerto.log(\"no response bank defined, skipping response saving\")\n    return(NULL)\n  }\n  \n  sql = \"SELECT COUNT(*) FROM {{table}} WHERE {{itemIdColumn}}={{itemId}} AND {{sessionIdColumn}}='{{sessionId}}'\"\n  exist = concerto.table.query(sql, params=list(\n    table=responseBank$table,\n    itemIdColumn=responseBank$columns$item_id,\n    itemId=item$id,\n    sessionIdColumn=responseBank$columns$session_id,\n    sessionId=getSessionId(session)\n  )) > 0\n\n  sql = \"\nINSERT INTO {{table}} \n({{itemIdColumn}}, {{responseColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{scoreColumn}}, {{traitColumn}})\nVALUES ({{itemId}}, '{{response}}', {{timeTaken}}, '{{sessionId}}', {{score}}, '{{trait}}')\n\"\n  if(exist) {\n    sql = \"\nUPDATE {{table}} \nSET \n{{itemIdColumn}}={{itemId}}, \n{{responseColumn}}='{{response}}', \n{{timeTakenColumn}}={{timeTaken}}, \n{{sessionIdColumn}}='{{sessionId}}', \n{{scoreColumn}}={{score}}, \n{{traitColumn}}='{{trait}}'\nWHERE {{itemIdColumn}}={{itemId}} AND {{sessionIdColumn}}='{{sessionId}}'\n\"\n  }\n  concerto.table.query(sql, list(\n    table=responseBank$table,\n    sessionIdColumn=responseBank$columns$session_id,\n    sessionId=getSessionId(session),\n    itemIdColumn=responseBank$columns$item_id,\n    itemId=item$id,\n    responseColumn=responseBank$columns$response,\n    response=response$response,\n    timeTakenColumn=responseBank$columns$timeTaken,\n    timeTaken=response$timeTaken, #could use time difference\n    scoreColumn=responseBank$columns$score,\n    score=score,\n    traitColumn=responseBank$columns$trait,\n    trait=item$trait\n  ))\n  return(concerto.table.lastInsertId())\n}\n\nresponseId = saveResponse(settings$responseBank, session, response, item, score)\n\ndirection = 1\nitemsAdministered = unique(c(itemsAdministered, itemIndex)) \nif(settings$canGoBack == \"1\" && itemIndex > 1 && response$buttonPressed == \"back\") {\n  direction = -1\n}\nconcerto.log(itemsAdministered, \"itemsAdministered\")\nconcerto.log(direction, \"direction\")",
+            "outdated": "0",
+            "description": "",
+            "variables": [
+                {
+                    "class_name": "TestVariable",
+                    "id": 493,
+                    "name": "out",
+                    "type": 2,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": "0",
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 495,
+                    "name": "response",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 496,
+                    "name": "session",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 497,
+                    "name": "item",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 498,
+                    "name": "score",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 500,
+                    "name": "responseId",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 520,
+                    "name": "direction",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 583,
+                    "name": "itemIndex",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 584,
+                    "name": "itemsAdministered",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 585,
+                    "name": "itemsAdministered",
+                    "type": 1,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                },
+                {
+                    "class_name": "TestVariable",
+                    "id": 604,
+                    "name": "settings",
+                    "type": 0,
+                    "description": "",
+                    "passableThroughUrl": "0",
+                    "value": null,
+                    "test": 57,
+                    "parentVariable": null
+                }
+            ],
+            "sourceWizard": null,
+            "sourceWizardName": null,
+            "sourceWizardTest": null,
+            "sourceWizardTestName": null,
+            "updatedOn": "2019-01-31 11:06:25",
+            "updatedBy": "admin",
+            "nodes": [],
+            "nodesConnections": [],
+            "tags": "",
+            "owner": 1,
+            "groups": "",
+            "starterContent": true,
+            "hash": "d2abe59bdfd36043ed47b491e1b28225592f3ffa"
+        }
+    ]
+}
