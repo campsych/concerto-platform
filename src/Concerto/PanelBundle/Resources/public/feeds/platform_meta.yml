@@ -1,5 +1,12 @@
-version: "5.0.beta.8.10"
+version: "5.0.beta.9.1"
 changelog:
+    - version: "5.0.beta.9.1"
+      description: >
+        Starter content made integral part of platform
+      categories:
+          - label: Starter content
+            changes:
+                - will be now always installed and updated with new version of platform
     - version: "5.0.beta.8.10"
       description: >
         Fixes

@@ -9,6 +9,7 @@ changelog:
                 - authorizeUser
                 - CAT
                 - createList
+                - createUser
                 - dataManipulation
                 - eval
                 - form
