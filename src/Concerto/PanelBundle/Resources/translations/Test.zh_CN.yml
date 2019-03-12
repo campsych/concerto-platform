@@ -46,9 +46,6 @@ list:
     name: 名称
     wizard: 向导
     wizard.source: 源测验
-  tooltips: 
-    outdated: 有新版本源测验可供使用，请重新保存当前测验进行更新。
-    uptodate: 使用最新版本源测验
       
 variables: 
     form: 

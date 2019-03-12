@@ -109,7 +109,6 @@ class TestService extends AExportableSectionService
         $object->setUpdated();
         if ($user !== null)
             $object->setUpdatedBy($user->getUsername());
-        $object->setOutdated(false);
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -151,11 +150,6 @@ class TestService extends AExportableSectionService
         }
     }
 
-    public function markDependentTestsOutdated($object_id)
-    {
-        $this->repository->markDependentTestsOutdated($object_id);
-    }
-
     public function updateDependentTests(User $user, Test $sourceTest, $flush = true)
     {
         $tests = $this->repository->findDependent($sourceTest);
@@ -191,6 +185,7 @@ class TestService extends AExportableSectionService
 
     public function convertToExportable($array)
     {
+        $array = parent::convertToExportable($array);
         unset($array["logs"]);
         unset($array["slug"]);
         unset($array["steps"]);

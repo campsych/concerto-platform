@@ -46,9 +46,6 @@ list:
     name: Name
     wizard: Wizard
     wizard.source: Source test
-  tooltips:
-    outdated: There is a new version of source test available. Please resave test to update.
-    uptodate: Using latest version of source test.
     
 variables:
     form:

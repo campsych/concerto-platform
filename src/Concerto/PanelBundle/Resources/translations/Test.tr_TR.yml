@@ -46,9 +46,6 @@ list:
     name: Adı
     wizard: Sihirbaz
     wizard.source: Kaynak test
-  tooltips:
-    outdated: Kaynak test için yeni bir sürüm mevcut. Lütfen güncellemek için yeniden kaydedin.
-    uptodate: Testin son versiyonu kullanılıyor.
     
 variables:
     form:

@@ -79,7 +79,7 @@ class ContentExportCommand extends Command
                     }
                 }
                 $result = array("version" => $this->version, "collection" => $collection);
-                $json = json_encode($result, JSON_PRETTY_PRINT);
+                $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
                 $this->saveFile($class_name, $ent->getName(), $json, $input->getArgument("output"));
                 $output->writeln("ConcertoPanelBundle:" . $class_name . ":" . $ent->getId() . ":" . $ent->getName() . " exported");
@@ -95,7 +95,7 @@ class ContentExportCommand extends Command
         if (strripos($path, DIRECTORY_SEPARATOR) !== strlen($path) - 1) {
             $path .= DIRECTORY_SEPARATOR;
         }
-        $file_path = $path . $class_name . "_" . $name . ".concerto.json";
+        $file_path = $path . $class_name . "_" . $name . ".concerto.yml";
         $fs->dumpFile($file_path, $content);
     }
 

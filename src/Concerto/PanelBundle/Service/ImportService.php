@@ -4,6 +4,7 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class ImportService
 {
@@ -95,9 +96,19 @@ class ImportService
     public function getImportFileContents($file, $unlink = true)
     {
         $file_content = file_get_contents($file);
-        $data = json_decode($file_content, true);
-        if (is_null($data)) {
-            $data = json_decode(gzuncompress($file_content), true);
+        $extension = pathinfo($file)["extension"];
+        $data = null;
+        switch($extension) {
+            case "concerto":
+                $data = json_decode(gzuncompress($file_content), true);
+                break;
+            case "yml":
+            case "yaml":
+                $data = Yaml::parse($file_content);
+                break;
+            default:
+                $data = json_decode($file_content, true);
+                break;
         }
         unset($file_content);
         if ($unlink) {

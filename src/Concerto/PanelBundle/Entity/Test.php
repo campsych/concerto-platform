@@ -93,13 +93,6 @@ class Test extends ATopEntity implements \JsonSerializable
     private $sourceForNodes;
 
     /**
-     *
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
-    private $outdated;
-
-    /**
      * @var TestWizard
      * @ORM\ManyToOne(targetEntity="TestWizard", inversedBy="resultingTests")
      */
@@ -140,7 +133,6 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->nodesConnections = new ArrayCollection();
         $this->sourceForNodes = new ArrayCollection();
         $this->description = "";
-        $this->outdated = false;
         $this->slug = md5(mt_rand() . uniqid(true));
         $this->sourceWizard = null;
     }
@@ -245,26 +237,6 @@ class Test extends ATopEntity implements \JsonSerializable
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Is newer version of source test available?
-     *
-     * @return boolean
-     */
-    public function isOutdated()
-    {
-        return $this->outdated;
-    }
-
-    /**
-     * Set if newer version of source test is available.
-     *
-     * @param boolean $outdated
-     */
-    public function setOutdated($outdated)
-    {
-        $this->outdated = $outdated;
     }
 
     /**
@@ -675,7 +647,6 @@ class Test extends ATopEntity implements \JsonSerializable
             "type" => $this->type,
             "code" => $this->code,
             "slug" => $this->slug,
-            "outdated" => $this->outdated ? "1" : "0",
             "description" => $this->description,
             "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies),
             "logs" => $this->logs->toArray(),

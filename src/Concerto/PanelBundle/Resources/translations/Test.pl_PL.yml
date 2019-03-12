@@ -46,9 +46,6 @@ list:
     name: Nazwa
     wizard: Wizard
     wizard.source: Źródłowy test
-  tooltips:
-    outdated: Dostępna jest nowa wersja źródłowego testu. Proszę ponownie zapisać test aby go zaktualizować.
-    uptodate: Używana jest najnowsza wersja testu źródłowego.
     
 variables:
     form:

@@ -394,11 +394,6 @@ class DataTableService extends AExportableSectionService
         }
     }
 
-    public function convertToExportable($array)
-    {
-        return $array;
-    }
-
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue, $secure = true)
     {
         $pre_queue = array();

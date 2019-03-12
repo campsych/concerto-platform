@@ -10,6 +10,7 @@ changelog:
           - label: Improvements
             changes:
                 - wizard based test no longer duplicates 'code' field value
+                - yml format import/export support with multiline literals
     - version: "5.0.beta.8.10"
       description: >
         Fixes

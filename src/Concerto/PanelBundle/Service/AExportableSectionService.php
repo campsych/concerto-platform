@@ -20,7 +20,7 @@ abstract class AExportableSectionService extends ASectionService
 
     public function getExportFileName($prefix, $object_ids, $format)
     {
-        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.json';
+        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.yml';
         $name = $object_ids;
         if (count(explode(",", $object_ids)) == 1) {
             $obj = $this->repository->find($object_ids);
@@ -69,6 +69,9 @@ abstract class AExportableSectionService extends ASectionService
 
     public function convertToExportable($arr)
     {
+        unset($arr["updatedOn"]);
+        unset($arr["updatedBy"]);
+        unset($arr["owner"]);
         return $arr;
     }
 

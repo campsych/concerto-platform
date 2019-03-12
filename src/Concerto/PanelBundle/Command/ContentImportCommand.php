@@ -47,7 +47,7 @@ class ContentImportCommand extends Command
         $files_dir = $input->getArgument("input");
 
         $finder = new Finder();
-        $finder->files()->in($files_dir)->name('*.concerto.json');
+        $finder->files()->in($files_dir)->name('*.concerto*');
 
         foreach ($finder as $f) {
             $this->importService->reset();

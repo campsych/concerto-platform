@@ -46,9 +46,6 @@ list:
     name: Nom
     wizard: Assistant
     wizard.source: Test source
-  tooltips:
-    outdated: Il ya une nouvelle version du test source disponible. Merci de sauvegarder à nouveau pour mettre à jour.
-    uptodate: Utiliser la dernière version du test source.
     
 variables:
     form:

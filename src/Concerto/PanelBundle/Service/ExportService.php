@@ -2,6 +2,8 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Symfony\Component\Yaml\Yaml;
+
 class ExportService {
 
     const FORMAT_COMPRESSED = 'compressed';
@@ -85,7 +87,7 @@ class ExportService {
         if ($format === self::FORMAT_COMPRESSED)
             return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
         else
-            return json_encode($result, JSON_PRETTY_PRINT);
+            return Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
 
     public function exportNodeToFile($object_ids, $format = ExportService::FORMAT_COMPRESSED) {
@@ -132,7 +134,7 @@ class ExportService {
         if ($format === ExportService::FORMAT_COMPRESSED)
             return gzcompress(json_encode($result, JSON_PRETTY_PRINT), 1);
         else
-            return json_encode($result, JSON_PRETTY_PRINT);
+            return Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
 
 }
