@@ -128,6 +128,13 @@ class TestWizardService extends AExportableSectionService
         return $result;
     }
 
+    public function convertToExportable($array)
+    {
+        $array = parent::convertToExportable($array);
+        unset($array["testName"]);
+        return $array;
+    }
+
     public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
     {
         $pre_queue = array();

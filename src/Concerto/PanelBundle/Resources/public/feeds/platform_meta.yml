@@ -11,6 +11,7 @@ changelog:
             changes:
                 - wizard based test no longer duplicates 'code' field value
                 - yml format import/export support with multiline literals
+                - added '-single' option for 'concerto:content:export' to export content to single yml file
     - version: "5.0.beta.8.10"
       description: >
         Fixes

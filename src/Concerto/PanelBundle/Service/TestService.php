@@ -189,6 +189,8 @@ class TestService extends AExportableSectionService
         unset($array["logs"]);
         unset($array["slug"]);
         unset($array["steps"]);
+        unset($array["sourceWizardName"]);
+        unset($array["sourceWizardTestName"]);
         return $array;
     }
 
