@@ -68,7 +68,7 @@ class Test extends ATopEntity implements \JsonSerializable
 
     /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $code;
 
@@ -139,7 +139,6 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->nodes = new ArrayCollection();
         $this->nodesConnections = new ArrayCollection();
         $this->sourceForNodes = new ArrayCollection();
-        $this->code = "";
         $this->description = "";
         $this->outdated = false;
         $this->slug = md5(mt_rand() . uniqid(true));

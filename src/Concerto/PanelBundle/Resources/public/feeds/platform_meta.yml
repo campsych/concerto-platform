@@ -7,6 +7,9 @@ changelog:
           - label: Starter content
             changes:
                 - will be now always installed and updated with new version of platform
+          - label: Improvements
+            changes:
+                - wizard based test no longer duplicates 'code' field value
     - version: "5.0.beta.8.10"
       description: >
         Fixes

@@ -109,9 +109,6 @@ class TestService extends AExportableSectionService
         $object->setUpdated();
         if ($user !== null)
             $object->setUpdatedBy($user->getUsername());
-        if ($object->getSourceWizard() != null) {
-            $object->setCode($object->getSourceWizard()->getTest()->getCode());
-        }
         $object->setOutdated(false);
 
         foreach ($this->validator->validate($object) as $err) {
