@@ -82,7 +82,14 @@ class ContentExportCommand extends Command
                             $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
                             $export_elem["hash"] = $elem_class::getArrayHash($elem);
                             $export_elem = $elem_service->convertToExportable($export_elem);
-                            array_push($collection, $export_elem);
+                            if (in_array($elem["class_name"], array(
+                                "DataTable",
+                                "ViewTemplate"
+                            ))) {
+                                array_unshift ($collection, $export_elem);
+                            } else {
+                                array_push($collection, $export_elem);
+                            }
                         }
                     }
                     $result = array("version" => $this->version, "collection" => $collection);

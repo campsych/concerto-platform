@@ -199,7 +199,7 @@ class TestVariableService extends ASectionService
             $this->repository->deleteByTestAndType($test_id, $type);
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestVariable", $map))
@@ -231,16 +231,16 @@ class TestVariableService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $renames, $queue, $test, $parentVariable);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestVariable"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
+            $result = $this->importNew($user, null, $obj, $map, $renames, $queue, $test, $parentVariable);
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test, $parentVariable)
+    protected function importNew(User $user, $new_name, $obj, &$map, $renames, &$queue, $test, $parentVariable)
     {
         $ent = new TestVariable();
         $ent->setName($obj["name"]);
@@ -250,6 +250,24 @@ class TestVariableService extends ASectionService
         $ent->setPassableThroughUrl($obj["passableThroughUrl"] == "1");
         $ent->setValue($obj['value']);
         $ent->setParentVariable($parentVariable);
+
+        $wizard = $test->getSourceWizard();
+        if ($wizard && $parentVariable) {
+            foreach ($wizard->getParams() as $param) {
+                if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                    $val = $ent->getValue();
+                    foreach ($renames as $class => $renameMap) {
+                        foreach ($renameMap as $oldName => $newName) {
+                            $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                            if ($moded) {
+                                $ent->setValue($val);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
 
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
@@ -281,7 +299,7 @@ class TestVariableService extends ASectionService
         return $this->get($ent->getId());
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test, $parentVariable)
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, $renames, &$queue, $test, $parentVariable)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
@@ -292,6 +310,24 @@ class TestVariableService extends ASectionService
         $ent->setPassableThroughUrl($obj["passableThroughUrl"] == "1");
         $ent->setValue($obj['value']);
         $ent->setParentVariable($parentVariable);
+
+        $wizard = $test->getSourceWizard();
+        if ($wizard && $parentVariable) {
+            foreach ($wizard->getParams() as $param) {
+                if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                    $val = $ent->getValue();
+                    foreach ($renames as $class => $renameMap) {
+                        foreach ($renameMap as $oldName => $newName) {
+                            $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                            if ($moded) {
+                                $ent->setValue($val);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
 
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

@@ -194,9 +194,11 @@ class TestService extends AExportableSectionService
         return $array;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
+        if (!array_key_exists("Test", $renames))
+            $renames["Test"] = array();
         if (!array_key_exists("Test", $map))
             $map["Test"] = array();
         if (array_key_exists("id" . $obj["id"], $map["Test"])) {
@@ -225,6 +227,9 @@ class TestService extends AExportableSectionService
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        if ($old_name != $new_name) {
+            $renames["Test"][$old_name] = $new_name;
+        }
 
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);

@@ -171,7 +171,7 @@ class TestNodeConnectionService extends ASectionService
         }
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestNodeConnection", $map))

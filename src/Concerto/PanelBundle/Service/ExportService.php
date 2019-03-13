@@ -4,7 +4,8 @@ namespace Concerto\PanelBundle\Service;
 
 use Symfony\Component\Yaml\Yaml;
 
-class ExportService {
+class ExportService
+{
 
     const FORMAT_COMPRESSED = 'compressed';
     const FORMAT_PLAINTEXT = 'text';
@@ -22,7 +23,8 @@ class ExportService {
     private $version;
     public $serviceMap;
 
-    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version) {
+    public function __construct(DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version)
+    {
         $this->dataTableService = $dataTableService;
         $this->testService = $testService;
         $this->testNodeService = $testNodeService;
@@ -49,7 +51,8 @@ class ExportService {
         );
     }
 
-    public function exportToFile($class, $object_ids, $format = self::FORMAT_COMPRESSED) {
+    public function exportToFile($class, $object_ids, $format = self::FORMAT_COMPRESSED)
+    {
         $collection = array();
         $object_ids = explode(",", $object_ids);
         $dependencies = array();
@@ -79,7 +82,14 @@ class ExportService {
                 $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
                 $export_elem["hash"] = $elem_class::getArrayHash($elem);
                 $export_elem = $elem_service->convertToExportable($export_elem);
-                array_push($collection, $export_elem);
+                if (in_array($elem["class_name"], array(
+                    "DataTable",
+                    "ViewTemplate"
+                ))) {
+                    array_unshift ($collection, $export_elem);
+                } else {
+                    array_push($collection, $export_elem);
+                }
             }
         }
 
@@ -90,7 +100,8 @@ class ExportService {
             return Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
 
-    public function exportNodeToFile($object_ids, $format = ExportService::FORMAT_COMPRESSED) {
+    public function exportNodeToFile($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    {
         $object_ids = explode(",", $object_ids);
         $dependencies = array();
         foreach ($object_ids as $object_id) {

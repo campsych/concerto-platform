@@ -580,6 +580,7 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Set owner
      * @param User $user
+     * @return Test
      */
     public function setOwner($user)
     {

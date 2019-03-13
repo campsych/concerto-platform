@@ -188,7 +188,7 @@ class TestNodePortService extends ASectionService
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestNodePort", $map))
@@ -231,16 +231,16 @@ class TestNodePortService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $node, $variable);
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $renames, $queue, $node, $variable);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNodePort"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $queue, $node, $variable);
+            $result = $this->importNew($user, null, $obj, $map, $renames, $queue, $node, $variable);
         return $result;
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $node, $variable)
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, $renames, &$queue, $node, $variable)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
@@ -261,6 +261,30 @@ class TestNodePortService extends ASectionService
         if (array_key_exists("pointerVariable", $obj)) {
             $ent->setPointerVariable($obj["pointerVariable"]);
         }
+
+        if ($variable) {
+            if ($test = $variable->getTest()) {
+                $wizard = $test->getSourceWizard();
+                $parentVariable = $variable->getParentVariable();
+                if ($wizard && $parentVariable) {
+                    foreach ($wizard->getParams() as $param) {
+                        if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                            $val = $ent->getValue();
+                            foreach ($renames as $class => $renameMap) {
+                                foreach ($renameMap as $oldName => $newName) {
+                                    $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    if ($moded) {
+                                        $ent->setValue($val);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -295,7 +319,7 @@ class TestNodePortService extends ASectionService
         return $this->get($ent->getId());
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $node, $variable)
+    protected function importNew(User $user, $new_name, $obj, &$map, $renames, &$queue, $node, $variable)
     {
         $ent = new TestNodePort();
         $ent->setNode($node);
@@ -315,6 +339,30 @@ class TestNodePortService extends ASectionService
         if (array_key_exists("pointerVariable", $obj)) {
             $ent->setPointerVariable($obj["pointerVariable"]);
         }
+
+        if ($variable) {
+            if ($test = $variable->getTest()) {
+                $wizard = $test->getSourceWizard();
+                $parentVariable = $variable->getParentVariable();
+                if ($wizard && $parentVariable) {
+                    foreach ($wizard->getParams() as $param) {
+                        if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                            $val = $ent->getValue();
+                            foreach ($renames as $class => $renameMap) {
+                                foreach ($renameMap as $oldName => $newName) {
+                                    $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    if ($moded) {
+                                        $ent->setValue($val);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

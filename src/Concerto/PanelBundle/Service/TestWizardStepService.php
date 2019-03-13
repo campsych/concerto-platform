@@ -85,7 +85,7 @@ class TestWizardStepService extends ASectionService
         return array("errors" => array());
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestWizardStep", $map))

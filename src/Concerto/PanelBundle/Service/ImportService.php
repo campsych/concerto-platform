@@ -23,6 +23,7 @@ class ImportService
     private $viewTemplateService;
     private $queue;
     private $map;
+    private $renames;
     private $version;
     private $entityManager;
     public $serviceMap;
@@ -43,6 +44,7 @@ class ImportService
         $this->version = $version;
 
         $this->map = array();
+        $this->renames = array();
         $this->queue = array();
         $this->serviceMap = array(
             "DataTable" => $this->dataTableService,
@@ -204,6 +206,7 @@ class ImportService
     public function reset()
     {
         $this->map = array();
+        $this->renames = array();
     }
 
     public function importFromFile(User $user, $file, $instructions, $unlink = true)
@@ -223,7 +226,7 @@ class ImportService
             $obj = $this->queue[0];
             if (is_array($obj) && array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
-                $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->queue);
+                $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->renames, $this->queue);
                 if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
                     array_push($result["import"], $last_result);
                     $result["result"] = 1;
