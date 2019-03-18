@@ -325,8 +325,6 @@ flow:
         zoom_out: Oddal
         maximize: Przełącz pełno-ekranowy widok
         node_menu: Kliknij aby otworzyć menu węzła
-        export_test: Eksportuj test
-        export_tests: Eksportuj testy
         remove_connection: Usuń połączenie
         hide_port: Ukryj/Uusń port
         remove_all_connections: Usuń wszystkie połączenia

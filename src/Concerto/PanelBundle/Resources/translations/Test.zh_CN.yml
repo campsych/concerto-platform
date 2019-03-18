@@ -282,8 +282,6 @@ flow:
         zoom_out: 缩小
         maximize: 切换全屏视图
         node_menu: 点击展开节点目录
-        export_test: 导出测验
-        export_tests: 导出测验
     tags: 
         all: 全部
  

@@ -323,8 +323,6 @@ flow:
         zoom_out: Zoom out
         maximize: Toggle full-screen view
         node_menu: Click to open node menu
-        export_test: Export test
-        export_tests: Export tests
         remove_connection: Remove connection
         hide_port: Hide/Remove port
         remove_all_connections: Remove all connections

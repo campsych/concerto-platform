@@ -31,6 +31,11 @@ list:
     type: Typ
     exists: Istnieje
     action: Akcja
+    data: Dane
+    data.not_applicable: Nie dotyczy
+    data.leave: Zostaw
+    data.include: Dołącz
+    data_num: Il. danych
     rename: Zm. nazwy
     safe: Bezpieczne
   filter:
@@ -118,13 +123,18 @@ import:
             
 export:
     dialog:
-        title: Eksport danych
+        title: Eksportowanie obiektu
         error:
             empty.content: Wybierz proszę przynajmniej jeden wiersz z tabeli poniżej aby go wyeksportować.
-        format:
-            info: Wybierz proszę format eksportowanego pliku. Pobranie pliku skompresowanego wymaga mniej miejsca i zużywa mniej transferu, ale trudne jest otwarcie jego zawartości. Plik tekstowy łatwo jest przeglądać lub edytować, ale prowadzi do tworzenia większych plików.
-            compressed: skompresowany
-            plaintext: tekstowy
+    fieldset:
+        legend.tooltip: Eksport obiektów do pliku
+    form:
+        field:
+            format: Format
+            format.tooltip: Format pliku
+            format.json: JSON
+            format.yml: YAML
+            format.compressed: skompresowany
             
 download_list:
     dialog:

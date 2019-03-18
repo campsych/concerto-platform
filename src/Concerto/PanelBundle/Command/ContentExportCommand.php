@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Service\ExportService;
 use Concerto\PanelBundle\Service\ImportService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
@@ -16,12 +17,14 @@ class ContentExportCommand extends Command
 {
     private $doctrine;
     private $importService;
+    private $exportService;
     private $version;
 
-    public function __construct(ManagerRegistry $doctrine, ImportService $importService, $version)
+    public function __construct(ManagerRegistry $doctrine, ImportService $importService, ExportService $exportService, $version)
     {
         $this->doctrine = $doctrine;
         $this->importService = $importService;
+        $this->exportService = $exportService;
         $this->version = $version;
 
         parent::__construct();
@@ -37,6 +40,7 @@ class ContentExportCommand extends Command
         $this->setName("concerto:content:export")->setDescription("Exports content");
         $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
         $this->addOption("single", null, InputOption::VALUE_NONE, "Contain export in a single file?");
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
     }
 
     protected function exportContent(InputInterface $input, OutputInterface $output)
@@ -48,6 +52,8 @@ class ContentExportCommand extends Command
             "ViewTemplate"
         );
         $single = $input->getOption("single");
+        $instructions = json_decode($input->getOption("instructions"), true);
+
         $output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
 
         $em = $this->doctrine->getManager();
@@ -58,39 +64,12 @@ class ContentExportCommand extends Command
             $class_service = $this->importService->serviceMap[$class_name];
             foreach ($content as $ent) {
                 if (!$single) $dependencies = array();
-                $ent = $class_service->get($ent->getId(), false, false);
-                $ent->jsonSerialize($dependencies);
-
-                if (array_key_exists("ids", $dependencies)) {
-                    foreach ($dependencies["ids"] as $k => $v) {
-                        $ids_service = $this->importService->serviceMap[$k];
-                        foreach ($v as $id) {
-                            $dep = $ids_service->get($id, false, false);
-                            if ($dep) {
-                                $dep->jsonSerialize($dependencies);
-                            }
-                        }
-                    }
-                }
+                $this->exportService->addExportDependency($ent->getId(), $class_service, $dependencies, false);
 
                 if (!$single) {
                     $collection = array();
                     if (array_key_exists("collection", $dependencies)) {
-                        foreach ($dependencies["collection"] as $elem) {
-                            $export_elem = $elem;
-                            $elem_service = $this->importService->serviceMap[$elem["class_name"]];
-                            $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
-                            $export_elem["hash"] = $elem_class::getArrayHash($elem);
-                            $export_elem = $elem_service->convertToExportable($export_elem);
-                            if (in_array($elem["class_name"], array(
-                                "DataTable",
-                                "ViewTemplate"
-                            ))) {
-                                array_unshift ($collection, $export_elem);
-                            } else {
-                                array_push($collection, $export_elem);
-                            }
-                        }
+                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions);
                     }
                     $result = array("version" => $this->version, "collection" => $collection);
                     $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
@@ -103,14 +82,7 @@ class ContentExportCommand extends Command
         if ($single) {
             $collection = array();
             if (array_key_exists("collection", $dependencies)) {
-                foreach ($dependencies["collection"] as $elem) {
-                    $export_elem = $elem;
-                    $elem_service = $this->importService->serviceMap[$elem["class_name"]];
-                    $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
-                    $export_elem["hash"] = $elem_class::getArrayHash($elem);
-                    $export_elem = $elem_service->convertToExportable($export_elem);
-                    array_push($collection, $export_elem);
-                }
+                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions);
             }
             $result = array("version" => $this->version, "collection" => $collection);
             $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);

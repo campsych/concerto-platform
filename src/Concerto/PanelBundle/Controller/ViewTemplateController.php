@@ -118,14 +118,24 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_ids}/export/{format}", name="ViewTemplate_export", defaults={"format":"compressed"})
-     * @param string $object_ids
+     * @Route("/ViewTemplate/{instructions}/export/{format}", name="ViewTemplate_export", defaults={"format":"yml"})
+     * @param string $instructions
      * @param string $format
      * @return Response
      */
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportAction($instructions, $format = "yml")
     {
-        return parent::exportAction($object_ids, $format);
+        return parent::exportAction($instructions, $format);
+    }
+
+    /**
+     * @Route("/ViewTemplate/{object_ids}/instructions/export", name="ViewTemplate_export_instructions")
+     * @param $object_ids
+     * @return Response
+     */
+    public function exportInstructionsAction($object_ids)
+    {
+        return parent::exportInstructionsAction($object_ids);
     }
 
     /**

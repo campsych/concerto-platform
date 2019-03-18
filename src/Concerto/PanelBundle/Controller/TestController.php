@@ -152,14 +152,24 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_ids}/export/{format}", name="Test_export", defaults={"format":"compressed"})
-     * @param $object_ids
+     * @Route("/Test/{instructions}/export/{format}", name="Test_export", defaults={"format":"yml"})
+     * @param string $instructions
      * @param string $format
      * @return Response
      */
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportAction($instructions, $format = "yml")
     {
-        return parent::exportAction($object_ids, $format);
+        return parent::exportAction($instructions, $format);
+    }
+
+    /**
+     * @Route("/Test/{object_ids}/instructions/export", name="Test_export_instructions")
+     * @param $object_ids
+     * @return Response
+     */
+    public function exportInstructionsAction($object_ids)
+    {
+        return parent::exportInstructionsAction($object_ids);
     }
 
     /**
@@ -322,23 +332,4 @@ class TestController extends AExportableTabController
             false);
         return $this->getSaveResponse($result);
     }
-
-    /**
-     * @Route("/Test/Node/{object_ids}/export/{format}", name="Test_node_export", defaults={"format":"compressed"})
-     * @param $object_ids
-     * @param string $format
-     * @return Response
-     */
-    public function exportNodeAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
-    {
-        $response = new Response($this->exportService->exportNodeToFile($object_ids, $format));
-        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.yml';
-        $name = "TestNode_" . $object_ids . '.' . $ext;
-        $response->headers->set('Content-Type', 'application/x-download');
-        $response->headers->set(
-            'Content-Disposition', 'attachment; filename="' . $name . '"'
-        );
-        return $response;
-    }
-
 }

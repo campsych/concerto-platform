@@ -111,14 +111,9 @@ import:
             instructions.tooltip: "导入指令。重命名时，可以插入导入对象名称、编号、所有者用户名、编号等变量，如: <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b>。" 
  
 export: 
-    dialog: 
-        title: 导出数据
+    dialog:
         error: 
             empty.content: 导出时请在下方表格中至少选择一个条目。
-        format: 
-            info: 请选择导出文件的格式。压缩格式能够节省磁盘空间和带宽，但是打开过程较困难。文本格式便于查看和编辑，但是生成的文件会占用较多空间。
-            compressed: 压缩
-            plaintext: 文本
        
 download_list: 
     dialog: 

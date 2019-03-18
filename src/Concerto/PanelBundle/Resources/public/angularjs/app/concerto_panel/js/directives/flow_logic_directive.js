@@ -193,31 +193,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         return title;
       };
 
-      scope.exportTest = function (nodeId) {
-        var nodeIds = nodeId;
-        if (scope.selectedNodeIds.length > 0)
-          nodeIds = scope.selectedNodeIds.join(",");
-        var modalInstance = $uibModal.open({
-          templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'export_dialog.html',
-          controller: ExportController,
-          size: "lg",
-          resolve: {
-            title: function () {
-              return Trans.EXPORT_DIALOG_TITLE;
-            },
-            content: function () {
-              return Trans.EXPORT_DIALOG_EMPTY_LIST_ERROR_CONTENT;
-            },
-            ids: function () {
-              return nodeIds;
-            }
-          }
-        });
-        modalInstance.result.then(function (response) {
-          window.open(Paths.TEST_FLOW_NODE_EXPORT.pf(nodeIds) + "/" + response, "_blank");
-        });
-      };
-
       scope.clearNodeSelection = function () {
         scope.selectedNodeIds = [];
         for (var i = 0; i < scope.object.nodes.length; i++) {

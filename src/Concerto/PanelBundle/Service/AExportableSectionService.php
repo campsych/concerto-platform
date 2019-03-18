@@ -18,15 +18,21 @@ abstract class AExportableSectionService extends ASectionService
         $this->validator = $validator;
     }
 
-    public function getExportFileName($prefix, $object_ids, $format)
+    public function getExportFileName($prefix, $instructions, $format)
     {
-        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.yml';
-        $name = $object_ids;
-        if (count(explode(",", $object_ids)) == 1) {
-            $obj = $this->repository->find($object_ids);
-            if ($obj) {
-                $name = $obj->getName();
-            }
+        $ext = null;
+        switch ($format) {
+            case "yml":
+            case "json":
+                $ext = "concerto." . $format;
+                break;
+            case "compressed":
+                $ext = "concerto";
+                break;
+        }
+        $name = "";
+        if (count($instructions) == 1) {
+            $name = $instructions[0]["name"];
         }
         return $prefix . $name . '.' . $ext;
     }
@@ -67,7 +73,7 @@ abstract class AExportableSectionService extends ASectionService
         return $this->repository->findOneBy(array("name" => $name)) != null;
     }
 
-    public function convertToExportable($arr)
+    public function convertToExportable($arr, $instruction = null)
     {
         unset($arr["updatedOn"]);
         unset($arr["updatedBy"]);

@@ -282,7 +282,5 @@ flow:
         zoom_out: Uzaklaştır
         maximize: Tam ekran görünümünü aç/kapat
         node_menu: Bağ menüsünü açmak için tıklayın
-        export_test: Testi dışarı aktar
-        export_tests: Testleri dışarı aktar
     tags:
         all: Tümü

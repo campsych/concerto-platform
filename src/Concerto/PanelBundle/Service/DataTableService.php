@@ -102,6 +102,20 @@ class DataTableService extends AExportableSectionService
         }
     }
 
+    public function convertToExportable($array, $instruction = null)
+    {
+        $array = parent::convertToExportable($array, $instruction);
+
+        if ($instruction !== null) {
+            //include data
+            if (array_key_exists("data", $instruction) && $instruction["data"] == 2) {
+                $array["data"] = $this->getFilteredData($array["id"]);
+            }
+        }
+
+        return $array;
+    }
+
     public function delete($object_ids, $secure = true)
     {
         $object_ids = explode(",", $object_ids);
