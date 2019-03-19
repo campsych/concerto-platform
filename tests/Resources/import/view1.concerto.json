@@ -1,5 +1,5 @@
 {
-    "version": "5.0.beta.2.178",
+    "version": "5.0.beta.9.1",
     "collection": [
         {
             "class_name": "ViewTemplate",
@@ -12,9 +12,6 @@
             "css": "bbb",
             "js": "ccc",
             "html": "ddd",
-            "updatedOn": "2016-12-14 16:08:58",
-            "updatedBy": "admin",
-            "owner": null,
             "groups": "",
             "starterContent": false,
             "hash": "aaf92d53617a0e637e8533527c7678677e10df87"

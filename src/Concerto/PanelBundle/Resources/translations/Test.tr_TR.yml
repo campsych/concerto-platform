@@ -34,12 +34,6 @@ form:
   button:
       run: Başlat
       debug: Hata Ayıkla
-      update: Güncelle
-  dialog:
-      title:
-          update: Bağlı testler güncelleniyor
-      message:
-          update.successful: Güncelleme tamamlandı.
     
 list: 
   field:

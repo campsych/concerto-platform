@@ -141,7 +141,7 @@ class ExportService
         } else if ($instructions !== null) {
             foreach ($instructions as $ins) {
                 if ($ins["class_name"] == $class) {
-                    $this->addExportDependency($ins["id"], $section_service, $dependencies);
+                    $this->addExportDependency($ins["name"], $section_service, $dependencies);
                 }
             }
         }

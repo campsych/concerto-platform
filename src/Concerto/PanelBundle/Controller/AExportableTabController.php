@@ -58,7 +58,6 @@ abstract class AExportableTabController extends ASectionController
 
             if (!array_key_exists("errors", $r) || !$r["errors"])
                 continue;
-            var_dump($r["errors"]);
             for ($i = 0; $i < count($r['errors']); $i++) {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
             }

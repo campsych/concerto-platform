@@ -258,7 +258,7 @@ class TestVariableService extends ASectionService
                     $val = $ent->getValue();
                     foreach ($renames as $class => $renameMap) {
                         foreach ($renameMap as $oldName => $newName) {
-                            $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                            $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
                             if ($moded) {
                                 $ent->setValue($val);
                             }
@@ -316,9 +316,10 @@ class TestVariableService extends ASectionService
             foreach ($wizard->getParams() as $param) {
                 if ($param->getVariable()->getId() === $parentVariable->getId()) {
                     $val = $ent->getValue();
+                    $def = $param->getDefinition();
                     foreach ($renames as $class => $renameMap) {
                         foreach ($renameMap as $oldName => $newName) {
-                            $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                            $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $def, $val, true);
                             if ($moded) {
                                 $ent->setValue($val);
                             }

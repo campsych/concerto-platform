@@ -83,7 +83,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "TestWizard",
@@ -93,7 +94,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -103,7 +105,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -113,7 +116,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 )
             ))
         ));
@@ -149,7 +153,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "source",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "TestWizard",
@@ -159,7 +164,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "wizard",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -169,7 +175,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "test",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -179,7 +186,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "flow",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 )
             ))
         ));
@@ -216,7 +224,53 @@ class ImportServiceTest extends AFunctionalTest
 
         $client->request("POST", "/admin/Test/import", array(
             "file" => "port_default_full.concerto.json",
-            "instructions" => '[{"id":1,"name":"source","class_name":"Test","action":"0","rename":"source","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false},{"id":1,"name":"wizard","class_name":"TestWizard","action":"0","rename":"wizard","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false},{"id":2,"name":"test","class_name":"Test","action":"0","rename":"test","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false},{"id":3,"name":"demo","class_name":"Test","action":"0","rename":"demo","starter_content":false,"existing_object":false,"existing_object_name":null,"can_ignore":false}]'
+            "instructions" => json_encode(array(
+                array(
+                    "id" => 1,
+                    "name" => "source",
+                    "class_name" => "Test",
+                    "action" => "0",
+                    "rename" => "source",
+                    "starter_content" => false,
+                    "existing_object" => false,
+                    "existing_object_name" => null,
+                    "can_ignore" => false,
+                    "data" => "0"
+                ), array(
+                    "id" => 1,
+                    "name" => "wizard",
+                    "class_name" => "TestWizard",
+                    "action" => "0",
+                    "rename" => "wizard",
+                    "starter_content" => false,
+                    "existing_object" => false,
+                    "existing_object_name" => null,
+                    "can_ignore" => false,
+                    "data" => "0"
+                ), array(
+                    "id" => 2,
+                    "name" => "test",
+                    "class_name" => "Test",
+                    "action" => "0",
+                    "rename" => "test",
+                    "starter_content" => false,
+                    "existing_object" => false,
+                    "existing_object_name" => null,
+                    "can_ignore" => false,
+                    "data" => "0"
+                ), array(
+                    "id" => 3,
+                    "name" => "demo",
+                    "class_name" => "Test",
+                    "action" => "0",
+                    "rename" => "demo",
+                    "starter_content" => false,
+                    "existing_object" => false,
+                    "existing_object_name" => null,
+                    "can_ignore" => false,
+                    "data" => "0"
+                )
+            ))
         ));
         //HTTP response
         $fail_msg = "";
@@ -240,7 +294,41 @@ class ImportServiceTest extends AFunctionalTest
 
         $client->request("POST", "/admin/Test/import", array(
             "file" => "port_default_source.concerto.json",
-            "instructions" => '[{"id":1,"name":"source","class_name":"Test","action":"1","rename":"source","starter_content":false,"existing_object":true,"existing_object_name":"source","can_ignore":true},{"id":1,"name":"wizard","class_name":"TestWizard","action":"1","rename":"wizard","starter_content":false,"existing_object":true,"existing_object_name":"wizard","can_ignore":true},{"id":2,"name":"test","class_name":"Test","action":"1","rename":"test","starter_content":false,"existing_object":true,"existing_object_name":"test","can_ignore":true}]'
+            "instructions" => json_encode(array(
+                array(
+                    "id" => 1,
+                    "name" => "source",
+                    "class_name" => "Test",
+                    "action" => "1",
+                    "rename" => "source",
+                    "starter_content" => false,
+                    "existing_object" => true,
+                    "existing_object_name" => "source",
+                    "can_ignore" => true,
+                    "data" => "0"
+                ), array(
+                    "id" => 1,
+                    "name" => "wizard",
+                    "class_name" => "TestWizard",
+                    "action" => "1",
+                    "rename" => "wizard",
+                    "starter_content" => false,
+                    "existing_object" => true,
+                    "existing_object_name" => "wizard",
+                    "can_ignore" => true,
+                    "data" => "0"
+                ), array(
+                    "id" => 2,
+                    "name" => "test",
+                    "class_name" => "Test",
+                    "action" => "1",
+                    "rename" => "test",
+                    "starter_content" => false,
+                    "existing_object" => true,
+                    "existing_object_name" => "test",
+                    "can_ignore" => true,
+                    "data" => "0")
+            ))
         ));
         //HTTP response
         $fail_msg = "";
@@ -282,7 +370,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "TestWizard",
@@ -292,7 +381,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => true,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -302,7 +392,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => true,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -312,7 +403,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 )
             ))
         ));
@@ -348,7 +440,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "source_info",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "TestWizard",
@@ -358,7 +451,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => true,
                     "existing_object" => true,
                     "existing_object_name" => "source_info",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 ),
                 array(
                     "class_name" => "Test",
@@ -368,10 +462,12 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => true,
                     "existing_object" => true,
                     "existing_object_name" => "source_info",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 )
             ))
         ));
+
         //HTTP response
         $fail_msg = "";
         if (!$client->getResponse()->isSuccessful()) {
@@ -418,7 +514,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 )
             ))
         ));
@@ -450,7 +547,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "view",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "0"
                 )
             ))
         ));
@@ -487,7 +585,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null,
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "1"
                 )
             ))
         ));
@@ -530,7 +629,8 @@ class ImportServiceTest extends AFunctionalTest
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "data",
-                    "can_ignore" => false
+                    "can_ignore" => false,
+                    "data" => "1"
                 )
             ))
         ));

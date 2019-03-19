@@ -34,12 +34,6 @@ form:
   button:
       run: Run test
       debug: Debug test
-      update: Update all dependent tests
-  dialog:
-      title:
-          update: Updating dependent tests
-      message:
-          update.successful: Updating finished.
     
 list: 
   field:

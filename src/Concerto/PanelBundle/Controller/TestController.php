@@ -74,33 +74,6 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/update", name="Test_update_dependent")
-     * @Method(methods={"POST"})
-     * @param $object_id
-     * @return Response
-     */
-    public function updateDependentAction($object_id)
-    {
-        $result = $this->service->updateDependentTests(
-            $this->securityTokenStorage->getToken()->getUser(), //
-            $this->service->get($object_id)
-        );
-        $errors = array();
-        foreach ($result as $r) {
-            for ($i = 0; $i < count($r['errors']); $i++) {
-                $errors[] = "#" . $r["object"]->getId() . ": " . $r["object"]->getName() . " - " . $this->translator->trans($r['errors'][$i]);
-            }
-        }
-        if (count($errors) > 0) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
-        } else {
-            $response = new Response(json_encode(array("result" => 0, "object_id" => $object_id)));
-        }
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
      * @Route("/Test/{object_id}/save", name="Test_save")
      * @Method(methods={"POST"})
      * @param Request $request

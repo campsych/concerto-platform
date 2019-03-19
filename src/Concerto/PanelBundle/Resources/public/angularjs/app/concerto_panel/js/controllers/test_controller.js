@@ -529,29 +529,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         );
     };
 
-    $scope.updateDependent = function () {
-        $http.post(Paths.TEST_UPDATE.pf($scope.object.id), {}).success(function (data) {
-            switch (data.result) {
-                case BaseController.RESULT_OK: {
-                    //TODO
-                    break;
-                }
-                case BaseController.RESULT_VALIDATION_FAILED: {
-                    //TODO
-                    break;
-                }
-            }
-            $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
-
-            $scope.dialogsService.alertDialog(
-                Trans.TEST_DIALOG_TITLE_UDPATE,
-                Trans.TEST_DIALOG_MESSAGE_UDPATE_SUCCESSFUL,
-                "success"
-            );
-        });
-    };
-
     $scope.convertToR = function () {
         $scope.dialogsService.confirmDialog(
             Trans.TEST_LOGIC_CONVERT_TITLE,

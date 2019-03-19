@@ -34,12 +34,6 @@ form:
   button: 
       run: 运行测验
       debug: 调试测验
-      update: 更新所有相关测验
-  dialog: 
-      title: 
-          update: 更新相关测验
-      message: 
-          update.successful: 更新完毕。
       
 list:  
   field: 

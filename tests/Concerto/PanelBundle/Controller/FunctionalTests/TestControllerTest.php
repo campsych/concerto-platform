@@ -2,6 +2,7 @@
 
 namespace Tests\Concerto\PanelBundle\Controller\FunctionalTests;
 
+use Symfony\Component\Yaml\Yaml;
 use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
@@ -81,7 +82,6 @@ class TestControllerTest extends AFunctionalTest
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedBy" => "admin",
                 "slug" => json_decode($client->getResponse()->getContent(), true)[0]['slug'],
-                "outdated" => '0',
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -136,17 +136,28 @@ class TestControllerTest extends AFunctionalTest
     /**
      * @dataProvider exportDataProvider
      */
-    public function testExportAction($path_suffix, $use_gzip)
+    public function testExportAction($instructions, $format)
     {
         $client = self::createLoggedClient();
+        $encodedInstructions = json_encode($instructions);
 
-        $client->request("POST", "/admin/Test/1/export" . $path_suffix);
+        $client->request("GET", "/admin/Test/$encodedInstructions/export/$format");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/x-download'));
 
-        $content = json_decode(
-            ($use_gzip) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
-        );
+        $content = null;
+        switch ($format) {
+            case "yml":
+                $content = Yaml::parse($client->getResponse()->getContent());
+                break;
+            case "json":
+                $content = json_decode($client->getResponse()->getContent(), true);
+                break;
+            case "compressed":
+                $content = json_decode(gzuncompress($client->getResponse()->getContent()), true);
+                break;
+        }
+
         $this->assertArrayHasKey("hash", $content["collection"][0]);
         unset($content["collection"][0]["hash"]);
 
@@ -160,15 +171,9 @@ class TestControllerTest extends AFunctionalTest
             'code' => 'print(\'start\')',
             'accessibility' => ATopEntity::ACCESS_PUBLIC,
             "archived" => "0",
-            "owner" => null,
             "groups" => "",
-            'outdated' => '0',
             'sourceWizard' => null,
-            'sourceWizardName' => null,
             'sourceWizardTest' => null,
-            'sourceWizardTestName' => null,
-            'updatedOn' => $content["collection"][0]["updatedOn"],
-            'updatedBy' => 'admin',
             'type' => Test::TYPE_CODE,
             'variables' => array(
                 array(
@@ -249,7 +254,8 @@ class TestControllerTest extends AFunctionalTest
             "name" => "new_test",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
-            "accessibility" => ATopEntity::ACCESS_PUBLIC
+            "accessibility" => ATopEntity::ACCESS_PUBLIC,
+            "code" => ""
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -272,7 +278,6 @@ class TestControllerTest extends AFunctionalTest
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
-                "outdated" => '0',
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -333,7 +338,6 @@ class TestControllerTest extends AFunctionalTest
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
-                "outdated" => '0',
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -392,7 +396,6 @@ class TestControllerTest extends AFunctionalTest
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
-                "outdated" => '0',
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -451,7 +454,6 @@ class TestControllerTest extends AFunctionalTest
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
-                "outdated" => '0',
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -497,60 +499,22 @@ class TestControllerTest extends AFunctionalTest
     public function exportDataProvider()
     {
         return array(
-            array('', true), // default is gzipped 
-            array('/compressed', true), // explicitly requesting compression
-            array('/plaintext', false)    // requesting plaintext
+            array(array(array(
+                "class_name" => "Test",
+                "name" => "test",
+                "data" => "0"
+            )), "yml"),
+            array(array(array(
+                "class_name" => "Test",
+                "name" => "test",
+                "data" => "0"
+            )), "json"),
+            array(array(array(
+                "class_name" => "Test",
+                "name" => "test",
+                "data" => "0"
+            )), "compressed")
         );
-    }
-
-    public function testUpdateDependentAction()
-    {
-        $client = self::createLoggedClient();
-        $client->request("POST", "/admin/TestWizard/-1/save", array(
-            "name" => "wizard",
-            "description" => "description",
-            "accessibility" => ATopEntity::ACCESS_PUBLIC,
-            "test" => 1
-        ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $content = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(0, $content["result"]);
-
-        $client->request("POST", "/admin/Test/-1/save", array(
-            "name" => "test2",
-            "description" => "description",
-            "code" => "print('start')",
-            "visibility" => Test::VISIBILITY_FEATURED,
-            "type" => Test::TYPE_WIZARD,
-            "sourceWizard" => 1,
-            "accessibility" => ATopEntity::ACCESS_PUBLIC
-        ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $content = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(0, $content["result"]);
-
-        $client->request("POST", "/admin/Test/1/save", array(
-            "name" => "wizard test",
-            "description" => "description",
-            "visibility" => Test::VISIBILITY_FEATURED,
-            "code" => "aaa",
-            "type" => Test::TYPE_CODE,
-            "accessibility" => ATopEntity::ACCESS_PUBLIC
-        ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $content = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(0, $content["result"]);
-
-        $client->request("POST", "/admin/Test/1/update");
-        $fail_msg = "";
-        if (!$client->getResponse()->isSuccessful()) {
-            $crawler = $client->getCrawler();
-            $fail_msg = $crawler->filter("title")->text();
-        }
-        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
-        $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        self::$entityManager->clear();
-        $this->assertEquals(self::$repository->find(1)->getCode(), self::$repository->find(2)->getCode());
     }
 
 }

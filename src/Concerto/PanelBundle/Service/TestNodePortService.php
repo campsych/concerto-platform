@@ -272,7 +272,7 @@ class TestNodePortService extends ASectionService
                             $val = $ent->getValue();
                             foreach ($renames as $class => $renameMap) {
                                 foreach ($renameMap as $oldName => $newName) {
-                                    $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
                                     if ($moded) {
                                         $ent->setValue($val);
                                     }
@@ -350,7 +350,7 @@ class TestNodePortService extends ASectionService
                             $val = $ent->getValue();
                             foreach ($renames as $class => $renameMap) {
                                 foreach ($renameMap as $oldName => $newName) {
-                                    $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
                                     if ($moded) {
                                         $ent->setValue($val);
                                     }

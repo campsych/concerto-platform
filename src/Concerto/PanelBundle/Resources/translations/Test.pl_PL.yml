@@ -34,12 +34,6 @@ form:
   button:
       run: Uruchom
       debug: Debuguj
-      update: Zaktualizuj wszystkie zależne testy
-  dialog:
-      title:
-          update: Aktualizacja zależnych testów.
-      message:
-          update.successful: Aktualizacja zakończona.
     
 list: 
   field:
