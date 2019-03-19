@@ -128,9 +128,9 @@ class TestWizardService extends AExportableSectionService
         return $result;
     }
 
-    public function convertToExportable($array, $instruction = null)
+    public function convertToExportable($array, $instruction = null, $secure = true)
     {
-        $array = parent::convertToExportable($array, $instruction);
+        $array = parent::convertToExportable($array, $instruction, $secure);
         unset($array["testName"]);
         return $array;
     }

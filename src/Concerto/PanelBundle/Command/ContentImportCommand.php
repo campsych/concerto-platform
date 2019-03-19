@@ -36,6 +36,7 @@ class ContentImportCommand extends Command
         $this->setName("concerto:content:import")->setDescription("Imports content");
         $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
     }
 
     protected function importContent(InputInterface $input, OutputInterface $output, User $user)
@@ -45,6 +46,7 @@ class ContentImportCommand extends Command
         $convert = $input->getOption("convert");
 
         $files_dir = $input->getArgument("input");
+        $instructionsOverride = json_decode($input->getOption("instructions"), true);
 
         $finder = new Finder();
         $finder->files()->in($files_dir)->name('*.concerto*');
@@ -57,6 +59,23 @@ class ContentImportCommand extends Command
             for ($i = 0; $i < count($instructions); $i++) {
                 if ($convert)
                     $instructions[$i]["action"] = "1";
+            }
+
+            foreach ($instructionsOverride as $instructionOverrideElem) {
+                for ($i = 0; $i < count($instructions); $i++) {
+                    if ($instructions[$i]['class_name'] == $instructionOverrideElem['class_name'] && $instructions[$i]['name'] == $instructionOverrideElem['name']) {
+                        $fields = array(
+                            "action",
+                            "data",
+                            "rename"
+                        );
+                        foreach ($fields as $field) {
+                            if (array_key_exists($field, $instructionOverrideElem)) {
+                                $instructions[$i][$field] = $instructionOverrideElem[$field];
+                            }
+                        }
+                    }
+                }
             }
 
             $results = $this->importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];

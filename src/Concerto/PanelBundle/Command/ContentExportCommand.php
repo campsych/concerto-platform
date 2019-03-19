@@ -53,6 +53,7 @@ class ContentExportCommand extends Command
         );
         $single = $input->getOption("single");
         $instructions = json_decode($input->getOption("instructions"), true);
+        var_dump($input->getOption("instructions"));
 
         $output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
 
@@ -69,7 +70,7 @@ class ContentExportCommand extends Command
                 if (!$single) {
                     $collection = array();
                     if (array_key_exists("collection", $dependencies)) {
-                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions);
+                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false);
                     }
                     $result = array("version" => $this->version, "collection" => $collection);
                     $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
@@ -82,7 +83,7 @@ class ContentExportCommand extends Command
         if ($single) {
             $collection = array();
             if (array_key_exists("collection", $dependencies)) {
-                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions);
+                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false);
             }
             $result = array("version" => $this->version, "collection" => $collection);
             $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);

@@ -100,7 +100,7 @@ class ImportService
         $file_content = file_get_contents($file);
         $extension = pathinfo($file)["extension"];
         $data = null;
-        switch($extension) {
+        switch ($extension) {
             case "concerto":
                 $data = json_decode(gzuncompress($file_content), true);
                 break;
@@ -177,6 +177,14 @@ class ImportService
                 $default_action = "2";
             else if ($existing_entity != null)
                 $default_action = "1";
+            $data = "0";
+            $data_num = 0;
+            if ($imported_object["class_name"] == "DataTable") {
+                $data = "1";
+                if (array_key_exists("data", $imported_object)) {
+                    $data_num = count($imported_object["data"]);
+                }
+            }
 
             $obj_status = array(
                 "id" => $imported_object["id"],
@@ -187,7 +195,9 @@ class ImportService
                 "starter_content" => $imported_object["starterContent"],
                 "existing_object" => $existing_entity ? true : false,
                 "existing_object_name" => $existing_entity ? $existing_entity->getName() : null,
-                "can_ignore" => $can_ignore
+                "can_ignore" => $can_ignore,
+                "data" => $data,
+                "data_num" => $data_num
             );
             array_push($result, $obj_status);
         }
@@ -255,7 +265,7 @@ class ImportService
         for ($i = 0; $i < count($collection); $i++) {
             $elem = $collection[$i];
             $elem_class = $elem["class_name"];
-            $collection[$i] = $this->serviceMap[$elem_class]->convertToExportable($elem);
+            $collection[$i] = $this->serviceMap[$elem_class]->convertToExportable($elem, array("data" => "2"));
         }
 
         $instructions = $this->getPreImportStatus($collection);
@@ -266,6 +276,7 @@ class ImportService
             } else {
                 $instructions[$i]["action"] = "2";
             }
+            $instructions[$i]["data"] = "2";
         }
         $result = $this->import(
             $user, //

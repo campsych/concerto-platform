@@ -35,6 +35,8 @@ list:
     data.not_applicable: Not applicable
     data.leave: Leave
     data.include: Include
+    data.ignore: Ignore
+    data.replace: Replace
     data_num: Data num
     rename: Rename
     safe: Safe

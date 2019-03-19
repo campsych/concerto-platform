@@ -76,11 +76,25 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                 '</select>' +
                 '</div>'
             }, {
+                displayName: Trans.LIST_FIELD_DATA,
+                name: "data",
+                cellTemplate:
+                '<div class="ui-grid-cell-contents">' +
+                '<select ng-model="row.entity.data" style="width: 100%;" ng-disabled="row.entity.action == 2">' +
+                "<option value='0' ng-show='row.entity.class_name != \"DataTable\"'>" + Trans.LIST_FIELD_DATA_NOT_APPLICABLE + "</option>" +
+                "<option value='1' ng-show='row.entity.class_name == \"DataTable\"'>" + Trans.LIST_FIELD_DATA_IGNORE + "</option>" +
+                "<option value='2' ng-show='row.entity.class_name == \"DataTable\"'>" + Trans.LIST_FIELD_DATA_REPLACE + "</option>" +
+                '</select>' +
+                '</div>'
+            }, {
+                displayName: Trans.LIST_FIELD_DATA_NUM,
+                name: "data_num"
+            }, {
                 displayName: Trans.LIST_FIELD_RENAME,
                 field: "rename",
                 cellTemplate:
                 '<div class="ui-grid-cell-contents">' +
-                '<input ng-model="row.entity.rename" style="width: 100%;" ng-disabled="row.entity.action == \'2\'" />' +
+                '<input ng-model="row.entity.rename" style="width: 100%;" ng-disabled="row.entity.action == 2" />' +
                 '</div>'
             }, {
                 displayName: Trans.LIST_FIELD_SAFE,

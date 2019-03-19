@@ -73,7 +73,7 @@ abstract class AExportableSectionService extends ASectionService
         return $this->repository->findOneBy(array("name" => $name)) != null;
     }
 
-    public function convertToExportable($arr, $instruction = null)
+    public function convertToExportable($arr, $instruction = null, $secure = true)
     {
         unset($arr["updatedOn"]);
         unset($arr["updatedBy"]);
