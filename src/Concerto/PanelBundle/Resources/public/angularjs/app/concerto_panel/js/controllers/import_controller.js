@@ -133,7 +133,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
     });
 
     $scope.uploader.onCompleteItem = function (item, response, status, headers) {
-        if (response.result === 0) {
+        if (response.result.success) {
             $scope.item = item;
 
             $http.post($scope.preImportStatusPath, {

@@ -2,9 +2,10 @@ version: "5.0.beta.9.1"
 changelog:
     - version: "5.0.beta.9.1"
       description: >
-        Starter content made integral part of platform
+        Files tab
       categories:
           - label: Features
+                - new files tab with file manager
                 - now possible to include data in data table export
                 - now possible to import data from export
                 - added '-i' option for both 'concerto:content:export' and 'concerto:content:import' to override instructions

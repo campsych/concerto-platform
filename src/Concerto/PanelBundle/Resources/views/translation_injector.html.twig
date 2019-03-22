@@ -30,8 +30,19 @@
     Paths.FILE_UPLOAD = "{{ path("FileBrowser_upload") }}";
     Paths.BREADCRUMBS_TEMPLATE = "{{ path("breadcrumbs_template") }}";
     Paths.FILE_UPLOAD_BROWSER = "{{ path("FileBrowser_browser") }}";
-    Paths.FILE_UPLOAD_DELETE = "{{ path("FileBrowser_delete",{'filename':"_"}) }}".slice(0, -1);
-    Paths.FILE_UPLOAD_LIST = "{{ path("FileBrowser_list") }}";
+    Paths.FILE_DELETE = "{{ path("FileBrowser_delete") }}";
+    Paths.FILE_LIST = "{{ path("FileBrowser_list") }}";
+    Paths.FILE_RENAME = "{{ path("FileBrowser_rename") }}";
+    Paths.FILE_COPY = "{{ path("FileBrowser_copy") }}";
+    Paths.FILE_MOVE = "{{ path("FileBrowser_move") }}";
+    Paths.FILE_EDIT = "{{ path("FileBrowser_edit") }}";
+    Paths.FILE_CONTENT = "{{ path("FileBrowser_content") }}";
+    Paths.FILE_CREATE_DIRECTORY = "{{ path("FileBrowser_create_directory") }}";
+    Paths.FILE_DOWNLOAD = "{{ path("FileBrowser_download") }}";
+    Paths.FILE_DOWNLOAD_MULTIPLE = "{{ path("FileBrowser_download_multiple") }}";
+    Paths.FILE_COMPRESS = "{{ path("FileBrowser_compress") }}";
+    Paths.FILE_EXTRACT = "{{ path("FileBrowser_extract") }}";
+    Paths.FILE_PERMISSIONS = "{{ path("FileBrowser_permissions") }}";
     Paths.R_CACHE_DIRECTORY = "{{ asset('bundles/concertopanel/rcache/') }}";
 
     Paths.TEST_WIZARD_COLLECTION = "{{ path("TestWizard_collection") }}";
@@ -430,7 +441,7 @@
     Trans.USER_FORM_TITLE_EDIT = "{{ 'form.title.edit'|trans }}";
 
     {% trans_default_domain "FileBrowser" %}
-    Trans.FILE_BROWSER_BREADCRUMB_MANAGER = "{{ "breadcrumb.manager"|trans }}";
+    Trans.FILE_BROWSER_BREADCRUMB_FILES = "{{ "breadcrumb.files"|trans }}";
     Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_TITLE = "{{ "uploader.alerts.upload_failed.title"|trans }}";
     Trans.FILE_BROWSER_ALERT_UPLOAD_FAILED_MESSAGE = "{{ "uploader.alerts.upload_failed.message"|trans }}";
 

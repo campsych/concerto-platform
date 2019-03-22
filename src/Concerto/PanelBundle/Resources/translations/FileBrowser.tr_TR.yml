@@ -1,26 +1,5 @@
-breadcrumb:
-    manager: Dosya yöneticisi
-
 uploader:
     alerts:
         upload_failed:
             title: Dosya yükle
             message: Dosya yükleme başarısız!
-    library:
-        title: Dosya kitaplığı
-        empty: Dosya kitaplığı boş
-        buttons:
-            use: Kullan
-            remove: Kaldır
-            open: Aç
-    queue:
-        title: Yükleme sırası
-        droparea: Dosyalarınızı sürükleyip/bırakın
-        progress: Toplam ilerleme
-        buttons:
-            upload: Yükle
-            cancel: İptal
-            remove: Kaldır
-            uploadall: Tümünü Yükle
-            cancelall: Tümünü İptal
-            removeall: Tümünü Kaldır

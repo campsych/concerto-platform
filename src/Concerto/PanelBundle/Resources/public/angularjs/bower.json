@@ -35,7 +35,9 @@
         "jquery-mousewheel": "3.1.x",
         "pdfmake": "0.1.33",
         "csv-js": "1.1.x",
-        "angular-chart.js": "1.1.x"
+        "angular-chart.js": "1.1.x",
+        "angular-translate": "2.9.x",
+        "ng-file-upload": "12.2.x"
     },
     "resolutions": {
         "angular": "1.5.5",
