@@ -21,6 +21,7 @@ services:
       container_name: concerto
       restart: unless-stopped
       volumes:
+        - ./concerto/config/config.yml:/usr/src/concerto/app/config/config.yml
         - ./concerto/config/parameters.yml:/usr/src/concerto/app/config/parameters.yml
         - ./concerto/config/parameters_administration.yml:/usr/src/concerto/app/config/parameters_administration.yml
         - ./concerto/config/parameters_test_runner.yml:/usr/src/concerto/app/config/parameters_test_runner.yml
@@ -40,5 +41,11 @@ services:
         - ./logs/concerto/nginx:/var/log/nginx
         - ./logs/concerto/php-fpm:/var/log/php-fpm
         - ./logs/concerto/app:/usr/src/concerto/var/logs
+      environment:
+        - DB_HOST=database
+        - DB_PORT=3306
+        - DB_NAME=concerto
+        - DB_USER=root
+        - DB_PASSWORD=root
       ports:
         - "80:80"

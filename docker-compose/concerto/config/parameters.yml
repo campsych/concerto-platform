@@ -1,10 +1,10 @@
 parameters:
     database_driver: pdo_mysql
-    database_host: database
-    database_port: null
-    database_name: concerto
-    database_user: root
-    database_password: root
+    env(DB_HOST): database
+    env(DB_PORT): null
+    env(DB_NAME): concerto
+    env(DB_USER): root
+    env(DB_PASSWORD): root
     database_path: null
     database_unix_socket: null
     database_version: 5.7
