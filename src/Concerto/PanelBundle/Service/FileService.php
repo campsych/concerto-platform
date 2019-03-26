@@ -390,10 +390,10 @@ class FileService
      */
     private function normalizeName($name)
     {
-        $name = preg_replace('~[^\\pL0-9_]+~u', '-', $name);
-        $name = trim($name, "-");
-        $name = iconv("utf-8", "us-ascii//TRANSLIT", $name);
-        $name = preg_replace('~[^-a-z0-9_]+~', '', $name);
+        //$name = preg_replace('~[^\\pL0-9_]+~u', '-', $name);
+        //$name = trim($name, "-");
+        //$name = iconv("utf-8", "us-ascii//TRANSLIT", $name);
+        //$name = preg_replace('~[^-a-z0-9_]+~', '', $name);
         return $name;
     }
 }

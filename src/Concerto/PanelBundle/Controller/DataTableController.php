@@ -27,7 +27,7 @@ class DataTableController extends AExportableTabController
 {
 
     const ENTITY_NAME = "DataTable";
-    const EXPORT_FILE_PREFIX = "DataTable_";
+    const EXPORT_FILE_PREFIX = "DataTable";
 
     private $userService;
 

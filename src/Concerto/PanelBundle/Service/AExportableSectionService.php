@@ -32,7 +32,7 @@ abstract class AExportableSectionService extends ASectionService
         }
         $name = "";
         if (count($instructions) == 1) {
-            $name = $instructions[0]["name"];
+            $name = "_" . $instructions[0]["name"];
         }
         return $prefix . $name . '.' . $ext;
     }

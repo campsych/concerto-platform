@@ -25,7 +25,7 @@ class TestController extends AExportableTabController
 {
 
     const ENTITY_NAME = "Test";
-    const EXPORT_FILE_PREFIX = "Test_";
+    const EXPORT_FILE_PREFIX = "Test";
 
     private $testWizardService;
     private $userService;

@@ -24,7 +24,7 @@ class ViewTemplateController extends AExportableTabController
 {
 
     const ENTITY_NAME = "ViewTemplate";
-    const EXPORT_FILE_PREFIX = "ViewTemplate_";
+    const EXPORT_FILE_PREFIX = "ViewTemplate";
 
     private $userService;
 
