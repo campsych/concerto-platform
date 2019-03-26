@@ -53,7 +53,6 @@ class ContentExportCommand extends Command
         );
         $single = $input->getOption("single");
         $instructions = json_decode($input->getOption("instructions"), true);
-        var_dump($input->getOption("instructions"));
 
         $output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
 
