@@ -400,7 +400,7 @@ class TestWizardParamService extends ASectionService
             switch ((int)$newType) {
                 //group type
                 case 9:
-                    if($oldDef !== null) {
+                    if ($oldDef !== null) {
                         foreach ($oldDef["fields"] as $oldField) {
                             $found = false;
                             foreach ($newDef["fields"] as $field) {
@@ -444,27 +444,29 @@ class TestWizardParamService extends ASectionService
                     break;
                 //list type
                 case 10:
-                    for ($i = 0; $i < count($mergedVal); $i++) {
+                    if ($mergedVal !== null) {
+                        for ($i = 0; $i < count($mergedVal); $i++) {
 
-                        //invalid data check
-                        if (!array_key_exists($i, $mergedVal)) continue;
+                            //invalid data check
+                            if (!array_key_exists($i, $mergedVal)) continue;
 
-                        $oldElemType = null;
-                        $oldElemDef = null;
-                        $oldElemVal = null;
-                        if (!$typeChanged) {
-                            $oldElemType = $oldDef["element"]["type"];
-                            if (array_key_exists("definition", $oldDef["element"]))
-                                $oldElemDef = $oldDef["element"]["definition"];
-                            if ($oldVal !== null && count($oldVal) > $i) {
-                                $oldElemVal = $oldVal[$i];
+                            $oldElemType = null;
+                            $oldElemDef = null;
+                            $oldElemVal = null;
+                            if (!$typeChanged) {
+                                $oldElemType = $oldDef["element"]["type"];
+                                if (array_key_exists("definition", $oldDef["element"]))
+                                    $oldElemDef = $oldDef["element"]["definition"];
+                                if ($oldVal !== null && count($oldVal) > $i) {
+                                    $oldElemVal = $oldVal[$i];
+                                }
+                                $newElemVal = null;
+                                if ($newVal !== null && count($newVal) > $i) {
+                                    $newElemVal = $newVal[$i];
+                                }
                             }
-                            $newElemVal = null;
-                            if ($newVal !== null && count($newVal) > $i) {
-                                $newElemVal = $newVal[$i];
-                            }
+                            self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                         }
-                        self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                     }
                     break;
             }
