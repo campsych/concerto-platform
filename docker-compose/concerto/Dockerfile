@@ -1,13 +1,13 @@
-FROM campsych/concerto-platform:5.0.beta.9
+FROM campsych/concerto-platform:build-improvements
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
-RUN chmod o+x /wait-for-it.sh
+RUN rm -rf /usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files \
+&& ls -s /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBundle/Resources/public \
+&& rm -rf /usr/src/concerto/src/Concerto/TestBundle/Resources/sessions \
+&& ls -s /usr/src/concerto/volume/sessions /usr/src/concerto/src/Concerto/TestBundle/Resources
 
-CMD /wait-for-it.sh database:3306 -t 300 \
- && rm -rf var/cache/* \
+CMD /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup \
- && php bin/console concerto:r:cache \
  && php bin/console concerto:content:import --convert \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
@@ -23,4 +23,4 @@ CMD /wait-for-it.sh database:3306 -t 300 \
  && cron \
  && service nginx start \
  && php bin/console concerto:forker:start \
- && php-fpm >> /var/log/php-fpm/out.log 2>&1
+ && php-fpm 2>&1 | tee -a /var/log/php-fpm/out.log

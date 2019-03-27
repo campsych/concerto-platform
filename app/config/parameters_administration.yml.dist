@@ -8,9 +8,9 @@ parameters:
             api_enabled_overridable: true
         internal:
             online: true
-            global_feed: https://raw.githubusercontent.com/campsych/concerto-platform/admin_tab/src/Concerto/PanelBundle/Resources/public/feeds/global.yml
+            global_feed: https://raw.githubusercontent.com/campsych/concerto-platform/5.0.beta.9/src/Concerto/PanelBundle/Resources/public/feeds/global.yml
             local_feed: null
-            git_branch: admin_tab
+            git_branch: 5.0.beta.9
             backup_directory: /tmp #must be above Concerto Platform root directory
             upgrade_connection: local #only works with MySQL driver
             web_user: www-data

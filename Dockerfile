@@ -11,6 +11,7 @@ RUN apt-get update -y \
  && apt-get -y install \
     cron \
     curl \
+    gettext \
     git \
     libcurl4-openssl-dev \
     libmariadbclient-dev \
@@ -38,9 +39,10 @@ RUN apt-get update -y \
     zip
 
 COPY . /usr/src/concerto/
-COPY build/php.ini /usr/local/etc/php/php.ini
+COPY build/php/php.ini /usr/local/etc/php/php.ini
 COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
+COPY build/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
 
 RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','ggplot2','base64enc','rjson','httr'), repos='$CRAN_MIRROR')" \
@@ -68,23 +70,3 @@ RUN echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/ap
  
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
- 
-CMD rm -rf var/cache/* \
- && php bin/console concerto:setup \
- && php bin/console concerto:r:cache \
- && php bin/console concerto:content:import --convert \
- && rm -rf var/cache/* \
- && php bin/console cache:warmup --env=prod \
- && chown -R www-data:www-data var/cache \
- && chown -R www-data:www-data var/logs \
- && chown -R www-data:www-data var/sessions \
- && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
- && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
- && chown www-data:www-data src/Concerto/TestBundle/Resources/sessions \
- && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
- && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/init_checkpoint \
- && rm -rf src/Concerto/TestBundle/Resources/R/init_checkpoint/* \
- && cron \
- && service nginx start \
- && php bin/console concerto:forker:start \
- && php-fpm >> /var/log/php-fpm/out.log 2>&1

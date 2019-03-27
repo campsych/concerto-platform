@@ -17,35 +17,23 @@ services:
 
     concerto:
       build: ./concerto
-      image: campsych/concerto-platform:5.0.beta.9
       container_name: concerto
       restart: unless-stopped
       volumes:
-        - ./concerto/config/config.yml:/usr/src/concerto/app/config/config.yml
-        - ./concerto/config/parameters.yml:/usr/src/concerto/app/config/parameters.yml
-        - ./concerto/config/parameters_administration.yml:/usr/src/concerto/app/config/parameters_administration.yml
-        - ./concerto/config/parameters_test_runner.yml:/usr/src/concerto/app/config/parameters_test_runner.yml
-        - ./concerto/config/parameters_uio.yml:/usr/src/concerto/app/config/parameters_uio.yml
-        - ./concerto/config/routing_custom.yml:/usr/src/concerto/app/config/routing_custom.yml
-        - ./concerto/config/test_base.html.twig:/usr/src/concerto/app/Resources/views/test_base.html.twig
-        - ./concerto/R:/usr/src/concerto/R
-        - ./concerto/rcache:/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/rcache
-        - ./concerto/files:/usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files
-        - ./concerto/favicon.ico:/usr/src/concerto/web/favicon.ico
-        - ./concerto/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
-        - ./concerto/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
-        - ./concerto/php/php.ini:/usr/local/etc/php/php.ini
-        - ./concerto/nginx/nginx.conf:/etc/nginx/nginx.conf
-        - ./concerto/nginx/sites/concerto.conf:/etc/nginx/sites-available/concerto.conf
-        - ./concerto/sessions:/usr/src/concerto/src/Concerto/TestBundle/Resources/sessions
-        - ./logs/concerto/nginx:/var/log/nginx
-        - ./logs/concerto/php-fpm:/var/log/php-fpm
-        - ./logs/concerto/app:/usr/src/concerto/var/logs
+        - ./concerto/volume:/usr/src/concerto/volume
       environment:
         - DB_HOST=database
         - DB_PORT=3306
         - DB_NAME=concerto
         - DB_USER=root
         - DB_PASSWORD=root
+        - PHP_FPM_PM=dynamic
+        - PHP_FPM_PM_MAX_CHILDREN=30
+        - PHP_FPM_PM_START_SERVERS=10
+        - PHP_FPM_PM_MIN_SPARE_SERVERS=5
+        - PHP_FPM_PM_MAX_SPARE_SERVERS=15
+        - PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
+        - PHP_FPM_PM_MAX_REQUESTS=300
+        - TZ=Europe/London
       ports:
         - "80:80"

@@ -1,10 +1,10 @@
 parameters:
     database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: ThisIsYourDatabaseName
-    database_user: ThisIsYourDatabaseUserName
-    database_password: ThisIsYourDatabaseUserPassword
+    env(DB_HOST): 127.0.0.1
+    env(DB_PORT): null
+    env(DB_NAME): ThisIsYourDatabaseName
+    env(DB_USER): ThisIsYourDatabaseUserName
+    env(DB_PASSWORD): ThisIsYourDatabaseUserPassword
     database_path: null
     database_unix_socket: null
     database_version: 5.7
