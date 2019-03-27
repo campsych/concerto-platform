@@ -1,4 +1,4 @@
-FROM campsych/concerto-platform:build-improvements
+FROM campsych/concerto-platform:5.0.beta.9
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 RUN mkdir -p /var/log/php-fpm \
