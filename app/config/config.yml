@@ -59,11 +59,11 @@ doctrine:
             local:
                 driver:      "%database_driver%"
                 server_version: "%database_version%"
-                host:        "%database_host%"
-                port:        "%database_port%"
-                dbname:      "%database_name%"
-                user:        "%database_user%"
-                password:    "%database_password%"
+                host:        "%env(DB_HOST)%"
+                port:        "%env(DB_PORT)%"
+                dbname:      "%env(DB_NAME)%"
+                user:        "%env(DB_USER)%"
+                password:    "%env(DB_PASSWORD)%"
                 charset:     UTF8
                 path:        "%database_path%"
                 unix_socket: "%database_unix_socket%"
