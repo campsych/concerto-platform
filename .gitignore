@@ -21,8 +21,8 @@
 /.idea
 *.iml
 /.web-server-pid
-/docker-compose/concerto/R
-/docker-compose/concerto/rcache
-/docker-compose/concerto/files
 /docker-compose/database/mysql
-/docker-compose/logs
+/docker-compose/concerto/volume/files/*
+!/docker-compose/concerto/volume/files/.gitkeep
+/docker-compose/concerto/volume/sessions/*
+!/docker-compose/concerto/volume/sessions/.gitkeep

@@ -1,12 +1,13 @@
 FROM campsych/concerto-platform:build-improvements
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
-RUN rm -rf /usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files \
-&& ls -s /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBundle/Resources/public \
-&& rm -rf /usr/src/concerto/src/Concerto/TestBundle/Resources/sessions \
-&& ls -s /usr/src/concerto/volume/sessions /usr/src/concerto/src/Concerto/TestBundle/Resources
+RUN mkdir -p /var/log/php-fpm \
+ && rm -rf /usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files \
+ && rm -rf /usr/src/concerto/src/Concerto/TestBundle/Resources/sessions
 
-CMD /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
+CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBundle/Resources/public \
+ && ln -sf /usr/src/concerto/volume/sessions /usr/src/concerto/src/Concerto/TestBundle/Resources \
+ && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup \
  && php bin/console concerto:content:import --convert \
  && rm -rf var/cache/* \
