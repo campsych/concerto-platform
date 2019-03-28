@@ -40,7 +40,7 @@ changelog:
                 - fixed nodes duplication on copy
                 - unparametrized input variables of test wizard now gets default values properly updated from parent variables
                 - fixed insert regex to allow inserts in insert directive
-                - 'concerto:content:export' command now also exports non starter content flagged objects
+                - command 'concerto:content:export' now also exports non starter content flagged objects
     - version: "5.0.beta.8.8"
       description: >
         Flow improvements
@@ -73,7 +73,7 @@ changelog:
           - label: Additional config settings
             changes:
                 - added 'local_session_limit' setting
-                - 'max_idle_time' and 'lockdown_browser_enabled' overridable on per test basis
+                - settings 'max_idle_time' and 'lockdown_browser_enabled' are now overridable on per test basis
     - version: "5.0.beta.8.5"
       description: >
         Fixes
