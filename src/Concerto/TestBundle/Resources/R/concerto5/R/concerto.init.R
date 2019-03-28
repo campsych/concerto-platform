@@ -46,7 +46,6 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
 
     RUNNER_PERSISTENT <<- 0
     RUNNER_SERIALIZED <<- 1
-    RUNNER_CHECKPOINT <<- 2
 
     concerto <<- list()
     concerto$cache <<- list(tests=list(), templates=list(), tables=list())

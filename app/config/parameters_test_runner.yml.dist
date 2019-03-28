@@ -14,4 +14,3 @@ parameters:
 
 services:
     Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService'
-    #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService' #experimental

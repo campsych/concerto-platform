@@ -20,8 +20,6 @@ CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBu
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
- && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/init_checkpoint \
- && rm -rf src/Concerto/TestBundle/Resources/R/init_checkpoint/* \
  && cron \
  && service nginx start \
  && php bin/console concerto:forker:start \
