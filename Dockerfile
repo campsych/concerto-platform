@@ -46,7 +46,7 @@ COPY build/php-fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY build/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
 
-RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','ggplot2','base64enc','rjson','httr'), repos='$CRAN_MIRROR')" \
+RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','rjson','httr'), repos='$CRAN_MIRROR')" \
  && R CMD INSTALL /usr/src/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /usr/src/concerto/bin/console concerto:r:cache \
@@ -56,11 +56,6 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
-
-RUN mkdir -p /usr/src/dmtcp \
- && cd /usr/src/dmtcp \
- && git clone -b master https://github.com/dmtcp/dmtcp.git /usr/src/dmtcp \
- && ./configure --prefix=/usr && make -j 2 && make install
 
 RUN echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/backports.list \
  && apt-get update -y \

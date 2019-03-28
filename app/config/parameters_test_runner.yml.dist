@@ -11,10 +11,7 @@ parameters:
         session_forking: true #only Linux, experimental
         dir: /
         connection: local
-        dmtcp_bin_path: /usr/src/dmtcp/bin
-        checkpointed_session_init: false #only linux, only on CheckpointSessionRunnerService, experimental
 
 services:
     Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService'
-    #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\CheckpointSessionRunnerService' #only Linux, experimental
     #Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService' #experimental

@@ -18,6 +18,9 @@ changelog:
             changes:
                 - wizard based test no longer duplicates 'code' field value
                 - rename on import now also updates object name references where possible
+          - label: Retirements
+            changes:
+                - checkpointed session service
           - label: docker-compose
             changes:
                 - serverless friendly docker-compose
