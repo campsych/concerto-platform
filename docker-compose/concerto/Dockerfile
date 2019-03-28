@@ -2,8 +2,9 @@ FROM campsych/concerto-platform:5.0.beta.9
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 RUN mkdir -p /var/log/php-fpm \
- && rm -rf /usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf /usr/src/concerto/src/Concerto/TestBundle/Resources/sessions
+ && rm -rf src/Concerto/PanelBundle/Resources/public/files \
+ && rm -rf src/Concerto/TestBundle/Resources/sessions \
+ && touch var/logs/prod.log
 
 CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /usr/src/concerto/volume/sessions /usr/src/concerto/src/Concerto/TestBundle/Resources \
@@ -24,4 +25,5 @@ CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBu
  && cron \
  && service nginx start \
  && php bin/console concerto:forker:start \
- && php-fpm 2>&1 | tee -a /var/log/php-fpm/out.log
+ && php-fpm -D >> /var/log/php-fpm/out.log 2>&1 \
+ && tail -F var/logs/prod.log -n 0

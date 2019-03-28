@@ -7,6 +7,11 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+services:
+    Monolog\Formatter\LogstashFormatter:
+         arguments:
+            $applicationName: "concerto"
+
 monolog:
     handlers:
         main:
@@ -19,6 +24,7 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+            formatter: Monolog\Formatter\LogstashFormatter
         console:
             type: console
             process_psr_3_messages: false
