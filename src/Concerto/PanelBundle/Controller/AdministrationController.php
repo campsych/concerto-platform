@@ -36,7 +36,7 @@ class AdministrationController
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
             'collection' => array(
                 "exposed" => $this->service->getExposedSettingsMap(),
-                "internal" => $this->service->getInternalSettingsMap(true)
+                "internal" => $this->service->getInternalSettingsMap()
             )
         ));
     }
@@ -135,62 +135,6 @@ class AdministrationController
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
             'collection' => $this->service->getTasksCollection()
         ));
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/backup", name="Administration_tasks_backup")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @return Response
-     */
-    public function taskBackupAction()
-    {
-        $return = $this->service->scheduleBackupTask($out, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/restore", name="Administration_tasks_restore")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @return Response
-     */
-    public function taskRestoreAction()
-    {
-        $return = $this->service->scheduleRestoreTask($out, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/content_upgrade", name="Administration_tasks_content_upgrade")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @param Request $request
-     * @return Response
-     */
-    public function taskContentUpgradeAction(Request $request)
-    {
-        $backup = $request->get("backup");
-        $return = $this->service->scheduleContentUpgradeTask($out, $backup, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/platform_upgrade", name="Administration_tasks_platform_upgrade")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @param Request $request
-     * @return Response
-     */
-    public function taskPlatformUpgradeAction(Request $request)
-    {
-        $backup = $request->get("backup");
-        $return = $this->service->schedulePlatformUpgradeTask($out, $backup, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 
     /**

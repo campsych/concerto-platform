@@ -41,7 +41,7 @@ abstract class ConcertoScheduledTaskCommand extends Command
 
     protected function check(&$error, &$code, InputInterface $input)
     {
-        return $this->administrationService->isUpdatePossible($error);
+        return true;
     }
 
     protected function getTaskResultFile(ScheduledTask $task)

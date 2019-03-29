@@ -104,14 +104,6 @@ class ConcertoScheduleTickCommand extends Command
     private function executeTask(ScheduledTask $task, OutputInterface $output)
     {
         switch ($task->getType()) {
-            case ScheduledTask::TYPE_BACKUP:
-                return $this->executeBackupTask($task, $output);
-            case ScheduledTask::TYPE_RESTORE_BACKUP:
-                return $this->executeRestoreTask($task, $output);
-            case ScheduledTask::TYPE_CONTENT_UPGRADE:
-                return $this->executeContentUpgradeTask($task, $output);
-            case ScheduledTask::TYPE_PLATFORM_UPGRADE:
-                return $this->executePlatformUpgradeTask($task, $output);
             case ScheduledTask::TYPE_R_PACKAGE_INSTALL:
                 return $this->executePackageInstallTask($task, $output);
         }
@@ -138,15 +130,6 @@ class ConcertoScheduleTickCommand extends Command
                 $output->writeln($response);
             }
         }
-
-        switch ($task->getType()) {
-            case ScheduledTask::TYPE_BACKUP:
-                return $this->onBackupTaskFinished($task, $output);
-            case ScheduledTask::TYPE_CONTENT_UPGRADE:
-                return $this->onContentUpgradeTaskFinished($task, $output);
-            case ScheduledTask::TYPE_PLATFORM_UPGRADE:
-                return $this->onPlatformUpgradeTaskFinished($task, $output);
-        }
     }
 
     private function executePackageInstallTask(ScheduledTask $task, OutputInterface $output)
@@ -167,147 +150,6 @@ class ConcertoScheduleTickCommand extends Command
         $tasksRepo->save($task);
 
         return $return_code;
-    }
-
-    private function executeBackupTask(ScheduledTask $task, OutputInterface $output)
-    {
-        $app = $this->getApplication()->find("concerto:backup");
-        $input = new ArrayInput(array(
-            "command" => "concerto:backup",
-            "--task" => $task->getId()
-        ));
-        $bo = new BufferedOutput();
-        $return_code = $app->run($input, $bo);
-        $response = $bo->fetch();
-
-        $output->writeln($response);
-        $em = $this->doctrine->getManager();
-        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
-        $task->appendOutput($response);
-        $tasksRepo->save($task);
-
-        return $return_code;
-    }
-
-    private function executeRestoreTask(ScheduledTask $task, OutputInterface $output)
-    {
-        $app = $this->getApplication()->find("concerto:restore");
-        $input = new ArrayInput(array(
-            "command" => "concerto:restore",
-            "--task" => $task->getId()
-        ));
-        $bo = new BufferedOutput();
-        $return_code = $app->run($input, $bo);
-        $response = $bo->fetch();
-
-        $output->writeln($response);
-        $em = $this->doctrine->getManager();
-        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
-        $task->appendOutput($response);
-        $tasksRepo->save($task);
-
-        return $return_code;
-    }
-
-    private function executeContentUpgradeTask(ScheduledTask $task, OutputInterface $output)
-    {
-        $app = $this->getApplication()->find("concerto:content:upgrade");
-        $input = new ArrayInput(array(
-            "command" => "concerto:content:upgrade",
-            "--task" => $task->getId()
-        ));
-        $bo = new BufferedOutput();
-        $return_code = $app->run($input, $bo);
-        $response = $bo->fetch();
-
-        $output->writeln($response);
-        $em = $this->doctrine->getManager();
-        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
-        $task->appendOutput($response);
-        $tasksRepo->save($task);
-
-        return $return_code;
-    }
-
-    private function executePlatformUpgradeTask(ScheduledTask $task, OutputInterface $output)
-    {
-        $app = $this->getApplication()->find("concerto:upgrade");
-        $input = new ArrayInput(array(
-            "command" => "concerto:upgrade",
-            "--task" => $task->getId()
-        ));
-        $bo = new BufferedOutput();
-        $return_code = $app->run($input, $bo);
-        $response = $bo->fetch();
-
-        $output->writeln($response);
-        $em = $this->doctrine->getManager();
-        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
-        $task->appendOutput($response);
-        $tasksRepo->save($task);
-
-        return $return_code;
-    }
-
-    private function onBackupTaskFinished(ScheduledTask $task, OutputInterface $output)
-    {
-        if ($task->getStatus() != ScheduledTask::STATUS_COMPLETED)
-            return;
-
-        $info = json_decode($task->getInfo(), true);
-
-        $this->administrationService->setBackupPlatformVersion($info["backup_platform_version"]);
-        $this->administrationService->setBackupPlatformPath($info["backup_platform_path"]);
-        $this->administrationService->setBackupDatabasePath($info["backup_database_path"]);
-        $content_version = $info["backup_content_version"];
-        if ($content_version === null)
-            $content_version = "";
-        $this->administrationService->setBackupContentVersion($content_version);
-        $dt = new DateTime();
-        $dt->setTimestamp($info["backup_time"]);
-        $this->administrationService->setBackupTime($dt);
-    }
-
-    private function onContentUpgradeTaskFinished(ScheduledTask $task, OutputInterface $output)
-    {
-        if ($task->getStatus() != ScheduledTask::STATUS_COMPLETED)
-            return;
-
-        $info = json_decode($task->getInfo(), true);
-
-        $this->administrationService->setInstalledContentVersion($info["version"]);
-
-        $msg = new Message();
-        $msg->setCagegory(Message::CATEGORY_CHANGELOG);
-        $msg->setSubject("Content upgraded to v" . $info["version"]);
-        $content = $this->templating->render("ConcertoPanelBundle:Administration:msg_content_upgrade.html.twig", array(
-            "version" => $info["version"],
-            "changelog" => json_decode($info["changelog"], true)
-        ));
-        $msg->setMessage($content);
-        $em = $this->doctrine->getManager();
-        $msgRepo = $em->getRepository("ConcertoPanelBundle:Message");
-        $msgRepo->save($msg);
-    }
-
-    private function onPlatformUpgradeTaskFinished(ScheduledTask $task, OutputInterface $output)
-    {
-        if ($task->getStatus() != ScheduledTask::STATUS_COMPLETED)
-            return;
-
-        $info = json_decode($task->getInfo(), true);
-
-        $msg = new Message();
-        $msg->setCagegory(Message::CATEGORY_CHANGELOG);
-        $msg->setSubject("Platform upgraded to v" . $info["version"]);
-        $content = $this->templating->render("ConcertoPanelBundle:Administration:msg_platform_upgrade.html.twig", array(
-            "version" => $info["version"],
-            "changelog" => json_decode($info["changelog"], true)
-        ));
-        $msg->setMessage($content);
-        $em = $this->doctrine->getManager();
-        $msgRepo = $em->getRepository("ConcertoPanelBundle:Message");
-        $msgRepo->save($msg);
     }
 
 }

@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.3-fpm
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org/
@@ -8,7 +8,6 @@ ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.s
 
 RUN apt-get update -y \
  && apt-get -y install gnupg \
- && echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/backports.list \
  && echo "deb http://cran.rstudio.com/bin/linux/debian stretch-cran35/" | tee -a /etc/apt/sources.list \
  && apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF' \
  && apt-get update -y \
@@ -16,21 +15,14 @@ RUN apt-get update -y \
     cron \
     curl \
     gettext \
-    git \
     libcurl4-openssl-dev \
     libmariadbclient-dev \
     libxml2-dev \
     libssl-dev \
     locales \
-    mysql-client \
     nginx \
     procps \
     r-base \
-    r-base-dev \
-    unzip \
-    wget \
-    zip \
- && apt-get install -y python-certbot-nginx -t stretch-backports \
  && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
@@ -52,10 +44,7 @@ RUN apt-get update -y \
  && crontab -l | { cat; echo "*/5 * * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
- && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf \
- && mkdir -p /var/www/html \
- && chown -R www-data:www-data /var/www/html \
- && crontab -l | { cat; echo "0 0 10 * * /usr/bin/certbot renew"; } | crontab -
+ && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
 COPY build/php/php.ini /usr/local/etc/php/php.ini
 COPY build/nginx/nginx.conf /etc/nginx/nginx.conf

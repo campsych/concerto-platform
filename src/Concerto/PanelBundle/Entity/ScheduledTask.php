@@ -11,10 +11,6 @@ use DateTime;
  */
 class ScheduledTask implements \JsonSerializable {
 
-    const TYPE_PLATFORM_UPGRADE = 0;
-    const TYPE_CONTENT_UPGRADE = 1;
-    const TYPE_RESTORE_BACKUP = 2;
-    const TYPE_BACKUP = 3;
     const TYPE_R_PACKAGE_INSTALL = 4;
     const STATUS_PENDING = 0;
     const STATUS_ONGOING = 1;

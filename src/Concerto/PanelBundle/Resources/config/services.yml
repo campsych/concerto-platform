@@ -34,33 +34,13 @@ services:
     Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand:
         autoconfigure: false
 
-    Concerto\PanelBundle\Command\ConcertoBackupCommand:
-        arguments:
-            $administration: "%administration%"
-            $version: "%version%"
-
-    Concerto\PanelBundle\Command\ConcertoContentUpgradeCommand:
-        arguments:
-            $administration: "%administration%"
-            $testRunnerSettings: "%test_runner_settings%"
-
     Concerto\PanelBundle\Command\ConcertoPackageInstallCommand:
-        arguments:
-            $administration: "%administration%"
-            $testRunnerSettings: "%test_runner_settings%"
-
-    Concerto\PanelBundle\Command\ConcertoRestoreCommand:
         arguments:
             $administration: "%administration%"
             $testRunnerSettings: "%test_runner_settings%"
 
     Concerto\PanelBundle\Command\ConcertoRCacheCommand:
         arguments:
-            $testRunnerSettings: "%test_runner_settings%"
-
-    Concerto\PanelBundle\Command\ConcertoUpgradeCommand:
-        arguments:
-            $administration: "%administration%"
             $testRunnerSettings: "%test_runner_settings%"
 
     Concerto\PanelBundle\Command\ContentExportCommand:
