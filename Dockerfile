@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.2-fpm
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org/
@@ -19,7 +19,6 @@ RUN apt-get update -y \
     libmariadbclient-dev \
     libxml2-dev \
     libssl-dev \
-    libzip-dev \
     locales \
     nginx \
     procps \
