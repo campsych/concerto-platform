@@ -4,11 +4,6 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 ARG CRAN_MIRROR=https://cloud.r-project.org/
 
 COPY . /usr/src/concerto/
-COPY build/php/php.ini /usr/local/etc/php/php.ini
-COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
-COPY build/php-fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY build/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
 
 RUN apt-get update -y \
@@ -61,6 +56,12 @@ RUN apt-get update -y \
  && mkdir -p /var/www/html \
  && chown -R www-data:www-data /var/www/html \
  && crontab -l | { cat; echo "0 0 10 * * /usr/bin/certbot renew"; } | crontab -
+
+COPY build/php/php.ini /usr/local/etc/php/php.ini
+COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
+COPY build/php-fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY build/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
  
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
