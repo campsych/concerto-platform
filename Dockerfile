@@ -31,7 +31,7 @@ RUN apt-get update -y \
     wget \
     zip \
  && apt-get install -y python-certbot-nginx -t stretch-backports \
- && rm -f /var/lib/apt/lists/* \
+ && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
  && docker-php-ext-install \
