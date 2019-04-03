@@ -1,8 +1,7 @@
 FROM campsych/concerto-platform:5.0.beta.9
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
-RUN mkdir -p /var/log/php-fpm \
- && rm -rf src/Concerto/PanelBundle/Resources/public/files \
+RUN rm -rf src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf src/Concerto/TestBundle/Resources/sessions \
  && touch var/logs/prod.log
 
@@ -23,5 +22,6 @@ CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBu
  && cron \
  && service nginx start \
  && php bin/console concerto:forker:start \
- && php-fpm -D >> /var/log/php-fpm/out.log 2>&1 \
+ && /bin/bash \
+ && service php7.2-fpm start \
  && tail -F var/logs/prod.log -n 0
