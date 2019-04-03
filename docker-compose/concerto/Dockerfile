@@ -22,5 +22,5 @@ CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBu
  && cron \
  && service nginx start \
  && php bin/console concerto:forker:start \
- && service php7.2-fpm start \
+ && /etc/init.d/php7.2-fpm start \
  && tail -F var/logs/prod.log -n 0
