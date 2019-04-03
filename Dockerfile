@@ -4,6 +4,7 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 ARG CRAN_MIRROR=https://cloud.r-project.org
 ENV TZ=Europe/London
 
+COPY . /usr/src/concerto/
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
