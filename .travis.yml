@@ -19,9 +19,8 @@ install:
   - cd $TRAVIS_BUILD_DIR
   - docker build -t campsych/concerto-platform:$TRAVIS_BRANCH .
   - if [ "$TRAVIS_BRANCH" = "master" ]; then docker tag campsych/concerto-platform:$TRAVIS_BRANCH campsych/concerto-platform:latest; fi
-  -
 
-script: docker-compose up --build -f docker-compose-test.yml
+script: docker-compose -f docker-compose-test.yml up --build
 
 deploy:
   provider: script
