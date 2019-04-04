@@ -26,6 +26,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     locales \
     nginx \
     php7.2-curl \
+    php7.2-mbstring \
     php7.2-mysql \
     php7.2-xml \
     php7.2-zip \
