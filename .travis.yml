@@ -1,9 +1,28 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
+  - 7.2
 
-before_script: composer install -n
+services:
+  - docker
+  - mysql
 
-script: phpunit -c app
+before_install:
+  - npm install -g bower
+  - composer self-update
+  - mysql -e 'CREATE DATABASE concerto_test;'
+
+install:
+  - composer install --no-interaction
+  - cd $TRAVIS_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs && bower install --allow-root
+  - cd $TRAVIS_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
+  - cd $TRAVIS_BUILD_DIR
+  - docker build -t campsych/concerto-platform:$TRAVIS_BRANCH .
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then docker tag campsych/concerto-platform:$TRAVIS_BRANCH campsych/concerto-platform:latest; fi
+  -
+
+script: docker-compose up --build -f docker-compose-test.yml
+
+deploy:
+  provider: script
+  script: bash ./docker_deploy.sh

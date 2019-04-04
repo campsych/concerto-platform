@@ -8,9 +8,11 @@ parameters:
     database_path: null
     database_unix_socket: null
     database_version: 5.7
-    test_database_name: ThisIsYourTestDatabaseName #not needed for production env
-    test_database_user: ThisIsYourTestDatabaseUserName #not needed for production env
-    test_database_password: ThisIsYourTestDatabaseUserPassword #not needed for production env
+    env(DB_TEST_HOST): 127.0.0.1
+    env(DB_TEST_PORT): null
+    env(DB_TEST_NAME): ThisIsYourTestDatabaseName #not needed for production env
+    env(DB_TEST_USER): ThisIsYourTestDatabaseUserName #not needed for production env
+    env(DB_TEST_PASSWORD): ThisIsYourTestDatabaseUserPassword #not needed for production env
     mailer_transport: smtp
     mailer_host: localhost
     mailer_user: null
