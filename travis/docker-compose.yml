@@ -1,7 +1,7 @@
 version: '3.0'
 services:
     concerto:
-      image: campsych/concerto-platform:${TRAVIS_BRANCH}
+      build: .
       container_name: concerto
       restart: unless-stopped
       environment:
@@ -18,4 +18,5 @@ services:
         - PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
         - PHP_FPM_PM_MAX_REQUESTS=300
         - TZ=Europe/London
+        - TRAVIS_BRANCH=${TRAVIS_BRANCH}
       network_mode: host

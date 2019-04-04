@@ -56,10 +56,3 @@ COPY build/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
-
-CMD /wait-for-it.sh $DB_TEST_HOST:$DB_TEST_PORT -t 300 \
- && php bin/console concerto:setup --env=test \
- && service nginx start \
- && php bin/console concerto:forker:start \
- && /etc/init.d/php7.2-fpm start \
- && vendor/bin/simple-phpunit
