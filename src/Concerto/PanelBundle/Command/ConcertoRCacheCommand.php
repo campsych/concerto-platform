@@ -88,7 +88,6 @@ class ConcertoRCacheCommand extends Command
                     if ($this->isDocumentationValid($name, $doc)) {
                         $successful++;
                         $this->cacheService->addRFunction($lib, $name, $doc, $obj->args, $obj->defs);
-                        $output->writeln($lib . "::" . $name);
                     }
                 }
             }
