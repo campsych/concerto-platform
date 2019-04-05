@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestNodeService;
 use Concerto\PanelBundle\Service\TestNodePortService;
@@ -58,8 +57,7 @@ class TestNodePortController extends ASectionController
     }
 
     /**
-     * @Route("/TestNodePort/{object_ids}/delete", name="TestNodePort_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestNodePort/{object_ids}/delete", name="TestNodePort_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -69,8 +67,7 @@ class TestNodePortController extends ASectionController
     }
 
     /**
-     * @Route("/TestNodePort/{object_id}/save", name="TestNodePort_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestNodePort/{object_id}/save", name="TestNodePort_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -108,8 +105,7 @@ class TestNodePortController extends ASectionController
     }
 
     /**
-     * @Route("/TestNodePort/save", name="TestNodePort_save_collection")
-     * @Method(methods={"POST"})
+     * @Route("/TestNodePort/save", name="TestNodePort_save_collection", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -132,8 +128,7 @@ class TestNodePortController extends ASectionController
     }
 
     /**
-     * @Route("/TestNodePort/{object_id}/hide", name="TestNodePort_hide")
-     * @Method(methods={"POST"})
+     * @Route("/TestNodePort/{object_id}/hide", name="TestNodePort_hide", methods={"POST"})
      * @param Request $request
      * @param integer $object_id
      * @return Response

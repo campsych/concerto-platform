@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\TestService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -74,8 +73,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/save", name="Test_save")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/save", name="Test_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -102,8 +100,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/copy", name="Test_copy")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/copy", name="Test_copy", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -114,8 +111,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_ids}/delete", name="Test_delete")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_ids}/delete", name="Test_delete", methods={"POST"})
      * @param $object_ids
      * @return Response
      */
@@ -146,8 +142,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/import", name="Test_import")
-     * @Method(methods={"POST"})
+     * @Route("/Test/import", name="Test_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -167,8 +162,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/node/add", name="Test_add_node")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/node/add", name="Test_add_node", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -188,8 +182,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/node/{node_ids}/remove", name="Test_remove_node")
-     * @Method(methods={"POST"})
+     * @Route("/Test/node/{node_ids}/remove", name="Test_remove_node", methods={"POST"})
      * @param $node_ids
      * @return Response
      */
@@ -221,8 +214,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/connection/add", name="Test_add_connection")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/connection/add", name="Test_add_connection", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -244,8 +236,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/connection/{connection_id}/remove", name="Test_remove_connection")
-     * @Method(methods={"POST"})
+     * @Route("/Test/connection/{connection_id}/remove", name="Test_remove_connection", methods={"POST"})
      * @param $connection_id
      * @return Response
      */
@@ -274,8 +265,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/node/move", name="Test_move_node")
-     * @Method(methods={"POST"})
+     * @Route("/Test/node/move", name="Test_move_node", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -290,8 +280,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/node/paste", name="Test_paste_nodes")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/node/paste", name="Test_paste_nodes", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response

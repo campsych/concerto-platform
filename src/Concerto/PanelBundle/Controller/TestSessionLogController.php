@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestSessionLogService;
@@ -51,8 +50,7 @@ class TestSessionLogController extends ASectionController
     }
 
     /**
-     * @Route("/TestSessionLog/{object_ids}/delete", name="TestSessionLog_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestSessionLog/{object_ids}/delete", name="TestSessionLog_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -62,8 +60,7 @@ class TestSessionLogController extends ASectionController
     }
 
     /**
-     * @Route("/TestSessionLog/Test/{test_id}/clear", name="TestSessionLog_clear")
-     * @Method(methods={"POST"})
+     * @Route("/TestSessionLog/Test/{test_id}/clear", name="TestSessionLog_clear", methods={"POST"})
      * @param $test_id
      * @return Response
      */

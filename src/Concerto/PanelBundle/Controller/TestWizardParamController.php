@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestWizardService;
@@ -85,8 +84,7 @@ class TestWizardParamController extends ASectionController
     }
 
     /**
-     * @Route("/TestWizardParam/{object_ids}/delete", name="TestWizardParam_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizardParam/{object_ids}/delete", name="TestWizardParam_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -96,8 +94,7 @@ class TestWizardParamController extends ASectionController
     }
 
     /**
-     * @Route("/TestWizardParam/{object_id}/save", name="TestWizardParam_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizardParam/{object_id}/save", name="TestWizardParam_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -122,8 +119,7 @@ class TestWizardParamController extends ASectionController
     }
 
     /**
-     * @Route("/TestWizardParam/TestWizard/{wizard_id}/clear", name="TestWizardParam_clear")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizardParam/TestWizard/{wizard_id}/clear", name="TestWizardParam_clear", methods={"POST"})
      * @param $wizard_id
      * @return Response
      */

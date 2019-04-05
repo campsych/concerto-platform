@@ -3,7 +3,6 @@
 namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +29,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/list", name="FileBrowser_list")
-     * @Method(methods={"POST"})
+     * @Route("/file/list", name="FileBrowser_list", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -43,8 +41,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/upload", name="FileBrowser_upload")
-     * @Method(methods={"POST"})
+     * @Route("/file/upload", name="FileBrowser_upload", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -59,8 +56,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/rename", name="FileBrowser_rename")
-     * @Method(methods={"POST"})
+     * @Route("/file/rename", name="FileBrowser_rename", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -74,8 +70,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/copy", name="FileBrowser_copy")
-     * @Method(methods={"POST"})
+     * @Route("/file/copy", name="FileBrowser_copy", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -89,8 +84,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/move", name="FileBrowser_move")
-     * @Method(methods={"POST"})
+     * @Route("/file/move", name="FileBrowser_move", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -104,8 +98,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/delete", name="FileBrowser_delete")
-     * @Method(methods={"POST"})
+     * @Route("/file/delete", name="FileBrowser_delete", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -118,8 +111,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/edit", name="FileBrowser_edit")
-     * @Method(methods={"POST"})
+     * @Route("/file/edit", name="FileBrowser_edit", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -133,8 +125,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/content", name="FileBrowser_content")
-     * @Method(methods={"POST"})
+     * @Route("/file/content", name="FileBrowser_content", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -147,8 +138,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/create_directory", name="FileBrowser_create_directory")
-     * @Method(methods={"POST"})
+     * @Route("/file/create_directory", name="FileBrowser_create_directory", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -161,8 +151,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/download", name="FileBrowser_download")
-     * @Method(methods={"GET"})
+     * @Route("/file/download", name="FileBrowser_download", methods={"GET"})
      * @param Request $request
      * @return Response
      */
@@ -188,8 +177,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/download_multiple", name="FileBrowser_download_multiple")
-     * @Method(methods={"GET"})
+     * @Route("/file/download_multiple", name="FileBrowser_download_multiple", methods={"GET"})
      * @param Request $request
      * @return Response
      */
@@ -214,8 +202,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/compress", name="FileBrowser_compress")
-     * @Method(methods={"POST"})
+     * @Route("/file/compress", name="FileBrowser_compress", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -230,8 +217,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/extract", name="FileBrowser_extract")
-     * @Method(methods={"POST"})
+     * @Route("/file/extract", name="FileBrowser_extract", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -246,8 +232,7 @@ class FileBrowserController
     }
 
     /**
-     * @Route("/file/permissions", name="FileBrowser_permissions")
-     * @Method(methods={"POST"})
+     * @Route("/file/permissions", name="FileBrowser_permissions", methods={"POST"})
      * @param Request $request
      * @return Response
      */

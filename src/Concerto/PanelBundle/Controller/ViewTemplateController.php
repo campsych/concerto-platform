@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\ViewTemplateService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -71,8 +70,7 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_id}/save", name="ViewTemplate_save")
-     * @Method(methods={"POST"})
+     * @Route("/ViewTemplate/{object_id}/save", name="ViewTemplate_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -107,8 +105,7 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete")
-     * @Method(methods={"POST"})
+     * @Route("/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -139,8 +136,7 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/import", name="ViewTemplate_import")
-     * @Method(methods={"POST"})
+     * @Route("/ViewTemplate/import", name="ViewTemplate_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */

@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\TestService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,8 +73,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_id}/save", name="TestWizard_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_id}/save", name="TestWizard_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -98,8 +96,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_id}/copy", name="TestWizard_copy")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_id}/copy", name="TestWizard_copy", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -110,8 +107,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_ids}/delete", name="TestWizard_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_ids}/delete", name="TestWizard_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -142,8 +138,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/import", name="TestWizard_import")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/import", name="TestWizard_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */

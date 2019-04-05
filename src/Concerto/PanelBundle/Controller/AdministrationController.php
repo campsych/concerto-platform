@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
@@ -54,8 +53,7 @@ class AdministrationController
     }
 
     /**
-     * @Route("/AdministrationSetting/map/update", name="AdministrationSetting_map_update")
-     * @Method(methods={"POST"})
+     * @Route("/AdministrationSetting/map/update", name="AdministrationSetting_map_update", methods={"POST"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @return Response
@@ -84,8 +82,7 @@ class AdministrationController
     }
 
     /**
-     * @Route("/AdministrationSetting/SessionCount/clear", name="AdministrationSetting_session_count_clear")
-     * @Method(methods={"POST"})
+     * @Route("/AdministrationSetting/SessionCount/clear", name="AdministrationSetting_session_count_clear", methods={"POST"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response
      */

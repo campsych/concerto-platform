@@ -3,7 +3,6 @@
 namespace Concerto\TestBundle\Controller;
 
 use Concerto\TestBundle\Service\TestRunnerService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
@@ -90,9 +89,8 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/{test_slug}/session/start/{params}", name="test_runner_session_start", defaults={"test_name":null,"params":"{}","debug":false})
-     * @Route("/test_n/{test_name}/session/start/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false})
-     * @Method(methods={"POST"})
+     * @Route("/test/{test_slug}/session/start/{params}", name="test_runner_session_start", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
+     * @Route("/test_n/{test_name}/session/start/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false}, methods={"POST"})
      * @param Request $request
      * @param $test_slug
      * @param $test_name
@@ -118,8 +116,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/admin/test/{test_slug}/session/start/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"})
-     * @Method(methods={"POST"})
+     * @Route("/admin/test/{test_slug}/session/start/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"}, methods={"POST"})
      * @param Request $request
      * @param string $test_slug
      * @param string $params
@@ -131,8 +128,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/session/{session_hash}/submit", name="test_runner_session_submit")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/submit", name="test_runner_session_submit", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return RedirectResponse|Response
@@ -153,8 +149,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/session/{session_hash}/worker", name="test_runner_worker")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/worker", name="test_runner_worker", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return RedirectResponse|Response
@@ -176,8 +171,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/session/{session_hash}/kill", name="test_runner_session_kill")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/kill", name="test_runner_session_kill", methods={"POST"})
      * @param Request $request
      * @param $session_hash
      * @return RedirectResponse|Response
@@ -198,8 +192,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/session/{session_hash}/keepalive", name="test_runner_session_keepalive")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/keepalive", name="test_runner_session_keepalive", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return RedirectResponse|Response
@@ -220,8 +213,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/session/{session_hash}/upload", name="test_runner_upload_file")
-     * @Method(methods={"POST","OPTIONS"})
+     * @Route("/test/session/{session_hash}/upload", name="test_runner_upload_file", methods={"POST","OPTIONS"})
      * @param Request $request
      * @param string $session_hash
      * @return RedirectResponse|Response
@@ -242,8 +234,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/test/session/{session_hash}/log", name="test_runner_log_error")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/log", name="test_runner_log_error", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return RedirectResponse|Response

@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestService;
 use Concerto\PanelBundle\Service\TestNodeConnectionService;
@@ -73,8 +72,7 @@ class TestNodeConnectionController extends ASectionController
     }
 
     /**
-     * @Route("/TestNodeConnection/{object_ids}/delete", name="TestNodeConnection_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestNodeConnection/{object_ids}/delete", name="TestNodeConnection_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -84,8 +82,7 @@ class TestNodeConnectionController extends ASectionController
     }
 
     /**
-     * @Route("/TestNodeConnection/{object_id}/save", name="TestNodeConnection_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestNodeConnection/{object_id}/save", name="TestNodeConnection_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response

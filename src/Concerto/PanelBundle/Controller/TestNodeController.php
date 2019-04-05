@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestService;
 use Concerto\PanelBundle\Service\TestNodeService;
@@ -66,8 +65,7 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/{object_ids}/delete", name="TestNode_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestNode/{object_ids}/delete", name="TestNode_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -77,8 +75,7 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/{object_id}/save", name="TestNode_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestNode/{object_id}/save", name="TestNode_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -98,8 +95,7 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/ports/expose", name="TestNode_expose_ports")
-     * @Method(methods={"POST"})
+     * @Route("/TestNode/ports/expose", name="TestNode_expose_ports", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -114,8 +110,7 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/{object_id}/port/{type}/add", name="TestNode_add_dynamic_port")
-     * @Method(methods={"POST"})
+     * @Route("/TestNode/{object_id}/port/{type}/add", name="TestNode_add_dynamic_port", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @param $type
