@@ -22086,7 +22086,7 @@ collection:
             itemIdColumn=responseBank$columns$item_id,
             itemId=item$id,
             responseColumn=responseBank$columns$response,
-            response=templateResponse$response,
+            response=templateResponse[[paste0("r",item$id)]],
             timeTakenColumn=responseBank$columns$timeTaken,
             timeTaken=response$timeTaken, #could use time difference
             scoreColumn=responseBank$columns$score,
@@ -22231,7 +22231,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 37ff4e802a117bb20df623a109c5f04e5658c19c
+    hash: 4c7aae3f5c4ef6ab26ff88a9a241ab2e4e360513
   -
     class_name: Test
     id: 44
