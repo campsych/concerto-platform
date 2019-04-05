@@ -26,3 +26,5 @@ script: docker-compose -f travis/docker-compose.yml up --build --exit-code-from 
 deploy:
   provider: script
   script: bash ./travis/docker_deploy.sh
+  on:
+    all_branches: true

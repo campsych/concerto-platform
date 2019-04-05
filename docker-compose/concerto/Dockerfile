@@ -1,4 +1,4 @@
-FROM campsych/concerto-platform:5.0.beta.9
+FROM campsych/concerto-platform:travis
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 RUN rm -rf src/Concerto/PanelBundle/Resources/public/files \
@@ -7,11 +7,9 @@ RUN rm -rf src/Concerto/PanelBundle/Resources/public/files \
 
 CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /usr/src/concerto/volume/sessions /usr/src/concerto/src/Concerto/TestBundle/Resources \
- && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
- && php bin/console concerto:setup \
- && php bin/console concerto:content:import --convert \
+ && /wait-for-it.sh $DB_TEST_HOST:$DB_TEST_PORT -t 300 \
+ && php bin/console concerto:setup --env=test \
  && rm -rf var/cache/* \
- && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \

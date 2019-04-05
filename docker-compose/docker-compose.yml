@@ -17,17 +17,17 @@ services:
 
     concerto:
       build: ./concerto
-      image: campsych/concerto-platform:5.0.beta.9
+      image: campsych/concerto-platform:travis
       container_name: concerto
       restart: unless-stopped
       volumes:
         - ./concerto/volume:/usr/src/concerto/volume
       environment:
-        - DB_HOST=database
-        - DB_PORT=3306
-        - DB_NAME=concerto
-        - DB_USER=root
-        - DB_PASSWORD=root
+        - DB_TEST_HOST=database
+        - DB_TEST_PORT=3306
+        - DB_TEST_NAME=concerto
+        - DB_TEST_USER=root
+        - DB_TEST_PASSWORD=root
         - PHP_FPM_PM=dynamic
         - PHP_FPM_PM_MAX_CHILDREN=30
         - PHP_FPM_PM_START_SERVERS=10
