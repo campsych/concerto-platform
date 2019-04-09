@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Service;
 
-
 use Symfony\Component\Filesystem\Filesystem;
 
 class MaintenanceService
@@ -21,7 +20,7 @@ class MaintenanceService
 
     private function getLogsPath()
     {
-        return realpath(dirname(__FILE__) . '/../../.../.../var/logs');
+        return realpath(dirname(__FILE__) . '/../../../../var/logs');
     }
 
     public function deleteOldSessions()
@@ -30,14 +29,15 @@ class MaintenanceService
         $fs = new Filesystem();
         foreach (new \DirectoryIterator($this->getSessionsPath()) as $sessionDir) {
             if ($sessionDir->isDir() && !$sessionDir->isDot()) {
-                if ($sessionDir->getMTime() > $borderTime && $fs->exists($sessionDir->getRealPath())) {
+                if ($sessionDir->getMTime() < $borderTime && $fs->exists($sessionDir->getRealPath())) {
                     @$fs->remove($sessionDir->getRealPath());
                 }
             }
         }
 
         foreach (new \DirectoryIterator($this->getLogsPath()) as $file) {
-            if ($file->isFile() && $file->getMTime() > $borderTime) {
+            if ($file->getFilename() == "dev.log" || $file->getFilename() == "prod.log") continue;
+            if ($file->isFile() && $file->getMTime() < $borderTime) {
                 @$fs->remove($file->getRealPath());
             }
         }
