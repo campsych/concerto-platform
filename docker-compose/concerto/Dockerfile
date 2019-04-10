@@ -1,4 +1,4 @@
-FROM campsych/concerto-platform:5.0.beta.9
+FROM campsych/concerto-platform:master
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 RUN rm -rf src/Concerto/PanelBundle/Resources/public/files \
