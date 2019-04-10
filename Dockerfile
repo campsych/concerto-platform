@@ -67,9 +67,9 @@ COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
 COPY build/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
-RUN rm -rf src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf src/Concerto/TestBundle/Resources/sessions \
- && touch var/logs/prod.log
+RUN rm -rf /usr/src/concerto/src/Concerto/PanelBundle/Resources/public/files \
+ && rm -rf /usr/src/concerto/src/Concerto/TestBundle/Resources/sessions \
+ && touch /usr/src/concerto/var/logs/prod.log
 
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
