@@ -1,23 +1,41 @@
 {% trans_default_domain "panel" %}
 <div type="text/ng-template" id="export_dialog.html">
-<div class="modal-body">
+    <div class="modal-body">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">{{ 'export.dialog.title'|trans }}</div>
-        <div class="panel-body">
-                
-            <uib-alert type="info">{{ "export.dialog.format.info"|trans }}</uib-alert>
-            <span  class="btn-group">
-                <label class="btn btn-primary" ng-model="exportFormat" uib-btn-radio="'compressed'">{{ "export.dialog.format.compressed"|trans }}</label>
-                <label class="btn btn-primary" ng-model="exportFormat" uib-btn-radio="'text'">{{ "export.dialog.format.plaintext"|trans }}</label>
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "panel" %}
+            {% block legend %}{{ 'export.dialog.title'|trans }}{% endblock %}
+            {% block legend_tooltip %}{{ 'export.fieldset.legend.tooltip'|trans }}{% endblock %}
+            {% block elements %}
 
-            </span>
-        </div>
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}{{ 'export.form.field.format'|trans }}{% endblock%}
+                    {% block tooltip %}{{ 'export.form.field.format.tooltip'|trans }}{% endblock%}
+                    {% block control %}
+                        <select ng-model="exportFormat" style="width:100%;" class='form-control'>
+                            <option value="yml">{{ 'export.form.field.format.yml'|trans }}</option>
+                            <option value="json">{{ 'export.form.field.format.json'|trans }}</option>
+                            <option value="compressed">{{ 'export.form.field.format.compressed'|trans }}</option>
+                        </select>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block row %}<tr class="formRowV" ng-show="exportInstructions.length > 0">{% endblock %}
+                        {% block label %}{{ 'import.form.field.instructions'|trans }}{% endblock%}
+                        {% block tooltip %}{{ 'import.form.field.instructions.tooltip'|trans }}{% endblock%}
+                        {% block control %}
+                        <div ui-grid="exportInstructionsOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-exporter ui-grid-move-columns class="grid"></div>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
     </div>
-</div>
 
-<div class="modal-footer">
-    <button class="btn btn-success" ng-click="export()">{{ 'form.button.export'|trans({},"panel") }}</button>
-    <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
-</div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="export()">{{ 'form.button.export'|trans({},"panel") }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
 </div>

@@ -18,7 +18,7 @@
         "angular-bootstrap": "1.2.x",
         "codemirror": "5.2.0",
         "angular-ui-codemirror": "0.3.x",
-        "ckeditor": "ckeditor#full/4.7.2",
+        "ckeditor": "ckeditor#full/4.11.2",
         "angular-file-upload": "1.1.x",
         "jquery.metadata": "*",
         "jquery": "2.1.x",
@@ -35,12 +35,14 @@
         "jquery-mousewheel": "3.1.x",
         "pdfmake": "0.1.33",
         "csv-js": "1.1.x",
-        "angular-chart.js": "1.1.x"
+        "angular-chart.js": "1.1.x",
+        "angular-translate": "2.9.x",
+        "ng-file-upload": "12.2.x"
     },
     "resolutions": {
         "angular": "1.5.5",
         "jquery": "2.1.4",
         "jquery-ui": "1.11.4",
-        "ckeditor": "full/4.7.2"
+        "ckeditor": "full/4.11.2"
     }
 }

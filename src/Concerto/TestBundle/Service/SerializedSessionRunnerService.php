@@ -21,7 +21,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         $this->environment = $environment;
     }
 
-    public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false)
+    public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $params, $client_ip, $client_ip, $client_browser, $debug");
@@ -36,20 +36,27 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         if (!$this->createSubmitterSock($session, false, $submitter_sock, $error_response)) return $error_response;
 
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
-            $success = $this->startChildProcess($client, $session_hash);
+            $success = $this->startChildProcess($client, $session_hash, null, $max_exec_time);
         } else {
-            $success = $this->startStandaloneProcess($client, $session_hash);
+            $success = $this->startStandaloneProcess($client, $session_hash, null, $max_exec_time);
         }
         if (!$success) {
             socket_close($submitter_sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
             return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
 
-        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->startListenerSocket($submitter_sock, $max_exec_time);
+        if ($response === false) {
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        $response = json_decode($response, true);
         $response = $this->appendDebugDataToResponse($session, $response);
         socket_close($submitter_sock);
 
@@ -60,7 +67,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
     public function submit(TestSession $session, $values, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $client = array(
             "ip" => $client_ip,
@@ -86,12 +93,19 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             socket_close($submitter_sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
             return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
 
-        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->startListenerSocket($submitter_sock);
+        if ($response === false) {
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        $response = json_decode($response, true);
         $response = $this->appendDebugDataToResponse($session, $response, $debugOffset);
         socket_close($submitter_sock);
 
@@ -128,12 +142,19 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             socket_close($submitter_sock);
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating R process failed");
             return array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
         }
 
-        $response = json_decode($this->startListenerSocket($submitter_sock), true);
+        $response = $this->startListenerSocket($submitter_sock);
+        if ($response === false) {
+            return array(
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
+            );
+        }
+        $response = json_decode($response, true);
         $response = $this->appendDebugDataToResponse($session, $response, $debugOffset);
         socket_close($submitter_sock);
 
@@ -163,9 +184,9 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         );
     }
 
-    private function startStandaloneProcess($client, $session_hash, $response = null)
+    private function startStandaloneProcess($client, $session_hash, $response = null, $max_exec_time = null)
     {
-        $cmd = $this->getCommand($client, $session_hash, $response);
+        $cmd = $this->getCommand($client, $session_hash, $response, $max_exec_time);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
 
         $process = new Process($cmd);
@@ -182,21 +203,25 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return true;
     }
 
-    private function startChildProcess($client, $session_hash, $response = null)
+    private function startChildProcess($client, $session_hash, $response = null, $max_exec_time = null)
     {
+        if ($max_exec_time === null) {
+            $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        }
+
         $response = json_encode(array(
-            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . DIRECTORY_SEPARATOR,
-            "maxExecTime" => $this->testRunnerSettings["max_execution_time"],
-            "maxIdleTime" => $this->testRunnerSettings["max_idle_time"],
+            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . "/",
+            "maxExecTime" => $max_exec_time,
+            "maxIdleTime" => $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time"),
             "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
             "client" => $client,
-            "connection" => json_decode($this->getSerializedConnection(), true),
+            "connection" => $this->getConnection(),
             "sessionId" => $session_hash,
             "rLogPath" => $this->getROutputFilePath($session_hash),
             "response" => $response
         ));
 
-        $path = $this->getFifoDir() . "/" . $session_hash . ".fifo";
+        $path = $this->getFifoDir() . $session_hash . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
@@ -218,14 +243,14 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return $success;
     }
 
-    private function getCommand($client, $session_hash, $response)
+    private function getCommand($client, $session_hash, $response, $max_exec_time)
     {
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
-        $ini_path = $this->getRDir() . "/standalone.R";
-        $max_exec_time = $this->testRunnerSettings["max_execution_time"];
-        $max_idle_time = $this->testRunnerSettings["max_idle_time"];
+        $ini_path = $this->getRDir() . "standalone.R";
+        $max_exec_time = $max_exec_time === null ? $this->testRunnerSettings["max_execution_time"] : $max_exec_time;
+        $max_idle_time = $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time");
         $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
-        $database_connection = $this->getSerializedConnection();
+        $database_connection = json_encode($this->getConnection());
         $working_directory = $this->getWorkingDirPath($session_hash);
         $public_directory = $this->getPublicDirPath();
         $media_url = $this->getMediaUrl();
@@ -247,8 +272,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$keep_alive_tolerance_time "
                     . "'$response' "
                     . ">> "
-                    . "'" . $this->getOutputFilePath($session_hash) . "' "
-                    . ">> "
                     . "'" . $this->getROutputFilePath($session_hash) . "' "
                     . "2>&1 & echo $!";
             default:
@@ -265,8 +288,6 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
                     . "\"" . $this->escapeWindowsArg($response) . "\" "
-                    . ">> "
-                    . "\"" . $this->escapeWindowsArg($this->getOutputFilePath($session_hash)) . "\" "
                     . ">> "
                     . "\"" . $this->escapeWindowsArg($this->getROutputFilePath($session_hash)) . "\" "
                     . "2>&1\"";

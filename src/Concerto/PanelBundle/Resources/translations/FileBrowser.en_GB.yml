@@ -1,26 +1,24 @@
 breadcrumb:
-    manager: File manager
+    files: Files
 
 uploader:
     alerts:
         upload_failed:
             title: File upload
             message: File upload failed!
-    library:
-        title: Files library
-        empty: Files library is currently empty.
-        buttons:
-            use: Use
-            remove: Remove
-            open: Open
-    queue:
-        title: Upload queue
-        droparea: Drag & drop your files here
-        progress: Total progress
-        buttons:
-            upload: Upload
-            cancel: Cancel
-            remove: Remove
-            uploadall: Upload all
-            cancelall: Cancel all
-            removeall: Remove all
+
+errors:
+    upload_failed: Upload failed
+    file_not_found: File not found
+    renaming_failed: Renaming failed
+    copying_failed: Copying failed
+    moving_failed: Moving failed
+    removing_failed_directory_not_empty: Removing failed, the directory you are trying to remove is not empty
+    removing_failed: Removing failed
+    saving_failed: Saving failed
+    folder_already_exists: Folder already exists
+    folder_creation_failed: Folder creation failed
+    compression_failed: Compression failed
+    archive_opening_failed: Could not open the archive, it is either corrupted or unsupported
+    extraction_failed: Extraction failed
+    permissions_change_failed: Permissions change failed

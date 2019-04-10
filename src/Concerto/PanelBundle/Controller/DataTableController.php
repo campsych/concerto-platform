@@ -3,7 +3,6 @@
 namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -27,7 +26,7 @@ class DataTableController extends AExportableTabController
 {
 
     const ENTITY_NAME = "DataTable";
-    const EXPORT_FILE_PREFIX = "DataTable_";
+    const EXPORT_FILE_PREFIX = "DataTable";
 
     private $userService;
 
@@ -74,8 +73,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{object_id}/save", name="DataTable_save")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{object_id}/save", name="DataTable_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -96,8 +94,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{object_id}/copy", name="DataTable_copy")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{object_id}/copy", name="DataTable_copy", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -108,8 +105,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{object_ids}/delete", name="DataTable_delete")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{object_ids}/delete", name="DataTable_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -216,8 +212,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/column/{column_names}/delete", name="DataTable_column_delete")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/column/{column_names}/delete", name="DataTable_column_delete", methods={"POST"})
      * @param $table_id
      * @param string $column_names
      * @return Response
@@ -231,8 +226,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/row/{row_ids}/delete", name="DataTable_row_delete")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/row/{row_ids}/delete", name="DataTable_row_delete", methods={"POST"})
      * @param $table_id
      * @param string $row_ids
      * @return Response
@@ -246,8 +240,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/truncate", name="DataTable_truncate")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/truncate", name="DataTable_truncate", methods={"POST"})
      * @param $table_id
      * @return Response
      */
@@ -260,8 +253,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/column/{column_name}/save", name="DataTable_column_save")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/column/{column_name}/save", name="DataTable_column_save", methods={"POST"})
      * @param Request $request
      * @param $table_id
      * @param string $column_name
@@ -287,8 +279,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/row/insert", name="DataTable_row_insert")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/row/insert", name="DataTable_row_insert", methods={"POST"})
      * @param $table_id
      * @return Response
      */
@@ -301,8 +292,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/row/{row_id}/update/{prefixed}", name="DataTable_row_update", defaults={"prefixed":0})
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/row/{row_id}/update/{prefixed}", name="DataTable_row_update", defaults={"prefixed":0}, methods={"POST"})
      * @param Request $request
      * @param $table_id
      * @param $row_id
@@ -318,19 +308,28 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{object_ids}/export/{format}", name="DataTable_export", defaults={"format":"compressed"})
-     * @param $object_ids
+     * @Route("/DataTable/{instructions}/export/{format}", name="DataTable_export", defaults={"format":"yml"})
+     * @param string $instructions
      * @param string $format
      * @return Response
      */
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportAction($instructions, $format = "yml")
     {
-        return parent::exportAction($object_ids, $format);
+        return parent::exportAction($instructions, $format);
     }
 
     /**
-     * @Route("/DataTable/import", name="DataTable_import")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{object_ids}/instructions/export", name="DataTable_export_instructions")
+     * @param $object_ids
+     * @return Response
+     */
+    public function exportInstructionsAction($object_ids)
+    {
+        return parent::exportInstructionsAction($object_ids);
+    }
+
+    /**
+     * @Route("/DataTable/import", name="DataTable_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -350,8 +349,7 @@ class DataTableController extends AExportableTabController
     }
 
     /**
-     * @Route("/DataTable/{table_id}/csv/{restructure}/{header}/{delimiter}/{enclosure}/import", name="DataTable_csv_import")
-     * @Method(methods={"POST"})
+     * @Route("/DataTable/{table_id}/csv/{restructure}/{header}/{delimiter}/{enclosure}/import", name="DataTable_csv_import", methods={"POST"})
      * @param Request $request
      * @param $table_id
      * @param $restructure

@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
@@ -36,7 +35,7 @@ class AdministrationController
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
             'collection' => array(
                 "exposed" => $this->service->getExposedSettingsMap(),
-                "internal" => $this->service->getInternalSettingsMap(true)
+                "internal" => $this->service->getInternalSettingsMap()
             )
         ));
     }
@@ -54,8 +53,7 @@ class AdministrationController
     }
 
     /**
-     * @Route("/AdministrationSetting/map/update", name="AdministrationSetting_map_update")
-     * @Method(methods={"POST"})
+     * @Route("/AdministrationSetting/map/update", name="AdministrationSetting_map_update", methods={"POST"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @return Response
@@ -84,8 +82,7 @@ class AdministrationController
     }
 
     /**
-     * @Route("/AdministrationSetting/SessionCount/clear", name="AdministrationSetting_session_count_clear")
-     * @Method(methods={"POST"})
+     * @Route("/AdministrationSetting/SessionCount/clear", name="AdministrationSetting_session_count_clear", methods={"POST"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response
      */
@@ -135,62 +132,6 @@ class AdministrationController
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
             'collection' => $this->service->getTasksCollection()
         ));
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/backup", name="Administration_tasks_backup")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @return Response
-     */
-    public function taskBackupAction()
-    {
-        $return = $this->service->scheduleBackupTask($out, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/restore", name="Administration_tasks_restore")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @return Response
-     */
-    public function taskRestoreAction()
-    {
-        $return = $this->service->scheduleRestoreTask($out, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/content_upgrade", name="Administration_tasks_content_upgrade")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @param Request $request
-     * @return Response
-     */
-    public function taskContentUpgradeAction(Request $request)
-    {
-        $backup = $request->get("backup");
-        $return = $this->service->scheduleContentUpgradeTask($out, $backup, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/ScheduledTask/platform_upgrade", name="Administration_tasks_platform_upgrade")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @param Request $request
-     * @return Response
-     */
-    public function taskPlatformUpgradeAction(Request $request)
-    {
-        $backup = $request->get("backup");
-        $return = $this->service->schedulePlatformUpgradeTask($out, $backup, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestWizardService;
@@ -67,8 +66,7 @@ class TestWizardStepController extends ASectionController
     }
 
     /**
-     * @Route("/TestWizardStep/{object_ids}/delete", name="TestWizardStep_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizardStep/{object_ids}/delete", name="TestWizardStep_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -78,8 +76,7 @@ class TestWizardStepController extends ASectionController
     }
 
     /**
-     * @Route("/TestWizardStep/{object_id}/save", name="TestWizardStep_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizardStep/{object_id}/save", name="TestWizardStep_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -97,8 +94,7 @@ class TestWizardStepController extends ASectionController
     }
 
     /**
-     * @Route("/TestWizardStep/TestWizard/{wizard_id}/clear", name="TestWizardStep_clear")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizardStep/TestWizard/{wizard_id}/clear", name="TestWizardStep_clear", methods={"POST"})
      * @param $wizard_id
      * @return Response
      */

@@ -5,7 +5,6 @@ ignition.time: "Süre:"
 ignition.browser.notsupported: Tarayıcı sürümünüz destek vermiyor. Lütfen tarayıcınızı Internet Explorer 9 ve üzeri bir versiyona güncelleyiniz veya Chrome yada Firefox gibi farklı bir tarayıcı kullanınız.
 ignition.browser.potentionallynotsupported: Bu mesaj kısa bir süre içinde silinmezse farklı bir tarayıcı kullanınız.
 default.template:
-    error: Hata oluştu. İşlem geçersiz.
     finished: Test tamamlandı
     loading: Lütfen bekleyin…
     session_limit_reached: Üzgünüz, test şuan maksimum kullanıcı sayısına ulaşmıştır. Lütfen daha sonra tekrar deneyiniz.

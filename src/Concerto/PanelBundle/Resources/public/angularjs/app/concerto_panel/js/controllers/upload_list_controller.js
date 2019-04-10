@@ -24,7 +24,7 @@ function UploadListController($scope, $uibModalInstance, $uibModal, FileUploader
   };
 
   $scope.uploader.onCompleteItem = function (item, response, status, headers) {
-    if (response.result === 0) {
+    if (response.result.success) {
       $scope.item = item;
     } else {
       $scope.showErrorAlert();

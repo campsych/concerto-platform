@@ -2,20 +2,24 @@
 
 namespace Tests\Concerto\PanelBundle\Controller\FunctionalTests;
 
+use Symfony\Component\Yaml\Yaml;
 use Tests\Concerto\PanelBundle\AFunctionalTest;
 
-class DataTableControllerTest extends AFunctionalTest {
+class DataTableControllerTest extends AFunctionalTest
+{
 
     private static $repository;
     private static $driver_class;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:DataTable");
         self::$driver_class = get_class(static::$entityManager->getConnection()->getDatabasePlatform());
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $this->dropTable("main_table");
@@ -45,7 +49,8 @@ class DataTableControllerTest extends AFunctionalTest {
         ));
     }
 
-    private function dropTable($name) {
+    private function dropTable($name)
+    {
         $fromSchema = static::$entityManager->getConnection()->getSchemaManager()->createSchema();
         $toSchema = clone $fromSchema;
         try {
@@ -56,11 +61,12 @@ class DataTableControllerTest extends AFunctionalTest {
                 static::$entityManager->getConnection()->executeQuery($query);
             }
         } catch (\Exception $ex) {
-            
+
         }
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/DataTable/collection');
@@ -95,19 +101,18 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testFormActionNew() {
+    public function testFormActionNew()
+    {
         $client = self::createLoggedClient();
         $crawler = $client->request(
-                "GET", "/admin/DataTable/form/add"
+            "GET", "/admin/DataTable/form/add"
         );
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
     }
 
-    /**
-     * Is this test meaningful anymore?
-     */
-    public function testFormActionEdit() {
+    public function testFormActionEdit()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/DataTable/form/edit");
@@ -117,7 +122,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/delete");
@@ -132,38 +138,49 @@ class DataTableControllerTest extends AFunctionalTest {
     /**
      * @dataProvider exportDataProvider
      */
-    public function testExportAction($path_suffix, $use_gzip) {
+    public function testExportAction($instructions, $format)
+    {
         $client = self::createLoggedClient();
+        $encodedInstructions = json_encode($instructions);
 
-        $client->request("POST", "/admin/DataTable/1/export" . $path_suffix);
+        $client->request("GET", "/admin/DataTable/$encodedInstructions/export/$format");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/x-download'));
 
-        $content = json_decode(
-                ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
-        );
+        $content = null;
+        switch ($format) {
+            case "yml":
+                $content = Yaml::parse($client->getResponse()->getContent());
+                break;
+            case "json":
+                $content = json_decode($client->getResponse()->getContent(), true);
+                break;
+            case "compressed":
+                $content = json_decode(gzuncompress($client->getResponse()->getContent()), true);
+                break;
+
+        }
+
         $this->assertArrayHasKey("hash", $content["collection"][0]);
         unset($content["collection"][0]["hash"]);
 
         $this->assertEquals(array(array(
-                'class_name' => 'DataTable',
-                'id' => 1,
-                'name' => 'main_table',
-                'description' => 'table description',
-                'accessibility' => 0,
-                "archived" => "0",
-                "starterContent" => false,
-                "owner" => null,
-                "groups" => "",
-                'updatedOn' => $content["collection"][0]["updatedOn"],
-                'updatedBy' => 'admin',
-                'columns' => array(
-                    array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
-                    array('name' => 'temp', 'type' => 'text', 'nullable' => false)
-                ))), $content["collection"]);
+            'class_name' => 'DataTable',
+            'id' => 1,
+            'name' => 'main_table',
+            'description' => 'table description',
+            'accessibility' => 0,
+            "archived" => "0",
+            "starterContent" => false,
+            "groups" => "",
+            'columns' => array(
+                array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
+                array('name' => 'temp', 'type' => 'text', 'nullable' => false)
+            ))), $content["collection"]);
     }
 
-    public function testImportNewAction() {
+    public function testImportNewAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/import", array(
@@ -174,6 +191,7 @@ class DataTableControllerTest extends AFunctionalTest {
                     "id" => 8,
                     "rename" => "imported_table",
                     "action" => "0",
+                    "data" => "1",
                     "starter_content" => false,
                     "existing_object_name" => null
                 )
@@ -192,7 +210,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $decoded_response["result"]);
     }
 
-    public function testImportNewSameNameAction() {
+    public function testImportNewSameNameAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/import", array(
@@ -217,7 +236,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertCount(1, self::$repository->findBy(array("name" => "main_table_1")));
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/-1/save", array(
@@ -251,7 +271,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testSaveActionRename() {
+    public function testSaveActionRename()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/save", array(
@@ -281,7 +302,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionSameName() {
+    public function testSaveActionSameName()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/save", array(
@@ -311,7 +333,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionNameAlreadyExists() {
+    public function testSaveActionNameAlreadyExists()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/-1/save", array(
@@ -351,7 +374,7 @@ class DataTableControllerTest extends AFunctionalTest {
             "result" => 1,
             "object" => null,
             "errors" => array("This name already exists in the system")
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
         self::$repository->clear();
         $entity = self::$repository->find(1);
@@ -360,7 +383,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals("table description", $entity->getDescription());
     }
 
-    public function testColumnCollectionAction() {
+    public function testColumnCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
@@ -369,10 +393,11 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             array("name" => "id", "type" => "bigint", "nullable" => false),
             array("name" => "temp", "type" => "text", "nullable" => false)
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDataCollectionAction() {
+    public function testDataCollectionAction()
+    {
         $client = self::createLoggedClient();
         $expected = array(
             "content" => array(
@@ -389,7 +414,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDataCollectionActionPrefixed() {
+    public function testDataCollectionActionPrefixed()
+    {
         $client = self::createLoggedClient();
         $expected = array(
             "content" => array(
@@ -409,7 +435,8 @@ class DataTableControllerTest extends AFunctionalTest {
     /**
      * Is this test meaningful anymore?
      */
-    public function testDataSectionAction() {
+    public function testDataSectionAction()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/DataTable/1/data/section");
@@ -417,7 +444,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("html:contains('Add row')")->count());
     }
 
-    public function testDeleteColumnAction() {
+    public function testDeleteColumnAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/column/temp/delete");
@@ -431,7 +459,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(array("name" => "id", "type" => "bigint", "nullable" => false)), json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDeleteRowAction() {
+    public function testDeleteRowAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/row/1/delete");
@@ -451,7 +480,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testSaveColumnActionNew() {
+    public function testSaveColumnActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/column/0/save", array(
@@ -474,10 +504,11 @@ class DataTableControllerTest extends AFunctionalTest {
             array("name" => "id", "type" => "bigint", "nullable" => false),
             array("name" => "temp", "type" => "text", "nullable" => false),
             array("name" => "new_col", "type" => "text", "nullable" => false)
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testSaveColumnActionSameName() {
+    public function testSaveColumnActionSameName()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/column/temp/save", array(
@@ -495,7 +526,7 @@ class DataTableControllerTest extends AFunctionalTest {
         // on PGSQL (and possibly others later) string -> int casts aren't supported
         if (self::$driver_class == 'Doctrine\DBAL\Platforms\PostgreSqlPlatform') {
             $this->assertEquals(
-                    array("result" => 2, "errors" => array('Selected type conversion is not supported with configured database driver.')), json_decode($client->getResponse()->getContent(), true)
+                array("result" => 2, "errors" => array('Selected type conversion is not supported with configured database driver.')), json_decode($client->getResponse()->getContent(), true)
             );
             return;
         }
@@ -506,10 +537,11 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             array("name" => "id", "type" => "bigint", "nullable" => false),
             array("name" => "temp", "type" => "bigint", "nullable" => false)
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testSaveColumnActionAlreadyExists() {
+    public function testSaveColumnActionAlreadyExists()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/column/temp/save", array(
@@ -526,10 +558,11 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             array("name" => "id", "type" => "bigint", "nullable" => false),
             array("name" => "temp", "type" => "text", "nullable" => false)
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testSaveColumnAction() {
+    public function testSaveColumnAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/column/temp/save", array(
@@ -547,7 +580,7 @@ class DataTableControllerTest extends AFunctionalTest {
         // on PGSQL (and possibly others later) string -> int casts aren't supported
         if (self::$driver_class == 'Doctrine\DBAL\Platforms\PostgreSqlPlatform') {
             $this->assertEquals(
-                    array("result" => 2, "errors" => array('Selected type conversion is not supported with configured database driver.')), json_decode($client->getResponse()->getContent(), true)
+                array("result" => 2, "errors" => array('Selected type conversion is not supported with configured database driver.')), json_decode($client->getResponse()->getContent(), true)
             );
             return;
         }
@@ -560,10 +593,11 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals(array(
             array("name" => "id", "type" => "bigint", "nullable" => false),
             array("name" => "new_temp", "type" => "bigint", "nullable" => false)
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testInsertRowAction() {
+    public function testInsertRowAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/row/insert");
@@ -585,7 +619,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testUpdateRowAction() {
+    public function testUpdateRowAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/row/2/update", array(
@@ -608,7 +643,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testUpdateRowActionPrefixed() {
+    public function testUpdateRowActionPrefixed()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/row/2/update/1", array(
@@ -631,7 +667,8 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testImportCsvAction() {
+    public function testImportCsvAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/DataTable/1/csv/1/1/,/%22/import", array(
@@ -654,11 +691,24 @@ class DataTableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function exportDataProvider() {
+    public function exportDataProvider()
+    {
         return array(
-            array('', true), // default is gzipped 
-            array('/compressed', true), // explicitly requesting compression
-            array('/plaintext', false)    // requesting plaintext
+            array(array(array(
+                "class_name" => "DataTable",
+                "name" => "main_table",
+                "data" => "1"
+            )), "yml"),
+            array(array(array(
+                "class_name" => "DataTable",
+                "name" => "main_table",
+                "data" => "1"
+            )), "json"),
+            array(array(array(
+                "class_name" => "DataTable",
+                "name" => "main_table",
+                "data" => "1"
+            )), "compressed")
         );
     }
 

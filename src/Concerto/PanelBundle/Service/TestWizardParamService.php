@@ -127,7 +127,7 @@ class TestWizardParamService extends ASectionService
         return array("errors" => array());
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestWizardParam", $map))
@@ -162,17 +162,17 @@ class TestWizardParamService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $step, $variable, $wizard);
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $renames, $queue, $step, $variable, $wizard);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestWizardParam"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $queue, $step, $variable, $wizard);
+            $result = $this->importNew($user, null, $obj, $map, $renames, $queue, $step, $variable, $wizard);
 
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $step, $variable, $wizard)
+    protected function importNew(User $user, $new_name, $obj, &$map, $renames, &$queue, $step, $variable, $wizard)
     {
         $ent = new TestWizardParam();
         $ent->setDescription($obj["description"]);
@@ -186,6 +186,19 @@ class TestWizardParamService extends ASectionService
         $ent->setWizard($wizard);
         $ent->setDefinition($obj["definition"]);
         $ent->setHideCondition($obj["hideCondition"]);
+
+        $val = $ent->getValue();
+        $def = $ent->getDefinition();
+        foreach ($renames as $class => $renameMap) {
+            foreach ($renameMap as $oldName => $newName) {
+                $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $ent->getType(), $def, $val, false);
+                if ($moded) {
+                    $ent->setValue($val);
+                    $ent->setDefinition($def);
+                }
+            }
+        }
+
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -215,7 +228,7 @@ class TestWizardParamService extends ASectionService
         return $this->get($ent->getId());
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $step, $variable, $wizard)
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, $renames, &$queue, $step, $variable, $wizard)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
@@ -230,6 +243,19 @@ class TestWizardParamService extends ASectionService
         $ent->setWizard($wizard);
         $ent->setDefinition($obj["definition"]);
         $ent->setHideCondition($obj["hideCondition"]);
+
+        $val = $ent->getValue();
+        $def = $ent->getDefinition();
+        foreach ($renames as $class => $renameMap) {
+            foreach ($renameMap as $oldName => $newName) {
+                $moded = self::modifyPropertiesOnRename($newName, $class, $oldName, $ent->getType(), $def, $val, false);
+                if ($moded) {
+                    $ent->setValue($val);
+                    $ent->setDefinition($def);
+                }
+            }
+        }
+
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -309,7 +335,7 @@ class TestWizardParamService extends ASectionService
                     foreach ($nodes as $node) {
                         $ports = $node->getPorts();
                         foreach ($ports as $port) {
-                            if ($port->getVariable()->getId() == $var->getId()) {
+                            if ($port->getVariable() !== null && $port->getVariable()->getId() == $var->getId()) {
                                 $portDstVal = $port->getValue();
                                 if (!in_array($oldType, self::$simpleTypes)) {
                                     $portDstVal = json_decode($portDstVal, true);
@@ -374,6 +400,21 @@ class TestWizardParamService extends ASectionService
             switch ((int)$newType) {
                 //group type
                 case 9:
+                    if ($oldDef !== null) {
+                        foreach ($oldDef["fields"] as $oldField) {
+                            $found = false;
+                            foreach ($newDef["fields"] as $field) {
+                                if ($oldField["name"] == $field["name"]) {
+                                    $found = true;
+                                    break;
+                                }
+                            }
+                            if (!$found) {
+                                unset($mergedVal[$oldField["name"]]);
+                            }
+                        }
+                    }
+
                     foreach ($newDef["fields"] as $field) {
                         if (!is_array($mergedVal) || !array_key_exists($field["name"], $mergedVal)) {
                             $mergedVal[$field["name"]] = null;
@@ -403,27 +444,29 @@ class TestWizardParamService extends ASectionService
                     break;
                 //list type
                 case 10:
-                    for ($i = 0; $i < count($mergedVal); $i++) {
+                    if ($mergedVal !== null) {
+                        for ($i = 0; $i < count($mergedVal); $i++) {
 
-                        //invalid data check
-                        if(!array_key_exists($i, $mergedVal)) continue;
+                            //invalid data check
+                            if (!array_key_exists($i, $mergedVal)) continue;
 
-                        $oldElemType = null;
-                        $oldElemDef = null;
-                        $oldElemVal = null;
-                        if (!$typeChanged) {
-                            $oldElemType = $oldDef["element"]["type"];
-                            if (array_key_exists("definition", $oldDef["element"]))
-                                $oldElemDef = $oldDef["element"]["definition"];
-                            if ($oldVal !== null && count($oldVal) > $i) {
-                                $oldElemVal = $oldVal[$i];
+                            $oldElemType = null;
+                            $oldElemDef = null;
+                            $oldElemVal = null;
+                            if (!$typeChanged) {
+                                $oldElemType = $oldDef["element"]["type"];
+                                if (array_key_exists("definition", $oldDef["element"]))
+                                    $oldElemDef = $oldDef["element"]["definition"];
+                                if ($oldVal !== null && count($oldVal) > $i) {
+                                    $oldElemVal = $oldVal[$i];
+                                }
+                                $newElemVal = null;
+                                if ($newVal !== null && count($newVal) > $i) {
+                                    $newElemVal = $newVal[$i];
+                                }
                             }
-                            $newElemVal = null;
-                            if ($newVal !== null && count($newVal) > $i) {
-                                $newElemVal = $newVal[$i];
-                            }
+                            self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                         }
-                        self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                     }
                     break;
             }
@@ -445,25 +488,36 @@ class TestWizardParamService extends ASectionService
             foreach ($wizard->getParams() as $param) {
                 $def = $param->getDefinition();
                 $type = $param->getType();
-                $pval = $param->getValue();
-                if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $pval)) {
+                $paramValue = $param->getValue();
+                if (self::modifyPropertiesOnRename($object->getName(), get_class($object), $oldName, $type, $def, $paramValue)) {
                     $oldParam = clone $param;
                     $param->setDefinition($def);
-                    if (is_array($pval)) $pval = json_encode($pval);
-                    $param->setValue($pval);
+                    if (is_array($paramValue)) $paramValue = json_encode($paramValue);
+                    $param->setValue($paramValue);
                     $this->update($user, $param, $oldParam);
                 }
 
                 foreach ($wizard->getResultingTests() as $test) {
                     foreach ($test->getVariables() as $var) {
                         if ($var->getParentVariable()->getId() == $param->getVariable()->getId()) {
-                            $vval = $var->getValue();
-                            if (self::modifyPropertiesOnRename($object, $oldName, $type, $def, $vval, true)) {
-                                if (is_array($vval)) $vval = json_encode($vval);
-                                $var->setValue($vval);
+                            $varValue = $var->getValue();
+                            if (self::modifyPropertiesOnRename($object->getName(), get_class($object), $oldName, $type, $def, $varValue, true)) {
+                                if (is_array($varValue)) $varValue = json_encode($varValue);
+                                $var->setValue($varValue);
                                 $this->testVariableService->update($user, $var);
                             }
-                            break 2;
+
+                            //ports
+                            foreach ($var->getPorts() as $port) {
+                                $portValue = $port->getValue();
+
+                                if (self::modifyPropertiesOnRename($object->getName(), get_class($object), $oldName, $type, $def, $portValue, true)) {
+                                    if (is_array($portValue)) $portValue = json_encode($portValue);
+                                    $port->setValue($portValue);
+                                    $this->testNodePortService->update($port);
+                                }
+                            }
+                            break;
                         }
                     }
                 }
@@ -471,50 +525,51 @@ class TestWizardParamService extends ASectionService
         }
     }
 
-    private static function modifyPropertiesOnRename($object, $oldName, $type, &$def, &$val, $onlyVal = false)
+    public static function modifyPropertiesOnRename($newName, $class, $oldName, $type, &$def, &$val, $onlyVal = false)
     {
         $moded = false;
+        $classPath = "Concerto\\PanelBundle\\Entity\\" . $class;
 
         //ViewTemplate
-        if ($type === 5 && is_a($object, ViewTemplate::class)) {
+        if ($type === 5 && $classPath === ViewTemplate::class) {
             if ($val == $oldName) {
                 $moded = true;
-                $val = $object->getName();
+                $val = $newName;
             }
             if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
                 $moded = true;
-                $def["defvalue"] = $object->getName();
+                $def["defvalue"] = $newName;
             }
         }
         //DataTable
-        if ($type === 6 && is_a($object, DataTable::class)) {
+        if ($type === 6 && $classPath === DataTable::class) {
             if ($val == $oldName) {
                 $moded = true;
-                $val = $object->getName();
+                $val = $newName;
             }
             if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
                 $moded = true;
-                $def["defvalue"] = $object->getName();
+                $def["defvalue"] = $newName;
             }
         }
         //DataTable column
-        if ($type == 7 && is_a($object, DataTable::class)) {
+        if ($type == 7 && $classPath === DataTable::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
             if (array_key_exists("table", $val) && $val["table"] == $oldName) {
                 $moded = true;
-                $val["table"] = $object->getName();
+                $val["table"] = $newName;
             }
         }
         //Test
-        if ($type === 8 && is_a($object, Test::class)) {
+        if ($type === 8 && $classPath === Test::class) {
             if ($val == $oldName) {
                 $moded = true;
-                $val = $object->getName();
+                $val = $newName;
             }
             if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
                 $moded = true;
-                $def["defvalue"] = $object->getName();
+                $def["defvalue"] = $newName;
             }
         }
         //Group
@@ -524,7 +579,7 @@ class TestWizardParamService extends ASectionService
             if (array_key_exists("fields", $def)) {
                 for ($i = 0; $i < count($def["fields"]); $i++) {
                     $field = $def["fields"][$i];
-                    $moded |= self::modifyPropertiesOnRename($object, $oldName, $field["type"], $def["fields"][$i]["definition"], $val[$field["name"]], $onlyVal);
+                    $moded |= self::modifyPropertiesOnRename($newName, $classPath, $oldName, $field["type"], $def["fields"][$i]["definition"], $val[$field["name"]], $onlyVal);
                 }
             }
         }
@@ -532,28 +587,28 @@ class TestWizardParamService extends ASectionService
         if ($type == 10) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if (array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
+            if ($val !== null && array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
                 for ($i = 0; $i < count($val); $i++) {
-                    $moded |= self::modifyPropertiesOnRename($object, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
+                    $moded |= self::modifyPropertiesOnRename($newName, $classPath, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
                 }
             }
         }
         //DataTable map
-        if ($type === 12 && is_a($object, DataTable::class)) {
+        if ($type === 12 && $classPath === DataTable::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
             if (array_key_exists("table", $val) && $val["table"] == $oldName) {
                 $moded = true;
-                $val["table"] = $object->getName();
+                $val["table"] = $newName;
             }
         }
         //Nested wizard
-        if ($type == 13 && is_a($object, Test::class)) {
+        if ($type == 13 && $classPath === Test::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
             if (array_key_exists("test", $val) && $val["test"] == $oldName) {
                 $moded = true;
-                $val["test"] = $object->getName();
+                $val["test"] = $newName;
             }
         }
         return $moded;

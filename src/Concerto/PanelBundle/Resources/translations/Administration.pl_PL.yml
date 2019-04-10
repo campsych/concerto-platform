@@ -86,29 +86,9 @@ packages:
             cancel: Anuluj
         
 tasks:
-    fieldset:
-        legend: Zaplanowane zadania
-        legend.tooltip: Zaplanowane systemowe zadania
-    current_platform_v: 'Obecna wersja platformy:'
-    available_platform_v: 'Dostępna wersja platformy:'
-    current_content_v: 'Obecna wersja zawartości:'
-    available_content_v: 'Dostępna wersja zawartości:'
-    backup_platform_v: 'Wersja kopii platformy:'
-    backup_content_v: 'Wersja kopii zawartości:'
-    version_none: żadna
-    buttons:
-        upgrade: Aktualizuj
-        backup: Kopia zapasowa
-        restore: Przywróć kopie
     list:
         fields:
             updated: Zaktualizowane
-            type: Typ
-            type.platform_upgrade: Aktualizacja Platformy
-            type.content_upgrade: Aktualizacja Zawartości
-            type.restore_backup: Odtwórz Kopię
-            type.backup: Kopia Zapasowa
-            type.r_package_install: Instalacja Pakietu R
             status: Status
             status.pending: W kolejce
             status.ongoing: Trwa
@@ -118,24 +98,8 @@ tasks:
             description: Opis
             output: Wyjście
     dialog:
-        title:
-            backup: Kopia zapasowa
-            backup.failed: Kopia zapawowa zakończona niepowodzeniem
-            restore: Przywracanie kopii zapasowej
-            restore.failed: Przewracanie kopii zapasowej zakończone niepowodzeniem
-            content_upgrade: Aktualzacja zawartości
-            content_upgrade.failed: Aktualizacja zawartości zakończona niepowodzeniem
-            platform_upgrade: Aktualizacja platformy
-            platform_upgrade.failed: Aktualizacja platformy zakończona niepowodzeniem
-        confirm: 
-            backup: Jesteś pewien, że chcesz dokonać kopii zapasowej Concerto Platform? Jakalowiek poprzednia kopia zapasowa zostanie bezpowrotnie zastąpiona.
-            restore: Jesteś pewien, że chcesz przywrócić kopię zapasową? Zostanie przywrócony stan platformy z momentu dokonania kopii zapasowej zastępując obecny. Ta operacja jest nieodwracalna.
-            content_upgrade: Jesteś pewien, że chcesz dokonać aktualizacji zawartości?
-            platform_upgrade: Jesteś pewien, że chcesz dokonać aktualizacji platformy?
         content:
             busy: Obecnie już trwają lub są zaplanowane zadania.
-        fields:
-            backup: Zrób kopię zapasową i użyj jej jako punktu przywrócenia w wypadku gdy to zadanie się nie powiedzie.
         
 api_clients:
     fieldset:

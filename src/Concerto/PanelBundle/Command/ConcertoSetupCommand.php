@@ -35,7 +35,7 @@ class ConcertoSetupCommand extends Command
         $this->addOption("admin-pass", null, InputOption::VALUE_REQUIRED, "Password for admin user", "admin");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    private function updateSchema(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("concerto setup (" . $input->getOption("env") . ")");
 
@@ -57,8 +57,12 @@ class ConcertoSetupCommand extends Command
                 'sql' => file_get_contents($sql_file)
             )), $output);
         }
+    }
 
+    private function initializeUsers(InputInterface $input, OutputInterface $output)
+    {
         $output->writeln("checking for user roles...");
+        $em = $this->doctrine->getManager();
         $roleRepo = $em->getRepository("ConcertoPanelBundle:Role");
 
         $role_names = array(User::ROLE_TEST, User::ROLE_TABLE, User::ROLE_TEMPLATE, User::ROLE_WIZARD, User::ROLE_FILE, User::ROLE_SUPER_ADMIN);
@@ -98,6 +102,12 @@ class ConcertoSetupCommand extends Command
             $user = $users[0];
             $output->writeln("default user found");
         }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->updateSchema($input, $output);
+        $this->initializeUsers($input, $output);
     }
 
 }

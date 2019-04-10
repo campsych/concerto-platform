@@ -112,13 +112,8 @@ import:
 
 export:
     dialog:
-        title: Veri dışarı aktar
         error:
             empty.content: Lütfen, dışarı aktarmak için aşağıdaki tablodan en az bir girdiyi işaretleyin.
-        format:
-            info: Lüfen dışa aktarılacak dosya biçmini seçin. Sıkıştırılmış format daha az disk alanı ve bant genişliğine ihtiyaç duyar, fakat kolayca açılamaz. Metin formatını düzenlemek ve görüntülemek kolaydır ancak daha büyük dosyalar oluşturur.
-            compressed: sıkıştırılmış
-            plaintext: metin
      
 download_list:
     dialog:

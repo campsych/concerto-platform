@@ -34,21 +34,12 @@ form:
   button:
       run: Run test
       debug: Debug test
-      update: Update all dependent tests
-  dialog:
-      title:
-          update: Updating dependent tests
-      message:
-          update.successful: Updating finished.
     
 list: 
   field:
     name: Name
     wizard: Wizard
     wizard.source: Source test
-  tooltips:
-    outdated: There is a new version of source test available. Please resave test to update.
-    uptodate: Using latest version of source test.
     
 variables:
     form:
@@ -269,11 +260,50 @@ flow:
             in: Node entry point.
             out: Node branch point.
         dialog:
+            titles:
+                input.add: Adding input ports
+                input.add.tooltip: Adding dynamic inputs or exposing/hiding current input parameters
+                input.remove: Removing/hiding input ports
+                branch.add: Adding branch ports
+                branch.add.tooltip: Adding dynamic branches or exposing/hiding current branch ports
+                branch.remove: Removing/hiding branch ports
+                return.add: Adding return ports
+                return.add.tooltip: Adding dynamic returns or exposing/hiding current return variables
+                return.remove: Removing/hiding return ports
+                port.remove_all_connections: Removing port connections
+            content:
+                input.remove: Are you sure you want to remove/hide input port {0}?
+                branch.remove: Are you sure you want to remove/hide branch port {0}?
+                return.remove: Are you sure you want to remove/hide return port {0}?
+                port.remove_all_connections: Are you sure you want to remove all connections of port {0}?
             fields:
-                string: As string?
-                string.tooltip: If checked then port value will be treated as string, otherwise as a R code.
-                value: Value
-                value.tooltip: Variable value in this port
+                string: Default value as text
+                string.tooltip: If checked, port default value will be treated as text, otherwise as a R code.
+                value: Default value
+                value.tooltip: Default variable value in this port. Used when value of port is NULL.
+                exposed.inputs: Exposed inputs
+                exposed.inputs.tooltip: Exposing/hiding inputs parameters
+                dynamic.input: Dynamic input
+                dynamic.input.tooltip: Adding dynamic input
+                exposed.branches: Exposed branches
+                exposed.branches.tooltip: Exposing/hiding branch ports
+                dynamic.branch: Dynamic branch
+                dynamic.branch.tooltip: Adding dynamic branch
+                exposed.returns: Exposed returns
+                exposed.returns.tooltip: Exposing/hiding return ports
+                dynamic.return: Dynamic return
+                dynamic.return.tooltip: Adding dynamic return
+                pointer: Flow variable pointer
+                pointer.tooltip: If checked, this port will use value of flow variable specified
+                pointer_variable: Pointed variable name
+                pointer_variable.tooltip: Name of pointed flow variable
+                name: Name
+                name.tooltip: Dynamic variable name
+        add:
+            input: Add/expose input port
+            branch: Add/expose branch port
+            return: Add/expose return port
+
     buttons:
         reset_view: Reset view
         rename_node: Rename node
@@ -287,8 +317,9 @@ flow:
         zoom_out: Zoom out
         maximize: Toggle full-screen view
         node_menu: Click to open node menu
-        export_test: Export test
-        export_tests: Export tests
+        remove_connection: Remove connection
+        hide_port: Hide/Remove port
+        remove_all_connections: Remove all connections
     tags:
         all: All
         

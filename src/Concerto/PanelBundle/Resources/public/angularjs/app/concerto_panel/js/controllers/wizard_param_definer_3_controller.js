@@ -61,8 +61,6 @@ function WizardParamDefiner3Controller($scope, uiGridConstants, AdministrationSe
   };
 
   $scope.addOption = function () {
-    if (!("options" in $scope.param.definition))
-      $scope.param.definition.options = [];
     $scope.param.definition.options.push({
       value: "",
       label: ""
@@ -89,6 +87,9 @@ function WizardParamDefiner3Controller($scope, uiGridConstants, AdministrationSe
   $scope.removeOption = function (index) {
     $scope.param.definition.options.splice(index, 1);
   };
+
+  if (!("options" in $scope.param.definition))
+    $scope.param.definition.options = [];
 
   $scope.$watch('param.definition.options', function (newValue) {
     $scope.options = newValue;

@@ -36,18 +36,20 @@ class ContentImportCommand extends Command
         $this->setName("concerto:content:import")->setDescription("Imports content");
         $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
     }
 
-    protected function importStarterContent(InputInterface $input, OutputInterface $output, User $user)
+    protected function importContent(InputInterface $input, OutputInterface $output, User $user)
     {
         $output->writeln("importing content...");
 
         $convert = $input->getOption("convert");
 
         $files_dir = $input->getArgument("input");
+        $instructionsOverride = json_decode($input->getOption("instructions"), true);
 
         $finder = new Finder();
-        $finder->files()->in($files_dir)->name('*.concerto.json');
+        $finder->files()->in($files_dir)->name('*.concerto*');
 
         foreach ($finder as $f) {
             $this->importService->reset();
@@ -57,6 +59,23 @@ class ContentImportCommand extends Command
             for ($i = 0; $i < count($instructions); $i++) {
                 if ($convert)
                     $instructions[$i]["action"] = "1";
+            }
+
+            foreach ($instructionsOverride as $instructionOverrideElem) {
+                for ($i = 0; $i < count($instructions); $i++) {
+                    if ($instructions[$i]['class_name'] == $instructionOverrideElem['class_name'] && $instructions[$i]['name'] == $instructionOverrideElem['name']) {
+                        $fields = array(
+                            "action",
+                            "data",
+                            "rename"
+                        );
+                        foreach ($fields as $field) {
+                            if (array_key_exists($field, $instructionOverrideElem)) {
+                                $instructions[$i][$field] = $instructionOverrideElem[$field];
+                            }
+                        }
+                    }
+                }
             }
 
             $results = $this->importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];
@@ -92,7 +111,7 @@ class ContentImportCommand extends Command
             $user = $users[0];
         }
 
-        $this->importStarterContent($input, $output, $user);
+        $this->importContent($input, $output, $user);
     }
 
 }

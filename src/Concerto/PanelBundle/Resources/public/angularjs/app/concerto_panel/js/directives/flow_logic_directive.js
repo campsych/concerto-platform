@@ -193,31 +193,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         return title;
       };
 
-      scope.exportTest = function (nodeId) {
-        var nodeIds = nodeId;
-        if (scope.selectedNodeIds.length > 0)
-          nodeIds = scope.selectedNodeIds.join(",");
-        var modalInstance = $uibModal.open({
-          templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'export_dialog.html',
-          controller: ExportController,
-          size: "lg",
-          resolve: {
-            title: function () {
-              return Trans.EXPORT_DIALOG_TITLE;
-            },
-            content: function () {
-              return Trans.EXPORT_DIALOG_EMPTY_LIST_ERROR_CONTENT;
-            },
-            ids: function () {
-              return nodeIds;
-            }
-          }
-        });
-        modalInstance.result.then(function (response) {
-          window.open(Paths.TEST_FLOW_NODE_EXPORT.pf(nodeIds) + "/" + response, "_blank");
-        });
-      };
-
       scope.clearNodeSelection = function () {
         scope.selectedNodeIds = [];
         for (var i = 0; i < scope.object.nodes.length; i++) {
@@ -250,19 +225,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           return false;
         for (var i = 0; i < node.ports.length; i++) {
           var port = node.ports[i];
-          if (port.variableObject !== null && port.variableObject.type == 2)
+          if (port.type == 2)
             return false;
         }
         return true;
-      };
-
-      scope.isNodeCollapsable = function (node) {
-        for (var i = 0; i < node.ports.length; i++) {
-          var port = node.ports[i];
-          if (port.variableObject && (port.variableObject.type == 0 || port.variableObject.type == 1))
-            return true;
-        }
-        return false;
       };
 
       scope.refreshNode = function (node) {
@@ -278,7 +244,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
         }
         jsPlumb.setSuspendDrawing(false, true);
-      }
+      };
 
       scope.refreshConnections = function (nodesIds, manualDrawingResume) {
         scope.jsPlumbEventsEnabled = false;
@@ -299,7 +265,114 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         }
         if (!manualDrawingResume)
           jsPlumb.setSuspendDrawing(false, true);
-      }
+      };
+
+      scope.hidePort = function (portId) {
+        var port = scope.collectionService.getPort(portId);
+        var title = null;
+        var message = null;
+        switch (port.type) {
+          case 0: {
+            title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_INPUT;
+            message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_INPUT.pf(port.name);
+            break;
+          }
+          case 1: {
+            title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_RETURN;
+            message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_RETURN.pf(port.name);
+            break;
+          }
+          case 2: {
+            title = Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_BRANCH;
+            message = Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_BRANCH.pf(port.name);
+            break;
+          }
+        }
+
+        DialogsService.confirmDialog(
+            title,
+            message,
+            function (data) {
+              $http.post(Paths.TEST_FLOW_PORT_HIDE.pf(port.id)).success(
+                  function () {
+                    if (port.dynamic == 1) {
+                      scope.collectionService.removePort(portId);
+                    } else {
+                      port.exposed = 0;
+                    }
+                    var node = scope.collectionService.getNode(port.node);
+                    scope.refreshNode(node);
+                  }
+              );
+            }
+        );
+      };
+
+      scope.addPort = function (nodeId, type) {
+        var node = scope.collectionService.getNode(nodeId);
+        var template = null;
+        switch (type) {
+          case 0:
+            template = "port_input_add_dialog.html";
+            break;
+          case 1:
+            template = "port_return_add_dialog.html";
+            break;
+          case 2:
+            template = "port_branch_add_dialog.html";
+            break;
+        }
+
+        var modalInstance = $uibModal.open({
+          templateUrl: Paths.DIALOG_TEMPLATE_ROOT + template,
+          controller: PortAddController,
+          scope: scope,
+          resolve: {
+            node: function () {
+              return node;
+            },
+            connections: function () {
+              return scope.object.nodesConnections;
+            },
+            editable: function () {
+              return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
+            }
+          },
+          size: "lg"
+        });
+
+        modalInstance.result.then(function (response) {
+          if (response.action == 0) {
+            //exposing nodes
+            scope.refreshNode(node);
+            $http.post(Paths.TEST_FLOW_PORT_EXPOSE, {
+              "exposedPorts": JSON.stringify(response.exposedPorts)
+            });
+          }
+          else {
+            //adding dynamic input node
+            $http.post(Paths.TEST_FLOW_PORT_ADD_DYNAMIC.pf(nodeId, type), {
+              "name": response.name
+            }).success(function (data) {
+              switch (data.result) {
+                case 0:
+                  node.ports.push(JSON.parse(data.object));
+                  scope.refreshNode(node);
+                  break;
+                case 1:
+                  DialogsService.alertDialog(
+                      Trans.TEST_FLOW_DIALOG_NODE_INPUT_ADD_TITLE,
+                      data.errors[0],
+                      "danger",
+                      "sm"
+                  );
+                  break;
+              }
+            });
+          }
+        }, function () {
+        });
+      };
 
       scope.drawNode = function (node) {
 
@@ -311,7 +384,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         var varEndpoint = ["Dot", {radius: 12.5}];
         /* SETTINGS END */
 
-        node.ports = $filter('orderBy')(node.ports, "variableObject.name");
+        node.ports = $filter('orderBy')(node.ports, ["-dynamic", "name"]);
         var fullName = "";
         var title = "";
         var nodeClass = "";
@@ -344,34 +417,25 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           }
         }
 
-        var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
+        var elemHtml = "<div context-menu='onNodeCtxOpened($event, " + node.id + ")' data-target='menu-node' id='node" + node.id + "' class='node " + nodeClass + "' ng-class='{\"node-selected\": selectedNodeIds.indexOf(" + node.id + ")!==-1, \"node-selected-candidate\": rectangleContainedNodeIds.indexOf(" + node.id + ")!==-1, \"node-active\": " + node.id + "===lastActiveNodeId}' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-click='setLastActiveNodeId(" + node.id + ");' context-menu-disabled='object.starterContent && !administrationSettingsService.starterContentEditable'>";
         var headerIcons = "";
         if (node.type == 1 || node.type == 2) {
-          elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-expanded\": collectionService.getNode(" + node.id + ").expanded, \"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
+          elemHtml = "<div id='node" + node.id + "' class='node " + nodeClass + "' style='top:" + node.posY + "px; left:" + node.posX + "px;' ng-class='{\"node-active\": " + node.id + "===lastActiveNodeId }' ng-click='setLastActiveNodeId(" + node.id + ")'>";
         } else {
           headerIcons = "<div class='node-header-icons'>" +
               "<i class='clickable glyphicon glyphicon-menu-hamburger' tooltip-append-to-body='true' uib-tooltip-html='\"" + Trans.TEST_FLOW_BUTTONS_NODE_MENU + "\"' ng-click='openNodeContextMenu($event, " + node.id + ")'></i>" +
               "<input type='checkbox' ng-model='collectionService.getNode(" + node.id + ").selected' ng-change='toggleNodeSelection(" + node.id + ")' />" +
               "</div>";
         }
-        var collapseHtml = "";
-        if (scope.isNodeCollapsable(node)) {
-          collapseHtml = "<div style='width: 100%; text-align: center;'><button class='btn btn-default btn-xs btn-block' ng-click='toggleUnconnectedPortsCollapse(" + node.id + ")'>" +
-              "<i class='glyphicon' ng-class='{\"glyphicon-arrow-up\": collectionService.getNode(" + node.id + ").expanded, \"glyphicon-arrow-down\": !collectionService.getNode(" + node.id + ").expanded}' " +
-              "></i></button></div>" +
-              "</div>";
-        }
         elemHtml += "<div class='node-header' tooltip-append-to-body='true' uib-tooltip-html='\"" + description + "\"'>" + headerIcons + title + "</div>" +
-            "<div class='node-content'><div class='node-content-left'></div><div class='node-content-right'></div></div>" +
-            "<div class='node-footer'>" +
-            collapseHtml +
-            "</div>";
+            "<div class='node-content'><div class='node-content-left'></div><div class='node-content-right'></div></div>";
         var elem = $(elemHtml).appendTo("#flowContainer");
         var elemContent = elem.find(".node-content");
         var elemContentLeft = elemContent.find(".node-content-left");
         var elemContentRight = elemContent.find(".node-content-right");
         var leftCount = 0;
         var rightCount = 0;
+
         //in port
         if (node.type != 1 && !scope.isGetterNode(node)) {
           var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
@@ -394,15 +458,30 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           leftCount++;
         }
 
+        //add branch
+        if (node.type == 0) {
+          var overlayElem = $(
+              "<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_BRANCH + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 2)'>" +
+              "<i class='clickable glyphicon glyphicon-plus portBranchIcon'></i>" +
+              "</div>"
+          );
+          overlayElem.appendTo(elemContentRight);
+
+          rightCount++;
+        }
+
         if (node.type != 2) {
           for (var i = 0; i < node.ports.length; i++) {
             var port = node.ports[i];
-            if (!port.variable) continue;
 
-            if (port.variableObject.type == 2) { //branches
+            //branches
+            if (scope.isPortVisible(node, port) && port.type === 2) {
 
-              var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
-              $compile(overlayElem)(scope);
+              var overlayElem = $(
+                  "<div class='portLabel portLabelBranch'>" +
+                  "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
+                  "</div>"
+              );
               overlayElem.appendTo(elemContentRight);
 
               jsPlumb.addEndpoint(elemContent, {
@@ -411,7 +490,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 maxConnections: 1,
                 endpoint: flowEndpoint,
                 anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-                paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
+                paintStyle: {fillStyle: port.dynamic == 1 ? "#ffdd84" : "#cca335", strokeStyle: "grey"},
                 parameters: {
                   sourceNode: node,
                   sourcePort: port
@@ -420,37 +499,62 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               rightCount++;
             }
           }
-
-          if (node.type == 1) {
-            var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_DESCRIPTION_OUT + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_OUT + "</div>");
-            $compile(overlayElem)(scope);
-            overlayElem.appendTo(elemContentRight);
-
-            jsPlumb.addEndpoint(elemContent, {
-              uuid: "node" + node.id + "-ep_out",
-              isSource: true,
-              maxConnections: 1,
-              endpoint: flowEndpoint,
-              anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-              paintStyle: {fillStyle: "orange", strokeStyle: "grey"},
-              parameters: {
-                sourceNode: node,
-                sourcePort: null
-              }
-            }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
-            rightCount++;
-          }
         }
 
+        //add return
+        if (node.type == 0) {
+          var overlayElem = $(
+              "<div class='portLabel portLabelReturn' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_RETURN + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 1)'>" +
+              "<i class='clickable glyphicon glyphicon-plus portReturnIcon'></i>" +
+              "</div>"
+          );
+          overlayElem.appendTo(elemContentRight);
+
+          rightCount++;
+        }
+
+        //out for start node
+        if (node.type == 1) {
+          var overlayElem = $("<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_DESCRIPTION_OUT + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_OUT + "</div>");
+          $compile(overlayElem)(scope);
+          overlayElem.appendTo(elemContentRight);
+
+          jsPlumb.addEndpoint(elemContent, {
+            uuid: "node" + node.id + "-ep_out",
+            isSource: true,
+            maxConnections: 1,
+            endpoint: flowEndpoint,
+            anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+            paintStyle: {fillStyle: "#cca335", strokeStyle: "grey"},
+            parameters: {
+              sourceNode: node,
+              sourcePort: null
+            }
+          }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
+          rightCount++;
+        }
+
+        //add input
+        if (node.type == 0) {
+          var overlayElem = $(
+              "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 0)'>" +
+              "<i class='clickable glyphicon glyphicon-plus portInputIcon'></i>" +
+              "</div>"
+          );
+          overlayElem.appendTo(elemContentLeft);
+
+          leftCount++;
+        }
+
+        //input param
         for (var i = 0; i < node.ports.length; i++) {
           var port = node.ports[i];
 
-          if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1))) { //input param
-
-            var overlayElem = $("<div " +
-                "ng-class='{\"portLabel\": true, \"portLabelInput\": true, \"portLabelInputString\": collectionService.getPort(" + port.id + ").string === \"1\", \"portLabelInputR\": collectionService.getPort(" + port.id + ").string === \"0\"}' " +
-                "uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>");
-            $compile(overlayElem)(scope);
+          if (scope.isPortVisible(node, port) && port.type === 0) {
+            var overlayElem = $("<div class='portLabel portLabelInput' " +
+                "ng-class='{\"port-non-default-value\": !usesDefaultValue(collectionService.getPort(" + port.id + "))}'>" +
+                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
+                "</div>");
             overlayElem.appendTo(elemContentLeft);
 
             jsPlumb.addEndpoint(elemContent, {
@@ -459,28 +563,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               isTarget: true,
               endpoint: varEndpoint,
               anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
-              paintStyle: {fillStyle: "blue", strokeStyle: "grey"},
+              paintStyle: {fillStyle: port.dynamic == "1" ? "#a8c6e0" : "#337ab7", strokeStyle: "grey"},
               overlays: [[
                 "Custom", {
                   create: function (component) {
                     var portId = component._jsPlumb.parameters.targetPort.id;
-                    var connected = false;
-                    for (var j = 0; j < scope.object.nodesConnections.length; j++) {
-                      var connection = scope.object.nodesConnections[j];
-                      if (connection.destinationPort == portId) {
-                        connected = true;
-                        break;
-                      }
-                    }
 
-                    var overlayElem = $("<div id='divPortControl" + portId + "' style='display:" + (connected ? "none" : "") + ";'>" +
-                        "<i ng-class='{\"glyphInteractable\": true, \"glyphicon\": true, \"glyphicon-align-justify\": true, \"port-value-default\": collectionService.getPort(" + portId + ").defaultValue == \"1\"}' " +
-                        "ng-click='editPortCode(collectionService.getPort(" + portId + "))' " +
-                        "uib-tooltip-html='collectionService.getPort(" + portId + ").value' tooltip-append-to-body='true'></i></div>");
+                    var overlayElem = $("<span><i class='glyphicon glyphicon-arrow-down pointer-icon' ng-class='{\"hidden\": collectionService.getPort(" + portId + ").pointer === \"0\"}'></i></span>");
                     $compile(overlayElem)(scope);
                     return overlayElem;
                   },
-                  location: [-0.5, 0.5],
+                  cssClass: "port-overlay",
+                  location: [0.5, 0.6],
                   id: "overlayCode" + port.id
                 }
               ]],
@@ -490,12 +584,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               }
             }).setEnabled(!scope.object.starterContent || scope.administrationSettingsService.starterContentEditable);
             leftCount++;
-          } else if (scope.isPortVisible(node, port) && ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0))) { //return vars
+          } else if (scope.isPortVisible(node, port) && port.type === 1) { //return vars
 
-            var overlayElem = $("<div>" +
-                "<div class='portLabel portLabelReturn' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true'>" + port.variableObject.name + "</div>" +
-                "</div>");
-            $compile(overlayElem)(scope);
+            var overlayElem = $(
+                "<div class='portLabel portLabelReturn'>" +
+                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
+                "</div>"
+            );
             overlayElem.appendTo(elemContentRight);
 
             jsPlumb.addEndpoint(elemContent, {
@@ -504,7 +599,21 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               maxConnections: -1,
               endpoint: varEndpoint,
               anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
-              paintStyle: {fillStyle: "red", strokeStyle: "grey"},
+              paintStyle: {fillStyle: port.dynamic == "1" ? "#ef7785" : "#a52937", strokeStyle: "grey"},
+              overlays: [[
+                "Custom", {
+                  create: function (component) {
+                    var portId = component._jsPlumb.parameters.sourcePort.id;
+
+                    var overlayElem = $("<span><i class='glyphicon glyphicon-arrow-up pointer-icon' ng-class='{\"hidden\": collectionService.getPort(" + portId + ").pointer === \"0\"}'></i></span>");
+                    $compile(overlayElem)(scope);
+                    return overlayElem;
+                  },
+                  cssClass: "port-overlay",
+                  location: [0.5, 0.6],
+                  id: "overlayCode" + port.id
+                }
+              ]],
               parameters: {
                 sourceNode: node,
                 sourcePort: port
@@ -593,13 +702,31 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.getPortTooltip = function (portId) {
         var port = scope.collectionService.getPort(portId);
-        var varName = port.variableObject.name;
-        var description = port.variableObject.description;
-        var tooltip = "<b>" + varName + "</b>";
+        var description = "";
+        if (port.variableObject) {
+          description = port.variableObject.description;
+        }
+        var tooltip = port.name;
+        if (port.pointer == 1) {
+          tooltip += port.type == 0 ? " <- " : " -> ";
+          tooltip += "<b>" + port.pointerVariable + "</b>";
+        }
         if (description && description != "")
-          tooltip += "<br/><br/>" + port.variableObject.description;
+          tooltip += "<div>" + description + "</div>";
+        if (port.type == 0 && port.value) {
+          tooltip += "<pre>" + port.value + "</pre>";
+        }
         return tooltip;
-      }
+      };
+
+      scope.getConnectionTooltip = function (connectionId) {
+        var connection = scope.collectionService.getConnection(connectionId);
+        var sourcePort = scope.collectionService.getPort(connection.sourcePort);
+        var destinationPort = scope.collectionService.getPort(connection.destinationPort);
+        var tip = sourcePort.name + " -> " + destinationPort.name +
+            "<pre>" + connection.returnFunction + "</pre>";
+        return tip;
+      };
 
       scope.serializeSelectedNodes = function () {
         var result = [];
@@ -633,7 +760,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.excludeSelfFilter = function (value, index, array) {
         return value.name != scope.object.name;
-      }
+      };
 
       scope.editNodeWizard = function (node, test) {
         var oldValue = angular.copy(node);
@@ -703,7 +830,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
       };
 
       scope.editPortCode = function (port) {
-        var oldValue = port.value;
+        var oldPort = angular.copy(port);
+        var editable = !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
         var modalInstance = $uibModal.open({
           templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "port_value_dialog.html",
           controller: PortValueEditController,
@@ -713,24 +841,58 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               return port;
             },
             editable: function () {
-              return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
+              return editable;
             }
           },
-          size: "prc-lg"
+          size: port.type == 2 ? "prc-sm" : "prc-lg"
         });
 
         modalInstance.result.then(function (response) {
-          $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(response.id), {
-            "node": response.node,
-            "variable": response.variable,
-            "value": response.value,
-            "string": response.string,
-            "default": response.defaultValue
-          }).success(function (data) {
-            port.value = data.object.value;
-          });
+          switch (response.action) {
+            case "save": {
+              var object = response.object;
+              $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(object.id), {
+                "node": object.node,
+                "variable": object.variable,
+                "value": object.value,
+                "string": object.string,
+                "default": object.defaultValue,
+                "type": object.type,
+                "dynamic": object.dynamic,
+                "exposed": object.exposed,
+                "name": object.name,
+                "pointer": object.pointer,
+                "pointerVariable": object.pointerVariable
+              }).success(function (data) {
+                if (data.result === 0) {
+                  scope.collectionService.fetchNodesConnectionCollection(scope.object.id, function () {
+                    scope.refreshNode(scope.collectionService.getNode(object.node));
+                  });
+                } else {
+                  port.name = oldPort.name;
+                  port.value = oldPort.value;
+                  port.string = oldPort.string;
+                  port.pointer = oldPort.pointer;
+                  port.pointerVariable = oldPort.pointerVariable;
+                }
+              });
+              break;
+            }
+            case "hide": {
+              scope.hidePort(response.object.id);
+              break;
+            }
+            case "removeConnections": {
+              scope.removeAllConnections(response.object);
+              break;
+            }
+          }
         }, function () {
-          port.value = oldValue;
+          port.name = oldPort.name;
+          port.value = oldPort.value;
+          port.string = oldPort.string;
+          port.pointer = oldPort.pointer;
+          port.pointerVariable = oldPort.pointerVariable;
         });
       };
 
@@ -745,7 +907,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
               return connection;
             },
             title: function () {
-              return connection.sourcePortObject.variableObject.name + "->" + connection.destinationPortObject.variableObject.name;
+              return connection.sourcePortObject.name + "->" + connection.destinationPortObject.name;
             },
             editable: function () {
               return !scope.object.starterContent || scope.administrationSettingsService.starterContentEditable;
@@ -754,18 +916,33 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           size: "lg"
         });
 
-        modalInstance.result.then(function (object) {
-          $http.post(Paths.TEST_FLOW_CONNECTION_SAVE.pf(connection.id), {
-            "flowTest": object.flowTest,
-            "sourceNode": object.sourceNode,
-            "sourcePort": object.sourcePort,
-            "destinationNode": object.destinationNode,
-            "destinationPort": object.destinationPort,
-            "returnFunction": object.returnFunction,
-            "default": object.defaultReturnFunction
-          }).success(function (data) {
-            connection.returnFunction = data.object.returnFunction
-          });
+        modalInstance.result.then(function (response) {
+          switch (response.action) {
+            case "save": {
+              var object = response.object;
+              $http.post(Paths.TEST_FLOW_CONNECTION_SAVE.pf(connection.id), {
+                "flowTest": object.flowTest,
+                "sourceNode": object.sourceNode,
+                "sourcePort": object.sourcePort,
+                "destinationNode": object.destinationNode,
+                "destinationPort": object.destinationPort,
+                "returnFunction": object.returnFunction,
+                "default": object.defaultReturnFunction,
+                "type": object.type,
+                "dynamic": object.dynamic,
+                "exposed": object.exposed,
+                "name": object.name
+              }).success(function (data) {
+                connection.returnFunction = data.object.returnFunction
+              });
+              break;
+            }
+            case "delete": {
+              scope.removeConnection(connection.id);
+              break;
+            }
+          }
+
         }, function () {
           connection.returnFunction = oldValue;
         });
@@ -1051,8 +1228,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           },
           paintStyle: {
             dashstyle: "dot",
-            strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.variableObject.type : 2),
-            lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.variableObject.type : 2)
+            strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.type : 2),
+            lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.type : 2)
           }
         });
       };
@@ -1083,9 +1260,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
       scope.setUpConnection = function (jspConnection) {
         var params = jspConnection.getParameters();
-        if (params.targetPort)
-          $("#divPortControl" + params.targetPort.id).hide();
-        if ((params.sourceNode.type == 1 && params.sourcePort && params.sourcePort.variableObject.type == 0) || (params.sourceNode.type == 0 && params.sourcePort.variableObject.type == 1)) {
+        if (params.sourcePort && params.sourcePort.type == 1) {
           if (jspConnection.getOverlay("overlayConnection" + params.concertoConnection.id))
             return;
           jspConnection.addOverlay(
@@ -1093,9 +1268,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 create: function (component) {
                   var overlayElem = $("<div>" +
                       "<div id='divConnectionControl" + params.concertoConnection.id + "'>" +
-                      "<i class='glyphInteractable glyphicon glyphicon-align-justify' ng-class='{\"return-function-default\": collectionService.getConnection(" + params.concertoConnection.id + ").defaultReturnFunction == \"1\"}' " +
+                      "<i class='clickable glyphicon glyphicon-align-justify' ng-class='{\"return-function-default\": collectionService.getConnection(" + params.concertoConnection.id + ").defaultReturnFunction == \"1\"}' " +
                       "ng-click='editConnectionCode(collectionService.getConnection(" + params.concertoConnection.id + "))' " +
-                      "uib-tooltip-html='collectionService.getConnection(" + params.concertoConnection.id + ").returnFunction' tooltip-append-to-body='true'></i></div>" +
+                      "uib-tooltip-html='getConnectionTooltip(" + params.concertoConnection.id + ")' tooltip-append-to-body='true'></i></div>" +
                       "</div>");
                   $compile(overlayElem)(scope);
                   return overlayElem;
@@ -1103,63 +1278,89 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 location: 0.5,
                 id: "overlayConnection" + params.concertoConnection.id
               }]);
-        } else if (!params.sourcePort || params.sourcePort.variableObject.type == 2) {
+        } else if (!params.sourcePort || params.sourcePort.type == 2) {
           jspConnection.addOverlay(
               ["Arrow", {location: 0.5, paintStyle: {fillStyle: "orange", strokeStyle: "grey"}}]);
         }
       };
 
-      scope.removeConnection = function (id) {
+      scope.removeAllConnections = function (port) {
+        DialogsService.confirmDialog(
+            Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_ALL_CONNECTIONS,
+            Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_ALL_CONNECTIONS.pf(port.id),
+            function (data) {
+              var connectionIds = [];
+              for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                var connection = scope.object.nodesConnections[i];
+                if (connection.sourcePort == port.id || connection.destinationPort == port.id) {
+                  connectionIds.push(connection.id);
+                }
+              }
+              scope.removeConnection(connectionIds.join(","));
+            }
+        );
+      };
+
+      scope.removeConnection = function (ids) {
+        var idsArray = String(ids).split(",");
         for (var i = 0; i < scope.object.nodesConnections.length; i++) {
           var connection = scope.object.nodesConnections[i];
-          if (id === connection.id && connection.removed) {
-            return;
+          var index = idsArray.indexOf(connection.id);
+          if (index !== -1 && connection.removed) {
+            idsArray.splice(index, 1);
           }
         }
 
-        $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(id), {}).success(function (data) {
+        $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(idsArray.join(",")), {}).success(function (data) {
           if (data.result === 0) {
-            $("#overlayConnection" + id).remove();
-            for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+            for (var i = 0; i < idsArray.length; i++) {
+              $("#overlayConnection" + idsArray[i]).remove();
+            }
+
+            for (var i = scope.object.nodesConnections.length - 1; i >= 0; i--) {
               var connection = scope.object.nodesConnections[i];
-              if (connection.id == id) {
+              if (idsArray.indexOf(String(connection.id)) != -1) {
                 scope.object.nodesConnections.splice(i, 1);
-                break;
+
+                if (!connection.sourcePort || connection.sourcePort.type == 2) {
+                  for (var j = scope.object.nodesConnections.length - 1; j >= 0; j--) {
+                    var otherConn = scope.object.nodesConnections[j];
+                    if (otherConn.sourceNode == connection.sourceNode && otherConn.targetNode == connection.targetNode && otherConn.automatic == 1) {
+                      scope.object.nodesConnections.splice(j, 1);
+                    }
+                  }
+                }
+                scope.refreshConnections([connection.sourceNode, connection.destinationNode], false);
               }
             }
           }
         });
       };
 
-      scope.toggleUnconnectedPortsCollapse = function (nodeId) {
-        var node = scope.collectionService.getNode(nodeId);
-        var expanded = !node.expanded;
-        node.expanded = expanded;
-
-        scope.refreshNode(node);
-      };
-
       scope.isPortVisible = function (node, port) {
-        //input
-        if ((node.type == 0 && port.variableObject.type == 0) || (node.type == 2 && port.variableObject.type == 1)) {
-          if (node.expanded || scope.isPortConnected(port))
-            return true;
-        }
-        //returns
-        if ((node.type == 0 && port.variableObject.type == 1) || (node.type == 1 && port.variableObject.type == 0)) {
-          if (node.expanded || scope.isPortConnected(port))
-            return true;
+        if (node.type != 0 || port.exposed == 1) {
+          return true;
         }
         return false;
+      };
+
+      scope.canRemovePort = function (node, port) {
+        if (node.type == 0 && !scope.isPortConnected(port) && port.pointer != 1) return true;
+        else return false;
       };
 
       scope.isPortConnected = function (port) {
         for (var i = 0; i < scope.object.nodesConnections.length; i++) {
           var conn = scope.object.nodesConnections[i];
-          if (conn.sourcePort === port.id || conn.destinationPort === port.id)
+          if (conn.sourcePort == port.id || conn.destinationPort == port.id)
             return true;
         }
         return false;
+      };
+
+      scope.usesDefaultValue = function (port) {
+        if (port === null) return true;
+        return port.defaultValue == 1 && port.pointer == 0;
       };
 
       jsPlumb.setContainer($("#flowContainer"));
@@ -1185,25 +1386,18 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           var targetParams = info.dropEndpoint.getParameters();
 
           var sourcePortType = null;
-          var sourceNodeType = sourceParams.sourceNode.type;
-
-          if (!sourceParams.sourcePort || !sourceParams.sourcePort.variableObject) {
+          if (!sourceParams.sourcePort) {
             sourcePortType = 2;
           } else {
-            sourcePortType = sourceParams.sourcePort.variableObject.type;
+            sourcePortType = sourceParams.sourcePort.type;
           }
 
           var targetPortType = null;
-          if (targetParams.targetPort && targetParams.targetPort.variableObject)
-            targetPortType = targetParams.targetPort.variableObject.type;
-          var targetNodeType = targetParams.targetNode.type;
-          if (sourceNodeType == 1) {
-            if (sourcePortType == 0)
-              sourcePortType = 1;
-          }
-          if (targetNodeType == 2) {
-            if (targetPortType == 1)
-              targetPortType = 0;
+          if (targetParams.targetPort) {
+            if (targetParams.targetPort.pointer == 1) {
+              return false;
+            }
+            targetPortType = targetParams.targetPort.type;
           }
 
           switch (parseInt(sourcePortType)) {
@@ -1218,6 +1412,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 return false;
               break;
           }
+
+          for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+            var connection = scope.object.nodesConnections[i];
+            if (connection.sourcePort == sourceParams.sourcePort.id && connection.destinationPort == targetParams.targetPort.id) return false;
+          }
+
           return true;
         });
 
@@ -1246,8 +1446,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
           if (!params.concertoConnection)
             return;
           scope.removeConnection(params.concertoConnection.id);
-          if (params.targetPort)
-            $("#divPortControl" + params.targetPort.id).show();
         });
 
         $timeout(function () {

@@ -1,458 +1,478 @@
 {
-    "version": "5.0.beta.2.173",
-    "collection": [
+  "version": "5.0.beta.9.1",
+  "collection": [
+    {
+      "class_name": "Test",
+      "id": 1,
+      "name": "source",
+      "accessibility": 0,
+      "archived": "0",
+      "visibility": 0,
+      "type": 0,
+      "code": "",
+      "description": "",
+      "variables": [
         {
-            "class_name": "Test",
-            "id": 1,
-            "name": "source",
-            "accessibility": 0,
-            "archived": "0",
-            "visibility": 0,
-            "type": 0,
-            "code": "",
-            "outdated": "0",
-            "description": "",
-            "variables": [
-                {
-                    "class_name": "TestVariable",
-                    "id": 1,
-                    "name": "out",
-                    "type": 2,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "0",
-                    "test": 1,
-                    "parentVariable": null
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 2,
-                    "name": "np1",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 1,
-                    "parentVariable": null
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 3,
-                    "name": "p2",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 1,
-                    "parentVariable": null
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 4,
-                    "name": "p3",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 1,
-                    "parentVariable": null
-                }
-            ],
-            "sourceWizard": null,
-            "sourceWizardName": null,
-            "sourceWizardTest": null,
-            "sourceWizardTestName": null,
-            "updatedOn": "2016-12-01 20:20:19",
-            "updatedBy": "",
-            "nodes": [
-
-            ],
-            "nodesConnections": [
-
-            ],
-            "tags": "",
-            "owner": 1,
-            "groups": "",
-            "starterContent": false,
-            "hash": "ca8a99d46fc51a33fdb51bad00b416b874c33524"
+          "class_name": "TestVariable",
+          "id": 1,
+          "name": "out",
+          "type": 2,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": "0",
+          "test": 1,
+          "parentVariable": null
         },
         {
-            "class_name": "TestWizard",
-            "id": 1,
-            "name": "wizard",
-            "description": "",
-            "accessibility": 0,
-            "archived": "0",
-            "steps": [
-                {
-                    "class_name": "TestWizardStep",
-                    "id": 1,
-                    "title": "s1",
-                    "description": "",
-                    "orderNum": 0,
-                    "colsNum": 0,
-                    "wizard": 1,
-                    "params": [
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 1,
-                            "label": "wp1",
-                            "description": "",
-                            "hideCondition": "",
-                            "type": 0,
-                            "passableThroughUrl": "0",
-                            "value": "def_wp1",
-                            "testVariable": 2,
-                            "name": "np1",
-                            "wizardStep": 1,
-                            "stepTitle": "s1",
-                            "order": 0,
-                            "wizard": 1,
-                            "definition": {
-                                "placeholder": 0,
-                                "defvalue": "def_wp1"
-                            }
-                        },
-                        {
-                            "class_name": "TestWizardParam",
-                            "id": 2,
-                            "label": "wp2",
-                            "description": "",
-                            "hideCondition": "",
-                            "type": 9,
-                            "passableThroughUrl": "0",
-                            "value": "{\"wp2f1\":\"def_wp2f1\",\"wp2f2\":\"def_wp2f2\"}",
-                            "testVariable": 3,
-                            "name": "p2",
-                            "wizardStep": 1,
-                            "stepTitle": "s1",
-                            "order": 0,
-                            "wizard": 1,
-                            "definition": {
-                                "fields": [
-                                    {
-                                        "type": 0,
-                                        "name": "wp2f1",
-                                        "label": "wp2f1",
-                                        "definition": {
-                                            "placeholder": 0,
-                                            "defvalue": "def_wp2f1"
-                                        }
-                                    },
-                                    {
-                                        "type": 0,
-                                        "name": "wp2f2",
-                                        "label": "wp2f2",
-                                        "definition": {
-                                            "placeholder": 0,
-                                            "defvalue": "def_wp2f2"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            ],
-            "test": 1,
-            "testName": "source",
-            "updatedOn": "2016-12-01 20:20:19",
-            "updatedBy": "",
-            "owner": 1,
-            "groups": "",
-            "starterContent": false,
-            "hash": "273b4df3ad74ad709a4f60da88eb645750b66166"
+          "class_name": "TestVariable",
+          "id": 2,
+          "name": "np1",
+          "type": 0,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": null,
+          "test": 1,
+          "parentVariable": null
         },
         {
-            "class_name": "Test",
-            "id": 2,
-            "name": "test",
-            "accessibility": 0,
-            "archived": "0",
-            "visibility": 0,
-            "type": 1,
-            "code": "",
-            "outdated": "0",
-            "description": "",
-            "variables": [
-                {
-                    "class_name": "TestVariable",
-                    "id": 5,
-                    "name": "out",
-                    "type": 2,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "0",
-                    "test": 2,
-                    "parentVariable": 1
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 6,
-                    "name": "np1",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "def_wp1",
-                    "test": 2,
-                    "parentVariable": 2
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 7,
-                    "name": "p2",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "{\"wp2f1\":\"def_wp2f1\",\"wp2f2\":\"def_wp2f2\"}",
-                    "test": 2,
-                    "parentVariable": 3
-                },
-                {
-                    "class_name": "TestVariable",
-                    "id": 8,
-                    "name": "p3",
-                    "type": 0,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": null,
-                    "test": 2,
-                    "parentVariable": 4
-                }
-            ],
-            "sourceWizard": 1,
-            "sourceWizardName": "wizard",
-            "sourceWizardTest": 1,
-            "sourceWizardTestName": "source",
-            "updatedOn": "2016-12-01 20:20:20",
-            "updatedBy": "",
-            "nodes": [
-
-            ],
-            "nodesConnections": [
-
-            ],
-            "tags": "",
-            "owner": 1,
-            "groups": "",
-            "starterContent": false,
-            "hash": "43321001df8ec788296a51365980b45557a9c7a2"
+          "class_name": "TestVariable",
+          "id": 3,
+          "name": "p2",
+          "type": 0,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": null,
+          "test": 1,
+          "parentVariable": null
         },
         {
-            "class_name": "Test",
-            "id": 3,
-            "name": "flow",
-            "accessibility": 0,
-            "archived": "0",
-            "visibility": 0,
-            "type": 2,
-            "code": "",
-            "outdated": "0",
-            "description": "",
-            "variables": [
-                {
-                    "class_name": "TestVariable",
-                    "id": 9,
-                    "name": "out",
-                    "type": 2,
-                    "description": "",
-                    "passableThroughUrl": "0",
-                    "value": "0",
-                    "test": 3,
-                    "parentVariable": null
-                }
-            ],
-            "sourceWizard": null,
-            "sourceWizardName": null,
-            "sourceWizardTest": null,
-            "sourceWizardTestName": null,
-            "updatedOn": "2016-12-01 20:20:20",
-            "updatedBy": "",
-            "nodes": [
-                {
-                    "class_name": "TestNode",
-                    "id": 1,
-                    "title": "",
-                    "type": 1,
-                    "posX": 15000,
-                    "posY": 15000,
-                    "flowTest": 3,
-                    "sourceTest": 3,
-                    "sourceTestName": "flow",
-                    "sourceTestDescription": "",
-                    "ports": [
-                        {
-                            "class_name": "TestNodePort",
-                            "id": 1,
-                            "value": "0",
-                            "node": 1,
-                            "variable": 9,
-                            "variableObject": {
-                                "class_name": "TestVariable",
-                                "id": 9,
-                                "name": "out",
-                                "type": 2,
-                                "description": "",
-                                "passableThroughUrl": "0",
-                                "value": "0",
-                                "test": 3,
-                                "parentVariable": null
-                            },
-                            "string": "1",
-                            "defaultValue": "1"
-                        }
-                    ]
-                },
-                {
-                    "class_name": "TestNode",
-                    "id": 2,
-                    "title": "",
-                    "type": 2,
-                    "posX": 16042,
-                    "posY": 15116,
-                    "flowTest": 3,
-                    "sourceTest": 3,
-                    "sourceTestName": "flow",
-                    "sourceTestDescription": "",
-                    "ports": [
-
-                    ]
-                },
-                {
-                    "class_name": "TestNode",
-                    "id": 3,
-                    "title": "",
-                    "type": 0,
-                    "posX": 15494,
-                    "posY": 15065,
-                    "flowTest": 3,
-                    "sourceTest": 2,
-                    "sourceTestName": "test",
-                    "sourceTestDescription": "",
-                    "ports": [
-                        {
-                            "class_name": "TestNodePort",
-                            "id": 2,
-                            "value": "nflow_wp1",
-                            "node": 3,
-                            "variable": 6,
-                            "variableObject": {
-                                "class_name": "TestVariable",
-                                "id": 6,
-                                "name": "np1",
-                                "type": 0,
-                                "description": "",
-                                "passableThroughUrl": "0",
-                                "value": "def_wp1",
-                                "test": 2,
-                                "parentVariable": 2
-                            },
-                            "string": "1",
-                            "defaultValue": "0"
-                        },
-                        {
-                            "class_name": "TestNodePort",
-                            "id": 3,
-                            "value": "{\"wp2f1\":\"nflow_wp2f1\",\"wp2f2\":\"nflow_wp2f2\"}",
-                            "node": 3,
-                            "variable": 7,
-                            "variableObject": {
-                                "class_name": "TestVariable",
-                                "id": 7,
-                                "name": "p2",
-                                "type": 0,
-                                "description": "",
-                                "passableThroughUrl": "0",
-                                "value": "{\"wp2f1\":\"def_wp2f1\",\"wp2f2\":\"def_wp2f2\"}",
-                                "test": 2,
-                                "parentVariable": 3
-                            },
-                            "string": "1",
-                            "defaultValue": "0"
-                        },
-                        {
-                            "class_name": "TestNodePort",
-                            "id": 4,
-                            "value": null,
-                            "node": 3,
-                            "variable": 8,
-                            "variableObject": {
-                                "class_name": "TestVariable",
-                                "id": 8,
-                                "name": "p3",
-                                "type": 0,
-                                "description": "",
-                                "passableThroughUrl": "0",
-                                "value": null,
-                                "test": 2,
-                                "parentVariable": 4
-                            },
-                            "string": "1",
-                            "defaultValue": "1"
-                        },
-                        {
-                            "class_name": "TestNodePort",
-                            "id": 5,
-                            "value": "0",
-                            "node": 3,
-                            "variable": 5,
-                            "variableObject": {
-                                "class_name": "TestVariable",
-                                "id": 5,
-                                "name": "out",
-                                "type": 2,
-                                "description": "",
-                                "passableThroughUrl": "0",
-                                "value": "0",
-                                "test": 2,
-                                "parentVariable": 1
-                            },
-                            "string": "1",
-                            "defaultValue": "1"
-                        }
-                    ]
-                }
-            ],
-            "nodesConnections": [
-                {
-                    "class_name": "TestNodeConnection",
-                    "id": 1,
-                    "flowTest": 3,
-                    "sourceNode": 1,
-                    "sourcePort": 1,
-                    "sourcePortObject": {
-                        "class_name": "TestNodePort",
-                        "id": 1,
-                        "value": "0",
-                        "node": 1,
-                        "variable": 9,
-                        "variableObject": {
-                            "class_name": "TestVariable",
-                            "id": 9,
-                            "name": "out",
-                            "type": 2,
-                            "description": "",
-                            "passableThroughUrl": "0",
-                            "value": "0",
-                            "test": 3,
-                            "parentVariable": null
-                        },
-                        "string": "1",
-                        "defaultValue": "1"
-                    },
-                    "destinationNode": 3,
-                    "destinationPort": null,
-                    "destinationPortObject": null,
-                    "returnFunction": "out",
-                    "automatic": "0",
-                    "defaultReturnFunction": "1"
-                }
-            ],
-            "tags": "",
-            "owner": 1,
-            "groups": "",
-            "starterContent": false,
-            "hash": "ceb51d591cf8ee4eac16cefc2235a36bef818c23"
+          "class_name": "TestVariable",
+          "id": 4,
+          "name": "p3",
+          "type": 0,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": null,
+          "test": 1,
+          "parentVariable": null
         }
-    ]
+      ],
+      "sourceWizard": null,
+      "sourceWizardName": null,
+      "sourceWizardTest": null,
+      "sourceWizardTestName": null,
+      "nodes": [
+      ],
+      "nodesConnections": [
+      ],
+      "tags": "",
+      "owner": 1,
+      "groups": "",
+      "starterContent": false,
+      "hash": "ca8a99d46fc51a33fdb51bad00b416b874c33524"
+    },
+    {
+      "class_name": "TestWizard",
+      "id": 1,
+      "name": "wizard",
+      "description": "",
+      "accessibility": 0,
+      "archived": "0",
+      "steps": [
+        {
+          "class_name": "TestWizardStep",
+          "id": 1,
+          "title": "s1",
+          "description": "",
+          "orderNum": 0,
+          "colsNum": 0,
+          "wizard": 1,
+          "params": [
+            {
+              "class_name": "TestWizardParam",
+              "id": 1,
+              "label": "wp1",
+              "description": "",
+              "hideCondition": "",
+              "type": 0,
+              "passableThroughUrl": "0",
+              "value": "def_wp1",
+              "testVariable": 2,
+              "name": "np1",
+              "wizardStep": 1,
+              "stepTitle": "s1",
+              "order": 0,
+              "wizard": 1,
+              "definition": {
+                "placeholder": 0,
+                "defvalue": "def_wp1"
+              }
+            },
+            {
+              "class_name": "TestWizardParam",
+              "id": 2,
+              "label": "wp2",
+              "description": "",
+              "hideCondition": "",
+              "type": 9,
+              "passableThroughUrl": "0",
+              "value": "{\"wp2f1\":\"def_wp2f1\",\"wp2f2\":\"def_wp2f2\"}",
+              "testVariable": 3,
+              "name": "p2",
+              "wizardStep": 1,
+              "stepTitle": "s1",
+              "order": 0,
+              "wizard": 1,
+              "definition": {
+                "fields": [
+                  {
+                    "type": 0,
+                    "name": "wp2f1",
+                    "label": "wp2f1",
+                    "definition": {
+                      "placeholder": 0,
+                      "defvalue": "def_wp2f1"
+                    }
+                  },
+                  {
+                    "type": 0,
+                    "name": "wp2f2",
+                    "label": "wp2f2",
+                    "definition": {
+                      "placeholder": 0,
+                      "defvalue": "def_wp2f2"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "test": 1,
+      "testName": "source",
+      "owner": 1,
+      "groups": "",
+      "starterContent": false,
+      "hash": "273b4df3ad74ad709a4f60da88eb645750b66166"
+    },
+    {
+      "class_name": "Test",
+      "id": 2,
+      "name": "test",
+      "accessibility": 0,
+      "archived": "0",
+      "visibility": 0,
+      "type": 1,
+      "code": "",
+      "description": "",
+      "variables": [
+        {
+          "class_name": "TestVariable",
+          "id": 5,
+          "name": "out",
+          "type": 2,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": "0",
+          "test": 2,
+          "parentVariable": 1
+        },
+        {
+          "class_name": "TestVariable",
+          "id": 6,
+          "name": "np1",
+          "type": 0,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": "def_wp1",
+          "test": 2,
+          "parentVariable": 2
+        },
+        {
+          "class_name": "TestVariable",
+          "id": 7,
+          "name": "p2",
+          "type": 0,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": "{\"wp2f1\":\"def_wp2f1\",\"wp2f2\":\"def_wp2f2\"}",
+          "test": 2,
+          "parentVariable": 3
+        },
+        {
+          "class_name": "TestVariable",
+          "id": 8,
+          "name": "p3",
+          "type": 0,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": null,
+          "test": 2,
+          "parentVariable": 4
+        }
+      ],
+      "sourceWizard": 1,
+      "sourceWizardName": "wizard",
+      "sourceWizardTest": 1,
+      "sourceWizardTestName": "source",
+      "nodes": [
+      ],
+      "nodesConnections": [
+      ],
+      "tags": "",
+      "owner": 1,
+      "groups": "",
+      "starterContent": false,
+      "hash": "43321001df8ec788296a51365980b45557a9c7a2"
+    },
+    {
+      "class_name": "Test",
+      "id": 3,
+      "name": "flow",
+      "accessibility": 0,
+      "archived": "0",
+      "visibility": 0,
+      "type": 2,
+      "code": "",
+      "description": "",
+      "variables": [
+        {
+          "class_name": "TestVariable",
+          "id": 9,
+          "name": "out",
+          "type": 2,
+          "description": "",
+          "passableThroughUrl": "0",
+          "value": "0",
+          "test": 3,
+          "parentVariable": null
+        }
+      ],
+      "sourceWizard": null,
+      "sourceWizardName": null,
+      "sourceWizardTest": null,
+      "sourceWizardTestName": null,
+      "nodes": [
+        {
+          "class_name": "TestNode",
+          "id": 1,
+          "title": "",
+          "type": 1,
+          "posX": 15000,
+          "posY": 15000,
+          "flowTest": 3,
+          "sourceTest": 3,
+          "sourceTestName": "flow",
+          "sourceTestDescription": "",
+          "ports": [
+            {
+              "class_name": "TestNodePort",
+              "id": 1,
+              "value": "0",
+              "node": 1,
+              "dynamic": 0,
+              "type": 2,
+              "exposed": 1,
+              "name": "out",
+              "pointer": "0",
+              "pointerVariable": "out",
+              "variable": 9,
+              "variableObject": {
+                "class_name": "TestVariable",
+                "id": 9,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 3,
+                "parentVariable": null
+              },
+              "string": "1",
+              "defaultValue": "1"
+            }
+          ]
+        },
+        {
+          "class_name": "TestNode",
+          "id": 2,
+          "title": "",
+          "type": 2,
+          "posX": 16042,
+          "posY": 15116,
+          "flowTest": 3,
+          "sourceTest": 3,
+          "sourceTestName": "flow",
+          "sourceTestDescription": "",
+          "ports": [
+          ]
+        },
+        {
+          "class_name": "TestNode",
+          "id": 3,
+          "title": "",
+          "type": 0,
+          "posX": 15494,
+          "posY": 15065,
+          "flowTest": 3,
+          "sourceTest": 2,
+          "sourceTestName": "test",
+          "sourceTestDescription": "",
+          "ports": [
+            {
+              "class_name": "TestNodePort",
+              "id": 2,
+              "value": "nflow_wp1",
+              "node": 3,
+              "dynamic": 0,
+              "type": 0,
+              "exposed": 0,
+              "name": "np1",
+              "pointer": "0",
+              "pointerVariable": "np1",
+              "variable": 6,
+              "variableObject": {
+                "class_name": "TestVariable",
+                "id": 6,
+                "name": "np1",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "def_wp1",
+                "test": 2,
+                "parentVariable": 2
+              },
+              "string": "1",
+              "defaultValue": "0"
+            },
+            {
+              "class_name": "TestNodePort",
+              "id": 3,
+              "value": "{\"wp2f1\":\"nflow_wp2f1\",\"wp2f2\":\"nflow_wp2f2\"}",
+              "node": 3,
+              "dynamic": 0,
+              "type": 0,
+              "exposed": 0,
+              "name": "p2",
+              "pointer": "0",
+              "pointerVariable": "p2",
+              "variable": 7,
+              "variableObject": {
+                "class_name": "TestVariable",
+                "id": 7,
+                "name": "p2",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "{\"wp2f1\":\"def_wp2f1\",\"wp2f2\":\"def_wp2f2\"}",
+                "test": 2,
+                "parentVariable": 3
+              },
+              "string": "1",
+              "defaultValue": "0"
+            },
+            {
+              "class_name": "TestNodePort",
+              "id": 4,
+              "value": null,
+              "node": 3,
+              "dynamic": 0,
+              "type": 0,
+              "exposed": 0,
+              "name": "p3",
+              "pointer": "0",
+              "pointerVariable": "p3",
+              "variable": 8,
+              "variableObject": {
+                "class_name": "TestVariable",
+                "id": 8,
+                "name": "p3",
+                "type": 0,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": null,
+                "test": 2,
+                "parentVariable": 4
+              },
+              "string": "1",
+              "defaultValue": "1"
+            },
+            {
+              "class_name": "TestNodePort",
+              "id": 5,
+              "value": "0",
+              "node": 3,
+              "dynamic": 0,
+              "type": 2,
+              "exposed": 1,
+              "name": "out",
+              "pointer": "0",
+              "pointerVariable": "out",
+              "variable": 5,
+              "variableObject": {
+                "class_name": "TestVariable",
+                "id": 5,
+                "name": "out",
+                "type": 2,
+                "description": "",
+                "passableThroughUrl": "0",
+                "value": "0",
+                "test": 2,
+                "parentVariable": 1
+              },
+              "string": "1",
+              "defaultValue": "1"
+            }
+          ]
+        }
+      ],
+      "nodesConnections": [
+        {
+          "class_name": "TestNodeConnection",
+          "id": 1,
+          "flowTest": 3,
+          "sourceNode": 1,
+          "sourcePort": 1,
+          "sourcePortObject": {
+            "class_name": "TestNodePort",
+            "id": 1,
+            "value": "0",
+            "node": 1,
+            "dynamic": 0,
+            "type": 2,
+            "exposed": 1,
+            "name": "out",
+            "pointer": "0",
+            "pointerVariable": "out",
+            "variable": 9,
+            "variableObject": {
+              "class_name": "TestVariable",
+              "id": 9,
+              "name": "out",
+              "type": 2,
+              "description": "",
+              "passableThroughUrl": "0",
+              "value": "0",
+              "test": 3,
+              "parentVariable": null
+            },
+            "string": "1",
+            "defaultValue": "1"
+          },
+          "destinationNode": 3,
+          "destinationPort": null,
+          "destinationPortObject": null,
+          "returnFunction": "out",
+          "automatic": "0",
+          "defaultReturnFunction": "1"
+        }
+      ],
+      "tags": "",
+      "owner": 1,
+      "groups": "",
+      "starterContent": false,
+      "hash": "ceb51d591cf8ee4eac16cefc2235a36bef818c23"
+    }
+  ]
 }

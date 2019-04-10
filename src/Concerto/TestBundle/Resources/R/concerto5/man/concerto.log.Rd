@@ -10,8 +10,11 @@ Logs message
 concerto.log(obj)
 }
 \arguments{
-  \item{obj}{
+\item{obj}{
 Object to log
+}
+\item{title}{
+Object description
 }
 }
 \details{

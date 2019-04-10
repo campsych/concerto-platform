@@ -14,6 +14,7 @@
     <div class="modal-footer">
         <button class="btn btn-success" ng-click="change()" ng-disabled="!editable">{{ 'form.button.change'|trans({},"panel") }}</button>
         <button class="btn btn-danger" ng-click="reset()" ng-disabled="!editable">{{ 'flow.buttons.reset_to_default'|trans }}</button>
+        <button class="btn btn-danger" ng-click="delete()" ng-disabled="!editable">{{ 'flow.buttons.remove_connection'|trans }}</button>
         <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
     </div>
 </div>

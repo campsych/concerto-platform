@@ -19,6 +19,16 @@ class TestSessionCountService
         $this->administration = $administration;
     }
 
+    //@TODO proper OS detection
+    public function getOS()
+    {
+        if (strpos(strtolower(PHP_OS), "win") !== false) {
+            return ASessionRunnerService::OS_WIN;
+        } else {
+            return ASessionRunnerService::OS_LINUX;
+        }
+    }
+
     public function save(TestSessionCount $entity)
     {
         $this->sessionCountRepo->save($entity);
@@ -41,6 +51,18 @@ class TestSessionCountService
     public function getCurrentCount()
     {
         return $this->sessionRepo->getActiveSessionsCount($this->administration["internal"]["session_count_idle_limit"]);
+    }
+
+    public function getCurrentLocalCount() {
+        if ($this->getOS() !== ASessionRunnerService::OS_LINUX)
+            return false;
+
+        $sum = 0;
+        $count = exec('ps -C R | grep -v "defunct" | wc -l', $arr1, $retVal1);
+        if ($retVal1 === 0) {
+            $sum += (int)$count - 1;
+        }
+        return $sum;
     }
 
     public function updateCountRecord($offset = 0)

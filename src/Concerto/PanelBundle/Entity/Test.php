@@ -68,7 +68,7 @@ class Test extends ATopEntity implements \JsonSerializable
 
     /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $code;
 
@@ -93,13 +93,6 @@ class Test extends ATopEntity implements \JsonSerializable
     private $sourceForNodes;
 
     /**
-     *
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
-    private $outdated;
-
-    /**
      * @var TestWizard
      * @ORM\ManyToOne(targetEntity="TestWizard", inversedBy="resultingTests")
      */
@@ -121,6 +114,12 @@ class Test extends ATopEntity implements \JsonSerializable
     private $owner;
 
     /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $configOverride;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -133,9 +132,7 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->nodes = new ArrayCollection();
         $this->nodesConnections = new ArrayCollection();
         $this->sourceForNodes = new ArrayCollection();
-        $this->code = "";
         $this->description = "";
-        $this->outdated = false;
         $this->slug = md5(mt_rand() . uniqid(true));
         $this->sourceWizard = null;
     }
@@ -197,6 +194,29 @@ class Test extends ATopEntity implements \JsonSerializable
     }
 
     /**
+     * Set config override
+     *
+     * @param string $config
+     * @return Test
+     */
+    public function setConfigOverride($config)
+    {
+        $this->configOverride = $config;
+
+        return $this;
+    }
+
+    /**
+     * Get config override
+     *
+     * @return string
+     */
+    public function getConfigOverride()
+    {
+        return $this->configOverride;
+    }
+
+    /**
      * Set description
      *
      * @param string $description
@@ -217,26 +237,6 @@ class Test extends ATopEntity implements \JsonSerializable
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Is newer version of source test available?
-     *
-     * @return boolean
-     */
-    public function isOutdated()
-    {
-        return $this->outdated;
-    }
-
-    /**
-     * Set if newer version of source test is available.
-     *
-     * @param boolean $outdated
-     */
-    public function setOutdated($outdated)
-    {
-        $this->outdated = $outdated;
     }
 
     /**
@@ -580,6 +580,7 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Set owner
      * @param User $user
+     * @return Test
      */
     public function setOwner($user)
     {
@@ -647,7 +648,6 @@ class Test extends ATopEntity implements \JsonSerializable
             "type" => $this->type,
             "code" => $this->code,
             "slug" => $this->slug,
-            "outdated" => $this->outdated ? "1" : "0",
             "description" => $this->description,
             "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies),
             "logs" => $this->logs->toArray(),

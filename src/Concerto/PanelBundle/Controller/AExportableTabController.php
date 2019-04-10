@@ -58,7 +58,6 @@ abstract class AExportableTabController extends ASectionController
 
             if (!array_key_exists("errors", $r) || !$r["errors"])
                 continue;
-            var_dump($r["errors"]);
             for ($i = 0; $i < count($r['errors']); $i++) {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
             }
@@ -74,12 +73,24 @@ abstract class AExportableTabController extends ASectionController
         return $response;
     }
 
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportInstructionsAction($object_ids)
     {
-        $response = new Response($this->exportService->exportToFile($this->entityName, $object_ids, $format));
+        $instructions = $this->exportService->getInitialExportInstructions($this->entityName, $object_ids);
+        $response = new Response(json_encode(array(
+            "result" => 0,
+            "instructions" => $instructions
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function exportAction($instructions, $format = "yml")
+    {
+        $decodedInstructions = json_decode($instructions, true);
+        $response = new Response($this->exportService->exportToFile($this->entityName, $decodedInstructions, $format));
         $response->headers->set('Content-Type', 'application/x-download');
         $response->headers->set(
-            'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $object_ids, $format) . '"'
+            'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $decodedInstructions, $format) . '"'
         );
         return $response;
     }
@@ -100,7 +111,7 @@ abstract class AExportableTabController extends ASectionController
             if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
                 $show_index = $j;
 
-            if (!array_key_exists("errors", $r))
+            if (!array_key_exists("errors", $r) || !$r['errors'])
                 continue;
             for ($i = 0; $i < count($r['errors']); $i++) {
                 $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);

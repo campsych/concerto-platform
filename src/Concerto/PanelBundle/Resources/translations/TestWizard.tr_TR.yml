@@ -3,7 +3,6 @@ breadcrumb:
 
 alerts:
     no_steps: Test Sihirbazı tanımlanmadı!
-    no_params: Bu adım için test sihirbazı parametresi belirlenmemiş!
 
 form:
   title:

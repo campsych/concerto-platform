@@ -34,7 +34,7 @@ abstract class ASessionRunnerService
         $this->testSessionRepository = $testSessionRepository;
     }
 
-    abstract public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false);
+    abstract public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
     abstract public function submit(TestSession $session, $values, $client_ip, $client_browser);
 
@@ -44,7 +44,7 @@ abstract class ASessionRunnerService
 
     abstract public function kill(TestSession $session, $client_ip, $client_browser);
 
-    public function getSerializedConnection()
+    public function getConnection()
     {
         $con = $this->doctrine->getConnection($this->testRunnerSettings["connection"]);
         $con_array = array(
@@ -66,28 +66,22 @@ abstract class ASessionRunnerService
         if (array_key_exists("unix_socket", $params)) {
             $con_array["unix_socket"] = $params["unix_socket"];
         }
-        $json_connection = json_encode($con_array);
-        return $json_connection;
+        return $con_array;
     }
 
     public function getRDir()
     {
-        return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R");
-    }
-
-    public function getOutputFilePath($session_hash)
-    {
-        return $this->getWorkingDirPath($session_hash) . "concerto.log";
+        return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R") . "/";
     }
 
     public function getROutputFilePath($session_hash)
     {
-        return $this->getOutputFilePath($session_hash) . ".r";
+        return realpath($this->root . "/../var/logs") . "/$session_hash.log";
     }
 
     public function getPublicDirPath()
     {
-        return $this->root . "/../src/Concerto/PanelBundle/Resources/public/files/";
+        return realpath($this->root . "/../src/Concerto/PanelBundle/Resources/public/files") . "/";
     }
 
     public function getMediaUrl()
@@ -124,14 +118,16 @@ abstract class ASessionRunnerService
 
     public function getFifoDir()
     {
-        return $this->getRDir() . "/fifo";
+        return realpath($this->getRDir() . "fifo") . "/";
     }
 
     protected function checkSessionLimit($session, &$response)
     {
         $session_limit = $this->administrationService->getSessionLimit();
-        $session_count = $this->testSessionCountService->getCurrentCount();
-        if ($session_limit > 0 && $session_limit < $session_count + 1) {
+        $local_session_limit = $this->administrationService->getLocalSessionLimit();
+        $total_limit_reached = $session_limit > 0 && $session_limit <= $this->testSessionCountService->getCurrentCount();
+        $local_limit_reached = $local_session_limit > 0 && $local_session_limit <= $this->testSessionCountService->getCurrentLocalCount();
+        if ($total_limit_reached || $local_limit_reached) {
             $session->setStatus(TestSessionService::STATUS_REJECTED);
             $this->testSessionRepository->save($session);
             $this->administrationService->insertSessionLimitMessage($session);
@@ -167,16 +163,40 @@ abstract class ASessionRunnerService
 
     protected function saveSubmitterPortFile($session_hash, $port)
     {
+        $startTime = time();
+
         while (($fh = @fopen($this->getSubmitterPortFilePath($session_hash), "x")) === false) {
+            if (time() - $startTime > self::WRITER_TIMEOUT) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - submitter port file timeout");
+                return false;
+            }
             usleep(100 * 1000);
         }
         fwrite($fh, $port . "\n");
         fclose($fh);
+        return true;
     }
 
     protected function getSubmitterPortFilePath($session_hash)
     {
         return $this->getWorkingDirPath($session_hash) . "/submitter.port";
+    }
+
+    protected function isProcessReady($session_hash)
+    {
+        return !file_exists($this->getSubmitterPortFilePath($session_hash));
+    }
+
+    protected function waitForProcessReady($session_hash)
+    {
+        $startTime = time();
+        while (!$this->isProcessReady($session_hash)) {
+            if (time() - $startTime > self::WRITER_TIMEOUT) {
+                return false;
+            }
+            usleep(100 * 1000);
+        }
+        return true;
     }
 
     protected function createSubmitterSock(TestSession $session, $save_file, &$submitter_sock, &$error_response)
@@ -185,17 +205,26 @@ abstract class ASessionRunnerService
         if ($submitter_sock === false) {
             $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - creating listener socket for submitter session failed");
             $error_response = array(
-                "source" => self::SOURCE_TEST_NODE,
-                "code" => self::RESPONSE_ERROR
+                "source" => TestSessionService::SOURCE_TEST_NODE,
+                "code" => TestSessionService::RESPONSE_ERROR
             );
             return false;
         }
 
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
+
+        if ($save_file) {
+            if ($this->saveSubmitterPortFile($session->getHash(), $submitter_port) === false) {
+                $error_response = array(
+                    "source" => TestSessionService::SOURCE_TEST_NODE,
+                    "code" => TestSessionService::RESPONSE_ERROR
+                );
+                return false;
+            }
+        }
+
         $session->setSubmitterPort($submitter_port);
         $this->testSessionRepository->save($session);
-
-        if ($save_file) $this->saveSubmitterPortFile($session->getHash(), $submitter_port);
         return true;
     }
 
@@ -221,10 +250,23 @@ abstract class ASessionRunnerService
         return $sock;
     }
 
-    protected function startListenerSocket($server_sock)
+    protected function startListenerSocket($server_sock, $max_exec_time = NULL)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__);
+
+        $startTime = time();
+        $timeLimit = $max_exec_time;
+        if ($timeLimit === null) {
+            $timeLimit = $this->testRunnerSettings["max_execution_time"];
+        }
+        if($timeLimit > 0) {
+            $timeLimit += 5;
+        }
         do {
+            if ($timeLimit > 0 && time() - $startTime > $timeLimit) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - start listener timeout");
+                return false;
+            }
             if (($client_sock = @socket_accept($server_sock)) === false) {
                 continue;
             }

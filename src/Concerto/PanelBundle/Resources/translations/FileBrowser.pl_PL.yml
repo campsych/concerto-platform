@@ -1,26 +1,24 @@
 breadcrumb:
-    manager: Menadżer plików
+    files: Pliki
 
 uploader:
     alerts:
         upload_failed:
             title: Wysyłanie pliku
             message: Wysyłanie pliku się nie powiodło!
-    library:
-        title: Biblioteka plików
-        empty: Biblioteka plików jest obecnie pusta.
-        buttons:
-            use: Użyj
-            remove: Usuń
-            open: Otwórz
-    queue:
-        title: Kolejka wysyłki
-        droparea: Przeciągnij i upuść tutaj swoje pliki
-        progress: Całkowity postęp
-        buttons:
-            upload: Wyślij
-            cancel: Anuluj
-            remove: Usuń
-            uploadall: Wyślij wszystkie
-            cancelall: Anuluj wszystkie
-            removeall: Usuń wszystkie
+
+errors:
+    upload_failed: Wysyłanie nie powiodło się
+    file_not_found: Plik nie znaleziony
+    renaming_failed: Zmiana nazwy nie powiodła się
+    copying_failed: Kopiowanie nie powiodło się
+    moving_failed: Przesuwanie nie powiodło się
+    removing_failed_directory_not_empty: Usuwanie nie powiodło się. Katalog, który próbowano usunąć nie jest pusty.
+    removing_failed: Usuwanie nie powiodło się
+    saving_failed: Zapis nie powiódł się
+    folder_already_exists: Katalog już istnieje
+    folder_creation_failed: Tworzenie katalogu nie powiodło się
+    compression_failed: Kompresja nie powiodła się
+    archive_opening_failed: Nie udało się otworzyć archiwum. Archiwum albo jest niepoprawne albo nie wspierane.
+    extraction_failed: Rozpakowanie nie powiodło się
+    permissions_change_failed: Zmiana uprawnień nie powiodła się

@@ -51,13 +51,4 @@ class TestRepository extends AEntityRepository
         return $result;
     }
 
-    public function markDependentTestsOutdated($source_test_id)
-    {
-        $wizards = $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestWizard")->findBy(array("test" => $source_test_id));
-        foreach ($wizards as $wiz) {
-            $qb = $this->getEntityManager()->createQueryBuilder()->update("ConcertoPanelBundle:Test", "t")->set("t.outdated", 1)->where("t.sourceWizard = :id")->setParameter("id", $wiz->getId());
-            $qb->getQuery()->getResult();
-        }
-    }
-
 }

@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\UserService;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,8 +60,7 @@ class UserController extends ASectionController
     }
 
     /**
-     * @Route("/User/{object_id}/save", name="User_save")
-     * @Method(methods={"POST"})
+     * @Route("/User/{object_id}/save", name="User_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -91,8 +89,7 @@ class UserController extends ASectionController
     }
 
     /**
-     * @Route("/User/{object_ids}/delete", name="User_delete")
-     * @Method(methods={"POST"})
+     * @Route("/User/{object_ids}/delete", name="User_delete", methods={"POST"})
      * @param $object_ids
      * @return Response
      */

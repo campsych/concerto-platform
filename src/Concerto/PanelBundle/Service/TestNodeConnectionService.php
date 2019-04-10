@@ -6,6 +6,7 @@ use Concerto\PanelBundle\Repository\TestNodeConnectionRepository;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestNodeConnection;
 use Concerto\PanelBundle\Entity\TestNode;
+use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestRepository;
@@ -67,7 +68,7 @@ class TestNodeConnectionService extends ASectionService
             if (!$sourcePort) {
                 $object->setReturnFunction("");
             } else {
-                $object->setReturnFunction($sourcePort->getVariable()->getName());
+                $object->setReturnFunction($sourcePort->getName());
             }
         } else {
             $object->setReturnFunction($returnFunction);
@@ -86,34 +87,47 @@ class TestNodeConnectionService extends ASectionService
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function onObjectSaved(User $user, $is_new, TestNodeConnection $object)
+    private function onObjectSaved(User $user, $is_new, TestNodeConnection $object)
     {
         if ($is_new) {
             $this->addSameInputReturnConnection($user, $object);
         }
     }
 
+    public function updateDefaultReturnFunctions(TestNodePort $sourcePort)
+    {
+        $connections = $this->repository->findBy(array(
+            "sourcePort" => $sourcePort,
+            "defaultReturnFunction" => true
+        ));
+
+        foreach ($connections as $connection) {
+            $connection->setReturnFunction($sourcePort->getName());
+            $this->repository->save($connection);
+        }
+    }
+
+    private function isPairEligibleForAutoConnection(TestNodePort $src, TestNodePort $dst)
+    {
+        if ($src->getType() != 1 || $dst->getType() != 0) return false;
+        if ($src->getName() != $dst->getName()) return false;
+        if ($src->getNode()->getType() == 0 && !$src->isDynamic() && !$src->isExposed()) return false;
+        if ($dst->getNode()->getType() == 0 && !$dst->isDynamic() && !$dst->isExposed()) return false;
+        if ($dst->isPointer()) return false;
+        return true;
+    }
+
     private function addSameInputReturnConnection(User $user, TestNodeConnection $object)
     {
-        if (!$object->getSourcePort() || $object->getSourcePort()->getVariable()->getType() == 2) {
+        if (!$object->getSourcePort() || $object->getSourcePort()->getType() == 2) {
             $srcNode = $object->getSourceNode();
             $dstNode = $object->getDestinationNode();
 
             foreach ($srcNode->getPorts() as $srcPort) {
-                $srcVar = $srcPort->getVariable();
-                if (!$srcVar) {
-                    continue;
-                }
-
-                if ($srcVar->getType() == 1) {
+                if ($srcPort->getType() == 1) {
                     foreach ($dstNode->getPorts() as $dstPort) {
-                        $dstVar = $dstPort->getVariable();
-                        if (!$dstVar) {
-                            continue;
-                        }
-
-                        if ($dstVar->getType() == 0 && $srcPort->getVariable()->getName() == $dstPort->getVariable()->getName()) {
-                            $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getVariable()->getName(), true, true);
+                        if ($this->isPairEligibleForAutoConnection($srcPort, $dstPort)) {
+                            $this->save($user, 0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getName(), true, true);
                             break;
                         }
                     }
@@ -157,7 +171,7 @@ class TestNodeConnectionService extends ASectionService
         }
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestNodeConnection", $map))

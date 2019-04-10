@@ -34,21 +34,12 @@ form:
   button:
       run: Démarrer
       debug: Deboguer
-      update: Mettre à jour tous les tests dépendants
-  dialog:
-      title:
-          update: Mise à jour des tests dépendants
-      message:
-          update.successful: Mise à jour terminée.
     
 list: 
   field:
     name: Nom
     wizard: Assistant
     wizard.source: Test source
-  tooltips:
-    outdated: Il ya une nouvelle version du test source disponible. Merci de sauvegarder à nouveau pour mettre à jour.
-    uptodate: Utiliser la dernière version du test source.
     
 variables:
     form:

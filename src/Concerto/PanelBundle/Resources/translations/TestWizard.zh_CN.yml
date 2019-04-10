@@ -3,7 +3,6 @@ breadcrumb:
 
 alerts:
     no_steps: 没有定义测验向导步骤！
-    no_params: 在本步骤没有定义测验向导参数！
  
 form:   
   title:    

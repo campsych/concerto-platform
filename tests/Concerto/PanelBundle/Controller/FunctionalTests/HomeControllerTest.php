@@ -22,12 +22,14 @@ class HomeControllerTest extends AFunctionalTest {
         $client = self::createLoggedClient();
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test1",
+            "code" => "",
             "visibility" => Test::VISIBILITY_FEATURED,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "test2",
+            "code" => "",
             "visibility" => Test::VISIBILITY_SUBTEST,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -64,7 +66,6 @@ class HomeControllerTest extends AFunctionalTest {
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedBy" => 'admin',
                 "slug" => json_decode($client->getResponse()->getContent(), true)[0]['slug'],
-                "outdated" => '0',
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => '0',
                 "starterContent" => false,

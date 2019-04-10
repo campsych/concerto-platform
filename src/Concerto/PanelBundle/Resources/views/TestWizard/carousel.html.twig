@@ -15,11 +15,11 @@
                     <h3 ng-bind="step.title"></h3>
                     <p ng-bind-html="step.description | trustedHtml"></p>
                 </div>
-                <uib-alert type="warning" ng-if="step.params == 0">
+                <uib-alert type="warning" ng-if="(step.params|filter:filterByGuiEligible).length == 0">
                     <i class="glyphicon glyphicon-exclamation-sign"></i>
                     {{ 'alerts.no_params'|trans }}
                 </uib-alert>
-                <div ng-repeat="param in step.params | orderBy: 'order' track by $index">
+                <div ng-repeat="param in step.params | filter:filterByGuiEligible | orderBy: 'order' track by $index">
                     <wizard-param-setter param="param" parent="null" output="param.output" mode="outer"
                                          wizard-mode="{{ wizard_mode }}" values="values" wizard-object="object"
                                          under-list="false"></wizard-param-setter>

@@ -20,7 +20,7 @@ switch(concerto$connectionParams$driver,
 
 concerto.log("starting listener")
 queue = c()
-unlink(paste0(commandArgs(TRUE)[1],"/*.fifo"))
+unlink(paste0(commandArgs(TRUE)[1],"*.fifo"))
 while (T) {
     fpath = ""
     if(length(queue) == 0) {
@@ -59,6 +59,8 @@ while (T) {
             workingDir = response$workingDir,
             client = response$client,
             sessionHash = response$sessionId,
+            maxIdleTime = response$maxIdleTime,
+            maxExecTime = response$maxExecTime,
             response = response$response
         )
     }, detached = TRUE)

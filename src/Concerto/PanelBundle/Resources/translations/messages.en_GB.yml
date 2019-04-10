@@ -36,6 +36,13 @@ validate:
       name.blank: Name field must not be empty
       wizard.source: Source wizard needs to be selected for wizard test type
       delete.referenced: Test can not be deleted as it is referenced by at least one test wizard
+
+      ports:
+        unique: Input with that name already exist
+        name.min: Name field must be at least of length 1
+        name.max: Name field must be at most of length 64
+        name.blank: Name field must not be empty
+        name.incorrect: Invalid name
       
       variables:
         unique: Variable with that name and type already is assigned to the test

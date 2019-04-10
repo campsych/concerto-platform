@@ -2,31 +2,33 @@
 
 {% block stylesheetsInclude %}
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap.min.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap.min.css?v=' ~ version) }}"/>
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap-theme.min.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/css/bootstrap-theme.min.css?v=' ~ version) }}"/>
 
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-ui-grid/ui-grid.min.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-ui-grid/ui-grid.min.css?v=' ~ version) }}"/>
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-block-ui/dist/angular-block-ui.min.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-block-ui/dist/angular-block-ui.min.css?v=' ~ version) }}"/>
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/lib/codemirror.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/lib/codemirror.css?v=' ~ version) }}"/>
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/display/fullscreen.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/display/fullscreen.css?v=' ~ version) }}"/>
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/hint/show-hint.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/codemirror/addon/hint/show-hint.css?v=' ~ version) }}"/>
 
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/css/codemirror-auto-resize.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/css/codemirror-auto-resize.css?v=' ~ version) }}"/>
 
     <link rel="stylesheet"
-          href="{{ asset('bundles/concertopanel/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}" />
+          href="{{ asset('bundles/concertopanel/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}"/>
 
-    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/base.css?v=' ~ version) }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/helper.css?v=' ~ version) }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/flow.css?v=' ~ version) }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/file_manager.css?v=' ~ version) }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/js/angular-filemanager/angular-filemanager.min.css?v=' ~ version) }}">
+
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/base.css?v=' ~ version) }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/helper.css?v=' ~ version) }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/flow.css?v=' ~ version) }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/concertopanel/css/file_manager.css?v=' ~ version) }}"/>
 {% endblock %}
 
 {% block javascriptsInclude %}
@@ -48,10 +50,15 @@
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-animate/angular-animate.min.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
+            src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-translate/angular-translate.min.js?v=' ~ version) }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('bundles/concertopanel/angularjs/bower_components/ng-file-upload/ng-file-upload.min.js?v=' ~ version) }}"></script>
+    <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-sanitize/angular-sanitize.min.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-ui-grid/ui-grid.min.js?v=' ~ version) }}"></script>
 
+    <script src="{{ asset('bundles/concertopanel/angularjs/bower_components/bootstrap/dist/js/bootstrap.min.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-bootstrap/ui-bootstrap.min.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
@@ -110,6 +117,8 @@
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/bower_components/angular-chart.js/dist/angular-chart.min.js?v=' ~ version) }}"></script>
 
+    <script src="{{ asset('bundles/concertopanel/js/angular-filemanager/angular-filemanager.min.js?v=' ~ version) }}"></script>
+
     {{ include("ConcertoPanelBundle::translation_injector.html.twig") }}
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/defaults.js?v=' ~ version) }}"></script>
@@ -124,11 +133,11 @@
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/controllers/confirm_controller.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
-            src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/controllers/task_upgrade_controller.js?v=' ~ version) }}"></script>
-    <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/controllers/connection_return_function_controller.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/controllers/port_value_edit_controller.js?v=' ~ version) }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/controllers/port_add_controller.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
             src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/controllers/textarea_controller.js?v=' ~ version) }}"></script>
     <script type="text/javascript"
@@ -299,11 +308,12 @@
             src="{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/filters/capitalize.js?v=' ~ version) }}"></script>
 
     <script>
-      $(function () {
-        if (typeof CKEDITOR != "undefined") {
-          CKEDITOR.plugins.addExternal('cmsource', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/cmsource/') }}', 'plugin.js?v={{ version }}');
-        }
-      });
+        $(function () {
+            if (typeof CKEDITOR != "undefined") {
+                CKEDITOR.plugins.addExternal('cmsource', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/cmsource/') }}', 'plugin.js?v={{ version }}');
+                CKEDITOR.plugins.addExternal('autogrow', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/autogrow/') }}', 'plugin.js?v={{ version }}');
+            }
+        });
     </script>
 
 {% endblock %}

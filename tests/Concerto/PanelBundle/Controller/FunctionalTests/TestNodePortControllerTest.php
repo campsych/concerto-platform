@@ -72,6 +72,12 @@ class TestNodePortControllerTest extends AFunctionalTest {
                 "node" => 3,
                 "string" => "1",
                 "defaultValue" => "1",
+                "dynamic" => '0',
+                "type" => 2,
+                "exposed" => '1',
+                "name" => "out",
+                "pointer" => '0',
+                "pointerVariable" => 'out',
                 "variable" => 2,
                 "value" => "0",
                 "variableObject" => array(
@@ -110,7 +116,9 @@ class TestNodePortControllerTest extends AFunctionalTest {
             "variable" => 2,
             "value" => "1",
             "string" => "0",
-            "default" => "0"
+            "default" => "0",
+            "dynamic" => "0",
+            "exposed" => "1"
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -121,6 +129,12 @@ class TestNodePortControllerTest extends AFunctionalTest {
             "node" => 1,
             "string" => "0",
             "defaultValue" => "0",
+            "dynamic" => '0',
+            "type" => 2,
+            "exposed" => '1',
+            "name" => "out",
+            "pointer" => '0',
+            "pointerVariable" => 'out',
             "variable" => 2,
             "value" => "1",
             "variableObject" => array(

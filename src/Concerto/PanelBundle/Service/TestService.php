@@ -109,10 +109,6 @@ class TestService extends AExportableSectionService
         $object->setUpdated();
         if ($user !== null)
             $object->setUpdatedBy($user->getUsername());
-        if ($object->getSourceWizard() != null) {
-            $object->setCode($object->getSourceWizard()->getTest()->getCode());
-        }
-        $object->setOutdated(false);
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -154,11 +150,6 @@ class TestService extends AExportableSectionService
         }
     }
 
-    public function markDependentTestsOutdated($object_id)
-    {
-        $this->repository->markDependentTestsOutdated($object_id);
-    }
-
     public function updateDependentTests(User $user, Test $sourceTest, $flush = true)
     {
         $tests = $this->repository->findDependent($sourceTest);
@@ -192,17 +183,22 @@ class TestService extends AExportableSectionService
         return $result;
     }
 
-    public function convertToExportable($array)
+    public function convertToExportable($array, $instruction = null, $secure = true)
     {
+        $array = parent::convertToExportable($array, $instruction, $secure);
         unset($array["logs"]);
         unset($array["slug"]);
         unset($array["steps"]);
+        unset($array["sourceWizardName"]);
+        unset($array["sourceWizardTestName"]);
         return $array;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
+        if (!array_key_exists("Test", $renames))
+            $renames["Test"] = array();
         if (!array_key_exists("Test", $map))
             $map["Test"] = array();
         if (array_key_exists("id" . $obj["id"], $map["Test"])) {
@@ -231,6 +227,9 @@ class TestService extends AExportableSectionService
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        if ($old_name != $new_name) {
+            $renames["Test"][$old_name] = $new_name;
+        }
 
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
@@ -315,8 +314,14 @@ class TestService extends AExportableSectionService
 
     protected function onConverted($new_ent, $old_ent)
     {
-        if ($old_ent->getNodes()->count() > 0)
-            $this->testNodeService->repository->deleteByTest($old_ent);
+        $this->removeAllNodes($old_ent);
+    }
+
+    private function removeAllNodes(Test $test)
+    {
+        if ($test->getNodes()->count() > 0)
+            $this->testNodeConnectionService->repository->deleteByTest($test);
+            $this->testNodeService->repository->deleteByTest($test);
     }
 
     public function addFlowNode(User $user, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false)

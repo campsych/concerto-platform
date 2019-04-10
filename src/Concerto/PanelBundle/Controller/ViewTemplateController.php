@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\ViewTemplateService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +23,7 @@ class ViewTemplateController extends AExportableTabController
 {
 
     const ENTITY_NAME = "ViewTemplate";
-    const EXPORT_FILE_PREFIX = "ViewTemplate_";
+    const EXPORT_FILE_PREFIX = "ViewTemplate";
 
     private $userService;
 
@@ -71,8 +70,7 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_id}/save", name="ViewTemplate_save")
-     * @Method(methods={"POST"})
+     * @Route("/ViewTemplate/{object_id}/save", name="ViewTemplate_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -107,8 +105,7 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete")
-     * @Method(methods={"POST"})
+     * @Route("/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -118,19 +115,28 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_ids}/export/{format}", name="ViewTemplate_export", defaults={"format":"compressed"})
-     * @param string $object_ids
+     * @Route("/ViewTemplate/{instructions}/export/{format}", name="ViewTemplate_export", defaults={"format":"yml"})
+     * @param string $instructions
      * @param string $format
      * @return Response
      */
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportAction($instructions, $format = "yml")
     {
-        return parent::exportAction($object_ids, $format);
+        return parent::exportAction($instructions, $format);
     }
 
     /**
-     * @Route("/ViewTemplate/import", name="ViewTemplate_import")
-     * @Method(methods={"POST"})
+     * @Route("/ViewTemplate/{object_ids}/instructions/export", name="ViewTemplate_export_instructions")
+     * @param $object_ids
+     * @return Response
+     */
+    public function exportInstructionsAction($object_ids)
+    {
+        return parent::exportInstructionsAction($object_ids);
+    }
+
+    /**
+     * @Route("/ViewTemplate/import", name="ViewTemplate_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */

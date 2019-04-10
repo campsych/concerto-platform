@@ -109,9 +109,11 @@ class ViewTemplateService extends AExportableSectionService
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
+        if (!array_key_exists("ViewTemplate", $renames))
+            $renames["ViewTemplate"] = array();
         if (!array_key_exists("ViewTemplate", $map))
             $map["ViewTemplate"] = array();
         if (array_key_exists("id" . $obj["id"], $map["ViewTemplate"]))
@@ -124,6 +126,10 @@ class ViewTemplateService extends AExportableSectionService
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        if ($old_name != $new_name) {
+            $renames["ViewTemplate"][$old_name] = $new_name;
+        }
+
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {

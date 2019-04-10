@@ -31,6 +31,13 @@ list:
     type: Type
     exists: Exists
     action: Action
+    data: Data
+    data.not_applicable: Not applicable
+    data.leave: Leave
+    data.include: Include
+    data.ignore: Ignore
+    data.replace: Replace
+    data_num: Data num
     rename: Rename
     safe: Safe
   filter:
@@ -63,6 +70,7 @@ form:
     ok: Ok
     apply: Apply
     upload: Upload
+    add: Add
 
 dialog:
   title:
@@ -117,13 +125,18 @@ import:
 
 export:
     dialog:
-        title: Data export
+        title: Exporting object
         error:
             empty.content: Please select at least one entry in the table below in order to export it.
-        format:
-            info: Please select a format for exported file. Compressed format requires less disk space and bandwith, but can't be easily opened. Text format is easier to view or edit, but generates bigger files.
-            compressed: compressed
-            plaintext: text
+    fieldset:
+        legend.tooltip: Export objects to a file
+    form:
+        field:
+            format: Format
+            format.tooltip: File format
+            format.json: JSON
+            format.yml: YAML
+            format.compressed: compressed
      
 download_list:
     dialog:

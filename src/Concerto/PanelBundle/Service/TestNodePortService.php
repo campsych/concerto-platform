@@ -20,9 +20,10 @@ class TestNodePortService extends ASectionService
     private $validator;
     private $testVariableRepository;
     private $testNodeRepository;
+    private $testNodeConnectionService;
     private $logger;
 
-    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger)
+    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger, TestNodeConnectionService $testNodeConnectionService)
     {
         parent::__construct($repository, $securityAuthorizationChecker);
 
@@ -30,6 +31,7 @@ class TestNodePortService extends ASectionService
         $this->testVariableRepository = $testVariableRepository;
         $this->testNodeRepository = $testNodeRepository;
         $this->logger = $logger;
+        $this->testNodeConnectionService = $testNodeConnectionService;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -46,23 +48,45 @@ class TestNodePortService extends ASectionService
         return $this->authorizeObject($this->repository->findOneByNodeAndVariable($node, $variable));
     }
 
-    public function save(User $user, $object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $flush = true)
+    public function save(User $user, $object_id, TestNode $node, TestVariable $variable = null, $default, $value, $string, $type, $dynamic, $exposed, $name, $pointer, $pointerVariable, $flush = true)
     {
         $errors = array();
         $object = $this->get($object_id);
+        $isNew = false;
         if ($object === null) {
+            $isNew = true;
             $object = new TestNodePort();
         }
         $object->setUpdated();
         $object->setNode($node);
         $object->setVariable($variable);
+
+        if ($type === null) {
+            $type = $variable->getType();
+            if ($node->getType() == 1 && $variable->getType() == 0) $type = 1;
+            if ($node->getType() == 2 && $variable->getType() == 1) $type = 0;
+        }
+        $object->setType($type);
+        $object->setDynamic($dynamic);
+        $object->setExposed($exposed);
+        if ($name === null) $object->setName($variable->getName());
+        else $object->setName($name);
+
         $object->setDefaultValue($default);
-        if ($default) {
+        if ($default && $variable) {
             $object->setValue($variable->getValue());
         } else {
             $object->setValue($value);
         }
         $object->setString($string);
+        if ($pointer !== null) {
+            $object->setPointer($pointer);
+        } else {
+            $object->setPointerVariable($object->getName());
+        }
+        if ($pointerVariable !== null) {
+            $object->setPointerVariable($pointerVariable);
+        }
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -71,8 +95,16 @@ class TestNodePortService extends ASectionService
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object, $flush);
+        $this->onObjectSaved($user, $isNew, $object);
 
         return array("object" => $object, "errors" => $errors);
+    }
+
+    private function onObjectSaved(User $user, $isNew, TestNodePort $obj)
+    {
+        if (!$isNew) {
+            $this->testNodeConnectionService->updateDefaultReturnFunctions($obj);
+        }
     }
 
     public function saveCollection(User $user, $encoded_collection)
@@ -82,8 +114,11 @@ class TestNodePortService extends ASectionService
         for ($i = 0; $i < count($decoded_collection); $i++) {
             $port = $decoded_collection[$i];
             $node = $this->testNodeRepository->find($port["node"]);
-            $variable = $this->testVariableRepository->find($port["variable"]);
-            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"]);
+            $variable = null;
+            if ($port["variable"] !== null) {
+                $variable = $this->testVariableRepository->find($port["variable"]);
+            }
+            $r = $this->save($user, $port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["name"], $port["pointer"], $port["pointerVariable"]);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);
@@ -95,6 +130,7 @@ class TestNodePortService extends ASectionService
 
     public function update($object, $flush = true)
     {
+        $object->setUpdated();
         $this->repository->save($object, $flush);
     }
 
@@ -105,17 +141,33 @@ class TestNodePortService extends ASectionService
             $ports = $node->getPorts();
             $found = false;
             foreach ($ports as $port) {
-                if ($port->getVariable()->getId() == $variable->getId()) {
+                if ($port->getVariable() && $port->getVariable()->getId() == $variable->getId()) {
                     $found = true;
-                    if ($port->hasDefaultValue()) {
+                    $updateNeeded = false;
+                    $changeValue = $port->hasDefaultValue() && $port->getValue() != $variable->getValue();
+                    if ($changeValue) {
                         $port->setValue($variable->getValue());
-                        $this->update($port, $flush);
+                        $updateNeeded = true;
                     }
+                    $changeName = $port->getName() != $variable->getName();
+                    if ($changeName) {
+                        $port->setName($variable->getName());
+                        $updateNeeded = true;
+                    }
+
+                    if ($updateNeeded) $this->update($port, $flush);
                     break;
                 }
             }
             if (!$found) {
-                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, $flush);
+                if ($node->getType() == 1) {
+                    if ($variable->getType() == 1 || $variable->getType() == 2) continue;
+                }
+                if ($node->getType() == 2) {
+                    if ($variable->getType() == 0 || $variable->getType() == 2) continue;
+                }
+                $exposed = $variable->getType() == 2;
+                $result = $this->save($user, 0, $node, $variable, true, $variable->getValue(), true, null, false, $exposed, null, null, null, $flush);
                 $node->addPort($result["object"]);
             }
         }
@@ -136,7 +188,7 @@ class TestNodePortService extends ASectionService
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestNodePort", $map))
@@ -179,16 +231,16 @@ class TestNodePortService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $node, $variable);
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $renames, $queue, $node, $variable);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNodePort"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $queue, $node, $variable);
+            $result = $this->importNew($user, null, $obj, $map, $renames, $queue, $node, $variable);
         return $result;
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $node, $variable)
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, $renames, &$queue, $node, $variable)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
@@ -197,6 +249,42 @@ class TestNodePortService extends ASectionService
         $ent->setVariable($variable);
         $ent->setDefaultValue($obj["defaultValue"] == "1");
         $ent->setString($obj["string"] == "1");
+        $ent->setDynamic($obj["dynamic"] == "1");
+        $ent->setType($obj["type"]);
+        $ent->setExposed($obj["exposed"] == "1");
+        $ent->setName($obj["name"]);
+        if (array_key_exists("pointer", $obj)) {
+            $ent->setPointer($obj["pointer"]);
+        } else {
+            $ent->setPointer($ent->getName());
+        }
+        if (array_key_exists("pointerVariable", $obj)) {
+            $ent->setPointerVariable($obj["pointerVariable"]);
+        }
+
+        if ($variable) {
+            if ($test = $variable->getTest()) {
+                $wizard = $test->getSourceWizard();
+                $parentVariable = $variable->getParentVariable();
+                if ($wizard && $parentVariable) {
+                    foreach ($wizard->getParams() as $param) {
+                        if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                            $val = $ent->getValue();
+                            foreach ($renames as $class => $renameMap) {
+                                foreach ($renameMap as $oldName => $newName) {
+                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    if ($moded) {
+                                        $ent->setValue($val);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -213,15 +301,25 @@ class TestNodePortService extends ASectionService
     protected function findConversionSource($obj, $map)
     {
         $node = $map["TestNode"]["id" . $obj["node"]];
-        $variable = $map["TestVariable"]["id" . $obj["variable"]];
-        $ent = $this->repository->findOneBy(array("node" => $node, "variable" => $variable));
+        $variable = null;
+        if ($obj["variable"] != null) {
+            $variable = $map["TestVariable"]["id" . $obj["variable"]];
+        }
+
+        $ent = $this->repository->findOneBy(array(
+            "node" => $node,
+            "variable" => $variable,
+            "dynamic" => $obj["dynamic"],
+            "type" => $obj["type"],
+            "name" => $obj["name"]
+        ));
         if (!$ent) {
             return null;
         }
         return $this->get($ent->getId());
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $node, $variable)
+    protected function importNew(User $user, $new_name, $obj, &$map, $renames, &$queue, $node, $variable)
     {
         $ent = new TestNodePort();
         $ent->setNode($node);
@@ -229,6 +327,42 @@ class TestNodePortService extends ASectionService
         $ent->setVariable($variable);
         $ent->setDefaultValue($obj["defaultValue"] == "1");
         $ent->setString($obj["string"] == "1");
+        $ent->setDynamic($obj["dynamic"] == "1");
+        $ent->setType($obj["type"]);
+        $ent->setExposed($obj["exposed"] == "1");
+        $ent->setName($obj["name"]);
+        if (array_key_exists("pointer", $obj)) {
+            $ent->setPointer($obj["pointer"]);
+        } else {
+            $ent->setPointer($ent->getName());
+        }
+        if (array_key_exists("pointerVariable", $obj)) {
+            $ent->setPointerVariable($obj["pointerVariable"]);
+        }
+
+        if ($variable) {
+            if ($test = $variable->getTest()) {
+                $wizard = $test->getSourceWizard();
+                $parentVariable = $variable->getParentVariable();
+                if ($wizard && $parentVariable) {
+                    foreach ($wizard->getParams() as $param) {
+                        if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                            $val = $ent->getValue();
+                            foreach ($renames as $class => $renameMap) {
+                                foreach ($renameMap as $oldName => $newName) {
+                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    if ($moded) {
+                                        $ent->setValue($val);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -251,4 +385,46 @@ class TestNodePortService extends ASectionService
         return null;
     }
 
+    public function exposePorts($ports)
+    {
+        foreach ($ports as $port) {
+            $obj = $this->get($port["id"]);
+            if (!$obj) continue;
+            $obj->setExposed($port["exposed"] == 1);
+            $this->update($obj);
+        }
+    }
+
+    public function addDynamic(User $user, TestNode $node, $name, $type)
+    {
+        $result = $this->save(
+            $user,
+            0,
+            $node,
+            null,
+            true,
+            "",
+            true,
+            $type,
+            true,
+            true,
+            $name,
+            null,
+            null
+        );
+        return $result;
+    }
+
+    public function hide($id)
+    {
+        $port = $this->get($id);
+        if ($port) {
+            if ($port->isDynamic()) {
+                $this->delete($id);
+            } else {
+                $port->setExposed(false);
+                $this->update($port);
+            }
+        }
+    }
 }

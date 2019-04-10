@@ -237,6 +237,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
     /**
      * Set owner
      * @param User $user
+     * @return TestWizard
      */
     public function setOwner($user) {
         $this->owner = $user;

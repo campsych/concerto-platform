@@ -2,12 +2,14 @@
 testRunner.settings = {
   unresumableHtml: null,
   finishedHtml: null,
-  errorHtml: null,
   sessionLimitReachedHtml: null,
   testNotFoundHtml: null,
   sessionLostHtml: null,
   connectionRetryHtml: null,
   loaderHtml: null,
+  testErrorHtml: null,
+  serverErrorHtml: null,
+  clientErrorHtml: null,
   timeFormat: "HH:mm:ss"
 };
 
@@ -17,7 +19,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
       if(testRunner.settings.unresumableHtml === null) testRunner.settings.unresumableHtml = $templateCache.get("unresumable_template.html");
       if(testRunner.settings.finishedHtml === null) testRunner.settings.finishedHtml = $templateCache.get("finished_template.html");
-      if(testRunner.settings.errorHtml === null) testRunner.settings.errorHtml = $templateCache.get("error_template.html");
+      if(testRunner.settings.testErrorHtml === null) testRunner.settings.testErrorHtml = $templateCache.get("test_error_template.html");
+      if(testRunner.settings.serverErrorHtml === null) testRunner.settings.serverErrorHtml = $templateCache.get("server_error_template.html");
+      if(testRunner.settings.clientErrorHtml === null) testRunner.settings.clientErrorHtml = $templateCache.get("client_error_template.html");
       if(testRunner.settings.sessionLimitReachedHtml === null) testRunner.settings.sessionLimitReachedHtml = $templateCache.get("session_limit_reached_template.html");
       if(testRunner.settings.testNotFoundHtml === null) testRunner.settings.testNotFoundHtml = $templateCache.get("test_not_found_template.html");
       if(testRunner.settings.sessionLostHtml === null) testRunner.settings.sessionLostHtml = $templateCache.get("session_lost_template.html");
@@ -31,8 +35,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           type: "POST",
           url: internalSettings.directory + "test/session/" + lastResponse.hash + "/kill",
           async: false,
-          data: {
-          }
+          data: {}
         });
       });
 
@@ -201,6 +204,18 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           }
 
           showView();
+        }).error(function(error, status) {
+          if (status >= 500 && status < 600) {
+            if (internalSettings.clientDebug)
+              console.log("server error");
+            isViewReady = true;
+            showView(testRunner.settings.serverErrorHtml);
+          } else if (status >= 400 && status < 500) {
+            if (internalSettings.clientDebug)
+              console.log("client error");
+            isViewReady = true;
+            showView(testRunner.settings.clientErrorHtml);
+          }
         });
       }
 
@@ -253,15 +268,28 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           return;
         }
 
+        var eventBeforeSubmitView = new CustomEvent('beforeSubmitView', {
+          detail: {
+            buttonPressed: btnName
+          }
+        });
+        $window.dispatchEvent(eventBeforeSubmitView);
+
         if (internalSettings.clientDebug)
           console.log("submit");
 
-        removeSubmitEvents()
+        removeSubmitEvents();
         clearTimer();
         var values = getControlsValues();
         hideView();
 
-        testRunner.onSubmitView(values);
+        var eventSubmitView = new CustomEvent('submitView', {
+          detail: {
+            buttonPressed: btnName,
+            values: values
+          }
+        });
+        $window.dispatchEvent(eventSubmitView);
 
         if (scope.fileUploader.queue.length > 0) {
           scope.fileUploader.onCompleteAll = function () {
@@ -310,6 +338,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if (internalSettings.clientDebug)
               console.log("connection failed");
             showConnectionProblems(btnName, isTimeout, passedVals, values);
+          } else if (status >= 500 && status < 600) {
+            if (internalSettings.clientDebug)
+              console.log("server error");
+            isViewReady = true;
+            showView(testRunner.settings.serverErrorHtml);
+          } else if (status >= 400 && status < 500) {
+            if (internalSettings.clientDebug)
+              console.log("client error");
+            isViewReady = true;
+            showView(testRunner.settings.clientErrorHtml);
           }
         });
       }
@@ -345,57 +383,60 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         }
       }
 
-      function showView() {
+      function showView(content) {
         if (internalSettings.clientDebug)
           console.log("showView (" + displayState + ")");
         if (displayState === DISPLAY_LOADER_SHOWN) {
-          hideLoader();
+          hideLoader(content);
         }
         if (displayState === DISPLAY_VIEW_HIDDEN || displayState === DISPLAY_LOADER_HIDDEN) {
 
           var head = null;
           var css = "";
           var js = "";
-          var html = "";
+          var html = (content != null) ? content : "";
           clearExtraControlsValues();
-          switch (lastResponse.code) {
-            case RESPONSE_VIEW_TEMPLATE:
-            case RESPONSE_VIEW_FINAL_TEMPLATE:
-              css = lastResponse.data.templateCss ? lastResponse.data.templateCss.trim() : "";
-              js = lastResponse.data.templateJs ? lastResponse.data.templateJs.trim() : "";
-              html = lastResponse.data.templateHtml ? lastResponse.data.templateHtml.trim() : "";
-              head = lastResponse.data.templateHead ? lastResponse.data.templateHead.trim() : "";
-              break;
-            case RESPONSE_AUTHENTICATION_FAILED:
-            case RESPONSE_ERROR:
-              html = testRunner.settings.errorHtml;
-              break;
-            case RESPONSE_FINISHED:
-              html = testRunner.settings.finishedHtml;
-              break;
-            case RESPONSE_UNRESUMABLE:
-              html = testRunner.settings.unresumableHtml;
-              break;
-            case RESPONSE_SESSION_LIMIT_REACHED:
-              html = testRunner.settings.sessionLimitReachedHtml;
-              break;
-            case RESPONSE_TEST_NOT_FOUND:
-              html = testRunner.settings.testNotFoundHtml;
-              break;
-            case RESPONSE_SESSION_LOST:
-              html = testRunner.settings.sessionLostHtml;
-              break;
+
+          if (content == null) {
+            switch (lastResponse.code) {
+              case RESPONSE_VIEW_TEMPLATE:
+              case RESPONSE_VIEW_FINAL_TEMPLATE:
+                css = lastResponse.data.templateCss ? lastResponse.data.templateCss.trim() : "";
+                js = lastResponse.data.templateJs ? lastResponse.data.templateJs.trim() : "";
+                html = lastResponse.data.templateHtml ? lastResponse.data.templateHtml.trim() : "";
+                head = lastResponse.data.templateHead ? lastResponse.data.templateHead.trim() : "";
+                break;
+              case RESPONSE_AUTHENTICATION_FAILED:
+              case RESPONSE_ERROR:
+                html = testRunner.settings.testErrorHtml;
+                break;
+              case RESPONSE_FINISHED:
+                html = testRunner.settings.finishedHtml;
+                break;
+              case RESPONSE_UNRESUMABLE:
+                html = testRunner.settings.unresumableHtml;
+                break;
+              case RESPONSE_SESSION_LIMIT_REACHED:
+                html = testRunner.settings.sessionLimitReachedHtml;
+                break;
+              case RESPONSE_TEST_NOT_FOUND:
+                html = testRunner.settings.testNotFoundHtml;
+                break;
+              case RESPONSE_SESSION_LOST:
+                html = testRunner.settings.sessionLostHtml;
+                break;
+            }
+
+            if (typeof(lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
+              scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
+            }
+
+            if (head != null && head.trim() !== "") {
+              angular.element("head").append($compile(head)(scope));
+            }
           }
+
           displayState = DISPLAY_VIEW_SHOWN;
-
-          if (typeof(lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
-            scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
-          }
-
-          if (head != null && head.trim() !== "") {
-            angular.element("head").append($compile(head)(scope));
-          }
-
           scope.html = joinHtml(css, js, html);
         }
       }
@@ -417,21 +458,17 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
           console.log("showLoader");
         displayState = DISPLAY_LOADER_SHOWN;
 
-        if (lastResponse != null && lastResponse.data.templateParams != null) {
-          scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
-        }
-
         if (internalSettings.loaderHead != null)
           angular.element("head").append($compile(internalSettings.loaderHead)(scope));
 
         scope.html = testRunner.settings.loaderHtml;
       }
 
-      function hideLoader() {
+      function hideLoader(content) {
         if (internalSettings.clientDebug)
           console.log("hideLoader");
         displayState = DISPLAY_LOADER_HIDDEN;
-        showView();
+        showView(content);
       }
 
       function getControlsValues() {
@@ -467,13 +504,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if ($(this)[0].files.length == 0)
               return;
             var file = $(this)[0].files[0];
-            scope.fileUploader.url = internalSettings.directory + "test/session/" + internalSettings.hash + "/upload";
-            scope.fileUploader.formData = [{
-              node_id: internalSettings.nodeId
-            }, {
-              name: name
-            }];
-            scope.fileUploader.addToQueue(file);
+            scope.queueUpload(name, file);
             return;
           }
           addPairToValues(vars, name, value);
@@ -541,11 +572,31 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
         extraControls = {};
       }
 
+      scope.addEventListener = function (name, callback) {
+        $window.addEventListener(name, callback);
+      };
+      scope.removeEventListener = function (name, callback) {
+        $window.removeEventListener(name, callback);
+      };
+      scope.queueUpload = function (name, file) {
+        scope.fileUploader.url = internalSettings.directory + "test/session/" + internalSettings.hash + "/upload";
+        scope.fileUploader.formData = [{
+          name: name
+        }];
+        if (typeof(file) !== 'File') {
+          file = new File([file], name);
+        }
+        scope.fileUploader.addToQueue(file);
+      };
+
       testRunner.R = scope.R;
       testRunner.submitView = scope.submitView;
       testRunner.runWorker = scope.runWorker;
       testRunner.logClientSideError = scope.logClientSideError;
       testRunner.addExtraControl = scope.addExtraControl;
+      testRunner.addEventListener = scope.addEventListener;
+      testRunner.removeEventListener = scope.removeEventListener;
+      testRunner.queueUpload = scope.queueUpload;
 
       var options = scope.options;
       if (internalSettings.clientDebug)

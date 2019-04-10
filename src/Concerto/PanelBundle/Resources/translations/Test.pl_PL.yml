@@ -34,21 +34,12 @@ form:
   button:
       run: Uruchom
       debug: Debuguj
-      update: Zaktualizuj wszystkie zależne testy
-  dialog:
-      title:
-          update: Aktualizacja zależnych testów.
-      message:
-          update.successful: Aktualizacja zakończona.
     
 list: 
   field:
     name: Nazwa
     wizard: Wizard
     wizard.source: Źródłowy test
-  tooltips:
-    outdated: Dostępna jest nowa wersja źródłowego testu. Proszę ponownie zapisać test aby go zaktualizować.
-    uptodate: Używana jest najnowsza wersja testu źródłowego.
     
 variables:
     form:
@@ -271,11 +262,49 @@ flow:
             in: Punkt wejścia węzła.
             out: Punkt rozgałęzienia węzła.
         dialog:
+            titles:
+                input.add: Dodawanie portów zmiennych wejścia
+                input.add.tooltip: Dodawanie dynamicznych zmiennych wejścia, lub eksponowanie/ukrywanie obecnych zmiennych wejścia
+                input.remove: Usuwanie/ukrywanie portu zmiennej wejścia
+                branch.add: Dodawanie portów rozgałęzienia
+                branch.add.tooltip: Dodawanie dynamicznych portów rozgałęzienia, lub eksponowanie/ukrywanie obecnych portów rozgałęzienia
+                branch.remove: Usuwanie/ukrywanie portów rozgałęzienia
+                return.add: Dodawanie portów zmiennych wyjścia
+                return.add.tooltip: Dodawanie dynamicznych zmiennych wyjścia, lub eksponowanie/ukrywanie obecnych zmiennych wyjścia
+                return.remove: Usuwanie/ukrywanie portu zmiennej wyjścia
+                port.remove_all_connections: Usuwanie połączeń portu
+            content:
+                input.remove: Napewno usunąć/ukryć port zmiennej wejścia {0}?
+                branch.remove: Napewno usunąć/ukryć port rozgałęzienia {0}?
+                return.remove: Napewno usunąć/ukryć port zmiennej wyjścia {0}?
+                port.remove_all_connections: Napewno usunąć wszystkie połączenia portu {0}?
             fields:
-                string: Ciąg znaków?
-                string.tooltip: Jeśli zaznaczone, wartość będzie traktowana jako ciąg znaków, w innym przypadku jako kod R
-                value: Wartość
-                value.tooltip: Wartość zmiennej w tym porcie
+                string: Domyślna wartość jako tekst
+                string.tooltip: Jeśli zaznaczone, domyślna wartość będzie traktowana jako tekst, w innym przypadku jako kod R
+                value: Domyślna wartość
+                value.tooltip: Domyślna wartość zmiennej w tym porcie. Będzie użyta gdy wartość w porcie bedzię NULL.
+                exposed.inputs: Eksponowane zmienne wejścia
+                exposed.inputs.tooltip: Eksponowanie/ukrywanie zmiennych wejścia
+                dynamic.input: Dynamiczne zmienne wejścia
+                dynamic.input.tooltip: Dodawanie dynamicznych zmiennych wejścia
+                exposed.branches: Eskponowane porty rozgałęzienia
+                exposed.branches.tooltip: Eksponowanie/ukrywanie portów rozgałęzienia
+                dynamic.branch: Dynamiczne porty rozgałęzienia
+                dynamic.branch.tooltip: Dodawanie dynamicznego portu rozgałęzienia
+                exposed.returns: Eksponowane zmienne wyjścia
+                exposed.returns.tooltip: Eksponowanie/ukrywanie zmiennych wyjścia
+                dynamic.return: Dynamiczne zmienne wyjścia
+                dynamic.return.tooltip: Dodawanie dynamicznych zmiennych wyjścia
+                pointer: Wskaźnik zmiennej grafu
+                pointer.tooltip: Jeśli zaznaczone, port będzie używał wartości ze wskazanej zmiennej grafu.
+                pointer_variable: Nazwa wskazanej zmiennej
+                pointer_variable.tooltip: Nazwa wskazanej zmiennej grafu
+                name: Nazwa
+                name.tooltip: Nazwa dynamicznej zmiennej
+        add:
+            input: Dodaj/eksponuj port zmiennej wejścia
+            branch: Dodaj/eksponuj port rozgałęzienia
+            return: Dodaj/eksponuj port zmiennej wyjścia
                 
     buttons:
         reset_view: Resetuj widok
@@ -290,7 +319,8 @@ flow:
         zoom_out: Oddal
         maximize: Przełącz pełno-ekranowy widok
         node_menu: Kliknij aby otworzyć menu węzła
-        export_test: Eksportuj test
-        export_tests: Eksportuj testy
+        remove_connection: Usuń połączenie
+        hide_port: Ukryj/Uusń port
+        remove_all_connections: Usuń wszystkie połączenia
     tags:
         all: Wszystkie

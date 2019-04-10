@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\TestService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -25,7 +24,7 @@ class TestController extends AExportableTabController
 {
 
     const ENTITY_NAME = "Test";
-    const EXPORT_FILE_PREFIX = "Test_";
+    const EXPORT_FILE_PREFIX = "Test";
 
     private $testWizardService;
     private $userService;
@@ -74,35 +73,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/update", name="Test_update_dependent")
-     * @Method(methods={"POST"})
-     * @param $object_id
-     * @return Response
-     */
-    public function updateDependentAction($object_id)
-    {
-        $result = $this->service->updateDependentTests(
-            $this->securityTokenStorage->getToken()->getUser(), //
-            $this->service->get($object_id)
-        );
-        $errors = array();
-        foreach ($result as $r) {
-            for ($i = 0; $i < count($r['errors']); $i++) {
-                $errors[] = "#" . $r["object"]->getId() . ": " . $r["object"]->getName() . " - " . $this->translator->trans($r['errors'][$i]);
-            }
-        }
-        if (count($errors) > 0) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
-        } else {
-            $response = new Response(json_encode(array("result" => 0, "object_id" => $object_id)));
-        }
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Test/{object_id}/save", name="Test_save")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/save", name="Test_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -129,8 +100,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/copy", name="Test_copy")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/copy", name="Test_copy", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -141,8 +111,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_ids}/delete", name="Test_delete")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_ids}/delete", name="Test_delete", methods={"POST"})
      * @param $object_ids
      * @return Response
      */
@@ -152,19 +121,28 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_ids}/export/{format}", name="Test_export", defaults={"format":"compressed"})
-     * @param $object_ids
+     * @Route("/Test/{instructions}/export/{format}", name="Test_export", defaults={"format":"yml"})
+     * @param string $instructions
      * @param string $format
      * @return Response
      */
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportAction($instructions, $format = "yml")
     {
-        return parent::exportAction($object_ids, $format);
+        return parent::exportAction($instructions, $format);
     }
 
     /**
-     * @Route("/Test/import", name="Test_import")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_ids}/instructions/export", name="Test_export_instructions")
+     * @param $object_ids
+     * @return Response
+     */
+    public function exportInstructionsAction($object_ids)
+    {
+        return parent::exportInstructionsAction($object_ids);
+    }
+
+    /**
+     * @Route("/Test/import", name="Test_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -184,8 +162,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/node/add", name="Test_add_node")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/node/add", name="Test_add_node", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -205,8 +182,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/node/{node_ids}/remove", name="Test_remove_node")
-     * @Method(methods={"POST"})
+     * @Route("/Test/node/{node_ids}/remove", name="Test_remove_node", methods={"POST"})
      * @param $node_ids
      * @return Response
      */
@@ -238,8 +214,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/connection/add", name="Test_add_connection")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/connection/add", name="Test_add_connection", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -261,8 +236,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/connection/{connection_id}/remove", name="Test_remove_connection")
-     * @Method(methods={"POST"})
+     * @Route("/Test/connection/{connection_id}/remove", name="Test_remove_connection", methods={"POST"})
      * @param $connection_id
      * @return Response
      */
@@ -291,8 +265,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/node/move", name="Test_move_node")
-     * @Method(methods={"POST"})
+     * @Route("/Test/node/move", name="Test_move_node", methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -307,8 +280,7 @@ class TestController extends AExportableTabController
     }
 
     /**
-     * @Route("/Test/{object_id}/node/paste", name="Test_paste_nodes")
-     * @Method(methods={"POST"})
+     * @Route("/Test/{object_id}/node/paste", name="Test_paste_nodes", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -322,23 +294,4 @@ class TestController extends AExportableTabController
             false);
         return $this->getSaveResponse($result);
     }
-
-    /**
-     * @Route("/Test/Node/{object_ids}/export/{format}", name="Test_node_export", defaults={"format":"compressed"})
-     * @param $object_ids
-     * @param string $format
-     * @return Response
-     */
-    public function exportNodeAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
-    {
-        $response = new Response($this->exportService->exportNodeToFile($object_ids, $format));
-        $ext = ($format == ExportService::FORMAT_COMPRESSED) ? 'concerto' : 'concerto.json';
-        $name = "TestNode_" . $object_ids . '.' . $ext;
-        $response->headers->set('Content-Type', 'application/x-download');
-        $response->headers->set(
-            'Content-Disposition', 'attachment; filename="' . $name . '"'
-        );
-        return $response;
-    }
-
 }

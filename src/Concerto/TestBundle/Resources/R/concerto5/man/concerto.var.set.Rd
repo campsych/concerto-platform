@@ -1,10 +1,11 @@
 \name{concerto.var.set}
 \alias{concerto.var.set}
+\alias{c.set}
 \title{
-Promoted variables
+Global variables
 }
 \description{
-Sets promoted variable value
+Sets global variable value
 }
 \usage{
 concerto.var.set(name, value)
@@ -16,11 +17,17 @@ Variable name
   \item{value}{
 Variable value
 }
+\item{global}{
+Logical: TRUE to set value in top most position
+}
+\item{posOffset}{
+Numerical: position offset
+}
 }
 \details{
 }
 \value{
-Value of promoted variable
+Value of global variable
 }
 \references{
 }

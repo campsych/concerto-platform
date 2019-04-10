@@ -1,12 +1,11 @@
-ignition.noscript: 您的浏览器不支持JavaScript。请开启JavaScript并刷新页面。
-ignition.ip: "IP地址："
-ignition.browser: "浏览器："
-ignition.time: "时间："
-ignition.browser.notsupported: 您的浏览器版本过低。请升级浏览器至IE9或更高版本，或者使用Chrome、Firefox等其他浏览器。
-ignition.browser.potentionallynotsupported: 如果此提示信息没有消失，请更换浏览器。
+ignition.noscript: 您的浏览器不支持javascript。请启用JavaScript并刷新您的浏览器。
+ignition.ip: "IP:" 
+ignition.browser: "浏览器:"
+ignition.time: "时间:" 
+ignition.browser.notsupported: 浏览器版本不予支持。 请将浏览器升级到Internet Explorer 9或更高版本，或切换到其他浏览器，例如Chrome或Firefox。
+ignition.browser.potentionallynotsupported: 如果此消息不会立即消失，您可能需要使用其他浏览器。
 default.template:
-    error: 错误提示。运行终止。
-    finished: 已完成测试。
+    finished: 测验完成。
     loading: 请等待……
     session_limit_reached: 抱歉，当前测试用户过多。请稍后再试。
     test_not_found: 测试不存在。

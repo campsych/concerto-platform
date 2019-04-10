@@ -34,21 +34,12 @@ form:
   button:
       run: Başlat
       debug: Hata Ayıkla
-      update: Güncelle
-  dialog:
-      title:
-          update: Bağlı testler güncelleniyor
-      message:
-          update.successful: Güncelleme tamamlandı.
     
 list: 
   field:
     name: Adı
     wizard: Sihirbaz
     wizard.source: Kaynak test
-  tooltips:
-    outdated: Kaynak test için yeni bir sürüm mevcut. Lütfen güncellemek için yeniden kaydedin.
-    uptodate: Testin son versiyonu kullanılıyor.
     
 variables:
     form:
@@ -285,7 +276,5 @@ flow:
         zoom_out: Uzaklaştır
         maximize: Tam ekran görünümünü aç/kapat
         node_menu: Bağ menüsünü açmak için tıklayın
-        export_test: Testi dışarı aktar
-        export_tests: Testleri dışarı aktar
     tags:
         all: Tümü

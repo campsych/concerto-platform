@@ -35,9 +35,9 @@ class StartForkerCommand extends Command
     {
         $forkerPath = realpath(dirname(__FILE__) . "/../Resources/R/forker.R");
         $logPath = realpath(dirname(__FILE__) . "/../Resources/R") . "/forker.log";
-        $fifoPath = realpath(dirname(__FILE__) . "/../Resources/R/fifo");
-        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files");
-        $connection = $this->sessionRunnerService->getSerializedConnection();
+        $fifoPath = realpath(dirname(__FILE__) . "/../Resources/R/fifo") . "/";
+        $publicDir = realpath(dirname(__FILE__) . "/../../PanelBundle/Resources/public/files") . "/";
+        $connection = json_encode($this->sessionRunnerService->getConnection());
         $mediaUrl = $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $maxIdleTime = $this->testRunnerSettings["max_idle_time"];

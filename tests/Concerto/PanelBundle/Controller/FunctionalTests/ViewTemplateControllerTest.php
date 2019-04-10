@@ -2,6 +2,7 @@
 
 namespace Tests\Concerto\PanelBundle\Controller\FunctionalTests;
 
+use Symfony\Component\Yaml\Yaml;
 use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 
@@ -90,12 +91,24 @@ class ViewTemplateControllerTest extends AFunctionalTest {
     /**
      * @dataProvider exportDataProvider
      */
-    public function testExportAction($path_suffix, $use_gzip) {
+    public function testExportAction($instructions, $format) {
         $client = self::createLoggedClient();
-        $client->request("POST", "/admin/ViewTemplate/1/export" . $path_suffix);
-        $content = json_decode(
-                ( $use_gzip ) ? gzuncompress($client->getResponse()->getContent()) : $client->getResponse()->getContent(), true
-        );
+        $encodedInstructions = json_encode($instructions);
+
+        $client->request("GET", "/admin/ViewTemplate/$encodedInstructions/export/$format");
+        $content = null;
+        switch ($format) {
+            case "yml":
+                $content = Yaml::parse($client->getResponse()->getContent());
+                break;
+            case "json":
+                $content = json_decode($client->getResponse()->getContent(), true);
+                break;
+            case "compressed":
+                $content = json_decode(gzuncompress($client->getResponse()->getContent()), true);
+                break;
+
+        }
 
         $this->assertArrayHasKey("hash", $content["collection"][0]);
         unset($content["collection"][0]["hash"]);
@@ -112,12 +125,9 @@ class ViewTemplateControllerTest extends AFunctionalTest {
                 "css" => "css",
                 "js" => "js",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                "updatedOn" => $content["collection"][0]["updatedOn"],
                 "archived" => "0",
                 "starterContent" => false,
-                "owner" => null,
-                "groups" => "",
-                "updatedBy" => "admin"
+                "groups" => ""
             ),
         );
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -330,11 +340,24 @@ class ViewTemplateControllerTest extends AFunctionalTest {
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function exportDataProvider() {
+    public function exportDataProvider()
+    {
         return array(
-            array('', true), // default is gzipped 
-            array('/compressed', true), // explicitly requesting compression
-            array('/plaintext', false)    // requesting plaintext
+            array(array(array(
+                "class_name" => "ViewTemplate",
+                "name" => "view",
+                "data" => "0"
+            )), "yml"),
+            array(array(array(
+                "class_name" => "ViewTemplate",
+                "name" => "view",
+                "data" => "0"
+            )), "json"),
+            array(array(array(
+                "class_name" => "ViewTemplate",
+                "name" => "view",
+                "data" => "0"
+            )), "compressed")
         );
     }
 

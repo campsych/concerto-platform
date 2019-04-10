@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Service;
 
-
 use Symfony\Component\Filesystem\Filesystem;
 
 class MaintenanceService
@@ -16,22 +15,30 @@ class MaintenanceService
 
     private function getSessionsPath()
     {
-        return realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . "TestBundle" . DIRECTORY_SEPARATOR . "Resources" . DIRECTORY_SEPARATOR . "sessions");
+        return realpath(dirname(__FILE__) . '/../../TestBundle/Resources/sessions');
+    }
+
+    private function getLogsPath()
+    {
+        return realpath(dirname(__FILE__) . '/../../../../var/logs');
     }
 
     public function deleteOldSessions()
     {
         $borderTime = time() - ((int)$this->expirationTime * 86400);
         $fs = new Filesystem();
-        foreach (new \DirectoryIterator($this->getSessionsPath()) as $nodeDir) {
-            if ($nodeDir->isDir() && !$nodeDir->isDot()) {
-                foreach (new \DirectoryIterator($nodeDir->getRealPath()) as $sessionDir) {
-                    if ($sessionDir->isDir() && !$sessionDir->isDot()) {
-                        if ($sessionDir->getMTime() > $borderTime && $fs->exists($sessionDir->getRealPath())) {
-                            @$fs->remove($sessionDir->getRealPath());
-                        }
-                    }
+        foreach (new \DirectoryIterator($this->getSessionsPath()) as $sessionDir) {
+            if ($sessionDir->isDir() && !$sessionDir->isDot()) {
+                if ($sessionDir->getMTime() < $borderTime && $fs->exists($sessionDir->getRealPath())) {
+                    @$fs->remove($sessionDir->getRealPath());
                 }
+            }
+        }
+
+        foreach (new \DirectoryIterator($this->getLogsPath()) as $file) {
+            if ($file->getFilename() == "dev.log" || $file->getFilename() == "prod.log") continue;
+            if ($file->isFile() && $file->getMTime() < $borderTime) {
+                @$fs->remove($file->getRealPath());
             }
         }
     }

@@ -17,7 +17,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.tests.tooltip"|trans }}'">{{ "tab.tests"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 0" ng-controller="TestController" id="test-tab">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewTest" class="center"></div>
                             {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"Test"}) }}
                         </div>
@@ -28,7 +28,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.wizards.tooltip"|trans }}'">{{ "tab.wizards"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 5" ng-controller="TestWizardController">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewTestWizard" class="center"></div>
                             {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"TestWizard"}) }}
                         </div>
@@ -39,7 +39,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.templates.tooltip"|trans }}'">{{ "tab.templates"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 1" ng-controller="ViewTemplateController">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewViewTemplate" class="center"></div>
                             {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"ViewTemplate"}) }}
                         </div>
@@ -50,7 +50,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.tables.tooltip"|trans }}'">{{ "tab.tables"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 2" ng-controller="DataTableController">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewDataTable" class="center"></div>
                             {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"DataTable"}) }}
                         </div>
@@ -61,7 +61,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.files.tooltip"|trans }}'">{{ "tab.files"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 3" ng-controller="FileBrowserController">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewFile" class="center"></div>
                             {{ include("ConcertoPanelBundle:FileBrowser:file_browser_content.html.twig") }}
                         </div>
@@ -72,7 +72,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.users.tooltip"|trans }}'">{{ "tab.users"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 4" ng-controller="UserController">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewUser" class="center"></div>
                             {{ include("ConcertoPanelBundle::tab.html.twig", {'class_name':"User"}) }}
                         </div>
@@ -83,7 +83,7 @@ endif %}'">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.administration.tooltip"|trans }}'">{{ "tab.administration"|trans }}</uib-tab-heading>
 
                         <div ng-if="tab.activeIndex == 6" ng-controller="AdministrationController" id="administration-tab">
-                            <div class="breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
+                            <div class="breadcrumb c-breadcrumb" ncy-breadcrumb style="text-align: left;"></div>
                             <div ui-view="tabViewAdministration" class="center"></div>
                             {{ include("ConcertoPanelBundle:Administration:form.html.twig") }}
                         </div>

@@ -102,6 +102,20 @@ class DataTableService extends AExportableSectionService
         }
     }
 
+    public function convertToExportable($array, $instruction = null, $secure = true)
+    {
+        $array = parent::convertToExportable($array, $instruction, $secure);
+
+        if ($instruction !== null) {
+            //include data
+            if (array_key_exists("data", $instruction) && $instruction["data"] == 2) {
+                $array["data"] = $this->getFilteredData($array["id"], false, null, $secure);
+            }
+        }
+
+        return $array;
+    }
+
     public function delete($object_ids, $secure = true)
     {
         $object_ids = explode(",", $object_ids);
@@ -140,9 +154,9 @@ class DataTableService extends AExportableSectionService
         }
     }
 
-    public function getFilteredData($object_id, $prefixed = false, $filters = null)
+    public function getFilteredData($object_id, $prefixed = false, $filters = null, $secure = true)
     {
-        $object = $this->get($object_id);
+        $object = $this->get($object_id, false, $secure);
         if ($object != null) {
             $data = $this->dbDataDao->fetchMatchingData($object->getName(), $filters);
             if ($prefixed) {
@@ -394,14 +408,11 @@ class DataTableService extends AExportableSectionService
         }
     }
 
-    public function convertToExportable($array)
-    {
-        return $array;
-    }
-
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue, $secure = true)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue, $secure = true)
     {
         $pre_queue = array();
+        if (!array_key_exists("DataTable", $renames))
+            $renames["DataTable"] = array();
         if (!array_key_exists("DataTable", $map))
             $map["DataTable"] = array();
         if (array_key_exists("id" . $obj["id"], $map["DataTable"]))
@@ -412,6 +423,10 @@ class DataTableService extends AExportableSectionService
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        if ($old_name != $new_name) {
+            $renames["DataTable"][$old_name] = $new_name;
+        }
+
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
@@ -421,6 +436,18 @@ class DataTableService extends AExportableSectionService
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($user, $new_name, $obj, $map, $queue);
+
+        if ($instruction["action"] != 2 && array_key_exists("data", $instruction) && $instruction["data"] == 2) {
+            $this->dbDataDao->truncate($new_name);
+            if (array_key_exists("data", $obj)) {
+                $batch = null;
+                foreach ($obj["data"] as $row) {
+                    $batch = $this->dbDataDao->addInsertBatch($new_name, $row, $batch);
+                }
+                $this->dbDataDao->flushInsertBatch($batch);
+            }
+        }
+
         return $result;
     }
 

@@ -2,13 +2,11 @@
 
 namespace Concerto\APIBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\TestBundle\Service\TestRunnerService;
 use Concerto\PanelBundle\Service\AdministrationService;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @Route("/api/runner")
@@ -18,19 +16,16 @@ class TestRunnerController
 
     private $service;
     private $administrationService;
-    private $session;
 
-    public function __construct(TestRunnerService $service, AdministrationService $administrationService, SessionInterface $session)
+    public function __construct(TestRunnerService $service, AdministrationService $administrationService)
     {
         $this->service = $service;
         $this->administrationService = $administrationService;
-        $this->session = $session;
     }
 
     /**
-     * @Route("/test/{test_slug}/session/start/{params}", defaults={"test_name":null,"params":"{}","debug":false})
-     * @Route("/test_n/{test_name}/session/start/{params}", defaults={"test_slug":null,"params":"{}","debug":false})
-     * @Method({"POST"})
+     * @Route("/test/{test_slug}/session/start/{params}", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
+     * @Route("/test_n/{test_name}/session/start/{params}", defaults={"test_slug":null,"params":"{}","debug":false}, methods={"POST"})
      * @param Request $request
      * @param $test_slug
      * @param $test_name
@@ -60,21 +55,20 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
-        $this->session->set("templateStartTime", microtime(true));
         return $response;
     }
 
     /**
-     * @Route("/test/session/{session_hash}/submit")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/submit", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return Response
      */
     public function submitToSessionAction(Request $request, $session_hash)
     {
-        $time = microtime(true);
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $content = json_decode($request->getContent(), true);
         $values = array();
         if (array_key_exists("values", $content)) $values = $content["values"];
@@ -83,26 +77,24 @@ class TestRunnerController
             $session_hash,
             $values,
             $request->getClientIp(),
-            $request->server->get('HTTP_USER_AGENT'),
-            $time
+            $request->server->get('HTTP_USER_AGENT')
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
-        $this->session->set("templateStartTime", microtime(true));
         return $response;
     }
 
     /**
-     * @Route("/test/session/{session_hash}/worker")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/worker", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return Response
      */
     public function backgroundWorkerAction(Request $request, $session_hash)
     {
-        $time = microtime(true);
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $content = json_decode($request->getContent(), true);
         $values = array();
         if (array_key_exists("values", $content)) $values = $content["values"];
@@ -111,24 +103,24 @@ class TestRunnerController
             $session_hash,
             $values,
             $request->getClientIp(),
-            $request->server->get('HTTP_USER_AGENT'),
-            $time
+            $request->server->get('HTTP_USER_AGENT')
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
     /**
-     * @Route("/test/session/{session_hash}/kill")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/kill", methods={"POST"})
      * @param Request $request
      * @param $session_hash
      * @return Response
      */
     public function killSessionAction(Request $request, $session_hash)
     {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $result = $this->service->killSession(
             $session_hash,
             $request->getClientIp(),
@@ -136,19 +128,20 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
     /**
-     * @Route("/test/session/{session_hash}/keepalive")
-     * @Method(methods={"POST"})
+     * @Route("/test/session/{session_hash}/keepalive", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
      * @return Response
      */
     public function keepAliveSessionAction(Request $request, $session_hash)
     {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $result = $this->service->keepAliveSession(
             $session_hash,
             $request->getClientIp(),
@@ -156,19 +149,20 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
     /**
-     * @Route("/test/session/{session_hash}/upload")
-     * @Method(methods={"POST","OPTIONS"})
+     * @Route("/test/session/{session_hash}/upload", methods={"POST","OPTIONS"})
      * @param Request $request
      * @param string $session_hash
      * @return Response
      */
     public function uploadFileAction(Request $request, $session_hash)
     {
+        if (!$this->administrationService->isApiEnabled())
+            return new Response("API disabled", Response::HTTP_FORBIDDEN);
+
         $result = $this->service->uploadFile(
             $session_hash,
             $request->files,
@@ -176,7 +170,6 @@ class TestRunnerController
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 

@@ -2,8 +2,7 @@
 
 namespace Concerto\APIBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\APIBundle\Service\DataRecordService;
@@ -25,8 +24,7 @@ class DataRecordController
     }
 
     /**
-     * @Route("")
-     * @Method({"GET","POST","PUT"})
+     * @Route("", methods={"GET","POST","PUT"})
      * @param Request $request
      * @param int $table_id
      * @return Response
@@ -46,8 +44,7 @@ class DataRecordController
     }
 
     /**
-     * @Route("/{id}")
-     * @Method({"GET","POST","PUT","DELETE"})
+     * @Route("/{id}", methods={"GET","POST","PUT","DELETE"})
      * @param Request $request
      * @param int $table_id
      * @param int $id

@@ -73,7 +73,7 @@ description:
     fieldset:
         legend: Description
         legend.tooltip: Description de l\'objet
-        
+
 save_new:
     dialog:
         title: Nom du nouvel objet
@@ -96,13 +96,8 @@ import:
 
 export:
     dialog:
-        title: Exportation de données
         error:
             empty.content: Merci de sélectionner au moins une entrée dans la table ci-dessous afin de l'exporter.
-        format:
-            info: Merci de sélectionner un format pour le fichier d'exportation. Le format compressé requiert moins d'espace disque et de bande passante, mais peut ne pas être facile à ouvrir. Le format texte est plus facile à lire ou à éditier, mais génère des fichiers de plus grande taille.
-            compressed: compressé
-            plaintext: texte
      
 download_list:
     dialog:

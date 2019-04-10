@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -88,8 +87,7 @@ class TestVariableController extends ASectionController
     }
 
     /**
-     * @Route("/TestVariable/{object_id}/save", name="TestVariable_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestVariable/{object_id}/save", name="TestVariable_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -110,8 +108,7 @@ class TestVariableController extends ASectionController
     }
 
     /**
-     * @Route("/TestVariable/{object_ids}/delete", name="TestVariable_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestVariable/{object_ids}/delete", name="TestVariable_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */

@@ -6,16 +6,19 @@ use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
-class TestNodeConnectionControllerTest extends AFunctionalTest {
+class TestNodeConnectionControllerTest extends AFunctionalTest
+{
 
     private static $repository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNodeConnection");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -111,7 +114,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestNodeConnection/collection');
@@ -135,6 +139,12 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "node" => 3,
                     "string" => "1",
                     "defaultValue" => "1",
+                    "dynamic" => '0',
+                    "type" => 1,
+                    "exposed" => '0',
+                    "name" => "response",
+                    "pointer" => "0",
+                    "pointerVariable" => "response",
                     "variable" => 4,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
@@ -155,6 +165,12 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                     "node" => 4,
                     "string" => "1",
                     "defaultValue" => "1",
+                    "dynamic" => '0',
+                    "type" => 0,
+                    "exposed" => '0',
+                    "name" => "params",
+                    "pointer" => "0",
+                    "pointerVariable" => "params",
                     "variable" => 5,
                     "variableObject" => array(
                         "class_name" => "TestVariable",
@@ -173,7 +189,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestNodeConnection/1/delete");
@@ -185,7 +202,8 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
         $this->assertNull($entity);
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestNodeConnection/-1/save", array(
@@ -218,11 +236,12 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "result" => 0,
             "errors" => array(),
             "object" => $expected
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testSaveActionEdit() {
+    public function testSaveActionEdit()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestNodeConnection/1/save", array(
@@ -254,6 +273,12 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "node" => 3,
                 "string" => "1",
                 "defaultValue" => "1",
+                "dynamic" => '0',
+                "type" => 1,
+                "exposed" => '0',
+                "name" => "response",
+                "pointer" => '0',
+                "pointerVariable" => 'response',
                 "variable" => 4,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
@@ -274,6 +299,12 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
                 "node" => 4,
                 "string" => "1",
                 "defaultValue" => "1",
+                "dynamic" => '0',
+                "type" => 0,
+                "exposed" => '0',
+                "name" => "params",
+                "pointer" => '0',
+                "pointerVariable" => 'params',
                 "variable" => 5,
                 "variableObject" => array(
                     "class_name" => "TestVariable",
@@ -293,7 +324,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest {
             "result" => 0,
             "errors" => array(),
             "object" => $expected
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
 

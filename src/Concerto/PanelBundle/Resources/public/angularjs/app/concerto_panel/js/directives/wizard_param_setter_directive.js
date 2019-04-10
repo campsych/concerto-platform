@@ -26,7 +26,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
 
       scope.onPrimitiveValueChange = function (value) {
         scope.output = value;
-        if (scope.wizardMode == "dev" && value != null && !scope.underList) {
+        if (scope.wizardMode == "dev" && value != null && !scope.underList && scope.param.definition != undefined) {
           scope.param.definition.defvalue = value;
         }
         if (scope.parent === null)

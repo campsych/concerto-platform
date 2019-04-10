@@ -2,7 +2,6 @@
 
 namespace Concerto\PanelBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestService;
 use Concerto\PanelBundle\Service\TestNodeService;
@@ -66,8 +65,7 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/{object_ids}/delete", name="TestNode_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestNode/{object_ids}/delete", name="TestNode_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -77,8 +75,7 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/{object_id}/save", name="TestNode_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestNode/{object_id}/save", name="TestNode_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -95,5 +92,56 @@ class TestNodeController extends ASectionController
             $this->testService->get($request->get("sourceTest")),
             $request->get("title"));
         return $this->getSaveResponse($result);
+    }
+
+    /**
+     * @Route("/TestNode/ports/expose", name="TestNode_expose_ports", methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function exposePorts(Request $request)
+    {
+        $this->service->exposePorts(
+            json_decode($request->get("exposedPorts"), true)
+        );
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/TestNode/{object_id}/port/{type}/add", name="TestNode_add_dynamic_port", methods={"POST"})
+     * @param Request $request
+     * @param $object_id
+     * @param $type
+     * @return Response
+     */
+    public function addDynamicPort(Request $request, $object_id, $type)
+    {
+        $result = $this->service->addDynamicPort(
+            $this->securityTokenStorage->getToken()->getUser(),
+            $object_id,
+            $request->get("name"),
+            (integer)$type
+        );
+
+        $response = null;
+        if (count($result["errors"]) > 0) {
+            $errors = array();
+            foreach ($result["errors"] as $error) {
+                array_push($errors, $this->translator->trans($error));
+            }
+            $response = new Response(json_encode(array(
+                "result" => 1,
+                "errors" => $errors
+            )));
+        } else {
+            $response = new Response(json_encode(array(
+                "result" => 0,
+                "object" => json_encode($result["object"])
+            )));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }

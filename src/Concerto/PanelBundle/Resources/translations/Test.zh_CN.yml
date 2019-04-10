@@ -34,21 +34,12 @@ form:
   button: 
       run: 运行测验
       debug: 调试测验
-      update: 更新所有相关测验
-  dialog: 
-      title: 
-          update: 更新相关测验
-      message: 
-          update.successful: 更新完毕。
       
 list:  
   field: 
     name: 名称
     wizard: 向导
     wizard.source: 源测验
-  tooltips: 
-    outdated: 有新版本源测验可供使用，请重新保存当前测验进行更新。
-    uptodate: 使用最新版本源测验
       
 variables: 
     form: 
@@ -285,8 +276,6 @@ flow:
         zoom_out: 缩小
         maximize: 切换全屏视图
         node_menu: 点击展开节点目录
-        export_test: 导出测验
-        export_tests: 导出测验
     tags: 
         all: 全部
  

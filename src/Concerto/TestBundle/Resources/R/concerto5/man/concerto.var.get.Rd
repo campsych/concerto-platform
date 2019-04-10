@@ -1,23 +1,33 @@
 \name{concerto.var.get}
 \alias{concerto.var.get}
+\alias{c.get}
 \title{
-Promoted variables
+Global variables
 }
 \description{
-Gets promoted variable value
+Gets global variable value
 }
 \usage{
 concerto.var.get(name)
 }
 \arguments{
-  \item{name}{
+\item{name}{
 Variable name
+}
+\item{global}{
+Logical: TRUE to look for value in top most position
+}
+\item{all}{
+Logical: TRUE if to return list of all variables at specified position
+}
+\item{posOffset}{
+Numerical: position offset
 }
 }
 \details{
 }
 \value{
-Value of promoted variable or NULL if not set
+Value of global variable or NULL if not set
 }
 \references{
 }

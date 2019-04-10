@@ -144,6 +144,7 @@ class TestVariableService extends ASectionService
         $name = $parentVariable->getName();
         $url = $parentVariable->isPassableThroughUrl();
         $type = $parentVariable->getType();
+        $value = $parentVariable->getValue();
 
         foreach ($parentVariable->getTest()->getWizards() as $wizard) {
             foreach ($wizard->getResultingTests() as $test) {
@@ -153,12 +154,16 @@ class TestVariableService extends ASectionService
                         $found = true;
                         $variable->setName($name);
                         $variable->setPassableThroughUrl($url);
+
+                        $hasWizardParam = $wizard->getParamByName($variable->getName()) !== null;
+                        if (!$hasWizardParam) $variable->setValue($value);
+
                         $this->update($user, $variable, $flush);
                         break;
                     }
                 }
                 if (!$found) {
-                    $this->save($user, 0, $name, $type, $description, $url, null, $test, $parentVariable, $flush);
+                    $this->save($user, 0, $name, $type, $description, $url, $value, $test, $parentVariable, $flush);
                 }
             }
         }
@@ -194,7 +199,7 @@ class TestVariableService extends ASectionService
             $this->repository->deleteByTestAndType($test_id, $type);
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$queue)
+    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestVariable", $map))
@@ -226,16 +231,16 @@ class TestVariableService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $test, $parentVariable);
+            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $renames, $queue, $test, $parentVariable);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestVariable"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $queue, $test, $parentVariable);
+            $result = $this->importNew($user, null, $obj, $map, $renames, $queue, $test, $parentVariable);
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test, $parentVariable)
+    protected function importNew(User $user, $new_name, $obj, &$map, $renames, &$queue, $test, $parentVariable)
     {
         $ent = new TestVariable();
         $ent->setName($obj["name"]);
@@ -245,6 +250,24 @@ class TestVariableService extends ASectionService
         $ent->setPassableThroughUrl($obj["passableThroughUrl"] == "1");
         $ent->setValue($obj['value']);
         $ent->setParentVariable($parentVariable);
+
+        $wizard = $test->getSourceWizard();
+        if ($wizard && $parentVariable) {
+            foreach ($wizard->getParams() as $param) {
+                if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                    $val = $ent->getValue();
+                    foreach ($renames as $class => $renameMap) {
+                        foreach ($renameMap as $oldName => $newName) {
+                            $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                            if ($moded) {
+                                $ent->setValue($val);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
 
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
@@ -276,7 +299,7 @@ class TestVariableService extends ASectionService
         return $this->get($ent->getId());
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $test, $parentVariable)
+    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, $renames, &$queue, $test, $parentVariable)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
@@ -287,6 +310,25 @@ class TestVariableService extends ASectionService
         $ent->setPassableThroughUrl($obj["passableThroughUrl"] == "1");
         $ent->setValue($obj['value']);
         $ent->setParentVariable($parentVariable);
+
+        $wizard = $test->getSourceWizard();
+        if ($wizard && $parentVariable) {
+            foreach ($wizard->getParams() as $param) {
+                if ($param->getVariable()->getId() === $parentVariable->getId()) {
+                    $val = $ent->getValue();
+                    $def = $param->getDefinition();
+                    foreach ($renames as $class => $renameMap) {
+                        foreach ($renameMap as $oldName => $newName) {
+                            $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $def, $val, true);
+                            if ($moded) {
+                                $ent->setValue($val);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
 
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

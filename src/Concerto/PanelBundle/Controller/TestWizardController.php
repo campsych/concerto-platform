@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\TestService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +24,7 @@ class TestWizardController extends AExportableTabController
 {
 
     const ENTITY_NAME = "TestWizard";
-    const EXPORT_FILE_PREFIX = "TestWizard_";
+    const EXPORT_FILE_PREFIX = "TestWizard";
 
     private $testService;
     private $userService;
@@ -74,8 +73,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_id}/save", name="TestWizard_save")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_id}/save", name="TestWizard_save", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -98,8 +96,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_id}/copy", name="TestWizard_copy")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_id}/copy", name="TestWizard_copy", methods={"POST"})
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -110,8 +107,7 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_ids}/delete", name="TestWizard_delete")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_ids}/delete", name="TestWizard_delete", methods={"POST"})
      * @param string $object_ids
      * @return Response
      */
@@ -121,19 +117,28 @@ class TestWizardController extends AExportableTabController
     }
 
     /**
-     * @Route("/TestWizard/{object_ids}/export/{format}", name="TestWizard_export", defaults={"format":"compressed"})
-     * @param $object_ids
+     * @Route("/TestWizard/{instructions}/export/{format}", name="TestWizard_export", defaults={"format":"yml"})
+     * @param string $instructions
      * @param string $format
      * @return Response
      */
-    public function exportAction($object_ids, $format = ExportService::FORMAT_COMPRESSED)
+    public function exportAction($instructions, $format = "yml")
     {
-        return parent::exportAction($object_ids, $format);
+        return parent::exportAction($instructions, $format);
     }
 
     /**
-     * @Route("/TestWizard/import", name="TestWizard_import")
-     * @Method(methods={"POST"})
+     * @Route("/TestWizard/{object_ids}/instructions/export", name="TestWizard_export_instructions")
+     * @param $object_ids
+     * @return Response
+     */
+    public function exportInstructionsAction($object_ids)
+    {
+        return parent::exportInstructionsAction($object_ids);
+    }
+
+    /**
+     * @Route("/TestWizard/import", name="TestWizard_import", methods={"POST"})
      * @param Request $request
      * @return Response
      */

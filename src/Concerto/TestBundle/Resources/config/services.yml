@@ -42,11 +42,6 @@ services:
             $root: "%kernel.root_dir%"
             $environment: "%kernel.environment%"
 
-    Concerto\TestBundle\Service\CheckpointSessionRunnerService:
-        arguments:
-            $testRunnerSettings: "%test_runner_settings%"
-            $root: "%kernel.root_dir%"
-
     Concerto\TestBundle\Service\SerializedSessionRunnerService:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
