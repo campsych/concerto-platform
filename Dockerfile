@@ -2,6 +2,19 @@ FROM ubuntu:18.04
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
+
+ENV DB_HOST=localhost
+ENV DB_PORT=3306
+ENV DB_NAME=concerto
+ENV DB_USER=root
+ENV DB_PASSWORD=root
+ENV PHP_FPM_PM=dynamic
+ENV PHP_FPM_PM_MAX_CHILDREN=30
+ENV PHP_FPM_PM_START_SERVERS=10
+ENV PHP_FPM_PM_MIN_SPARE_SERVERS=5
+ENV PHP_FPM_PM_MAX_SPARE_SERVERS=15
+ENV PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
+ENV PHP_FPM_PM_MAX_REQUESTS=300
 ENV TZ=Europe/London
 
 COPY . /usr/src/concerto/
@@ -54,5 +67,29 @@ COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
 COPY build/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
+RUN rm -rf src/Concerto/PanelBundle/Resources/public/files \
+ && rm -rf src/Concerto/TestBundle/Resources/sessions \
+ && touch var/logs/prod.log
+
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
+
+CMD ln -sf /usr/src/concerto/volume/files /usr/src/concerto/src/Concerto/PanelBundle/Resources/public \
+ && ln -sf /usr/src/concerto/volume/sessions /usr/src/concerto/src/Concerto/TestBundle/Resources \
+ && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
+ && php bin/console concerto:setup \
+ && php bin/console concerto:content:import --convert \
+ && rm -rf var/cache/* \
+ && php bin/console cache:warmup --env=prod \
+ && chown -R www-data:www-data var/cache \
+ && chown -R www-data:www-data var/logs \
+ && chown -R www-data:www-data var/sessions \
+ && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
+ && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
+ && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
+ && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
+ && cron \
+ && service nginx start \
+ && php bin/console concerto:forker:start \
+ && /etc/init.d/php7.2-fpm start \
+ && tail -F var/logs/prod.log -n 0

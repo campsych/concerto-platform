@@ -12,11 +12,9 @@ services:
         - TZ=Europe/London
       volumes:
         - ./database/mysql:/var/lib/mysql
-        - ./database/conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
         - ./logs/database:/var/log/mysql
 
     concerto:
-      build: ./concerto
       image: campsych/concerto-platform:master
       container_name: concerto
       restart: unless-stopped
