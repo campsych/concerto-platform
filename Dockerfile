@@ -74,7 +74,8 @@ RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
 EXPOSE 80 9000
 WORKDIR /app/concerto
 
-CMD ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
+CMD mkdir -p /data/files && mkdir -p /data/sessions \
+ && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup \
