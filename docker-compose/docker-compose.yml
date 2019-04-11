@@ -12,7 +12,6 @@ services:
         - TZ=Europe/London
       volumes:
         - ./data/mysql:/var/lib/mysql
-        - ./logs/database:/var/log/mysql
 
     concerto:
       image: campsych/concerto-platform:master
