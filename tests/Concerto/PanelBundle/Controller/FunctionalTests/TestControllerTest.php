@@ -372,10 +372,16 @@ class TestControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/Test/1/save", array(
             "name" => "test",
             "description" => "edited test description",
+            "type" => 0,
             "visibility" => Test::VISIBILITY_FEATURED,
             "code" => "code",
             "accessibility" => ATopEntity::ACCESS_PUBLIC));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
             "result" => 0,

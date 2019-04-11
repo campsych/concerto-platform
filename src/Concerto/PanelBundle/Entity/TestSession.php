@@ -50,7 +50,7 @@ class TestSession extends AEntity {
 
     /**
      *
-     * @ORM\Column(type="string", length=12, nullable=true)
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $clientIp;
 

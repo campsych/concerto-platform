@@ -135,8 +135,16 @@ class DBDataDAO
                     break;
                 }
             default:
-                $this->connection->insert($table_name, array());
-                break;
+                {
+                    $vals = array();
+                    $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
+                    foreach ($cols as $col) {
+                        if ($col->getType()->getName() == "text") $vals[$col->getName()] = "";
+                    }
+
+                    $this->connection->insert($table_name, $vals);
+                    break;
+                }
         }
 
         return array();

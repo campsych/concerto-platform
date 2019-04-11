@@ -513,7 +513,7 @@ class DataTableControllerTest extends AFunctionalTest
 
         $client->request("POST", "/admin/DataTable/1/column/temp/save", array(
             "name" => "temp",
-            "type" => "bigint"
+            "type" => "string"
         ));
         $fail_msg = "";
         if (!$client->getResponse()->isSuccessful()) {
@@ -523,20 +523,12 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
 
-        // on PGSQL (and possibly others later) string -> int casts aren't supported
-        if (self::$driver_class == 'Doctrine\DBAL\Platforms\PostgreSqlPlatform') {
-            $this->assertEquals(
-                array("result" => 2, "errors" => array('Selected type conversion is not supported with configured database driver.')), json_decode($client->getResponse()->getContent(), true)
-            );
-            return;
-        }
-
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
             array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "temp", "type" => "bigint", "nullable" => false)
+            array("name" => "temp", "type" => "string", "nullable" => false)
         ), json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -567,7 +559,7 @@ class DataTableControllerTest extends AFunctionalTest
 
         $client->request("POST", "/admin/DataTable/1/column/temp/save", array(
             "name" => "new_temp",
-            "type" => "bigint"
+            "type" => "string"
         ));
         $fail_msg = "";
         if (!$client->getResponse()->isSuccessful()) {
@@ -577,14 +569,6 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
 
-        // on PGSQL (and possibly others later) string -> int casts aren't supported
-        if (self::$driver_class == 'Doctrine\DBAL\Platforms\PostgreSqlPlatform') {
-            $this->assertEquals(
-                array("result" => 2, "errors" => array('Selected type conversion is not supported with configured database driver.')), json_decode($client->getResponse()->getContent(), true)
-            );
-            return;
-        }
-
         $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
@@ -592,7 +576,7 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
             array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "new_temp", "type" => "bigint", "nullable" => false)
+            array("name" => "new_temp", "type" => "string", "nullable" => false)
         ), json_decode($client->getResponse()->getContent(), true));
     }
 

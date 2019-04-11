@@ -18,6 +18,7 @@ changelog:
             changes:
                 - wizard based test no longer duplicates 'code' field value
                 - rename on import now also updates object name references where possible
+                - can now be run on MySQL STRICT_TRANS_TABLES mode
           - label: Retirements
             changes:
                 - checkpointed session service

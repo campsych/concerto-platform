@@ -47,16 +47,6 @@ class ConcertoSetupCommand extends Command
         ));
         $command->run($updateInput, $output);
         $output->writeln("database up to date");
-
-        $em = $this->doctrine->getManager();
-        if ($em->getConnection()->getDriver()->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-            $trigger_command = $this->getApplication()->get("doctrine:query:sql");
-            $sql_file = $this->kernel->locateResource('@ConcertoPanelBundle/Resources/SQL/postgresql_customization.sql');
-            $trigger_command->run(new ArrayInput(array(
-                'command' => 'doctrine:query:sql',
-                'sql' => file_get_contents($sql_file)
-            )), $output);
-        }
     }
 
     private function initializeUsers(InputInterface $input, OutputInterface $output)
