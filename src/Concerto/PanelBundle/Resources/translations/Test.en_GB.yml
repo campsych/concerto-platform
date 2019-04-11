@@ -164,61 +164,6 @@ completion:
         default:
             autoformat: Autoformat
             insertcomments: Insert comments
-        
-        sql:
-            selection:
-                empty:
-                    column: -- choose column --
-                    table: -- choose table --
-            options:
-                wizard: wizard
-                code: SQL code
-            parameters: 
-                label: parameters
-                tooltip: Define SQL code parameters.
-            fetchcount: 
-                label: fechCount
-                tooltip: Number of response records to return. Use -1 for all and 0 for none.
-            table:
-                label: choose table
-                tooltip: Choose the table you want to perform an action on.
-            type:
-                label: query type
-                tooltip: Choose query type.
-            update:
-                label: set
-                tooltip: Set record values.
-                empty: Set clause is empty. No changes will be made in updated rows. 
-            select:
-                label: select
-                tooltip: Choose columns that you want to select.
-            where:
-                label: where
-                tooltip: Declare conditional statement.
-                empty:  WHERE clause is empty. No filters will be applied.
-                logic:
-                    or: OR
-                    and: AND
-                operators:
-                    equal: equal
-                    notequal: not equal
-                    greater: greater than
-                    equalgreater: equal or greater than
-                    lesser: lesser than
-                    equallesser: equal or lesser than
-                    like: like
-                    notlike: not like
-            order:
-                label: order by
-                tooltip: Chose sorting.
-                empty:  ORDER BY clause is empty. No sorting will be applied.
-                directions:
-                    ascending: ascending
-                    descending: descending
-            insert:
-                label: insert
-                tooltip: Set values to insert.
-                empty:  Insert clause is empty. Record will be added with default values. 
     documentation:
         help:
             title: R autocompletion documentation - generation instructions

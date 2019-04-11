@@ -164,61 +164,6 @@ completion:
         default: 
             autoformat: 自动模式
             insertcomments: 插入注释
-         
-        sql: 
-            selection: 
-                empty: 
-                    column: -- 选择列 -- 
-                    table: -- 选择表格 -- 
-            options: 
-                wizard: 向导
-                code: SQL代码
-            parameters:  
-                label: 参数
-                tooltip: 定义AQL代码参数。
-            fetchcount:  
-                label: 读数
-                tooltip: 反应记录数返回值。所有记-1，无记0。
-            table: 
-                label: 选择表格
-                tooltip: 选择需进行操作的表格。
-            type: 
-                label: 查询类型
-                tooltip: 选择查询类型。
-            update: 
-                label: 设置
-                tooltip: 设置记录值。
-                empty: 设置语句为空，在所更新行中不会发生任何变化。
-            select: 
-                label: 选择
-                tooltip: 选择需要选中的列
-            where: 
-                label: 位于
-                tooltip: 说明条件语句。
-                empty: 位置语句为空，不会进行筛选。
-                logic: 
-                    or: 或
-                    and: 和
-                operators: 
-                    equal: 等于
-                    notequal: 不等于
-                    greater: 大于
-                    equalgreater: 大于等于
-                    lesser: 小于
-                    equallesser: 小于等于
-                    like: 类似于
-                    notlike: 不类似于
-            order: 
-                label: 排序
-                tooltip: 选择排序。
-                empty: 排序语句为空，不会进行排序。
-                directions: 
-                    ascending: 递增
-                    descending: 递减
-            insert: 
-                label: 插入
-                tooltip: 设置插入值。
-                empty:  插入语句为空，记录将会添加默认值
     documentation: 
         help: 
             title: R语言自动生成文件-生成指令

@@ -166,61 +166,6 @@ completion:
         default:
             autoformat: Formatuj wstawioną treść
             insertcomments: Wstaw komentarze
-        
-        sql:
-            selection:
-                empty:
-                    column: -- wybierz kolumnę --
-                    table: -- wybierz tabelę --
-            options:
-                wizard: wizard
-                code: kod SQL
-            parameters: 
-                label: parametry
-                tooltip: Podaj parametry do kodu SQL.
-            fetchcount: 
-                label: limit pobranych
-                tooltip: Ilość wierszy do zwrócenia w odpowiedzi. Użyj -1 dla wszystkich, lub 0 aby nie zwracać niczego.
-            table:
-                label: wybierz tabelę
-                tooltip: Wybierz tabelę z danymi na której chcesz wykonać kwerendę.
-            type:
-                label: typ kwerendy
-                tooltip: Wybierz typ kwerendy (zapytania) SQL.
-            update:
-                label: ustaw (set)
-                tooltip: Ustaw wartości w wierszu.
-                empty: Nie wybrano wierszy do zmiany. Operacja nie zapisze żadnych wartości w tabeli. 
-            select:
-                label: wybierz (select)
-                tooltip: Wybierz kolumny, których zawartość chcesz pobrać.
-            where:
-                label: warunek (where)
-                tooltip: Declare conditional statement.
-                empty: Nie zdefiniowano warunków, zapytanie odniesie się do wszystkich wierszy tabeli.
-                logic:
-                    or: LUB
-                    and: I
-                operators:
-                    equal: równe
-                    notequal: różne od
-                    greater: większe niż
-                    equalgreater: większe lub równe
-                    lesser: mniejsze niż
-                    equallesser: mniejsze lub równe
-                    like: podobne do
-                    notlike: nie podobne do
-            order:
-                label: sortuj według (order by)
-                tooltip: Wybierz sposób sortowania.
-                empty:  Nie wybrano sposobu sortowania, zwrócone dane nie będą sortowane.
-                directions:
-                    ascending: rosnąco
-                    descending: malejąco
-            insert:
-                label: wstaw (inser)
-                tooltip: Wybierz wartości do wstawienia.
-                empty:  Nie wybrano wartości do wstawienia. Wiersz zostanie dodany z domyślnymi wartościami. 
     documentation:
         help:
             title: Dokumentacja do autouzupełniania składni R - instrukcja generacji

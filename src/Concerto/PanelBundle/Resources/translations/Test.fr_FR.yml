@@ -164,61 +164,6 @@ completion:
         default:
             autoformat: Autoformatage
             insertcomments: Insérer les commentaires
-        
-        sql:
-            selection:
-                empty:
-                    column: -- choisir une colonne --
-                    table: -- choisir une table --
-            options:
-                wizard: assistant
-                code: code SQL
-            parameters: 
-                label: paramètres
-                tooltip: Définissez les paramètres du code SQL.
-            fetchcount: 
-                label: Nombre de lignes
-                tooltip: Nombre de lignes à retourner. Utiliser -1 pour toutes et 0 pour aucune.
-            table:
-                label: Choix de la table
-                tooltip: Choisissez la table sur laquelle vous voulez effectuer une action.
-            type:
-                label: Type de requête
-                tooltip: Choisissez le type de requête.
-            update:
-                label: mettre à jour (set)
-                tooltip: Assignez des valeurs de mise à jour.
-                empty: Pas de sélection de ligne à modifier. Aucun changement ne sera fait dans les lignes mises à jour. 
-            select:
-                label: sélectionner (select)
-                tooltip: Choisissez les colonnes que vous voulez sélectionner.
-            where:
-                label: où (where)
-                tooltip: Ajouter une déclaration conditionnelle.
-                empty:  La déclaration conditionnelle est vide. Aucun filtre ne sera appliqué.
-                logic:
-                    or: OU
-                    and: ET
-                operators:
-                    equal: égal
-                    notequal: différent
-                    greater: supérieur à
-                    equalgreater: supérieur ou égal à
-                    lesser: inférieur à
-                    equallesser: inférieur ou égal à
-                    like: comme
-                    notlike: pas comme
-            order:
-                label: trié par (order by)
-                tooltip: Choisissez le tri.
-                empty:  Aucun tri n'est déclaré. Aucun tri ne sera appliqué.
-                directions:
-                    ascending: ascendant (du plus petit au plus grand)
-                    descending: descendant (du plus grand au plus petit)
-            insert:
-                label: insérer (insert)
-                tooltip: Assignez des valeurs à insérer.
-                empty: Aucune déclaration d'insertion. Un enregistrement sera ajouté avec les valeurs par défaut. 
     documentation:
         help:
             title: Documentation d'autocomplétion pour R - Instructions de génération

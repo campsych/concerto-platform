@@ -29,7 +29,6 @@
   var r_function_index = new Array();
 
   function scriptHint(editor, getToken) {
-    console.log(editor);
     if (r_function_index.length == 0) {
       var configuration = editor.getOption('hintOptions').functionIndex;
       for (var i = 0; i < configuration.length; i++)

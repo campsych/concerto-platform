@@ -163,62 +163,7 @@ completion:
     wizard:
         default:
             autoformat: Otoformat
-            insertcomments: Yorum ekle 
-        
-        sql:
-            selection:
-                empty:
-                    column: -- Sütun seç --
-                    table: -- Tablo seç --
-            options:
-                wizard: sihirbaz
-                code: SQL kodu
-            parameters: 
-                label: parametreler
-                tooltip: SQL kodu parametrelerini tanımlayınız.
-            fetchcount: 
-                label: fechCount
-                tooltip: Kaydı yapılacak dönüş sayısı. Hepsi için -1 hiçbiri için 0 kullanın.
-            table:
-                label: tablo seç
-                tooltip: Eylemi gerçekleştirmek istediğiniz tabloyu seçiniz.
-            type:
-                label: sorgu türü
-                tooltip: Sorgu türünü seçin.
-            update:
-                label: ayarla
-                tooltip: Kayıt değerlerini ayarla.
-                empty: Kayıt değerleri boş. Güncellenen satırlarda hiçbir değişiklik yapılmayacak. 
-            select:
-                label: seç
-                tooltip: Seçmek istediğiniz sütunları seçin.
-            where:
-                label: nereye
-                tooltip: Koşul cümlenizi girin.
-                empty:  NEREYE koşulu boş. Hiçbir filtre uygulanmayacak.
-                logic:
-                    or: VEYA
-                    and: VE
-                operators:
-                    equal: eşittir
-                    notequal: eşit değildir
-                    greater: büyüktür
-                    equalgreater: eşittir ya da büyüktür
-                    lesser: küçüktür
-                    equallesser: eşittir ya da küçüktür
-                    like: benzer
-                    notlike: benzer değil
-            order:
-                label: Sırala
-                tooltip: Sırlamayı seç.
-                empty:  SIRALA koşulu boş. Sıralama uygulanmayacak.
-                directions:
-                    ascending: artan
-                    descending: azalan
-            insert:
-                label: ekle
-                tooltip: eklenecek değerleri girin
-                empty:  Ekleme değeri boş.  Kayıt varsayılan değerlerle eklenecek. 
+            insertcomments: Yorum ekle
     documentation:
         help:
             title: R otomatik tamamlama dokümantasyonu - üretme talimatları

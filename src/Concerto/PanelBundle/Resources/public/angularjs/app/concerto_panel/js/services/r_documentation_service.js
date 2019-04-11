@@ -19,10 +19,6 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             });
         },
         autocompletionWizardMapping: {
-            'concerto.table.query': {
-                template: 'concerto_table_query_wizard_dialog.html',
-                controller: ConcertoTableQueryWizardController
-            },
             '#default': {
                 template: 'default_r_completion_wizard_dialog.html',
                 controller: DefaultRCompletionWizardController
