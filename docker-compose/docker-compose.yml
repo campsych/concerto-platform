@@ -11,7 +11,7 @@ services:
         - MYSQL_DATABASE=concerto
         - TZ=Europe/London
       volumes:
-        - ./database/mysql:/var/lib/mysql
+        - ./data/mysql:/var/lib/mysql
         - ./logs/database:/var/log/mysql
 
     concerto:
@@ -19,7 +19,7 @@ services:
       container_name: concerto
       restart: unless-stopped
       volumes:
-        - ./concerto/data:/data
+        - ./data/concerto:/data
       environment:
         - DB_HOST=database
         - DB_PORT=3306
