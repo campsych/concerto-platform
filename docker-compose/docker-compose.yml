@@ -19,7 +19,7 @@ services:
       container_name: concerto
       restart: unless-stopped
       volumes:
-        - ./concerto/volume:/usr/src/concerto/volume
+        - ./concerto/data:/data
       environment:
         - DB_HOST=database
         - DB_PORT=3306
