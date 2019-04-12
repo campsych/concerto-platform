@@ -350,7 +350,8 @@ class TestNodePortService extends ASectionService
                             $val = $ent->getValue();
                             foreach ($renames as $class => $renameMap) {
                                 foreach ($renameMap as $oldName => $newName) {
-                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
+                                    $def = $param->getDefinition();
+                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $def, $val, true);
                                     if ($moded) {
                                         $ent->setValue($val);
                                     }
