@@ -43,13 +43,23 @@ class FileService
         return $files;
     }
 
+    public function moveUploadedFile($tmpFile, $dirType, $file_name, &$error)
+    {
+        $uploadDir = realpath($dirType == self::DIR_PRIVATE ? $this->getPrivateUploadDirectory() : $this->getPublicUploadDirectory());
+        $uploadPath = $uploadDir . "/" . $file_name;
+        if (!is_writable($uploadDir)) {
+            $error = $uploadDir . " is not writable";
+            return false;
+        }
+        return move_uploaded_file($tmpFile, $uploadPath);
+    }
+
     public function uploadFiles($dirType, $destination, $files, &$error)
     {
         $basePath = realpath($dirType == self::DIR_PRIVATE ? $this->getPrivateUploadDirectory() : $this->getPublicUploadDirectory());
         $path = $this->canonicalizePath($basePath . $destination);
         foreach ($files as $file) {
-            $fileInfo = pathinfo($file->getClientOriginalName());
-            $fileName = $this->normalizeName($fileInfo['filename']) . '.' . $fileInfo['extension'];
+            $fileName = $file->getClientOriginalName();
             $uploaded = move_uploaded_file(
                 $file->getRealPath(),
                 $path . "/" . $fileName
@@ -379,21 +389,5 @@ class FileService
             array_pop($stack);
         }
         return implode($dirSep, $stack);
-    }
-
-    /**
-     * Creates ASCII name
-     *
-     * @param string name encoded in UTF-8
-     * @return string name containing only numbers, chars without diacritics, underscore and dash
-     * @copyright Jakub Vrána, https://php.vrana.cz/
-     */
-    private function normalizeName($name)
-    {
-        //$name = preg_replace('~[^\\pL0-9_]+~u', '-', $name);
-        //$name = trim($name, "-");
-        //$name = iconv("utf-8", "us-ascii//TRANSLIT", $name);
-        //$name = preg_replace('~[^-a-z0-9_]+~', '', $name);
-        return $name;
     }
 }

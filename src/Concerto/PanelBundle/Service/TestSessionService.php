@@ -277,17 +277,15 @@ class TestSessionService
             ));
         }
 
-        //@TODO unify response
-        $response = array("result" => -1);
-        foreach ($files as $file) {
-            $upload_result = $this->fileService->moveUploadedFile($file->getRealPath(), FileService::DIR_PRIVATE, $file->getClientOriginalName(), $message);
-            if ($upload_result)
+        $message = "";
+        $upload_result = $this->fileService->uploadFiles(FileService::DIR_PRIVATE, "", $files, $message);
+        if ($upload_result) {
+            foreach ($files as $file) {
                 $response = array("result" => 0, "file_path" => realpath($this->fileService->getPrivateUploadDirectory() . $file->getClientOriginalName()), "name" => $name);
-            else {
-                $response = array("result" => -1, "error" => $message);
                 return $response;
             }
         }
+        $response = array("result" => -1, "error" => $message);
         return $response;
     }
 
