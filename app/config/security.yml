@@ -27,12 +27,19 @@ security:
           security:   false
 
         api:
-          pattern:    ^/api
+          pattern:    ^/api(/data|/runner)
           logout_on_user_change: true
           fos_oauth:  true
           stateless:  true
           anonymous:  false
 
+        open_api:
+          pattern:    ^/api/check
+          logout_on_user_change: true
+          fos_oauth:  true
+          stateless:  true
+          anonymous:  true
+
     access_control:
         - { path: ^/admin, roles: [ IS_AUTHENTICATED_FULLY ] }
-        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/api(/data|/runner), roles: [ IS_AUTHENTICATED_FULLY ] }

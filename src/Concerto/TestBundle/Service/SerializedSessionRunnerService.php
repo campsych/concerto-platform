@@ -21,6 +21,35 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         $this->environment = $environment;
     }
 
+    public function healthCheck()
+    {
+        $port = $this->createSubmitterSock(null, false, $submitter_sock, $error_response);
+        if ($port === false) {
+            return false;
+        }
+
+        $client = array();
+
+        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+            $success = $this->startChildProcess($client, null, null, null, $port);
+        } else {
+            $success = $this->startStandaloneProcess($client, null, null, null, $port);
+        }
+        if (!$success) {
+            socket_close($submitter_sock);
+            return false;
+        }
+
+        $response = $this->startListenerSocket($submitter_sock);
+        if ($response === false) {
+            return false;
+        }
+        $response = json_decode($response, true);
+        socket_close($submitter_sock);
+
+        return $response["code"] === 1;
+    }
+
     public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
     {
         $session_hash = $session->getHash();
@@ -36,7 +65,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         if (!$this->createSubmitterSock($session, false, $submitter_sock, $error_response)) return $error_response;
 
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
-            $success = $this->startChildProcess($client, $session_hash, null, $max_exec_time);
+            $success = $this->startChildProcess($client, $session_hash,null, $max_exec_time);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, null, $max_exec_time);
         }
@@ -184,9 +213,9 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         );
     }
 
-    private function startStandaloneProcess($client, $session_hash, $response = null, $max_exec_time = null)
+    private function startStandaloneProcess($client, $session_hash, $response = null, $max_exec_time = null, $initial_port = null)
     {
-        $cmd = $this->getCommand($client, $session_hash, $response, $max_exec_time);
+        $cmd = $this->getCommand($client, $session_hash, $response, $max_exec_time, $initial_port);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
 
         $process = new Process($cmd);
@@ -203,11 +232,13 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return true;
     }
 
-    private function startChildProcess($client, $session_hash, $response = null, $max_exec_time = null)
+    private function startChildProcess($client, $session_hash, $response = null, $max_exec_time = null, $initial_port = null)
     {
         if ($max_exec_time === null) {
             $max_exec_time = $this->testRunnerSettings["max_execution_time"];
         }
+
+        $rout = $this->getROutputFilePath($session_hash);
 
         $response = json_encode(array(
             "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . "/",
@@ -217,11 +248,12 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "client" => $client,
             "connection" => $this->getConnection(),
             "sessionId" => $session_hash,
-            "rLogPath" => $this->getROutputFilePath($session_hash),
-            "response" => $response
+            "rLogPath" => $rout,
+            "response" => $response,
+            "initialPort" => $initial_port
         ));
 
-        $path = $this->getFifoDir() . $session_hash . ".fifo";
+        $path = $this->getFifoDir() . ($session_hash ? $session_hash : uniqid("hc", true)) . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
@@ -243,7 +275,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return $success;
     }
 
-    private function getCommand($client, $session_hash, $response, $max_exec_time)
+    private function getCommand($client, $session_hash, $response, $max_exec_time, $initial_port)
     {
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $ini_path = $this->getRDir() . "standalone.R";
@@ -256,6 +288,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         $media_url = $this->getMediaUrl();
         $client = json_encode($client);
         $response = json_encode($response ? $response : array());
+        $rout = $this->getROutputFilePath($session_hash);
 
         switch ($this->getOS()) {
             case self::OS_LINUX:
@@ -271,8 +304,8 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
                     . "'$response' "
-                    . ">> "
-                    . "'" . $this->getROutputFilePath($session_hash) . "' "
+                    . "$initial_port "
+                    . ($rout ? (">> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";
             default:
                 return "start cmd /C \""
@@ -288,8 +321,8 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
                     . "\"" . $this->escapeWindowsArg($response) . "\" "
-                    . ">> "
-                    . "\"" . $this->escapeWindowsArg($this->getROutputFilePath($session_hash)) . "\" "
+                    . "$initial_port "
+                    . ($rout ? (">> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
                     . "2>&1\"";
         }
     }

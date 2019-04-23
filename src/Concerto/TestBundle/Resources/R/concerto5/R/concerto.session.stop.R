@@ -2,8 +2,10 @@ concerto.session.stop <- function(status = STATUS_STOPPED, response = NULL, data
     concerto.log("stopping session...")
     concerto.log(paste0("status: ", status))
 
-    concerto$session$status <<- status
-    concerto5:::concerto.session.update()
+    if(!is.null(concerto$session)) {
+        concerto$session$status <<- status
+        concerto5:::concerto.session.update()
+    }
     dbDisconnect(concerto$connection)
 
     if (!is.null(response)) {

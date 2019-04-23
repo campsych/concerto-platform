@@ -240,7 +240,7 @@ class AdministrationService
         return $this->getSettingValueForSession($session, $key);
     }
 
-    public function getSettingValueForSession(TestSession $session, $key)
+    public function getSettingValueForSession($session, $key)
     {
         $value = $this->getSettingValue($key);
 

@@ -61,7 +61,8 @@ while (T) {
             sessionHash = response$sessionId,
             maxIdleTime = response$maxIdleTime,
             maxExecTime = response$maxExecTime,
-            response = response$response
+            response = response$response,
+            initialPort = response$initialPort
         )
     }, detached = TRUE)
 }

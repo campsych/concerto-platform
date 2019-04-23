@@ -44,6 +44,8 @@ abstract class ASessionRunnerService
 
     abstract public function kill(TestSession $session, $client_ip, $client_browser);
 
+    abstract public function healthCheck();
+
     public function getConnection()
     {
         $con = $this->doctrine->getConnection($this->testRunnerSettings["connection"]);
@@ -76,6 +78,7 @@ abstract class ASessionRunnerService
 
     public function getROutputFilePath($session_hash)
     {
+        if ($session_hash === null) return null;
         return realpath($this->root . "/../var/logs") . "/$session_hash.log";
     }
 
@@ -91,9 +94,14 @@ abstract class ASessionRunnerService
 
     public function getWorkingDirPath($session_hash, $create = true)
     {
-        $path = $this->root . "/../src/Concerto/TestBundle/Resources/sessions/$session_hash/";
-        if ($create && !file_exists($path)) {
-            mkdir($path, 0755, true);
+        $path = null;
+        if ($session_hash === null) {
+            $path = $this->root . "/../src/Concerto/TestBundle/Resources/sessions/";
+        } else {
+            $path = $this->root . "/../src/Concerto/TestBundle/Resources/sessions/$session_hash/";
+            if ($create && !file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
         }
         return $path;
     }
@@ -144,7 +152,7 @@ abstract class ASessionRunnerService
     {
         if (!$session->isDebug()) return $response;
         $out_path = $this->getROutputFilePath($session->getHash());
-        if (file_exists($out_path)) {
+        if ($out_path !== null && file_exists($out_path)) {
             $new_data = file_get_contents($out_path, false, null, $offset);
             $response["debug"] = mb_convert_encoding($new_data, "UTF-8");
         }
@@ -155,7 +163,7 @@ abstract class ASessionRunnerService
     {
         if (!$session->isDebug()) return 0;
         $out_path = $this->getROutputFilePath($session->getHash());
-        if (file_exists($out_path)) {
+        if ($out_path !== null && file_exists($out_path)) {
             return filesize($out_path);
         }
         return 0;
@@ -199,7 +207,7 @@ abstract class ASessionRunnerService
         return true;
     }
 
-    protected function createSubmitterSock(TestSession $session, $save_file, &$submitter_sock, &$error_response)
+    protected function createSubmitterSock($session, $save_file, &$submitter_sock, &$error_response)
     {
         $submitter_sock = $this->createListenerSocket();
         if ($submitter_sock === false) {
@@ -213,19 +221,21 @@ abstract class ASessionRunnerService
 
         socket_getsockname($submitter_sock, $submitter_ip, $submitter_port);
 
-        if ($save_file) {
-            if ($this->saveSubmitterPortFile($session->getHash(), $submitter_port) === false) {
-                $error_response = array(
-                    "source" => TestSessionService::SOURCE_TEST_NODE,
-                    "code" => TestSessionService::RESPONSE_ERROR
-                );
-                return false;
+        if ($session) {
+            if ($save_file) {
+                if ($this->saveSubmitterPortFile($session->getHash(), $submitter_port) === false) {
+                    $error_response = array(
+                        "source" => TestSessionService::SOURCE_TEST_NODE,
+                        "code" => TestSessionService::RESPONSE_ERROR
+                    );
+                    return false;
+                }
             }
-        }
 
-        $session->setSubmitterPort($submitter_port);
-        $this->testSessionRepository->save($session);
-        return true;
+            $session->setSubmitterPort($submitter_port);
+            $this->testSessionRepository->save($session);
+        }
+        return $submitter_port;
     }
 
     protected function createListenerSocket($port = 0)
@@ -259,7 +269,7 @@ abstract class ASessionRunnerService
         if ($timeLimit === null) {
             $timeLimit = $this->testRunnerSettings["max_execution_time"];
         }
-        if($timeLimit > 0) {
+        if ($timeLimit > 0) {
             $timeLimit += 5;
         }
         do {

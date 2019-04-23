@@ -73,6 +73,7 @@ RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
+HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/check/health || exit 1
 
 CMD mkdir -p /data/files && mkdir -p /data/sessions \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
