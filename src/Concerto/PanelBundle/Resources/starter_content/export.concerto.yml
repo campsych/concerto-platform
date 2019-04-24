@@ -1,4 +1,4 @@
-version: 5.0.beta.9.1
+version: 5.0.beta.9.2
 collection:
   -
     class_name: ViewTemplate
@@ -735,7 +735,7 @@ collection:
             class_name: TestWizardParam
             id: 1
             label: 'View Template'
-            description: 'View template to show'
+            description: 'Select which template should be shown by this node'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -753,7 +753,7 @@ collection:
             class_name: TestWizardParam
             id: 2
             label: 'Time limit'
-            description: 'Time limit in seconds. <strong>0</strong> for no limit.'
+            description: 'Specify how long the selected Page or HTML should be shown for, in seconds. 0&nbsp;= page does not expire.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -771,7 +771,7 @@ collection:
             class_name: TestWizardParam
             id: 3
             label: HTML
-            description: 'HTML template to show. Will be ignored when view template is selected.'
+            description: 'Directly input HTML to be shown by this node. This field will be ignored if a template has been selected above.'
             hideCondition: ''
             type: 2
             passableThroughUrl: '0'
@@ -788,7 +788,7 @@ collection:
     test: 1
     groups: ''
     starterContent: true
-    hash: bb72121d1cc3412f10f18479a6561804dbe918bc
+    hash: 926b8155cb133c881a3e409056b97e6e17840721
   -
     class_name: Test
     id: 2
@@ -949,7 +949,7 @@ collection:
             class_name: TestWizardParam
             id: 4
             label: 'Loader template'
-            description: 'Loading page. It is shown on page submit, until new page is ready to be shown.'
+            description: 'Select which template to use for the loading page. This page is shown after the user submits a page and before the next page is loaded.'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -966,7 +966,7 @@ collection:
     test: 3
     groups: ''
     starterContent: true
-    hash: e4ae0189fa6b48fcc95e5c8aa7da79a622cb4457
+    hash: c06dc129269dccdbfa27b0e6d0cd016c1d2c2fb4
   -
     class_name: Test
     id: 4
@@ -1240,7 +1240,7 @@ collection:
             id: 5
             label: Type
             description: |
-              Type of user bank. Possible options:
+              Select where to get user information from:
               <ul>
               	<li><b>Direct</b>&nbsp;- user bank is declared at node level</li>
               	<li><strong>Table</strong> - user bank is taken from data table</li>
@@ -1270,7 +1270,7 @@ collection:
             class_name: TestWizardParam
             id: 6
             label: 'User list'
-            description: 'Direct user list to use for authorization'
+            description: 'Directly input a list of users for authorisation'
             hideCondition: 'values.userBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
@@ -1317,7 +1317,7 @@ collection:
             id: 7
             label: 'Password encryption'
             description: |
-              <p>Hashing used for user&#39;s passwords. One of the following:</p>
+              <p>Choose which hashing algorithm to apply&nbsp;to user&nbsp;passwords:</p>
               
               <ul>
               	<li><strong>md5</strong></li>
@@ -1385,7 +1385,7 @@ collection:
             class_name: TestWizardParam
             id: 8
             label: 'User table'
-            description: 'Column mapping for data table used as a user bank'
+            description: 'Map columns in data table to user bank'
             hideCondition: 'values.userBankType != "table"'
             type: 12
             passableThroughUrl: '0'
@@ -1418,7 +1418,7 @@ collection:
     test: 5
     groups: ''
     starterContent: true
-    hash: a29b275087ce300fa5959af413b8a2b5bb059da6
+    hash: 3089750898d413998232d69a821115570ce988a8
   -
     class_name: Test
     id: 6
@@ -1806,7 +1806,7 @@ collection:
             id: 10
             label: 'Password encryption'
             description: |
-              <p>Hashing used for user&#39;s passwords. One of the following:</p>
+              <p>Select which hashing algorithm to apply to users&#39; passwords:</p>
               
               <ul>
               	<li><strong>md5</strong></li>
@@ -1873,7 +1873,7 @@ collection:
     test: 7
     groups: ''
     starterContent: true
-    hash: 1b71cb713730a03c085fe9a135019861680d1ea2
+    hash: aacab5009ea882ada94edea6ec3e434f1f5544b5
   -
     class_name: Test
     id: 8
@@ -2228,7 +2228,7 @@ collection:
             class_name: TestWizardParam
             id: 11
             label: Table
-            description: 'Session table column mapping.'
+            description: 'Specify where to save session information'
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
@@ -2274,7 +2274,7 @@ collection:
             class_name: TestWizardParam
             id: 12
             label: 'Resumable expiration'
-            description: 'How long should session be resumable (in seconds). <strong>0</strong> for no expiration.'
+            description: 'Specify the length of time (in seconds) for which the session should be resumable. <strong>0</strong>&nbsp;= session does not expire.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -2292,7 +2292,7 @@ collection:
             class_name: TestWizardParam
             id: 13
             label: 'Resumable?'
-            description: 'Is session resumable?'
+            description: 'Check box to make the session resumable'
             hideCondition: ''
             type: 4
             passableThroughUrl: '0'
@@ -2305,10 +2305,11 @@ collection:
             wizard: 5
             definition:
               placeholder: 0
+              defvalue: '0'
     test: 9
     groups: ''
     starterContent: true
-    hash: e9522d92b867309b98f67539fc9a09180c519b16
+    hash: 773cbee0c805d6a53f93fb13ebb5a507a05e3b1b
   -
     class_name: Test
     id: 10
@@ -2527,8 +2528,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 14
-            label: Test
-            description: 'Test that should be run.'
+            label: 'Run Test'
+            description: 'Select which test you would like this node to run'
             hideCondition: ''
             type: 8
             passableThroughUrl: '0'
@@ -2545,7 +2546,7 @@ collection:
     test: 12
     groups: ''
     starterContent: true
-    hash: 3f2902814d716ef4a692a2fcf8f893b277250756
+    hash: f7b1c0e5a7b8283343522d30f9edb4d35a053cf8
   -
     class_name: Test
     id: 13
@@ -8578,11 +8579,11 @@ collection:
             id: 15
             label: Type
             description: |
-              <p>Item bank type. One of the following:</p>
+              <p>Select where to get items from:</p>
               
               <ul>
-              	<li><strong>Direct&nbsp;</strong>- item bank will be declared at the node level</li>
-              	<li><strong>Table&nbsp;</strong>- item bank will be stored in data table</li>
+              	<li><strong>Direct&nbsp;</strong>- declare item bank at the node level</li>
+              	<li><strong>Table&nbsp;</strong>- use a data table as the item bank</li>
               </ul>
               
             hideCondition: ''
@@ -8611,7 +8612,7 @@ collection:
             class_name: TestWizardParam
             id: 16
             label: Items
-            description: 'Direct item bank'
+            description: 'Directly input your item bank'
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
@@ -8761,7 +8762,7 @@ collection:
             class_name: TestWizardParam
             id: 17
             label: Table
-            description: 'Column mapping for item bank data table'
+            description: 'Map columns in data table to item bank'
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
@@ -8819,7 +8820,7 @@ collection:
             class_name: TestWizardParam
             id: 18
             label: 'Item Template'
-            description: 'View template to use for CAT item page'
+            description: 'Select which template to use for CAT item page design'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -8845,8 +8846,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 19
-            label: 'Test Time Limit'
-            description: 'Total test time limit in seconds. 0 for no limit.'
+            label: 'Limit Total Test Time'
+            description: 'Total test time limit in seconds. 0 = no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -8863,8 +8864,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 20
-            label: 'Item Time Limit'
-            description: 'Time limit for each item, in seconds. 0 for no limit.'
+            label: 'Limit Time Per Item'
+            description: 'Time limit for each item, in seconds. 0 = no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -8881,8 +8882,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 21
-            label: 'Sufficient Item Time Required'
-            description: 'Check if you want test to not show more items if total test time left is less than item time limit.'
+            label: 'Require Sufficient Time Per Item'
+            description: 'Check this box to prevent the test from showing more items when the total test time remaining is less than the time limit per item.'
             hideCondition: 'values.testTimeLimit == 0 || values.itemTimeLimit == 0'
             type: 4
             passableThroughUrl: '0'
@@ -8899,8 +8900,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 22
-            label: 'Item Number Limit'
-            description: 'Maximum number of items to show. 0 for no limit.'
+            label: 'Limit Number of Items'
+            description: 'Maximum number of items to show in the test. 0 = no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -8918,7 +8919,7 @@ collection:
             class_name: TestWizardParam
             id: 23
             label: 'Minimum Accuracy'
-            description: 'Minimum accuracy value required to finish the test. 0 for no limit.'
+            description: 'Minimum accuracy value that must be reached before stopping the test. 0 = no minimum accuracy.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -8944,17 +8945,18 @@ collection:
           -
             class_name: TestWizardParam
             id: 24
-            label: 'Content Balancing'
+            label: 'Content Balancing Settings'
             description: |
-              <p>Content balancing settings.<br />
-              Set of weights for any number of item&#39;s content balancing groups. Each entry consist of two fields:</p>
+              <p>Each entry in the table consist of two fields:</p>
               
               <ul>
-              	<li><strong>Name</strong> - corresponds to content balancing group column in item bank</li>
-              	<li><strong>Weight</strong>&nbsp;- numerical value</li>
+              	<li><strong>Group Name</strong> - specifies the column in the item bank by which to apply&nbsp;content balancing</li>
+              	<li><strong>Group Proportion</strong>&nbsp;- numerical value specifying the proportion of&nbsp;items from each CB group to be used by the next item selection algorithm</li>
               </ul>
               
-              <p><strong>There must be required number of items based on relative weights present in item bank. Error will be generated otherwise.</strong></p>
+              <p><em>e.g. group1_proportion=1, group2_proportion=2 will mean that the next item algorithm will try to show twice as many items from group2 as from group1</em></p>
+              
+              <p><strong>NOTE: The&nbsp;number of items&nbsp;in each CB group in the item bank must&nbsp;be sufficient to cover the proportions specified</strong></p>
               
             hideCondition: ''
             type: 10
@@ -8998,7 +9000,7 @@ collection:
             class_name: TestWizardParam
             id: 25
             label: 'Response Bank'
-            description: 'Response bank table mapping. Can be left empty for no response storing.'
+            description: 'Specify where to save responses to items. Leave empty to not store responses.'
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
@@ -9047,8 +9049,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 26
-            label: 'Response required'
-            description: 'Check if user is required to give answer to item before proceeding.'
+            label: 'Require Response'
+            description: 'Check to require user to answer all items before proceeding to next page.'
             hideCondition: ''
             type: 4
             passableThroughUrl: '0'
@@ -9065,12 +9067,12 @@ collection:
           -
             class_name: TestWizardParam
             id: 27
-            label: 'Response required alert'
-            description: 'Alert message to show to users when no answer is given.'
+            label: 'Response validation alert'
+            description: 'Specify the message shown to users when no answer is given to a required item.'
             hideCondition: 'values.responseRequired == 0'
             type: 0
             passableThroughUrl: '0'
-            value: 'Response required!'
+            value: 'Please answer all items on this page'
             testVariable: 138
             name: responseRequiredAlert
             wizardStep: 10
@@ -9079,7 +9081,7 @@ collection:
             wizard: 7
             definition:
               placeholder: 0
-              defvalue: 'Response required!'
+              defvalue: 'Please answer all items on this page'
       -
         class_name: TestWizardStep
         id: 11
@@ -9122,11 +9124,11 @@ collection:
               <p>Scoring module. Needs to return:</p>
               
               <ul>
-              	<li><strong>.branch</strong>&nbsp;- should be string with either&nbsp;<strong>correct&nbsp;</strong>or&nbsp;<strong>incorrect</strong> value</li>
-              	<li><strong>correct</strong>&nbsp;- numerical, should be <strong>1</strong> if correct answer was given,&nbsp;<strong>0&nbsp;</strong>otherwise</li>
-              	<li><strong>correctness</strong>&nbsp;- vector containing values of&nbsp;<strong>correct&nbsp;</strong>values above for all responses</li>
-              	<li><strong>sem</strong>&nbsp;- standard error of the mean</li>
-              	<li><strong>theta</strong></li>
+              	<li><strong>.branch</strong>&nbsp;- string - containing either&nbsp;<strong>correct&nbsp;</strong>or&nbsp;<strong>incorrect</strong> value</li>
+              	<li><strong>correct</strong>&nbsp;- numerical value -&nbsp;should be <strong>1</strong> if correct answer was given,&nbsp;<strong>0&nbsp;</strong>otherwise</li>
+              	<li><strong>correctness</strong>&nbsp;- vector - containing values of&nbsp;<strong>correct</strong> answers&nbsp;for all responses</li>
+              	<li><strong>sem</strong>&nbsp;- standard error of measurement</li>
+              	<li><strong>theta&nbsp;</strong>- difficulty value</li>
               </ul>
               
             hideCondition: ''
@@ -9150,8 +9152,8 @@ collection:
               <p>Response processing module. Usually used for saving responses. Needs to return:</p>
               
               <ul>
-              	<li><strong>itemsAdministered</strong>&nbsp;- vector of administered item&#39;s indices</li>
-              	<li><strong>responseId</strong>&nbsp;- numerical, id of inserted response record</li>
+              	<li><strong>itemsAdministered</strong>&nbsp;- vector - containing indices of the items administered</li>
+              	<li><strong>responseId</strong>&nbsp;- numerical - containing&nbsp;id of&nbsp;the inserted response record</li>
               </ul>
               
             hideCondition: ''
@@ -9175,7 +9177,7 @@ collection:
               <p>Status check module. Checks if test should be continued or should be stopped. Needs to return:</p>
               
               <ul>
-              	<li><strong>.branch</strong>&nbsp;- should be string with either&nbsp;<strong>continue</strong>&nbsp;or <b>stop</b>&nbsp;as a value</li>
+              	<li><strong>.branch</strong>&nbsp;- string - containing&nbsp;either&nbsp;<strong>continue</strong>&nbsp;or <b>stop</b>&nbsp;as a value</li>
               </ul>
               
             hideCondition: ''
@@ -9194,7 +9196,7 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: 56b4b07b92ff3e90f31ddb0f66f2abc247a52955
+    hash: c52ac8ada358e20c7002cfed3dd37062e646e1f4
   -
     class_name: Test
     id: 25
@@ -9583,7 +9585,7 @@ collection:
             class_name: TestWizardParam
             id: 32
             label: 'Layout Template'
-            description: 'Main layout template'
+            description: 'Select which template to use for the layout of the main page into which other templates are inserted'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -9601,7 +9603,14 @@ collection:
             class_name: TestWizardParam
             id: 33
             label: 'Content Templates'
-            description: 'Templates that should be included in main layout template. Where&nbsp;<strong>Name</strong>&nbsp;is name of inserted variable on layout template and&nbsp;<strong>Template&nbsp;</strong>is template content that should be inserted in place of this variable.'
+            description: |
+              <p>Specify which templates to insert into the main layout template. There are two variables:</p>
+              
+              <ul>
+              	<li><strong>Name</strong>&nbsp;is the name of a&nbsp;variable on the main layout template</li>
+              	<li><strong>Template&nbsp;</strong>is the template content that should be inserted in place of this named variable</li>
+              </ul>
+              
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
@@ -9633,7 +9642,7 @@ collection:
     test: 26
     groups: ''
     starterContent: true
-    hash: 3989538a2265fa71a44af95629be220678aa94cb
+    hash: 22f45eeeda2ccec978c91dd5a205fa0f8abc8174
   -
     class_name: Test
     id: 27
@@ -14882,11 +14891,11 @@ collection:
             id: 34
             label: Type
             description: |
-              <p>Type of item bank. One of the following:</p>
+              <p>Select where to get items from:</p>
               
               <ul>
-              	<li><strong>Direct</strong>&nbsp;- items are declared directly on node</li>
-              	<li><strong>Table</strong> - items are read from data table</li>
+              	<li><strong>Direct&nbsp;</strong>- declare item bank at the node level</li>
+              	<li><strong>Table&nbsp;</strong>- use a data table as the item bank</li>
               </ul>
               
             hideCondition: ''
@@ -14913,7 +14922,7 @@ collection:
             class_name: TestWizardParam
             id: 35
             label: Items
-            description: 'Items collection for test.'
+            description: 'Directly input your item bank'
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
@@ -15036,7 +15045,7 @@ collection:
             class_name: TestWizardParam
             id: 36
             label: Table
-            description: 'Column mapping for item bank.'
+            description: 'Map columns in data table to item bank'
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
@@ -15074,7 +15083,7 @@ collection:
             class_name: TestWizardParam
             id: 37
             label: 'Item Template'
-            description: 'Layout template for item page.'
+            description: 'Select which template to use for linear test item page design'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -15093,11 +15102,11 @@ collection:
             id: 38
             label: Order
             description: |
-              <p>Order of items. One of the following:</p>
+              <p>Select the order in which to show items:</p>
               
               <ul>
-              	<li><strong>Manual</strong>&nbsp;- will use sorted&nbsp;<strong>orderIndex&nbsp;</strong>column for order</li>
-              	<li><strong>Random&nbsp;</strong>- item order will be randomized</li>
+              	<li><strong>Manual</strong>&nbsp;- item order will be determined by sorted values in&nbsp;the&nbsp;<strong>orderIndex&nbsp;</strong>column</li>
+              	<li><strong>Random&nbsp;</strong>- items will be shown in a random order</li>
               </ul>
               
             hideCondition: ''
@@ -15124,7 +15133,7 @@ collection:
             class_name: TestWizardParam
             id: 39
             label: 'Can Go Back?'
-            description: 'Should it be possible to go back to already answered items and change your response?'
+            description: 'Check box to enable the user to go back to items that have already been answered and change their response(s)'
             hideCondition: ''
             type: 4
             passableThroughUrl: '0'
@@ -15150,8 +15159,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 40
-            label: 'Test Time Limit'
-            description: 'Total test time limit in seconds. <strong>0</strong> for no limit.'
+            label: 'Limit Total Test Time'
+            description: 'Total test time limit in seconds. 0&nbsp;= no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -15168,8 +15177,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 41
-            label: 'Item Time Limit'
-            description: 'Time limit, in seconds, for each item.&nbsp;<strong>0</strong> for none.'
+            label: 'Limit Time Per Item'
+            description: 'Time limit for each item, in seconds.&nbsp;0 = no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -15186,8 +15195,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 42
-            label: 'Sufficient Item Time Required'
-            description: 'If checked your total test time left must be greater or equal to item time limit. Otherwise no further questions will be shown.'
+            label: 'Require Sufficient Time Per Item'
+            description: 'Check this box to prevent the test from showing more items when the total test time remaining is less than the time limit per item.'
             hideCondition: 'values.testTimeLimit == 0 || values.itemTimeLimit == 0'
             type: 4
             passableThroughUrl: '0'
@@ -15204,8 +15213,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 43
-            label: 'Item Number Limit'
-            description: 'Maximum number of items.&nbsp;<strong>0&nbsp;</strong>for no limit.'
+            label: 'Limit Number of Items'
+            description: 'Maximum number of items to show in the test.&nbsp;0 =&nbsp;no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -15232,7 +15241,9 @@ collection:
             class_name: TestWizardParam
             id: 44
             label: 'Response Bank'
-            description: 'Response column mapping. Don&#39;t select any table if you do not wish to store responses in your data tables.'
+            description: |
+              <p style="margin-bottom:10px"><span style="font-size:11pt"><span style="background:white"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-size:10.5pt"><span style="font-family:&quot;Helvetica&quot;,sans-serif"><span style="color:#333333">Specify where to save responses to items. Leave empty to not store responses.</span></span></span></span></span></span></span></p>
+              
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
@@ -15277,8 +15288,8 @@ collection:
           -
             class_name: TestWizardParam
             id: 45
-            label: 'Response required'
-            description: 'Are responses required?'
+            label: 'Require Response'
+            description: '<span style="font-size:10.5pt"><span style="line-height:107%"><span style="font-family:&quot;Helvetica&quot;,sans-serif"><span style="color:#333333">Check box to require user to answer all items before proceeding to next page.</span></span></span></span>'
             hideCondition: ''
             type: 4
             passableThroughUrl: '0'
@@ -15327,10 +15338,10 @@ collection:
               <p>Next item selector module. Needs to return:</p>
               
               <ul>
-              	<li><strong>nextItem</strong>&nbsp;- list, next item to show</li>
-              	<li><strong>nextItemIndex</strong>&nbsp;- numerical, index of next item to show</li>
-              	<li><strong>nextItemSafe</strong>&nbsp;- list, next item to show with all sensitive data fields removed</li>
-              	<li><strong>pastResponseSafe&nbsp;</strong>- list, past response for next item with all sensitive data fields removed</li>
+              	<li><strong>nextItem</strong>&nbsp;- list - representing next item to&nbsp;show</li>
+              	<li><strong>nextItemIndex</strong>&nbsp;- numerical -&nbsp;index of next item to show</li>
+              	<li><strong>nextItemSafe</strong>&nbsp;- list - representing&nbsp;next item record that can be passed to client side (should not contain sensitive data!)</li>
+              	<li><strong>pastResponseSafe&nbsp;</strong>- list - representing past response for next item that can be passed to client side (should not contain&nbsp;sensitive data!)</li>
               </ul>
               
             hideCondition: ''
@@ -15354,9 +15365,9 @@ collection:
               <p>Scoring module. Needs to return:</p>
               
               <ul>
-              	<li><strong>score&nbsp;</strong>- numerical, score for last response given</li>
-              	<li><strong>scores</strong>&nbsp;- vector, scores for all past responses</li>
-              	<li><strong>traitScores</strong>&nbsp;- list, keys are trait names and values are total scores for given trait</li>
+              	<li><strong>score&nbsp;</strong>- numerical - score for last response given</li>
+              	<li><strong>scores</strong>&nbsp;- vector -&nbsp;scores for all past responses</li>
+              	<li><strong>traitScores</strong>&nbsp;- list -&nbsp;keys are trait names and values are total scores for each trait</li>
               </ul>
               
             hideCondition: ''
@@ -15377,12 +15388,12 @@ collection:
             id: 49
             label: 'Response Processor Module'
             description: |
-              <p>Response processor module. Must return:</p>
+              <p>Response processor module. Needs to return:</p>
               
               <ul>
-              	<li><strong>direction</strong>&nbsp;- numerical, positive for next item, negative for previous item</li>
-              	<li><strong>itemsAdministered</strong>&nbsp;- vector, contains all indices of already administered items</li>
-              	<li><strong>responseId</strong>&nbsp;- id of inserted response record to database</li>
+              	<li><strong>direction</strong>&nbsp;- numerical -&nbsp;positive for next item, negative for previous item</li>
+              	<li><strong>itemsAdministered</strong>&nbsp;- vector - containing indices of the items administered</li>
+              	<li><strong>responseId</strong>&nbsp;- numerical - containing id of the inserted response record</li>
               </ul>
               
             hideCondition: ''
@@ -15403,10 +15414,10 @@ collection:
             id: 50
             label: 'Status Check Module'
             description: |
-              <p>Status check module. Checks whether test should continue or end. Must return:</p>
+              <p>Status check module. Checks if test should be continued or should be stopped. Needs to&nbsp;return:</p>
               
               <ul>
-              	<li><strong>.branch&nbsp;</strong>- string, shoul be&nbsp;<strong>continue </strong>if test should continue or&nbsp;<strong>stop&nbsp;</strong>if it should be stopped</li>
+              	<li><strong>.branch&nbsp;</strong>- string - containing either&nbsp;<strong>continue </strong>or&nbsp;<strong>stop&nbsp;</strong>as a value</li>
               </ul>
               
             hideCondition: ''
@@ -15425,7 +15436,7 @@ collection:
     test: 30
     groups: ''
     starterContent: true
-    hash: b6cce42f3a30909a498e2e82ca387773a93dbead
+    hash: 0bb05ef3a98317954be002a412bc99ad77d50224
   -
     class_name: Test
     id: 35
@@ -15780,7 +15791,7 @@ collection:
             class_name: TestWizardParam
             id: 51
             label: Template
-            description: 'Layout template to use for form.'
+            description: 'Select which template to use for form design'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -15798,7 +15809,7 @@ collection:
             class_name: TestWizardParam
             id: 52
             label: Fields
-            description: 'List of fields for form.'
+            description: 'List of fields to be used by the form'
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
@@ -15906,7 +15917,7 @@ collection:
     test: 36
     groups: ''
     starterContent: true
-    hash: ae9f046fe18e16d49b5dc6f9735fd8de31381451
+    hash: 85ffa79826d01c83fa301ce3f7324481a17a913e
   -
     class_name: Test
     id: 37
@@ -23418,12 +23429,12 @@ collection:
             id: 72
             label: 'Query type'
             description: |
-              <p>Type of query. One of following:</p>
+              <p>Select which type of query this&nbsp;node should perform:</p>
               
               <ul>
               	<li><strong>Select&nbsp;</strong>- reads data from table</li>
               	<li><strong>Update&nbsp;</strong>- updates existing data in table</li>
-              	<li><strong>Insert&nbsp;</strong>- inserts new data to table</li>
+              	<li><strong>Insert&nbsp;</strong>- inserts new data into table</li>
               	<li><strong>Delete&nbsp;</strong>- deletes existing data from table</li>
               	<li><strong>Custom&nbsp;</strong>- custom query</li>
               </ul>
@@ -23466,7 +23477,7 @@ collection:
             class_name: TestWizardParam
             id: 73
             label: Table
-            description: 'Table to run query on.'
+            description: 'Select which table to perform the query on'
             hideCondition: 'values.queryType == "custom"'
             type: 6
             passableThroughUrl: '0'
@@ -23503,14 +23514,18 @@ collection:
             id: 75
             label: 'Set clause'
             description: |
+              <p>Here you can configure the operation of the Set clause:</p>
+              
               <ul>
-              	<li>if is string (<strong>Insert</strong>,&nbsp;<strong>Update</strong> only), will be used literally and replace any insert directives with dynamic inputs from node, e.g.:<br />
+              	<li>If the cell contains a&nbsp;string (<strong>Insert</strong>,&nbsp;<strong>Update</strong> only), it will be used literally and replace any insert directives with dynamic inputs from the node, e.g.:<br />
               	<strong>column1={{column1Value}} AND column2={{column2Value}}</strong></li>
-              	<li>if empty (<strong>Insert</strong>&nbsp;only), will build clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g. for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong><br />
-              	<strong>(col1,col2) VALUES (2,3)</strong></li>
-              	<li>if empty (<b>Update&nbsp;</b>only), will build set clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g. for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong><br />
-              	<strong>col1=2, col2=3</strong></li>
+              	<li>If the cell is empty, it will build a clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g.:</li>
               </ul>
+              
+              <ol>
+              	<li><strong>(Insert</strong>&nbsp;only) for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong><strong>(col1,col2) VALUES (2,3)</strong></li>
+              	<li>(<strong>Update</strong>&nbsp;only) for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong><strong>col1=2, col2=3</strong></li>
+              </ol>
               
             hideCondition: 'values.queryType == "select"'
             type: 1
@@ -23530,15 +23545,14 @@ collection:
             id: 76
             label: 'Where clause'
             description: |
+              <p>Here you can configure the operation of the where clause.</p>
+              
               <ul>
-              	<li>if is string (<strong>Select</strong>,&nbsp;<strong>Delete</strong> only), will be used literally and replace any insert directives with dynamic inputs from node, e.g.:<br />
+              	<li>If the cell contains a string (<strong>Select</strong>,&nbsp;<strong>Delete</strong> only), it will be used literally and will therefore replace any insert directives with dynamic inputs from the node, e.g.:<br />
               	<strong>column1={{column1Value}} AND column2={{column2Value}}</strong></li>
-              	<li>if numeric, e.g.:<br />
-              	<strong>23</strong><br />
-              	will be converted to:<br />
-              	<strong>id=23</strong></li>
-              	<li>if empty, will build where clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g. for dyanmic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong><br />
-              	<strong>col1=2 AND col2=3</strong></li>
+              	<li>If the cell contains a&nbsp;numeric value, it will be converted to an id e.g.:<br />
+              	<strong>23&nbsp;</strong>will be converted to&nbsp;<strong>id=23</strong></li>
+              	<li>If the cell is empty, this node&nbsp;will build a where clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g.: for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong>&nbsp;<strong>col1=2 AND col2=3</strong></li>
               </ul>
               
             hideCondition: 'values.queryType == "insert"'
@@ -23557,7 +23571,7 @@ collection:
     test: 46
     groups: ''
     starterContent: true
-    hash: a1bfc20f4861f9fae563a12f1ac558512a143433
+    hash: 4a653c0c32555d30ba80724b80041c0b9e93bf5f
   -
     class_name: Test
     id: 47
@@ -23760,7 +23774,7 @@ collection:
             class_name: TestWizardParam
             id: 77
             label: 'Dictionary table'
-            description: 'Dictionary table mapping. For&nbsp;<strong>Language per table</strong>&nbsp;type, this can be mapping to any of the language tables.'
+            description: 'Select which table to use as the dictionary table. If you are using the&nbsp;<strong>Language per table</strong>&nbsp;type, it does not matter which language version table you select here.'
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
@@ -23786,7 +23800,7 @@ collection:
             class_name: TestWizardParam
             id: 78
             label: 'Default language'
-            description: 'Default language to use when no language is specified'
+            description: 'Select which language should be used as a default when no language is specified'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
@@ -23805,11 +23819,11 @@ collection:
             id: 79
             label: Type
             description: |
-              <p>Dictionary table type. One of the following:</p>
+              <p>Select which type of dictionary table you would like&nbsp;to use:</p>
               
               <ul>
-              	<li><strong>Language per table&nbsp;</strong>- each language in its own table (tables must end with underscore followed by language code, e.g.:&nbsp;<strong>dictionary_en</strong>&nbsp;for english), translation column name need to be same as language code (e.g.&nbsp;<strong>en</strong>&nbsp;for english)</li>
-              	<li><strong>Language per column</strong>&nbsp;- single table, each language in its own column (column for each supported language, translation columns needs to be same as language code (e.g.&nbsp;<strong>en&nbsp;</strong>for english)</li>
+              	<li><strong>Language per table&nbsp;</strong>- each language will have its own table. Tables names must end with an underscore, followed by the language code, e.g.&nbsp;table&nbsp;<strong>dictionary_en</strong>&nbsp;for English). The name of the column containing the translated data must also&nbsp;be the same as the language code (e.g. column&nbsp;<strong>en</strong>&nbsp;for English)</li>
+              	<li><strong>Language per column</strong>&nbsp;-&nbsp; all languages are in a single table, but each language has its own column. The names of columns containing the translated data must be the same as the language code (e.g. column&nbsp;<strong>en&nbsp;</strong>for English, column <strong>fr&nbsp;</strong>for French, etc.)</li>
               </ul>
               
             hideCondition: ''
@@ -23837,7 +23851,7 @@ collection:
     test: 48
     groups: ''
     starterContent: true
-    hash: dbf5061fbaa01ec66e70f4eaeb6b0632603f944c
+    hash: 6b01cf5e4205bcfd58c9d911d1306e5434f22de9
   -
     class_name: Test
     id: 49
