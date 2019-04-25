@@ -1,5 +1,12 @@
-version: "2.0"
+version: "2.1"
 changelog:
+    - version: "2.1"
+      description: >
+        Merged questionnaire with linearTest
+      categories:
+          - label: Refactor
+            changes:
+                - merged questionnaire with linearTest
     - version: "2.0"
       description: >
         New major version of starter content
