@@ -1,7 +1,7 @@
 version: '3.0'
 services:
     concerto:
-      build: .
+      build: ../../travis
       container_name: concerto
       environment:
         - DB_TEST_HOST=127.0.0.1

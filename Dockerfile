@@ -61,11 +61,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-COPY build/php/php.ini /etc/php/7.2/fpm/php.ini
-COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
-COPY build/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
-COPY build/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+COPY build/docker/php /etc/php/7.2/fpm/php.ini
+COPY build/docker/nginx /etc/nginx/nginx.conf
+COPY build/docker/nginx /etc/nginx/sites-available/concerto.conf
+COPY build/docker/php-fpm /etc/php/7.2/fpm/php-fpm.conf
+COPY build/docker/php-fpm /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
