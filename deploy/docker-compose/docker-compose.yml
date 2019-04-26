@@ -4,8 +4,6 @@ services:
       image: mysql:5.7
       container_name: database
       restart: unless-stopped
-      ports:
-        - "3306:3306"
       environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_DATABASE=concerto
