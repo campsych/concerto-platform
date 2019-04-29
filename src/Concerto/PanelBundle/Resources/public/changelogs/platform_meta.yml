@@ -7,6 +7,9 @@ changelog:
           - label: Features
             changes:
                 - added unsecured template content GET
+          - label: Improvements
+            changes:
+                - tuned down CKEditor autoformating when switching between modes
           - label: R package
             changes:
                 - template directive can now take additional options (css,js,html)

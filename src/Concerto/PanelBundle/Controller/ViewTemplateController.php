@@ -174,11 +174,11 @@ class ViewTemplateController extends AExportableTabController
         $showJs = true;
 
         $htmlOverride = $request->get("html");
-        if($htmlOverride !== null) $showHtml = $htmlOverride == 1;
+        if ($htmlOverride !== null) $showHtml = $htmlOverride == 1;
         $cssOverride = $request->get("css");
-        if($cssOverride !== null) $showCss = $cssOverride == 1;
+        if ($cssOverride !== null) $showCss = $cssOverride == 1;
         $jsOverride = $request->get("js");
-        if($jsOverride !== null) $showJs = $jsOverride == 1;
+        if ($jsOverride !== null) $showJs = $jsOverride == 1;
 
         $template = $this->service->get($id, false, false);
         if ($template === null) {

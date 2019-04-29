@@ -2,8 +2,11 @@ version: "2.1"
 changelog:
     - version: "2.1"
       description: >
-        Merged questionnaire with linearTest
+        Extensible item types set
       categories:
+          - label: Features
+            changes:
+                - extensible item types set
           - label: Refactor
             changes:
                 - merged questionnaire with linearTest

@@ -2,10 +2,84 @@ version: 5.0.beta.9.2
 collection:
   -
     class_name: ViewTemplate
+    id: 9
+    name: itemOptions
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: |
+      .item-options-response {
+        display: table;
+      }
+      
+      .item-options-response-radio-cell {
+        display: table-cell;
+      }
+      
+      .item-options-response-label-cell {
+        display: table-cell;
+      }
+    js: |
+      testRunner.compileProvider.component('itemOptions', {
+        templateUrl: testRunner.settings.directory + "ViewTemplate/itemOptions/content?css=1,html=1",
+        bindings: {
+          item: '=',
+          response: '=',
+          responseRequired: "<"
+        },
+        controller: function controller($scope) {
+          $scope.item = this.item;
+          $scope.response = this.response;
+          $scope.responseRequired = this.responseRequired;
+        }
+      });
+    html: |
+      <div class="item-options-response" ng-repeat="option in item.responseOptions.options track by $index">
+      <div class="item-options-response-radio-cell">
+      <input id="r[[item.id]]-[[option.value]]" name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" ng-value="option.value" type="radio" />
+      </div>
+      <div class="item-options-response-label-cell">
+      <label for="r[[item.id]]-[[option.value]]" ng-bind-html="option.label">&nbsp;</label>
+      </div>
+      </div>
+      
+    groups: ''
+    starterContent: true
+    hash: 8c48c560d7cdeda3e955729ef35f3bfa51a42acd
+  -
+    class_name: ViewTemplate
+    id: 7
+    name: itemOpen
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: ''
+    js: |
+      testRunner.compileProvider.component('itemOpen', {
+        templateUrl: testRunner.settings.directory + "ViewTemplate/itemOpen/content?css=1,html=1",
+        bindings: {
+          item: '=',
+          response: '=',
+          responseRequired: '<'
+        },
+        controller: function controller($scope) {
+          $scope.item = this.item;
+          $scope.response = this.response;
+          $scope.responseRequired = this.responseRequired;
+        }
+      });
+    html: '<input name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" type="text" />'
+    groups: ''
+    starterContent: true
+    hash: d018b13d13789362163cbf45df9dd0acaf6fe074
+  -
+    class_name: ViewTemplate
     id: 3
     name: form
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     head: ''
     css: ''
@@ -72,28 +146,16 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: 72d5711cb06078817a6427674de6442b7cd826ab
+    hash: ec11da51ff747dcf7054e12594edd65211074334
   -
     class_name: ViewTemplate
     id: 2
     name: linearTest
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     head: ''
     css: |
-      .linearTest-response {
-        display: table;
-      }
-      
-      .linearTest-response-radio-cell {
-        display: table-cell;
-      }
-      
-      .linearTest-response-label-cell {
-        display: table-cell;
-      }
-      
       .linearTest-error {
       }
       
@@ -115,7 +177,7 @@ collection:
         if($scope.pastResponses) {
           for(var i=0;i<$scope.pastResponses.length;i++) {
             var response = $scope.pastResponses[i];
-            $scope.responses["r"+response.item_id] = response.response;
+            $scope.responses["r"+response.item_id] = typeof response.response === 'object' ? response.response : { value : response.response };
           }
         }
       
@@ -125,56 +187,38 @@ collection:
           $scope.items[i] = item;
           
           if(typeof $scope.responses["r"+item.id] === 'undefined') {
-            $scope.responses["r"+item.id] = null;
+            $scope.responses["r"+item.id] = {};
           }
         }
       });
-      
     html: |
+      {{template:itemOpen,css=FALSE,html=FALSE}}
+      {{template:itemOptions,css=FALSE,html=FALSE}}
       <form name="form" ng-controller="linearTest">
         <div class="linearTest-timer">[[timeLeft]]</div>
-      
         <div ng-repeat="item in items">
           <div class="linearTest-question" ng-bind-html="item.question"></div>
-      
-          <div ng-if="item.responseOptions.type == 'options'">
-            <div class="linearTest-response" ng-repeat="option in item.responseOptions.options track by $index">
-              <div class="linearTest-response-radio-cell"><input id="r[[item.id]]-[[option.value]]" name="r[[item.id]]" ng-model="responses['r' + item.id]" ng-required="responseRequired" ng-value="option.value" type="radio" /></div>
-      
-              <div class="linearTest-response-label-cell"><label for="r[[item.id]]-[[option.value]]" ng-bind-html="option.label">&nbsp;</label></div>
-            </div>
+          <div ng-switch="item.responseOptions.type">
+            <item-open item="item" ng-switch-when="open" response="responses['r' + item.id]" response-required="responseRequired"></item-open>
+            <item-options item="item" ng-switch-when="options" response="responses['r' + item.id]" response-required="responseRequired"></item-options>
           </div>
-      
-          <div ng-if="item.responseOptions.type == 'open'"><input name="r[[item.id]]" ng-model="responses['r' + item.id]" ng-required="responseRequired" type="text" /></div>
-      
           <div class="linearTest-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
         </div>
-        <button name="back" ng-show="canGoBack">Previous</button><button name="next" ng-disabled="!form.$valid">Next</button></form>
+        <button name="back" ng-show="canGoBack">Previous</button><button name="next" ng-disabled="!form.$valid">Next</button>
+      </form>
       
     groups: ''
     starterContent: true
-    hash: 87e567b5b600d5802dff33a3a913d2cfeeb21963
+    hash: b621f66d00938eaf3736abd1b4581ffb351f6e72
   -
     class_name: ViewTemplate
     id: 1
     name: CAT
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     head: ''
     css: |
-      .CAT-response {
-        display: table;
-      }
-      
-      .CAT-response-radio-cell {
-        display: table-cell;
-      }
-      
-      .CAT-response-label-cell {
-        display: table-cell;
-      }
-      
       .CAT-timer:empty {
         display: none;
       }
@@ -185,38 +229,32 @@ collection:
         $scope.responseRequired = testRunner.R.responseRequired == 1;
         $scope.responseRequiredAlert = testRunner.R.responseRequiredAlert;
         
-        $scope.response = {
-          value: null
-        };
+        $scope.response = {};
       });
       
     html: |
+      {{template:itemOpen,css=FALSE,html=FALSE}}
+      {{template:itemOptions,css=FALSE,html=FALSE}}
       <form name="form" ng-controller="CAT">
         <div class="CAT-timer">[[timeLeft]]</div>
         <div class="CAT-question" ng-bind-html="item.question"></div>
-      
-        <div class="CAT-response-group" ng-if="item.responseOptions.type == 'options'">
-          <div class="CAT-response" ng-repeat="option in item.responseOptions.options track by $index">
-            <div class="CAT-response-radio-cell"><input id="input_response_[[$index+1]]" name="response" ng-model="response.value" ng-required="responseRequired" type="radio" value="[[option.value]]" /></div>
-      
-            <div class="CAT-response-label-cell"><label for="input_response_[[$index+1]]" ng-bind-html="option.label">&nbsp;</label></div>
-          </div>
-      
-          <div ng-if="item.responseOptions.type == 'open'"><input name="response" ng-model="response" ng-required="responseRequired" type="text" /></div>
-      
-          <div class="CAT-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
+        <div ng-switch="item.responseOptions.type">
+          <item-open item="item" ng-switch-when="open" response="response" response-required="responseRequired"></item-open>
+          <item-options item="item" ng-switch-when="options" response="response" response-required="responseRequired"></item-options>
         </div>
-        <button name="submit" ng-disabled="!form.$valid">submit</button></form>
+        <div class="CAT-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
+        <button name="submit" ng-disabled="!form.$valid">submit</button>
+      </form>
       
     groups: ''
     starterContent: true
-    hash: 2a2c9e0910505f37464ffe629e7627b88820e5e7
+    hash: fdc7c1e98efc5793a9e51296e522a393b837ecf2
   -
     class_name: DataTable
     id: 9
     name: translationDictionary
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     columns:
       -
@@ -249,7 +287,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: d39f707938a292225bc07af776c9bbee2b4bb5d7
+    hash: 4ffe389d37c5aeb9e635029a10021caed5e19b88
   -
     class_name: DataTable
     id: 6
@@ -294,7 +332,7 @@ collection:
     id: 5
     name: linearTestItems
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     columns:
       -
@@ -319,13 +357,13 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: c7a0430965944cc149b18229407c1606461b7877
+    hash: d8dc5520a7a9bd7499e86807e55799fceb3cf131
   -
     class_name: DataTable
     id: 4
     name: CATItems
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     columns:
       -
@@ -370,7 +408,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: e69c6126edfcd762345ac2304d19d6b3e4b7241c
+    hash: 36e58046aa3a53e580471659368b34331f4b9dc2
   -
     class_name: DataTable
     id: 3
@@ -419,7 +457,7 @@ collection:
     id: 2
     name: sessions
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     columns:
       -
@@ -452,7 +490,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: aacff426b7217ab867ec99eb633711619d5b935f
+    hash: 947e8c07e96e04045f8763bbfe4abe26366b26d5
   -
     class_name: DataTable
     id: 1
@@ -484,7 +522,7 @@ collection:
     class_name: Test
     id: 1
     name: _showPage
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -583,13 +621,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 62ab1f92cfde75cf2e72dc8cbb6d7b264f26dd39
+    hash: 3046c8b60b023b25b3421d54019fcd174985c013
   -
     class_name: TestWizard
     id: 1
     name: showPage
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -658,12 +696,12 @@ collection:
     test: 1
     groups: ''
     starterContent: true
-    hash: 926b8155cb133c881a3e409056b97e6e17840721
+    hash: 84f3a68f3dd674fff9915c703d7e8cc0fd04fa5d
   -
     class_name: Test
     id: 2
     name: showPage
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -737,12 +775,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: b41e718afdd291e244cfb146626c7141a504e826
+    hash: b3571dce506cfb498df80d87f4c11d716855e622
   -
     class_name: Test
     id: 3
     name: _setInternalTemplates
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -797,13 +835,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: f1758ad2520a47c8338eb829ae960d0747af11e6
+    hash: 2e7d6c28b4325218e382e2a8ef2dbb7ac09e92a8
   -
     class_name: TestWizard
     id: 2
     name: setInternalTemplates
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -836,12 +874,12 @@ collection:
     test: 3
     groups: ''
     starterContent: true
-    hash: c06dc129269dccdbfa27b0e6d0cd016c1d2c2fb4
+    hash: 359acec776c7df990114faa837b82d405812d4f8
   -
     class_name: Test
     id: 4
     name: setInternalTemplates
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -885,12 +923,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 8f8bff222ba88af5c3a2dab8749d18d6cfc748e1
+    hash: eb8258d1a18c7a76c5e5f6d06786b9cb08f774d0
   -
     class_name: Test
     id: 5
     name: _authorizeUser
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -1087,13 +1125,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 201ff021e772efc44c2e5727e8d421104c168794
+    hash: 4c325e561050b96782fdf813825c6ea3e74b09ad
   -
     class_name: TestWizard
     id: 3
     name: authorizeUser
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -1288,12 +1326,12 @@ collection:
     test: 5
     groups: ''
     starterContent: true
-    hash: 3089750898d413998232d69a821115570ce988a8
+    hash: be613b8457c1580f3240e484b45fa2c8bcd1feca
   -
     class_name: Test
     id: 6
     name: authorizeUser
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -1417,12 +1455,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: d78101625d98b43269e265a4a3eff7e8456bf509
+    hash: 6d1cad24812a846de73ba050584d907ed0b3718d
   -
     class_name: Test
     id: 7
     name: _createUser
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -1619,13 +1657,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 8b279a05cfefd0c5ba293c20c5dc5ead154fcb9c
+    hash: bab9cdf774e7a6ec1e6019a76ee3306d4421afa3
   -
     class_name: TestWizard
     id: 4
     name: createUser
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -1743,12 +1781,12 @@ collection:
     test: 7
     groups: ''
     starterContent: true
-    hash: aacab5009ea882ada94edea6ec3e434f1f5544b5
+    hash: 2197d36e83b1c4fbd17941fe6207aebed52d9d08
   -
     class_name: Test
     id: 8
     name: createUser
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -1862,12 +1900,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 4e0160c1bc6feb3dfd8195f91df1961af1db2bf9
+    hash: 962b85712681044305b646950d9c87312c85dcef
   -
     class_name: Test
     id: 9
     name: _startSession
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2076,13 +2114,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: c47bb84671feba6237a82af943d7816dce8938d0
+    hash: 3b7087801513f73470b21f08578916122affbd87
   -
     class_name: TestWizard
     id: 5
     name: startSession
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -2179,12 +2217,12 @@ collection:
     test: 9
     groups: ''
     starterContent: true
-    hash: 773cbee0c805d6a53f93fb13ebb5a507a05e3b1b
+    hash: bf5a012ee16b9aa07173ad07ea8ed487ac949894
   -
     class_name: Test
     id: 10
     name: startSession
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -2268,12 +2306,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 384579a9e9be97416921456e2c108c566e362d1a
+    hash: 1a5e57703c48e4d0ea4b732269c205d8003ff2ef
   -
     class_name: Test
     id: 11
     name: set
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2301,12 +2339,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 74f7a7bbe8623d0d968724f9267d5c304c91f6f6
+    hash: 220802aed8e79f2f5ea653740139ccdd5bbecd03
   -
     class_name: Test
     id: 12
     name: _runTest
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2377,13 +2415,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 28395689418c8145bcf6f0e12f15dc208f943863
+    hash: 63637f9a713c8d0282fe8583c48e60f70d9e7955
   -
     class_name: TestWizard
     id: 6
     name: runTest
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -2416,12 +2454,12 @@ collection:
     test: 12
     groups: ''
     starterContent: true
-    hash: f7b1c0e5a7b8283343522d30f9edb4d35a053cf8
+    hash: a65ddfcfe61c4196ecd296a4ee630cac8f931279
   -
     class_name: Test
     id: 13
     name: runTest
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -2475,12 +2513,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 2a12072638d0a7f4a3031ad7c34caa3a735c37df
+    hash: 9e6d68b997f89eb35c8b49a83ee83a958557778c
   -
     class_name: Test
     id: 14
     name: if
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2537,12 +2575,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: c6ff2904ae23016825bd8094fb1c653a43cf35a5
+    hash: 9eebe7e6b8d4d0a02059e05e769b3b3e3f1f60b5
   -
     class_name: Test
     id: 15
     name: eval
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2586,12 +2624,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 1266085682e797e33d130cd9966d38e369437848
+    hash: 984026c495f333a2bfe3a8c2fb31dcd8e7b60507
   -
     class_name: Test
     id: 16
     name: get
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2609,12 +2647,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 3e981acda0de491a23bcbe6668c7e4774084793c
+    hash: 5d1fcfde5ab036fc807cee14333758eccfd0649a
   -
     class_name: Test
     id: 17
     name: _CATInitialization
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2817,12 +2855,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 0c1c74a4b74296ce8aede855c0aa4ea9c3906178
+    hash: 1ef168c29ae51c489cc69a18bc34bba1af3b8151
   -
     class_name: Test
     id: 18
     name: _CATShowItem
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -2975,12 +3013,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: ea9a0518c71d1fd34d11ff8d469dfcc47e5bfeb5
+    hash: c2540ff3bf7a018de78901dad076c6e8f0828c40
   -
     class_name: Test
     id: 19
     name: createList
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -3032,12 +3070,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 7e8f02d3c0a49e247ce9f634167d57aee20da6e0
+    hash: 4a7cb888e6f59b12d67542fc02ed8fc87fa56b65
   -
     class_name: Test
     id: 20
     name: _CAT
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 2
@@ -7725,12 +7763,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 488f9de26852572d39dfc12eb77900306957e929
+    hash: 8cedc59e3a98d85ad74627ab21c4a58fd93630e9
   -
     class_name: Test
     id: 21
     name: _CATNextItemSelectorModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -7901,12 +7939,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 049b8923a96d15e84004e2c74ada7e22b94a0cb1
+    hash: af3b897fe37e1011c8c9959412bab5ef36c6441e
   -
     class_name: Test
     id: 22
     name: _CATResponseProcessorModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -8085,12 +8123,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 720c34eb0f2862c88a4a85e979eb1fcd45296801
+    hash: 116284b0d71112a8410b7ce65305fb1af0beb34e
   -
     class_name: Test
     id: 23
     name: _CATStatusCheckModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -8235,12 +8273,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 645a21d3ad99a75951375ac744ab12a2ed5d7b42
+    hash: 932e77293cbe4b9b29be31dcef919d5d8f052e7e
   -
     class_name: Test
     id: 24
     name: _CATScoringModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -8426,13 +8464,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: b8f75b207770306c2d6d28786054e90643f85e47
+    hash: efe2b7dfbe1d935ce45de77c06036bd19b8c8c5a
   -
     class_name: TestWizard
     id: 7
     name: CAT
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -9066,12 +9104,12 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: c52ac8ada358e20c7002cfed3dd37062e646e1f4
+    hash: 73181a4facdac514749b5b73e1980d4aef515ded
   -
     class_name: Test
     id: 25
     name: CAT
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -9345,12 +9383,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: fc500ebc0b86728a787c7de85820eaf263af71e2
+    hash: 196015efdbe6a58cde13d475c95e5af10fb22f02
   -
     class_name: Test
     id: 26
     name: _nestedPageHtml
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -9433,13 +9471,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: e68daf4e081601205c7cdbf4e686a73960ddc25d
+    hash: 55965e6d961e95daded3386cde366541e05749df
   -
     class_name: TestWizard
     id: 8
     name: nestedPageHtml
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -9512,12 +9550,12 @@ collection:
     test: 26
     groups: ''
     starterContent: true
-    hash: 22f45eeeda2ccec978c91dd5a205fa0f8abc8174
+    hash: 1ed72fe3c207865f948a6a43f4066f8d43bf6192
   -
     class_name: Test
     id: 27
     name: nestedPageHtml
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -9581,12 +9619,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 3fbec6708e4731680d5d942f26aa9ca7f32a79a4
+    hash: 343ce8c509f271042e1c1503965cda40dbfa09d1
   -
     class_name: Test
     id: 28
     name: _linearTestInitialization
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -9737,12 +9775,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: b8a3bc51d08c0e5ca50f028fb9442c828597e48b
+    hash: 2d8b386c50394c6086aef2b527af17e357d892e4
   -
     class_name: Test
     id: 29
     name: _linearTestShowItem
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -9940,12 +9978,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 37b4ff2930cb07a3451231cf556855979dcc22ce
+    hash: 5dcd4d9ac6ead737ae07681f27c31944c745bb06
   -
     class_name: Test
     id: 30
     name: _linearTest
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 2
@@ -14118,12 +14156,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: c18772da27b83635ef2768635f552959e0ebd3f7
+    hash: 77891bce1b380dafc1a74a44cba9f205cb53fc97
   -
     class_name: Test
     id: 31
     name: _linearTestNextItemSelectorModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -14349,12 +14387,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: acffea511da012a9670bee79c8c136ba8bcb035d
+    hash: 5504428e85cd8bbcd07a281c499ffc2bac9c7185
   -
     class_name: Test
     id: 32
     name: _linearTestScoringModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -14527,12 +14565,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: b49c1dd75ca615aae14d6ffa94a53bf526b6eb82
+    hash: 422abd271fdd476a1979b6d2883184195720a8ec
   -
     class_name: Test
     id: 33
     name: _linearTestResponseProcessorModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -14745,12 +14783,12 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 98965b3cbd262c636dae908f8a25900374b5f2a2
+    hash: b178aa11b7d160a585f413b57ed5879b6c63a7ac
   -
     class_name: Test
     id: 34
     name: _linearTestStatusCheckModule
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -14892,13 +14930,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: d35e76ebb28a747c99172507cc3c0c4f6f533a9c
+    hash: e40f2cbd0d9468c3437a2918f8d7fa246b3d4cf0
   -
     class_name: TestWizard
     id: 9
     name: linearTest
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -15478,12 +15516,12 @@ collection:
     test: 30
     groups: ''
     starterContent: true
-    hash: 36a9444d8b7b60292991c2ef168131a08d77034e
+    hash: d3a9ac92be3254dbd22c8e69e5a9229637db5004
   -
     class_name: Test
     id: 35
     name: linearTest
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -15717,12 +15755,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 0520d45b2ea62d2620bc966ea60aa8172fc5c12d
+    hash: 519845be9966eaae31536613422aa900a8c7f492
   -
     class_name: Test
     id: 36
     name: _form
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -15821,13 +15859,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: bb09fa732c92ffea91531b78882526256bfd2cf5
+    hash: 8254738952e48f2d8a4975a5631db9594e643395
   -
     class_name: TestWizard
     id: 10
     name: form
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -15969,12 +16007,12 @@ collection:
     test: 36
     groups: ''
     starterContent: true
-    hash: 85ffa79826d01c83fa301ce3f7324481a17a913e
+    hash: 2f71cc5ff46106e3ddf1f5f50e5f7b7af99e4224
   -
     class_name: Test
     id: 37
     name: form
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -16048,12 +16086,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 9d7d1b5a31a55051cc50d98b1580c2a9b4efdd89
+    hash: 2a678dbc6493bd8c474c7dd0f2e3ef239a09e0a9
   -
     class_name: Test
     id: 46
     name: _dataManipulation
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -16266,13 +16304,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 0cd757ea70fa0f0eb6bfd582a7f8757251f85d16
+    hash: 91d92eb7440b32185ff1c03d4f4717b8b6a100f4
   -
     class_name: TestWizard
     id: 12
     name: dataManipulation
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -16431,12 +16469,12 @@ collection:
     test: 46
     groups: ''
     starterContent: true
-    hash: 4a653c0c32555d30ba80724b80041c0b9e93bf5f
+    hash: 1901e55e02642456e281968900e5bcd1e748bca1
   -
     class_name: Test
     id: 47
     name: dataManipulation
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -16520,12 +16558,12 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: b1d4bcb5913e2052e0ad72aee6072574a08d6cbe
+    hash: 12524d30dc658db6432c291f17e454cd06095629
   -
     class_name: Test
     id: 48
     name: _translationDictionary
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 0
@@ -16612,13 +16650,13 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 4e5873378330e1db9345c6e47e587a5e94e45715
+    hash: 8b0a7f5cb059aa35afbdc0fcd15cfdab78c3bacc
   -
     class_name: TestWizard
     id: 13
     name: translationDictionary
     description: ''
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     steps:
       -
@@ -16711,12 +16749,12 @@ collection:
     test: 48
     groups: ''
     starterContent: true
-    hash: 6b01cf5e4205bcfd58c9d911d1306e5434f22de9
+    hash: 259633d50b0ec5f1d83fedf1d5b7c4d39370ee0a
   -
     class_name: Test
     id: 49
     name: translationDictionary
-    accessibility: 0
+    accessibility: 2
     archived: '0'
     visibility: 2
     type: 1
@@ -16780,4 +16818,4 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: b6269263d88939b531153057cb2e8d9df2a310a7
+    hash: 93351a71fb2cfe6d0f9cef5d75572604fc229131
