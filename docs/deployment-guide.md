@@ -114,7 +114,7 @@ Scaling scenarios
 
 ### Vertical scaling
 
-![fig-1](deployment-guide-fig-1.png)
+![fig-1](https://raw.githubusercontent.com/campsych/concerto-platform/master/docs/deployment-guide-fig-1.png)
 
 This is the simplest setup from the point of view of infrastructure
 required. A single server machine would suffice, or you could run the
@@ -135,7 +135,7 @@ common hardware.
 
 ### Horizontal scaling
 
-![fig-2](deployment-guide-fig-2.png)
+![fig-2](https://raw.githubusercontent.com/campsych/concerto-platform/master/docs/deployment-guide-fig-2.png)
 
 This scenario is a more reliable way to run Concerto
 because it provides redundant instances of the application in case of
@@ -384,7 +384,7 @@ Possible disadvantages:
 -   The service is specific to Amazon AWS so that causes a possible
     vendor lock-in situation.
 
-![fig-3](deployment-guide-fig-3.png)
+![fig-3](https://raw.githubusercontent.com/campsych/concerto-platform/master/docs/deployment-guide-fig-3.png)
 
 Task Definition needs to be created in the ECS cluster to run single
 campsych/concert-platform:tag container with /data mapped to filesystem
@@ -423,7 +423,7 @@ Possible disadvantages:
 -   Operating Kubernetes requires a qualified person to setup
     monitoring, log aggregation, backups, etc.
 
-![fig-4](deployment-guide-fig-4.png)
+![fig-4](https://raw.githubusercontent.com/campsych/concerto-platform/master/docs/deployment-guide-fig-4.png)
 
 Ingress Controller and Service definitions are fairly
 standard. Deployment should define one container - `campsych/concerto-platform:tag`. 
