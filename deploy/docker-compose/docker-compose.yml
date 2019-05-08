@@ -1,9 +1,9 @@
-version: '3.0'
+version: '2'
 services:
     database:
       image: mysql:5.7
       container_name: database
-      restart: unless-stopped
+      restart: on-failure
       environment:
         - MYSQL_DATABASE=concerto
         - MYSQL_USER=concerto
@@ -16,7 +16,7 @@ services:
     concerto:
       image: campsych/concerto-platform:master
       container_name: concerto
-      restart: unless-stopped
+      restart: on-failure
       volumes:
         - ./data/concerto:/data
       environment:
