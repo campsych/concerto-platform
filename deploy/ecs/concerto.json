@@ -1,0 +1,87 @@
+{
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": null,
+      "logConfiguration": null,
+      "entryPoint": null,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "command": null,
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "DB_HOST",
+          "value": "changeme"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "value": "changeme"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/data",
+          "sourceVolume": "data"
+        }
+      ],
+      "workingDirectory": "/app/concerto",
+      "secrets": null,
+      "dockerSecurityOptions": null,
+      "memory": null,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "campsych/concerto-platform",
+      "startTimeout": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": {
+        "retries": 3,
+        "command": [
+          "CMD-SHELL",
+          "curl --fail http://localhost:80/api/check/health || exit 1"
+        ],
+        "timeout": 5,
+        "interval": 30,
+        "startPeriod": null
+      },
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": false,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "concerto"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "data",
+      "host": {
+        "sourcePath": null
+      },
+      "dockerVolumeConfiguration": null
+    }
+  ],
+  "networkMode": "awsvpc",
+  "memory": "2048",
+  "cpu": "512"
+}

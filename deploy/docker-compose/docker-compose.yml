@@ -1,0 +1,27 @@
+version: '2'
+services:
+    database:
+      image: mysql:5.7
+      container_name: database
+      restart: on-failure
+      environment:
+        - MYSQL_DATABASE=concerto
+        - MYSQL_USER=concerto
+        - MYSQL_PASSWORD=changeme
+        - MYSQL_ROOT_PASSWORD=changeme
+        - TZ=Europe/London
+      volumes:
+        - ./data/mysql:/var/lib/mysql
+
+    concerto:
+      image: campsych/concerto-platform:master
+      container_name: concerto
+      restart: on-failure
+      volumes:
+        - ./data/concerto:/data
+      environment:
+        - DB_HOST=database
+        - DB_PASSWORD=changeme
+        - TZ=Europe/London
+      ports:
+        - "80:80"

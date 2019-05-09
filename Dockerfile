@@ -6,8 +6,8 @@ ARG CRAN_MIRROR=https://cloud.r-project.org
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
-ENV DB_USER=root
-ENV DB_PASSWORD=root
+ENV DB_USER=concerto
+ENV DB_PASSWORD=changeme
 ENV PHP_FPM_PM=dynamic
 ENV PHP_FPM_PM_MAX_CHILDREN=30
 ENV PHP_FPM_PM_START_SERVERS=10
@@ -61,11 +61,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-COPY build/php/php.ini /etc/php/7.2/fpm/php.ini
-COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
-COPY build/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
-COPY build/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+COPY build/docker/php/php.ini /etc/php/7.2/fpm/php.ini
+COPY build/docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY build/docker/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
+COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
+COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \

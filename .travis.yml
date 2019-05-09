@@ -1,7 +1,7 @@
 language: php
 dist: xenial
 php:
-  - 7.2
+  - "7.2"
 
 services:
   - docker
@@ -21,10 +21,10 @@ install:
   - docker tag campsych/concerto-platform:$TRAVIS_BRANCH campsych/concerto-platform:test
   - if [ "$TRAVIS_BRANCH" = "master" ]; then docker tag campsych/concerto-platform:$TRAVIS_BRANCH campsych/concerto-platform:latest; fi
 
-script: docker-compose -f travis/docker-compose.yml up --build --exit-code-from concerto
+script: docker-compose -f ./build/travis/docker-compose.yml up --build --exit-code-from concerto
 
 deploy:
   provider: script
-  script: bash ./travis/docker_deploy.sh
+  script: bash ./build/travis/docker_deploy.sh
   on:
     all_branches: true
