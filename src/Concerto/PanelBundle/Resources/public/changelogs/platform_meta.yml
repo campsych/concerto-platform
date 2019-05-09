@@ -1,9 +1,13 @@
-version: "5.0.beta.9.2"
+version: "5.0.beta.10.1"
 changelog:
-    - version: "5.0.beta.9.2"
+    - version: "5.0.beta.10.1"
       description: >
-        API checks endpoints
+        Starter content
       categories:
+          - label: Starter content
+            changes:
+                - merged questionnaire with linear test
+                - extensible item types set
           - label: Features
             changes:
                 - added unsecured template content GET
@@ -13,6 +17,10 @@ changelog:
           - label: R package
             changes:
                 - template directive can now take additional options (css,js,html)
+    - version: "5.0.beta.9.2"
+      description: >
+        API checks endpoints
+      categories:
           - label: API
             changes:
                 - added API checks endpoints
