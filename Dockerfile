@@ -75,7 +75,10 @@ EXPOSE 80 9000
 WORKDIR /app/concerto
 HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/check/health || exit 1
 
-CMD mkdir -p /data/files && mkdir -p /data/sessions \
+CMD mkdir -p /data/files \
+ && chown -R www-data:www-data /data/files \
+ && mkdir -p /data/sessions \
+ && chown -R www-data:www-data /data/sessions \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
@@ -86,9 +89,7 @@ CMD mkdir -p /data/files && mkdir -p /data/sessions \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
- && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/public/files \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
- && chown -R www-data:www-data src/Concerto/TestBundle/Resources/sessions \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && cron \
  && service nginx start \
