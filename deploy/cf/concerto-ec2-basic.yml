@@ -20,7 +20,7 @@ Parameters:
       - t2.large
     ConstraintDescription: must be a valid EC2 instance type.
   CIDR:
-    Description: The private IP address range to be used for Concerto instance
+    Description: The private IP address range to be used for VPC
     Type: String
     MinLength: '9'
     MaxLength: '18'
