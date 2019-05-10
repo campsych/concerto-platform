@@ -20,5 +20,3 @@ class EntitySubscriber implements EventSubscriber {
     }
 
 }
-
-?>

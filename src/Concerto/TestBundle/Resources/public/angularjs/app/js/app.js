@@ -46,3 +46,14 @@ var testRunner = angular.module('testRunner', [
 }).config(function ($compileProvider) {
   testRunner.compileProvider = $compileProvider;
 });
+
+testRunner.loadScripts = function (urls) {
+    urls.forEach(function (src) {
+        if ($("script[src='" + src + "']").length > 0) return;
+        var script = document.createElement('script');
+        script.type = "text/javascript";
+        script.async = false;
+        script.src = src;
+        document.head.appendChild(script);
+    });
+};

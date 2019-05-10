@@ -15,10 +15,6 @@ use Concerto\PanelBundle\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/admin")
- * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
- */
 class ViewTemplateController extends AExportableTabController
 {
 
@@ -38,7 +34,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/fetch/{object_id}/{format}", name="ViewTemplate_object", defaults={"format":"json"})
+     * @Route("/admin/ViewTemplate/fetch/{object_id}/{format}", name="ViewTemplate_object", defaults={"format":"json"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param $object_id
      * @param string $format
      * @return Response
@@ -49,7 +46,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/collection/{format}", name="ViewTemplate_collection", defaults={"format":"json"})
+     * @Route("/admin/ViewTemplate/collection/{format}", name="ViewTemplate_collection", defaults={"format":"json"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param string $format
      * @return Response
      */
@@ -59,7 +57,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/form/{action}", name="ViewTemplate_form", defaults={"action":"edit"})
+     * @Route("/admin/ViewTemplate/form/{action}", name="ViewTemplate_form", defaults={"action":"edit"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param string $action
      * @param array $params
      * @return Response
@@ -70,7 +69,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_id}/save", name="ViewTemplate_save", methods={"POST"})
+     * @Route("/admin/ViewTemplate/{object_id}/save", name="ViewTemplate_save", methods={"POST"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -94,7 +94,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_id}/copy", name="ViewTemplate_copy")
+     * @Route("/admin/ViewTemplate/{object_id}/copy", name="ViewTemplate_copy")
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @param $object_id
      * @return Response
@@ -105,7 +106,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete", methods={"POST"})
+     * @Route("/admin/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete", methods={"POST"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param string $object_ids
      * @return Response
      */
@@ -115,7 +117,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{instructions}/export/{format}", name="ViewTemplate_export", defaults={"format":"yml"})
+     * @Route("/admin/ViewTemplate/{instructions}/export/{format}", name="ViewTemplate_export", defaults={"format":"yml"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param string $instructions
      * @param string $format
      * @return Response
@@ -126,7 +129,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/{object_ids}/instructions/export", name="ViewTemplate_export_instructions")
+     * @Route("/admin/ViewTemplate/{object_ids}/instructions/export", name="ViewTemplate_export_instructions")
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param $object_ids
      * @return Response
      */
@@ -136,7 +140,8 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/import", name="ViewTemplate_import", methods={"POST"})
+     * @Route("/admin/ViewTemplate/import", name="ViewTemplate_import", methods={"POST"})
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @return Response
      */
@@ -146,12 +151,46 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
-     * @Route("/ViewTemplate/import/status", name="ViewTemplate_pre_import_status")
+     * @Route("/admin/ViewTemplate/import/status", name="ViewTemplate_pre_import_status")
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @return Response
      */
     public function preImportStatusAction(Request $request)
     {
         return parent::preImportStatusAction($request);
+    }
+
+    /**
+     * @Route("/ViewTemplate/{id}/content", name="ViewTemplate_content", methods={"GET"})
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function contentAction(Request $request, $id)
+    {
+        $showHtml = true;
+        $showCss = true;
+        $showJs = true;
+
+        $htmlOverride = $request->get("html");
+        if ($htmlOverride !== null) $showHtml = $htmlOverride == 1;
+        $cssOverride = $request->get("css");
+        if ($cssOverride !== null) $showCss = $cssOverride == 1;
+        $jsOverride = $request->get("js");
+        if ($jsOverride !== null) $showJs = $jsOverride == 1;
+
+        $template = $this->service->get($id, false, false);
+        if ($template === null) {
+            return new Response('', 404);
+        }
+
+        $content = "";
+        if ($showCss) {
+            $content .= "<style>" . $template->getCss() . "</style>";
+        }
+        if ($showHtml) $content .= $template->getHtml();
+        if ($showJs) $content .= "<script>" . $template->getJs() . "</script>";
+        return new Response($content, 200);
     }
 }

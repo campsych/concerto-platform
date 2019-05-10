@@ -21,4 +21,4 @@
 /.idea
 *.iml
 /.web-server-pid
-/docker-compose/data
+/deploy/docker-compose/data
