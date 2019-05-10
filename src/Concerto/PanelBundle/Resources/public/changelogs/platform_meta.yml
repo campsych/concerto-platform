@@ -13,7 +13,12 @@ changelog:
                 - added unsecured template content GET
           - label: Improvements
             changes:
-                - tuned down CKEditor autoformating when switching between modes
+                - disabled CKEditor autoformating
+          - label: Starter content
+            changes:
+                - added 'Next item criterion' wizard param for 'CAT'
+                - added 'Next item randomesque' wizard param for 'CAT'
+                - added 'Scoring method' wizard param for 'CAT'
           - label: R package
             changes:
                 - template directive can now take additional options (css,js,html)

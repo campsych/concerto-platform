@@ -106,7 +106,6 @@ CKEDITOR.plugins.add('cmsource', {
                 if (editor.mode == 'cmsource') {
                     try {
                         var data = editor.getData();
-                        data = data.replace(/\n\s*\n/g, '\n');
                         _data_return_running = true;
                         _codemirror_instance.setValue(data);
                         _data_return_running = false;

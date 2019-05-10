@@ -1,4 +1,4 @@
-version: 5.0.beta.9.2
+version: 5.0.beta.10.1
 collection:
   -
     class_name: ViewTemplate
@@ -235,20 +235,20 @@ collection:
     html: |
       {{template:itemOpen,css=FALSE,html=FALSE}}
       {{template:itemOptions,css=FALSE,html=FALSE}}
-      <form name="form" ng-controller="CAT">
-        <div class="CAT-timer">[[timeLeft]]</div>
-        <div class="CAT-question" ng-bind-html="item.question"></div>
-        <div ng-switch="item.responseOptions.type">
-          <item-open item="item" ng-switch-when="open" response="response" response-required="responseRequired"></item-open>
-          <item-options item="item" ng-switch-when="options" response="response" response-required="responseRequired"></item-options>
-        </div>
-        <div class="CAT-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
-        <button name="submit" ng-disabled="!form.$valid">submit</button>
-      </form>
       
+      <form name="form" ng-controller="CAT">
+      	<div class="CAT-timer">[[timeLeft]]</div>
+      	<div class="CAT-question" ng-bind-html="item.question"></div>
+      	<div ng-switch="item.responseOptions.type">
+      		<item-open item="item" ng-switch-when="open" response="response" response-required="responseRequired"></item-open>
+      		<item-options item="item" ng-switch-when="options" response="response" response-required="responseRequired"></item-options>
+      	</div>
+      	<div class="CAT-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
+      	<button name="submit" ng-disabled="!form.$valid">submit</button>
+      </form>
     groups: ''
     starterContent: true
-    hash: fdc7c1e98efc5793a9e51296e522a393b837ecf2
+    hash: bdd0318bbc03dfbb1005f80b240baf4dec5eefab
   -
     class_name: DataTable
     id: 9
@@ -8856,16 +8856,12 @@ collection:
             label: 'Content Balancing Settings'
             description: |
               <p>Each entry in the table consist of two fields:</p>
-              
               <ul>
               	<li><strong>Group Name</strong> - specifies the column in the item bank by which to apply&nbsp;content balancing</li>
               	<li><strong>Group Proportion</strong>&nbsp;- numerical value specifying the proportion of&nbsp;items from each CB group to be used by the next item selection algorithm</li>
               </ul>
-              
               <p><em>e.g. group1_proportion=1, group2_proportion=2 will mean that the next item algorithm will try to show twice as many items from group2 as from group1</em></p>
-              
               <p><strong>NOTE: The&nbsp;number of items&nbsp;in each CB group in the item bank must&nbsp;be sufficient to cover the proportions specified</strong></p>
-              
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
@@ -8874,7 +8870,7 @@ collection:
             name: contentBalancing
             wizardStep: 9
             stepTitle: 'CAT Options'
-            order: 0
+            order: 3
             wizard: 7
             definition:
               element:
@@ -8895,6 +8891,83 @@ collection:
                       definition:
                         placeholder: 0
                         defvalue: '0'
+          -
+            class_name: TestWizardParam
+            id: 81
+            label: 'Next item criterion'
+            description: ''
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: MFI
+            testVariable: 125
+            name: nextItemCriterion
+            wizardStep: 9
+            stepTitle: 'CAT Options'
+            order: 0
+            wizard: 7
+            definition:
+              placeholder: 0
+              options:
+                -
+                  value: MFI
+                  label: MFI
+                -
+                  value: bOpt
+                  label: bOpt
+                -
+                  value: random
+                  label: random
+              defvalue: MFI
+          -
+            class_name: TestWizardParam
+            id: 82
+            label: 'Next item randomesque'
+            description: 'The number of items to be chosen from the next item selection rule, among those the next item to be administered will be randomly picked up. Default value is 1 and leads to usual selection of the optimal item for the specified criterion.'
+            hideCondition: ''
+            type: 0
+            passableThroughUrl: '0'
+            value: '1'
+            testVariable: 126
+            name: nextItemRandomesque
+            wizardStep: 9
+            stepTitle: 'CAT Options'
+            order: 1
+            wizard: 7
+            definition:
+              placeholder: 0
+              defvalue: '1'
+          -
+            class_name: TestWizardParam
+            id: 83
+            label: 'Scoring method'
+            description: 'Ability estimator'
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: BM
+            testVariable: 127
+            name: scoringMethod
+            wizardStep: 9
+            stepTitle: 'CAT Options'
+            order: 2
+            wizard: 7
+            definition:
+              placeholder: 0
+              options:
+                -
+                  value: BM
+                  label: BM
+                -
+                  value: ML
+                  label: ML
+                -
+                  value: WL
+                  label: WL
+                -
+                  value: EAP
+                  label: EAP
+              defvalue: BM
       -
         class_name: TestWizardStep
         id: 10
@@ -9104,7 +9177,7 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: 73181a4facdac514749b5b73e1980d4aef515ded
+    hash: 5a86d3b99ec5859b2bbe19abae60c8968e86cb15
   -
     class_name: Test
     id: 25
