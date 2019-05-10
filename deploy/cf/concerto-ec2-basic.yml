@@ -1,7 +1,8 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
+  Concerto EC2: Creates a single EC2 instance running Concerto with MySQL database together.
   **WARNING** This template
-  creates an Amazon EC2 instance. You will be billed for the AWS resources used
+  creates an Amazon EC2 instance. You may be billed for the AWS resources used
   if you create a stack from this template.
 Parameters:
   KeyName:
@@ -262,4 +263,5 @@ Outputs:
         - !GetAtt
           - WebServerInstance
           - PublicIp
-    Description: Concerto URL
+        - '/admin'
+    Description: Concerto administration panel URL
