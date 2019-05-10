@@ -122,33 +122,3 @@ Defaults.ckeditorTestContentOptions = {
     ],
     fillEmptyBlocks: false
 };
-
-CKEDITOR.on("instanceReady", function (event) {
-    for (var e in CKEDITOR.tools.extend(
-        {},
-        CKEDITOR.dtd.$block,
-        CKEDITOR.dtd.$blockLimit,
-        CKEDITOR.dtd.$cdata,
-        CKEDITOR.dtd.$editable,
-        CKEDITOR.dtd.$empty,
-        CKEDITOR.dtd.$inline,
-        CKEDITOR.dtd.$intermediate,
-        CKEDITOR.dtd.$list,
-        CKEDITOR.dtd.$listItem,
-        CKEDITOR.dtd.$nonBodyContent,
-        CKEDITOR.dtd.$nonEditable,
-        CKEDITOR.dtd.$object,
-        CKEDITOR.dtd.$removeEmpty,
-        CKEDITOR.dtd.$tabIndex,
-        CKEDITOR.dtd.$tableContent,
-        CKEDITOR.dtd.$transparent
-    )) {
-        event.editor.dataProcessor.writer.setRules(e, {
-            indent: false,
-            breakBeforeOpen: false,
-            breakAfterOpen: false,
-            breakBeforeClose: false,
-            breakAfterClose: false
-        });
-    }
-});

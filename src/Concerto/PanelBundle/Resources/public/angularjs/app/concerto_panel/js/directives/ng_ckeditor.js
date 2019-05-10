@@ -10,6 +10,22 @@ angular.module('concertoPanel').directive('ckeditor', function () {
             if (!ngModel)
                 return;
             ck.on('instanceReady', function () {
+                for (var e in CKEDITOR.tools.extend(
+                    {},
+                    CKEDITOR.dtd.$block,
+                    CKEDITOR.dtd.$inline,
+                    CKEDITOR.dtd.$intermediate,
+                    CKEDITOR.dtd.$nonBodyContent
+                )) {
+                    ck.dataProcessor.writer.setRules(e, {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+
                 ck.setData(ngModel.$viewValue);
             });
             function updateModel() {
@@ -19,7 +35,6 @@ angular.module('concertoPanel').directive('ckeditor', function () {
             }
             ck.on('change', updateModel);
             ck.on('key', updateModel);
-            ck.on('dataReady', updateModel);
 
             ngModel.$render = function (value) {
                 ck.setData(ngModel.$viewValue);
