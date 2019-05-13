@@ -36,17 +36,16 @@ collection:
       });
     html: |
       <div class="item-options-response" ng-repeat="option in item.responseOptions.options track by $index">
-      <div class="item-options-response-radio-cell">
-      <input id="r[[item.id]]-[[option.value]]" name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" ng-value="option.value" type="radio" />
+      	<div class="item-options-response-radio-cell">
+      		<input id="r[[item.id]]-[[option.value]]" name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" ng-value="option.value" type="radio" />
+      	</div>
+      	<div class="item-options-response-label-cell">
+      		<label for="r[[item.id]]-[[option.value]]" ng-bind-html="option.label">&nbsp;</label>
+      	</div>
       </div>
-      <div class="item-options-response-label-cell">
-      <label for="r[[item.id]]-[[option.value]]" ng-bind-html="option.label">&nbsp;</label>
-      </div>
-      </div>
-      
     groups: ''
     starterContent: true
-    hash: 8c48c560d7cdeda3e955729ef35f3bfa51a42acd
+    hash: 03fb8deb4ee2ba74e11d255918b6857ffd5a9933
   -
     class_name: ViewTemplate
     id: 7
@@ -246,9 +245,10 @@ collection:
       	<div class="CAT-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
       	<button name="submit" ng-disabled="!form.$valid">submit</button>
       </form>
+      
     groups: ''
     starterContent: true
-    hash: bdd0318bbc03dfbb1005f80b240baf4dec5eefab
+    hash: 39b7766440a454c1452f7a69e1cd90b6afeac536
   -
     class_name: DataTable
     id: 9
@@ -2449,12 +2449,12 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
     test: 12
     groups: ''
     starterContent: true
-    hash: a65ddfcfe61c4196ecd296a4ee630cac8f931279
+    hash: cedb2bba7fe654acaa6f9608cf1a653b3e16b12d
   -
     class_name: Test
     id: 13
@@ -2719,12 +2719,19 @@ collection:
       cbGroup = NULL
       cbControl = NULL
       cbProps = fromJSON(settings$contentBalancing)
+      concerto.log(cbProps, "cbProps")
       if(length(cbProps) > 0) {
         cbGroup = as.character(items[,"cbGroup"])
         cbControl = list(
-          names=as.character(cbProps[,"name"]),
-          props=as.numeric(cbProps[,"proportion"])
+          names=NULL,
+          props=NULL
         )
+        
+        for(i in 1:length(cbProps)) {
+          cbControl$names = c(cbControl$names, cbProps[[i]]$name)
+          cbControl$props = c(cbControl$props, as.numeric(cbProps[[i]]$proportion))
+        }
+        concerto.log(cbControl, "cbControl")
       }
       
       paramBank = items[,c("a","b","c","d"),drop=F]
@@ -2855,7 +2862,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 1ef168c29ae51c489cc69a18bc34bba1af3b8151
+    hash: de8d25da6702e6c2818ba6c2a058a5bc93712e24
   -
     class_name: Test
     id: 18
@@ -2869,7 +2876,7 @@ collection:
         templateParams$item = itemSafe
         templateParams$responseRequired = responseRequired
         templateParams$responseRequiredAlert = responseRequiredAlert
-        
+      
         return(templateParams)
       }
       
@@ -2891,9 +2898,19 @@ collection:
         return(limit)
       }
       
+      if(!concerto.template.isResponseQueued()) {
+        params = getTemplateParams(itemSafe, templateParams, settings$responseRequired, settings$responseRequiredAlert)
+        if(settings$itemTemplateParamsModule != "") {
+          params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
+            params = params,
+            item = item
+          ))$params
+        }
+      }
+      
       response = concerto.template.show(
         settings$itemTemplate, 
-        params=getTemplateParams(itemSafe, templateParams, settings$responseRequired, settings$responseRequiredAlert), 
+        params=params, 
         timeLimit=getTimeLimit(
           testTimeStarted, 
           as.numeric(settings$testTimeLimit), 
@@ -3013,7 +3030,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: c2540ff3bf7a018de78901dad076c6e8f0828c40
+    hash: 04266fa93d1239e1e7f6fb70a29dce2aa78dd918
   -
     class_name: Test
     id: 19
@@ -3337,6 +3354,16 @@ collection:
         id: 140
         name: theta
         type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 20
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 492
+        name: itemTemplateParamsModule
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -3909,6 +3936,30 @@ collection:
             name: responseRequiredAlert
             pointer: '0'
             pointerVariable: responseRequiredAlert
+          -
+            class_name: TestNodePort
+            id: 950
+            value: null
+            node: 31
+            variable: 492
+            variableObject:
+              class_name: TestVariable
+              id: 492
+              name: itemTemplateParamsModule
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: itemTemplateParamsModule
+            pointer: '0'
+            pointerVariable: itemTemplateParamsModule
       -
         class_name: TestNode
         id: 32
@@ -5958,6 +6009,21 @@ collection:
             name: responseRequiredAlert
             pointer: '0'
             pointerVariable: responseRequiredAlert
+          -
+            class_name: TestNodePort
+            id: 951
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: itemTemplateParamsModule
+            pointer: '0'
+            pointerVariable: itemTemplateParamsModule
       -
         class_name: TestNode
         id: 40
@@ -7760,10 +7826,60 @@ collection:
         returnFunction: responseRequiredAlert
         automatic: '0'
         defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 262
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 950
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 950
+          value: null
+          node: 31
+          variable: 492
+          variableObject:
+            class_name: TestVariable
+            id: 492
+            name: itemTemplateParamsModule
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: null
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: itemTemplateParamsModule
+          pointer: '0'
+          pointerVariable: itemTemplateParamsModule
+        destinationNode: 39
+        destinationPort: 951
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 951
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: itemTemplateParamsModule
+          pointer: '0'
+          pointerVariable: itemTemplateParamsModule
+        returnFunction: itemTemplateParamsModule
+        automatic: '0'
+        defaultReturnFunction: '1'
     tags: ''
     groups: ''
     starterContent: true
-    hash: 8cedc59e3a98d85ad74627ab21c4a58fd93630e9
+    hash: ccca3d3263d3266f0ae0c2d7192e448f2e781e6e
   -
     class_name: Test
     id: 21
@@ -7816,8 +7932,9 @@ collection:
         result = nextItem(paramBank, theta=theta, out=itemsAdministered, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
         nextItemIndex = result$item
       }
-      concerto.log(nextItemIndex, "next item index")
+      concerto.log(nextItemIndex, "nextItemIndex")
       nextItem = items[nextItemIndex,]
+      concerto.log(nextItem, "nextItem")
       nextItemSafe = getSafeItem(nextItem)
       
     description: ''
@@ -7939,7 +8056,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: af3b897fe37e1011c8c9959412bab5ef36c6441e
+    hash: c20389365fd535283edf5622af336f56546dc565
   -
     class_name: Test
     id: 22
@@ -7978,7 +8095,7 @@ collection:
           itemIdColumn=responseBank$columns$item_id,
           itemId=item$id,
           responseColumn=responseBank$columns$response,
-          response=response$response,
+          response=response[[paste0("r",item$id)]],
           timeTakenColumn=responseBank$columns$timeTaken,
           timeTaken=response$timeTaken, #could use time difference
           correctColumn=responseBank$columns$correct,
@@ -8123,7 +8240,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 116284b0d71112a8410b7ce65305fb1af0beb34e
+    hash: c2bcc72318abfc73229cbf2815cb9d5484f6f0d0
   -
     class_name: Test
     id: 23
@@ -8286,7 +8403,8 @@ collection:
       library(catR)
       
       correct = 0
-      if(!is.null(response$response) && response$response == item$correct) { correct = 1 }
+      response = response[[paste0("r",item$id)]]
+      if(!is.null(response) && response == item$correct) { correct = 1 }
       correctness = c(correctness, correct)
       itemsAdministered = unique(c(itemsAdministered, itemIndex))
       paramBankAdministered = paramBank
@@ -8464,7 +8582,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: efe2b7dfbe1d935ce45de77c06036bd19b8c8c5a
+    hash: b9bcbd0cd364ef13a6b6a5e1fc1dbef6390637e2
   -
     class_name: TestWizard
     id: 7
@@ -8505,17 +8623,17 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
-              defvalue: direct
               options:
                 -
-                  value: direct
                   label: Direct
                   order: ''
+                  value: direct
                 -
-                  value: table
                   label: Table
                   order: ''
+                  value: table
+              defvalue: direct
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 16
@@ -8535,137 +8653,137 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: id
+                      type: 0
                       label: Id
                       definition:
                         placeholder: 0
                     -
-                      type: 2
                       name: question
+                      type: 2
                       label: Question
                       definition:
                         placeholder: 0
                     -
-                      type: 9
                       name: responseOptions
+                      type: 9
                       label: 'Response Options'
                       definition:
-                        placeholder: 0
                         fields:
                           -
-                            type: 3
                             name: type
+                            type: 3
                             label: Type
                             definition:
-                              placeholder: 0
                               options:
                                 -
-                                  value: open
                                   label: Open
+                                  value: open
                                 -
-                                  value: options
                                   label: Options
+                                  value: options
                               defvalue: options
+                              placeholder: 0
                           -
-                            type: 4
                             name: optionsRandomOrder
+                            type: 4
                             label: 'Options Random Order'
                             definition:
-                              placeholder: 0
                               defvalue: '1'
+                              placeholder: 0
                             hideCondition: 'parent.type != "options"'
                           -
-                            type: 10
                             name: options
+                            type: 10
                             label: Options
                             definition:
-                              placeholder: 0
                               element:
                                 type: 9
                                 definition:
-                                  placeholder: 0
                                   fields:
                                     -
-                                      type: 0
                                       name: value
+                                      type: 0
                                       label: Value
                                       definition:
                                         placeholder: 0
                                     -
-                                      type: 2
                                       name: label
+                                      type: 2
                                       label: Label
                                       definition:
                                         placeholder: 0
+                                  placeholder: 0
+                              placeholder: 0
                             hideCondition: 'parent.type != "options"'
                         element:
                           type: 9
                           definition:
-                            placeholder: 0
                             fields:
                               -
-                                type: 0
                                 name: value
+                                type: 0
                                 label: Value
                                 definition:
                                   placeholder: 0
                               -
-                                type: 2
                                 name: label
+                                type: 2
                                 label: Label
                                 definition:
                                   placeholder: 0
+                            placeholder: 0
+                        placeholder: 0
                     -
-                      type: 0
                       name: a
+                      type: 0
                       label: A
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: b
+                      type: 0
                       label: B
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: c
+                      type: 0
                       label: C
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: d
+                      type: 0
                       label: D
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: correct
+                      type: 0
                       label: Correct
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: cbGroup
+                      type: 0
                       label: 'Content Balancing Group'
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: fixedIndex
+                      type: 0
                       label: 'Fixed Index'
                       definition:
-                        placeholder: 0
                         defvalue: ''
+                        placeholder: 0
+                  placeholder: 0
           -
             class_name: TestWizardParam
             id: 17
@@ -8682,7 +8800,6 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -8724,6 +8841,7 @@ collection:
                   name: fixedIndex
                   label: 'Fixed Index'
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 18
@@ -8740,8 +8858,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: CAT
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 8
@@ -8767,8 +8885,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 20
@@ -8785,8 +8903,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 21
@@ -8803,8 +8921,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 22
@@ -8821,8 +8939,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 23
@@ -8839,8 +8957,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 9
@@ -8862,6 +8980,7 @@ collection:
               </ul>
               <p><em>e.g. group1_proportion=1, group2_proportion=2 will mean that the next item algorithm will try to show twice as many items from group2 as from group1</em></p>
               <p><strong>NOTE: The&nbsp;number of items&nbsp;in each CB group in the item bank must&nbsp;be sufficient to cover the proportions specified</strong></p>
+              
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
@@ -8876,21 +8995,21 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: name
+                      type: 0
                       label: 'Group Name'
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: proportion
+                      type: 0
                       label: 'Group Proportion'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
+                  placeholder: 0
           -
             class_name: TestWizardParam
             id: 81
@@ -8907,18 +9026,18 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               options:
                 -
-                  value: MFI
                   label: MFI
+                  value: MFI
                 -
-                  value: bOpt
                   label: bOpt
+                  value: bOpt
                 -
-                  value: random
                   label: random
+                  value: random
               defvalue: MFI
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 82
@@ -8935,8 +9054,8 @@ collection:
             order: 1
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '1'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 83
@@ -8953,21 +9072,21 @@ collection:
             order: 2
             wizard: 7
             definition:
-              placeholder: 0
               options:
                 -
-                  value: BM
                   label: BM
+                  value: BM
                 -
-                  value: ML
                   label: ML
+                  value: ML
                 -
-                  value: WL
                   label: WL
+                  value: WL
                 -
-                  value: EAP
                   label: EAP
+                  value: EAP
               defvalue: BM
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 10
@@ -8993,7 +9112,6 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -9027,6 +9145,7 @@ collection:
                   name: sem
                   label: SEM
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 26
@@ -9043,8 +9162,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 27
@@ -9061,8 +9180,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: 'Please answer all items on this page'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 11
@@ -9095,8 +9214,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: _CATNextItemSelectorModule
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 29
@@ -9123,8 +9242,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: _CATScoringModule
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 30
@@ -9148,8 +9267,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: _CATResponseProcessorModule
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 31
@@ -9172,12 +9291,30 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: _CATStatusCheckModule
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 84
+            label: 'Item Template Params Module'
+            description: ''
+            hideCondition: ''
+            type: 8
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 492
+            name: itemTemplateParamsModule
+            wizardStep: 11
+            stepTitle: Modules
+            order: 0
+            wizard: 7
+            definition:
+              placeholder: 0
+              defvalue: ''
     test: 20
     groups: ''
     starterContent: true
-    hash: 5a86d3b99ec5859b2bbe19abae60c8968e86cb15
+    hash: e2ada8e8b73ef55040260b9daaba53321daaad69
   -
     class_name: Test
     id: 25
@@ -9449,6 +9586,16 @@ collection:
         value: null
         test: 25
         parentVariable: 140
+      -
+        class_name: TestVariable
+        id: 493
+        name: itemTemplateParamsModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 25
+        parentVariable: 492
     sourceWizard: 7
     sourceWizardTest: 20
     nodes: {  }
@@ -9456,7 +9603,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 196015efdbe6a58cde13d475c95e5af10fb22f02
+    hash: cfbe948a9058b8f071ee1988453ae71406c306fb
   -
     class_name: Test
     id: 26

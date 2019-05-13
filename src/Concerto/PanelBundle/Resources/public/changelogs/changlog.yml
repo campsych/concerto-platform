@@ -8,6 +8,8 @@ changelog:
             changes:
                 - merged questionnaire with linear test
                 - extensible item types set
+                - CAT content balancing fix
+                - added itemTemplateParamsModule for CAT
           - label: Features
             changes:
                 - added unsecured template content GET
