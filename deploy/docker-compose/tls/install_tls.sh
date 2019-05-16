@@ -110,13 +110,12 @@ request_cert() {
 
     case "$CERTBOT_EMAIL" in
       "") email="--register-unsafely-without-email" ;;
-      *) email="--email $email" ;;
+      *) email="--email $CERTBOT_EMAIL" ;;
     esac
 
     docker-compose run --rm --entrypoint "\
       certbot certonly --webroot -w /var/www/certbot \
         $email \
-        --dry-run \
         -d ${NGINX_SERVER_NAME} \
         -d www.${NGINX_SERVER_NAME} \
         --rsa-key-size ${CERTBOT_RSA_KEY_SIZE} \
