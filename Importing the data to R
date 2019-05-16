@@ -1,0 +1,39 @@
+# Form section
+dat <- read.csv("http://www.mizumot.com/files/CAT-WPLT-ALL.csv", header=T)
+CAT.Form_SE <- data.frame(dat$Form_se)
+colnames(CAT.Form_SE) <- c("SE")
+x1 <- dat$Form_se
+
+SasaoForm <- read.csv("http://www.mizumot.com/files/Form.p.est.csv", header=T)
+Pilot.Form_SE <- data.frame(SasaoForm[,3])
+colnames(Pilot.Form_SE) <- c("SE")
+y1 <- SasaoForm[,3]
+
+df1 <- rbind(CAT.Form_SE, Pilot.Form_SE)
+df1$Group <- c(rep("CAT", nrow(CAT.Form_SE)),rep("Fixed-item", nrow(Pilot.Form_SE)))
+
+# Meaning section
+CAT.Meaning_SE <- data.frame(dat$Meaning_se)
+colnames(CAT.Meaning_SE) <- c("SE")
+x2 <- dat$Meaning_se
+
+SasaoMeaning <- read.csv("http://www.mizumot.com/files/Meaning.p.est.csv", header=T)
+Pilot.Meaning_SE <- data.frame(SasaoMeaning[,3])
+colnames(Pilot.Meaning_SE) <- c("SE")
+y2 <- SasaoMeaning[,3]
+
+df2 <- rbind(CAT.Meaning_SE, Pilot.Meaning_SE)
+df2$Group <- c(rep("CAT", nrow(CAT.Form_SE)),rep("Fixed-item", nrow(Pilot.Form_SE)))
+
+# Use section
+CAT.Use_SE <- data.frame(dat$Use_se)
+colnames(CAT.Use_SE) <- c("SE")
+x3 <- dat$Use_se
+
+SasaoUse <- read.csv("http://www.mizumot.com/files/Use.p.est.csv",header=TRUE, fileEncoding="CP932")
+Pilot.Use_SE <- data.frame(SasaoUse[,3])
+colnames(Pilot.Use_SE) <- c("SE")
+y3 <- SasaoUse[,3]
+
+df3 <- rbind(CAT.Use_SE, Pilot.Use_SE)
+df3$Group <- c(rep("CAT", nrow(CAT.Form_SE)),rep("Fixed-item", nrow(Pilot.Form_SE)))
