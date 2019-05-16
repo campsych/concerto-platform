@@ -13,7 +13,7 @@ concerto.template.insertParams = function(html,params=list(),removeMissing=T){
       } else if(substring(value, 1, 6) == "trans:") {
         insert = concerto.directive.trans(substring(value,7), params)
         html <- gsub(matches[index], insert, html, fixed=TRUE)
-      } else if(!is.null(params[[value]])){
+      } else if(!is.null(params[[value]]) && !is.na(params[[value]])){
         insert = as.character(params[[value]])
         if(Sys.info()['sysname'] == "Windows") {
             if(Encoding(insert) == "UTF-8") { insert = enc2native(insert) }

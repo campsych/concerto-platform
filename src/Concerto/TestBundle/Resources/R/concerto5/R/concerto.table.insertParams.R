@@ -6,7 +6,7 @@ function(sql,params=list()){
     while(index<=length(matches)){
       name <- gsub("\\{\\{","",matches[index])
       name <- gsub("\\}\\}","",name)
-      if(!is.null(params[[name]])){
+      if(!is.null(params[[name]]) && !is.na(params[[name]])){
         value <- dbEscapeStrings(concerto$connection,toString(params[[name]]))
         sql <- gsub(matches[index],value,sql, fixed=TRUE)
       }
