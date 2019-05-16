@@ -131,7 +131,7 @@ request_cert() {
 
 reload_nginx() {
     printf "### Reloading nginx\n"
-    docker-compose exec nginx nginx -s reload
+    docker-compose exec -T nginx nginx -s reload
 }
 
 get_tsl_params
