@@ -42,7 +42,6 @@ server {
     listen [::]:80;
     listen 80;
     server_name ${NGINX_SERVER_NAME};
-    server_name www.${NGINX_SERVER_NAME};
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
@@ -50,22 +49,6 @@ server {
 
     location / {
         return 301 https://\$host\$request_uri;
-    }
-}
-
-server {
-    listen [::]:443 ssl http2;
-    listen 443 ssl http2;
-    server_name www.${NGINX_SERVER_NAME};
-
-    ssl_certificate /etc/letsencrypt/live/${NGINX_SERVER_NAME}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${NGINX_SERVER_NAME}/privkey.pem;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    location / {
-      return 301 https://${NGINX_SERVER_NAME}\$request_uri;
     }
 }
 
@@ -117,7 +100,6 @@ request_cert() {
       certbot certonly --non-interactive --webroot -w /var/www/certbot \
         $email \
         -d ${NGINX_SERVER_NAME} \
-        -d www.${NGINX_SERVER_NAME} \
         --rsa-key-size ${CERTBOT_RSA_KEY_SIZE} \
         --agree-tos \
         --force-renewal" certbot
