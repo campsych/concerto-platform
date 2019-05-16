@@ -78,7 +78,7 @@ EOF
 
 start_nginx() {
     printf "### Starting Nginx\n"
-    docker-compose up --force-recreate -d nginx
+    docker-compose up -d nginx
 }
 
 remove_self_signed_cert() {
@@ -112,8 +112,13 @@ request_cert() {
 }
 
 reload_nginx() {
-    printf "### Reloading nginx\n"
+    printf "### Reloading Nginx\n"
     docker-compose exec -T nginx nginx -s reload
+}
+
+start_certbot() {
+    printf "### Starting Certbot\n"
+    docker-compose up -d certbot
 }
 
 get_tsl_params
@@ -123,3 +128,4 @@ start_nginx
 remove_self_signed_cert
 request_cert
 reload_nginx
+start_certbot
