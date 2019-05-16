@@ -114,7 +114,7 @@ request_cert() {
     esac
 
     docker-compose run --rm --entrypoint "\
-      certbot certonly --webroot -w /var/www/certbot \
+      certbot certonly --non-interactive --webroot -w /var/www/certbot \
         $email \
         -d ${NGINX_SERVER_NAME} \
         -d www.${NGINX_SERVER_NAME} \
