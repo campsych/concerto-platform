@@ -27,6 +27,16 @@ Parameters:
     Default: 10.10.0.0/24
     AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  DomainName:
+    Description: The domain name to be used for Concerto
+    Type: String
+    AllowedPattern: '(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]'
+    ConstraintDescription: must be a valid domain name.
+  Email:
+    Description: Your email to be used with Let's Encrypt CA
+    Type: String
+    AllowedPattern: '([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)'
+    ConstraintDescription: must be a valid email.
 Mappings:
   RegionMap:
     us-east-1:
@@ -126,6 +136,18 @@ Resources:
       PortRange:
         From: '80'
         To: '80'
+  InboundHTTPSNetworkAclEntry:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      NetworkAclId: !Ref NetworkAcl
+      RuleNumber: '101'
+      Protocol: '6'
+      RuleAction: allow
+      Egress: 'false'
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: '443'
+        To: '443'
   InboundSSHNetworkAclEntry:
     Type: 'AWS::EC2::NetworkAclEntry'
     Properties:
@@ -162,6 +184,18 @@ Resources:
       PortRange:
         From: '80'
         To: '80'
+  OutBoundHTTPSNetworkAclEntry:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      NetworkAclId: !Ref NetworkAcl
+      RuleNumber: '101'
+      Protocol: '6'
+      RuleAction: allow
+      Egress: 'true'
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: '443'
+        To: '443'
   OutBoundResponsePortsNetworkAclEntry:
     Type: 'AWS::EC2::NetworkAclEntry'
     Properties:
@@ -189,7 +223,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPC
-      GroupDescription: Allow ingress via SSH, HTTP ports
+      GroupDescription: Allow ingress via SSH, HTTP, HTTPS ports
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
@@ -198,6 +232,10 @@ Resources:
         - IpProtocol: tcp
           FromPort: '80'
           ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
           CidrIp: 0.0.0.0/0
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
@@ -212,7 +250,7 @@ Resources:
       InstanceType: !Ref InstanceType
       KeyName: !Ref KeyName
       UserData:
-        Fn::Base64: |
+        Fn::Base64: !Sub |
           #!/usr/bin/env bash
 
           # System
@@ -234,8 +272,13 @@ Resources:
           # Concerto
           mkdir /home/concerto
           cd /home/concerto
-          wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml
-          docker-compose up -d
+          wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml
+          docker-compose up -d database concerto
+
+          # TLS
+          wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/install_tls.sh
+          chmod 775 ./install_tls.sh
+          ./install_tls.sh ${DomainName} http://concerto ${Email}
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
@@ -244,9 +287,12 @@ Outputs:
   URL:
     Value: !Join
       - ''
-      - - 'http://'
-        - !GetAtt
-          - WebServerInstance
-          - PublicIp
+      - - 'https://'
+        - !Ref DomainName
         - '/admin'
     Description: Concerto administration panel URL
+  ServerIP:
+    Value: !GetAtt
+      - WebServerInstance
+      - PublicIp
+    Description: IP address to point your domain to
