@@ -35,9 +35,6 @@ spec:
     metadata:
       labels:
         app: concerto
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/api/check/prometheus"
     spec:
       containers:
         - name: concerto
@@ -79,39 +76,11 @@ metadata:
   namespace: concerto
   labels:
     app: concerto
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: "/api/check/prometheus"
 
 spec:
+  type: LoadBalancer
   ports:
     - port: 80
       targetPort: 80
   selector:
     app: concerto
-
----
-
-kind: Ingress
-apiVersion: extensions/v1beta1
-
-metadata:
-  name: concerto
-  namespace: concerto
-  annotations:
-    certmanager.k8s.io/cluster-issuer: "letsencrypt"
-    kubernetes.io/ingress.class: "nginx"
-
-spec:
-  tls:
-    - hosts:
-        - concerto.example.com
-      secretName: concerto-tls
-  rules:
-    - host: concerto.example.com
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: tdp-concerto
-              servicePort: 80
