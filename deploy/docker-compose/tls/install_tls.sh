@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 if [[ "$#" -lt 2 ]]; then
-    printf "Usage: $0 domain proxy_url [certbot_email]\n\n"
+    printf "Usage: $0 domain proxy_url [email]\n\n"
     exit 1
 fi
 
-NGINX_SERVER_NAME=$1
-NGINX_PROXY_TARGET=$2
-CERTBOT_EMAIL=$3
+DOMAIN=$1
+PROXY_TARGET=$2
+EMAIL=$3
 
 NGINX_DATA_PATH="./data/nginx"
-CERTBOT_RSA_KEY_SIZE=4096
 CERTBOT_DATA_PATH="./data/certbot"
+CERTBOT_RSA_KEY_SIZE=4096
 
 get_tsl_params() {
     if [[ ! -e "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf" ]] || [[ ! -e "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem" ]]; then
@@ -22,26 +22,67 @@ get_tsl_params() {
     fi
 }
 
-create_self_signed_cert() {
-    printf "### Creating self-signed certificates\n"
+configure_nginx_without_tls() {
+    if [[ ! -e "${NGINX_DATA_PATH}/app.conf" ]]; then
+        printf "### Writing initial Nginx configuration\n"
+        mkdir -p ${NGINX_DATA_PATH}
+        cat > ${NGINX_DATA_PATH}/app.conf << EOF
+server {
+    listen [::]:80;
+    listen 80;
+    server_name ${DOMAIN};
 
-    mkdir -p "$CERTBOT_DATA_PATH/conf/live/$NGINX_SERVER_NAME"
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
 
-    docker-compose run --rm --entrypoint "\
-      openssl req -x509 -nodes -newkey rsa:1024 -days 1\
-        -keyout '/etc/letsencrypt/live/$NGINX_SERVER_NAME/privkey.pem' \
-        -out '/etc/letsencrypt/live/$NGINX_SERVER_NAME/fullchain.pem' \
-        -subj '/CN=localhost'" certbot
+    location / {
+        proxy_pass ${PROXY_TARGET};
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Host \$http_host;
+    }
+}
+EOF
+    fi
 }
 
-configure_nginx() {
-    printf "### Writing Nginx configuration\n"
-    mkdir -p ${NGINX_DATA_PATH}
+start_nginx() {
+    printf "### Starting Nginx\n"
+    docker-compose up -d nginx
+}
+
+request_cert() {
+    printf "### Requesting certificate\n"
+
+    case "$EMAIL" in
+      "") email="--register-unsafely-without-email" ;;
+      *) email="--email $EMAIL" ;;
+    esac
+
+    docker-compose run --rm --entrypoint "\
+      certbot certonly --non-interactive --webroot -w /var/www/certbot \
+        $email \
+        -d ${DOMAIN} \
+        --rsa-key-size ${CERTBOT_RSA_KEY_SIZE} \
+        --agree-tos \
+        --force-renewal" certbot
+
+    if [[ $? -ne 0 ]]; then
+        printf "### Error while requesting certificate, will sleep for 5m and retry...\n"
+        sleep 300
+        request_cert
+    fi
+}
+
+configure_nginx_with_tls() {
+    printf "### Writing TLS-enabled Nginx configuration\n"
     cat > ${NGINX_DATA_PATH}/app.conf << EOF
 server {
     listen [::]:80;
     listen 80;
-    server_name ${NGINX_SERVER_NAME};
+    server_name ${DOMAIN};
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
@@ -55,10 +96,10 @@ server {
 server {
     listen [::]:443 ssl http2;
     listen 443 ssl http2;
-    server_name ${NGINX_SERVER_NAME};
+    server_name ${DOMAIN};
 
-    ssl_certificate /etc/letsencrypt/live/${NGINX_SERVER_NAME}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${NGINX_SERVER_NAME}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     include /etc/letsencrypt/options-ssl-nginx.conf;
@@ -66,7 +107,7 @@ server {
     client_max_body_size 50M;
 
     location / {
-        proxy_pass ${NGINX_PROXY_TARGET};
+        proxy_pass ${PROXY_TARGET};
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
@@ -74,41 +115,6 @@ server {
     }
 }
 EOF
-}
-
-start_nginx() {
-    printf "### Starting Nginx\n"
-    docker-compose up -d nginx
-}
-
-remove_self_signed_cert() {
-    docker-compose run --rm --entrypoint "\
-        rm -Rf /etc/letsencrypt/live/${NGINX_SERVER_NAME} && \
-        rm -Rf /etc/letsencrypt/archive/${NGINX_SERVER_NAME} && \
-        rm -Rf /etc/letsencrypt/renewal/${NGINX_SERVER_NAME}" certbot
-}
-
-request_cert() {
-    printf "### Requesting certificate\n"
-
-    case "$CERTBOT_EMAIL" in
-      "") email="--register-unsafely-without-email" ;;
-      *) email="--email $CERTBOT_EMAIL" ;;
-    esac
-
-    docker-compose run --rm --entrypoint "\
-      certbot certonly --non-interactive --webroot -w /var/www/certbot \
-        $email \
-        -d ${NGINX_SERVER_NAME} \
-        --rsa-key-size ${CERTBOT_RSA_KEY_SIZE} \
-        --agree-tos \
-        --force-renewal" certbot
-
-    if [[ $? -ne 0 ]]; then
-        printf "### Error while requesting certificate, will sleep for 5m and retry...\n"
-        sleep 300
-        request_cert
-    fi
 }
 
 reload_nginx() {
@@ -122,10 +128,9 @@ start_certbot() {
 }
 
 get_tsl_params
-create_self_signed_cert
-configure_nginx
+configure_nginx_without_tls
 start_nginx
-remove_self_signed_cert
 request_cert
+configure_nginx_with_tls
 reload_nginx
 start_certbot
