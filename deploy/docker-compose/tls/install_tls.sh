@@ -28,9 +28,10 @@ configure_nginx_without_tls() {
         mkdir -p ${NGINX_DATA_PATH}
         cat > ${NGINX_DATA_PATH}/app.conf << EOF
 server {
-    listen [::]:80;
-    listen 80;
-    server_name ${DOMAIN};
+    listen [::]:80 default_server;
+    listen 80 default_server;
+
+    client_max_body_size 50M;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
@@ -80,9 +81,8 @@ configure_nginx_with_tls() {
     printf "### Writing TLS-enabled Nginx configuration\n"
     cat > ${NGINX_DATA_PATH}/app.conf << EOF
 server {
-    listen [::]:80;
-    listen 80;
-    server_name ${DOMAIN};
+    listen [::]:80 default_server;
+    listen 80 default_server;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
