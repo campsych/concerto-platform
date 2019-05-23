@@ -13,9 +13,5 @@ parameters:
     env(DB_TEST_NAME): ThisIsYourTestDatabaseName #not needed for production env
     env(DB_TEST_USER): ThisIsYourTestDatabaseUserName #not needed for production env
     env(DB_TEST_PASSWORD): ThisIsYourTestDatabaseUserPassword #not needed for production env
-    mailer_transport: smtp
-    mailer_host: localhost
-    mailer_user: null
-    mailer_password: null
     locale: en_GB
     secret: ThisTokenIsNotSoSecretChangeIt
