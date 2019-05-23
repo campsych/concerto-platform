@@ -54,9 +54,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * /usr/bin/php /app/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "0 0 * * * /usr/bin/php /app/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "*/5 * * * * /usr/bin/php /app/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "* * * * * /bin/sh /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "0 0 * * * /bin/sh /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "*/5 * * * * /bin/sh /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
@@ -75,7 +75,8 @@ EXPOSE 80 9000
 WORKDIR /app/concerto
 HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/check/health || exit 1
 
-CMD mkdir -p /data/files \
+CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
+ && mkdir -p /data/files \
  && chown -R www-data:www-data /data/files \
  && mkdir -p /data/sessions \
  && chown -R www-data:www-data /data/sessions \
