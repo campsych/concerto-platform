@@ -54,9 +54,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * /bin/sh /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "0 0 * * * /bin/sh /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "*/5 * * * * /bin/sh /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "* * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "0 0 * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "*/5 * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
