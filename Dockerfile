@@ -54,9 +54,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:schedule:tick >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "0 0 * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:clear >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "*/5 * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:log >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "* * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:schedule:tick --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "0 0 * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:clear --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "*/5 * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:log --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
@@ -83,8 +83,8 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
- && php bin/console concerto:setup \
- && php bin/console concerto:content:import --convert \
+ && php bin/console concerto:setup --env=prod  \
+ && php bin/console concerto:content:import --env=prod --convert \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \
@@ -94,6 +94,6 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && cron \
  && service nginx start \
- && php bin/console concerto:forker:start \
+ && php bin/console concerto:forker:start --env=prod  \
  && /etc/init.d/php7.2-fpm start \
  && tail -F var/logs/prod.log -n 0
