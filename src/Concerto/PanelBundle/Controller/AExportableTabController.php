@@ -86,11 +86,12 @@ abstract class AExportableTabController extends ASectionController
 
     public function exportAction($instructions, $format = "yml")
     {
-        $decodedInstructions = json_decode($instructions, true);
-        $response = new Response($this->exportService->exportToFile($this->entityName, $decodedInstructions, $format));
+        $fullInstructions = $this->exportService->decompactExportInstructions(json_decode($instructions, true));
+
+        $response = new Response($this->exportService->exportToFile($this->entityName, $fullInstructions, $format));
         $response->headers->set('Content-Type', 'application/x-download');
         $response->headers->set(
-            'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $decodedInstructions, $format) . '"'
+            'Content-Disposition', 'attachment; filename="' . $this->service->getExportFileName($this->exportFilePrefix, $fullInstructions, $format) . '"'
         );
         return $response;
     }
@@ -125,5 +126,4 @@ abstract class AExportableTabController extends ASectionController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-
 }

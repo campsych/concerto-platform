@@ -167,4 +167,21 @@ class ExportService
                 return Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
         }
     }
+
+    public function decompactExportInstructions($compactInstructions)
+    {
+        $fullInstructions = [];
+        foreach ($compactInstructions as $class => $sets) {
+            for ($i = 0; $i < count($sets["id"]); $i++) {
+                $instruction = array(
+                    "class_name" => $class,
+                    "id" => $sets["id"][$i],
+                    "data" => $sets["data"][$i],
+                    "name" => $sets["name"][$i]
+                );
+                array_push($fullInstructions, $instruction);
+            }
+        }
+        return $fullInstructions;
+    }
 }

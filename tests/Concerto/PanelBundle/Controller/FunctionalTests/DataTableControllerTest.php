@@ -678,21 +678,27 @@ class DataTableControllerTest extends AFunctionalTest
     public function exportDataProvider()
     {
         return array(
-            array(array(array(
-                "class_name" => "DataTable",
-                "name" => "main_table",
-                "data" => "1"
-            )), "yml"),
-            array(array(array(
-                "class_name" => "DataTable",
-                "name" => "main_table",
-                "data" => "1"
-            )), "json"),
-            array(array(array(
-                "class_name" => "DataTable",
-                "name" => "main_table",
-                "data" => "1"
-            )), "compressed")
+            array(array(
+                "DataTable" => array(
+                    "id" => array(1),
+                    "name" => array("main_table"),
+                    "data" => array("1")
+                )
+            ), "yml"),
+            array(array(
+                "DataTable" => array(
+                    "id" => array(1),
+                    "name" => array("main_table"),
+                    "data" => array("1")
+                )
+            ), "json"),
+            array(array(
+                "DataTable" => array(
+                    "id" => array(1),
+                    "name" => array("main_table"),
+                    "data" => array("1")
+                )
+            ), "compressed")
         );
     }
 

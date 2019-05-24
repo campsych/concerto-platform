@@ -505,21 +505,27 @@ class TestControllerTest extends AFunctionalTest
     public function exportDataProvider()
     {
         return array(
-            array(array(array(
-                "class_name" => "Test",
-                "name" => "test",
-                "data" => "0"
-            )), "yml"),
-            array(array(array(
-                "class_name" => "Test",
-                "name" => "test",
-                "data" => "0"
-            )), "json"),
-            array(array(array(
-                "class_name" => "Test",
-                "name" => "test",
-                "data" => "0"
-            )), "compressed")
+            array(array(
+                "Test" => array(
+                    "id" => array(1),
+                    "name" => array("test"),
+                    "data" => array("0")
+                )
+            ), "yml"),
+            array(array(
+                "Test" => array(
+                    "id" => array(1),
+                    "name" => array("test"),
+                    "data" => array("0")
+                )
+            ), "json"),
+            array(array(
+                "Test" => array(
+                    "id" => array(1),
+                    "name" => array("test"),
+                    "data" => array("0")
+                )
+            ), "compressed")
         );
     }
 

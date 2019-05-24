@@ -54,10 +54,29 @@ function ExportController($scope, $uibModalInstance, uiGridConstants, $http, ids
         }
     };
 
+    function compactInstructions(instructions) {
+        var result = {};
+        for (var i = 0; i < instructions.length; i++) {
+            var instruction = instructions[i];
+            var className = instruction.class_name;
+            if (!(className in result)) {
+                result[className] = {
+                    id: [],
+                    data: [],
+                    name: []
+                }
+            }
+            result[className].id.push(instruction.id);
+            result[className].data.push(instruction.data);
+            result[className].name.push(instruction.name);
+        }
+        return result;
+    }
+
     $scope.export = function () {
         $uibModalInstance.close({
             format: $scope.exportFormat,
-            instructions: $scope.exportInstructions
+            instructions: compactInstructions($scope.exportInstructions)
         });
     };
 

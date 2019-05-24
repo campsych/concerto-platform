@@ -466,7 +466,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.cancel = function () {
         $scope.resetObject();
         $scope.switchTab();
-    }
+    };
 
     $scope.$watch("object.id", function (newObject, oldObject) {
         if (newObject == null)
