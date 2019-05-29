@@ -1,6 +1,6 @@
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen {{nginx_port}} default_server;
+    listen [::]:{{nginx_port}} default_server;
 
     root /app/concerto/web;
     client_max_body_size 50M;

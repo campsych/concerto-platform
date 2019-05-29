@@ -3,11 +3,13 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
 
+ENV CONCERTO_PASSWORD=admin
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
 ENV DB_USER=concerto
 ENV DB_PASSWORD=changeme
+ENV NGINX_PORT=80
 ENV PHP_FPM_PM=dynamic
 ENV PHP_FPM_PM_MAX_CHILDREN=30
 ENV PHP_FPM_PM_START_SERVERS=10
@@ -63,7 +65,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 
 COPY build/docker/php/php.ini /etc/php/7.2/fpm/php.ini
 COPY build/docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/docker/nginx/concerto.conf /etc/nginx/sites-available/concerto.conf
+COPY build/docker/nginx/concerto.conf.tpl /etc/nginx/sites-available/concerto.conf.tpl
 COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
@@ -83,7 +85,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
- && php bin/console concerto:setup --env=prod  \
+ && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
  && php bin/console concerto:content:import --env=prod --convert \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
@@ -93,6 +95,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && cron \
+ && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=prod  \
  && /etc/init.d/php7.2-fpm start \
