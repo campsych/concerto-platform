@@ -10,17 +10,17 @@ changelog:
                 - extensible item types set
                 - CAT content balancing fix
                 - added itemTemplateParamsModule for CAT
+                - added 'Next item criterion' wizard param for 'CAT'
+                - added 'Next item randomesque' wizard param for 'CAT'
+                - added 'Scoring method' wizard param for 'CAT'
+                - fixed 'linearTest' item changing
+                - added 'pain mannequin' item type
           - label: Features
             changes:
                 - added unsecured template content GET
           - label: Improvements
             changes:
                 - disabled CKEditor autoformating
-          - label: Starter content
-            changes:
-                - added 'Next item criterion' wizard param for 'CAT'
-                - added 'Next item randomesque' wizard param for 'CAT'
-                - added 'Scoring method' wizard param for 'CAT'
           - label: R package
             changes:
                 - template directive can now take additional options (css,js,html)

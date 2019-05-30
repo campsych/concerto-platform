@@ -60,7 +60,7 @@ class ContentExportCommand extends Command
         $dependencies = array();
         foreach ($classes as $class_name) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $content = $repo->findAll();
+            $content = $repo->findBy(array(), array("name" => "ASC"));
             $class_service = $this->importService->serviceMap[$class_name];
             foreach ($content as $ent) {
                 if (!$single) $dependencies = array();
