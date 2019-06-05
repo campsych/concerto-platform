@@ -47,9 +47,9 @@ RUN Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest'
  && R CMD INSTALL /usr/src/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /usr/src/concerto/bin/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "0 0 * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "*/5 * * * * /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "* * * * * . /root/env.sh; /usr/local/bin/php /usr/src/concerto/bin/console concerto:schedule:tick --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "0 0 * * * . /root/env.sh; /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:clear --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "*/5 * * * * . /root/env.sh; /usr/local/bin/php /usr/src/concerto/bin/console concerto:sessions:log --env=dev >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
@@ -69,7 +69,8 @@ RUN echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/ap
 EXPOSE 80 9000
 WORKDIR /usr/src/concerto
  
-CMD rm -rf var/cache/* \
+CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
+ && rm -rf var/cache/* \
  && php bin/console concerto:setup \
  && php bin/console concerto:r:cache \
  && rm -rf var/cache/* \
