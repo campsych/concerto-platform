@@ -45,6 +45,8 @@ var testRunner = angular.module('testRunner', [
   $interpolateProvider.startSymbol('[[').endSymbol(']]');
 }).config(function ($compileProvider) {
   testRunner.compileProvider = $compileProvider;
+}).config(function ($filterProvider) {
+    testRunner.filterProvider = $filterProvider;
 });
 
 testRunner.loadScripts = function (urls) {

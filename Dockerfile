@@ -70,8 +70,7 @@ COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
- && touch /app/concerto/var/logs/prod.log
+ && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
 
 EXPOSE 80 9000
 WORKDIR /app/concerto

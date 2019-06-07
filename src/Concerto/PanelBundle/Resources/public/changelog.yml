@@ -15,12 +15,14 @@ changelog:
                 - added 'Scoring method' wizard param for 'CAT'
                 - fixed 'linearTest' item changing
                 - added 'pain mannequin' item type
+                - added 'gracely scale' item type
           - label: Features
             changes:
                 - added unsecured template content GET
           - label: Improvements
             changes:
                 - disabled CKEditor autoformating
+                - exposed testRunner.filterProvider
           - label: R package
             changes:
                 - template directive can now take additional options (css,js,html)

@@ -955,6 +955,440 @@ collection:
     hash: d018b13d13789362163cbf45df9dd0acaf6fe074
   -
     class_name: ViewTemplate
+    id: 11
+    name: itemGracelyScale
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: |
+      .gbs-group {
+        display: flex;
+        width: 768px;
+        justify-content: space-evenly;
+        margin: 30px auto;
+      }
+      
+      .gbs-row {
+        display: flex;
+        align-items: center;
+      }
+      
+      .gbs-input {
+        border: 1px solid #000;
+        width: 33px;
+        height: 25px;
+        margin: 0 9px;
+        cursor: pointer;
+        text-align: center;
+        padding: 3px 2px 0;
+        font-size: 20px;
+      }
+      
+      .gbs-row:not(:first-child) .gbs-input {
+        border-top: none;
+      }
+      
+      .gbs-input:not(.selected) {
+        background-color: #fff !important;
+      }
+      
+      .gbs-value {
+        width: 18px;
+        text-align: right;
+      }
+      
+      .gbs-label {
+        text-transform: uppercase;
+        position: absolute;
+        right: 0;
+        width: 200px;
+      }
+      
+      .gbs-input i {
+        display: none;
+      }
+      
+      .gbs-input.selected i {
+        display: inline-block;
+      }
+      
+      .gbs-item-content {
+        position: relative;
+        width: 275px;
+      }
+    js: |
+      testRunner.filterProvider.register('reverse', function () {
+        return function (items) {
+          return items.slice().reverse();
+        };
+      });
+      
+      testRunner.compileProvider.component('itemGracelyScale', {
+        templateUrl: testRunner.settings.directory + "ViewTemplate/itemGracelyScale/content?css=1,html=1",
+        bindings: {
+          item: '=',
+          response: '=',
+          responseRequired: '<'
+        },
+        controller: function controller($scope) {
+      
+          $scope.item = this.item;
+          $scope.response = this.response;
+          $scope.responseRequired = this.responseRequired;
+      
+          $scope.intensityOptions = {
+            options: [
+              {
+                value: 0,
+                bgColor: '#ddfbdf'
+              },
+              {
+                value: 1,
+                bgColor: '#fde7e7'
+              },
+              {
+                value: 2,
+                bgColor: '#ffd8d8'
+              },
+              {
+                value: 3,
+                bgColor: '#fdc5c2'
+              },
+              {
+                value: 4,
+                bgColor: '#ffb6b1'
+              },
+              {
+                value: 5,
+                bgColor: '#fba19b'
+              },
+              {
+                value: 6,
+                bgColor: '#fd9187'
+              },
+              {
+                value: 7,
+                bgColor: '#ff9083'
+              },
+              {
+                value: 8,
+                bgColor: '#fd7e6c'
+              },
+              {
+                value: 9,
+                bgColor: '#fb6e55'
+              },
+              {
+                value: 10,
+                bgColor: '#fd5e3c'
+              },
+              {
+                value: 11,
+                bgColor: '#fd4e1b'
+              },
+              {
+                value: 12,
+                bgColor: '#fb400a'
+              },
+              {
+                value: 13,
+                bgColor: '#f50707'
+              },
+              {
+                value: 14,
+                bgColor: '#ec0101'
+              },
+              {
+                value: 15,
+                bgColor: '#e20101'
+              },
+              {
+                value: 16,
+                bgColor: '#da0000'
+              },
+              {
+                value: 17,
+                bgColor: '#d00101'
+              },
+              {
+                value: 18,
+                bgColor: '#c30000'
+              },
+              {
+                value: 19,
+                bgColor: '#bd0000'
+              },
+              {
+                value: 20,
+                bgColor: '#ad0202'
+              },
+            ],
+            labels: [
+              {
+                text: 'no pain sensation',
+                bottom: '0.2%'
+              },
+              {
+                text: 'faint',
+                bottom: '5.5%'
+              },
+              {
+                text: 'very weak',
+                bottom: '19.7%'
+              },
+              {
+                text: 'weak',
+                bottom: '24.8%'
+              },
+              {
+                text: 'very mild',
+                bottom: '31.8%'
+              },
+              {
+                text: 'mild',
+                bottom: '38.2%'
+              },
+              {
+                text: 'moderate',
+                bottom: '52.5%'
+              },
+              {
+                text: 'barely strong',
+                bottom: '58.2%'
+              },
+              {
+                text: 'slightly intense',
+                bottom: '63%'
+              },
+              {
+                text: 'strong',
+                bottom: '67.6%'
+              },
+              {
+                text: 'intense',
+                bottom: '76.8%'
+              },
+              {
+                text: 'very intense',
+                bottom: '81%'
+              },
+              {
+                text: 'extremely intense',
+                bottom: '86.7%'
+              },
+            ],
+          };
+      
+          $scope.unpleasantnessOptions = {
+            options: [
+              {
+                value: 0,
+                bgColor: '#ddfbdf'
+              },
+              {
+                value: 1,
+                bgColor: '#fde7e7'
+              },
+              {
+                value: 2,
+                bgColor: '#ffd8d8'
+              },
+              {
+                value: 3,
+                bgColor: '#fdc5c2'
+              },
+              {
+                value: 4,
+                bgColor: '#ffb6b1'
+              },
+              {
+                value: 5,
+                bgColor: '#fba19b'
+              },
+              {
+                value: 6,
+                bgColor: '#fd9187'
+              },
+              {
+                value: 7,
+                bgColor: '#ff9083'
+              },
+              {
+                value: 8,
+                bgColor: '#fd7e6c'
+              },
+              {
+                value: 9,
+                bgColor: '#fb6e55'
+              },
+              {
+                value: 10,
+                bgColor: '#fd5e3c'
+              },
+              {
+                value: 11,
+                bgColor: '#fd4e1b'
+              },
+              {
+                value: 12,
+                bgColor: '#fb400a'
+              },
+              {
+                value: 13,
+                bgColor: '#f50707'
+              },
+              {
+                value: 14,
+                bgColor: '#ec0101'
+              },
+              {
+                value: 15,
+                bgColor: '#e20101'
+              },
+              {
+                value: 16,
+                bgColor: '#da0000'
+              },
+              {
+                value: 17,
+                bgColor: '#d00101'
+              },
+              {
+                value: 18,
+                bgColor: '#c30000'
+              },
+              {
+                value: 19,
+                bgColor: '#bd0000'
+              },
+              {
+                value: 20,
+                bgColor: '#ad0202'
+              },
+            ],
+            labels: [
+              {
+                text: 'neutral',
+                bottom: '0.2%'
+              },
+              {
+                text: 'slightly unpleasant',
+                bottom: '24%'
+              },
+              {
+                text: 'slightly annoying',
+                bottom: '29%'
+              },
+              {
+                text: 'unpleasant',
+                bottom: '34.5%'
+              },
+              {
+                text: 'annoying',
+                bottom: '38.5%'
+              },
+              {
+                text: 'slightly distressing',
+                bottom: '43.5%'
+              },
+              {
+                text: 'very unpleasant',
+                bottom: '48.5%'
+              },
+              {
+                text: 'distressing',
+                bottom: '52.5%'
+              },
+              {
+                text: 'very annoying',
+                bottom: '55.5%'
+              },
+              {
+                text: 'slightly intolerable',
+                bottom: '59.8%'
+              },
+              {
+                text: 'very distressing',
+                bottom: '62.8%'
+              },
+              {
+                text: 'intolerable',
+                bottom: '75.5%'
+              },
+              {
+                text: 'very intolerable',
+                bottom: '82%'
+              },
+            ],
+          };
+      
+          $scope.intensity;
+          $scope.unpleasantness;
+      
+          if($scope.response.value) {
+            let pastResponse = JSON.parse($scope.response.value);
+            $scope.intensity = pastResponse.intensity;
+            $scope.unpleasantness = pastResponse.unpleasantness;
+          }
+      
+          $scope.selectIntensity = function (value) {
+            $scope.intensity = value;
+          };
+      
+          $scope.selectUnpleasantness = function (value) {
+            $scope.unpleasantness = value;
+          };
+      
+          testRunner.addExtraControl("r" + $scope.item.id, function () {
+            return JSON.stringify({
+              intensity: $scope.intensity,
+              unpleasantness: $scope.unpleasantness
+            });
+          });
+        }
+      });
+    html: |
+      <div class="gbs-group">
+      	<div class="gbs-item">
+      		<h2>Intensity</h2>
+      		<input name="intensity" ng-model="intensity" type="hidden" />
+      		<div class="gbs-item-content">
+      			<div class="gbs-row" ng-repeat="option in intensityOptions.options | reverse">
+      				<div class="gbs-value">
+      					[[option.value]]
+      				</div>
+      				<div class="gbs-input" ng-class="{selected: intensity === option.value}" ng-click="selectIntensity(option.value)" ng-style="{'background-color': option.bgColor}"></div>
+      			</div>
+      
+      			<div class="gbs-label" ng-repeat="label in intensityOptions.labels" ng-style="{bottom: label.bottom}">
+      				[[label.text]]
+      			</div>
+      		</div>
+      	</div>
+      
+      	<div class="gbs-item">
+      		<h2>Unpleasantness</h2>
+      		<input name="unpleasantness" ng-model="unpleasantness" type="hidden" />
+      		<div class="gbs-item-content">
+      			<div class="gbs-row" ng-repeat="option in unpleasantnessOptions.options | reverse">
+      				<div class="gbs-value">
+      					[[option.value]]
+      				</div>
+      				<div class="gbs-input" ng-class="{selected: unpleasantness === option.value}" ng-click="selectUnpleasantness(option.value)" ng-style="{'background-color': option.bgColor}"></div>
+      			</div>
+      
+      			<div class="gbs-label" ng-repeat="label in unpleasantnessOptions.labels" ng-style="{bottom: label.bottom}">
+      				[[label.text]]
+      			</div>
+      		</div>
+      	</div>
+      </div>
+    groups: ''
+    starterContent: true
+    hash: 859623e05056bac15fda4f627901e846be6a250a
+  -
+    class_name: ViewTemplate
     id: 2
     name: linearTest
     description: ''
@@ -1001,6 +1435,7 @@ collection:
       {{template:itemOpen,css=FALSE,html=FALSE}}
       {{template:itemOptions,css=FALSE,html=FALSE}}
       {{template:itemPainMannequin,css=FALSE,html=FALSE}}
+      {{template:itemGracelyScale,css=FALSE,html=FALSE}}
       
       <form name="form" ng-controller="linearTest">
       	<div class="linearTest-timer">[[timeLeft]]</div>
@@ -1010,6 +1445,7 @@ collection:
       			<item-open item="item" ng-switch-when="open" response="responses['r' + item.id]" response-required="responseRequired"></item-open>
       			<item-options item="item" ng-switch-when="options" response="responses['r' + item.id]" response-required="responseRequired"></item-options>
       			<item-pain-mannequin item="item" ng-switch-when="painMannequin" response="responses['r' + item.id]" response-required="responseRequired"></item-pain-mannequin>
+      			<item-gracely-scale item="item" ng-switch-when="gracelyScale" response="responses['r' + item.id]" response-required="responseRequired"></item-gracely-scale>
       		</div>
       		<div class="linearTest-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
       	</div>
@@ -1018,7 +1454,7 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: 1c4ca9ac1cca91446afe80c852a2f3f76b2554aa
+    hash: 16316144ae06a90d5a43065e6429705c53a6885f
   -
     class_name: ViewTemplate
     id: 3
@@ -1118,6 +1554,7 @@ collection:
       {{template:itemOpen,css=FALSE,html=FALSE}}
       {{template:itemOptions,css=FALSE,html=FALSE}}
       {{template:itemPainMannequin,css=FALSE,html=FALSE}}
+      {{template:itemGracelyScale,css=FALSE,html=FALSE}}
       
       <form name="form" ng-controller="CAT">
       	<div class="CAT-timer">[[timeLeft]]</div>
@@ -1126,6 +1563,7 @@ collection:
       		<item-open item="item" ng-switch-when="open" response="response" response-required="responseRequired"></item-open>
       		<item-options item="item" ng-switch-when="options" response="response" response-required="responseRequired"></item-options>
       		<item-pain-mannequin item="item" ng-switch-when="painMannequin" response="response" response-required="responseRequired"></item-pain-mannequin>
+      		<item-gracely-scale item="item" ng-switch-when="gracelyScale" response="response" response-required="responseRequired"></item-gracely-scale>
       	</div>
       	<div class="CAT-error" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">[[responseRequiredAlert]]</div>
       	<button name="submit" ng-disabled="!form.$valid">submit</button>
@@ -1133,7 +1571,7 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: 8867ac7f7cb96ac556fe7b71c5d24ff4cf62694b
+    hash: f2cd84120c5e5fd89d544571e73669c94938980d
   -
     class_name: DataTable
     id: 1
@@ -14601,12 +15039,19 @@ collection:
                                 -
                                   label: Open
                                   value: open
+                                  order: 1
                                 -
                                   label: Options
                                   value: options
+                                  order: 2
                                 -
                                   value: painMannequin
                                   label: 'Pain Mannequin'
+                                  order: 3
+                                -
+                                  value: gracelyScale
+                                  label: 'Gracely Scale'
+                                  order: 0
                               defvalue: options
                               placeholder: 0
                           -
@@ -15263,7 +15708,7 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: b6bd67f92e267d4483c9601e50456d53ed4ddb7f
+    hash: d39c02078828bb0fb0004664bf294af913243443
   -
     class_name: Test
     id: 25
@@ -16510,15 +16955,19 @@ collection:
                                 -
                                   value: options
                                   label: Options
-                                  order: 1
+                                  order: 2
                                 -
                                   value: open
                                   label: Open
-                                  order: 0
+                                  order: 1
                                 -
                                   value: painMannequin
                                   label: 'Pain Mannequin'
-                                  order: 2
+                                  order: 3
+                                -
+                                  value: gracelyScale
+                                  label: 'Gracely Scale'
+                                  order: 0
                               defvalue: options
                           -
                             type: 0
@@ -17026,7 +17475,7 @@ collection:
     test: 30
     groups: ''
     starterContent: true
-    hash: 4c7e78c14aa4e7be1aedccde753efa234cb8f2bc
+    hash: 622cd23244968b62bbf0092d9939a7c5c0cdbc6c
   -
     class_name: Test
     id: 35
