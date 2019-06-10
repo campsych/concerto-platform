@@ -1,9 +1,47 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
   Concerto EC2: Creates a single EC2 instance running Concerto with MySQL database together.
-  **WARNING** This template
-  creates an Amazon EC2 instance. You may be billed for the AWS resources used
-  if you create a stack from this template.
+  **WARNING** You may be billed for the AWS resources used if you create a stack from this template.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Concerto"
+        Parameters:
+          - ConcertoPassword
+      - Label:
+          default: "Domain + TLS"
+        Parameters:
+          - DomainName
+          - Email
+      - Label:
+          default: "Web"
+        Parameters:
+          - KeyName
+          - InstanceType
+      - Label:
+          default: "Database"
+        Parameters:
+          - DBPassword
+      - Label:
+          default: "VPC"
+        Parameters:
+          - CIDR
+    ParameterLabels:
+      KeyName:
+        default: "Key pair"
+      InstanceType:
+        default: "Instance type"
+      DomainName:
+        default: "Domain"
+      Email:
+        default: "E-Mail"
+      ConcertoPassword:
+        default: "Password"
+      DBPassword:
+        default: "Password"
+
 Parameters:
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
@@ -37,6 +75,19 @@ Parameters:
     Type: String
     AllowedPattern: '([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)'
     ConstraintDescription: must be a valid email.
+  ConcertoPassword:
+    Default: changeme
+    Description: Concerto admin account password
+    Type: String
+    MinLength: '8'
+    ConstraintDescription: min. 8 characters.
+  DBPassword:
+    Default: changeme
+    Description: Database admin account password
+    Type: String
+    MinLength: '8'
+    ConstraintDescription: min. 8 characters.
+
 Mappings:
   RegionMap:
     us-east-1:
@@ -71,28 +122,29 @@ Mappings:
       ami: ami-03338e1f67dae0168
     sa-east-1:
       ami: ami-0669a96e355eac82f
+
 Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: !Ref CIDR
       Tags:
-        - Key: Application
-          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
   Subnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Ref CIDR
       Tags:
-        - Key: Application
-          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties:
       Tags:
-        - Key: Application
-          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
   AttachGateway:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
@@ -103,8 +155,8 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       Tags:
-        - Key: Application
-          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
   Route:
     Type: 'AWS::EC2::Route'
     DependsOn: AttachGateway
@@ -122,8 +174,8 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       Tags:
-        - Key: Application
-          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
   InboundHTTPNetworkAclEntry:
     Type: 'AWS::EC2::NetworkAclEntry'
     Properties:
@@ -219,7 +271,7 @@ Resources:
     Properties:
       Domain: vpc
       InstanceId: !Ref WebServerInstance
-  InstanceSecurityGroup:
+  SecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPC
@@ -237,6 +289,9 @@ Resources:
           FromPort: '443'
           ToPort: '443'
           CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -245,43 +300,50 @@ Resources:
         - !Ref 'AWS::Region'
         - ami
       SecurityGroupIds:
-        - !Ref InstanceSecurityGroup
+        - !Ref SecurityGroup
       SubnetId: !Ref Subnet
       InstanceType: !Ref InstanceType
       KeyName: !Ref KeyName
       UserData:
-        Fn::Base64: !Sub |
-          #!/usr/bin/env bash
+        Fn::Base64: !Sub
+          - |
+            #!/usr/bin/env bash
 
-          # System
-          yum update -y
-          yum install yum-cron
-          systemctl enable yum-cron
-          service yum-cron start
+            # System
+            yum update -y
+            yum install yum-cron
+            systemctl enable yum-cron
+            service yum-cron start
 
-          # Docker
-          amazon-linux-extras install docker
-          systemctl enable docker
-          service docker start
-          usermod -a -G docker ec2-user
+            # Docker
+            amazon-linux-extras install docker
+            systemctl enable docker
+            service docker start
+            usermod -a -G docker ec2-user
 
-          # Docker Compose
-          curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
-          chmod +x /usr/local/bin/docker-compose
+            # Docker Compose
+            curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
 
-          # Concerto
-          mkdir /home/concerto
-          cd /home/concerto
-          wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml
-          docker-compose up -d database concerto
+            # Concerto
+            mkdir /home/concerto
+            cd /home/concerto
+            wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml
+            sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
+            sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
+            sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
+            sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
+            docker-compose up -d database concerto
 
-          # TLS
-          wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/install_tls.sh
-          chmod 775 ./install_tls.sh
-          ./install_tls.sh ${DomainName} http://concerto ${Email}
+            # TLS
+            wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/install_tls.sh
+            chmod 775 ./install_tls.sh
+            ./install_tls.sh ${DomainName} http://concerto ${Email}
+          - DBPassword: !Ref DBPassword
+            ConcertoPassword: !Ref ConcertoPassword
       Tags:
-        - Key: Application
-          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
 
 Outputs:
   URL:
