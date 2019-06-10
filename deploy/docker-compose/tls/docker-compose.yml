@@ -20,6 +20,7 @@ services:
     volumes:
       - ./data/concerto:/data
     environment:
+      - CONCERTO_PASSWORD=admin
       - DB_HOST=database
       - DB_PASSWORD=changeme
       - TZ=Europe/London
