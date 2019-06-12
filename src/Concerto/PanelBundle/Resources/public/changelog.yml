@@ -16,6 +16,10 @@ changelog:
                 - fixed 'linearTest' item changing
                 - added 'pain mannequin' item type
                 - added 'gracely scale' item type
+                - refactored 'CAT' and 'linearTest'
+                - added form input types templates
+                - added styling in default templates
+                - added default 'loader' template
           - label: Features
             changes:
                 - added unsecured template content GET
