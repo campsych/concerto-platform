@@ -2841,39 +2841,6 @@ collection:
     hash: 4a7cb888e6f59b12d67542fc02ed8fc87fa56b65
   -
     class_name: Test
-    id: 11
-    name: set
-    accessibility: 2
-    archived: '0'
-    visibility: 2
-    type: 0
-    code: |
-      for(.name in .dynamicInputs) {
-        c.set(.name, get(.name), posOffset = -1)
-      }
-      
-    description: 'Promote variables. Use dynamic inputs to declare which variables you want to promote.'
-    variables:
-      -
-        class_name: TestVariable
-        id: 75
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 11
-        parentVariable: null
-    sourceWizard: null
-    sourceWizardTest: null
-    nodes: {  }
-    nodesConnections: {  }
-    tags: _concerto_core
-    groups: ''
-    starterContent: true
-    hash: 220802aed8e79f2f5ea653740139ccdd5bbecd03
-  -
-    class_name: Test
     id: 15
     name: eval
     accessibility: 2
@@ -3770,13 +3737,13 @@ collection:
               test: 19
               parentVariable: null
             string: '1'
-            defaultValue: '1'
+            defaultValue: '0'
             dynamic: '0'
             type: 1
             exposed: '1'
             name: result
-            pointer: '0'
-            pointerVariable: result
+            pointer: '1'
+            pointerVariable: settings
           -
             class_name: TestNodePort
             id: 475
@@ -4086,57 +4053,6 @@ collection:
             name: itemTemplateParamsModule
             pointer: '0'
             pointerVariable: itemTemplateParamsModule
-      -
-        class_name: TestNode
-        id: 40
-        title: 'set settings'
-        type: 0
-        posX: 15155
-        posY: 14762
-        flowTest: 20
-        sourceTest: 11
-        sourceTestName: set
-        sourceTestDescription: 'Promote variables. Use dynamic inputs to declare which variables you want to promote.'
-        ports:
-          -
-            class_name: TestNodePort
-            id: 494
-            value: '0'
-            node: 40
-            variable: 75
-            variableObject:
-              class_name: TestVariable
-              id: 75
-              name: out
-              type: 2
-              description: ''
-              passableThroughUrl: '0'
-              value: '0'
-              test: 11
-              parentVariable: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '0'
-            type: 2
-            exposed: '1'
-            name: out
-            pointer: '0'
-            pointerVariable: out
-          -
-            class_name: TestNodePort
-            id: 495
-            value: ''
-            node: 40
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 0
-            exposed: '1'
-            name: settings
-            pointer: '0'
-            pointerVariable: settings
       -
         class_name: TestNode
         id: 104
@@ -4463,7 +4379,7 @@ collection:
         title: 'next item selector'
         type: 0
         posX: 15676
-        posY: 15105
+        posY: 15106
         flowTest: 20
         sourceTest: 15
         sourceTestName: eval
@@ -4638,11 +4554,11 @@ collection:
           -
             class_name: TestNodePort
             id: 1105
-            value: ''
+            value: 'NULL'
             node: 105
             variable: null
             variableObject: null
-            string: '1'
+            string: '0'
             defaultValue: '0'
             dynamic: '1'
             type: 0
@@ -6725,128 +6641,6 @@ collection:
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 161
-        flowTest: 20
-        sourceNode: 39
-        sourcePort: 475
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 475
-          value: '0'
-          node: 39
-          variable: 112
-          variableObject:
-            class_name: TestVariable
-            id: 112
-            name: out
-            type: 2
-            description: ''
-            passableThroughUrl: '0'
-            value: '0'
-            test: 19
-            parentVariable: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '0'
-          type: 2
-          exposed: '1'
-          name: out
-          pointer: '0'
-          pointerVariable: out
-        destinationNode: 40
-        destinationPort: null
-        destinationPortObject: null
-        returnFunction: out
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 162
-        flowTest: 20
-        sourceNode: 39
-        sourcePort: 474
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 474
-          value: null
-          node: 39
-          variable: 114
-          variableObject:
-            class_name: TestVariable
-            id: 114
-            name: result
-            type: 1
-            description: ''
-            passableThroughUrl: '0'
-            value: null
-            test: 19
-            parentVariable: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '0'
-          type: 1
-          exposed: '1'
-          name: result
-          pointer: '0'
-          pointerVariable: result
-        destinationNode: 40
-        destinationPort: 495
-        destinationPortObject:
-          class_name: TestNodePort
-          id: 495
-          value: ''
-          node: 40
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 0
-          exposed: '1'
-          name: settings
-          pointer: '0'
-          pointerVariable: settings
-        returnFunction: result
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 163
-        flowTest: 20
-        sourceNode: 40
-        sourcePort: 494
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 494
-          value: '0'
-          node: 40
-          variable: 75
-          variableObject:
-            class_name: TestVariable
-            id: 75
-            name: out
-            type: 2
-            description: ''
-            passableThroughUrl: '0'
-            value: '0'
-            test: 11
-            parentVariable: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '0'
-          type: 2
-          exposed: '1'
-          name: out
-          pointer: '0'
-          pointerVariable: out
-        destinationNode: 104
-        destinationPort: null
-        destinationPortObject: null
-        returnFunction: out
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
         id: 164
         flowTest: 20
         sourceNode: 31
@@ -7511,10 +7305,46 @@ collection:
         returnFunction: stop
         automatic: '0'
         defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 302
+        flowTest: 20
+        sourceNode: 39
+        sourcePort: 475
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 475
+          value: '0'
+          node: 39
+          variable: 112
+          variableObject:
+            class_name: TestVariable
+            id: 112
+            name: out
+            type: 2
+            description: ''
+            passableThroughUrl: '0'
+            value: '0'
+            test: 19
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 2
+          exposed: '1'
+          name: out
+          pointer: '0'
+          pointerVariable: out
+        destinationNode: 104
+        destinationPort: null
+        destinationPortObject: null
+        returnFunction: out
+        automatic: '0'
+        defaultReturnFunction: '1'
     tags: ''
     groups: ''
     starterContent: true
-    hash: 60c4f07c6f4e03aeee02b6f23f42b806ad5f6920
+    hash: 8ec7459242a9f24ca624ef1ded598a8c92f64b42
   -
     class_name: Test
     id: 7
@@ -15593,6 +15423,39 @@ collection:
     groups: ''
     starterContent: true
     hash: 9e6d68b997f89eb35c8b49a83ee83a958557778c
+  -
+    class_name: Test
+    id: 11
+    name: set
+    accessibility: 2
+    archived: '0'
+    visibility: 2
+    type: 0
+    code: |
+      for(.name in .dynamicInputs) {
+        c.set(.name, get(.name), posOffset = -1)
+      }
+      
+    description: 'Promote variables. Use dynamic inputs to declare which variables you want to promote.'
+    variables:
+      -
+        class_name: TestVariable
+        id: 75
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 11
+        parentVariable: null
+    sourceWizard: null
+    sourceWizardTest: null
+    nodes: {  }
+    nodesConnections: {  }
+    tags: _concerto_core
+    groups: ''
+    starterContent: true
+    hash: 220802aed8e79f2f5ea653740139ccdd5bbecd03
   -
     class_name: TestWizard
     id: 2
