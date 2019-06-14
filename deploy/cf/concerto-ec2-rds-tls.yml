@@ -158,7 +158,9 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock:  !Select [ 0, !Cidr [ !GetAtt VPC.CidrBlock, 2, 4 ]]
-      AvailabilityZone: !Select [ 0, !GetAZs ]
+      AvailabilityZone: !Select
+        - 0
+        - Fn::GetAZs: !Ref 'AWS::Region'
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
@@ -167,7 +169,9 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock:  !Select [ 1, !Cidr [ !GetAtt VPC.CidrBlock, 2, 4 ]]
-      AvailabilityZone: !Select [ 1, !GetAZs ]
+      AvailabilityZone: !Select
+        - 1
+        - Fn::GetAZs: !Ref 'AWS::Region'
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
@@ -363,7 +367,9 @@ Resources:
       DBInstanceClass: !Ref DBInstanceType
       DBSubnetGroupName: !Ref DBSubnetGroup
       AllocatedStorage: !Ref DBStorage
-      AvailabilityZone: !Select [ 0, !GetAZs ]
+      AvailabilityZone: !Select
+        - 0
+        - Fn::GetAZs: !Ref 'AWS::Region'
       MasterUsername: concerto
       MasterUserPassword: !Ref DBPassword
       VPCSecurityGroups:
@@ -378,7 +384,9 @@ Resources:
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
       SubnetId: !Ref SubnetA
-      AvailabilityZone: !Select [ 0, !GetAZs ]
+      AvailabilityZone: !Select
+        - 0
+        - Fn::GetAZs: !Ref 'AWS::Region'
       InstanceType: !Ref WebServerInstanceType
       KeyName: !Ref KeyName
       UserData:
