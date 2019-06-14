@@ -164,7 +164,7 @@ class TestWizardService extends AExportableSectionService
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
         $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
-        if ($old_name != $new_name) {
+        if ($instruction["action"] != 2 && $old_name != $new_name) {
             $renames["TestWizard"][$old_name] = $new_name;
         }
 
@@ -173,7 +173,6 @@ class TestWizardService extends AExportableSectionService
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
         } else if ($instruction["action"] == 2 && $src_ent) {
-            $src_ent = $this->findConversionSource($obj, $map);
             $map["TestWizard"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
