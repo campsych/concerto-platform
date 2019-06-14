@@ -20,6 +20,7 @@ changelog:
                 - added form input types templates
                 - added styling in default templates
                 - added default 'loader' template
+                - changed type of 'responseOptions' for both 'linearTestItems' and 'CATItems' to string
           - label: Features
             changes:
                 - added unsecured template content GET

@@ -2473,7 +2473,7 @@ collection:
         nullable: false
       -
         name: responseOptions
-        type: text
+        type: string
         nullable: false
       -
         name: orderIndex
@@ -2485,7 +2485,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: d8dc5520a7a9bd7499e86807e55799fceb3cf131
+    hash: 68af3f9fa95f50e9ccb730069f8d471a2963af16
   -
     class_name: DataTable
     id: 3
@@ -2547,7 +2547,7 @@ collection:
         nullable: false
       -
         name: responseOptions
-        type: text
+        type: string
         nullable: false
       -
         name: a
@@ -2579,7 +2579,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 36e58046aa3a53e580471659368b34331f4b9dc2
+    hash: c74952cc32d7c20fb0ff6c47320a05166a9d2601
   -
     class_name: Test
     id: 5
