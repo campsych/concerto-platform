@@ -35,6 +35,7 @@ changelog:
             changes:
                 - export instructions URL is now shorter allowing larger sets to be included in one call
                 - fixed ignored objects references rename on import
+                - fixed object references update on rename
     - version: "5.0.beta.9.2"
       description: >
         API checks endpoints
