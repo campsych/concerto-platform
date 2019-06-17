@@ -966,20 +966,20 @@ collection:
           $scope.responseRequired = this.responseRequired;
       
           $scope.selectResponse = function(option) {
-            $scope.response.value = option.value;
+            $scope.response.value = option.response;
           }
         }
       });
     html: |
       <div class="question-choices" ng-class="responseOptionsStyle">
-          <input style="display: none;" name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired"/>
-          <div ng-repeat="(optionIndex, option) in item.responseOptions.options" class="question-choice" ng-click="selectResponse(option)" ng-class="{'selected': option.value === response.value}">
-              <div ng-bind-html="option.label"></div>
-          </div>
+      	<input name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" style="display: none;" />
+      	<div class="question-choice" ng-class="{'selected': option.response === response.value}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+      		<div ng-bind-html="option.label"></div>
+      	</div>
       </div>
     groups: ''
     starterContent: true
-    hash: 50fac439d2bb6a5709752606759452fcd69de304
+    hash: 07c6817615561f494dbfe2a2661236e7eaa2f931
   -
     class_name: ViewTemplate
     id: 7
@@ -2507,16 +2507,16 @@ collection:
         type: string
         nullable: false
       -
+        name: catValue
+        type: float
+        nullable: false
+      -
         name: timeTaken
         type: float
         nullable: false
       -
         name: session_id
         type: string
-        nullable: false
-      -
-        name: correct
-        type: boolean
         nullable: false
       -
         name: theta
@@ -2528,7 +2528,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 19091d0035ceb9d977976912c93e30382952936b
+    hash: 8d991e418c79255f17133805042708dfdcfa7b42
   -
     class_name: DataTable
     id: 4
@@ -2550,26 +2550,6 @@ collection:
         type: string
         nullable: false
       -
-        name: a
-        type: float
-        nullable: false
-      -
-        name: b
-        type: float
-        nullable: false
-      -
-        name: c
-        type: float
-        nullable: false
-      -
-        name: d
-        type: float
-        nullable: false
-      -
-        name: correct
-        type: string
-        nullable: false
-      -
         name: cbGroup
         type: text
         nullable: false
@@ -2577,9 +2557,45 @@ collection:
         name: fixedIndex
         type: integer
         nullable: false
+      -
+        name: p1
+        type: float
+        nullable: false
+      -
+        name: p2
+        type: float
+        nullable: false
+      -
+        name: p3
+        type: float
+        nullable: false
+      -
+        name: p4
+        type: float
+        nullable: false
+      -
+        name: p5
+        type: float
+        nullable: false
+      -
+        name: p6
+        type: float
+        nullable: false
+      -
+        name: p7
+        type: float
+        nullable: false
+      -
+        name: p8
+        type: float
+        nullable: false
+      -
+        name: p9
+        type: float
+        nullable: false
     groups: ''
     starterContent: true
-    hash: c74952cc32d7c20fb0ff6c47320a05166a9d2601
+    hash: c8c8c1084bad7d5dfcd8943889b75a5c8c37b6ac
   -
     class_name: Test
     id: 5
@@ -3129,6 +3145,36 @@ collection:
         value: null
         test: 20
         parentVariable: null
+      -
+        class_name: TestVariable
+        id: 508
+        name: model
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 20
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 511
+        name: responseCatValueModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 20
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 513
+        name: itemParamsNum
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '9'
+        test: 20
+        parentVariable: null
     sourceWizard: null
     sourceWizardTest: null
     nodes:
@@ -3624,6 +3670,78 @@ collection:
             name: itemTemplateParamsModule
             pointer: '0'
             pointerVariable: itemTemplateParamsModule
+          -
+            class_name: TestNodePort
+            id: 1250
+            value: null
+            node: 31
+            variable: 508
+            variableObject:
+              class_name: TestVariable
+              id: 508
+              name: model
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '0'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: model
+            pointer: '0'
+            pointerVariable: model
+          -
+            class_name: TestNodePort
+            id: 1303
+            value: null
+            node: 31
+            variable: 511
+            variableObject:
+              class_name: TestVariable
+              id: 511
+              name: responseCatValueModule
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: responseCatValueModule
+            pointer: '0'
+            pointerVariable: responseCatValueModule
+          -
+            class_name: TestNodePort
+            id: 1324
+            value: '9'
+            node: 31
+            variable: 513
+            variableObject:
+              class_name: TestVariable
+              id: 513
+              name: itemParamsNum
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: '9'
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: itemParamsNum
+            pointer: '0'
+            pointerVariable: itemParamsNum
       -
         class_name: TestNode
         id: 32
@@ -4053,6 +4171,51 @@ collection:
             name: itemTemplateParamsModule
             pointer: '0'
             pointerVariable: itemTemplateParamsModule
+          -
+            class_name: TestNodePort
+            id: 1251
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: model
+            pointer: '0'
+            pointerVariable: model
+          -
+            class_name: TestNodePort
+            id: 1304
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: responseCatValueModule
+            pointer: '0'
+            pointerVariable: responseCatValueModule
+          -
+            class_name: TestNodePort
+            id: 1325
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: itemParamsNum
+            pointer: '0'
+            pointerVariable: itemParamsNum
       -
         class_name: TestNode
         id: 104
@@ -4076,11 +4239,15 @@ collection:
                   table = tableMap$table
                   questionColumn = tableMap$columns$question
                   responseOptionsColumn = tableMap$columns$responseOptions
-                  aColumn = tableMap$columns$a
-                  bColumn = tableMap$columns$b
-                  cColumn = tableMap$columns$c
-                  dColumn = tableMap$columns$d
-                  correctColumn = tableMap$columns$correct
+                  p1Column = tableMap$columns$p1
+                  p2Column = tableMap$columns$p2
+                  p3Column = tableMap$columns$p3
+                  p4Column = tableMap$columns$p4
+                  p5Column = tableMap$columns$p5
+                  p6column = tableMap$columns$p6
+                  p7Column = tableMap$columns$p7
+                  p8Column = tableMap$columns$p8
+                  p9Column = tableMap$columns$p9
                   cbGroupColumn = tableMap$columns$cbGroup
                   fixedIndexColumn = tableMap$columns$fixedIndex
                   items = concerto.table.query(
@@ -4089,11 +4256,15 @@ collection:
               id, 
               {{questionColumn}} AS question, 
               {{responseOptionsColumn}} AS responseOptions,
-              {{aColumn}} AS a,
-              {{bColumn}} AS b,
-              {{cColumn}} AS c,
-              {{dColumn}} AS d,
-              {{correctColumn}} AS correct,
+              {{p1Column}} AS p1,
+              {{p2Column}} AS p2,
+              {{p3Column}} AS p3,
+              {{p4Column}} AS p4,
+              {{p5Column}} AS p5,
+              {{p6Column}} AS p6,
+              {{p7Column}} AS p7,
+              {{p8Column}} AS p8,
+              {{p9Column}} AS p9,
               {{cbGroupColumn}} AS cbGroup,
               {{fixedIndexColumn}} AS fixedIndex
               FROM {{table}}
@@ -4101,11 +4272,15 @@ collection:
                     list(
                       questionColumn=questionColumn,
                       responseOptionsColumn=responseOptionsColumn,
-                      aColumn=aColumn,
-                      bColumn=bColumn,
-                      cColumn=cColumn,
-                      dColumn=dColumn,
-                      correctColumn=correctColumn,
+                      p1Column=p1Column,
+                      p2Column=p2Column,
+                      p3Column=p3Column,
+                      p4Column=p4Column,
+                      p5Column=p5Column,
+                      p6Column=p6Column,
+                      p7Column=p7Column,
+                      p8Column=p8Column,
+                      p9Column=p9Column,
                       cbGroupColumn=cbGroupColumn,
                       fixedIndexColumn=fixedIndexColumn,
                       table=table
@@ -4146,7 +4321,8 @@ collection:
                 concerto.log(cbControl, "cbControl")
               }
               
-              paramBank = items[,c("a","b","c","d"),drop=F]
+              paramBank = items[,c("p1","p2","p3","p4","p5","p6","p7","p8","p9"),drop=F]
+              paramBank = paramBank[,1:as.numeric(settings$itemParamsNum),drop=F]
               paramBank = apply(paramBank, 2, as.numeric)
               
               theta = as.numeric(settings$startingTheta)
@@ -4280,9 +4456,9 @@ collection:
             dynamic: '1'
             type: 1
             exposed: '1'
-            name: correctness
+            name: responses
             pointer: '1'
-            pointerVariable: correctness
+            pointerVariable: responses
           -
             class_name: TestNodePort
             id: 1093
@@ -4378,8 +4554,8 @@ collection:
         id: 105
         title: 'next item selector'
         type: 0
-        posX: 15676
-        posY: 15106
+        posX: 15675
+        posY: 15105
         flowTest: 20
         sourceTest: 15
         sourceTestName: eval
@@ -4394,7 +4570,7 @@ collection:
               getSafeItem = function(item) {
                 item = as.list(item)
                 item$correct = NULL
-                
+              
                 if(is.character(item$responseOptions)) { item$responseOptions = fromJSON(item$responseOptions) }
                 responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == "1"
                 orderedOptions = c()
@@ -4405,6 +4581,10 @@ collection:
                   } else {
                     orderedOptions = item$responseOptions$options
                   }
+                  orderedOptions = lapply(orderedOptions, function(elem) {
+                    elem$catValue = NULL
+                    return(elem)
+                  })
                 }
                 item$responseOptions$options = orderedOptions
                 item$responseOptions = toJSON(item$responseOptions)
@@ -4430,7 +4610,7 @@ collection:
               
               if(nextItemIndex == 0) {
                 concerto.log(itemsAdministered, "out")
-                result = nextItem(paramBank, theta=theta, out=itemsAdministered, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
+                result = nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
                 nextItemIndex = result$item
               }
               concerto.log(nextItemIndex, "nextItemIndex")
@@ -4700,7 +4880,7 @@ collection:
               
               if(!concerto.template.isResponseQueued()) {
                 params = getTemplateParams(itemSafe, templateParams, settings$responseRequired, settings$responseRequiredAlert)
-                if(settings$itemTemplateParamsModule != "") {
+                if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModule != "") {
                   params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
                     params = params,
                     item = item
@@ -4945,7 +5125,7 @@ collection:
         title: scoring
         type: 0
         posX: 16495
-        posY: 15148
+        posY: 15147
         flowTest: 20
         sourceTest: 15
         sourceTestName: eval
@@ -4957,27 +5137,46 @@ collection:
             value: |
               library(catR)
               
-              correct = 0
-              response = response[[paste0("r",item$id)]]
-              if(!is.null(response) && response == item$correct) { correct = 1 }
-              correctness = c(correctness, correct)
+              getResponseCatValue = function(item, response) {
+                defaultCatValue = 0
+                if(!is.null(response)) {
+                  responseOptions = fromJSON(item$responseOptions)
+                  if(responseOptions$type == "options" && length(responseOptions$options) > 0) {
+                    for(i in 1:length(responseOptions$options)) {
+                      option = responseOptions$options[[i]]
+                      if(option$response == response) {
+                        defaultCatValue = as.numeric(option$catValue)
+                        break
+                      }
+                    }
+                  }
+                }
+                
+                catValue = defaultCatValue
+                if(!is.na(settings$responseCatValueModule) && settings$responseCatValueModule != "") {
+                  catValue = concerto.test.run(settings$responseCatValueModule, params=list(
+                    item=item,
+                    response=response,
+                    defaultCatValue=defaultCatValue
+                  ))$catValue
+                }
+                return(catValue)
+              }
+              
+              responseRaw = response[[paste0("r",item$id)]]
+              responseCatValue = getResponseCatValue(item, responseRaw)
+              responses = c(responses, responseCatValue)
               itemsAdministered = unique(c(itemsAdministered, itemIndex))
               paramBankAdministered = paramBank
               if(dim(items)[1] > 1) {
                 paramBankAdministered = paramBank[itemsAdministered,]
               }
               concerto.log(itemsAdministered, "itemsAdministered")
-              concerto.log(correctness, "correctness")
-              theta <- thetaEst(matrix(paramBankAdministered, ncol=4, byrow=F), correctness, method=settings$scoringMethod)
+              concerto.log(responses, "responses")
+              theta <- thetaEst(matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), responses, model=settings$model, method=settings$scoringMethod)
               concerto.log(theta, "theta")
-              sem <- semTheta(theta, matrix(paramBankAdministered, ncol=4, byrow=F), correctness)
+              sem <- semTheta(theta, matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), responses, model=settings$model)
               concerto.log(sem, "SEM")
-              if(correct == 1) {
-                .branch = "correct"
-              } else {
-                .branch = "incorrect"
-              }
-              
             node: 107
             variable: 89
             variableObject:
@@ -5042,7 +5241,7 @@ collection:
             defaultValue: '1'
             dynamic: '0'
             type: 2
-            exposed: '0'
+            exposed: '1'
             name: out
             pointer: '0'
             pointerVariable: out
@@ -5058,9 +5257,9 @@ collection:
             dynamic: '1'
             type: 0
             exposed: '1'
-            name: correctness
+            name: responses
             pointer: '1'
-            pointerVariable: correctness
+            pointerVariable: responses
           -
             class_name: TestNodePort
             id: 1129
@@ -5168,62 +5367,17 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 1136
-            value: ''
-            node: 107
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 2
-            exposed: '1'
-            name: correct
-            pointer: '0'
-            pointerVariable: correct
-          -
-            class_name: TestNodePort
-            id: 1137
-            value: ''
-            node: 107
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 2
-            exposed: '1'
-            name: incorrect
-            pointer: '0'
-            pointerVariable: incorrect
-          -
-            class_name: TestNodePort
-            id: 1138
-            value: ''
-            node: 107
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 1
-            exposed: '1'
-            name: .branch
-            pointer: '0'
-            pointerVariable: .branch
-          -
-            class_name: TestNodePort
             id: 1139
             value: ''
             node: 107
             variable: null
             variableObject: null
             string: '1'
-            defaultValue: '1'
+            defaultValue: '0'
             dynamic: '1'
             type: 1
             exposed: '1'
-            name: correct
+            name: responseCatValue
             pointer: '0'
             pointerVariable: correct
           -
@@ -5238,9 +5392,9 @@ collection:
             dynamic: '1'
             type: 1
             exposed: '1'
-            name: correctness
+            name: responses
             pointer: '1'
-            pointerVariable: correctness
+            pointerVariable: responses
           -
             class_name: TestNodePort
             id: 1141
@@ -5276,8 +5430,8 @@ collection:
         id: 108
         title: 'response processor'
         type: 0
-        posX: 16891
-        posY: 15126
+        posX: 16890
+        posY: 15125
         flowTest: 20
         sourceTest: 15
         sourceTestName: eval
@@ -5297,7 +5451,7 @@ collection:
                 return(id)
               }
               
-              saveResponse = function(responseBank, session, response, item, correct, theta, sem) {
+              saveResponse = function(responseBank, session, response, responseCatValue, item, theta, sem) {
                 responseBank = fromJSON(responseBank)
                 if(is.null(responseBank$table)) {
                   concerto.log("no response bank defined, skipping response saving")
@@ -5306,8 +5460,8 @@ collection:
               
                 sql = "
               INSERT INTO {{table}} 
-              ({{itemIdColumn}}, {{responseColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{correctColumn}}, {{thetaColumn}}, {{semColumn}}) 
-              VALUES ({{itemId}}, '{{responseValue}}', {{timeTaken}}, '{{sessionId}}', {{correct}}, {{theta}}, {{sem}})
+              ({{itemIdColumn}}, {{responseColumn}}, {{responseCatValueColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{thetaColumn}}, {{semColumn}}) 
+              VALUES ({{itemId}}, '{{responseValue}}', {{responseCatValue}}, {{timeTaken}}, '{{sessionId}}', {{theta}}, {{sem}})
               "
                 concerto.table.query(sql, list(
                   table=responseBank$table,
@@ -5317,10 +5471,10 @@ collection:
                   itemId=item$id,
                   responseColumn=responseBank$columns$response,
                   responseValue=response[[paste0("r",item$id)]],
+                  responseCatValueColumn=responseBank$columns$catValue,
+                  responseCatValue=responseCatValue,
                   timeTakenColumn=responseBank$columns$timeTaken,
                   timeTaken=response$timeTaken, #could use time difference
-                  correctColumn=responseBank$columns$correct,
-                  correct=correct,
                   thetaColumn=responseBank$columns$theta,
                   theta=theta,
                   semColumn=responseBank$columns$sem,
@@ -5330,7 +5484,7 @@ collection:
               }
               
               itemsAdministered = unique(c(itemsAdministered, itemIndex))
-              responseId = saveResponse(settings$responseBank, session, response, item, correct, theta, sem)
+              responseId = saveResponse(settings$responseBank, session, response, responseCatValue, item, theta, sem)
               
             node: 108
             variable: 89
@@ -5408,11 +5562,11 @@ collection:
             variable: null
             variableObject: null
             string: '1'
-            defaultValue: '1'
+            defaultValue: '0'
             dynamic: '1'
             type: 0
             exposed: '1'
-            name: correct
+            name: responseCatValue
             pointer: '0'
             pointerVariable: correct
           -
@@ -7122,101 +7276,6 @@ collection:
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 283
-        flowTest: 20
-        sourceNode: 107
-        sourcePort: 1139
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1139
-          value: ''
-          node: 107
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 1
-          exposed: '1'
-          name: correct
-          pointer: '0'
-          pointerVariable: correct
-        destinationNode: 108
-        destinationPort: 1146
-        destinationPortObject:
-          class_name: TestNodePort
-          id: 1146
-          value: ''
-          node: 108
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 0
-          exposed: '1'
-          name: correct
-          pointer: '0'
-          pointerVariable: correct
-        returnFunction: correct
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 284
-        flowTest: 20
-        sourceNode: 107
-        sourcePort: 1136
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1136
-          value: ''
-          node: 107
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 2
-          exposed: '1'
-          name: correct
-          pointer: '0'
-          pointerVariable: correct
-        destinationNode: 108
-        destinationPort: null
-        destinationPortObject: null
-        returnFunction: correct
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 286
-        flowTest: 20
-        sourceNode: 107
-        sourcePort: 1137
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1137
-          value: ''
-          node: 107
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 2
-          exposed: '1'
-          name: incorrect
-          pointer: '0'
-          pointerVariable: incorrect
-        destinationNode: 108
-        destinationPort: null
-        destinationPortObject: null
-        returnFunction: incorrect
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
         id: 288
         flowTest: 20
         sourceNode: 108
@@ -7341,10 +7400,237 @@ collection:
         returnFunction: out
         automatic: '0'
         defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 303
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 1250
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1250
+          value: null
+          node: 31
+          variable: 508
+          variableObject:
+            class_name: TestVariable
+            id: 508
+            name: model
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: null
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '0'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: model
+          pointer: '0'
+          pointerVariable: model
+        destinationNode: 39
+        destinationPort: 1251
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1251
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: model
+          pointer: '0'
+          pointerVariable: model
+        returnFunction: 'if(model == "dichotomous") { NULL } else { model }'
+        automatic: '0'
+        defaultReturnFunction: '0'
+      -
+        class_name: TestNodeConnection
+        id: 304
+        flowTest: 20
+        sourceNode: 107
+        sourcePort: 1127
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1127
+          value: '0'
+          node: 107
+          variable: 88
+          variableObject:
+            class_name: TestVariable
+            id: 88
+            name: out
+            type: 2
+            description: ''
+            passableThroughUrl: '0'
+            value: '0'
+            test: 15
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 2
+          exposed: '1'
+          name: out
+          pointer: '0'
+          pointerVariable: out
+        destinationNode: 108
+        destinationPort: null
+        destinationPortObject: null
+        returnFunction: out
+        automatic: '0'
+        defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 306
+        flowTest: 20
+        sourceNode: 107
+        sourcePort: 1139
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1139
+          value: ''
+          node: 107
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '0'
+          dynamic: '1'
+          type: 1
+          exposed: '1'
+          name: responseCatValue
+          pointer: '0'
+          pointerVariable: correct
+        destinationNode: 108
+        destinationPort: 1146
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1146
+          value: ''
+          node: 108
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '0'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: responseCatValue
+          pointer: '0'
+          pointerVariable: correct
+        returnFunction: responseCatValue
+        automatic: '0'
+        defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 310
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 1303
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1303
+          value: null
+          node: 31
+          variable: 511
+          variableObject:
+            class_name: TestVariable
+            id: 511
+            name: responseCatValueModule
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: null
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: responseCatValueModule
+          pointer: '0'
+          pointerVariable: responseCatValueModule
+        destinationNode: 39
+        destinationPort: 1304
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1304
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: responseCatValueModule
+          pointer: '0'
+          pointerVariable: responseCatValueModule
+        returnFunction: responseCatValueModule
+        automatic: '0'
+        defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 311
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 1324
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1324
+          value: '9'
+          node: 31
+          variable: 513
+          variableObject:
+            class_name: TestVariable
+            id: 513
+            name: itemParamsNum
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: '9'
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: itemParamsNum
+          pointer: '0'
+          pointerVariable: itemParamsNum
+        destinationNode: 39
+        destinationPort: 1325
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1325
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: itemParamsNum
+          pointer: '0'
+          pointerVariable: itemParamsNum
+        returnFunction: itemParamsNum
+        automatic: '0'
+        defaultReturnFunction: '1'
     tags: ''
     groups: ''
     starterContent: true
-    hash: 8ec7459242a9f24ca624ef1ded598a8c92f64b42
+    hash: 548b17be919037b2c6a16be4cde19a1768e9eb8d
   -
     class_name: Test
     id: 7
@@ -9749,7 +10035,7 @@ collection:
                     } else {
                       for(i in 1:length(responseOptions$options)) {
                         option = responseOptions$options[[i]]
-                        if(itemResponse == option$value) {
+                        if(itemResponse == option$response) {
                           score = option$score
                           break
                         }
@@ -10005,7 +10291,7 @@ collection:
         id: 114
         title: 'response processor'
         type: 0
-        posX: 17158
+        posX: 17159
         posY: 15088
         flowTest: 30
         sourceTest: 15
@@ -11737,7 +12023,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: bf78085b3c0a57ce999e0c8fc04cea18869e96ee
+    hash: b4b15a5c668f6443f2345d8d68897f5b9b16f853
   -
     class_name: Test
     id: 26
@@ -12761,7 +13047,7 @@ collection:
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
-            value: '[{"id":1,"question":"10 + 10","responseOptions":{"0":{"value":"20","label":"20"},"1":{"value":"40","label":"40"},"type":null,"optionsRandomOrder":null,"options":null},"a":1.7,"b":"-2","c":0,"d":1,"correct":20,"cbGroup":"mathematics","fixedIndex":""},{"id":2,"question":"100 + 100","responseOptions":{"0":{"value":"200","label":"200"},"1":{"value":"400","label":"400"},"type":null,"optionsRandomOrder":null,"options":null},"a":1.7,"b":0,"c":0,"d":1,"correct":200,"cbGroup":"mathematics","fixedIndex":""},{"id":3,"question":"1000 + 1000","responseOptions":{"0":{"value":"2000","label":"2000"},"1":{"value":"4000","label":"4000"},"type":null,"optionsRandomOrder":null,"options":null},"a":1.7,"b":2,"c":0,"d":1,"correct":2000,"cbGroup":"mathematics","fixedIndex":""}]'
+            value: '[{"id":1,"question":"10 + 10","responseOptions":{"0":{"value":"20","label":"20"},"1":{"value":"40","label":"40"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"1"},{"id":"2","label":"200","value":"0","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"0","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male"},"a":1.7,"b":"-2","c":0,"d":1,"correct":20,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"0":{"value":"200","label":"200"},"1":{"value":"400","label":"400"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"0","response":"1","catValue":"0"},{"id":"2","label":"200","value":"1","response":"2","catValue":"1"},{"id":"3","label":"2000","value":"0","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male"},"a":1.7,"b":0,"c":0,"d":1,"correct":200,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"0":{"value":"2000","label":"2000"},"1":{"value":"4000","label":"4000"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"0","response":"1","catValue":"0"},{"id":"2","label":"200","value":"0","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"0","response":"3","catValue":"1"}],"painMannequinGender":"female","painMannequinGenderValue":"male"},"a":1.7,"b":2,"c":0,"d":1,"correct":2000,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
             testVariable: 117
             name: itemBankItems
             wizardStep: 7
@@ -12833,17 +13119,27 @@ collection:
                                 definition:
                                   fields:
                                     -
-                                      name: value
+                                      name: catValue
                                       type: 0
-                                      label: Value
+                                      label: 'CAT Value'
                                       definition:
                                         placeholder: 0
+                                        defvalue: '0'
+                                      order: 2
                                     -
                                       name: label
                                       type: 2
                                       label: Label
                                       definition:
                                         placeholder: 0
+                                      order: 1
+                                    -
+                                      type: 0
+                                      name: response
+                                      label: Response
+                                      definition:
+                                        placeholder: 0
+                                      order: 0
                                   placeholder: 0
                               placeholder: 0
                             hideCondition: 'parent.type != "options"'
@@ -12892,40 +13188,6 @@ collection:
                             placeholder: 0
                         placeholder: 0
                     -
-                      name: a
-                      type: 0
-                      label: A
-                      definition:
-                        defvalue: '0'
-                        placeholder: 0
-                    -
-                      name: b
-                      type: 0
-                      label: B
-                      definition:
-                        defvalue: '0'
-                        placeholder: 0
-                    -
-                      name: c
-                      type: 0
-                      label: C
-                      definition:
-                        defvalue: '0'
-                        placeholder: 0
-                    -
-                      name: d
-                      type: 0
-                      label: D
-                      definition:
-                        defvalue: '0'
-                        placeholder: 0
-                    -
-                      name: correct
-                      type: 0
-                      label: Correct
-                      definition:
-                        placeholder: 0
-                    -
                       name: cbGroup
                       type: 0
                       label: 'Content Balancing Group'
@@ -12938,6 +13200,69 @@ collection:
                       definition:
                         defvalue: ''
                         placeholder: 0
+                    -
+                      type: 0
+                      name: p1
+                      label: 'Item Parameter #1'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p2
+                      label: 'Item Parameter #2'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p3
+                      label: 'Item Parameter #3'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p4
+                      label: 'Item Parameter #4'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p5
+                      label: 'Item Parameter #5'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p6
+                      label: 'Item Parameter #6'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p7
+                      label: 'Item Parameter #7'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p8
+                      label: 'Item Parameter #8'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
+                    -
+                      type: 0
+                      name: p9
+                      label: 'Item Parameter #9'
+                      definition:
+                        placeholder: 0
+                        defvalue: '0'
                   placeholder: 0
           -
             class_name: TestWizardParam
@@ -12947,7 +13272,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"catItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex"}}'
+            value: '{"table":"CATItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9"}}'
             testVariable: 118
             name: itemBankTable
             wizardStep: 7
@@ -12969,32 +13294,48 @@ collection:
                   label: 'Response Options'
                   tooltip: ''
                 -
-                  name: a
-                  label: A
-                  tooltip: ''
-                -
-                  name: b
-                  label: B
-                  tooltip: ''
-                -
-                  name: c
-                  label: C
-                  tooltip: ''
-                -
-                  name: d
-                  label: D
-                  tooltip: ''
-                -
-                  name: correct
-                  label: Correct
-                  tooltip: ''
-                -
                   name: cbGroup
                   label: 'Content Balancing Group'
                   tooltip: ''
                 -
                   name: fixedIndex
                   label: 'Fixed Index'
+                  tooltip: ''
+                -
+                  name: p1
+                  label: 'Item Parameter #1'
+                  tooltip: ''
+                -
+                  name: p2
+                  label: 'Item Parameter #2'
+                  tooltip: ''
+                -
+                  name: p3
+                  label: 'Item Parameter #3'
+                  tooltip: ''
+                -
+                  name: p4
+                  label: 'Item Parameter #4'
+                  tooltip: ''
+                -
+                  name: p5
+                  label: 'Item Parameter #5'
+                  tooltip: ''
+                -
+                  name: p6
+                  label: 'Item Parameter #6'
+                  tooltip: ''
+                -
+                  name: p7
+                  label: 'Item Parameter #7'
+                  tooltip: ''
+                -
+                  name: p8
+                  label: 'Item Parameter #8'
+                  tooltip: ''
+                -
+                  name: p9
+                  label: 'Item Parameter #9'
                   tooltip: ''
               placeholder: 0
           -
@@ -13178,7 +13519,7 @@ collection:
             name: nextItemCriterion
             wizardStep: 9
             stepTitle: 'CAT Options'
-            order: 0
+            order: 1
             wizard: 7
             definition:
               options:
@@ -13242,6 +13583,64 @@ collection:
                   value: EAP
               defvalue: BM
               placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 86
+            label: Model
+            description: ''
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: dichotomous
+            testVariable: 508
+            name: model
+            wizardStep: 9
+            stepTitle: 'CAT Options'
+            order: 0
+            wizard: 7
+            definition:
+              placeholder: 0
+              options:
+                -
+                  value: dichotomous
+                  label: dichotomous
+                -
+                  value: GRM
+                  label: GRM
+                -
+                  value: MGRM
+                  label: MGRM
+                -
+                  value: PCM
+                  label: PCM
+                -
+                  value: GPCM
+                  label: GPCM
+                -
+                  value: RSM
+                  label: RSM
+                -
+                  value: NRM
+                  label: NRM
+              defvalue: dichotomous
+          -
+            class_name: TestWizardParam
+            id: 88
+            label: 'Item Parameters Number'
+            description: ''
+            hideCondition: ''
+            type: 0
+            passableThroughUrl: '0'
+            value: '9'
+            testVariable: 513
+            name: itemParamsNum
+            wizardStep: 9
+            stepTitle: 'CAT Options'
+            order: 0
+            wizard: 7
+            definition:
+              placeholder: 0
+              defvalue: '9'
       -
         class_name: TestWizardStep
         id: 10
@@ -13271,35 +13670,35 @@ collection:
                 -
                   name: id
                   label: Id
-                  tooltip: ''
+                  tooltip: '0'
                 -
                   name: item_id
                   label: 'Item Id'
-                  tooltip: ''
+                  tooltip: '1'
                 -
-                  name: response
-                  label: Response
-                  tooltip: ''
+                  name: catValue
+                  label: 'CAT Value'
+                  tooltip: '3'
                 -
                   name: timeTaken
                   label: 'Time Taken'
-                  tooltip: ''
+                  tooltip: '4'
                 -
                   name: session_id
                   label: 'Session Id'
-                  tooltip: ''
-                -
-                  name: correct
-                  label: Correct
-                  tooltip: ''
+                  tooltip: '5'
                 -
                   name: theta
                   label: Theta
-                  tooltip: ''
+                  tooltip: '6'
                 -
                   name: sem
                   label: SEM
-                  tooltip: ''
+                  tooltip: '7'
+                -
+                  name: response
+                  label: Response
+                  tooltip: '2'
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -13364,10 +13763,27 @@ collection:
             definition:
               placeholder: 0
               defvalue: ''
+          -
+            class_name: TestWizardParam
+            id: 87
+            label: 'Response CAT Value Module'
+            description: ''
+            hideCondition: ''
+            type: 8
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 511
+            name: responseCatValueModule
+            wizardStep: 11
+            stepTitle: Modules
+            order: 0
+            wizard: 7
+            definition:
+              placeholder: 0
     test: 20
     groups: ''
     starterContent: true
-    hash: 7475110ce5f8c9c5a8ad412ac018f2b8629c16ef
+    hash: b80ab7007879761ed2b631e95956c9bdb54127a0
   -
     class_name: Test
     id: 25
@@ -13406,7 +13822,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"value":"20","label":"20"},{"value":"200","label":"200"},{"value":"2000","label":"2000"}],"painMannequinGender":"","painMannequinGenderValue":null},"a":1.7,"b":"-2","c":0,"d":1,"correct":20,"cbGroup":"mathematics","fixedIndex":""},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"value":"20","label":"20"},{"value":"200","label":"200"},{"value":"2000","label":"2000"}],"painMannequinGender":"","painMannequinGenderValue":null},"a":1.7,"b":0,"c":0,"d":1,"correct":200,"cbGroup":"mathematics","fixedIndex":""},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"value":"20","label":"20"},{"value":"200","label":"200"},{"value":"2000","label":"2000"}],"painMannequinGender":"","painMannequinGenderValue":null},"a":1.7,"b":2,"c":0,"d":1,"correct":2000,"cbGroup":"mathematics","fixedIndex":""}]'
+        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","catValue":"1","response":"1"},{"label":"200","catValue":"0","response":"2"},{"label":"2000","catValue":"0","response":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male"},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","catValue":"0","response":"1"},{"label":"200","catValue":"1","response":"2"},{"label":"2000","catValue":"0","response":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male"},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","catValue":"0","response":"1"},{"label":"200","catValue":"0","response":"2"},{"label":"2000","catValue":"1","response":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male"},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
         test: 25
         parentVariable: 117
       -
@@ -13516,7 +13932,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem"}}'
+        value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue"}}'
         test: 25
         parentVariable: 128
       -
@@ -13609,6 +14025,36 @@ collection:
         value: null
         test: 25
         parentVariable: 492
+      -
+        class_name: TestVariable
+        id: 509
+        name: model
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: dichotomous
+        test: 25
+        parentVariable: 508
+      -
+        class_name: TestVariable
+        id: 512
+        name: responseCatValueModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 25
+        parentVariable: 511
+      -
+        class_name: TestVariable
+        id: 514
+        name: itemParamsNum
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '9'
+        test: 25
+        parentVariable: 513
     sourceWizard: 7
     sourceWizardTest: 20
     nodes: {  }
@@ -13616,7 +14062,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: f4657e0c8557aa88959700151f806bd42f96ad87
+    hash: 8993f955dd1175f1e97bdb2e11c748ac866e3987
   -
     class_name: TestWizard
     id: 4
@@ -14518,7 +14964,7 @@ collection:
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
-            value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"1"},{"value":"200","label":"200","score":"0"},{"value":"2000","label":"2000","score":"0"}],"optionsRandomOrder":"1"}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0"},{"value":"200","label":"200","score":"1"},{"value":"2000","label":"2000","score":"0"}],"optionsRandomOrder":"1"}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0"},{"value":"200","label":"200","score":"0"},{"value":"2000","label":"2000","score":"1"}],"optionsRandomOrder":"1"}}]'
+            value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"1","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"1","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}}]'
             testVariable: 245
             name: itemBankItems
             wizardStep: 13
@@ -14603,8 +15049,8 @@ collection:
                                   fields:
                                     -
                                       type: 0
-                                      name: value
-                                      label: Value
+                                      name: response
+                                      label: Response
                                       definition:
                                         placeholder: 0
                                     -
@@ -14977,7 +15423,7 @@ collection:
     test: 30
     groups: ''
     starterContent: true
-    hash: 94380a7f6f044234725d3c15d62bc418bc0d1a0a
+    hash: 933c276fb39f921d2436f59df1326131ec7cd252
   -
     class_name: Test
     id: 35
@@ -15006,7 +15452,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"1"},{"value":"200","label":"200","score":"0"},{"value":"2000","label":"2000","score":"0"}],"optionsRandomOrder":"1"}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0"},{"value":"200","label":"200","score":"1"},{"value":"2000","label":"2000","score":"0"}],"optionsRandomOrder":"1"}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0"},{"value":"200","label":"200","score":"0"},{"value":"2000","label":"2000","score":"1"}],"optionsRandomOrder":"1"}}]'
+        value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"1","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"1","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}}]'
         test: 35
         parentVariable: 245
       -
@@ -15176,7 +15622,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: ed471e24724f77c6190404911df68bbf0a91f33c
+    hash: d92f10d2df5b31c01fb97e97f6c6fb8f725ddcc1
   -
     class_name: TestWizard
     id: 8
