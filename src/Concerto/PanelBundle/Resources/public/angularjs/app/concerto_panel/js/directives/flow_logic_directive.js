@@ -39,7 +39,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
         var lastPosition = null;
         var position = null;
 
-        $($(this).selector).on("mousedown mouseup mousemove", function (e) {
+        $(this).on("mousedown mouseup mousemove", function (e) {
           if (e.button === 2)
             scope.rightClickEvent = e;
 
