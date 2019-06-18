@@ -7,6 +7,7 @@ changelog:
           - label: Starter content
             changes:
                 - CAT now supports polytomous models
+                - added default generic page template called 'page'
     - version: "5.0.beta.10.1"
       description: >
         Starter content
