@@ -16011,7 +16011,7 @@ collection:
             class_name: TestWizardParam
             id: 1
             label: 'View Template'
-            description: 'Select which template should be shown by this node'
+            description: 'Select which template should be shown by this node.&nbsp;This field will be ignored if HTML has been entered above.'
             hideCondition: ''
             type: 5
             passableThroughUrl: '0'
@@ -16020,7 +16020,7 @@ collection:
             name: template
             wizardStep: 1
             stepTitle: Template
-            order: 0
+            order: 1
             wizard: 1
             definition:
               placeholder: 0
@@ -16047,7 +16047,7 @@ collection:
             class_name: TestWizardParam
             id: 3
             label: HTML
-            description: 'Directly input HTML to be shown by this node. This field will be ignored if a template has been selected above.'
+            description: 'Directly input HTML to be shown by this node.'
             hideCondition: ''
             type: 2
             passableThroughUrl: '0'
@@ -16056,7 +16056,7 @@ collection:
             name: html
             wizardStep: 1
             stepTitle: Template
-            order: 1
+            order: 0
             wizard: 1
             definition:
               placeholder: 0
@@ -16064,7 +16064,7 @@ collection:
     test: 1
     groups: ''
     starterContent: true
-    hash: 84f3a68f3dd674fff9915c703d7e8cc0fd04fa5d
+    hash: 214a41cc734942030ca2b3471f9bf1ae5be8ce54
   -
     class_name: Test
     id: 2
