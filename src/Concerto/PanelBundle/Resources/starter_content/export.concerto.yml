@@ -1,4 +1,4 @@
-version: 5.0.beta.10.1
+version: 5.0.beta.11.1
 collection:
   -
     class_name: ViewTemplate
@@ -4244,7 +4244,7 @@ collection:
                   p3Column = tableMap$columns$p3
                   p4Column = tableMap$columns$p4
                   p5Column = tableMap$columns$p5
-                  p6column = tableMap$columns$p6
+                  p6Column = tableMap$columns$p6
                   p7Column = tableMap$columns$p7
                   p8Column = tableMap$columns$p8
                   p9Column = tableMap$columns$p9
@@ -7630,7 +7630,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 548b17be919037b2c6a16be4cde19a1768e9eb8d
+    hash: 1838bedcfca7c67376d661d4cde0c7b20c03c0c3
   -
     class_name: Test
     id: 7
