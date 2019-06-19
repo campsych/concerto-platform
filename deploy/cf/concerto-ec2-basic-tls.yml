@@ -375,7 +375,7 @@ Resources:
                 mkdir -p /home/concerto
             02_download:
               command: |
-                wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml
+                wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml
               cwd: /home/concerto
             03_config:
               command: !Sub |
@@ -397,7 +397,7 @@ Resources:
               cwd: /home/concerto
             02_install_tls:
               command: !Sub |
-                ./install_tls.sh ${DomainName} http://concerto ${Email}
+                ./install_tls.sh ${DomainName} http://concerto ${Email} > /var/log/install_tls.log &
               cwd: /home/concerto
     Properties:
       ImageId: !FindInMap
