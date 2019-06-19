@@ -423,11 +423,8 @@ Resources:
 
 Outputs:
   URL:
-    Value: !Join
-      - ''
-      - - 'http://'
-        - !GetAtt
-          - WebServerInstance
-          - PublicIp
-        - '/admin'
+    Value: !Sub 'https://${DomainName}/admin'
     Description: Concerto administration panel URL
+  ServerIP:
+    Value: !GetAtt WebServerInstance.PublicIp
+    Description: IP address to point your domain to (i.e. with A record)

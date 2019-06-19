@@ -379,11 +379,7 @@ Resources:
 
 Outputs:
   URL:
-    Value: !Join
-      - ''
-      - - 'http://'
-        - !GetAtt
-          - WebServerInstance
-          - PublicIp
-        - '/admin'
+    Value: !Sub
+      - 'http://${PublicIp}/admin'
+      - PublicIp: !GetAtt WebServerInstance.PublicIp
     Description: Concerto administration panel URL
