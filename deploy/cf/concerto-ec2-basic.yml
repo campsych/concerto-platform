@@ -14,32 +14,41 @@ Metadata:
           default: "Web"
         Parameters:
           - KeyName
-          - InstanceType
+          - WebServerInstanceType
       - Label:
           default: "Database"
         Parameters:
           - DBPassword
       - Label:
-          default: "VPC"
+          default: "Network"
         Parameters:
           - CIDR
+          - CIDRA
     ParameterLabels:
-      KeyName:
-        default: "Key pair"
-      InstanceType:
-        default: "Instance type"
       ConcertoPassword:
         default: "Password"
+      KeyName:
+        default: "Key pair"
+      WebServerInstanceType:
+        default: "Instance type"
       DBPassword:
         default: "Password"
+      CIDRA:
+        default: "CIDR for Subnet A"
 
 Parameters:
+  ConcertoPassword:
+    Default: changeme
+    Description: Concerto admin account password
+    Type: String
+    MinLength: '8'
+    ConstraintDescription: min. 8 characters.
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: 'AWS::EC2::KeyPair::KeyName'
     ConstraintDescription: must be the name of an existing EC2 KeyPair.
-  InstanceType:
-    Description: Instance type to use.
+  WebServerInstanceType:
+    Description: Web server instance type.
     Type: String
     Default: t2.micro
     AllowedValues:
@@ -48,26 +57,28 @@ Parameters:
       - t2.medium
       - t2.large
     ConstraintDescription: must be a valid EC2 instance type.
-  CIDR:
-    Description: The private IP address range to be used for VPC
-    Type: String
-    MinLength: '9'
-    MaxLength: '18'
-    Default: 10.10.0.0/24
-    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  ConcertoPassword:
-    Default: changeme
-    Description: Concerto admin account password
-    Type: String
-    MinLength: '8'
-    ConstraintDescription: min. 8 characters.
   DBPassword:
     Default: changeme
     Description: Database admin account password
     Type: String
     MinLength: '8'
     ConstraintDescription: min. 8 characters.
+  CIDR:
+    Description: The private IP address range to be used for VPC
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 10.10.0.0/16
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  CIDRA:
+    Description: Address range within the VPC to be used for subnet
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 10.10.0.0/24
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 
 Mappings:
   RegionMap:
@@ -112,11 +123,11 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
-  Subnet:
+  SubnetA:
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: !Ref CIDR
+      CidrBlock: !Ref CIDRA
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
@@ -148,7 +159,7 @@ Resources:
   SubnetRouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !Ref Subnet
+      SubnetId: !Ref SubnetA
       RouteTableId: !Ref RouteTable
   NetworkAcl:
     Type: 'AWS::EC2::NetworkAcl'
@@ -205,6 +216,18 @@ Resources:
       PortRange:
         From: '80'
         To: '80'
+  OutBoundHTTPSNetworkAclEntry:
+    Type: 'AWS::EC2::NetworkAclEntry'
+    Properties:
+      NetworkAclId: !Ref NetworkAcl
+      RuleNumber: '101'
+      Protocol: '6'
+      RuleAction: allow
+      Egress: 'true'
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: '443'
+        To: '443'
   OutBoundResponsePortsNetworkAclEntry:
     Type: 'AWS::EC2::NetworkAclEntry'
     Properties:
@@ -220,7 +243,7 @@ Resources:
   SubnetNetworkAclAssociation:
     Type: 'AWS::EC2::SubnetNetworkAclAssociation'
     Properties:
-      SubnetId: !Ref Subnet
+      SubnetId: !Ref SubnetA
       NetworkAclId: !Ref NetworkAcl
   IPAddress:
     Type: 'AWS::EC2::EIP'
@@ -228,7 +251,7 @@ Resources:
     Properties:
       Domain: vpc
       InstanceId: !Ref WebServerInstance
-  SecurityGroup:
+  WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPC
@@ -247,48 +270,109 @@ Resources:
           Value: !Ref 'AWS::StackName'
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
+    Metadata:
+      'AWS::CloudFormation::Init':
+        configSets:
+          default:
+            - 'cfn'
+            - 'updates'
+            - 'docker'
+            - 'concerto'
+        cfn:
+          files:
+            /etc/cfn/cfn-hup.conf:
+              content: !Sub |
+                [main]
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+              mode: '000400'
+              owner: root
+              group: root
+            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+              content: !Sub |
+                [cfn-auto-reloader-hook]
+                triggers=post.update
+                path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init
+                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerLaunchConfig --region ${AWS::Region}
+                runas=root
+              mode: '000400'
+              owner: root
+              group: root
+          services:
+            sysvinit:
+              cfn-hup:
+                enabled: 'true'
+                ensureRunning: 'true'
+                files:
+                  - /etc/cfn/cfn-hup.conf
+                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+        updates:
+          packages:
+            yum:
+              yum-cron: []
+          commands:
+            01_config:
+              command: |
+                sed -ri 's/^(.*update_cmd\s*=).*$/\1 security/' yum-cron.conf
+                sed -ri 's/^(.*apply_updates\s*=).*$/\1 yes/' yum-cron.conf
+              cwd: /etc/yum
+          services:
+            sysvinit:
+              yum-cron:
+                enabled: 'true'
+                ensureRunning: 'true'
+        docker:
+          commands:
+            01_user:
+              command: |
+                usermod -a -G docker ec2-user
+            02_docker_compose:
+              command: |
+                curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
+                chmod +x /usr/local/bin/docker-compose
+          services:
+            sysvinit:
+              docker:
+                enabled: 'true'
+                ensureRunning: 'true'
+        concerto:
+          commands:
+            01_dir:
+              command: |
+                mkdir -p /home/concerto
+            02_download:
+              command: |
+                wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml
+              cwd: /home/concerto
+            03_config:
+              command: !Sub |
+                sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
+                sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
+                sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
+                sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
+              cwd: /home/concerto
+            04_start:
+              command: |
+                docker-compose up -d concerto database
+              cwd: /home/concerto
     Properties:
       ImageId: !FindInMap
         - RegionMap
         - !Ref 'AWS::Region'
         - ami
       SecurityGroupIds:
-        - !Ref SecurityGroup
-      SubnetId: !Ref Subnet
-      InstanceType: !Ref InstanceType
+        - !Ref WebServerSecurityGroup
+      SubnetId: !Ref SubnetA
+      InstanceType: !Ref WebServerInstanceType
       KeyName: !Ref KeyName
       UserData:
-        Fn::Base64: !Sub
-          - |
-            #!/usr/bin/env bash
-
-            # System
-            yum update -y
-            yum install yum-cron
-            systemctl enable yum-cron
-            service yum-cron start
-
-            # Docker
-            amazon-linux-extras install docker
-            systemctl enable docker
-            service docker start
-            usermod -a -G docker ec2-user
-
-            # Docker Compose
-            curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose
-
-            # Concerto
-            mkdir /home/concerto
-            cd /home/concerto
-            wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml
-            sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
-            sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
-            sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
-            sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
-            docker-compose up -d
-          - DBPassword: !Ref DBPassword
-            ConcertoPassword: !Ref ConcertoPassword
+        Fn::Base64: !Sub |
+          #!/usr/bin/env bash
+          yum update --security -y
+          yum -y install aws-cfn-bootstrap
+          amazon-linux-extras install -y docker
+          /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource WebServerInstance --region ${AWS::Region}
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackId} --resource WebServerInstance --region ${AWS::Region}
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
