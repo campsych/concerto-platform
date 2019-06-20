@@ -13,12 +13,10 @@
     "angular-sanitize": "1.5.5",
     "angular-file-upload": "1.1.x",
     "html5-boilerplate": "5.2.x",
-    "jquery": "2.1.x",
-    "jquery-ui": "1.11.x"
+    "jquery": "3.3.x",
+    "jquery-ui": "1.12.x"
   },
     "resolutions": {
-        "angular": "1.5.5",
-        "jquery": "2.1.4",
-        "jquery-ui": "1.11.4"
+        "angular": "1.5.5"
     }
 }

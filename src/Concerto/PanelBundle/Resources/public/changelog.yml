@@ -1,5 +1,13 @@
-version: "5.0.beta.10.1"
+version: "5.0.beta.11.1"
 changelog:
+    - version: "5.0.beta.11.1"
+      description: >
+        Starter content
+      categories:
+          - label: Starter content
+            changes:
+                - CAT now supports polytomous models
+                - added default generic page template called 'page'
     - version: "5.0.beta.10.1"
       description: >
         Starter content
@@ -16,6 +24,11 @@ changelog:
                 - fixed 'linearTest' item changing
                 - added 'pain mannequin' item type
                 - added 'gracely scale' item type
+                - refactored 'CAT' and 'linearTest'
+                - added form input types templates
+                - added styling in default templates
+                - added default 'loader' template
+                - changed type of 'responseOptions' for both 'linearTestItems' and 'CATItems' to string
           - label: Features
             changes:
                 - added unsecured template content GET
@@ -30,6 +43,8 @@ changelog:
           - label: Fixes
             changes:
                 - export instructions URL is now shorter allowing larger sets to be included in one call
+                - fixed ignored objects references rename on import
+                - fixed object references update on rename
     - version: "5.0.beta.9.2"
       description: >
         API checks endpoints

@@ -528,10 +528,9 @@ class TestWizardParamService extends ASectionService
     public static function modifyPropertiesOnRename($newName, $class, $oldName, $type, &$def, &$val, $onlyVal = false)
     {
         $moded = false;
-        $classPath = "Concerto\\PanelBundle\\Entity\\" . $class;
 
         //ViewTemplate
-        if ($type === 5 && $classPath === ViewTemplate::class) {
+        if ($type === 5 && $class === ViewTemplate::class) {
             if ($val == $oldName) {
                 $moded = true;
                 $val = $newName;
@@ -542,7 +541,7 @@ class TestWizardParamService extends ASectionService
             }
         }
         //DataTable
-        if ($type === 6 && $classPath === DataTable::class) {
+        if ($type === 6 && $class === DataTable::class) {
             if ($val == $oldName) {
                 $moded = true;
                 $val = $newName;
@@ -553,7 +552,7 @@ class TestWizardParamService extends ASectionService
             }
         }
         //DataTable column
-        if ($type == 7 && $classPath === DataTable::class) {
+        if ($type == 7 && $class === DataTable::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
             if (array_key_exists("table", $val) && $val["table"] == $oldName) {
@@ -562,7 +561,7 @@ class TestWizardParamService extends ASectionService
             }
         }
         //Test
-        if ($type === 8 && $classPath === Test::class) {
+        if ($type === 8 && $class === Test::class) {
             if ($val == $oldName) {
                 $moded = true;
                 $val = $newName;
@@ -579,7 +578,7 @@ class TestWizardParamService extends ASectionService
             if (array_key_exists("fields", $def)) {
                 for ($i = 0; $i < count($def["fields"]); $i++) {
                     $field = $def["fields"][$i];
-                    $moded |= self::modifyPropertiesOnRename($newName, $classPath, $oldName, $field["type"], $def["fields"][$i]["definition"], $val[$field["name"]], $onlyVal);
+                    $moded |= self::modifyPropertiesOnRename($newName, $class, $oldName, $field["type"], $def["fields"][$i]["definition"], $val[$field["name"]], $onlyVal);
                 }
             }
         }
@@ -589,12 +588,12 @@ class TestWizardParamService extends ASectionService
                 $val = json_decode($val, true);
             if ($val !== null && array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
                 for ($i = 0; $i < count($val); $i++) {
-                    $moded |= self::modifyPropertiesOnRename($newName, $classPath, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
+                    $moded |= self::modifyPropertiesOnRename($newName, $class, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
                 }
             }
         }
         //DataTable map
-        if ($type === 12 && $classPath === DataTable::class) {
+        if ($type === 12 && $class === DataTable::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
             if (array_key_exists("table", $val) && $val["table"] == $oldName) {
@@ -603,7 +602,7 @@ class TestWizardParamService extends ASectionService
             }
         }
         //Nested wizard
-        if ($type == 13 && $classPath === Test::class) {
+        if ($type == 13 && $class === Test::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
             if (array_key_exists("test", $val) && $val["test"] == $oldName) {
