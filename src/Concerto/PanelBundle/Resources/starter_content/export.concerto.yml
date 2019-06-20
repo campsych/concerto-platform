@@ -14537,7 +14537,7 @@ collection:
               <ul>
               	<li>If the cell contains a&nbsp;string (<strong>Insert</strong>,&nbsp;<strong>Update</strong> only), it will be used literally and replace any insert directives with dynamic inputs from the node, e.g.:<br />
               	<strong>column1={{column1Value}} AND column2={{column2Value}}</strong></li>
-              	<li>If the cell is empty, it will build a clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g.:</li>
+              	<li>If the cell is empty, it will build a clause from dynamic inputs, using '<b>=</b>'<b>&nbsp;</b>and '<b>AND</b>'<b>&nbsp;</b>operators, e.g.:</li>
               </ul>
               
               <ol>
@@ -14545,7 +14545,7 @@ collection:
               	<li>(<strong>Update</strong>&nbsp;only) for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong><strong>col1=2, col2=3</strong></li>
               </ol>
               
-            hideCondition: 'values.queryType == "select"'
+            hideCondition: 'values.queryType == "select" || values.queryType == "custom"'
             type: 1
             passableThroughUrl: '0'
             value: ''
@@ -14570,10 +14570,10 @@ collection:
               	<strong>column1={{column1Value}} AND column2={{column2Value}}</strong></li>
               	<li>If the cell contains a&nbsp;numeric value, it will be converted to an id e.g.:<br />
               	<strong>23&nbsp;</strong>will be converted to&nbsp;<strong>id=23</strong></li>
-              	<li>If the cell is empty, this node&nbsp;will build a where clause from dynamic inputs, using &#39;<b>=</b>&#39;<b>&nbsp;</b>and &#39;<b>AND</b>&#39;<b>&nbsp;</b>operators, e.g.: for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong>&nbsp;<strong>col1=2 AND col2=3</strong></li>
+              	<li>If the cell is empty, this node&nbsp;will build a where clause from dynamic inputs, using '<b>=</b>'<b>&nbsp;</b>and '<b>AND</b>'<b>&nbsp;</b>operators, e.g.: for dynamic inputs:&nbsp;<strong>col1=2</strong>,&nbsp;<strong>col2=3:</strong>&nbsp;<strong>col1=2 AND col2=3</strong></li>
               </ul>
               
-            hideCondition: 'values.queryType == "insert"'
+            hideCondition: 'values.queryType == "insert" || values.queryType == "custom"'
             type: 1
             passableThroughUrl: '0'
             value: ''
@@ -14589,7 +14589,7 @@ collection:
     test: 46
     groups: ''
     starterContent: true
-    hash: 1901e55e02642456e281968900e5bcd1e748bca1
+    hash: b09ecf7cf11e505b530c6f1e9bb14a8ab4f3d8b4
   -
     class_name: Test
     id: 47
