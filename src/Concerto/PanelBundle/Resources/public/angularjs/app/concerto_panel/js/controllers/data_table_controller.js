@@ -100,10 +100,11 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.fetchDataCollection($scope.object.id);
     });
     $scope.editTextCell = function (entity, colName) {
-        $scope.dialogsService.ckeditorDialog(
+        $scope.dialogsService.textareaDialog(
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
-            Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
             entity[colName],
+            Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
+            $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
             function (newVal) {
                 entity[colName] = newVal;
                 $scope.saveRow(entity);
