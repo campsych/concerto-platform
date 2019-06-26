@@ -9,6 +9,7 @@ Metadata:
       - Label:
           default: Concerto
         Parameters:
+          - ConcertoVersion
           - ConcertoPassword
       - Label:
           default: Web
@@ -25,6 +26,8 @@ Metadata:
           - CIDR
           - CIDRA
     ParameterLabels:
+      ConcertoVersion:
+        default: Tag
       ConcertoPassword:
         default: Password
       KeyName:
@@ -37,6 +40,10 @@ Metadata:
         default: CIDR for Subnet A
 
 Parameters:
+  ConcertoVersion:
+    Description: Concerto version to use. See tags in https://github.com/campsych/concerto-platform
+    Type: String
+    Default: latest
   ConcertoPassword:
     Default: changeme
     Description: Concerto admin account password
@@ -293,7 +300,7 @@ Resources:
                 [cfn-auto-reloader-hook]
                 triggers=post.update
                 path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init
-                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerLaunchConfig --region ${AWS::Region}
+                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
                 runas=root
               mode: 000400
               owner: root
@@ -343,13 +350,14 @@ Resources:
               cwd: /home/concerto
             03_config:
               command: !Sub |
+                sed -ri 's/^(.*image:\s*campsych\/concerto-platform).*$/\1:${ConcertoVersion}/' docker-compose.yml
                 sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
               cwd: /home/concerto
             04_start:
-              command: docker-compose up -d concerto database
+              command: docker-compose up -d --force-recreate concerto database
               cwd: /home/concerto
     Properties:
       ImageId: !FindInMap
@@ -379,3 +387,6 @@ Outputs:
       - http://${PublicIp}/admin
       - PublicIp: !GetAtt WebServerInstance.PublicIp
     Description: Concerto administration panel URL
+  ConcertoVersion:
+    Value: !Ref ConcertoVersion
+    Description: Concerto version being used
