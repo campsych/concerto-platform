@@ -390,7 +390,7 @@ Resources:
                 sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
               cwd: /home/concerto
             04_start:
-              command: docker-compose up -d --force-recreate concerto database
+              command: /usr/local/bin/docker-compose up -d --force-recreate concerto database
               cwd: /home/concerto
         tls:
           commands:
