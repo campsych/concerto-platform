@@ -278,10 +278,10 @@ class TestSessionService
         }
 
         $message = "";
-        $upload_result = $this->fileService->uploadFiles(FileService::DIR_PRIVATE, "", $files, $message);
+        $upload_result = $this->fileService->uploadFiles(FileService::DIR_SESSION, "", $files, $message, $session_hash);
         if ($upload_result) {
             foreach ($files as $file) {
-                $response = array("result" => 0, "file_path" => realpath($this->fileService->getPrivateUploadDirectory() . $file->getClientOriginalName()), "name" => $name);
+                $response = array("result" => 0, "file_path" => realpath($this->fileService->getSessionUploadDirectory($session_hash) . $file->getClientOriginalName()), "name" => $name);
                 return $response;
             }
         }
