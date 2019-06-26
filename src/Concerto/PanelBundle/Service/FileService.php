@@ -11,6 +11,7 @@ class FileService
 
     const DIR_PRIVATE = 0;
     const DIR_PUBLIC = 1;
+    const DIR_SESSION = 2;
 
     public function __construct($environment, Packages $assetManager)
     {
@@ -54,9 +55,22 @@ class FileService
         return move_uploaded_file($tmpFile, $uploadPath);
     }
 
-    public function uploadFiles($dirType, $destination, $files, &$error)
+    public function uploadFiles($dirType, $destination, $files, &$error, $sessionHash = null)
     {
-        $basePath = realpath($dirType == self::DIR_PRIVATE ? $this->getPrivateUploadDirectory() : $this->getPublicUploadDirectory());
+        $path = null;
+        switch ($dirType) {
+            case self::DIR_PUBLIC:
+                $path = $this->getPublicUploadDirectory();
+                break;
+            case self::DIR_SESSION:
+                $path = $this->getSessionUploadDirectory($sessionHash);
+                break;
+            case self::DIR_PRIVATE:
+            default:
+                $path = $this->getPrivateUploadDirectory();
+                break;
+        }
+        $basePath = realpath($path);
         $path = $this->canonicalizePath($basePath . $destination);
         foreach ($files as $file) {
             $fileName = $file->getClientOriginalName();
@@ -314,6 +328,11 @@ class FileService
     public function getPublicUploadDirectory()
     {
         return dirname(__FILE__) . "/../" . ($this->environment === "test" ? ("../../../tests/") : "") . "Resources/public/files/";
+    }
+
+    public function getSessionUploadDirectory($hash)
+    {
+        return dirname(__FILE__) . "/../../TestBundle/" . ($this->environment === "test" ? ("../../../tests/") : "") . "Resources/sessions/$hash/";
     }
 
     private function parsePerms($perms)
