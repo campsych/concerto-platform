@@ -1,7 +1,7 @@
 ignition.noscript: 您的浏览器不支持javascript。请启用JavaScript并刷新您的浏览器。
-ignition.ip: "IP:" 
+ignition.ip: "IP:"
 ignition.browser: "浏览器:"
-ignition.time: "时间:" 
+ignition.time: "时间:"
 ignition.browser.notsupported: 浏览器版本不予支持。 请将浏览器升级到Internet Explorer 9或更高版本，或切换到其他浏览器，例如Chrome或Firefox。
 ignition.browser.potentionallynotsupported: 如果此消息不会立即消失，您可能需要使用其他浏览器。
 default.template:
