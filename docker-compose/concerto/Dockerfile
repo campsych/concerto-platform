@@ -1,4 +1,4 @@
-FROM campsych/concerto-platform:latest
+FROM campsych/concerto-platform:5.0.beta.7
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
