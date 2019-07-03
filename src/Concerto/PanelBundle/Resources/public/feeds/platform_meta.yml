@@ -1,5 +1,12 @@
-version: "5.0.beta.7.4"
+version: "5.0.beta.7.5"
 changelog:
+    - version: "5.0.beta.7.5"
+      description: >
+        Session resuming fix
+      categories:
+          - label: Fixes
+            changes:
+                - fixed flow restore
     - version: "5.0.beta.7.4"
       description: >
         Moved some test runner js settings out of directive

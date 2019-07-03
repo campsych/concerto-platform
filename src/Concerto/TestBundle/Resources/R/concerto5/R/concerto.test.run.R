@@ -114,10 +114,14 @@ function(testId, params=list(), mainTest=FALSE, ongoingResumeFlowIndex=-1) {
             if (node$type == 0) {
 
                 if (ongoingResumeFlowIndex != -1 &&
-                    length(concerto$flow) > flowIndex &&
-                    concerto$flow[[flowIndex]]$type == 2 &&
-                    concerto$flow[[flowIndex + 1]]$id == node$sourceTest_id) {
-                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, ongoingResumeFlowIndex = flowIndex + 1)
+                    length(concerto$flow) >= flowIndex &&
+                    concerto$flow[[flowIndex]]$type >= 1) {
+                    nextOngoingResumeFlowIndex = flowIndex
+                    if(concerto$flow[[flowIndex]]$type == 2) {
+                        nextOngoingResumeFlowIndex = flowIndex + 1
+                        if(length(concerto$flow) == flowIndex) nextOngoingResumeFlowIndex = -1
+                    }
+                    node_returns = concerto.test.run(node$sourceTest_id, params = node_params, ongoingResumeFlowIndex = nextOngoingResumeFlowIndex)
                 } else {
                     node_returns = concerto.test.run(node$sourceTest_id, params = node_params)
                 }
