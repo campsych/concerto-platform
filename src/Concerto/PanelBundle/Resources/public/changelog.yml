@@ -12,6 +12,8 @@ changelog:
             changes:
                 - files uploaded through test now are moved to private session directory
                 - editor for 'text' data table column type is now textarea
+                - added 'retryTimeTaken' template response value
+                - added 'submitViewResponseSuccess' and 'submitViewResponseError' client side events
     - version: "5.0.beta.10.1"
       description: >
         Starter content

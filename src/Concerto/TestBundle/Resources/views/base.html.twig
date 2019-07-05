@@ -2,12 +2,12 @@
 <html>
 <head>
     {% block head %}
-        <meta charset="UTF-8" />
-        <meta name="robots" content="noindex" />
+        <meta charset="UTF-8"/>
+        <meta name="robots" content="noindex"/>
         <title>{% block title %}Concerto Platform{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('bundles/concertotest/css/test.css?v=' ~ version) }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/concertotest/css/test.css?v=' ~ version) }}"/>
         <link rel="stylesheet"
-              href="{{ asset('bundles/concertotest/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}" />
+              href="{{ asset('bundles/concertotest/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}"/>
         <script type="text/javascript"
                 src="{{ asset('bundles/concertotest/angularjs/bower_components/jquery/dist/jquery.min.js?v=' ~ version) }}"></script>
         <script type="text/javascript"
@@ -17,6 +17,8 @@
                 src="{{ asset('bundles/concertotest/angularjs/bower_components/angular/angular.min.js?v=' ~ version) }}"></script>
         <script type="text/javascript"
                 src="{{ asset('bundles/concertotest/angularjs/bower_components/angular-sanitize/angular-sanitize.min.js?v=' ~ version) }}"></script>
+        <script type="text/javascript"
+                src="{{ asset('bundles/concertotest/angularjs/bower_components/angular-cookies/angular-cookies.min.js?v=' ~ version) }}"></script>
 
         <script type="text/javascript"
                 src="{{ asset('bundles/concertotest/angularjs/app/js/app.js?v=' ~ version) }}"></script>
@@ -28,7 +30,7 @@
                 src="{{ asset('bundles/concertotest/angularjs/bower_components/angular-file-upload/angular-file-upload.min.js?v=' ~ version) }}"></script>
         <script type="text/javascript"
                 src="{{ asset('bundles/concertotest/js/customevent-polyfill.js?v=' ~ version) }}"></script>
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     {% endblock %}
 </head>
 <body ng-app="testRunner" ng-cloak>
