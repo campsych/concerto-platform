@@ -87,6 +87,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var lastResponseTime = 0;
             var lastResponse = null;
             scope.timeLeft = "";
+            scope.timerStarted = null;
             scope.retryTimeLeft = "";
             scope.retryTimeStarted = null;
 
@@ -133,6 +134,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function initializeTimer() {
                 if (timeLimit > 0) {
+                    scope.timerStarted = new Date();
                     timer = timeLimit;
                     scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), testRunner.settings.timeFormat);
                     timerId = $interval(function () {
@@ -160,7 +162,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function timeTick() {
                 if (timer > 0) {
-                    timer--;
+                    timer = Math.round(timeLimit - ((new Date()).getTime() - scope.timerStarted.getTime()) / 1000);
                     scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), testRunner.settings.timeFormat);
                     if (timer === 0) {
                         scope.submitView("timeout", true);
