@@ -15,6 +15,11 @@ changelog:
                 - added 'retryTimeTaken' template response value
                 - added 'submitViewResponseSuccess' and 'submitViewResponseError' client side events
                 - time left on client side should now be more accurrate
+                - added <src> tag for protected content in CKEditor
+                - CKEditor WYSIWYG autoformatting improvements
+          - label: Fixes
+            changes:
+                - fixed CKEditor initialisation
     - version: "5.0.beta.10.1"
       description: >
         Starter content

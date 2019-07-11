@@ -94,16 +94,26 @@ CKEDITOR.plugins.add('cmsource', {
                     editor.on('resize', handleResize);
                     CKEDITOR.document.getWindow().on('resize', handleResize);
                 }
-            }
+            };
 
             var switchEditor = function (editor) {
-                //                 editor.getCommand( 'cmsource' ).setState( CKEDITOR.TRISTATE_ON );
                 editor.setMode(editor.mode == 'cmsource' ? 'wysiwyg' : 'cmsource');
+            };
 
-                if (!(_codemirror_instance))
-                    setupEditor(this, editor);
+            var handleSetData = function (event, passed_editor) {
+                if (_data_transfer_running)
+                    return;
+                if (editor.mode == 'cmsource')
+                    switchEditor(editor);
+            };
+
+            var onModeChange = function (evt) {
+                var editor = evt.editor;
 
                 if (editor.mode == 'cmsource') {
+                    if (!(_codemirror_instance))
+                        setupEditor(this, editor);
+
                     try {
                         var data = editor.getData();
                         _data_return_running = true;
@@ -113,21 +123,16 @@ CKEDITOR.plugins.add('cmsource', {
                         // we're fine here, it'll be loaded by default then
                     }
                 } else {
-                    _data_transfer_running = true;
-                    var data = _codemirror_instance.getValue();
-                    editor.setData(data);
-                    editor.fire('change');
-                    _data_transfer_running = false;
-                    _codemirror_instance = false;
+                    if ((_codemirror_instance)) {
+                        _data_transfer_running = true;
+                        var data = _codemirror_instance.getValue();
+                        editor.setData(data);
+                        editor.fire('change');
+                        _data_transfer_running = false;
+                        _codemirror_instance = false;
+                    }
                 }
-            }
-
-            var handleSetData = function (event, passed_editor) {
-                if (_data_transfer_running)
-                    return;
-                if (editor.mode == 'cmsource')
-                    switchEditor(editor);
-            }
+            };
 
 
             editor.addCommand('cmsource', {
@@ -148,7 +153,7 @@ CKEDITOR.plugins.add('cmsource', {
             });
 
             editor.on('afterSetData', handleSetData);
-
-        },
+            editor.on('mode', onModeChange);
+        }
     }
 );

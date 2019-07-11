@@ -9,36 +9,37 @@ angular.module('concertoPanel').directive('ckeditor', function () {
             var ck = CKEDITOR.replace(elm[0], scope.options);
             if (!ngModel)
                 return;
+
+            function updateModel() {
+                ngModel.$setViewValue(ck.getData());
+            }
+
             ck.on('instanceReady', function () {
                 for (var e in CKEDITOR.tools.extend(
-                    {},
+                    {src: 1},
                     CKEDITOR.dtd.$block,
                     CKEDITOR.dtd.$inline,
                     CKEDITOR.dtd.$intermediate,
                     CKEDITOR.dtd.$nonBodyContent
                 )) {
                     ck.dataProcessor.writer.setRules(e, {
-                        indent: false,
-                        breakBeforeOpen: false,
-                        breakAfterOpen: false,
-                        breakBeforeClose: false,
-                        breakAfterClose: false
+                        indent: true,
+                        breakBeforeOpen: true,
+                        breakAfterOpen: true,
+                        breakBeforeClose: true,
+                        breakAfterClose: true
                     });
                 }
 
-                ck.setData(ngModel.$viewValue);
-            });
-            function updateModel() {
-                scope.$apply(function () {
-                    ngModel.$setViewValue(ck.getData());
-                });
-            }
-            ck.on('change', updateModel);
-            ck.on('key', updateModel);
+                ck.on('change', updateModel);
+                ck.on('key', updateModel);
 
-            ngModel.$render = function (value) {
-                ck.setData(ngModel.$viewValue);
-            };
+                if (ngModel.$viewValue !== '') ck.setData(ngModel.$viewValue);
+
+                ngModel.$render = function (value) {
+                    ck.setData(ngModel.$viewValue);
+                };
+            });
         }
     };
 });
