@@ -164,7 +164,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (timer > 0) {
                     timer = Math.round(timeLimit - ((new Date()).getTime() - scope.timerStarted.getTime()) / 1000);
                     scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), testRunner.settings.timeFormat);
-                    if (timer === 0) {
+                    if (timer <= 0) {
                         scope.submitView("timeout", true);
                     }
                 }
