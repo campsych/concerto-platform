@@ -14,7 +14,7 @@ services:
       - ./data/mysql:/var/lib/mysql
 
   concerto:
-    image: campsych/concerto-platform:master
+    image: campsych/concerto-platform:5.0.beta11
     container_name: concerto
     restart: on-failure
     volumes:
