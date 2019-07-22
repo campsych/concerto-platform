@@ -1,4 +1,4 @@
-version: 5.0.beta.11.1
+version: 5.0.beta.12.1
 collection:
   -
     class_name: ViewTemplate
@@ -1085,20 +1085,22 @@ collection:
           $scope.responseRequired = this.responseRequired;
       
           $scope.selectResponse = function(option) {
-            $scope.response.value = option.response;
+            $scope.response.value = option.value;
           }
         }
       });
     html: |
       <div class="question-choices" ng-class="responseOptionsStyle">
       	<input name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" style="display: none;" />
-      	<div class="question-choice" ng-class="{'selected': option.response === response.value}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
-      		<div ng-bind-html="option.label"></div>
+      	<div class="question-choice" ng-class="{'selected': option.value === response.value}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+      		<div ng-bind-html="option.label">
+      		</div>
       	</div>
       </div>
+      
     groups: ''
     starterContent: true
-    hash: 07c6817615561f494dbfe2a2661236e7eaa2f931
+    hash: efb04385ce4918eb9f5280d43a0460e47142f12f
   -
     class_name: ViewTemplate
     id: 7
@@ -1143,11 +1145,12 @@ collection:
       });
     html: |
       <div class="question-input">
-      	<input placeholder="Enter your answer" name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" type="text"/>
+      	<input name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired" placeholder="Enter your answer" type="text" />
       </div>
+      
     groups: ''
     starterContent: true
-    hash: 8a407ad14c0634853377cee25413299957515325
+    hash: fb4c906d339b1501c17c1189f1ddca18a27efb75
   -
     class_name: ViewTemplate
     id: 11
@@ -2206,46 +2209,50 @@ collection:
         initializeValues();
       });
     html: |
-      {{template:inputSingleLine,css=FALSE,html=FALSE}}
-      {{template:inputMultiLine,css=FALSE,html=FALSE}}
-      {{template:inputCheckbox,css=FALSE,html=FALSE}}
-      {{template:inputSelect,css=FALSE,html=FALSE}}
-      {{template:inputPassword,css=FALSE,html=FALSE}}
-      
+      <src>
+      	{{template:inputSingleLine,css=FALSE,html=FALSE}}
+      	{{template:inputMultiLine,css=FALSE,html=FALSE}}
+      	{{template:inputCheckbox,css=FALSE,html=FALSE}}
+      	{{template:inputSelect,css=FALSE,html=FALSE}}
+      	{{template:inputPassword,css=FALSE,html=FALSE}}
+      </src>
       <div class="body" ng-controller="form">
       	{{template:header}}
-      
       	<div class="questions">
       		<div class="container">
-      
       			<form name="form">
       				<div ng-repeat="field in fields track by $index">
-      
       					<div class="form-field">
       						<div ng-switch="field.type">
-      							<input-single-line ng-switch-when="singleLine" field="field" values="values"></input-single-line>
-      							<input-multi-line ng-switch-when="multiLine" field="field" values="values"></input-multi-line>
-      							<input-checkbox ng-switch-when="checkbox" field="field" values="values"></input-checkbox>
-      							<input-select ng-switch-when="select" field="field" values="values"></input-select>
-      							<input-password ng-switch-when="password" field="field" values="values"></input-password>
+      							<src>
+      								<input-single-line field="field" ng-switch-when="singleLine" values="values"></input-single-line>
+      								<input-multi-line field="field" ng-switch-when="multiLine" values="values"></input-multi-line>
+      								<input-checkbox field="field" ng-switch-when="checkbox" values="values"></input-checkbox>
+      								<input-select field="field" ng-switch-when="select" values="values"></input-select>
+      								<input-password field="field" ng-switch-when="password" values="values"></input-password>
+      							</src>
       						</div>
-      						<div class="form-error" ng-repeat="error in field.validation" ng-show="form[field.name].$error[error.type] && form[field.name].$dirty">[[error.alert]]</div>
+      
+      						<div class="form-error" ng-repeat="error in field.validation" ng-show="form[field.name].$error[error.type] && form[field.name].$dirty">
+      							[[error.alert]]
+      						</div>
       					</div>
       				</div>
       
       				<div class="question-footer">
-      					<button id="submitButton" class="main-btn right-btn" ng-disabled="form.$invalid" name="submit">Next</button>
+      					<button class="main-btn right-btn" id="submitButton" name="submit" ng-disabled="form.$invalid">
+      						Next
+      					</button>
       				</div>
       			</form>
       		</div>
       	</div>
-      
       	{{template:footer}}
-      
       </div>
+      
     groups: ''
     starterContent: true
-    hash: 6f23691af443de2a17d3a695f8decd47734af3af
+    hash: 26d6d6970fdc10b12a788705fc0931a1b41028ea
   -
     class_name: ViewTemplate
     id: 15
@@ -2391,45 +2398,55 @@ collection:
         }
       });
     html: |
-      {{template:itemOpen,css=FALSE,html=FALSE}}
-      {{template:itemOptions,css=FALSE,html=FALSE}}
-      {{template:itemPainMannequin,css=FALSE,html=FALSE}}
-      {{template:itemGracelyScale,css=FALSE,html=FALSE}}
-      
+      <src>
+      	{{template:itemOpen,css=FALSE,html=FALSE}}
+      	{{template:itemOptions,css=FALSE,html=FALSE}}
+      	{{template:itemPainMannequin,css=FALSE,html=FALSE}}
+      	{{template:itemGracelyScale,css=FALSE,html=FALSE}}
+      </src>
       <div class="body" ng-controller="test">
       	{{template:header}}
-      
       	<div class="questions">
       		<div class="container">
-      
       			<form name="form">
       				<div ng-repeat="item in items">
-      					<div class="question-text" ng-bind-html="item.question"></div>
-      
-      					<div ng-switch="item.responseOptions.type">
-      						<item-open item="item" ng-switch-when="open" response="responses['r' + item.id]" response-required="responseRequired"></item-open>
-      						<item-options item="item" ng-switch-when="options" response="responses['r' + item.id]" response-required="responseRequired"></item-options>
-      						<item-pain-mannequin item="item" ng-switch-when="painMannequin" response="responses['r' + item.id]" response-required="responseRequired"></item-pain-mannequin>
-      						<item-gracely-scale item="item" ng-switch-when="gracelyScale" response="responses['r' + item.id]" response-required="responseRequired"></item-gracely-scale>
+      					<div class="question-text" ng-bind-html="item.question">
       					</div>
       
-      					<div class="form-error" ng-show="form.response.$error.required && form.response.$dirty">[[responseRequiredAlert]]</div>
+      					<div ng-switch="item.responseOptions.type">
+      						<src>
+      							<item-open item="item" ng-switch-when="open" response="responses['r' + item.id]" response-required="responseRequired"></item-open>
+      							<item-options item="item" ng-switch-when="options" response="responses['r' + item.id]" response-required="responseRequired"></item-options>
+      							<item-pain-mannequin item="item" ng-switch-when="painMannequin" response="responses['r' + item.id]" response-required="responseRequired"></item-pain-mannequin>
+      							<item-gracely-scale item="item" ng-switch-when="gracelyScale" response="responses['r' + item.id]" response-required="responseRequired"></item-gracely-scale>
+      						</src>
+      					</div>
+      
+      					<div class="form-error" ng-show="form.response.$error.required && form.response.$dirty">
+      						[[responseRequiredAlert]]
+      					</div>
       				</div>
       
       				<div class="question-footer">
-      					<button class="main-btn left-btn" ng-if="canGoBack" name="back">Back</button>
-      					<div class="question-page" ng-show="page != null && totalPages != null">Page&nbsp;[[page]]&nbsp;/&nbsp;[[totalPages]]</div>
-      					<button id="submitButton" class="main-btn right-btn" ng-disabled="form.$invalid" name="next">Next</button>
+      					<button class="main-btn left-btn" name="back" ng-if="canGoBack">
+      						Back
+      					</button>
+      					<div class="question-page" ng-show="page != null && totalPages != null">
+      						Page [[page]] / [[totalPages]]
+      					</div>
+      					<button class="main-btn right-btn" id="submitButton" name="next" ng-disabled="form.$invalid">
+      						Next
+      					</button>
       				</div>
       			</form>
       		</div>
       	</div>
-      
       	{{template:footer}}
       </div>
+      
     groups: ''
     starterContent: true
-    hash: ec18671c38f0032a16d0e6d26c0a03d5276b9cb1
+    hash: ca9e444c06161c19d633eb0922d0b11851a1ec86
   -
     class_name: DataTable
     id: 1
@@ -2592,7 +2609,7 @@ collection:
         nullable: false
       -
         name: responseOptions
-        type: string
+        type: text
         nullable: false
       -
         name: orderIndex
@@ -2604,7 +2621,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 68af3f9fa95f50e9ccb730069f8d471a2963af16
+    hash: d8dc5520a7a9bd7499e86807e55799fceb3cf131
   -
     class_name: DataTable
     id: 3
@@ -2626,7 +2643,7 @@ collection:
         type: string
         nullable: false
       -
-        name: catValue
+        name: score
         type: float
         nullable: false
       -
@@ -2647,7 +2664,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 8d991e418c79255f17133805042708dfdcfa7b42
+    hash: c5a5d1676d2a7f86bc2f70158420d42647cb650d
   -
     class_name: DataTable
     id: 4
@@ -2666,7 +2683,7 @@ collection:
         nullable: false
       -
         name: responseOptions
-        type: string
+        type: text
         nullable: false
       -
         name: cbGroup
@@ -2714,7 +2731,7 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: c8c8c1084bad7d5dfcd8943889b75a5c8c37b6ac
+    hash: 9acf1341769f642356996e04ecaf45602f927abf
   -
     class_name: Test
     id: 5
@@ -3277,7 +3294,7 @@ collection:
       -
         class_name: TestVariable
         id: 511
-        name: responseCatValueModule
+        name: responseScoreModule
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -3822,7 +3839,7 @@ collection:
             variableObject:
               class_name: TestVariable
               id: 511
-              name: responseCatValueModule
+              name: responseScoreModule
               type: 0
               description: ''
               passableThroughUrl: '0'
@@ -3834,7 +3851,7 @@ collection:
             dynamic: '0'
             type: 1
             exposed: '0'
-            name: responseCatValueModule
+            name: responseScoreModule
             pointer: '0'
             pointerVariable: responseCatValueModule
           -
@@ -4317,7 +4334,7 @@ collection:
             dynamic: '1'
             type: 0
             exposed: '1'
-            name: responseCatValueModule
+            name: responseScoreModule
             pointer: '0'
             pointerVariable: responseCatValueModule
           -
@@ -5256,35 +5273,36 @@ collection:
             value: |
               library(catR)
               
-              getResponseCatValue = function(item, response) {
-                defaultCatValue = 0
+              getScore = function(item, response) {
+                defaultScore = 0
                 if(!is.null(response)) {
                   responseOptions = fromJSON(item$responseOptions)
-                  if(responseOptions$type == "options" && length(responseOptions$options) > 0) {
-                    for(i in 1:length(responseOptions$options)) {
-                      option = responseOptions$options[[i]]
-                      if(option$response == response) {
-                        defaultCatValue = as.numeric(option$catValue)
+                  defaultScore = responseOptions$defaultScore
+                  if(length(responseOptions$scoreMap) > 0) {
+                    for(i in 1:length(responseOptions$scoreMap)) {
+                      sm = responseOptions$scoreMap[[i]]
+                      if(sm$value == response) {
+                        defaultScore = sm$score
                         break
                       }
                     }
                   }
                 }
-                
-                catValue = defaultCatValue
-                if(!is.na(settings$responseCatValueModule) && settings$responseCatValueModule != "") {
-                  catValue = concerto.test.run(settings$responseCatValueModule, params=list(
+              
+                score = as.numeric(defaultScore)
+                if(!is.na(settings$responseScoreModule) && settings$responseScoreModule != "") {
+                  score = concerto.test.run(settings$responseScoreModule, params=list(
                     item=item,
                     response=response,
-                    defaultCatValue=defaultCatValue
-                  ))$catValue
+                    defaultScore=defaultScore
+                  ))$score
                 }
-                return(catValue)
+                return(as.numeric(score))
               }
               
               responseRaw = response[[paste0("r",item$id)]]
-              responseCatValue = getResponseCatValue(item, responseRaw)
-              responses = c(responses, responseCatValue)
+              score = getScore(item, responseRaw)
+              responses = c(responses, score)
               itemsAdministered = unique(c(itemsAdministered, itemIndex))
               paramBankAdministered = paramBank
               if(dim(items)[1] > 1) {
@@ -5496,7 +5514,7 @@ collection:
             dynamic: '1'
             type: 1
             exposed: '1'
-            name: responseCatValue
+            name: score
             pointer: '0'
             pointerVariable: correct
           -
@@ -5570,7 +5588,7 @@ collection:
                 return(id)
               }
               
-              saveResponse = function(responseBank, session, response, responseCatValue, item, theta, sem) {
+              saveResponse = function(responseBank, session, response, score, item, theta, sem) {
                 responseBank = fromJSON(responseBank)
                 if(is.null(responseBank$table)) {
                   concerto.log("no response bank defined, skipping response saving")
@@ -5579,8 +5597,8 @@ collection:
               
                 sql = "
               INSERT INTO {{table}} 
-              ({{itemIdColumn}}, {{responseColumn}}, {{responseCatValueColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{thetaColumn}}, {{semColumn}}) 
-              VALUES ({{itemId}}, '{{responseValue}}', {{responseCatValue}}, {{timeTaken}}, '{{sessionId}}', {{theta}}, {{sem}})
+              ({{itemIdColumn}}, {{responseColumn}}, {{scoreColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{thetaColumn}}, {{semColumn}}) 
+              VALUES ({{itemId}}, '{{responseValue}}', {{score}}, {{timeTaken}}, '{{sessionId}}', {{theta}}, {{sem}})
               "
                 concerto.table.query(sql, list(
                   table=responseBank$table,
@@ -5590,8 +5608,8 @@ collection:
                   itemId=item$id,
                   responseColumn=responseBank$columns$response,
                   responseValue=response[[paste0("r",item$id)]],
-                  responseCatValueColumn=responseBank$columns$catValue,
-                  responseCatValue=responseCatValue,
+                  scoreColumn=responseBank$columns$score,
+                  score=score,
                   timeTakenColumn=responseBank$columns$timeTaken,
                   timeTaken=response$timeTaken, #could use time difference
                   thetaColumn=responseBank$columns$theta,
@@ -5603,7 +5621,7 @@ collection:
               }
               
               itemsAdministered = unique(c(itemsAdministered, itemIndex))
-              responseId = saveResponse(settings$responseBank, session, response, responseCatValue, item, theta, sem)
+              responseId = saveResponse(settings$responseBank, session, response, score, item, theta, sem)
               
             node: 108
             variable: 89
@@ -5685,7 +5703,7 @@ collection:
             dynamic: '1'
             type: 0
             exposed: '1'
-            name: responseCatValue
+            name: score
             pointer: '0'
             pointerVariable: correct
           -
@@ -7623,7 +7641,7 @@ collection:
           dynamic: '1'
           type: 1
           exposed: '1'
-          name: responseCatValue
+          name: score
           pointer: '0'
           pointerVariable: correct
         destinationNode: 108
@@ -7640,10 +7658,10 @@ collection:
           dynamic: '1'
           type: 0
           exposed: '1'
-          name: responseCatValue
+          name: score
           pointer: '0'
           pointerVariable: correct
-        returnFunction: responseCatValue
+        returnFunction: score
         automatic: '0'
         defaultReturnFunction: '1'
       -
@@ -7661,7 +7679,7 @@ collection:
           variableObject:
             class_name: TestVariable
             id: 511
-            name: responseCatValueModule
+            name: responseScoreModule
             type: 0
             description: ''
             passableThroughUrl: '0'
@@ -7673,7 +7691,7 @@ collection:
           dynamic: '0'
           type: 1
           exposed: '0'
-          name: responseCatValueModule
+          name: responseScoreModule
           pointer: '0'
           pointerVariable: responseCatValueModule
         destinationNode: 39
@@ -7690,10 +7708,10 @@ collection:
           dynamic: '1'
           type: 0
           exposed: '1'
-          name: responseCatValueModule
+          name: responseScoreModule
           pointer: '0'
           pointerVariable: responseCatValueModule
-        returnFunction: responseCatValueModule
+        returnFunction: responseScoreModule
         automatic: '0'
         defaultReturnFunction: '1'
       -
@@ -7749,7 +7767,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 1838bedcfca7c67376d661d4cde0c7b20c03c0c3
+    hash: c0dddbc18ff6e4524e39c6ce101745fb44649db3
   -
     class_name: Test
     id: 7
@@ -10140,29 +10158,25 @@ collection:
             value: |
               updateScores = function(templateResponse, currentItems, currentItemsIndices, scores) {
                 for(i in 1:dim(currentItems)[1]) {
-                  score = 0
                   item = currentItems[i,]
                   index = currentItemsIndices[i]
                   itemResponse = templateResponse[[paste0("r",item$id)]]
+                  responseOptions = fromJSON(item$responseOptions)
+                  score = responseOptions$defaultScore
               
                   if(!is.null(itemResponse)) {
-                    responseOptions = fromJSON(item$responseOptions)
-                    if(responseOptions$type == "open") {
-                      if(itemResponse == responseOptions$openCorrect) {
-                        score = responseOptions$openScore
-                      }
-                    } else {
-                      for(i in 1:length(responseOptions$options)) {
-                        option = responseOptions$options[[i]]
-                        if(itemResponse == option$response) {
-                          score = option$score
+                    if(length(responseOptions$scoreMap) > 0) {
+                      for(i in 1:length(responseOptions$scoreMap)) {
+                        sm = responseOptions$scoreMap[[i]]
+                        if(sm$value == itemResponse) {
+                          score = sm$score
                           break
                         }
                       }
                     }
                   }
               
-                  scores[index] = score
+                  scores[index] = as.numeric(score)
                 }
                 return(scores)
               }
@@ -12142,7 +12156,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: b4b15a5c668f6443f2345d8d68897f5b9b16f853
+    hash: 34760c8a47308fb2f745ace1533a503c6660ad1e
   -
     class_name: Test
     id: 26
@@ -13166,7 +13180,7 @@ collection:
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
-            value: '[{"id":1,"question":"10 + 10","responseOptions":{"0":{"value":"20","label":"20"},"1":{"value":"40","label":"40"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"1"},{"id":"2","label":"200","value":"0","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"0","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male"},"a":1.7,"b":"-2","c":0,"d":1,"correct":20,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"0":{"value":"200","label":"200"},"1":{"value":"400","label":"400"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"0","response":"1","catValue":"0"},{"id":"2","label":"200","value":"1","response":"2","catValue":"1"},{"id":"3","label":"2000","value":"0","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male"},"a":1.7,"b":0,"c":0,"d":1,"correct":200,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"0":{"value":"2000","label":"2000"},"1":{"value":"4000","label":"4000"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"0","response":"1","catValue":"0"},{"id":"2","label":"200","value":"0","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"0","response":"3","catValue":"1"}],"painMannequinGender":"female","painMannequinGenderValue":"male"},"a":1.7,"b":2,"c":0,"d":1,"correct":2000,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
+            value: '[{"id":1,"question":"10 + 10","responseOptions":{"0":{"value":"20","label":"20"},"1":{"value":"40","label":"40"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"1"},{"id":"2","label":"200","value":"2","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"3","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]},"a":1.7,"b":"-2","c":0,"d":1,"correct":20,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"0":{"value":"200","label":"200"},"1":{"value":"400","label":"400"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"0"},{"id":"2","label":"200","value":"2","response":"2","catValue":"1"},{"id":"3","label":"2000","value":"3","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]},"a":1.7,"b":0,"c":0,"d":1,"correct":200,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"0":{"value":"2000","label":"2000"},"1":{"value":"4000","label":"4000"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"0"},{"id":"2","label":"200","value":"2","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"3","response":"3","catValue":"1"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]},"a":1.7,"b":2,"c":0,"d":1,"correct":2000,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
             testVariable: 117
             name: itemBankItems
             wizardStep: 7
@@ -13238,14 +13252,6 @@ collection:
                                 definition:
                                   fields:
                                     -
-                                      name: catValue
-                                      type: 0
-                                      label: 'CAT Value'
-                                      definition:
-                                        placeholder: 0
-                                        defvalue: '0'
-                                      order: 2
-                                    -
                                       name: label
                                       type: 2
                                       label: Label
@@ -13254,8 +13260,8 @@ collection:
                                       order: 1
                                     -
                                       type: 0
-                                      name: response
-                                      label: Response
+                                      name: value
+                                      label: Value
                                       definition:
                                         placeholder: 0
                                       order: 0
@@ -13288,6 +13294,37 @@ collection:
                               placeholder: 0
                               defvalue: male
                             hideCondition: 'parent.type != "painMannequin" || parent.painMannequinGender != "custom"'
+                          -
+                            type: 0
+                            name: defaultScore
+                            label: 'Default Score'
+                            definition:
+                              placeholder: 0
+                              defvalue: '0'
+                          -
+                            type: 10
+                            name: scoreMap
+                            label: 'Score Map'
+                            definition:
+                              placeholder: 0
+                              element:
+                                type: 9
+                                definition:
+                                  placeholder: 0
+                                  fields:
+                                    -
+                                      type: 0
+                                      name: value
+                                      label: Value
+                                      definition:
+                                        placeholder: 0
+                                    -
+                                      type: 0
+                                      name: score
+                                      label: Score
+                                      definition:
+                                        placeholder: 0
+                                        defvalue: '0'
                         element:
                           type: 9
                           definition:
@@ -13777,7 +13814,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem"}}'
+            value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","score":"score"}}'
             testVariable: 128
             name: responseBank
             wizardStep: 10
@@ -13795,8 +13832,8 @@ collection:
                   label: 'Item Id'
                   tooltip: '1'
                 -
-                  name: catValue
-                  label: 'CAT Value'
+                  name: score
+                  label: Score
                   tooltip: '3'
                 -
                   name: timeTaken
@@ -13885,24 +13922,25 @@ collection:
           -
             class_name: TestWizardParam
             id: 87
-            label: 'Response CAT Value Module'
+            label: 'Response Score Module'
             description: ''
             hideCondition: ''
             type: 8
             passableThroughUrl: '0'
             value: ''
             testVariable: 511
-            name: responseCatValueModule
+            name: responseScoreModule
             wizardStep: 11
             stepTitle: Modules
             order: 0
             wizard: 7
             definition:
               placeholder: 0
+              defvalue: ''
     test: 20
     groups: ''
     starterContent: true
-    hash: b80ab7007879761ed2b631e95956c9bdb54127a0
+    hash: edd269e765b74b0f21e0f49a2c3c412157db382d
   -
     class_name: Test
     id: 25
@@ -13941,7 +13979,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","catValue":"1","response":"1"},{"label":"200","catValue":"0","response":"2"},{"label":"2000","catValue":"0","response":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male"},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","catValue":"0","response":"1"},{"label":"200","catValue":"1","response":"2"},{"label":"2000","catValue":"0","response":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male"},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","catValue":"0","response":"1"},{"label":"200","catValue":"0","response":"2"},{"label":"2000","catValue":"1","response":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male"},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
+        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
         test: 25
         parentVariable: 117
       -
@@ -14051,7 +14089,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue"}}'
+        value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score"}}'
         test: 25
         parentVariable: 128
       -
@@ -14157,11 +14195,11 @@ collection:
       -
         class_name: TestVariable
         id: 512
-        name: responseCatValueModule
+        name: responseScoreModule
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: ''
+        value: null
         test: 25
         parentVariable: 511
       -
@@ -14181,7 +14219,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 8993f955dd1175f1e97bdb2e11c748ac866e3987
+    hash: b103a0def3d95fdef6d6132ee8c1eeeafc8b7e5f
   -
     class_name: TestWizard
     id: 4
@@ -15083,7 +15121,7 @@ collection:
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
-            value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"1","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"1","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}}]'
+            value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"1","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"1","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]}}]'
             testVariable: 245
             name: itemBankItems
             wizardStep: 13
@@ -15140,22 +15178,6 @@ collection:
                                   order: 0
                               defvalue: options
                           -
-                            type: 0
-                            name: openCorrect
-                            label: 'Correct (Open)'
-                            definition:
-                              placeholder: 0
-                              defvalue: ''
-                            hideCondition: 'parent.type != "open"'
-                          -
-                            type: 0
-                            name: openScore
-                            label: 'Score (Open)'
-                            definition:
-                              placeholder: 0
-                              defvalue: '1'
-                            hideCondition: 'parent.type != "open"'
-                          -
                             type: 10
                             name: options
                             label: Options
@@ -15168,8 +15190,8 @@ collection:
                                   fields:
                                     -
                                       type: 0
-                                      name: response
-                                      label: Response
+                                      name: value
+                                      label: Value
                                       definition:
                                         placeholder: 0
                                     -
@@ -15178,13 +15200,6 @@ collection:
                                       label: Label
                                       definition:
                                         placeholder: 0
-                                    -
-                                      type: 0
-                                      name: score
-                                      label: Score
-                                      definition:
-                                        placeholder: 0
-                                        defvalue: '0'
                             hideCondition: 'parent.type != "options"'
                           -
                             type: 4
@@ -15220,6 +15235,37 @@ collection:
                               placeholder: 0
                               defvalue: male
                             hideCondition: 'parent.type != "painMannequin" || parent.painMannequinGender != "custom"'
+                          -
+                            type: 0
+                            name: defaultScore
+                            label: 'Default Score'
+                            definition:
+                              placeholder: 0
+                              defvalue: '0'
+                          -
+                            type: 10
+                            name: scoreMap
+                            label: 'Score Map'
+                            definition:
+                              placeholder: 0
+                              element:
+                                type: 9
+                                definition:
+                                  placeholder: 0
+                                  fields:
+                                    -
+                                      type: 0
+                                      name: value
+                                      label: Value
+                                      definition:
+                                        placeholder: 0
+                                    -
+                                      type: 0
+                                      name: score
+                                      label: Score
+                                      definition:
+                                        placeholder: 0
+                                        defvalue: '0'
                     -
                       type: 0
                       name: orderIndex
@@ -15542,7 +15588,7 @@ collection:
     test: 30
     groups: ''
     starterContent: true
-    hash: 933c276fb39f921d2436f59df1326131ec7cd252
+    hash: 32bd69ef33e2582ce909487316df19d43e448a46
   -
     class_name: Test
     id: 35
@@ -15571,7 +15617,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"1","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"1","response":"200"},{"value":"2000","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"20","label":"20","score":"0","response":"20"},{"value":"200","label":"200","score":"0","response":"200"},{"value":"2000","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male"}}]'
+        value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"1","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"1","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]}}]'
         test: 35
         parentVariable: 245
       -
@@ -15741,7 +15787,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: d92f10d2df5b31c01fb97e97f6c6fb8f725ddcc1
+    hash: d95d5ecd95e9288b7c450a7b4af5b9b1f360e843
   -
     class_name: TestWizard
     id: 8
