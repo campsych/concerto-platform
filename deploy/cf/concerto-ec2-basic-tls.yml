@@ -328,7 +328,7 @@ Resources:
             # Concerto
             mkdir /home/concerto
             cd /home/concerto
-            wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml
+            wget https://raw.githubusercontent.com/campsych/concerto-platform/5.0.beta.10/deploy/docker-compose/tls/docker-compose.yml
             sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
             sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
             sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
@@ -336,7 +336,7 @@ Resources:
             docker-compose up -d database concerto
 
             # TLS
-            wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/install_tls.sh
+            wget https://raw.githubusercontent.com/campsych/concerto-platform/5.0.beta.10/deploy/docker-compose/tls/install_tls.sh
             chmod 775 ./install_tls.sh
             ./install_tls.sh ${DomainName} http://concerto ${Email}
           - DBPassword: !Ref DBPassword

@@ -281,7 +281,7 @@ Resources:
             # Concerto
             mkdir /home/concerto
             cd /home/concerto
-            wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml
+            wget https://raw.githubusercontent.com/campsych/concerto-platform/5.0.beta.10/deploy/docker-compose/docker-compose.yml
             sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
             sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
             sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
