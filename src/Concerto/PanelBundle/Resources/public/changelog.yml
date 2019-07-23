@@ -7,6 +7,7 @@ changelog:
           - label: Starter content
             changes:
                 - score map for CAT and linearTest
+                - added nextItemModule for CAT
           - label: Non backwards compatible changes
             changes:
                 - (DataTable) CATResponses.score replaces CATResponses.catValue

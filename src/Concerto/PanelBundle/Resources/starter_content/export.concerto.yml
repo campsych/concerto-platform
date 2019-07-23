@@ -3311,6 +3311,16 @@ collection:
         value: '9'
         test: 20
         parentVariable: null
+      -
+        class_name: TestVariable
+        id: 519
+        name: nextItemModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 20
+        parentVariable: null
     sourceWizard: null
     sourceWizardTest: null
     nodes:
@@ -3878,6 +3888,30 @@ collection:
             name: itemParamsNum
             pointer: '0'
             pointerVariable: itemParamsNum
+          -
+            class_name: TestNodePort
+            id: 1425
+            value: null
+            node: 31
+            variable: 519
+            variableObject:
+              class_name: TestVariable
+              id: 519
+              name: nextItemModule
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: nextItemModule
+            pointer: '0'
+            pointerVariable: nextItemModule
       -
         class_name: TestNode
         id: 32
@@ -3943,7 +3977,7 @@ collection:
         id: 39
         title: 'create settings'
         type: 0
-        posX: 14816
+        posX: 14845
         posY: 14740
         flowTest: 20
         sourceTest: 19
@@ -4352,6 +4386,21 @@ collection:
             name: itemParamsNum
             pointer: '0'
             pointerVariable: itemParamsNum
+          -
+            class_name: TestNodePort
+            id: 1426
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: nextItemModule
+            pointer: '0'
+            pointerVariable: nextItemModule
       -
         class_name: TestNode
         id: 104
@@ -4438,24 +4487,6 @@ collection:
               
               items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable)
               itemsNum = dim(items)[1]
-              
-              cbGroup = NULL
-              cbControl = NULL
-              cbProps = fromJSON(settings$contentBalancing)
-              concerto.log(cbProps, "cbProps")
-              if(length(cbProps) > 0) {
-                cbGroup = as.character(items[,"cbGroup"])
-                cbControl = list(
-                  names=NULL,
-                  props=NULL
-                )
-              
-                for(i in 1:length(cbProps)) {
-                  cbControl$names = c(cbControl$names, cbProps[[i]]$name)
-                  cbControl$props = c(cbControl$props, as.numeric(cbProps[[i]]$proportion))
-                }
-                concerto.log(cbControl, "cbControl")
-              }
               
               paramBank = items[,c("p1","p2","p3","p4","p5","p6","p7","p8","p9"),drop=F]
               paramBank = paramBank[,1:as.numeric(settings$itemParamsNum),drop=F]
@@ -4550,36 +4581,6 @@ collection:
             name: settings
             pointer: '1'
             pointerVariable: settings
-          -
-            class_name: TestNodePort
-            id: 1090
-            value: ''
-            node: 104
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 1
-            exposed: '1'
-            name: cbControl
-            pointer: '0'
-            pointerVariable: cbControl
-          -
-            class_name: TestNodePort
-            id: 1091
-            value: ''
-            node: 104
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 1
-            exposed: '1'
-            name: cbGroup
-            pointer: '0'
-            pointerVariable: cbGroup
           -
             class_name: TestNodePort
             id: 1092
@@ -4690,7 +4691,7 @@ collection:
         id: 105
         title: 'next item selector'
         type: 0
-        posX: 15675
+        posX: 15674
         posY: 15105
         flowTest: 20
         sourceTest: 15
@@ -4730,6 +4731,7 @@ collection:
               currentIndex = length(itemsAdministered) + 1
               itemsNum = dim(items)[1]
               nextItemIndex = 0
+              itemsExcluded = itemsAdministered
               if(itemsNum > 0) {
                 for(i in 1:itemsNum) {
                   fixedIndex = items[i,"fixedIndex"]
@@ -4738,17 +4740,48 @@ collection:
                     if(fixedIndex == currentIndex) {
                       nextItemIndex = i
                     } else {
-                      itemsAdministered = unique(c(itemsAdministered, i))
+                      itemsExcluded = unique(c(itemsExcluded, i))
                     }
                   }
                 }
               }
               
+              cbGroup = NULL
+              cbControl = NULL
+              cbProps = fromJSON(settings$contentBalancing)
+              concerto.log(cbProps, "cbProps")
+              if(length(cbProps) > 0) {
+                cbGroup = as.character(items[,"cbGroup"])
+                cbControl = list(
+                  names=NULL,
+                  props=NULL
+                )
+              
+                for(i in 1:length(cbProps)) {
+                  cbControl$names = c(cbControl$names, cbProps[[i]]$name)
+                  cbControl$props = c(cbControl$props, as.numeric(cbProps[[i]]$proportion))
+                }
+                concerto.log(cbControl, "cbControl")
+              }
+              
               if(nextItemIndex == 0) {
-                concerto.log(itemsAdministered, "out")
-                result = nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
+                result = nextItem(paramBank, model=settings$model, theta=theta, out=itemsExcluded, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
                 nextItemIndex = result$item
               }
+              
+              if(!is.na(settings$nextItemModule) && settings$nextItemModule != "") {
+                nextItemIndex = concerto.test.run(settings$nextItemModule, params=list(
+                  settings = settings,
+                  theta = theta,
+                  itemsAdministered=itemsAdministered,
+                  itemsExcluded=itemsExcluded,
+                  cbGroup=cbGroup,
+                  cbControl=cbControl,
+                  session=session,
+                  items=items
+                ))$nextItemIndex
+              }
+              
               concerto.log(nextItemIndex, "nextItemIndex")
               nextItem = items[nextItemIndex,]
               concerto.log(nextItem, "nextItem")
@@ -4822,36 +4855,6 @@ collection:
             name: out
             pointer: '0'
             pointerVariable: out
-          -
-            class_name: TestNodePort
-            id: 1102
-            value: ''
-            node: 105
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 0
-            exposed: '1'
-            name: cbControl
-            pointer: '0'
-            pointerVariable: cbControl
-          -
-            class_name: TestNodePort
-            id: 1103
-            value: ''
-            node: 105
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '1'
-            dynamic: '1'
-            type: 0
-            exposed: '1'
-            name: cbGroup
-            pointer: '0'
-            pointerVariable: cbGroup
           -
             class_name: TestNodePort
             id: 1104
@@ -4972,6 +4975,21 @@ collection:
             name: nextItemSafe
             pointer: '0'
             pointerVariable: nextItemSafe
+          -
+            class_name: TestNodePort
+            id: 1424
+            value: ''
+            node: 105
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '0'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: session
+            pointer: '1'
+            pointerVariable: session
       -
         class_name: TestNode
         id: 106
@@ -7082,88 +7100,6 @@ collection:
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 274
-        flowTest: 20
-        sourceNode: 104
-        sourcePort: 1090
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1090
-          value: ''
-          node: 104
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 1
-          exposed: '1'
-          name: cbControl
-          pointer: '0'
-          pointerVariable: cbControl
-        destinationNode: 105
-        destinationPort: 1102
-        destinationPortObject:
-          class_name: TestNodePort
-          id: 1102
-          value: ''
-          node: 105
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 0
-          exposed: '1'
-          name: cbControl
-          pointer: '0'
-          pointerVariable: cbControl
-        returnFunction: cbControl
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 275
-        flowTest: 20
-        sourceNode: 104
-        sourcePort: 1091
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1091
-          value: ''
-          node: 104
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 1
-          exposed: '1'
-          name: cbGroup
-          pointer: '0'
-          pointerVariable: cbGroup
-        destinationNode: 105
-        destinationPort: 1103
-        destinationPortObject:
-          class_name: TestNodePort
-          id: 1103
-          value: ''
-          node: 105
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 0
-          exposed: '1'
-          name: cbGroup
-          pointer: '0'
-          pointerVariable: cbGroup
-        returnFunction: cbGroup
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
         id: 276
         flowTest: 20
         sourceNode: 105
@@ -7238,88 +7174,6 @@ collection:
         destinationPortObject: null
         returnFunction: out
         automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 278
-        flowTest: 20
-        sourceNode: 104
-        sourcePort: 1090
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1090
-          value: ''
-          node: 104
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 1
-          exposed: '1'
-          name: cbControl
-          pointer: '0'
-          pointerVariable: cbControl
-        destinationNode: 105
-        destinationPort: 1102
-        destinationPortObject:
-          class_name: TestNodePort
-          id: 1102
-          value: ''
-          node: 105
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 0
-          exposed: '1'
-          name: cbControl
-          pointer: '0'
-          pointerVariable: cbControl
-        returnFunction: cbControl
-        automatic: '1'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 279
-        flowTest: 20
-        sourceNode: 104
-        sourcePort: 1091
-        sourcePortObject:
-          class_name: TestNodePort
-          id: 1091
-          value: ''
-          node: 104
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 1
-          exposed: '1'
-          name: cbGroup
-          pointer: '0'
-          pointerVariable: cbGroup
-        destinationNode: 105
-        destinationPort: 1103
-        destinationPortObject:
-          class_name: TestNodePort
-          id: 1103
-          value: ''
-          node: 105
-          variable: null
-          variableObject: null
-          string: '1'
-          defaultValue: '1'
-          dynamic: '1'
-          type: 0
-          exposed: '1'
-          name: cbGroup
-          pointer: '0'
-          pointerVariable: cbGroup
-        returnFunction: cbGroup
-        automatic: '1'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -7764,10 +7618,60 @@ collection:
         returnFunction: itemParamsNum
         automatic: '0'
         defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 319
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 1425
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1425
+          value: null
+          node: 31
+          variable: 519
+          variableObject:
+            class_name: TestVariable
+            id: 519
+            name: nextItemModule
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: null
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: nextItemModule
+          pointer: '0'
+          pointerVariable: nextItemModule
+        destinationNode: 39
+        destinationPort: 1426
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1426
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: nextItemModule
+          pointer: '0'
+          pointerVariable: nextItemModule
+        returnFunction: nextItemModule
+        automatic: '0'
+        defaultReturnFunction: '1'
     tags: ''
     groups: ''
     starterContent: true
-    hash: c0dddbc18ff6e4524e39c6ce101745fb44649db3
+    hash: 5282078cd9bdd76dad2dd9c433096f044fc36ed5
   -
     class_name: Test
     id: 7
@@ -13932,15 +13836,32 @@ collection:
             name: responseScoreModule
             wizardStep: 11
             stepTitle: Modules
-            order: 0
+            order: 1
             wizard: 7
             definition:
               placeholder: 0
               defvalue: ''
+          -
+            class_name: TestWizardParam
+            id: 89
+            label: 'Next Item Module'
+            description: ''
+            hideCondition: ''
+            type: 8
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 519
+            name: nextItemModule
+            wizardStep: 11
+            stepTitle: Modules
+            order: 0
+            wizard: 7
+            definition:
+              placeholder: 0
     test: 20
     groups: ''
     starterContent: true
-    hash: edd269e765b74b0f21e0f49a2c3c412157db382d
+    hash: 7c0b37fc73961177d22a763acc97797b332c8a80
   -
     class_name: Test
     id: 25
@@ -14212,6 +14133,16 @@ collection:
         value: '9'
         test: 25
         parentVariable: 513
+      -
+        class_name: TestVariable
+        id: 520
+        name: nextItemModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 25
+        parentVariable: 519
     sourceWizard: 7
     sourceWizardTest: 20
     nodes: {  }
@@ -14219,7 +14150,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: b103a0def3d95fdef6d6132ee8c1eeeafc8b7e5f
+    hash: 2354d7782ed98dacd973d75a46533000a1aa9eff
   -
     class_name: TestWizard
     id: 4
