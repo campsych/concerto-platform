@@ -5103,7 +5103,8 @@ collection:
                 if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModule != "") {
                   params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
                     params = params,
-                    item = item
+                    item = item,
+                    itemsAdministered = itemsAdministered
                   ))$params
                 }
               }
@@ -5339,6 +5340,21 @@ collection:
             name: testTimeStarted
             pointer: '1'
             pointerVariable: testTimeStarted
+          -
+            class_name: TestNodePort
+            id: 1512
+            value: 'NULL'
+            node: 106
+            variable: null
+            variableObject: null
+            string: '0'
+            defaultValue: '0'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: itemsAdministered
+            pointer: '1'
+            pointerVariable: itemsAdministered
       -
         class_name: TestNode
         id: 107
@@ -7787,7 +7803,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: c17b5e57cdf463fd0fd6dd4c9350e7d0c5afb5f6
+    hash: fc5e103426ae4fae95b55c9691d408fc5bea2596
   -
     class_name: Test
     id: 7
