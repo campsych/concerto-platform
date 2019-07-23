@@ -10,6 +10,7 @@ changelog:
                 - added nextItemModule for CAT
                 - added itemBankTableExtraFields for CAT
                 - added itemsAdministered input parameter for itemTemplateParamsModule in CAT
+                - added itemBankFilterModule for CAT
           - label: Non backwards compatible changes
             changes:
                 - (DataTable) CATResponses.score replaces CATResponses.catValue

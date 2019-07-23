@@ -3331,6 +3331,16 @@ collection:
         value: null
         test: 20
         parentVariable: null
+      -
+        class_name: TestVariable
+        id: 529
+        name: itemBankFilterModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 20
+        parentVariable: null
     sourceWizard: null
     sourceWizardTest: null
     nodes:
@@ -3946,6 +3956,30 @@ collection:
             name: itemBankTableExtraFields
             pointer: '0'
             pointerVariable: itemBankExtraFields
+          -
+            class_name: TestNodePort
+            id: 1514
+            value: null
+            node: 31
+            variable: 529
+            variableObject:
+              class_name: TestVariable
+              id: 529
+              name: itemBankFilterModule
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: itemBankFilterModule
+            pointer: '0'
+            pointerVariable: itemBankFilterModule
       -
         class_name: TestNode
         id: 32
@@ -4450,6 +4484,21 @@ collection:
             name: itemBankTableExtraFields
             pointer: '0'
             pointerVariable: itemBankTableExtraFields
+          -
+            class_name: TestNodePort
+            id: 1515
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: itemBankFilterModule
+            pointer: '0'
+            pointerVariable: itemBankFilterModule
       -
         class_name: TestNode
         id: 104
@@ -4484,12 +4533,12 @@ collection:
                   p9Column = tableMap$columns$p9
                   cbGroupColumn = tableMap$columns$cbGroup
                   fixedIndexColumn = tableMap$columns$fixedIndex
-                  
+              
                   extraFields = fromJSON(extraFields)
                   extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
                   extraFieldsSql = paste(extraFieldsNames, collapse=", ")  
                   if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
-                  
+              
                   items = concerto.table.query(
                     "
               SELECT 
@@ -4537,6 +4586,14 @@ collection:
                     }
                   }
                 } 
+              
+                if(!is.na(settings$itemBankFilterModule) && settings$itemBankFilterModule != "") {
+                  items = concerto.test.run(settings$itemBankFilterModule, params=list(
+                    settings = settings,
+                    session=session,
+                    items=items
+                  ))$items
+                }
               
                 if(dim(items)[1] == 0) { stop("Item bank must not be empty!") }
                 return(items)
@@ -4743,6 +4800,21 @@ collection:
             name: theta
             pointer: '1'
             pointerVariable: theta
+          -
+            class_name: TestNodePort
+            id: 1513
+            value: ''
+            node: 104
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '0'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: session
+            pointer: '1'
+            pointerVariable: session
       -
         class_name: TestNode
         id: 105
@@ -4836,7 +4908,7 @@ collection:
               
               if(!is.na(settings$nextItemModule) && settings$nextItemModule != "") {
                 nextItemIndex = concerto.test.run(settings$nextItemModule, params=list(
-                  defaultNextItemIndex=nextItemIndex,
+                  nextItemIndex=nextItemIndex,
                   settings = settings,
                   theta = theta,
                   itemsAdministered=itemsAdministered,
@@ -5394,7 +5466,7 @@ collection:
                   score = concerto.test.run(settings$responseScoreModule, params=list(
                     item=item,
                     response=response,
-                    defaultScore=defaultScore
+                    score=score
                   ))$score
                 }
                 return(as.numeric(score))
@@ -7800,10 +7872,60 @@ collection:
         returnFunction: itemBankTableExtraFields
         automatic: '0'
         defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 322
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 1514
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1514
+          value: null
+          node: 31
+          variable: 529
+          variableObject:
+            class_name: TestVariable
+            id: 529
+            name: itemBankFilterModule
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: null
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: itemBankFilterModule
+          pointer: '0'
+          pointerVariable: itemBankFilterModule
+        destinationNode: 39
+        destinationPort: 1515
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1515
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: itemBankFilterModule
+          pointer: '0'
+          pointerVariable: itemBankFilterModule
+        returnFunction: itemBankFilterModule
+        automatic: '0'
+        defaultReturnFunction: '1'
     tags: ''
     groups: ''
     starterContent: true
-    hash: fc5e103426ae4fae95b55c9691d408fc5bea2596
+    hash: 3a9b12f0c4742ab994e39bc37098c46c776fd8fb
   -
     class_name: Test
     id: 7
@@ -13983,7 +14105,7 @@ collection:
             name: itemTemplateParamsModule
             wizardStep: 11
             stepTitle: Modules
-            order: 0
+            order: 1
             wizard: 7
             definition:
               placeholder: 0
@@ -14001,7 +14123,7 @@ collection:
             name: responseScoreModule
             wizardStep: 11
             stepTitle: Modules
-            order: 1
+            order: 3
             wizard: 7
             definition:
               placeholder: 0
@@ -14019,6 +14141,24 @@ collection:
             name: nextItemModule
             wizardStep: 11
             stepTitle: Modules
+            order: 2
+            wizard: 7
+            definition:
+              placeholder: 0
+              defvalue: ''
+          -
+            class_name: TestWizardParam
+            id: 91
+            label: 'Item Bank Filter Module'
+            description: ''
+            hideCondition: ''
+            type: 8
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 529
+            name: itemBankFilterModule
+            wizardStep: 11
+            stepTitle: Modules
             order: 0
             wizard: 7
             definition:
@@ -14026,7 +14166,7 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: 6494769b9ed216788617527a88fa319d5c26d5d1
+    hash: 99b47c06728505347ed7dc08f6603c263c787464
   -
     class_name: Test
     id: 25
@@ -14318,6 +14458,16 @@ collection:
         value: '[]'
         test: 25
         parentVariable: 526
+      -
+        class_name: TestVariable
+        id: 530
+        name: itemBankFilterModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 25
+        parentVariable: 529
     sourceWizard: 7
     sourceWizardTest: 20
     nodes: {  }
@@ -14325,7 +14475,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: cc1500f613d1e4589fbb774b161f778ef85bc6b3
+    hash: 470220731c53e0afe8b52c88ea705a23ee4f2607
   -
     class_name: TestWizard
     id: 4
