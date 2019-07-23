@@ -4771,6 +4771,7 @@ collection:
               
               if(!is.na(settings$nextItemModule) && settings$nextItemModule != "") {
                 nextItemIndex = concerto.test.run(settings$nextItemModule, params=list(
+                  defaultNextItemIndex=nextItemIndex,
                   settings = settings,
                   theta = theta,
                   itemsAdministered=itemsAdministered,
@@ -7671,7 +7672,7 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 5282078cd9bdd76dad2dd9c433096f044fc36ed5
+    hash: 38586f7ed80a7850421d12fcc0ac69b2bf901115
   -
     class_name: Test
     id: 7
