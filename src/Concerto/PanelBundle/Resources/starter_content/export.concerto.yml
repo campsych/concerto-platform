@@ -3321,6 +3321,16 @@ collection:
         value: null
         test: 20
         parentVariable: null
+      -
+        class_name: TestVariable
+        id: 526
+        name: itemBankTableExtraFields
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 20
+        parentVariable: null
     sourceWizard: null
     sourceWizardTest: null
     nodes:
@@ -3912,6 +3922,30 @@ collection:
             name: nextItemModule
             pointer: '0'
             pointerVariable: nextItemModule
+          -
+            class_name: TestNodePort
+            id: 1454
+            value: null
+            node: 31
+            variable: 526
+            variableObject:
+              class_name: TestVariable
+              id: 526
+              name: itemBankTableExtraFields
+              type: 0
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 20
+              parentVariable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '0'
+            type: 1
+            exposed: '0'
+            name: itemBankTableExtraFields
+            pointer: '0'
+            pointerVariable: itemBankExtraFields
       -
         class_name: TestNode
         id: 32
@@ -4401,13 +4435,28 @@ collection:
             name: nextItemModule
             pointer: '0'
             pointerVariable: nextItemModule
+          -
+            class_name: TestNodePort
+            id: 1455
+            value: ''
+            node: 39
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: itemBankTableExtraFields
+            pointer: '0'
+            pointerVariable: itemBankTableExtraFields
       -
         class_name: TestNode
         id: 104
         title: initialization
         type: 0
         posX: 15235
-        posY: 15085
+        posY: 15084
         flowTest: 20
         sourceTest: 15
         sourceTestName: eval
@@ -4417,7 +4466,7 @@ collection:
             class_name: TestNodePort
             id: 1086
             value: |
-              getItems = function(itemBankType, itemBankItems, itemBankTable){
+              getItems = function(itemBankType, itemBankItems, itemBankTable, extraFields){
                 items = NULL
                 if(itemBankType == "table") {
                   tableMap = fromJSON(itemBankTable)
@@ -4435,6 +4484,12 @@ collection:
                   p9Column = tableMap$columns$p9
                   cbGroupColumn = tableMap$columns$cbGroup
                   fixedIndexColumn = tableMap$columns$fixedIndex
+                  
+                  extraFields = fromJSON(extraFields)
+                  extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
+                  extraFieldsSql = paste(extraFieldsNames, collapse=", ")  
+                  if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
+                  
                   items = concerto.table.query(
                     "
               SELECT 
@@ -4452,6 +4507,7 @@ collection:
               {{p9Column}} AS p9,
               {{cbGroupColumn}} AS cbGroup,
               {{fixedIndexColumn}} AS fixedIndex
+              {{extraFields}}
               FROM {{table}}
               ", 
                     list(
@@ -4485,7 +4541,7 @@ collection:
                 return(items)
               }
               
-              items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable)
+              items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankTableExtraFields)
               itemsNum = dim(items)[1]
               
               paramBank = items[,c("p1","p2","p3","p4","p5","p6","p7","p8","p9"),drop=F]
@@ -4692,7 +4748,7 @@ collection:
         title: 'next item selector'
         type: 0
         posX: 15674
-        posY: 15105
+        posY: 15106
         flowTest: 20
         sourceTest: 15
         sourceTestName: eval
@@ -4704,7 +4760,7 @@ collection:
             value: |
               library(catR)
               
-              getSafeItem = function(item) {
+              getSafeItem = function(item, extraFields) {
                 item = as.list(item)
                 item$correct = NULL
               
@@ -4725,6 +4781,14 @@ collection:
                 }
                 item$responseOptions$options = orderedOptions
                 item$responseOptions = toJSON(item$responseOptions)
+                
+                extraFields = fromJSON(extraFields)
+                for(extraField in extraFields) {
+                  if(extraField$sensitive == 1) {
+                    item[[extraField$name]] = NULL
+                  }
+                }
+                
                 return(item)
               }
               
@@ -4786,7 +4850,7 @@ collection:
               concerto.log(nextItemIndex, "nextItemIndex")
               nextItem = items[nextItemIndex,]
               concerto.log(nextItem, "nextItem")
-              nextItemSafe = getSafeItem(nextItem)
+              nextItemSafe = getSafeItem(nextItem, settings$itemBankTableExtraFields)
               
             node: 105
             variable: 89
@@ -7669,10 +7733,60 @@ collection:
         returnFunction: nextItemModule
         automatic: '0'
         defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 321
+        flowTest: 20
+        sourceNode: 31
+        sourcePort: 1454
+        sourcePortObject:
+          class_name: TestNodePort
+          id: 1454
+          value: null
+          node: 31
+          variable: 526
+          variableObject:
+            class_name: TestVariable
+            id: 526
+            name: itemBankTableExtraFields
+            type: 0
+            description: ''
+            passableThroughUrl: '0'
+            value: null
+            test: 20
+            parentVariable: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '0'
+          type: 1
+          exposed: '0'
+          name: itemBankTableExtraFields
+          pointer: '0'
+          pointerVariable: itemBankExtraFields
+        destinationNode: 39
+        destinationPort: 1455
+        destinationPortObject:
+          class_name: TestNodePort
+          id: 1455
+          value: ''
+          node: 39
+          variable: null
+          variableObject: null
+          string: '1'
+          defaultValue: '1'
+          dynamic: '1'
+          type: 0
+          exposed: '1'
+          name: itemBankTableExtraFields
+          pointer: '0'
+          pointerVariable: itemBankTableExtraFields
+        returnFunction: itemBankTableExtraFields
+        automatic: '0'
+        defaultReturnFunction: '1'
     tags: ''
     groups: ''
     starterContent: true
-    hash: 38586f7ed80a7850421d12fcc0ac69b2bf901115
+    hash: 2dd36aa228a851b5efa4a843e1f0e3604323917b
   -
     class_name: Test
     id: 7
@@ -13412,11 +13526,44 @@ collection:
             name: itemTemplate
             wizardStep: 7
             stepTitle: Items
-            order: 0
+            order: 1
             wizard: 7
             definition:
               defvalue: test
               placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 90
+            label: 'Item Bank Extra Fields'
+            description: ''
+            hideCondition: 'values.itemBankType != "table"'
+            type: 10
+            passableThroughUrl: '0'
+            value: '[]'
+            testVariable: 526
+            name: itemBankTableExtraFields
+            wizardStep: 7
+            stepTitle: Items
+            order: 0
+            wizard: 7
+            definition:
+              element:
+                type: 9
+                definition:
+                  placeholder: 0
+                  fields:
+                    -
+                      type: 0
+                      name: name
+                      label: Name
+                      definition:
+                        placeholder: 0
+                    -
+                      type: 4
+                      name: sensitive
+                      label: Sensitive
+                      definition:
+                        placeholder: 0
       -
         class_name: TestWizardStep
         id: 8
@@ -13862,7 +14009,7 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: 7c0b37fc73961177d22a763acc97797b332c8a80
+    hash: 6494769b9ed216788617527a88fa319d5c26d5d1
   -
     class_name: Test
     id: 25
@@ -13911,7 +14058,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"catItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex"}}'
+        value: '{"table":"CATItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9"}}'
         test: 25
         parentVariable: 118
       -
@@ -14141,9 +14288,19 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: ''
+        value: null
         test: 25
         parentVariable: 519
+      -
+        class_name: TestVariable
+        id: 527
+        name: itemBankTableExtraFields
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '[]'
+        test: 25
+        parentVariable: 526
     sourceWizard: 7
     sourceWizardTest: 20
     nodes: {  }
@@ -14151,7 +14308,7 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 2354d7782ed98dacd973d75a46533000a1aa9eff
+    hash: cc1500f613d1e4589fbb774b161f778ef85bc6b3
   -
     class_name: TestWizard
     id: 4
