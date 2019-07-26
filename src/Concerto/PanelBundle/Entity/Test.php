@@ -629,14 +629,14 @@ class Test extends ATopEntity implements \JsonSerializable
         return "Test (name:" . $this->getName() . ")";
     }
 
-    public function jsonSerialize(&$dependencies = array())
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
         if (self::isDependencyReserved($dependencies, "Test", $this->id))
             return null;
         self::reserveDependency($dependencies, "Test", $this->id);
 
         if ($this->sourceWizard != null)
-            $this->sourceWizard->jsonSerialize($dependencies);
+            $this->sourceWizard->jsonSerialize($dependencies, $normalizedIdsMap);
 
         $serialized = array(
             "class_name" => "Test",
@@ -649,22 +649,28 @@ class Test extends ATopEntity implements \JsonSerializable
             "code" => $this->code,
             "slug" => $this->slug,
             "description" => $this->description,
-            "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies),
+            "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies, $normalizedIdsMap),
             "logs" => $this->logs->toArray(),
             "sourceWizard" => $this->sourceWizard != null ? $this->sourceWizard->getId() : null,
             "sourceWizardName" => $this->sourceWizard != null ? $this->sourceWizard->getName() : null,
             "sourceWizardTest" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getId() : null,
             "sourceWizardTestName" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getName() : null,
-            "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies),
+            "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies, $normalizedIdsMap),
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
             "updatedBy" => $this->updatedBy,
-            "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies),
-            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies),
+            "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies, $normalizedIdsMap),
+            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies, $normalizedIdsMap),
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("Test", $serialized["id"], $normalizedIdsMap);
+            $serialized["sourceWizard"] = self::normalizeId("TestWizard", $serialized["sourceWizard"], $normalizedIdsMap);
+            $serialized["sourceWizardTest"] = self::normalizeId("Test", $serialized["sourceWizardTest"], $normalizedIdsMap);
+        }
 
         self::addDependency($dependencies, $serialized);
         return $serialized;

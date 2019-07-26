@@ -11,7 +11,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\ViewTemplateRepository")
  * @UniqueEntity(fields="name", message="validate.table.name.unique")
  */
-class ViewTemplate extends ATopEntity implements \JsonSerializable {
+class ViewTemplate extends ATopEntity implements \JsonSerializable
+{
 
     /**
      * @var string
@@ -55,14 +56,15 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @ORM\Column(type="text")
      */
     private $html;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $owner;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->description = "";
@@ -78,7 +80,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @param string $name
      * @return string
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -87,9 +90,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -99,7 +103,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @param string $description
      * @return DataTable
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
 
         return $this;
@@ -108,9 +113,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -120,7 +126,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @param string $head
      * @return ViewTemplate
      */
-    public function setHead($head) {
+    public function setHead($head)
+    {
         $this->head = $head;
 
         return $this;
@@ -129,9 +136,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get head
      *
-     * @return string 
+     * @return string
      */
-    public function getHead() {
+    public function getHead()
+    {
         return $this->head;
     }
 
@@ -141,7 +149,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @param string $css
      * @return ViewTemplate
      */
-    public function setCss($css) {
+    public function setCss($css)
+    {
         $this->css = $css;
 
         return $this;
@@ -150,9 +159,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get css
      *
-     * @return string 
+     * @return string
      */
-    public function getCss() {
+    public function getCss()
+    {
         return $this->css;
     }
 
@@ -162,7 +172,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @param string $js
      * @return ViewTemplate
      */
-    public function setJs($js) {
+    public function setJs($js)
+    {
         $this->js = $js;
 
         return $this;
@@ -171,9 +182,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get js
      *
-     * @return string 
+     * @return string
      */
-    public function getJs() {
+    public function getJs()
+    {
         return $this->js;
     }
 
@@ -183,7 +195,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
      * @param string $html
      * @return ViewTemplate
      */
-    public function setHtml($html) {
+    public function setHtml($html)
+    {
         $this->html = $html;
 
         return $this;
@@ -192,17 +205,19 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get html
      *
-     * @return string 
+     * @return string
      */
-    public function getHtml() {
+    public function getHtml()
+    {
         return $this->html;
     }
-    
+
     /**
      * Set owner
      * @param User $user
      */
-    public function setOwner($user) {
+    public function setOwner($user)
+    {
         $this->owner = $user;
 
         return $this;
@@ -211,13 +226,15 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
     /**
      * Get owner
      *
-     * @return User 
+     * @return User
      */
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->owner;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedBy"]);
@@ -226,7 +243,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
+    {
         if (self::isDependencyReserved($dependencies, "ViewTemplate", $this->id))
             return null;
         self::reserveDependency($dependencies, "ViewTemplate", $this->id);
@@ -248,6 +266,10 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable {
             "groups" => $this->groups,
             "starterContent" => $this->starterContent
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("ViewTemplate", $serialized["id"], $normalizedIdsMap);
+        }
 
         self::addDependency($dependencies, $serialized);
         return $serialized;

@@ -11,7 +11,8 @@ use Concerto\PanelBundle\Entity\TestNodePort;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodeConnectionRepository")
  */
-class TestNodeConnection extends AEntity implements \JsonSerializable {
+class TestNodeConnection extends AEntity implements \JsonSerializable
+{
 
     /**
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="nodesConnections")
@@ -44,7 +45,7 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @ORM\Column(type="text")
      */
     private $returnFunction;
-    
+
     /**
      *
      * @var boolean
@@ -62,23 +63,26 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->automatic = false;
         $this->returnFunction = "";
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->getFlowTest()->getOwner();
     }
 
     /**
      * Get return function
      *
-     * @return string 
+     * @return string
      */
-    public function getReturnFunction() {
+    public function getReturnFunction()
+    {
         return $this->returnFunction;
     }
 
@@ -88,7 +92,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @param string $returnFunction
      * @return TestNodeConnection
      */
-    public function setReturnFunction($returnFunction) {
+    public function setReturnFunction($returnFunction)
+    {
         $this->returnFunction = $returnFunction;
 
         return $this;
@@ -97,9 +102,10 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     /**
      * Get flow test
      *
-     * @return Test 
+     * @return Test
      */
-    public function getFlowTest() {
+    public function getFlowTest()
+    {
         return $this->flowTest;
     }
 
@@ -109,7 +115,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @param Test $test
      * @return TestNodeConnection
      */
-    public function setFlowTest($test) {
+    public function setFlowTest($test)
+    {
         $this->flowTest = $test;
 
         return $this;
@@ -118,9 +125,10 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     /**
      * Get source node
      *
-     * @return TestNode 
+     * @return TestNode
      */
-    public function getSourceNode() {
+    public function getSourceNode()
+    {
         return $this->sourceNode;
     }
 
@@ -130,7 +138,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @param TestNode $node
      * @return TestNodeConnection
      */
-    public function setSourceNode(TestNode $node) {
+    public function setSourceNode(TestNode $node)
+    {
         $this->sourceNode = $node;
 
         return $this;
@@ -139,9 +148,10 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     /**
      * Get destination node
      *
-     * @return TestNode 
+     * @return TestNode
      */
-    public function getDestinationNode() {
+    public function getDestinationNode()
+    {
         return $this->destinationNode;
     }
 
@@ -151,7 +161,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @param TestNode $node
      * @return TestNodeConnection
      */
-    public function setDestinationNode(TestNode $node) {
+    public function setDestinationNode(TestNode $node)
+    {
         $this->destinationNode = $node;
 
         return $this;
@@ -160,9 +171,10 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     /**
      * Get source port
      *
-     * @return TestNodePort 
+     * @return TestNodePort
      */
-    public function getSourcePort() {
+    public function getSourcePort()
+    {
         return $this->sourcePort;
     }
 
@@ -172,7 +184,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @param TestNodePort $port
      * @return TestNodeConnection
      */
-    public function setSourcePort($port) {
+    public function setSourcePort($port)
+    {
         $this->sourcePort = $port;
 
         return $this;
@@ -181,9 +194,10 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
     /**
      * Get destination port
      *
-     * @return TestNodePort 
+     * @return TestNodePort
      */
-    public function getDestinationPort() {
+    public function getDestinationPort()
+    {
         return $this->destinationPort;
     }
 
@@ -193,7 +207,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
      * @param TestNodePort $port
      * @return TestNodeConnection
      */
-    public function setDestinationPort($port) {
+    public function setDestinationPort($port)
+    {
         $this->destinationPort = $port;
 
         return $this;
@@ -201,45 +216,51 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
 
     /**
      * Is automatic?
-     * 
+     *
      * @return boolean
      */
-    public function isAutomatic() {
+    public function isAutomatic()
+    {
         return $this->automatic;
     }
 
     /**
      * Set automatic.
-     * 
+     *
      * @param boolean $automatic
      */
-    public function setAutomatic($automatic) {
+    public function setAutomatic($automatic)
+    {
         $this->automatic = $automatic;
     }
-    
+
     /**
      * Returns true if connection has default return function.
-     * 
+     *
      * @return boolean
      */
-    public function hasDefaultReturnFunction() {
+    public function hasDefaultReturnFunction()
+    {
         return $this->defaultReturnFunction;
     }
 
     /**
      * Set whether connection has default return function.
-     * 
+     *
      * @param boolean $defaultValue
      */
-    public function setDefaultReturnFunction($default) {
+    public function setDefaultReturnFunction($default)
+    {
         $this->defaultReturnFunction = $default;
     }
-    
-    public function getAccessibility() {
+
+    public function getAccessibility()
+    {
         return $this->getFlowTest()->getAccessibility();
     }
 
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getFlowTest()->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {
@@ -251,7 +272,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
         return false;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["flowTest"]);
         unset($arr["sourceNode"]);
@@ -265,21 +287,33 @@ class TestNodeConnection extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
-        return array(
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
+    {
+        $serialized = array(
             "class_name" => "TestNodeConnection",
             "id" => $this->id,
             "flowTest" => $this->flowTest->getId(),
             "sourceNode" => $this->sourceNode->getId(),
             "sourcePort" => $this->sourcePort ? $this->sourcePort->getId() : null,
-            "sourcePortObject" => $this->sourcePort ? $this->sourcePort->jsonSerialize($dependencies) : null,
+            "sourcePortObject" => $this->sourcePort ? $this->sourcePort->jsonSerialize($dependencies, $normalizedIdsMap) : null,
             "destinationNode" => $this->destinationNode->getId(),
             "destinationPort" => $this->destinationPort ? $this->destinationPort->getId() : null,
-            "destinationPortObject" => $this->destinationPort ? $this->destinationPort->jsonSerialize($dependencies) : null,
+            "destinationPortObject" => $this->destinationPort ? $this->destinationPort->jsonSerialize($dependencies, $normalizedIdsMap) : null,
             "returnFunction" => $this->returnFunction,
             "automatic" => $this->automatic ? "1" : "0",
             "defaultReturnFunction" => $this->defaultReturnFunction ? "1" : "0"
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("TestNodeConnection", $serialized["id"], $normalizedIdsMap);
+            $serialized["flowTest"] = self::normalizeId("Test", $serialized["flowTest"], $normalizedIdsMap);
+            $serialized["sourceNode"] = self::normalizeId("TestNode", $serialized["sourceNode"], $normalizedIdsMap);
+            $serialized["sourcePort"] = self::normalizeId("TestNodePort", $serialized["sourcePort"], $normalizedIdsMap);
+            $serialized["destinationNode"] = self::normalizeId("TestNode", $serialized["destinationNode"], $normalizedIdsMap);
+            $serialized["destinationPort"] = self::normalizeId("TestNodePort", $serialized["destinationPort"], $normalizedIdsMap);
+        }
+
+        return $serialized;
     }
 
 }

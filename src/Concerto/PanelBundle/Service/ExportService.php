@@ -72,20 +72,20 @@ class ExportService
         return $instructions;
     }
 
-    public function addExportDependency($id, $sectionService, &$dependencies, $secure = true)
+    public function addExportDependency($id, $sectionService, &$dependencies, $secure = true, &$normalizedIdsMap = null)
     {
         $entity = $sectionService->get($id, false, $secure);
         if (!$entity)
             return false;
-        $entity->jsonSerialize($dependencies);
+        $entity->jsonSerialize($dependencies, $normalizedIdsMap);
 
         if (array_key_exists("ids", $dependencies)) {
-            foreach ($dependencies["ids"] as $k => $v) {
-                $ids_service = $this->serviceMap[$k];
-                foreach ($v as $id) {
+            foreach ($dependencies["ids"] as $className => $ids) {
+                $ids_service = $this->serviceMap[$className];
+                foreach ($ids as $id) {
                     $ent = $ids_service->get($id, false, $secure);
                     if ($ent)
-                        $ent->jsonSerialize($dependencies);
+                        $ent->jsonSerialize($dependencies, $normalizedIdsMap);
                 }
             }
         }
@@ -133,17 +133,18 @@ class ExportService
     private function getExportCollection($class, $object_ids, $instructions = null)
     {
         $dependencies = array();
+        $normalizedIdsMap = array();
         $section_service = $this->serviceMap[$class];
 
         if ($object_ids !== null) {
             $object_ids = explode(",", $object_ids);
             foreach ($object_ids as $object_id) {
-                $this->addExportDependency($object_id, $section_service, $dependencies);
+                $this->addExportDependency($object_id, $section_service, $dependencies, true, $normalizedIdsMap);
             }
         } else if ($instructions !== null) {
             foreach ($instructions as $ins) {
                 if ($ins["class_name"] == $class) {
-                    $this->addExportDependency($ins["name"], $section_service, $dependencies);
+                    $this->addExportDependency($ins["name"], $section_service, $dependencies, true, $normalizedIdsMap);
                 }
             }
         }

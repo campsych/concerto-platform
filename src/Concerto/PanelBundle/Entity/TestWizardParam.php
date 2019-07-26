@@ -14,7 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestWizardParamRepository")
  * @UniqueEntity(fields={"wizard", "variable"}, message="validate.test.wizards.params.variable.unique")
  */
-class TestWizardParam extends AEntity implements \JsonSerializable {
+class TestWizardParam extends AEntity implements \JsonSerializable
+{
 
     /**
      * @var string
@@ -94,7 +95,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->description = "";
@@ -102,7 +104,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         $this->order = 0;
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->getWizard()->getOwner();
     }
 
@@ -112,7 +115,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param string $label
      * @return TestWizardParam
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->label = $label;
 
         return $this;
@@ -121,9 +125,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->label;
     }
 
@@ -133,7 +138,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param string $description
      * @return TestWizardParam
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
 
         return $this;
@@ -142,9 +148,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -154,7 +161,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param string $condition
      * @return TestWizardParam
      */
-    public function setHideCondition($condition) {
+    public function setHideCondition($condition)
+    {
         $this->hideCondition = $condition;
 
         return $this;
@@ -163,9 +171,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get hide condition
      *
-     * @return string 
+     * @return string
      */
-    public function getHideCondition() {
+    public function getHideCondition()
+    {
         return $this->hideCondition;
     }
 
@@ -175,7 +184,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param integer $type
      * @return TestWizardParam
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
 
         return $this;
@@ -184,9 +194,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -196,7 +207,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param boolean $passableThroughUrl
      * @return TestWizardParam
      */
-    public function setPassableThroughUrl($passableThroughUrl) {
+    public function setPassableThroughUrl($passableThroughUrl)
+    {
         $this->passableThroughUrl = $passableThroughUrl;
 
         return $this;
@@ -205,9 +217,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Check if parameter is passable through URL
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function isPassableThroughUrl() {
+    public function isPassableThroughUrl()
+    {
         return $this->passableThroughUrl;
     }
 
@@ -217,7 +230,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param TestWizard $wizard
      * @return TestWizardParam
      */
-    public function setWizard(TestWizard $wizard) {
+    public function setWizard(TestWizard $wizard)
+    {
         $this->wizard = $wizard;
 
         return $this;
@@ -226,9 +240,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get test wizard
      *
-     * @return TestWizard 
+     * @return TestWizard
      */
-    public function getWizard() {
+    public function getWizard()
+    {
         return $this->wizard;
     }
 
@@ -238,7 +253,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param integer $order
      * @return TestWizardParam
      */
-    public function setOrder($order) {
+    public function setOrder($order)
+    {
         $this->order = $order;
 
         return $this;
@@ -247,9 +263,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get order
      *
-     * @return integer 
+     * @return integer
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return $this->order;
     }
 
@@ -259,7 +276,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param TestVariable $variable
      * @return TestWizardParam
      */
-    public function setVariable(TestVariable $variable) {
+    public function setVariable(TestVariable $variable)
+    {
         $this->variable = $variable;
 
         return $this;
@@ -270,7 +288,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      *
      * @return TestVariable
      */
-    public function getVariable() {
+    public function getVariable()
+    {
         return $this->variable;
     }
 
@@ -280,7 +299,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param string $value
      * @return TestWizardParam
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = $value;
 
         return $this;
@@ -289,9 +309,10 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
@@ -301,7 +322,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param TestWizardStep $step
      * @return TestWizardParam
      */
-    public function setStep(TestWizardStep $step) {
+    public function setStep(TestWizardStep $step)
+    {
         $this->step = $step;
 
         return $this;
@@ -312,7 +334,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      *
      * @return TestWizardStep
      */
-    public function getStep() {
+    public function getStep()
+    {
         return $this->step;
     }
 
@@ -322,7 +345,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      * @param array $def
      * @return TestWizardParam
      */
-    public function setDefinition($def) {
+    public function setDefinition($def)
+    {
         $this->definition = $def;
 
         return $this;
@@ -333,15 +357,18 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
      *
      * @return array
      */
-    public function getDefinition() {
+    public function getDefinition()
+    {
         return $this->definition;
     }
 
-    public function getAccessibility() {
+    public function getAccessibility()
+    {
         return $this->getWizard()->getAccessibility();
     }
 
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getWizard()->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {
@@ -353,7 +380,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return false;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["testVariable"]);
         unset($arr["wizardStep"]);
@@ -363,80 +391,89 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public static function getParamValueDependencies($val, $def, $type, &$dependencies = array()) {
+    public static function getParamValueDependencies($val, $def, $type, &$dependencies = array())
+    {
         if (!array_key_exists("ids", $dependencies))
             $dependencies["ids"] = array();
         switch ($type) {
-            case 5: {
-                    if ($val) {
-                        if (!array_key_exists("ViewTemplate", $dependencies["ids"]))
-                            $dependencies["ids"]["ViewTemplate"] = array();
-                        if (!in_array($val, $dependencies["ids"]["ViewTemplate"]))
-                            array_push($dependencies["ids"]["ViewTemplate"], $val);
-                    }
-                    break;
+            case 5:
+            {
+                if ($val) {
+                    if (!array_key_exists("ViewTemplate", $dependencies["ids"]))
+                        $dependencies["ids"]["ViewTemplate"] = array();
+                    if (!in_array($val, $dependencies["ids"]["ViewTemplate"]))
+                        array_push($dependencies["ids"]["ViewTemplate"], $val);
                 }
-            case 6: {
-                    if ($val) {
-                        if (!array_key_exists("DataTable", $dependencies["ids"]))
-                            $dependencies["ids"]["DataTable"] = array();
-                        if (!in_array($val, $dependencies["ids"]["DataTable"]))
-                            array_push($dependencies["ids"]["DataTable"], $val);
-                    }
-                    break;
+                break;
+            }
+            case 6:
+            {
+                if ($val) {
+                    if (!array_key_exists("DataTable", $dependencies["ids"]))
+                        $dependencies["ids"]["DataTable"] = array();
+                    if (!in_array($val, $dependencies["ids"]["DataTable"]))
+                        array_push($dependencies["ids"]["DataTable"], $val);
                 }
-            case 7: {
-                    if (is_array($val) && $val["table"]) {
-                        if (!array_key_exists("DataTable", $dependencies["ids"]))
-                            $dependencies["ids"]["DataTable"] = array();
-                        if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
-                            array_push($dependencies["ids"]["DataTable"], $val["table"]);
-                    }
-                    break;
+                break;
+            }
+            case 7:
+            {
+                if (is_array($val) && $val["table"]) {
+                    if (!array_key_exists("DataTable", $dependencies["ids"]))
+                        $dependencies["ids"]["DataTable"] = array();
+                    if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
+                        array_push($dependencies["ids"]["DataTable"], $val["table"]);
                 }
-            case 8: {
-                    if ($val) {
-                        if (!array_key_exists("Test", $dependencies["ids"]))
-                            $dependencies["ids"]["Test"] = array();
-                        if (!in_array($val, $dependencies["ids"]["Test"]))
-                            array_push($dependencies["ids"]["Test"], $val);
-                    }
-                    break;
+                break;
+            }
+            case 8:
+            {
+                if ($val) {
+                    if (!array_key_exists("Test", $dependencies["ids"]))
+                        $dependencies["ids"]["Test"] = array();
+                    if (!in_array($val, $dependencies["ids"]["Test"]))
+                        array_push($dependencies["ids"]["Test"], $val);
                 }
-            case 9: {
-                    if (!is_array($val))
-                        $val = json_decode($val, true);
-                    if (!$val)
-                        return;
-                    foreach ($def["fields"] as $field) {
-                        if (array_key_exists($field["name"], $val) && $val[$field["name"]]) {
-                            $has_definition = array_key_exists("definition", $field);
-                            self::getParamValueDependencies($val[$field["name"]], $has_definition ? $field["definition"] : array(), $field["type"], $dependencies);
-                        }
+                break;
+            }
+            case 9:
+            {
+                if (!is_array($val))
+                    $val = json_decode($val, true);
+                if (!$val)
+                    return;
+                foreach ($def["fields"] as $field) {
+                    if (array_key_exists($field["name"], $val) && $val[$field["name"]]) {
+                        $has_definition = array_key_exists("definition", $field);
+                        self::getParamValueDependencies($val[$field["name"]], $has_definition ? $field["definition"] : array(), $field["type"], $dependencies);
                     }
-                    break;
                 }
-            case 10: {
-                    if (!is_array($val))
-                        $val = json_decode($val, true);
-                    if (!is_array($val))
-                        break;
-                    $has_definition = array_key_exists("definition", $def["element"]);
-                    foreach ($val as $row) {
-                        self::getParamValueDependencies($row, $has_definition ? $def["element"]["definition"] : array(), $def["element"]["type"], $dependencies);
-                    }
+                break;
+            }
+            case 10:
+            {
+                if (!is_array($val))
+                    $val = json_decode($val, true);
+                if (!is_array($val))
                     break;
+                $has_definition = array_key_exists("definition", $def["element"]);
+                foreach ($val as $row) {
+                    self::getParamValueDependencies($row, $has_definition ? $def["element"]["definition"] : array(), $def["element"]["type"], $dependencies);
                 }
-            case 12: {
-                    if (is_array($val) && $val["table"]) {
-                        if (!array_key_exists("DataTable", $dependencies["ids"]))
-                            $dependencies["ids"]["DataTable"] = array();
-                        if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
-                            array_push($dependencies["ids"]["DataTable"], $val["table"]);
-                    }
-                    break;
+                break;
+            }
+            case 12:
+            {
+                if (is_array($val) && $val["table"]) {
+                    if (!array_key_exists("DataTable", $dependencies["ids"]))
+                        $dependencies["ids"]["DataTable"] = array();
+                    if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
+                        array_push($dependencies["ids"]["DataTable"], $val["table"]);
                 }
-            case 13: {
+                break;
+            }
+            case 13:
+            {
                 if (is_array($def) && $def["test"]) {
                     if (!array_key_exists("Test", $dependencies["ids"]))
                         $dependencies["ids"]["Test"] = array();
@@ -448,10 +485,11 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
         }
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
+    {
         self::getParamValueDependencies($this->value, $this->definition, $this->type, $dependencies);
 
-        return array(
+        $serialized = array(
             "class_name" => "TestWizardParam",
             "id" => $this->id,
             "label" => $this->label,
@@ -468,6 +506,15 @@ class TestWizardParam extends AEntity implements \JsonSerializable {
             "wizard" => $this->wizard->getId(),
             "definition" => $this->definition
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("TestWizardParam", $serialized["id"], $normalizedIdsMap);
+            $serialized["testVariable"] = self::normalizeId("TestVariable", $serialized["testVariable"], $normalizedIdsMap);
+            $serialized["wizardStep"] = self::normalizeId("TestWizardStep", $serialized["wizardStep"], $normalizedIdsMap);
+            $serialized["wizard"] = self::normalizeId("TestWizard", $serialized["wizard"], $normalizedIdsMap);
+        }
+
+        return $serialized;
     }
 
 }

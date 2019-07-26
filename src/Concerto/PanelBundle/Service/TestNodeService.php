@@ -173,7 +173,6 @@ class TestNodeService extends ASectionService
     }
 
     /* TODO: improve it, curretly it's not 100% reliable (for nodes with same position) */
-
     protected function findConversionSource($obj, $map)
     {
         $ent = $this->repository->findOneBy(array(

@@ -268,12 +268,12 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null) {
         if (self::isDependencyReserved($dependencies, "TestWizard", $this->id))
             return null;
         self::reserveDependency($dependencies, "TestWizard", $this->id);
 
-        $this->test->jsonSerialize($dependencies);
+        $this->test->jsonSerialize($dependencies, $normalizedIdsMap);
 
         $serialized = array(
             "class_name" => "TestWizard",
@@ -282,7 +282,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "description" => $this->description,
             "accessibility" => $this->accessibility,
             "archived" => $this->archived ? "1" : "0",
-            "steps" => self::jsonSerializeArray($this->steps->toArray(), $dependencies),
+            "steps" => self::jsonSerializeArray($this->steps->toArray(), $dependencies, $normalizedIdsMap),
             "test" => $this->getTest()->getId(),
             "testName" => $this->getTest()->getName(),
             "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
@@ -291,6 +291,12 @@ class TestWizard extends ATopEntity implements \JsonSerializable {
             "groups" => $this->groups,
             "starterContent" => $this->starterContent
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("TestWizard", $serialized["id"], $normalizedIdsMap);
+            $serialized["test"] = self::normalizeId("Test", $serialized["test"], $normalizedIdsMap);
+        }
+
         self::addDependency($dependencies, $serialized);
         return $serialized;
     }

@@ -11,7 +11,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\DataTableRepository")
  * @UniqueEntity(fields="name", message="validate.table.name.unique")
  */
-class DataTable extends ATopEntity implements \JsonSerializable {
+class DataTable extends ATopEntity implements \JsonSerializable
+{
 
     /**
      * @var string
@@ -36,7 +37,8 @@ class DataTable extends ATopEntity implements \JsonSerializable {
      */
     private $owner;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->description = "";
@@ -49,7 +51,8 @@ class DataTable extends ATopEntity implements \JsonSerializable {
      * @param string $name
      * @return DataTable
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -58,9 +61,10 @@ class DataTable extends ATopEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -70,7 +74,8 @@ class DataTable extends ATopEntity implements \JsonSerializable {
      * @param string $description
      * @return DataTable
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
 
         return $this;
@@ -79,9 +84,10 @@ class DataTable extends ATopEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -91,7 +97,8 @@ class DataTable extends ATopEntity implements \JsonSerializable {
      * @param array $columns
      * @return DataTable
      */
-    public function setColumns($columns) {
+    public function setColumns($columns)
+    {
         $this->columns = $columns;
 
         return $this;
@@ -100,9 +107,10 @@ class DataTable extends ATopEntity implements \JsonSerializable {
     /**
      * Get columns
      *
-     * @return array 
+     * @return array
      */
-    public function getColumns() {
+    public function getColumns()
+    {
         return $this->columns;
     }
 
@@ -110,7 +118,8 @@ class DataTable extends ATopEntity implements \JsonSerializable {
      * Set owner
      * @param User $user
      */
-    public function setOwner($user) {
+    public function setOwner($user)
+    {
         $this->owner = $user;
 
         return $this;
@@ -119,13 +128,15 @@ class DataTable extends ATopEntity implements \JsonSerializable {
     /**
      * Get owner
      *
-     * @return User 
+     * @return User
      */
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->owner;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["updatedOn"]);
         unset($arr["updatedBy"]);
@@ -134,7 +145,8 @@ class DataTable extends ATopEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
+    {
         if (self::isDependencyReserved($dependencies, "DataTable", $this->id))
             return null;
         self::reserveDependency($dependencies, "DataTable", $this->id);
@@ -153,6 +165,10 @@ class DataTable extends ATopEntity implements \JsonSerializable {
             "groups" => $this->groups,
             "starterContent" => $this->starterContent
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("DataTable", $serialized["id"], $normalizedIdsMap);
+        }
 
         self::addDependency($dependencies, $serialized);
         return $serialized;

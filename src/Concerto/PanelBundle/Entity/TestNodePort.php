@@ -463,7 +463,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array())
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
         if ($this->variable) {
             $wizard = $this->variable->getTest()->getSourceWizard();
@@ -479,13 +479,13 @@ class TestNodePort extends AEntity implements \JsonSerializable
             }
         }
 
-        return array(
+        $serialized = array(
             "class_name" => "TestNodePort",
             "id" => $this->id,
             "value" => $this->value,
             "node" => $this->node->getId(),
             "variable" => $this->variable ? $this->variable->getId() : null,
-            "variableObject" => $this->variable ? $this->variable->jsonSerialize($dependencies) : null,
+            "variableObject" => $this->variable ? $this->variable->jsonSerialize($dependencies, $normalizedIdsMap) : null,
             "string" => $this->string ? "1" : "0",
             "defaultValue" => $this->defaultValue ? "1" : "0",
             "dynamic" => $this->dynamic ? "1" : "0",
@@ -495,6 +495,14 @@ class TestNodePort extends AEntity implements \JsonSerializable
             "pointer" => $this->pointer ? "1" : "0",
             "pointerVariable" => $this->pointerVariable
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("TestNodePort", $serialized["id"], $normalizedIdsMap);
+            $serialized["node"] = self::normalizeId("TestNode", $serialized["node"], $normalizedIdsMap);
+            $serialized["variable"] = self::normalizeId("TestVariable", $serialized["variable"], $normalizedIdsMap);
+        }
+
+        return $serialized;
     }
 
 }

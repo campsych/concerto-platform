@@ -12,7 +12,8 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestVariableRepository")
  * @UniqueEntity(fields={"name","type","test"}, message="validate.test.variables.unique")
  */
-class TestVariable extends AEntity implements \JsonSerializable {
+class TestVariable extends AEntity implements \JsonSerializable
+{
 
     /**
      * @var string
@@ -77,7 +78,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      */
     private $ports;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->description = "";
@@ -85,7 +87,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
         $this->params = new ArrayCollection();
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->getTest()->getOwner();
     }
 
@@ -95,7 +98,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param string $name
      * @return TestVariable
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -104,9 +108,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -116,7 +121,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param string $description
      * @return TestVariable
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
 
         return $this;
@@ -125,9 +131,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -137,7 +144,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param string $value
      * @return TestVariable
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = $value;
 
         return $this;
@@ -146,9 +154,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
@@ -158,7 +167,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param boolean $passableThroughUrl
      * @return TestVariable
      */
-    public function setPassableThroughUrl($passableThroughUrl) {
+    public function setPassableThroughUrl($passableThroughUrl)
+    {
         $this->passableThroughUrl = $passableThroughUrl;
 
         return $this;
@@ -167,9 +177,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Check if parameter is passable through URL
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function isPassableThroughUrl() {
+    public function isPassableThroughUrl()
+    {
         return $this->passableThroughUrl;
     }
 
@@ -179,7 +190,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param integer $type
      * @return TestVariable
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
 
         return $this;
@@ -188,9 +200,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -200,7 +213,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param Test $test
      * @return TestVariable
      */
-    public function setTest(Test $test = null) {
+    public function setTest(Test $test = null)
+    {
         $this->test = $test;
 
         return $this;
@@ -209,9 +223,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Get test
      *
-     * @return Test 
+     * @return Test
      */
-    public function getTest() {
+    public function getTest()
+    {
         return $this->test;
     }
 
@@ -221,7 +236,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param TestWizardParam $param
      * @return TestVariable
      */
-    public function addParam(TestWizardParam $param) {
+    public function addParam(TestWizardParam $param)
+    {
         $this->params[] = $param;
 
         return $this;
@@ -232,16 +248,18 @@ class TestVariable extends AEntity implements \JsonSerializable {
      *
      * @param TestWizardParam $param
      */
-    public function removeParam(TestWizardParam $param) {
+    public function removeParam(TestWizardParam $param)
+    {
         $this->params->removeElement($param);
     }
 
     /**
      * Get params
      *
-     * @return Collection 
+     * @return Collection
      */
-    public function getParams() {
+    public function getParams()
+    {
         return $this->params;
     }
 
@@ -251,7 +269,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param TestVariable $parent
      * @return TestVariable
      */
-    public function setParentVariable($parent) {
+    public function setParentVariable($parent)
+    {
         $this->parentVariable = $parent;
 
         return $this;
@@ -260,9 +279,10 @@ class TestVariable extends AEntity implements \JsonSerializable {
     /**
      * Get parent variable
      *
-     * @return TestVariable 
+     * @return TestVariable
      */
-    public function getParentVariable() {
+    public function getParentVariable()
+    {
         return $this->parentVariable;
     }
 
@@ -272,7 +292,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param TestVariable $child
      * @return TestVariable
      */
-    public function addChildVariable(TestVariable $child) {
+    public function addChildVariable(TestVariable $child)
+    {
         $this->childVariables[] = $child;
 
         return $this;
@@ -283,16 +304,18 @@ class TestVariable extends AEntity implements \JsonSerializable {
      *
      * @param TestVariable $child
      */
-    public function removeChildVariable(TestVariable $child) {
+    public function removeChildVariable(TestVariable $child)
+    {
         $this->childVariables->removeElement($child);
     }
 
     /**
      * Get child variables
      *
-     * @return Collection 
+     * @return Collection
      */
-    public function getChildVariables() {
+    public function getChildVariables()
+    {
         return $this->childVariables;
     }
 
@@ -302,7 +325,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
      * @param TestNodePort $port
      * @return TestVariable
      */
-    public function addPort(TestNodePort $port) {
+    public function addPort(TestNodePort $port)
+    {
         $this->ports[] = $port;
 
         return $this;
@@ -313,28 +337,33 @@ class TestVariable extends AEntity implements \JsonSerializable {
      *
      * @param TestNodePort $port
      */
-    public function removePort(TestNodePort $port) {
+    public function removePort(TestNodePort $port)
+    {
         $this->ports->removeElement($port);
     }
 
     /**
      * Get test node ports
      *
-     * @return Collection 
+     * @return Collection
      */
-    public function getPorts() {
+    public function getPorts()
+    {
         return $this->ports;
     }
-    
-    public function getAccessibility() {
+
+    public function getAccessibility()
+    {
         return $this->getTest()->getAccessibility();
     }
-    
-    public function hasDefaultValueSet() {
+
+    public function hasDefaultValueSet()
+    {
         return $this->value !== null && $this->value !== "";
     }
 
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getTest()->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {
@@ -346,7 +375,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
         return false;
     }
 
-    public static function getArrayHash($arr) {
+    public static function getArrayHash($arr)
+    {
         unset($arr["id"]);
         unset($arr["test"]);
         unset($arr["parentVariable"]);
@@ -355,7 +385,8 @@ class TestVariable extends AEntity implements \JsonSerializable {
         return sha1($json);
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
+    {
         $wizard = $this->getTest()->getSourceWizard();
         if ($wizard) {
             foreach ($wizard->getParams() as $param) {
@@ -368,7 +399,7 @@ class TestVariable extends AEntity implements \JsonSerializable {
             }
         }
 
-        return array(
+        $serialized = array(
             "class_name" => "TestVariable",
             "id" => $this->getId(),
             "name" => $this->getName(),
@@ -379,6 +410,14 @@ class TestVariable extends AEntity implements \JsonSerializable {
             "test" => $this->getTest()->getId(),
             "parentVariable" => $this->getParentVariable() ? $this->getParentVariable()->getId() : null
         );
+
+        if ($normalizedIdsMap !== null) {
+            $serialized["id"] = self::normalizeId("TestVariable", $serialized["id"], $normalizedIdsMap);
+            $serialized["test"] = self::normalizeId("Test", $serialized["test"], $normalizedIdsMap);
+            $serialized["parentVariable"] = self::normalizeId("TestVariable", $serialized["parentVariable"], $normalizedIdsMap);
+        }
+
+        return $serialized;
     }
 
 }

@@ -41,6 +41,7 @@ class ContentExportCommand extends Command
         $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
         $this->addOption("single", null, InputOption::VALUE_NONE, "Contain export in a single file?");
         $this->addOption("no-hash", null, InputOption::VALUE_NONE, "Do not include hash?");
+        $this->addOption("norm-ids", null, InputOption::VALUE_NONE, "Normalize ids?");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
     }
 
@@ -54,19 +55,25 @@ class ContentExportCommand extends Command
         );
         $single = $input->getOption("single");
         $noHash = $input->getOption("no-hash");
+        $normIds = $input->getOption("norm-ids");
         $instructions = json_decode($input->getOption("instructions"), true);
 
         $output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
 
         $em = $this->doctrine->getManager();
         $dependencies = array();
+        $normalizedIdsMap = $normIds ? array() : null;
+
         foreach ($classes as $class_name) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
             $content = $repo->findBy(array(), array("name" => "ASC"));
             $class_service = $this->importService->serviceMap[$class_name];
             foreach ($content as $ent) {
-                if (!$single) $dependencies = array();
-                $this->exportService->addExportDependency($ent->getId(), $class_service, $dependencies, false);
+                if (!$single) {
+                    $dependencies = array();
+                    $normalizedIdsMap = $normIds ? array() : null;
+                }
+                $this->exportService->addExportDependency($ent->getId(), $class_service, $dependencies, false, $normalizedIdsMap);
 
                 if (!$single) {
                     $collection = array();
