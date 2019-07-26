@@ -92,14 +92,16 @@ class ExportService
         return true;
     }
 
-    public function convertCollectionToExportable($collection, $instructions, $secure = true)
+    public function convertCollectionToExportable($collection, $instructions, $secure = true, $addHash = true)
     {
         $result = array();
         foreach ($collection as $elem) {
             $export_elem = $elem;
             $elem_service = $this->serviceMap[$elem["class_name"]];
             $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
-            $export_elem["hash"] = $elem_class::getArrayHash($elem);
+            if($addHash) {
+                $export_elem["hash"] = $elem_class::getArrayHash($elem);
+            }
 
             $elemInstruction = null;
             if ($instructions !== null) {

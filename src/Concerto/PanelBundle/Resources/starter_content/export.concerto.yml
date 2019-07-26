@@ -118,7 +118,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: f6fc52e284cc74b63ca672776d0427fa67cdfe2b
   -
     class_name: ViewTemplate
     id: 10
@@ -998,7 +997,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: 6bcbf576402afe775c2286da2d7cfdc41acbe026
   -
     class_name: ViewTemplate
     id: 9
@@ -1100,7 +1098,6 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: efb04385ce4918eb9f5280d43a0460e47142f12f
   -
     class_name: ViewTemplate
     id: 7
@@ -1150,7 +1147,6 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: fb4c906d339b1501c17c1189f1ddca18a27efb75
   -
     class_name: ViewTemplate
     id: 11
@@ -1584,7 +1580,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: 859623e05056bac15fda4f627901e846be6a250a
   -
     class_name: ViewTemplate
     id: 16
@@ -1637,7 +1632,6 @@ collection:
       <input name="[[field.name]]" ng-max="getValidator('max').value" ng-maxlength="getValidator('maxlength').value" ng-min="getValidator('min').value" ng-minlength="getValidator('minlength').value" ng-model="values[field.name]" ng-pattern="getValidator('pattern').value" ng-required="getValidator('required')" type="text" />
     groups: ''
     starterContent: true
-    hash: 5afd9e1bff691ced1c7a406c984bc058b39b2e99
   -
     class_name: ViewTemplate
     id: 18
@@ -1716,7 +1710,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: e908a2b766429ee231b73345c0bae335116df197
   -
     class_name: ViewTemplate
     id: 19
@@ -1769,7 +1762,6 @@ collection:
       <input name="[[field.name]]" ng-max="getValidator('max').value" ng-maxlength="getValidator('maxlength').value" ng-min="getValidator('min').value" ng-minlength="getValidator('minlength').value" ng-model="values[field.name]" ng-pattern="getValidator('pattern').value" ng-required="getValidator('required')" type="password" />
     groups: ''
     starterContent: true
-    hash: fcc4abae97d586a7a90b3ea66a504296e82d65fd
   -
     class_name: ViewTemplate
     id: 17
@@ -1818,7 +1810,6 @@ collection:
       <textarea name="[[field.name]]" ng-max="getValidator('max').value" ng-maxlength="getValidator('maxlength').value" ng-min="getValidator('min').value" ng-minlength="getValidator('minlength').value" ng-model="values[field.name]" ng-pattern="getValidator('pattern').value" ng-required="getValidator('required')" rows="5"></textarea>
     groups: ''
     starterContent: true
-    hash: 4303e24a0d5f102f000c564419c387fe4e94ac6d
   -
     class_name: ViewTemplate
     id: 20
@@ -1929,7 +1920,6 @@ collection:
       </label>
     groups: ''
     starterContent: true
-    hash: 35345241371dd8064ba48df9f095a6dcae7ee63e
   -
     class_name: ViewTemplate
     id: 13
@@ -2002,7 +1992,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: 0ae718e568fe168674f56840c3bc92825e131a29
   -
     class_name: ViewTemplate
     id: 14
@@ -2036,7 +2025,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: a4bc340fdfa284790601e93706f3f3945c0ee5bf
   -
     class_name: ViewTemplate
     id: 12
@@ -2092,7 +2080,6 @@ collection:
       </div>
     groups: ''
     starterContent: true
-    hash: cc7549bab1474338fc63fd1f1417fb3433fbd512
   -
     class_name: ViewTemplate
     id: 3
@@ -2252,7 +2239,6 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: 26d6d6970fdc10b12a788705fc0931a1b41028ea
   -
     class_name: ViewTemplate
     id: 15
@@ -2446,7 +2432,6 @@ collection:
       
     groups: ''
     starterContent: true
-    hash: ca9e444c06161c19d633eb0922d0b11851a1ec86
   -
     class_name: DataTable
     id: 1
@@ -2473,7 +2458,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: e2ba936fe247f4aed6496c984f4479b276c0936c
   -
     class_name: DataTable
     id: 9
@@ -2512,7 +2496,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 4ffe389d37c5aeb9e635029a10021caed5e19b88
   -
     class_name: DataTable
     id: 2
@@ -2551,7 +2534,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 947e8c07e96e04045f8763bbfe4abe26366b26d5
   -
     class_name: DataTable
     id: 6
@@ -2590,7 +2572,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 6a88eea42660caedf519c69a254dac3be29df919
   -
     class_name: DataTable
     id: 5
@@ -2621,7 +2602,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: d8dc5520a7a9bd7499e86807e55799fceb3cf131
   -
     class_name: DataTable
     id: 3
@@ -2664,7 +2644,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: c5a5d1676d2a7f86bc2f70158420d42647cb650d
   -
     class_name: DataTable
     id: 4
@@ -2731,7 +2710,6 @@ collection:
         nullable: false
     groups: ''
     starterContent: true
-    hash: 9acf1341769f642356996e04ecaf45602f927abf
   -
     class_name: Test
     id: 5
@@ -2933,7 +2911,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 4c325e561050b96782fdf813825c6ea3e74b09ad
   -
     class_name: Test
     id: 19
@@ -2990,7 +2967,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 4a7cb888e6f59b12d67542fc02ed8fc87fa56b65
   -
     class_name: Test
     id: 15
@@ -3039,7 +3015,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 984026c495f333a2bfe3a8c2fb31dcd8e7b60507
   -
     class_name: Test
     id: 20
@@ -7925,7 +7900,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 3a9b12f0c4742ab994e39bc37098c46c776fd8fb
   -
     class_name: Test
     id: 7
@@ -8127,7 +8101,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: bab9cdf774e7a6ec1e6019a76ee3306d4421afa3
   -
     class_name: Test
     id: 46
@@ -8345,7 +8318,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 91d92eb7440b32185ff1c03d4f4717b8b6a100f4
   -
     class_name: Test
     id: 36
@@ -8449,7 +8421,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 8254738952e48f2d8a4975a5631db9594e643395
   -
     class_name: Test
     id: 30
@@ -12314,7 +12285,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 34760c8a47308fb2f745ace1533a503c6660ad1e
   -
     class_name: Test
     id: 26
@@ -12402,7 +12372,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 55965e6d961e95daded3386cde366541e05749df
   -
     class_name: Test
     id: 12
@@ -12478,7 +12447,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 63637f9a713c8d0282fe8583c48e60f70d9e7955
   -
     class_name: Test
     id: 3
@@ -12538,7 +12506,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 2e7d6c28b4325218e382e2a8ef2dbb7ac09e92a8
   -
     class_name: Test
     id: 1
@@ -12642,7 +12609,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 3046c8b60b023b25b3421d54019fcd174985c013
   -
     class_name: Test
     id: 9
@@ -12856,7 +12822,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 3b7087801513f73470b21f08578916122affbd87
   -
     class_name: Test
     id: 48
@@ -12948,7 +12913,6 @@ collection:
     tags: ''
     groups: ''
     starterContent: true
-    hash: 8b0a7f5cb059aa35afbdc0fcd15cfdab78c3bacc
   -
     class_name: TestWizard
     id: 3
@@ -13149,7 +13113,6 @@ collection:
     test: 5
     groups: ''
     starterContent: true
-    hash: be613b8457c1580f3240e484b45fa2c8bcd1feca
   -
     class_name: Test
     id: 6
@@ -13278,7 +13241,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 6d1cad24812a846de73ba050584d907ed0b3718d
   -
     class_name: TestWizard
     id: 7
@@ -14166,7 +14128,6 @@ collection:
     test: 20
     groups: ''
     starterContent: true
-    hash: 99b47c06728505347ed7dc08f6603c263c787464
   -
     class_name: Test
     id: 25
@@ -14475,7 +14436,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 470220731c53e0afe8b52c88ea705a23ee4f2607
   -
     class_name: TestWizard
     id: 4
@@ -14599,7 +14559,6 @@ collection:
     test: 7
     groups: ''
     starterContent: true
-    hash: 2197d36e83b1c4fbd17941fe6207aebed52d9d08
   -
     class_name: Test
     id: 8
@@ -14718,7 +14677,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 962b85712681044305b646950d9c87312c85dcef
   -
     class_name: TestWizard
     id: 12
@@ -14883,7 +14841,6 @@ collection:
     test: 46
     groups: ''
     starterContent: true
-    hash: b09ecf7cf11e505b530c6f1e9bb14a8ab4f3d8b4
   -
     class_name: Test
     id: 47
@@ -14972,7 +14929,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 12524d30dc658db6432c291f17e454cd06095629
   -
     class_name: TestWizard
     id: 10
@@ -15155,7 +15111,6 @@ collection:
     test: 36
     groups: ''
     starterContent: true
-    hash: 20b6880ee5607accfb7f7d46ede1be6238c3670f
   -
     class_name: Test
     id: 37
@@ -15234,7 +15189,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 479894ec969d00f0b23a14b2a969911fdc23b59a
   -
     class_name: Test
     id: 16
@@ -15257,7 +15211,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 5d1fcfde5ab036fc807cee14333758eccfd0649a
   -
     class_name: Test
     id: 14
@@ -15319,7 +15272,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 9eebe7e6b8d4d0a02059e05e769b3b3e3f1f60b5
   -
     class_name: TestWizard
     id: 9
@@ -15844,7 +15796,6 @@ collection:
     test: 30
     groups: ''
     starterContent: true
-    hash: 32bd69ef33e2582ce909487316df19d43e448a46
   -
     class_name: Test
     id: 35
@@ -16043,7 +15994,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: d95d5ecd95e9288b7c450a7b4af5b9b1f360e843
   -
     class_name: TestWizard
     id: 8
@@ -16122,7 +16072,6 @@ collection:
     test: 26
     groups: ''
     starterContent: true
-    hash: 1ed72fe3c207865f948a6a43f4066f8d43bf6192
   -
     class_name: Test
     id: 27
@@ -16191,7 +16140,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 343ce8c509f271042e1c1503965cda40dbfa09d1
   -
     class_name: TestWizard
     id: 6
@@ -16230,7 +16178,6 @@ collection:
     test: 12
     groups: ''
     starterContent: true
-    hash: cedb2bba7fe654acaa6f9608cf1a653b3e16b12d
   -
     class_name: Test
     id: 13
@@ -16289,7 +16236,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 9e6d68b997f89eb35c8b49a83ee83a958557778c
   -
     class_name: Test
     id: 11
@@ -16322,7 +16268,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 220802aed8e79f2f5ea653740139ccdd5bbecd03
   -
     class_name: TestWizard
     id: 2
@@ -16361,7 +16306,6 @@ collection:
     test: 3
     groups: ''
     starterContent: true
-    hash: 3dd856016796b1c5692da1b6fa7139bbbdd1092b
   -
     class_name: Test
     id: 4
@@ -16410,7 +16354,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: eb8258d1a18c7a76c5e5f6d06786b9cb08f774d0
   -
     class_name: TestWizard
     id: 1
@@ -16485,7 +16428,6 @@ collection:
     test: 1
     groups: ''
     starterContent: true
-    hash: 214a41cc734942030ca2b3471f9bf1ae5be8ce54
   -
     class_name: Test
     id: 2
@@ -16564,7 +16506,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: b3571dce506cfb498df80d87f4c11d716855e622
   -
     class_name: TestWizard
     id: 5
@@ -16667,7 +16608,6 @@ collection:
     test: 9
     groups: ''
     starterContent: true
-    hash: bf5a012ee16b9aa07173ad07ea8ed487ac949894
   -
     class_name: Test
     id: 10
@@ -16756,7 +16696,6 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 1a5e57703c48e4d0ea4b732269c205d8003ff2ef
   -
     class_name: TestWizard
     id: 13
@@ -16855,7 +16794,6 @@ collection:
     test: 48
     groups: ''
     starterContent: true
-    hash: 259633d50b0ec5f1d83fedf1d5b7c4d39370ee0a
   -
     class_name: Test
     id: 49
@@ -16924,4 +16862,3 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
-    hash: 93351a71fb2cfe6d0f9cef5d75572604fc229131

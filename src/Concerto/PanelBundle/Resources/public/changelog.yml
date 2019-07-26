@@ -11,6 +11,8 @@ changelog:
                 - added itemBankTableExtraFields for CAT
                 - added itemsAdministered input parameter for itemTemplateParamsModule in CAT
                 - added itemBankFilterModule for CAT
+          - label: Commands
+                - added --no-hash option to concerto:content:export
           - label: Non backwards compatible changes
             changes:
                 - (DataTable) CATResponses.score replaces CATResponses.catValue

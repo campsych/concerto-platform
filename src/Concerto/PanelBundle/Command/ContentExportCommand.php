@@ -40,6 +40,7 @@ class ContentExportCommand extends Command
         $this->setName("concerto:content:export")->setDescription("Exports content");
         $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
         $this->addOption("single", null, InputOption::VALUE_NONE, "Contain export in a single file?");
+        $this->addOption("no-hash", null, InputOption::VALUE_NONE, "Do not include hash?");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
     }
 
@@ -52,6 +53,7 @@ class ContentExportCommand extends Command
             "ViewTemplate"
         );
         $single = $input->getOption("single");
+        $noHash = $input->getOption("no-hash");
         $instructions = json_decode($input->getOption("instructions"), true);
 
         $output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
@@ -69,7 +71,7 @@ class ContentExportCommand extends Command
                 if (!$single) {
                     $collection = array();
                     if (array_key_exists("collection", $dependencies)) {
-                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false);
+                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false, !$noHash);
                     }
                     $result = array("version" => $this->version, "collection" => $collection);
                     $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
@@ -82,7 +84,7 @@ class ContentExportCommand extends Command
         if ($single) {
             $collection = array();
             if (array_key_exists("collection", $dependencies)) {
-                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false);
+                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false, !$noHash);
             }
             $result = array("version" => $this->version, "collection" => $collection);
             $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
