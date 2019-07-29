@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
@@ -32,17 +33,51 @@ class ContentExportCommand extends Command
 
     protected function configure()
     {
-        $files_dir = __DIR__ . DIRECTORY_SEPARATOR .
-            ".." . DIRECTORY_SEPARATOR .
-            "Resources" . DIRECTORY_SEPARATOR .
-            "starter_content" . DIRECTORY_SEPARATOR;
+        $files_dir = realpath(__DIR__ . "/../Resources/export") . "/";
 
         $this->setName("concerto:content:export")->setDescription("Exports content");
         $this->addArgument("output", InputArgument::OPTIONAL, "Output directory", $files_dir);
         $this->addOption("single", null, InputOption::VALUE_NONE, "Contain export in a single file?");
         $this->addOption("no-hash", null, InputOption::VALUE_NONE, "Do not include hash?");
         $this->addOption("norm-ids", null, InputOption::VALUE_NONE, "Normalize ids?");
+        $this->addOption("files", null, InputOption::VALUE_NONE, "Include files in archive?");
+        $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm all prompts");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
+    }
+
+    private function clearExportDirectory(InputInterface $input, OutputInterface $output)
+    {
+        $confirmed = $input->getOption("yes");
+        $path = $input->getArgument("output");
+
+        if (!$confirmed) {
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion("This will clear ALL contents of $path directory. Are you sure you want to continue? [y/n]", false);
+            if (!$helper->ask($input, $output, $question)) {
+                return;
+            }
+        }
+
+        $output->writeln("clearing contents of $path ...");
+
+        $rdi = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
+        $rii = new \RecursiveIteratorIterator($rdi, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($rii as $file) {
+            $file->isDir() ? rmdir($file->getRealPath()) : unlink($file->getRealPath());
+        }
+        $output->writeln("contents of $path cleared successfully");
+        return true;
+    }
+
+    private function exportFiles(InputInterface $input, OutputInterface $output)
+    {
+        $output->writeln("copying files...");
+        $srcDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
+        $dstDir = $input->getArgument("output");
+        $filesystem = new Filesystem();
+        $filesystem->mirror($srcDir, $dstDir . "files");
+        $output->writeln("files copied successfully");
+        return true;
     }
 
     protected function exportContent(InputInterface $input, OutputInterface $output)
@@ -114,6 +149,12 @@ class ContentExportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!$this->clearExportDirectory($input, $output)) {
+            return 1;
+        }
+        if ($input->getOption("files") && !$this->exportFiles($input, $output)) {
+            return 2;
+        }
         $this->exportContent($input, $output);
     }
 

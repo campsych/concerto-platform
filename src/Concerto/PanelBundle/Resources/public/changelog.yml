@@ -14,6 +14,8 @@ changelog:
           - label: Commands
                 - added --no-hash option to concerto:content:export
                 - added --norm-ids option to concerto:content:export
+                - added --files option to concerto:content:export
+                - added --yes option to concerto:content:export
           - label: Non backwards compatible changes
             changes:
                 - (DataTable) CATResponses.score replaces CATResponses.catValue
