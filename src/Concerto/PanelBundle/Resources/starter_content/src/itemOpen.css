@@ -1,0 +1,19 @@
+.question-input {
+  margin-bottom: 20px;
+}
+
+.question-input input {
+  display: block;
+  background-color: var(--option-bg);
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  font-size: var(--main-font-size);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.question-input input:hover {
+  background-color: var(--option-hover-bg);
+}

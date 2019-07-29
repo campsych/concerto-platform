@@ -1,0 +1,40 @@
+<src>
+	{{template:inputSingleLine,css=FALSE,html=FALSE}}
+	{{template:inputMultiLine,css=FALSE,html=FALSE}}
+	{{template:inputCheckbox,css=FALSE,html=FALSE}}
+	{{template:inputSelect,css=FALSE,html=FALSE}}
+	{{template:inputPassword,css=FALSE,html=FALSE}}
+</src>
+<div class="body" ng-controller="form">
+	{{template:header}}
+	<div class="questions">
+		<div class="container">
+			<form name="form">
+				<div ng-repeat="field in fields track by $index">
+					<div class="form-field">
+						<div ng-switch="field.type">
+							<src>
+								<input-single-line field="field" ng-switch-when="singleLine" values="values"></input-single-line>
+								<input-multi-line field="field" ng-switch-when="multiLine" values="values"></input-multi-line>
+								<input-checkbox field="field" ng-switch-when="checkbox" values="values"></input-checkbox>
+								<input-select field="field" ng-switch-when="select" values="values"></input-select>
+								<input-password field="field" ng-switch-when="password" values="values"></input-password>
+							</src>
+						</div>
+
+						<div class="form-error" ng-repeat="error in field.validation" ng-show="form[field.name].$error[error.type] && form[field.name].$dirty">
+							[[error.alert]]
+						</div>
+					</div>
+				</div>
+
+				<div class="question-footer">
+					<button class="main-btn right-btn" id="submitButton" name="submit" ng-disabled="form.$invalid">
+						Next
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	{{template:footer}}
+</div>

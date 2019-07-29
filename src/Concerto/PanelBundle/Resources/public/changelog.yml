@@ -16,8 +16,10 @@ changelog:
                 - added --norm-ids option to concerto:content:export
                 - added --files option to concerto:content:export
                 - added --yes option to concerto:content:export
+                - added --src option to concerto:content:export
                 - added --clean option to concerto:content:import
                 - added --files option to concerto:content:import
+                - added --src option to concerto:content:import
           - label: Non backwards compatible changes
             changes:
                 - (DataTable) CATResponses.score replaces CATResponses.catValue

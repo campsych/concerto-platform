@@ -1,0 +1,15 @@
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.footer {
+  background-color: var(--option-bg);
+  font-size: 14px;
+  margin-top: auto;
+}
+
+.footer a {
+  color: var(--main-font-color);
+}

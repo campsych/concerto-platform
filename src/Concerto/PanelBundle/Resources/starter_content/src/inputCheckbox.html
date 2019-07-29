@@ -1,0 +1,5 @@
+<label class="checkbox-label">
+	[[field.label]]<span ng-if="getValidator('required')">*</span>
+	<input name="[[field.name]]" ng-false-value="'0'" ng-model="values[field.name]" ng-required="getValidator('required')" ng-true-value="'1'" type="checkbox" />
+	<span class="check-mark"></span>
+</label>

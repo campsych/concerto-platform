@@ -1,0 +1,11 @@
+form textarea {
+  display: block;
+  background-color: var(--option-bg);
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  font-size: var(--main-font-size);
+  box-sizing: border-box;
+  resize: vertical;
+}

@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Yaml\Yaml;
+use Concerto\PanelBundle\Service\ASectionService;
 
 class ImportService
 {
@@ -221,11 +222,90 @@ class ImportService
 
     public function importFromFile(User $user, $file, $instructions, $unlink = true)
     {
+        $dir = pathinfo($file)["dirname"];
         $data = $this->getImportFileContents($file, $unlink);
         $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
         if (!$valid)
             return array("result" => 2);
+
+        foreach ($data["collection"] as &$obj) {
+            $instruction = ASectionService::getObjectImportInstruction($obj, $instructions);
+            if (array_key_exists("src", $instruction) && $instruction["src"] == 1) {
+                $this->mergeExternalSource($obj, $dir . "/src");
+            }
+        }
+
         return $this->import($user, $instructions, $data["collection"]);
+    }
+
+    private function mergeExternalSource(&$obj, $srcDir)
+    {
+        switch ($obj["class_name"]) {
+            case "Test":
+            {
+                //code based
+                if ($obj["type"] == 0 && $obj["code"] === null) {
+                    $path = $srcDir . "/" . ExportService::getTestCodeFilename($obj);
+                    if (file_exists($path)) {
+                        $value = file_get_contents($path);
+                        if ($value !== false) {
+                            $obj["code"] = $value;
+                        }
+                    }
+                }
+
+                //ports
+                foreach ($obj["nodes"] as &$node) {
+                    foreach ($node["ports"] as &$port) {
+                        //only input ports
+                        if ($port["type"] == 0 && $port["value"] === null) {
+                            $path = $srcDir . "/" . ExportService::getPortValueFilename($obj, $node, $port);
+                            if (file_exists($path)) {
+                                $value = file_get_contents($path);
+                                if ($value !== false) {
+                                    $port["value"] = $value;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            case "ViewTemplate":
+            {
+                //css
+                if ($obj["css"] === null) {
+                    $path = $srcDir . "/" . ExportService::getTemplateCssFilename($obj);
+                    if (file_exists($path)) {
+                        $value = file_get_contents($path);
+                        if ($value !== false) {
+                            $obj["css"] = $value;
+                        }
+                    }
+                }
+                //js
+                if ($obj["js"] === null) {
+                    $path = $srcDir . "/" . ExportService::getTemplateJsFilename($obj);
+                    if (file_exists($path)) {
+                        $value = file_get_contents($path);
+                        if ($value !== false) {
+                            $obj["js"] = $value;
+                        }
+                    }
+                }
+                //html
+                if ($obj["html"] === null) {
+                    $path = $srcDir . "/" . ExportService::getTemplateHtmlFilename($obj);
+                    if (file_exists($path)) {
+                        $value = file_get_contents($path);
+                        if ($value !== false) {
+                            $obj["html"] = $value;
+                        }
+                    }
+                }
+                break;
+            }
+        }
     }
 
     public function import(User $user, $instructions, $data)

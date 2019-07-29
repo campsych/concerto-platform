@@ -1,0 +1,55 @@
+.gbs-group {
+  display: flex;
+  width: 768px;
+  justify-content: space-evenly;
+  margin: 30px auto;
+}
+
+.gbs-row {
+  display: flex;
+  align-items: center;
+}
+
+.gbs-input {
+  border: 1px solid #000;
+  width: 33px;
+  height: 25px;
+  margin: 0 9px;
+  cursor: pointer;
+  text-align: center;
+  padding: 3px 2px 0;
+  font-size: 20px;
+}
+
+.gbs-row:not(:first-child) .gbs-input {
+  border-top: none;
+}
+
+.gbs-input:not(.selected) {
+  background-color: #fff !important;
+}
+
+.gbs-value {
+  width: 18px;
+  text-align: right;
+}
+
+.gbs-label {
+  text-transform: uppercase;
+  position: absolute;
+  right: 0;
+  width: 200px;
+}
+
+.gbs-input i {
+  display: none;
+}
+
+.gbs-input.selected i {
+  display: inline-block;
+}
+
+.gbs-item-content {
+  position: relative;
+  width: 275px;
+}

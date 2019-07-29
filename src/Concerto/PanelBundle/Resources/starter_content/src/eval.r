@@ -1,0 +1,1 @@
+result = eval(parse(text=code))

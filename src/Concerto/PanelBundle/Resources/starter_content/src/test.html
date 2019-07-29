@@ -1,0 +1,45 @@
+<src>
+	{{template:itemOpen,css=FALSE,html=FALSE}}
+	{{template:itemOptions,css=FALSE,html=FALSE}}
+	{{template:itemPainMannequin,css=FALSE,html=FALSE}}
+	{{template:itemGracelyScale,css=FALSE,html=FALSE}}
+</src>
+<div class="body" ng-controller="test">
+	{{template:header}}
+	<div class="questions">
+		<div class="container">
+			<form name="form">
+				<div ng-repeat="item in items">
+					<div class="question-text" ng-bind-html="item.question">
+					</div>
+
+					<div ng-switch="item.responseOptions.type">
+						<src>
+							<item-open item="item" ng-switch-when="open" response="responses['r' + item.id]" response-required="responseRequired"></item-open>
+							<item-options item="item" ng-switch-when="options" response="responses['r' + item.id]" response-required="responseRequired"></item-options>
+							<item-pain-mannequin item="item" ng-switch-when="painMannequin" response="responses['r' + item.id]" response-required="responseRequired"></item-pain-mannequin>
+							<item-gracely-scale item="item" ng-switch-when="gracelyScale" response="responses['r' + item.id]" response-required="responseRequired"></item-gracely-scale>
+						</src>
+					</div>
+
+					<div class="form-error" ng-show="form.response.$error.required && form.response.$dirty">
+						[[responseRequiredAlert]]
+					</div>
+				</div>
+
+				<div class="question-footer">
+					<button class="main-btn left-btn" name="back" ng-if="canGoBack">
+						Back
+					</button>
+					<div class="question-page" ng-show="page != null && totalPages != null">
+						Page [[page]] / [[totalPages]]
+					</div>
+					<button class="main-btn right-btn" id="submitButton" name="next" ng-disabled="form.$invalid">
+						Next
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	{{template:footer}}
+</div>

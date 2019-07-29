@@ -1,0 +1,35 @@
+<div class="gbs-group">
+	<div class="gbs-item">
+		<h2>Intensity</h2>
+		<input name="intensity" ng-model="intensity" type="hidden" />
+		<div class="gbs-item-content">
+			<div class="gbs-row" ng-repeat="option in intensityOptions.options | reverse">
+				<div class="gbs-value">
+					[[option.value]]
+				</div>
+				<div class="gbs-input" ng-class="{selected: intensity === option.value}" ng-click="selectIntensity(option.value)" ng-style="{'background-color': option.bgColor}"></div>
+			</div>
+
+			<div class="gbs-label" ng-repeat="label in intensityOptions.labels" ng-style="{bottom: label.bottom}">
+				[[label.text]]
+			</div>
+		</div>
+	</div>
+
+	<div class="gbs-item">
+		<h2>Unpleasantness</h2>
+		<input name="unpleasantness" ng-model="unpleasantness" type="hidden" />
+		<div class="gbs-item-content">
+			<div class="gbs-row" ng-repeat="option in unpleasantnessOptions.options | reverse">
+				<div class="gbs-value">
+					[[option.value]]
+				</div>
+				<div class="gbs-input" ng-class="{selected: unpleasantness === option.value}" ng-click="selectUnpleasantness(option.value)" ng-style="{'background-color': option.bgColor}"></div>
+			</div>
+
+			<div class="gbs-label" ng-repeat="label in unpleasantnessOptions.labels" ng-style="{bottom: label.bottom}">
+				[[label.text]]
+			</div>
+		</div>
+	</div>
+</div>

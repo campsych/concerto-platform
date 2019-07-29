@@ -19,7 +19,7 @@ abstract class ASectionService
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
     }
 
-    protected static function getObjectImportInstruction($obj, $instructions)
+    public static function getObjectImportInstruction($obj, $instructions)
     {
         foreach ($instructions as $instruction) {
             if ($instruction["class_name"] == $obj["class_name"] && $instruction["id"] == $obj["id"])

@@ -1,0 +1,8 @@
+<div class="form-label">[[field.label]]<span ng-if="getValidator('required')">*</span></div>
+
+<div class="select">
+    <select name="[[field.name]]" ng-model="values[field.name]" ng-required="getValidator('required')">
+        <option value="" disabled selected hidden></option>
+        <option ng-repeat="option in field.definition.options" ng-attr-value="option.value" ng-bind-html="option.label"></option>
+    </select>
+</div>

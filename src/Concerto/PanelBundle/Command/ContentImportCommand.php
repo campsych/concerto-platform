@@ -36,6 +36,7 @@ class ContentImportCommand extends Command
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
         $this->addOption("clean", null, InputOption::VALUE_NONE, "Remove left-over object?");
         $this->addOption("files", null, InputOption::VALUE_NONE, "Copy files?");
+        $this->addOption("src", null, InputOption::VALUE_NONE, "Look for externalized source files?");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
     }
 
@@ -45,6 +46,7 @@ class ContentImportCommand extends Command
 
         $convert = $input->getOption("convert");
         $clean = $input->getOption("clean");
+        $src = $input->getOption("src");
 
         $files_dir = $input->getArgument("input");
         $instructionsOverride = json_decode($input->getOption("instructions"), true);
@@ -62,6 +64,8 @@ class ContentImportCommand extends Command
                     $instructions[$i]["action"] = "1";
                 if ($clean)
                     $instructions[$i]["clean"] = "1";
+                if ($src)
+                    $instructions[$i]["src"] = "1";
             }
 
             foreach ($instructionsOverride as $instructionOverrideElem) {

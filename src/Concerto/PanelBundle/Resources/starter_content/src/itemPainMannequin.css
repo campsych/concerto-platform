@@ -1,0 +1,175 @@
+.pain-mannequin {
+    display: flex;
+    justify-content: center;
+}
+
+.pain-mannequin-front {
+    display: flex;
+    justify-content: flex-end;
+    width: 600px;
+}
+
+.pain-mannequin-back {
+    display: flex;
+    justify-content: flex-start;
+    width: 600px;
+}
+
+.pain-mannequin-svg {
+    position: relative;
+    width: 400px;
+}
+
+@media screen and (max-width: 1200px) {
+    .pain-mannequin {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* SVG */
+.st0, .st1 {
+    fill: #FF0000;
+    fill-opacity: 0;
+    stroke: #ff6868;
+    stroke-opacity: 1;
+    stroke-width: 2;
+    stroke-linecap:round;
+}
+
+.st2 {
+    fill: none;
+    stroke: #FF0000;
+    stroke-linecap: round;
+    stroke-width: 2;
+}
+
+svg circle, svg line {
+    pointer-events: none;
+}
+
+.highlighted {
+    fill-opacity: 0.07 !important;
+}
+
+.hovered {
+    fill-opacity: 0.1 !important;
+}
+
+.pain-mannequin h3 {
+    margin: 0;
+    position: absolute;
+    top: 36px;
+    left: 47px;
+    pointer-events: none;
+}
+
+/* MARKS AND NOTES */
+.mark {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.mark-icon {
+    position: absolute;
+    width: 31.5px;
+    height: 31.5px;
+    background-color: #fd2e00;
+    border-radius: 50%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto 50%;
+    transform: translate(-50%);
+}
+
+.mark-content {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    display: none;
+    background-color: #eceaea;
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 1000;
+    -webkit-box-shadow: 0 0 22px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0 0 22px -4px rgba(0,0,0,0.75);
+    box-shadow: 0 0 22px -4px rgba(0,0,0,0.75);
+    width: 220px;
+}
+
+.active .mark-content {
+    display: block;
+}
+
+.mark-hide, .mark-delete {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+
+.mark-hide:hover, .mark-delete:hover {
+    border-color: grey;
+    cursor: pointer;
+}
+
+.mark-hide {
+    right: 27px;
+}
+
+.mark-hide img, .mark-delete img {
+    width: 100%;
+    pointer-events: none;
+}
+
+.mark-handle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-image: url(/bundles/concertopanel/files/starter-content/move-icon.png);
+    background-repeat: no-repeat;
+    background-size: 14px;
+    background-position: center;
+}
+
+.mark-handle:hover {
+    cursor: move;
+}
+
+.mark-range {
+    width: calc(100% - 10px);
+    display: block;
+    padding: 0;
+}
+
+.mark textarea {
+    margin: 15px auto 4px;
+    width: calc(100% - 10px);
+    border: none;
+    display: block;
+    background-color: #fff;
+    outline: none;
+    resize: none;
+}
+
+.mark label {
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+}
+
+.mark-name {
+    text-transform: capitalize;
+    font-size: 14px;
+}

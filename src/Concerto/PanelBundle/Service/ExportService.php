@@ -187,4 +187,33 @@ class ExportService
         }
         return $fullInstructions;
     }
+
+    public static function getTestCodeFilename($testArray)
+    {
+        return $testArray["name"] . ".r";
+    }
+
+    public static function getPortValueFilename($testArray, $nodeArray, $portArray)
+    {
+        $testName = $testArray["name"];
+        $nodeName = preg_replace("/[^a-z0-9\.]/", "_", $nodeArray["title"]) . "_" . $nodeArray["id"];
+        $portName = $portArray["name"];
+
+        return $testName . "_" . $nodeName . "_" . $portName . ".r";
+    }
+
+    public static function getTemplateHtmlFilename($templateArray)
+    {
+        return $templateArray["name"] . ".html";
+    }
+
+    public static function getTemplateCssFilename($templateArray)
+    {
+        return $templateArray["name"] . ".css";
+    }
+
+    public static function getTemplateJsFilename($templateArray)
+    {
+        return $templateArray["name"] . ".js";
+    }
 }

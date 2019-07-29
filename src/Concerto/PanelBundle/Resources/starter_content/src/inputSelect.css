@@ -1,0 +1,35 @@
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--option-bg);
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding: 10px 35px 10px 10px;
+  font-size: 16px;
+  outline: none;
+  background-image: none;
+}
+
+select:hover {
+  background-color: var(--option-hover-bg);
+  cursor: pointer;
+}
+
+.select {
+  position: relative;
+}
+
+.select:after {
+  position: absolute;
+  content: "";
+  top: 17px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: var(--main-font-color) transparent transparent transparent;
+  pointer-events: none;
+}
