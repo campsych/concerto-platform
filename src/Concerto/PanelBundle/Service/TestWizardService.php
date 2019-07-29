@@ -172,6 +172,7 @@ class TestWizardService extends AExportableSectionService
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $test);
+            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($user, $result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["TestWizard"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
@@ -181,6 +182,22 @@ class TestWizardService extends AExportableSectionService
         array_splice($queue, 1, 0, $obj["steps"]);
 
         return $result;
+    }
+
+    private function cleanConvert(User $user, TestWizard $entity, $importArray)
+    {
+        foreach ($entity->getSteps() as $currentStep) {
+            $found = false;
+            foreach ($importArray["steps"] as $importStep) {
+                if ($currentStep->getTitle() == $importStep["title"]) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) $this->testWizardStepService->delete($currentStep->getId());
+        }
+
+        //params should be cleared automatically
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $test)

@@ -235,6 +235,7 @@ class TestService extends AExportableSectionService
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $wizard);
+            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($user, $result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["Test"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
@@ -246,6 +247,20 @@ class TestService extends AExportableSectionService
         array_splice($queue, 1, 0, $obj["variables"]);
 
         return $result;
+    }
+
+    private function cleanConvert(User $user, Test $entity, $importArray)
+    {
+        foreach ($entity->getVariables() as $currentVariable) {
+            $found = false;
+            foreach ($importArray["variables"] as $importVariable) {
+                if ($currentVariable->getName() == $importVariable["name"] && $currentVariable->getType() == $importVariable["type"]) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) $this->testVariableService->delete($currentVariable->getId());
+        }
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $wizard)
@@ -321,7 +336,7 @@ class TestService extends AExportableSectionService
     {
         if ($test->getNodes()->count() > 0)
             $this->testNodeConnectionService->repository->deleteByTest($test);
-            $this->testNodeService->repository->deleteByTest($test);
+        $this->testNodeService->repository->deleteByTest($test);
     }
 
     public function addFlowNode(User $user, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false)

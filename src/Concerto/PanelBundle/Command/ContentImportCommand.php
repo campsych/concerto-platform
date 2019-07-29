@@ -28,14 +28,12 @@ class ContentImportCommand extends Command
 
     protected function configure()
     {
-        $files_dir = __DIR__ . DIRECTORY_SEPARATOR .
-            ".." . DIRECTORY_SEPARATOR .
-            "Resources" . DIRECTORY_SEPARATOR .
-            "starter_content" . DIRECTORY_SEPARATOR;
+        $files_dir = __DIR__ . "/../Resources/starter_content/";
 
         $this->setName("concerto:content:import")->setDescription("Imports content");
         $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
+        $this->addOption("clean", null, InputOption::VALUE_NONE, "Remove left-over object?");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
     }
 
@@ -44,6 +42,7 @@ class ContentImportCommand extends Command
         $output->writeln("importing content...");
 
         $convert = $input->getOption("convert");
+        $clean = $input->getOption("clean");
 
         $files_dir = $input->getArgument("input");
         $instructionsOverride = json_decode($input->getOption("instructions"), true);
@@ -59,6 +58,8 @@ class ContentImportCommand extends Command
             for ($i = 0; $i < count($instructions); $i++) {
                 if ($convert)
                     $instructions[$i]["action"] = "1";
+                if ($clean)
+                    $instructions[$i]["clean"] = "1";
             }
 
             foreach ($instructionsOverride as $instructionOverrideElem) {
@@ -105,12 +106,7 @@ class ContentImportCommand extends Command
         $em = $this->doctrine->getManager();
 
         $userRepo = $em->getRepository("ConcertoPanelBundle:User");
-        $users = $userRepo->findAll();
-        $user = null;
-        if (count($users) > 0) {
-            $user = $users[0];
-        }
-
+        $user = $userRepo->findOneBy(array());
         $this->importContent($input, $output, $user);
     }
 

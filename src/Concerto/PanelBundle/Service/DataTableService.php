@@ -431,6 +431,7 @@ class DataTableService extends AExportableSectionService
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
+            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($user, $result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["DataTable"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
@@ -449,6 +450,20 @@ class DataTableService extends AExportableSectionService
         }
 
         return $result;
+    }
+
+    private function cleanConvert(User $user, DataTable $entity, $importArray)
+    {
+        foreach ($entity->getColumns() as $currentColumn) {
+            $found = false;
+            foreach ($importArray["columns"] as $importColumn) {
+                if ($currentColumn["name"] == $importColumn["name"]) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) $this->dbStructureService->removeColumn($entity->getName(), $currentColumn["name"]);
+        }
     }
 
     protected function importNew(User $user, $new_name, $obj, &$map, &$queue)
