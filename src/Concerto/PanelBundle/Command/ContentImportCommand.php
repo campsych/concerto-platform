@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Concerto\PanelBundle\Service\ASectionService;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 use Concerto\PanelBundle\Entity\User;
 
 class ContentImportCommand extends Command
@@ -34,6 +35,7 @@ class ContentImportCommand extends Command
         $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
         $this->addOption("clean", null, InputOption::VALUE_NONE, "Remove left-over object?");
+        $this->addOption("files", null, InputOption::VALUE_NONE, "Copy files?");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
     }
 
@@ -100,6 +102,17 @@ class ContentImportCommand extends Command
         $output->writeln("content importing finished");
     }
 
+    private function importFiles(InputInterface $input, OutputInterface $output)
+    {
+        $output->writeln("copying files...");
+        $dstDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
+        $srcDir = realpath($input->getArgument("input")) . "/files/";
+        $filesystem = new Filesystem();
+        $filesystem->mirror($srcDir, $dstDir);
+        $output->writeln("files copied successfully");
+        return true;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         ASectionService::$securityOn = false;
@@ -107,6 +120,11 @@ class ContentImportCommand extends Command
 
         $userRepo = $em->getRepository("ConcertoPanelBundle:User");
         $user = $userRepo->findOneBy(array());
+
+        if ($input->getOption("files") && !$this->importFiles($input, $output)) {
+            return 2;
+        }
+
         $this->importContent($input, $output, $user);
     }
 

@@ -73,9 +73,9 @@ class ContentExportCommand extends Command
     {
         $output->writeln("copying files...");
         $srcDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
-        $dstDir = $input->getArgument("output");
+        $dstDir = realpath($input->getArgument("output")) . "/files/";
         $filesystem = new Filesystem();
-        $filesystem->mirror($srcDir, $dstDir . "files");
+        $filesystem->mirror($srcDir, $dstDir);
         $output->writeln("files copied successfully");
         return true;
     }
