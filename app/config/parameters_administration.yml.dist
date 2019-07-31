@@ -4,8 +4,14 @@ parameters:
             session_limit: 0 #0 for none
             local_session_limit: 0 #0 for none
             api_enabled: true
+            content_repository: url
+            content_url: .
+            content_url_import_options: '[]'
             session_limit_overridable: true
             api_enabled_overridable: true
+            content_repository_overridable: true;
+            content_url_overridable: true
+            content_url_import_options_overridable: true
         internal:
             r_exec_path: R
             r_lib_path: null

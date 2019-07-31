@@ -4,6 +4,7 @@
 {% block content %}
     {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
 
+    {% if no_header is not defined or no_header == false %}
     <fieldset>
         <legend>
             <table>
@@ -14,6 +15,7 @@
             </table>
         </legend>
     </fieldset>
+    {% endif %}
     <p class="formDescription">{% block description %}{% endblock %}</p>
     <table style="width:100%;">
     {% block elements %}{% endblock %}

@@ -4,6 +4,6 @@ function PreController($scope, $uibModalInstance, content, title, tooltip) {
     $scope.tooltip = tooltip;
 
     $scope.close = function () {
-        $uibModalInstance.dismiss(0);
+        $uibModalInstance.close(1);
     };
 }

@@ -1,16 +1,16 @@
 function ContentController($scope, $state, $location) {
     $scope.tabsCollection = [{
-        name: "tests",
+        name: "tests"
     }, {
-        name: "templates",
+        name: "templates"
     }, {
-        name: "tables",
+        name: "tables"
     }, {
-        name: "files",
+        name: "files"
     }, {
-        name: "users",
+        name: "users"
     }, {
-        name: "wizards",
+        name: "wizards"
     }, {
         name: "administration"
     }];
@@ -19,10 +19,10 @@ function ContentController($scope, $state, $location) {
         activeIndex: -1
     };
 
-    $scope.goToTab = function(index){
+    $scope.goToTab = function (index) {
         $scope.tab.activeIndex = index;
         $state.go($scope.tabsCollection[index].name, {}, {location: 'replace'});
-    }
+    };
 
     $scope.setFirstActiveTab = function (index) {
         if (location.hash) return;

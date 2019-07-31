@@ -61,11 +61,9 @@ class ContentExportCommand extends Command
 
         $output->writeln("clearing contents of $path ...");
 
+        $fs = new Filesystem();
         $rdi = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
-        $rii = new \RecursiveIteratorIterator($rdi, \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($rii as $file) {
-            $file->isDir() ? rmdir($file->getRealPath()) : unlink($file->getRealPath());
-        }
+        $fs->remove($rdi);
         $output->writeln("contents of $path cleared successfully");
         return true;
     }
@@ -220,7 +218,7 @@ class ContentExportCommand extends Command
             return 1;
         }
         if ($input->getOption("files") && !$this->exportFiles($input, $output)) {
-            return 2;
+            return 1;
         }
         $this->exportContent($input, $output);
     }

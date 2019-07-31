@@ -405,4 +405,32 @@ class AdministrationService
         return $return_var === 0;
     }
 
+    public function importContent($url = null, $instructions = null, &$output = null)
+    {
+        if ($url === null) $url = $this->getSettingValue("content_url");
+        if ($instructions === null) $instructions = $this->getSettingValue("content_url_import_options");
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:content:import",
+            "input" => $url,
+            "--convert" => true,
+            "--clean" => true,
+            "--src" => true,
+            "--files" => true,
+            "--instructions" => $instructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output = $out->fetch();
+        return $returnCode;
+    }
+
+    public function updateLastImportTime()
+    {
+        $this->setSettings(array(
+            "last_import_time" => date("Y-m-d H:i:s")
+        ), false);
+    }
 }

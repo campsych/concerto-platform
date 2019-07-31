@@ -1,0 +1,70 @@
+{% trans_default_domain "Administration" %}
+
+<div ng-controller="AdministrationContentController">
+    <div class="center" style="margin-bottom: 20px;">
+        <div class="btn-group">
+            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'url'" ng-disabled="!exposedSettingsMap.content_repository_overridable">URL</label>
+            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'git'" ng-disabled="!exposedSettingsMap.content_repository_overridable || true ">Git</label>
+        </div>
+    </div>
+
+    <div ng-if="exposedSettingsMap.content_repository == 'url'">
+        <div class="alert alert-info">
+            {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
+                {% trans_default_domain "panel" %}
+                {% block elements %}
+                    {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                        {% trans_default_domain "panel" %}
+                        {% block label %}Last import time{% endblock %}
+                        {% block tooltip %}Last import time{% endblock %}
+                        {% block control %}
+                            {% verbatim %}<strong>{{ internalSettingsMap.last_import_time ? internalSettingsMap.last_import_time : "none" }}</strong>{% endverbatim %}
+                        {% endblock %}
+                    {% endembed %}
+
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
+            {% trans_default_domain "panel" %}
+            {% block elements %}
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}URL{% endblock %}
+                    {% block tooltip %}URL{% endblock %}
+                    {% block control %}
+                        <input ng-disabled="!exposedSettingsMap.content_url_overridable" type="text" ng-model="exposedSettingsMap.content_url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}File{% endblock %}
+                    {% block tooltip %}File to upload for import{% endblock %}
+                    {% block control %}
+                        <form id="form-file-content-import-url">
+                            <input type="file" nv-file-select uploader="uploader" ng-show="uploadItem==null && !uploader.isUploading"/></span>
+                            <uib-progressbar class="progress-striped active" value="uploader.progress" ng-show="uploadItem==null && uploader.isUploading"></uib-progressbar>
+                            <span ng-show="uploadItem!=null">{% verbatim %}{{ uploadItem.file.name }}{% endverbatim %} <button class="btn btn-xs btn-danger" ng-click="resetFile()">clear</button></span>
+                        </form>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "panel" %}
+                    {% block label %}Import options{% endblock %}
+                    {% block tooltip %}Import options{% endblock %}
+                    {% block control %}
+                        <textarea ng-disabled="!exposedSettingsMap.content_url_import_options_overridable" ng-model="exposedSettingsMap.content_url_import_options" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                    {% endblock %}
+                {% endembed %}
+
+            {% endblock %}
+        {% endembed %}
+
+        <div class="center">
+            <button ng-click="importUrl()" class="btn btn-success btn-sm">Import</button>
+        </div>
+    </div>
+</div>

@@ -3,15 +3,14 @@
     <div class="modal-body">
         {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
             {% trans_default_domain "panel" %}
-        {% block legend %}{%verbatim%}{{title}}{%endverbatim%}{% endblock %}
-    {% block legend_tooltip %}{%verbatim%}{{tooltip}}{%endverbatim%}{% endblock %}
-    {% block control %}
-        <pre ng-bind="content">
-        </pre>
-    {% endblock %}
-{% endembed %}
-</div>
-<div class="modal-footer">
-    <button class="btn btn-success" ng-click="close()">{{ 'form.button.cancel'|trans }}</button>
-</div>
+            {% block legend %}{% verbatim %}{{ title }}{% endverbatim %}{% endblock %}
+            {% block legend_tooltip %}{% verbatim %}{{ tooltip }}{% endverbatim %}{% endblock %}
+            {% block control %}
+                <pre ng-bind="content"></pre>
+            {% endblock %}
+        {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="close()">{{ 'form.button.ok'|trans }}</button>
+    </div>
 </div>

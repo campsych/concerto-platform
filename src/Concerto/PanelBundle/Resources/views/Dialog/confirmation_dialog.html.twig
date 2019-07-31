@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">{%verbatim%}{{title}}{%endverbatim%}</div>
       <div class="panel-body">
-        <uib-alert type="warning">{%verbatim%}{{content}}{%endverbatim%}</uib-alert>
+        <uib-alert type="warning" ng-bind-html="content"></uib-alert>
       </div>
     </div>
 </div>

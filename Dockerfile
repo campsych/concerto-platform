@@ -69,7 +69,7 @@ COPY build/docker/nginx/concerto.conf.tpl /etc/nginx/sites-available/concerto.co
 COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
-RUN mv -f /app/concerto/src/Concerto/PanelBundle/Resources/public/files /app/concerto/src/Concerto/PanelBundle/Resources/public/starterFiles \
+RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
 
 EXPOSE 80 9000
@@ -78,7 +78,6 @@ HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/che
 
 CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
  && mkdir -p /data/files \
- && cp -a /app/concerto/src/Concerto/PanelBundle/Resources/public/starterFiles/* /data/files/ \
  && chown -R www-data:www-data /data/files \
  && mkdir -p /data/sessions \
  && chown -R www-data:www-data /data/sessions \
@@ -86,7 +85,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
- && php bin/console concerto:content:import --env=prod --convert \
+ && php bin/console concerto:content:import --env=prod --convert  \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \

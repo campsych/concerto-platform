@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\FileService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
@@ -18,12 +19,14 @@ class AdministrationController
     private $templating;
     private $service;
     private $sessionCountService;
+    private $fileService;
 
-    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService)
+    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService)
     {
         $this->templating = $templating;
         $this->service = $service;
         $this->sessionCountService = $sessionCountService;
+        $this->fileService = $fileService;
     }
 
     /**
@@ -214,4 +217,23 @@ class AdministrationController
         return $response;
     }
 
+    /**
+     * @Route("/Administration/content/import", name="Administration_content_import")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
+     */
+    public function importContentAction(Request $request)
+    {
+        $file = $request->get("file");
+        if ($file) {
+            $file = $this->fileService->getPrivateUploadDirectory() . $file;
+        }
+        $url = $request->get("url");
+        $instructions = $request->get("instructions");
+        $returnCode = $this->service->importContent($file ? $file : $url, $instructions, $output);
+        $response = new Response(json_encode(array("result" => $returnCode, "output" => $output)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\PanelBundle\Service\ImportService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Concerto\PanelBundle\Service\ASectionService;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
 use Concerto\PanelBundle\Entity\User;
@@ -17,11 +19,13 @@ use Concerto\PanelBundle\Entity\User;
 class ContentImportCommand extends Command
 {
     private $importService;
+    private $adminService;
     private $doctrine;
 
-    public function __construct(ImportService $importService, ManagerRegistry $doctrine)
+    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService)
     {
         $this->importService = $importService;
+        $this->adminService = $adminService;
         $this->doctrine = $doctrine;
 
         parent::__construct();
@@ -40,19 +44,17 @@ class ContentImportCommand extends Command
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
     }
 
-    protected function importContent(InputInterface $input, OutputInterface $output, User $user)
+    protected function importContent(InputInterface $input, OutputInterface $output, User $user, $sourcePath)
     {
         $output->writeln("importing content...");
 
         $convert = $input->getOption("convert");
         $clean = $input->getOption("clean");
         $src = $input->getOption("src");
-
-        $files_dir = $input->getArgument("input");
         $instructionsOverride = json_decode($input->getOption("instructions"), true);
 
         $finder = new Finder();
-        $finder->files()->in($files_dir)->name('*.concerto*');
+        $finder->files()->in($sourcePath)->name('*.concerto*');
 
         foreach ($finder as $f) {
             $this->importService->reset();
@@ -74,7 +76,9 @@ class ContentImportCommand extends Command
                         $fields = array(
                             "action",
                             "data",
-                            "rename"
+                            "rename",
+                            "clean",
+                            "src"
                         );
                         foreach ($fields as $field) {
                             if (array_key_exists($field, $instructionOverrideElem)) {
@@ -106,30 +110,124 @@ class ContentImportCommand extends Command
         $output->writeln("content importing finished");
     }
 
-    private function importFiles(InputInterface $input, OutputInterface $output)
+    private function downloadSource(InputInterface $input, OutputInterface $output, $url, &$topTempDir = null)
+    {
+        $output->writeln("downloading source from $url");
+        $fs = new Filesystem();
+        $importPath = realpath(__DIR__ . "/../Resources/import");
+        $uniquePath = $importPath . "/import_" . uniqid();
+        try {
+            $fs->mkdir($uniquePath);
+        } catch (IOException $ex) {
+            $output->writeln($ex->getMessage());
+            return false;
+        }
+
+        $downloadResult = false;
+        try {
+            $downloadPath = $uniquePath . "/" . basename(parse_url($url, PHP_URL_PATH));
+            $downloadResult = file_put_contents($downloadPath, file_get_contents($url));
+        } catch (\Exception $ex) {
+        }
+        if (!$downloadResult) {
+            $output->writeln("couldn't download $url");
+            return false;
+        }
+
+        $topTempDir = $uniquePath;
+        $output->writeln("downloaded source to $downloadPath");
+        return $downloadPath;
+    }
+
+    private function unzipSource(InputInterface $input, OutputInterface $output, $zipPath, &$topTempDir = null)
+    {
+        $output->writeln("unzipping content...");
+        $extractPath = dirname($zipPath) . "/extract_" . uniqid();
+        $fs = new Filesystem();
+        try {
+            $fs->mkdir($extractPath);
+        } catch (IOException $ex) {
+            $output->writeln($ex->getMessage());
+            return false;
+        }
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipPath) === TRUE) {
+            $zip->extractTo($extractPath);
+            $zip->close();
+        } else {
+            $output->writeln("couldn't extract $zipPath to $extractPath");
+            return false;
+        }
+        if ($topTempDir === null) $topTempDir = $extractPath;
+        $output->writeln("unzipping finished");
+        return $extractPath;
+    }
+
+    private function cleanTempDir(InputInterface $input, OutputInterface $output, $dirPath)
+    {
+        $output->writeln("cleaning temp dir $dirPath ...");
+        $fs = new Filesystem();
+        $fs->remove($dirPath);
+        $output->writeln("temp dir cleaned");
+    }
+
+    private function importFiles(InputInterface $input, OutputInterface $output, $sourcePath)
     {
         $output->writeln("copying files...");
         $dstDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
-        $srcDir = realpath($input->getArgument("input")) . "/files/";
-        $filesystem = new Filesystem();
-        $filesystem->mirror($srcDir, $dstDir);
-        $output->writeln("files copied successfully");
+        $srcDir = $sourcePath . "/files/";
+
+        if (file_exists($srcDir)) {
+            $filesystem = new Filesystem();
+            $filesystem->mirror($srcDir, $dstDir);
+            $output->writeln("files copied successfully");
+        }
         return true;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        chdir(realpath(__DIR__ . "/../Resources/starter_content"));
+
         ASectionService::$securityOn = false;
         $em = $this->doctrine->getManager();
 
         $userRepo = $em->getRepository("ConcertoPanelBundle:User");
         $user = $userRepo->findOneBy(array());
 
-        if ($input->getOption("files") && !$this->importFiles($input, $output)) {
-            return 2;
+        $topTempDir = null;
+        $sourcePath = $input->getArgument("input");
+
+        //url
+        if (stripos($sourcePath, "http://") !== false || stripos($sourcePath, "https://") !== false) {
+            $sourcePath = $this->downloadSource($input, $output, $sourcePath, $topTempDir);
+            if ($sourcePath === false) {
+                return 1;
+            }
         }
 
-        $this->importContent($input, $output, $user);
+        //zip
+        if (is_file($sourcePath)) {
+            $extension = strtolower(pathinfo($sourcePath)["extension"]);
+            if ($extension === "zip") {
+                $sourcePath = $this->unzipSource($input, $output, $sourcePath);
+                if ($sourcePath === false) {
+                    return 1;
+                }
+            }
+        }
+
+        if ($input->getOption("files") && !$this->importFiles($input, $output, $sourcePath)) {
+            return 1;
+        }
+
+        $this->importContent($input, $output, $user, $sourcePath);
+
+        if ($topTempDir) {
+            $this->cleanTempDir($input, $output, $topTempDir);
+        }
+        $this->adminService->updateLastImportTime();
     }
 
 }
