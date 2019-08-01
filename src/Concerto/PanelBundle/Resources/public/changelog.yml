@@ -15,6 +15,9 @@ changelog:
                 - added itemBankTableExtraFields for CAT
                 - added itemsAdministered input parameter for itemTemplateParamsModule in CAT
                 - added itemBankFilterModule for CAT
+          - label: Changes
+            changes:
+                - delete all data for data table now deletes all rows instead of truncating table
           - label: Commands
             changes:
                 - added --no-hash option to concerto:content:export

@@ -253,6 +253,19 @@ class DataTableController extends AExportableTabController
     }
 
     /**
+     * @Route("/DataTable/{table_id}/deleteAll", name="DataTable_deleteAll", methods={"POST"})
+     * @param $table_id
+     * @return Response
+     */
+    public function deleteAllAction($table_id)
+    {
+        $this->service->deleteAll($table_id);
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
      * @Route("/DataTable/{table_id}/column/{column_name}/save", name="DataTable_column_save", methods={"POST"})
      * @param Request $request
      * @param $table_id
