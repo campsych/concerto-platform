@@ -7,6 +7,7 @@ changelog:
           - label: Features
             changes:
                 - import content (including files) from file path / URL / file upload (from within administration panel)
+                - download content export (including files, from within administration panel)
           - label: Starter content
             changes:
                 - score map for CAT and linearTest
@@ -21,6 +22,7 @@ changelog:
                 - added --files option to concerto:content:export
                 - added --yes option to concerto:content:export
                 - added --src option to concerto:content:export
+                - added --zip option to concerto:content:export
                 - added --clean option to concerto:content:import
                 - added --files option to concerto:content:import
                 - added --src option to concerto:content:import

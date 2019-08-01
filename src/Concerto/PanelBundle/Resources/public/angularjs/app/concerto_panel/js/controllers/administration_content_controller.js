@@ -16,6 +16,10 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         }
     };
 
+    $scope.exportUrl = function () {
+        $window.open(Paths.ADMINISTRATION_CONTENT_EXPORT.pf($scope.exposedSettingsMap.content_export_options), "_blank");
+    };
+
     $scope.importUrl = function () {
         var importSource = $scope.uploadItem !== null ?
             "Content will be imported from uploaded file in <strong>File</strong> field.<br/>" :
@@ -27,7 +31,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_CONTENT_IMPORT, {
                     url: $scope.exposedSettingsMap.content_url,
-                    instructions: $scope.exposedSettingsMap.content_url_import_options,
+                    instructions: $scope.exposedSettingsMap.content_import_options,
                     file: $scope.uploadItem ? $scope.uploadItem.file.name : null
                 }).then(function (httpResponse) {
                     var success = httpResponse.data.result === 0;

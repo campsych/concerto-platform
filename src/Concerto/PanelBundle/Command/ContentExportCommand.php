@@ -44,6 +44,7 @@ class ContentExportCommand extends Command
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm all prompts");
         $this->addOption("src", null, InputOption::VALUE_NONE, "External source files");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
+        $this->addOption("zip", "z", InputOption::VALUE_REQUIRED, "Zip archive name");
     }
 
     private function clearExportDirectory(InputInterface $input, OutputInterface $output)
@@ -212,6 +213,36 @@ class ContentExportCommand extends Command
         return $collection;
     }
 
+    private function zipExport(InputInterface $input, OutputInterface $output)
+    {
+        $zipPath = $input->getOption("zip");
+        if (!$zipPath) return true;
+        $dirPath = realpath($input->getArgument("output")) . "/";
+
+        $output->writeln("zipping $dirPath to $zipPath ...");
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipPath, \ZipArchive::CREATE) === TRUE) {
+            $rdi = new \RecursiveDirectoryIterator($dirPath, \FilesystemIterator::SKIP_DOTS);
+            $rii = new \RecursiveIteratorIterator($rdi, \RecursiveIteratorIterator::SELF_FIRST);
+            foreach ($rii as $item) {
+                $path = realpath($item);
+                $zipRelativePath = str_replace($dirPath, '', $path);
+                if (is_dir($path)) {
+                    $zip->addEmptyDir($zipRelativePath);
+                } else if (is_file($path)) {
+                    $zip->addFile($path, $zipRelativePath);
+                }
+            }
+            $zip->close();
+        } else {
+            $output->writeln("couldn't zip $dirPath to $zipPath");
+            return false;
+        }
+        $output->writeln("zipping finished");
+        return true;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$this->clearExportDirectory($input, $output)) {
@@ -220,6 +251,12 @@ class ContentExportCommand extends Command
         if ($input->getOption("files") && !$this->exportFiles($input, $output)) {
             return 1;
         }
+
         $this->exportContent($input, $output);
+
+        if ($input->getOption("zip") && !$this->zipExport($input, $output)) {
+            return 1;
+        }
+        return 0;
     }
 }

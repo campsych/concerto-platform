@@ -10,6 +10,8 @@ use Concerto\PanelBundle\Repository\MessageRepository;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -419,6 +421,40 @@ class AdministrationService
             "--clean" => true,
             "--src" => true,
             "--files" => true,
+            "--instructions" => $instructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output = $out->fetch();
+        return $returnCode;
+    }
+
+    public function exportContent($instructions = null, &$zipPath = null, &$output = null)
+    {
+        if ($instructions === null) $instructions = $this->getSettingValue("content_url_export_options");
+        $exportPath = realpath(__DIR__ . "/../Resources/export");
+        $uniquePath = $exportPath . "/export_" . uniqid();
+
+        $fs = new Filesystem();
+        try {
+            $fs->mkdir($uniquePath);
+        } catch (IOException $ex) {
+            return 1;
+        }
+        $zipPath = $uniquePath . "/export.concerto.zip";
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:content:export",
+            "output" => $uniquePath,
+            "--single" => true,
+            "--no-hash" => true,
+            "--norm-ids" => true,
+            "--files" => true,
+            "--yes" => true,
+            "--src" => true,
+            "--zip" => $zipPath,
             "--instructions" => $instructions
         ));
         $out = new BufferedOutput();

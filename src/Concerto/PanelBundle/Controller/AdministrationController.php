@@ -236,4 +236,24 @@ class AdministrationController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    /**
+     * @Route("/Administration/content/export/{instructions}", name="Administration_content_export", defaults={"instructions"="[]"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param string $instructions
+     * @return Response
+     */
+    public function exportContentAction($instructions = "[]")
+    {
+        $returnCode = $this->service->exportContent($instructions, $zipPath, $output);
+        if ($returnCode === 0) {
+            $response = new Response(file_get_contents($zipPath));
+            $response->headers->set('Content-Type', 'application/zip');
+            $response->headers->set('Content-Disposition', 'attachment; filename="export.concerto.zip"');
+            return $response;
+        } else {
+            $response = new Response($output, 500);
+            return $response;
+        }
+    }
 }

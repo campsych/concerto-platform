@@ -1,17 +1,27 @@
 parameters:
+    env(CONCERTO_CONTENT_REPOSITORY): url
+    env(CONCERTO_CONTENT_URL): .
+    env(CONCERTO_CONTENT_IMPORT_OPTIONS): '[]'
+    env(CONCERTO_CONTENT_EXPORT_OPTIONS): '[]'
+    env(CONCERTO_CONTENT_REPOSITORY_OVERRIDABLE): true
+    env(CONCERTO_CONTENT_URL_OVERRIDABLE): true
+    env(CONCERTO_CONTENT_IMPORT_OPTIONS_OVERRIDABLE): true
+    env(CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE): true
     administration:
         exposed:
             session_limit: 0 #0 for none
             local_session_limit: 0 #0 for none
             api_enabled: true
-            content_repository: url
-            content_url: .
-            content_url_import_options: '[]'
+            content_repository: "%env(CONCERTO_CONTENT_REPOSITORY)%"
+            content_url: "%env(CONCERTO_CONTENT_URL)%"
+            content_import_options: "%env(CONCERTO_CONTENT_IMPORT_OPTIONS)%"
+            content_export_options: "%env(CONCERTO_CONTENT_EXPORT_OPTIONS)%"
             session_limit_overridable: true
             api_enabled_overridable: true
-            content_repository_overridable: true;
-            content_url_overridable: true
-            content_url_import_options_overridable: true
+            content_repository_overridable: "%env(CONCERTO_CONTENT_REPOSITORY_OVERRIDABLE)%"
+            content_url_overridable: "%env(CONCERTO_CONTENT_URL_OVERRIDABLE)%"
+            content_import_options_overridable: "%env(CONCERTO_CONTENT_IMPORT_OPTIONS_OVERRIDABLE)%"
+            content_export_options_overridable: "%env(CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE)%"
         internal:
             r_exec_path: R
             r_lib_path: null
