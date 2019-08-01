@@ -42,6 +42,7 @@ class ContentImportCommand extends Command
         $this->addOption("files", null, InputOption::VALUE_NONE, "Copy files?");
         $this->addOption("src", null, InputOption::VALUE_NONE, "Look for externalized source files?");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
+        $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready options set. Combines: --convert --clean --files --src");
     }
 
     protected function importContent(InputInterface $input, OutputInterface $output, User $user, $sourcePath)
@@ -188,6 +189,12 @@ class ContentImportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($input->getOption("sc")) {
+            $input->setOption("convert", true);
+            $input->setOption("clean", true);
+            $input->setOption("files", true);
+            $input->setOption("src", true);
+        }
         chdir(realpath(__DIR__ . "/../Resources/starter_content"));
 
         ASectionService::$securityOn = false;

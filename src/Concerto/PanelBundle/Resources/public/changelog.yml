@@ -23,9 +23,11 @@ changelog:
                 - added --yes option to concerto:content:export
                 - added --src option to concerto:content:export
                 - added --zip option to concerto:content:export
+                - added --sc option to concerto:content:export
                 - added --clean option to concerto:content:import
                 - added --files option to concerto:content:import
                 - added --src option to concerto:content:import
+                - added --sc option to concerto:content:import
           - label: Non backwards compatible changes
             changes:
                 - (DataTable) CATResponses.score replaces CATResponses.catValue

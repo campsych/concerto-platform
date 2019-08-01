@@ -199,7 +199,7 @@ class ExportService
         $nodeName = preg_replace("/[^a-z0-9\.]/", "_", $nodeArray["title"]) . "_" . $nodeArray["id"];
         $portName = $portArray["name"];
 
-        return $testName . "_" . $nodeName . "_" . $portName . ".r";
+        return $testName . "_" . $nodeName . "_" . $portName . ".port.r";
     }
 
     public static function getTemplateHtmlFilename($templateArray)

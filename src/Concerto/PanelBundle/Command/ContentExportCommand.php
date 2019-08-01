@@ -45,6 +45,7 @@ class ContentExportCommand extends Command
         $this->addOption("src", null, InputOption::VALUE_NONE, "External source files");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
         $this->addOption("zip", "z", InputOption::VALUE_REQUIRED, "Zip archive name");
+        $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready export. Combines --single --no-hash --norm-ids --files --src");
     }
 
     private function clearExportDirectory(InputInterface $input, OutputInterface $output)
@@ -245,6 +246,14 @@ class ContentExportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($input->getOption("sc")) {
+            $input->setOption("single", true);
+            $input->setOption("no-hash", true);
+            $input->setOption("norm-ids", true);
+            $input->setOption("files", true);
+            $input->setOption("src", true);
+        }
+
         if (!$this->clearExportDirectory($input, $output)) {
             return 1;
         }
