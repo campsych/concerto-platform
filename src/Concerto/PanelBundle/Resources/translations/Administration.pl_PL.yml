@@ -34,6 +34,52 @@ messages:
         message:
             delete: Jesteś pewien, że chcesz usunąć wybrane wiadomości?
             clear: Jesteś pewien, że chcesz usunąć wszystkie wiadomości?
+
+content:
+    fieldset:
+        legend: Zawartość
+        legend.tooltip: Import i eksport zawartości
+    git: Git
+    import: Import
+    export: Eksport
+    last_import_time: Czas ostatniego importu
+    last_import_time.tooltip: Czas ostatniej akcji pomyślnego importu
+    url: URL
+    url.tooltip: |
+        URL z którego należy pobrać zawartość do pobrania. Może być jednym z:
+        <ul>
+            <li>zdalny URL wskazujący na jedno-plikowy eksport (może być zip); jedynie protokoły HTTP i HTTPS są dozwolone</li>
+            <li>ścieżka plików; może wskazywać na katalog lub plik eksportu (zip dozwolony); <strong>.</strong> wskaże na katalog z domyślną startową zawartością</li>
+        </ul>
+    file: Plik
+    file.tooltip: Wysyłalny plik eksportu. Gdy zostanie wysłany, pole \'URL\' będzie ignorowane.
+    clear: usuń
+    import_options: Opcje importu
+    import_options.tooltip: |
+        Zawiera specyficzne dla obiektu opcje importu. Np. aby podmienić dane w tabeli danych na te z pliku importu:
+        <pre>[
+            {
+                "class_name": "DataTable",
+                "name": "MyTableName",
+                "data": 1
+            }
+        ]</pre>
+    export_options: Opcje eksportu
+    export_options.tooltip: |
+        Zawiera specyficzne dla obiektu opcje eksportu. Np. aby dołączyć dane tabeli w pliku eksportu:
+        <pre>[
+            {
+                "class_name": "DataTable",
+                "name": "MyTableName",
+                "data": 1
+            }
+        ]</pre>
+    import_from_file: Zawartość zostanie zaimportowana z wysłanego pliku w polu 'Plik'.
+    import_from_url: Zawartość zostanie zaimportowana z pola 'URL'.
+    importing_content: Importowanie zawartości
+    import_prompt: Jesteś pewien, że chcesz zaimportować zawartość? Tej operacji nie można cofnąć. Upewnij się, że posiadasz kopie zapasową swojej obecnej zawartości zanim kontynuujesz.
+    import_success: Import zakończony pomyślnie
+    import_failure: Import nie powiódł się
         
 usage_charts:
     fieldset:

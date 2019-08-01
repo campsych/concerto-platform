@@ -3,8 +3,8 @@
 <div ng-controller="AdministrationContentController">
     <div class="center" style="margin-bottom: 20px;">
         <div class="btn-group">
-            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'url'" ng-disabled="!exposedSettingsMap.content_repository_overridable">URL</label>
-            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'git'" ng-disabled="!exposedSettingsMap.content_repository_overridable || true ">Git</label>
+            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'url'" ng-disabled="!exposedSettingsMap.content_repository_overridable">{{ 'content.url'|trans }}</label>
+            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'git'" ng-disabled="!exposedSettingsMap.content_repository_overridable || true ">{{ 'content.git'|trans }}</label>
         </div>
     </div>
 
@@ -12,18 +12,17 @@
 
         <div style="display: table; width: 100%;">
             <div style="display: table-cell; width: 50%; border-right: solid #ddd 1px; padding-right: 16px;">
-                <h4 style="text-align: center;">Import</h4>
+                <h4 style="text-align: center;">{{ 'content.import'|trans }}</h4>
 
                 <div class="alert alert-info">
                     {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
-                        {% trans_default_domain "panel" %}
                         {% block elements %}
                             {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                                {% trans_default_domain "panel" %}
-                                {% block label %}Last import time{% endblock %}
-                                {% block tooltip %}Last import time{% endblock %}
+                                {% trans_default_domain "Administration" %}
+                                {% block label %}{{ 'content.last_import_time'|trans }}{% endblock %}
+                                {% block tooltip %}{{ 'content.last_import_time.tooltip'|trans }}{% endblock %}
                                 {% block control %}
-                                    {% verbatim %}<strong>{{ internalSettingsMap.last_import_time ? internalSettingsMap.last_import_time : "none" }}</strong>{% endverbatim %}
+                                    {% verbatim %}<strong>{{ internalSettingsMap.last_import_time ? internalSettingsMap.last_import_time : "-" }}</strong>{% endverbatim %}
                                 {% endblock %}
                             {% endembed %}
 
@@ -32,34 +31,33 @@
                 </div>
 
                 {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
-                    {% trans_default_domain "panel" %}
                     {% block elements %}
                         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                            {% trans_default_domain "panel" %}
-                            {% block label %}URL{% endblock %}
-                            {% block tooltip %}URL{% endblock %}
+                            {% trans_default_domain "Administration" %}
+                            {% block label %}{{ 'content.url'|trans }}{% endblock %}
+                            {% block tooltip %}{{ 'content.url.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <input ng-disabled="!exposedSettingsMap.content_url_overridable" type="text" ng-model="exposedSettingsMap.content_url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
                             {% endblock %}
                         {% endembed %}
 
                         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                            {% trans_default_domain "panel" %}
-                            {% block label %}File{% endblock %}
-                            {% block tooltip %}File to upload for import{% endblock %}
+                            {% trans_default_domain "Administration" %}
+                            {% block label %}{{ 'content.file'|trans }}{% endblock %}
+                            {% block tooltip %}{{ 'content.file.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <form id="form-file-content-import-url">
                                     <input type="file" nv-file-select uploader="uploader" ng-show="uploadItem==null && !uploader.isUploading"/></span>
                                     <uib-progressbar class="progress-striped active" value="uploader.progress" ng-show="uploadItem==null && uploader.isUploading"></uib-progressbar>
-                                    <span ng-show="uploadItem!=null">{% verbatim %}{{ uploadItem.file.name }}{% endverbatim %} <button class="btn btn-xs btn-danger" ng-click="resetFile()">clear</button></span>
+                                    <span ng-show="uploadItem!=null">{% verbatim %}{{ uploadItem.file.name }}{% endverbatim %} <button class="btn btn-xs btn-danger" ng-click="resetFile()">{{ 'content.clear'|trans }}</button></span>
                                 </form>
                             {% endblock %}
                         {% endembed %}
 
                         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                            {% trans_default_domain "panel" %}
-                            {% block label %}Import options{% endblock %}
-                            {% block tooltip %}Import options{% endblock %}
+                            {% trans_default_domain "Administration" %}
+                            {% block label %}{{ 'content.import_options'|trans }}{% endblock %}
+                            {% block tooltip %}{{ 'content.import_options.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <textarea ng-disabled="!exposedSettingsMap.content_import_options_overridable" ng-model="exposedSettingsMap.content_import_options" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                             {% endblock %}
@@ -69,21 +67,21 @@
                 {% endembed %}
 
                 <div class="center">
-                    <button ng-click="importUrl()" class="btn btn-success btn-sm">Import</button>
+                    <button ng-click="importUrl()" class="btn btn-success btn-sm">{{ 'content.import'|trans }}</button>
                 </div>
             </div>
 
             <div style="display: table-cell; width: 50%; padding-left: 16px;">
-                <h4 style="text-align: center;">Export</h4>
+                <h4 style="text-align: center;">{{ 'content.export'|trans }}</h4>
 
                 {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
-                    {% trans_default_domain "panel" %}
+                    {% trans_default_domain "Administration" %}
                     {% block elements %}
 
                         {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                            {% trans_default_domain "panel" %}
-                            {% block label %}Export options{% endblock %}
-                            {% block tooltip %}Export options{% endblock %}
+                            {% trans_default_domain "Administration" %}
+                            {% block label %}{{ 'content.export_options'|trans }}{% endblock %}
+                            {% block tooltip %}{{ 'content.export_options.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <textarea ng-disabled="!exposedSettingsMap.content_export_options_overridable" ng-model="exposedSettingsMap.content_export_options" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                             {% endblock %}
@@ -93,7 +91,7 @@
                 {% endembed %}
 
                 <div class="center">
-                    <button ng-click="exportUrl()" class="btn btn-default btn-sm">Export</button>
+                    <button ng-click="exportUrl()" class="btn btn-default btn-sm">{{ 'content.export'|trans }}</button>
                 </div>
             </div>
         </div>

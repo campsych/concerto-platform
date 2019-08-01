@@ -34,6 +34,52 @@ messages:
         message:
             delete: Are you sure you want to remove selected message?
             clear: Are you sure you want to remove all messages?
+
+content:
+    fieldset:
+        legend: Content
+        legend.tooltip: Content import and export
+    git: Git
+    import: Import
+    export: Export
+    last_import_time: Last import time
+    last_import_time.tooltip: Time of last successful import action
+    url: URL
+    url.tooltip: |
+        URL to import from. Can be one of the following:
+        <ul>
+            <li>remote URL pointing to single file export (can be zipped); only HTTP or HTTPS protocols allowed</li>
+            <li>file path; can be directory or export file (zip allowed); <strong>.</strong> will point to default starter content directory</li>
+        </ul>
+    file: File
+    file.tooltip: Uploadable export file. When uploaded, \'URL\' field will be ignored.
+    clear: clear
+    import_options: Import options
+    import_options.tooltip: |
+        Can specify object specific import options. E.g. to replace data of content tables with data in import file:
+        <pre>[
+            {
+                "class_name": "DataTable",
+                "name": "MyTableName",
+                "data": 1
+            }
+        ]</pre>
+    export_options: Export options
+    export_options.tooltip: |
+        Can specify object specific export options. E.g. to include data table data in export file:
+        <pre>[
+            {
+                "class_name": "DataTable",
+                "name": "MyTableName",
+                "data": 1
+            }
+        ]</pre>
+    import_from_file: Content will be imported from uploaded file in 'File' field.
+    import_from_url: Content will be imported from 'URL' field.
+    importing_content: Importing content
+    import_prompt: Are you sure you want to import content? This is operation can not be undone. Please make sure you have a backup of your data in case anything goes wrong.
+    import_success: Import finished successfully
+    import_failure: Import failed
         
 usage_charts:
     fieldset:

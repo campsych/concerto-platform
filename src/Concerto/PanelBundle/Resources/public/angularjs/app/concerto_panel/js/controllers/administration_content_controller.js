@@ -21,13 +21,11 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.importUrl = function () {
-        var importSource = $scope.uploadItem !== null ?
-            "Content will be imported from uploaded file in <strong>File</strong> field.<br/>" :
-            "Content will be imported from <strong>URL</strong> field.<br/>";
+        var importSource = $scope.uploadItem !== null ? Trans.CONTENT_IMPORT_FROM_FILE : Trans.CONTENT_IMPORT_FROM_URL;
         DialogsService.confirmDialog(
-            "Importing content",
-            importSource +
-            "Are you sure you want to import content? This is operation can not be undone. Please make sure you have a backup of your data in case anything goes wrong.",
+            Trans.CONTENT_IMPORTING_CONTENT,
+            "<strong>" + importSource + "</strong><br/><br/>" +
+            Trans.CONTENT_IMPORT_PROMPT,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_CONTENT_IMPORT, {
                     url: $scope.exposedSettingsMap.content_url,
@@ -35,9 +33,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     file: $scope.uploadItem ? $scope.uploadItem.file.name : null
                 }).then(function (httpResponse) {
                     var success = httpResponse.data.result === 0;
-                    var title = success ?
-                        "Import finished successfully" :
-                        "Import failed";
+                    var title = success ? Trans.CONTENT_IMPORT_SUCCESS : Trans.CONTENT_IMPORT_FAILURE;
 
                     DialogsService.preDialog(
                         title,
