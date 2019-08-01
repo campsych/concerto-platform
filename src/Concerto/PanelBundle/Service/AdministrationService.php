@@ -417,10 +417,7 @@ class AdministrationService
         $in = new ArrayInput(array(
             "command" => "concerto:content:import",
             "input" => $url,
-            "--convert" => true,
-            "--clean" => true,
-            "--src" => true,
-            "--files" => true,
+            "--sc" => true,
             "--instructions" => $instructions
         ));
         $out = new BufferedOutput();
@@ -448,12 +445,8 @@ class AdministrationService
         $in = new ArrayInput(array(
             "command" => "concerto:content:export",
             "output" => $uniquePath,
-            "--single" => true,
-            "--no-hash" => true,
-            "--norm-ids" => true,
-            "--files" => true,
+            "--sc" => true,
             "--yes" => true,
-            "--src" => true,
             "--zip" => $zipPath,
             "--instructions" => $instructions
         ));
