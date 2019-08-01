@@ -125,26 +125,26 @@ class DBDataDAO
         $driver = $this->connection->getDriver()->getName();
         switch ($driver) {
             case 'pdo_pgsql':
-                {
-                    $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
-                    break;
-                }
+            {
+                $this->connection->query('INSERT INTO ' . $table_name . ' ( id )  VALUES ( DEFAULT )');
+                break;
+            }
             case 'pdo_sqlsrv':
-                {
-                    $this->connection->query('INSERT INTO ' . $table_name . ' DEFAULT VALUES ');
-                    break;
-                }
+            {
+                $this->connection->query('INSERT INTO ' . $table_name . ' DEFAULT VALUES ');
+                break;
+            }
             default:
-                {
-                    $vals = array();
-                    $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
-                    foreach ($cols as $col) {
-                        if ($col->getType()->getName() == "text") $vals[$col->getName()] = "";
-                    }
-
-                    $this->connection->insert($table_name, $vals);
-                    break;
+            {
+                $vals = array();
+                $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
+                foreach ($cols as $col) {
+                    if ($col->getType()->getName() == "text") $vals[$col->getName()] = "";
                 }
+
+                $this->connection->insert($table_name, $vals);
+                break;
+            }
         }
 
         return array();
@@ -225,4 +225,9 @@ class DBDataDAO
         return array();
     }
 
+    public function deleteAll($table_name)
+    {
+        $this->connection->delete($table_name, array("1" => 1));
+        return array();
+    }
 }

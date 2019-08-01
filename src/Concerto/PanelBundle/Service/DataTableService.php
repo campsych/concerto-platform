@@ -267,6 +267,16 @@ class DataTableService extends AExportableSectionService
         }
     }
 
+    public function deleteAll($object_id)
+    {
+        $object = $this->get($object_id);
+        if ($object != null) {
+            $this->dbDataDao->deleteAll($object->getName());
+        } else {
+            return array();
+        }
+    }
+
     public function saveColumn($object_id, $column_name, $new_name, $new_type)
     {
         $object = $this->get($object_id);

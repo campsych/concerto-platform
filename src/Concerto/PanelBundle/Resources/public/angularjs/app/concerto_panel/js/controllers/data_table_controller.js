@@ -19,7 +19,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.dataUpdatePath = Paths.DATA_TABLE_DATA_UPDATE;
     $scope.dataInsertPath = Paths.DATA_TABLE_DATA_INSERT;
     $scope.deleteDataPath = Paths.DATA_TABLE_DATA_DELETE;
-    $scope.truncatePath = Paths.DATA_TABLE_DATA_TRUNCATE;
     $scope.exportInstructionsPath = Paths.DATA_TABLE_EXPORT_INSTRUCTIONS;
 
     $scope.formTitleAddLabel = Trans.DATA_TABLE_FORM_TITLE_ADD;
@@ -293,7 +292,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post($scope.truncatePath.pf($scope.object.id)).success(function (data) {
+                $http.post(Paths.DATA_TABLE_DATA_DELETE_ALL.pf($scope.object.id)).success(function (data) {
                     $scope.fetchDataCollection($scope.object.id);
                 });
             }
