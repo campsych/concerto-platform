@@ -61,7 +61,7 @@ content:
             {
                 "class_name": "DataTable",
                 "name": "MyTableName",
-                "data": 1
+                "data": 2
             }
         ]</pre>
     export_options: Export options
@@ -71,7 +71,7 @@ content:
             {
                 "class_name": "DataTable",
                 "name": "MyTableName",
-                "data": 1
+                "data": 2
             }
         ]</pre>
     import_from_file: Content will be imported from uploaded file in 'File' field.

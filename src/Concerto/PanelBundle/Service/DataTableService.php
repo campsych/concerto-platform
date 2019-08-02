@@ -109,7 +109,7 @@ class DataTableService extends AExportableSectionService
         if ($instruction !== null) {
             //include data
             if (array_key_exists("data", $instruction) && $instruction["data"] == 2) {
-                $array["data"] = $this->getFilteredData($array["id"], false, null, $secure);
+                $array["data"] = $this->getFilteredData($array["name"], false, null, $secure);
             }
         }
 
