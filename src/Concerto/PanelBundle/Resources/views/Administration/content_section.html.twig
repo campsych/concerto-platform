@@ -59,7 +59,7 @@
                             {% block label %}{{ 'content.import_options'|trans }}{% endblock %}
                             {% block tooltip %}{{ 'content.import_options.tooltip'|trans }}{% endblock %}
                             {% block control %}
-                                <textarea ng-disabled="!exposedSettingsMap.content_import_options_overridable" ng-model="exposedSettingsMap.content_import_options" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                                <textarea ng-disabled="!exposedSettingsMap.content_import_options_overridable" ng-model="exposedSettingsMap.content_import_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                             {% endblock %}
                         {% endembed %}
 
@@ -83,7 +83,7 @@
                             {% block label %}{{ 'content.export_options'|trans }}{% endblock %}
                             {% block tooltip %}{{ 'content.export_options.tooltip'|trans }}{% endblock %}
                             {% block control %}
-                                <textarea ng-disabled="!exposedSettingsMap.content_export_options_overridable" ng-model="exposedSettingsMap.content_export_options" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                                <textarea ng-disabled="!exposedSettingsMap.content_export_options_overridable" ng-model="exposedSettingsMap.content_export_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                             {% endblock %}
                         {% endembed %}
 
