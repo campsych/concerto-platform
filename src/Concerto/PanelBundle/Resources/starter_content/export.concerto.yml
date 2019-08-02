@@ -9434,15 +9434,15 @@ collection:
             order: 0
             wizard: 1
             definition:
-              placeholder: 0
               options:
                 -
-                  value: direct
                   label: Direct
+                  value: direct
                 -
-                  value: table
                   label: Table
+                  value: table
               defvalue: direct
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 2
@@ -9462,33 +9462,33 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: id
+                      type: 0
                       label: Id
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: login
+                      type: 0
                       label: Login
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: password
+                      type: 0
                       label: Password
                       definition:
                         placeholder: 0
                     -
-                      type: 4
                       name: enabled
+                      type: 4
                       label: Enabled
                       definition:
-                        placeholder: 0
                         defvalue: '1'
+                        placeholder: 0
+                  placeholder: 0
           -
             class_name: TestWizardParam
             id: 3
@@ -9519,45 +9519,45 @@ collection:
             order: 0
             wizard: 1
             definition:
-              placeholder: 0
               options:
                 -
-                  value: md5
                   label: md5
                   order: 1
+                  value: md5
                 -
-                  value: sha1
                   label: sha1
                   order: 2
+                  value: sha1
                 -
-                  value: crc32
                   label: crc32
                   order: 3
+                  value: crc32
                 -
-                  value: sha256
                   label: sha256
                   order: 4
+                  value: sha256
                 -
-                  value: sha512
                   label: sha512
                   order: 5
+                  value: sha512
                 -
-                  value: xxhash32
                   label: xxhash32
                   order: 6
+                  value: xxhash32
                 -
-                  value: xxhash64
                   label: xxhash64
                   order: 7
+                  value: xxhash64
                 -
-                  value: murmur32
                   label: murmur32
                   order: 8
+                  value: murmur32
                 -
-                  value: plain
                   label: plain
                   order: 0
+                  value: plain
               defvalue: plain
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 4
@@ -9574,7 +9574,6 @@ collection:
             order: 1
             wizard: 1
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -9592,6 +9591,7 @@ collection:
                   name: enabled
                   label: Enabled
                   tooltip: ''
+              placeholder: 0
     test: 1
     groups: ''
     starterContent: true
@@ -9820,20 +9820,20 @@ collection:
                               options:
                                 -
                                   label: Open
-                                  value: open
                                   order: 1
+                                  value: open
                                 -
                                   label: Options
-                                  value: options
                                   order: 2
+                                  value: options
                                 -
-                                  value: painMannequin
                                   label: 'Pain Mannequin'
                                   order: 3
+                                  value: painMannequin
                                 -
-                                  value: gracelyScale
                                   label: 'Gracely Scale'
                                   order: 0
+                                  value: gracelyScale
                               defvalue: options
                               placeholder: 0
                           -
@@ -9857,76 +9857,76 @@ collection:
                                       name: label
                                       type: 2
                                       label: Label
-                                      definition:
-                                        placeholder: 0
                                       order: 1
-                                    -
-                                      type: 0
-                                      name: value
-                                      label: Value
                                       definition:
                                         placeholder: 0
+                                    -
+                                      name: value
+                                      type: 0
+                                      label: Value
                                       order: 0
+                                      definition:
+                                        placeholder: 0
                                   placeholder: 0
                               placeholder: 0
                             hideCondition: 'parent.type != "options"'
                           -
-                            type: 3
                             name: painMannequinGender
+                            type: 3
                             label: 'Mannequin Gender'
                             definition:
-                              placeholder: 0
                               options:
                                 -
-                                  value: male
                                   label: Male
+                                  value: male
                                 -
-                                  value: female
                                   label: Female
+                                  value: female
                                 -
-                                  value: custom
                                   label: Custom
+                                  value: custom
                               defvalue: female
+                              placeholder: 0
                             hideCondition: 'parent.type != "painMannequin"'
                           -
-                            type: 0
                             name: painMannequinGenderValue
+                            type: 0
                             label: 'Mannequin Gender Value'
                             definition:
-                              placeholder: 0
                               defvalue: male
+                              placeholder: 0
                             hideCondition: 'parent.type != "painMannequin" || parent.painMannequinGender != "custom"'
                           -
-                            type: 0
                             name: defaultScore
+                            type: 0
                             label: 'Default Score'
                             definition:
-                              placeholder: 0
                               defvalue: '0'
+                              placeholder: 0
                           -
-                            type: 10
                             name: scoreMap
+                            type: 10
                             label: 'Score Map'
                             definition:
-                              placeholder: 0
                               element:
                                 type: 9
                                 definition:
-                                  placeholder: 0
                                   fields:
                                     -
-                                      type: 0
                                       name: value
+                                      type: 0
                                       label: Value
                                       definition:
                                         placeholder: 0
                                     -
-                                      type: 0
                                       name: score
+                                      type: 0
                                       label: Score
                                       definition:
-                                        placeholder: 0
                                         defvalue: '0'
+                                        placeholder: 0
+                                  placeholder: 0
+                              placeholder: 0
                         element:
                           type: 9
                           definition:
@@ -9959,68 +9959,68 @@ collection:
                         defvalue: ''
                         placeholder: 0
                     -
-                      type: 0
                       name: p1
+                      type: 0
                       label: 'Item Parameter #1'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p2
+                      type: 0
                       label: 'Item Parameter #2'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p3
+                      type: 0
                       label: 'Item Parameter #3'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p4
+                      type: 0
                       label: 'Item Parameter #4'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p5
+                      type: 0
                       label: 'Item Parameter #5'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p6
+                      type: 0
                       label: 'Item Parameter #6'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p7
+                      type: 0
                       label: 'Item Parameter #7'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p8
+                      type: 0
                       label: 'Item Parameter #8'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                     -
-                      type: 0
                       name: p9
+                      type: 0
                       label: 'Item Parameter #9'
                       definition:
-                        placeholder: 0
                         defvalue: '0'
+                        placeholder: 0
                   placeholder: 0
           -
             class_name: TestWizardParam
@@ -10133,20 +10133,20 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: name
+                      type: 0
                       label: Name
                       definition:
                         placeholder: 0
                     -
-                      type: 4
                       name: sensitive
+                      type: 4
                       label: Sensitive
                       definition:
                         placeholder: 0
+                  placeholder: 0
       -
         class_name: TestWizardStep
         id: 3
@@ -10390,30 +10390,30 @@ collection:
             order: 0
             wizard: 2
             definition:
-              placeholder: 0
               options:
                 -
-                  value: dichotomous
                   label: dichotomous
+                  value: dichotomous
                 -
-                  value: GRM
                   label: GRM
+                  value: GRM
                 -
-                  value: MGRM
                   label: MGRM
+                  value: MGRM
                 -
-                  value: PCM
                   label: PCM
+                  value: PCM
                 -
-                  value: GPCM
                   label: GPCM
+                  value: GPCM
                 -
-                  value: RSM
                   label: RSM
+                  value: RSM
                 -
-                  value: NRM
                   label: NRM
+                  value: NRM
               defvalue: dichotomous
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 20
@@ -10430,8 +10430,8 @@ collection:
             order: 0
             wizard: 2
             definition:
-              placeholder: 0
               defvalue: '9'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 5
@@ -10552,8 +10552,8 @@ collection:
             order: 1
             wizard: 2
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 25
@@ -10570,8 +10570,8 @@ collection:
             order: 3
             wizard: 2
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 26
@@ -10588,8 +10588,8 @@ collection:
             order: 2
             wizard: 2
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 27
@@ -10951,7 +10951,6 @@ collection:
             order: 1
             wizard: 3
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -10969,6 +10968,7 @@ collection:
                   name: enabled
                   label: Enabled
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 29
@@ -10999,45 +10999,45 @@ collection:
             order: 0
             wizard: 3
             definition:
-              placeholder: 0
               options:
                 -
-                  value: md5
                   label: md5
                   order: 1
+                  value: md5
                 -
-                  value: sha1
                   label: sha1
                   order: 2
+                  value: sha1
                 -
-                  value: crc32
                   label: crc32
                   order: 3
+                  value: crc32
                 -
-                  value: sha256
                   label: sha256
                   order: 4
+                  value: sha256
                 -
-                  value: sha512
                   label: sha512
                   order: 5
+                  value: sha512
                 -
-                  value: xxhash32
                   label: xxhash32
                   order: 6
+                  value: xxhash32
                 -
-                  value: xxhash64
                   label: xxhash64
                   order: 7
+                  value: xxhash64
                 -
-                  value: murmur32
                   label: murmur32
                   order: 8
+                  value: murmur32
                 -
-                  value: plain
                   label: plain
                   order: 0
+                  value: plain
               defvalue: plain
+              placeholder: 0
     test: 5
     groups: ''
     starterContent: true
@@ -11202,29 +11202,29 @@ collection:
             order: 0
             wizard: 4
             definition:
-              placeholder: 0
               options:
                 -
-                  value: select
                   label: Select
                   order: 0
+                  value: select
                 -
-                  value: update
                   label: Update
                   order: 1
+                  value: update
                 -
-                  value: delete
                   label: Delete
                   order: 3
+                  value: delete
                 -
-                  value: custom
                   label: Custom
                   order: 4
+                  value: custom
                 -
-                  value: insert
                   label: Insert
                   order: 2
+                  value: insert
               defvalue: select
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 31
@@ -11241,8 +11241,8 @@ collection:
             order: 0
             wizard: 4
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 32
@@ -11259,8 +11259,8 @@ collection:
             order: 0
             wizard: 4
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 33
@@ -11290,8 +11290,8 @@ collection:
             order: 0
             wizard: 4
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 34
@@ -11318,8 +11318,8 @@ collection:
             order: 0
             wizard: 4
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
     test: 6
     groups: ''
     starterContent: true
@@ -11444,8 +11444,8 @@ collection:
             order: 0
             wizard: 5
             definition:
-              placeholder: 0
               defvalue: form
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 36
@@ -11465,131 +11465,131 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: name
+                      type: 0
                       label: Name
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: label
+                      type: 0
                       label: Label
                       definition:
                         placeholder: 0
                     -
-                      type: 3
                       name: type
+                      type: 3
                       label: Type
                       definition:
-                        placeholder: 0
                         options:
                           -
-                            value: singleLine
                             label: 'Single line text'
                             order: 0
+                            value: singleLine
                           -
-                            value: multiLine
                             label: 'Multi line text'
                             order: 2
+                            value: multiLine
                           -
-                            value: checkbox
                             label: Checkbox
                             order: 3
+                            value: checkbox
                           -
-                            value: password
                             label: Password
                             order: 1
+                            value: password
                           -
-                            value: select
                             label: Select
                             order: 4
+                            value: select
                         defvalue: singleLine
+                        placeholder: 0
                     -
-                      type: 10
                       name: validation
+                      type: 10
                       label: Validation
                       definition:
-                        placeholder: 0
                         element:
                           type: 9
                           definition:
-                            placeholder: 0
                             fields:
                               -
-                                type: 3
                                 name: type
+                                type: 3
                                 label: Type
                                 definition:
-                                  placeholder: 0
                                   options:
                                     -
-                                      value: required
                                       label: Required
+                                      value: required
                                     -
-                                      value: minlength
                                       label: 'Min length'
+                                      value: minlength
                                     -
-                                      value: maxlength
                                       label: 'Max length'
+                                      value: maxlength
                                     -
-                                      value: min
                                       label: Min
+                                      value: min
                                     -
-                                      value: max
                                       label: Max
+                                      value: max
                                     -
-                                      value: pattern
                                       label: Pattern
+                                      value: pattern
                                   defvalue: required
+                                  placeholder: 0
                                 hideCondition: ''
                               -
-                                type: 0
                                 name: value
+                                type: 0
                                 label: Value
                                 definition:
                                   placeholder: 0
                                 hideCondition: 'parent.type != "minlength" && parent.type != "maxlength" && parent.type != "min" && parent.type != "max" && parent.type != "pattern"'
                               -
-                                type: 0
                                 name: alert
+                                type: 0
                                 label: Alert
                                 definition:
-                                  placeholder: 0
                                   defvalue: 'Invalid value!'
+                                  placeholder: 0
+                            placeholder: 0
+                        placeholder: 0
                     -
-                      type: 9
                       name: definition
+                      type: 9
                       label: Definition
                       definition:
-                        placeholder: 0
                         fields:
                           -
-                            type: 10
                             name: options
+                            type: 10
                             label: Options
                             definition:
-                              placeholder: 0
                               element:
                                 type: 9
                                 definition:
-                                  placeholder: 0
                                   fields:
                                     -
-                                      type: 0
                                       name: value
+                                      type: 0
                                       label: Value
                                       definition:
                                         placeholder: 0
                                     -
-                                      type: 0
                                       name: label
+                                      type: 0
                                       label: label
                                       definition:
                                         placeholder: 0
+                                  placeholder: 0
+                              placeholder: 0
+                        placeholder: 0
                       hideCondition: 'parent.type != "select"'
+                  placeholder: 0
     test: 7
     groups: ''
     starterContent: true
@@ -11787,15 +11787,15 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               options:
                 -
-                  value: direct
                   label: Direct
+                  value: direct
                 -
-                  value: table
                   label: Table
+                  value: table
               defvalue: direct
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 38
@@ -11815,152 +11815,152 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: id
+                      type: 0
                       label: Id
                       definition:
                         placeholder: 0
                     -
-                      type: 2
                       name: question
+                      type: 2
                       label: Question
                       definition:
                         placeholder: 0
                     -
-                      type: 9
                       name: responseOptions
+                      type: 9
                       label: 'Response Options'
                       definition:
-                        placeholder: 0
                         fields:
                           -
-                            type: 3
                             name: type
+                            type: 3
                             label: Type
                             definition:
-                              placeholder: 0
                               options:
                                 -
-                                  value: options
                                   label: Options
                                   order: 2
+                                  value: options
                                 -
-                                  value: open
                                   label: Open
                                   order: 1
+                                  value: open
                                 -
-                                  value: painMannequin
                                   label: 'Pain Mannequin'
                                   order: 3
+                                  value: painMannequin
                                 -
-                                  value: gracelyScale
                                   label: 'Gracely Scale'
                                   order: 0
+                                  value: gracelyScale
                               defvalue: options
+                              placeholder: 0
                           -
-                            type: 10
                             name: options
+                            type: 10
                             label: Options
                             definition:
-                              placeholder: 0
                               element:
                                 type: 9
                                 definition:
-                                  placeholder: 0
                                   fields:
                                     -
-                                      type: 0
                                       name: value
+                                      type: 0
                                       label: Value
                                       definition:
                                         placeholder: 0
                                     -
-                                      type: 2
                                       name: label
+                                      type: 2
                                       label: Label
                                       definition:
                                         placeholder: 0
+                                  placeholder: 0
+                              placeholder: 0
                             hideCondition: 'parent.type != "options"'
                           -
-                            type: 4
                             name: optionsRandomOrder
+                            type: 4
                             label: 'Random Order (Options)'
                             definition:
-                              placeholder: 0
                               defvalue: '1'
+                              placeholder: 0
                             hideCondition: 'parent.type != "options"'
                           -
-                            type: 3
                             name: painMannequinGender
+                            type: 3
                             label: 'Mannequin Gender'
                             definition:
-                              placeholder: 0
                               options:
                                 -
-                                  value: male
                                   label: Male
+                                  value: male
                                 -
-                                  value: female
                                   label: Female
+                                  value: female
                                 -
-                                  value: custom
                                   label: Custom
+                                  value: custom
                               defvalue: male
+                              placeholder: 0
                             hideCondition: 'parent.type != "painMannequin"'
                           -
-                            type: 0
                             name: painMannequinGenderValue
+                            type: 0
                             label: 'Mannequing Gender Value'
                             definition:
-                              placeholder: 0
                               defvalue: male
+                              placeholder: 0
                             hideCondition: 'parent.type != "painMannequin" || parent.painMannequinGender != "custom"'
                           -
-                            type: 0
                             name: defaultScore
+                            type: 0
                             label: 'Default Score'
                             definition:
-                              placeholder: 0
                               defvalue: '0'
+                              placeholder: 0
                           -
-                            type: 10
                             name: scoreMap
+                            type: 10
                             label: 'Score Map'
                             definition:
-                              placeholder: 0
                               element:
                                 type: 9
                                 definition:
-                                  placeholder: 0
                                   fields:
                                     -
-                                      type: 0
                                       name: value
+                                      type: 0
                                       label: Value
                                       definition:
                                         placeholder: 0
                                     -
-                                      type: 0
                                       name: score
+                                      type: 0
                                       label: Score
                                       definition:
-                                        placeholder: 0
                                         defvalue: '0'
+                                        placeholder: 0
+                                  placeholder: 0
+                              placeholder: 0
+                        placeholder: 0
                     -
-                      type: 0
                       name: orderIndex
+                      type: 0
                       label: 'Order Index'
                       definition:
                         placeholder: 0
                     -
-                      type: 0
                       name: trait
+                      type: 0
                       label: Trait
                       definition:
                         placeholder: 0
+                  placeholder: 0
           -
             class_name: TestWizardParam
             id: 39
@@ -11977,7 +11977,6 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -11999,6 +11998,7 @@ collection:
                   name: trait
                   label: Trait
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 40
@@ -12015,8 +12015,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: test
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 41
@@ -12040,15 +12040,15 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               options:
                 -
-                  value: manual
                   label: Manual
+                  value: manual
                 -
-                  value: random
                   label: Random
+                  value: random
               defvalue: random
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 42
@@ -12065,8 +12065,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 43
@@ -12083,8 +12083,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '1'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 11
@@ -12110,8 +12110,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 45
@@ -12128,8 +12128,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 46
@@ -12146,8 +12146,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 47
@@ -12164,8 +12164,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 12
@@ -12193,7 +12193,6 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -12223,6 +12222,7 @@ collection:
                   name: trait
                   label: Trait
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 49
@@ -12239,8 +12239,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 50
@@ -12257,8 +12257,8 @@ collection:
             order: 0
             wizard: 6
             definition:
-              placeholder: 0
               defvalue: 'Response required!'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 13
@@ -12502,8 +12502,8 @@ collection:
             order: 0
             wizard: 7
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 52
@@ -12530,20 +12530,20 @@ collection:
               element:
                 type: 9
                 definition:
-                  placeholder: 0
                   fields:
                     -
-                      type: 0
                       name: name
+                      type: 0
                       label: Name
                       definition:
                         placeholder: 0
                     -
-                      type: 5
                       name: template
+                      type: 5
                       label: Template
                       definition:
                         placeholder: 0
+                  placeholder: 0
     test: 9
     groups: ''
     starterContent: true
@@ -12772,8 +12772,8 @@ collection:
             order: 0
             wizard: 9
             definition:
-              placeholder: 0
               defvalue: loader
+              placeholder: 0
     test: 11
     groups: ''
     starterContent: true
@@ -12858,8 +12858,8 @@ collection:
             order: 1
             wizard: 10
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 56
@@ -12876,8 +12876,8 @@ collection:
             order: 2
             wizard: 10
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 57
@@ -12894,8 +12894,8 @@ collection:
             order: 0
             wizard: 10
             definition:
-              placeholder: 0
               defvalue: ''
+              placeholder: 0
     test: 12
     groups: ''
     starterContent: true
@@ -13010,7 +13010,6 @@ collection:
             order: 0
             wizard: 11
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -13040,6 +13039,7 @@ collection:
                   name: finished
                   label: Finished
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 59
@@ -13056,8 +13056,8 @@ collection:
             order: 2
             wizard: 11
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 60
@@ -13074,8 +13074,8 @@ collection:
             order: 1
             wizard: 11
             definition:
-              placeholder: 0
               defvalue: '0'
+              placeholder: 0
     test: 13
     groups: ''
     starterContent: true
@@ -13200,7 +13200,6 @@ collection:
             order: 1
             wizard: 12
             definition:
-              placeholder: 0
               cols:
                 -
                   name: id
@@ -13210,6 +13209,7 @@ collection:
                   name: entryKey
                   label: 'Entry key'
                   tooltip: ''
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 62
@@ -13226,8 +13226,8 @@ collection:
             order: 2
             wizard: 12
             definition:
-              placeholder: 0
               defvalue: en
+              placeholder: 0
           -
             class_name: TestWizardParam
             id: 63
@@ -13251,17 +13251,17 @@ collection:
             order: 0
             wizard: 12
             definition:
-              placeholder: 0
               options:
                 -
-                  value: multiTable
                   label: 'Language per table'
                   order: 1
+                  value: multiTable
                 -
-                  value: multiColumn
                   label: 'Language per column'
                   order: 0
+                  value: multiColumn
               defvalue: multiColumn
+              placeholder: 0
     test: 14
     groups: ''
     starterContent: true

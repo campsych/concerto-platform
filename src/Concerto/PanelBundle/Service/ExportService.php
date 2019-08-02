@@ -99,7 +99,7 @@ class ExportService
             $export_elem = $elem;
             $elem_service = $this->serviceMap[$elem["class_name"]];
             $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
-            if($addHash) {
+            if ($addHash) {
                 $export_elem["hash"] = $elem_class::getArrayHash($elem);
             }
 
@@ -190,7 +190,8 @@ class ExportService
 
     public static function getTestCodeFilename($testArray)
     {
-        return $testArray["name"] . ".r";
+        $testName = $testArray["name"];
+        return "test/" . $testArray["name"] . "/" . $testArray["name"] . ".r";
     }
 
     public static function getPortValueFilename($testArray, $nodeArray, $portArray)
@@ -199,21 +200,21 @@ class ExportService
         $nodeName = preg_replace("/[^a-z0-9\.]/", "_", $nodeArray["title"]) . "_" . $nodeArray["id"];
         $portName = $portArray["name"];
 
-        return $testName . "_" . $nodeName . "_" . $portName . ".port.r";
+        return "test/$testName/nodes/$nodeName/ports/$portName.r";
     }
 
     public static function getTemplateHtmlFilename($templateArray)
     {
-        return $templateArray["name"] . ".html";
+        return "template/" . $templateArray["name"] . "/" . $templateArray["name"] . ".html";
     }
 
     public static function getTemplateCssFilename($templateArray)
     {
-        return $templateArray["name"] . ".css";
+        return "template/" . $templateArray["name"] . "/" . $templateArray["name"] . ".css";
     }
 
     public static function getTemplateJsFilename($templateArray)
     {
-        return $templateArray["name"] . ".js";
+        return "template/" . $templateArray["name"] . "/" . $templateArray["name"] . ".js";
     }
 }
