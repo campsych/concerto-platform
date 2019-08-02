@@ -105,13 +105,13 @@ class ExportService
 
             $elemInstruction = null;
             if ($instructions !== null) {
-                foreach ($instructions as $ins) {
-                    if ($ins["class_name"] == $elem["class_name"] && array_key_exists("id", $ins) && $ins["id"] == $elem["id"]) {
-                        $elemInstruction = $ins;
+                foreach ($instructions as $instruction) {
+                    if ($instruction["class_name"] == $elem["class_name"] && array_key_exists("id", $instruction) && $instruction["id"] == $elem["id"]) {
+                        $elemInstruction = $instruction;
                         break;
                     }
-                    if ($ins["class_name"] == $elem["class_name"] && array_key_exists("name", $ins) && $ins["name"] == $elem["name"]) {
-                        $elemInstruction = $ins;
+                    if ($instruction["class_name"] == $elem["class_name"] && array_key_exists("name", $instruction) && $instruction["name"] == $elem["name"]) {
+                        $elemInstruction = $instruction;
                         break;
                     }
                 }
