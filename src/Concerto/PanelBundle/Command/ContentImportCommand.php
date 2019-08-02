@@ -91,24 +91,19 @@ class ContentImportCommand extends Command
             }
 
             $results = $this->importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];
-            $success = true;
             foreach ($results as $res) {
                 if ($res["errors"]) {
                     $success = false;
                     $output->writeln("importing " . $f->getFileName() . " failed!");
                     $output->writeln("content importing failed!");
                     var_dump($res["errors"]);
-                    break;
+                    return false;
                 }
-            }
-            if ($success) {
-                $output->writeln("imported " . $f->getFileName() . " successfully");
-            } else {
-                break;
             }
         }
 
-        $output->writeln("content importing finished");
+        $output->writeln("imported " . $f->getFileName() . " successfully");
+        return true;
     }
 
     private function downloadSource(InputInterface $input, OutputInterface $output, $url, &$topTempDir = null)
@@ -229,7 +224,9 @@ class ContentImportCommand extends Command
             return 1;
         }
 
-        $this->importContent($input, $output, $user, $sourcePath);
+        if (!$this->importContent($input, $output, $user, $sourcePath)) {
+            return 1;
+        }
 
         if ($topTempDir) {
             $this->cleanTempDir($input, $output, $topTempDir);
