@@ -29,7 +29,6 @@
         "angular-ui-sortable": "*",
         "angular-breadcrumb": "0.4.x",
         "angular-ui-router": "0.2.*",
-        "angular-bind-html-compile": "1.0.x",
         "jsPlumb": "1.7.6",
         "ng-context-menu-concerto": "1.0.x",
         "jquery-mousewheel": "3.1.x",

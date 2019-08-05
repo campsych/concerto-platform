@@ -65,11 +65,11 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     }, {
         name: "wizard",
         displayName: Trans.TEST_LIST_FIELD_WIZARD,
-        cellTemplate: "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getWizardCellTemplate(COL_FIELD, row.entity)'></div>"
+        cellTemplate: "<div class='ui-grid-cell-contents' ng-html='grid.appScope.getWizardCellTemplate(COL_FIELD, row.entity)'></div>"
     }, {
         name: "wizard_source",
         displayName: Trans.TEST_LIST_FIELD_WIZARD_SOURCE,
-        cellTemplate: "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getSourceTestCellTemplate(COL_FIELD, row.entity)'></div>"
+        cellTemplate: "<div class='ui-grid-cell-contents' ng-html='grid.appScope.getSourceTestCellTemplate(COL_FIELD, row.entity)'></div>"
     }];
 
     $scope.collectionOptions.exporterFieldCallback = function (grid, row, col, input) {
