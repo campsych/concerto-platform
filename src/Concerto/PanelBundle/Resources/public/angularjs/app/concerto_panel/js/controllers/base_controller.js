@@ -111,8 +111,8 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: '<div class="ui-grid-cell-contents" align="center">' +
-                '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                '</div>',
+                    '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    '</div>',
                 width: 50
             });
         }
@@ -233,7 +233,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                             if ($scope.reloadOnModification)
                                 location.reload();
                             else {
-                                $scope.fetchObjectCollection();
+                                $scope.fetchAllCollections();
                                 if ($scope.onDelete)
                                     $scope.onDelete();
                             }
@@ -295,7 +295,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                         if (addModalDialog != null) {
                             addModalDialog.close($scope.object);
                         }
-                        $scope.fetchObjectCollection();
+                        $scope.fetchAllCollections();
 
                         $scope.dialogsService.alertDialog(
                             Trans.DIALOG_TITLE_SAVE,
@@ -333,8 +333,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.edit = function (id) {
         $state.go($scope.tabStateName + "Form", {'id': id});
-        $scope.fetchObject(id);
-        $scope.tabSection = "form";
     };
 
     $scope.import = function () {
@@ -374,6 +372,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.testCollectionService.fetchObjectCollection();
         $scope.testWizardCollectionService.fetchObjectCollection();
         $scope.viewTemplateCollectionService.fetchObjectCollection();
+        $scope.userCollectionService.fetchObjectCollection();
     };
 
     $scope.saveNew = function () {
@@ -394,7 +393,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
         modalInstance.result.then(function (object) {
             $scope.object = object;
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
@@ -521,14 +520,13 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     };
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
-            if (toState.name === $scope.tabStateName + "Form") {
-                $scope.tabSection = "form";
-                $scope.delayedEdit(toParams.id);
-            } else {
-                $scope.tabSection = "list";
-                $scope.resetObject();
-            }
+        $scope.fetchAllCollections();
+        if (toState.name === $scope.tabStateName + "Form") {
+            $scope.tabSection = "form";
+            $scope.delayedEdit(toParams.id);
+        } else if (toState.name === $scope.tabStateName) {
+            $scope.tabSection = "list";
+            $scope.resetObject();
         }
     });
 

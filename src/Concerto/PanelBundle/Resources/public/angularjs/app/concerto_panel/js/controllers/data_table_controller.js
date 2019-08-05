@@ -375,7 +375,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             function (response) {
                 $http.post($scope.deleteColumnPath.pf($scope.object.id, names), {}).success(function (data) {
                     $scope.setWorkingCopyObject();
-                    $scope.fetchObjectCollection();
+                    $scope.fetchAllCollections();
                 });
             }
         );
@@ -422,7 +422,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
@@ -444,11 +444,11 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
         modalInstance.result.then(function (response) {
             $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function (dirty) {
             if (dirty === true) {
                 $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
+                $scope.fetchAllCollections();
             }
         });
     };
@@ -462,8 +462,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testCollectionService.fetchObjectCollection();
-        $scope.testWizardCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.resetObject = function () {

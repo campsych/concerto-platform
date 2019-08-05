@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="center">
-        <button ng-click="fetchObjectCollection();" class="btn btn-default btn-sm btn-list-refresh">{{ "list.button.refresh"|trans }}</button>
+        <button ng-click="fetchAllCollections();" class="btn btn-default btn-sm btn-list-refresh">{{ "list.button.refresh"|trans }}</button>
         <button ng-click="add();" class="btn btn-success btn-sm">{{ "list.button.add"|trans }}</button>
         <button ng-click="import();" class="btn btn-success btn-sm" ng-if="exportable">{{ "list.button.import"|trans }}</button>
         <button ng-click="exportSelected();" class="btn btn-default btn-sm" ng-if="exportable">{{ "list.button.export.checked"|trans }}</button>

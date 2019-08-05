@@ -126,8 +126,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testCollectionService.fetchObjectCollection();
-        $scope.testWizardCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.$watch("object.css", function () {

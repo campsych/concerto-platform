@@ -436,7 +436,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if ($scope.object.sourceWizard != null) {
             TestWizardParam.wizardParamsToTestVariables($scope.object, $scope.object.steps, $scope.object.variables);
         }
-    }
+    };
 
     $scope.deleteAllLogs = function () {
         $scope.dialogsService.confirmDialog(
@@ -522,8 +522,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             function (response) {
                 $http.post($scope.deleteVariablePath.pf(ids), {}).success(function (data) {
                     $scope.setWorkingCopyObject();
-                    $scope.collectionService.fetchObjectCollection();
-                    $scope.testWizardCollectionService.fetchObjectCollection();
+                    $scope.fetchAllCollections();
                 });
             }
         );
@@ -573,8 +572,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.collectionService.fetchObjectCollection();
-            $scope.testWizardCollectionService.fetchObjectCollection();
+            $scope.fetchAllCollections();
         });
     };
 
@@ -615,7 +613,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testWizardCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.resetObject();
