@@ -21,14 +21,14 @@ getSafeItem = function(item, extraFields) {
   }
   item$responseOptions$options = orderedOptions
   item$responseOptions = toJSON(item$responseOptions)
-  
+
   extraFields = fromJSON(extraFields)
   for(extraField in extraFields) {
     if(extraField$sensitive == 1) {
       item[[extraField$name]] = NULL
     }
   }
-  
+
   return(item)
 }
 
