@@ -45,7 +45,7 @@ class ContentImportCommand extends Command
         $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready options set. Combines: --convert --clean --files --src");
     }
 
-    protected function importContent(InputInterface $input, OutputInterface $output, User $user, $sourcePath)
+    protected function importContent(InputInterface $input, OutputInterface $output, $sourcePath)
     {
         $output->writeln("importing content...");
 
@@ -56,6 +56,7 @@ class ContentImportCommand extends Command
 
         $finder = new Finder();
         $finder->files()->in($sourcePath)->name('*.concerto*');
+
 
         foreach ($finder as $f) {
             $this->importService->reset();
@@ -90,7 +91,7 @@ class ContentImportCommand extends Command
                 }
             }
 
-            $results = $this->importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];
+            $results = $this->importService->importFromFile($f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];
             foreach ($results as $res) {
                 if ($res["errors"]) {
                     $success = false;
@@ -193,10 +194,6 @@ class ContentImportCommand extends Command
         chdir(realpath(__DIR__ . "/../Resources/starter_content"));
 
         ASectionService::$securityOn = false;
-        $em = $this->doctrine->getManager();
-
-        $userRepo = $em->getRepository("ConcertoPanelBundle:User");
-        $user = $userRepo->findOneBy(array());
 
         $topTempDir = null;
         $sourcePath = $input->getArgument("input");
@@ -224,7 +221,7 @@ class ContentImportCommand extends Command
             return 1;
         }
 
-        if (!$this->importContent($input, $output, $user, $sourcePath)) {
+        if (!$this->importContent($input, $output, $sourcePath)) {
             return 1;
         }
 

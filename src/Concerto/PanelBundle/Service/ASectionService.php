@@ -4,19 +4,21 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Repository\AEntityRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 abstract class ASectionService
 {
-
     public static $securityOn = true;
     public $repository;
     protected $securityAuthorizationChecker;
+    protected $securityTokenStorage;
 
-    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
     {
         $this->repository = $repository;
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
+        $this->securityTokenStorage = $securityTokenStorage;
     }
 
     public static function getObjectImportInstruction($obj, $instructions)

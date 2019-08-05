@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\UserRepository;
 use Concerto\PanelBundle\Repository\RoleRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -24,9 +25,9 @@ class UserService extends ASectionService
     private $importService;
     private $validator;
 
-    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService)
+    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $securityAuthorizationChecker);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->roleRepository = $roleRepository;
         $this->validator = $validator;
@@ -44,8 +45,10 @@ class UserService extends ASectionService
         return $object;
     }
 
-    public function save(User $user, $object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard)
+    public function save($object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
         $errors = array();
         $object = $this->get($object_id);
         $validatation_groups = array("User");

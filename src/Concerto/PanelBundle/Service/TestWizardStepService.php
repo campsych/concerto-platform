@@ -7,6 +7,7 @@ use Concerto\PanelBundle\Entity\TestWizardStep;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -16,9 +17,9 @@ class TestWizardStepService extends ASectionService
     private $validator;
     private $testWizardRepository;
 
-    public function __construct(TestWizardStepRepository $repository, ValidatorInterface $validator, TestWizardRepository $testWizardRepository, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    public function __construct(TestWizardStepRepository $repository, ValidatorInterface $validator, TestWizardRepository $testWizardRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $securityAuthorizationChecker);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->validator = $validator;
         $this->testWizardRepository = $testWizardRepository;
@@ -38,7 +39,7 @@ class TestWizardStepService extends ASectionService
         return $this->authorizeCollection($this->repository->findByTestWizard($wizard_id));
     }
 
-    public function save(User $user, $object_id, $title, $description, $order, $wizard)
+    public function save($object_id, $title, $description, $order, $wizard)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -85,7 +86,7 @@ class TestWizardStepService extends ASectionService
         return array("errors" => array());
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
+    public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestWizardStep", $map))
@@ -109,12 +110,12 @@ class TestWizardStepService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $queue, $wizard);
+            $result = $this->importConvert(null, $src_ent, $obj, $map, $queue, $wizard);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestWizardStep"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $queue, $wizard);
+            $result = $this->importNew(null, $obj, $map, $queue, $wizard);
 
         array_splice($queue, 1, 0, $obj["params"]);
 
@@ -130,7 +131,7 @@ class TestWizardStepService extends ASectionService
         return $this->get($ent->getId());
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $wizard)
+    protected function importNew($new_name, $obj, &$map, &$queue, $wizard)
     {
         $ent = new TestWizardStep();
         $ent->setColsNum($obj["colsNum"]);
@@ -151,7 +152,7 @@ class TestWizardStepService extends ASectionService
         return array("errors" => null, "entity" => $ent);
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $wizard)
+    protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $wizard)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;

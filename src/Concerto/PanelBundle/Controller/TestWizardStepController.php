@@ -8,7 +8,6 @@ use Concerto\PanelBundle\Service\TestWizardService;
 use Concerto\PanelBundle\Service\TestWizardStepService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -23,9 +22,9 @@ class TestWizardStepController extends ASectionController
 
     private $testWizardService;
 
-    public function __construct(EngineInterface $templating, TestWizardStepService $service, TranslatorInterface $translator, TestWizardService $testWizardService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestWizardStepService $service, TranslatorInterface $translator, TestWizardService $testWizardService)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->entityName = self::ENTITY_NAME;
         $this->testWizardService = $testWizardService;
@@ -84,7 +83,6 @@ class TestWizardStepController extends ASectionController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("title"),
             $request->get("description"),

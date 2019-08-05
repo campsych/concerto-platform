@@ -220,7 +220,7 @@ class ImportService
         $this->renames = array();
     }
 
-    public function importFromFile(User $user, $file, $instructions, $unlink = true)
+    public function importFromFile($file, $instructions, $unlink = true)
     {
         $dir = pathinfo($file)["dirname"];
         $data = $this->getImportFileContents($file, $unlink);
@@ -235,7 +235,7 @@ class ImportService
             }
         }
 
-        return $this->import($user, $instructions, $data["collection"]);
+        return $this->import($instructions, $data["collection"]);
     }
 
     private function mergeExternalSource(&$obj, $srcDir)
@@ -308,7 +308,7 @@ class ImportService
         }
     }
 
-    public function import(User $user, $instructions, $data)
+    public function import($instructions, $data)
     {
         $result = array("result" => 0, "import" => array());
         $this->queue = $data;
@@ -316,7 +316,7 @@ class ImportService
             $obj = $this->queue[0];
             if (is_array($obj) && array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
-                $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->renames, $this->queue);
+                $last_result = $service->importFromArray($instructions, $obj, $this->map, $this->renames, $this->queue);
                 if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
                     array_push($result["import"], $last_result);
                     $result["result"] = 1;
@@ -335,7 +335,7 @@ class ImportService
         return $result;
     }
 
-    public function copy($class_name, User $user, $object_id, $name)
+    public function copy($class_name, $object_id, $name)
     {
         $ent = $this->serviceMap[$class_name]->get($object_id);
         $dependencies = array();
@@ -359,8 +359,7 @@ class ImportService
             $instructions[$i]["data"] = "2";
         }
         $result = $this->import(
-            $user, //
-            json_decode(json_encode($instructions), true), //
+            json_decode(json_encode($instructions), true),
             $collection
         );
         return $result;

@@ -12,6 +12,7 @@ use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Repository\TestWizardStepRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -26,9 +27,9 @@ class TestWizardParamService extends ASectionService
     private $testNodePortService;
     private $logger;
 
-    public function __construct(TestWizardParamRepository $repository, ValidatorInterface $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger)
+    public function __construct(TestWizardParamRepository $repository, ValidatorInterface $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $securityAuthorizationChecker);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->validator = $validator;
         $this->testVariableService = $testVariableService;
@@ -57,7 +58,7 @@ class TestWizardParamService extends ASectionService
         return $this->authorizeCollection($this->repository->findByTestWizardAndType($wizard_id, $type));
     }
 
-    public function save(User $user, $object_id, $variable, $label, $type, $serializedDefinition, $hideCondition, $description, $passableThroughUrl, $value, $wizardStep, $order, $wizard)
+    public function save($object_id, $variable, $label, $type, $serializedDefinition, $hideCondition, $description, $passableThroughUrl, $value, $wizardStep, $order, $wizard)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -93,15 +94,15 @@ class TestWizardParamService extends ASectionService
             return array("object" => null, "errors" => $errors);
         }
         $this->repository->save($object);
-        $this->onObjectSaved($user, $object, $old_obj);
+        $this->onObjectSaved($object, $old_obj);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update(User $user, $object, $oldObj)
+    public function update($object, $oldObj)
     {
         $this->repository->save($object);
-        $this->onObjectSaved($user, $object, $oldObj);
+        $this->onObjectSaved($object, $oldObj);
     }
 
     public function delete($object_ids, $secure = true)
@@ -127,7 +128,7 @@ class TestWizardParamService extends ASectionService
         return array("errors" => array());
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
+    public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("TestWizardParam", $map))
@@ -162,17 +163,17 @@ class TestWizardParamService extends ASectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, null, $src_ent, $obj, $map, $renames, $queue, $step, $variable, $wizard);
+            $result = $this->importConvert(null, $src_ent, $obj, $map, $renames, $queue, $step, $variable, $wizard);
         } else if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestWizardParam"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, null, $obj, $map, $renames, $queue, $step, $variable, $wizard);
+            $result = $this->importNew(null, $obj, $map, $renames, $queue, $step, $variable, $wizard);
 
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, $renames, &$queue, $step, $variable, $wizard)
+    protected function importNew($new_name, $obj, &$map, $renames, &$queue, $step, $variable, $wizard)
     {
         $ent = new TestWizardParam();
         $ent->setDescription($obj["description"]);
@@ -208,7 +209,7 @@ class TestWizardParamService extends ASectionService
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         $this->repository->save($ent, false);
-        $this->onObjectSaved($user, $ent, null, false);
+        $this->onObjectSaved($ent, null, false);
 
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
@@ -228,7 +229,7 @@ class TestWizardParamService extends ASectionService
         return $this->get($ent->getId());
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, $renames, &$queue, $step, $variable, $wizard)
+    protected function importConvert($new_name, $src_ent, $obj, &$map, $renames, &$queue, $step, $variable, $wizard)
     {
         $old_ent = clone $src_ent;
         $ent = $src_ent;
@@ -267,7 +268,7 @@ class TestWizardParamService extends ASectionService
         $this->repository->save($ent, false);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
 
-        $this->onObjectSaved($user, $ent, $old_ent, false);
+        $this->onObjectSaved($ent, $old_ent, false);
         $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
@@ -278,12 +279,12 @@ class TestWizardParamService extends ASectionService
         //TODO 
     }
 
-    private function onObjectSaved(User $user, TestWizardParam $newParam, $oldParam, $flush = true)
+    private function onObjectSaved(TestWizardParam $newParam, $oldParam, $flush = true)
     {
-        $this->updateValues($user, $newParam, $oldParam, $flush);
+        $this->updateValues($newParam, $oldParam, $flush);
     }
 
-    private function updateValues(User $user, TestWizardParam $newParam, $oldParam, $flush = true)
+    private function updateValues(TestWizardParam $newParam, $oldParam, $flush = true)
     {
         $newDef = $newParam->getDefinition();
         $oldDef = null;
@@ -304,7 +305,7 @@ class TestWizardParamService extends ASectionService
         }
 
         //param update
-        self::mergeValue($user, $newType, $oldType, $newDef, $oldDef, $newVal, $oldVal, $newVal, true, true);
+        self::mergeValue($newType, $oldType, $newDef, $oldDef, $newVal, $oldVal, $newVal, true, true);
         $val = $newVal;
         if (!in_array($newParam->getType(), self::$simpleTypes)) {
             $val = json_encode($val);
@@ -321,13 +322,13 @@ class TestWizardParamService extends ASectionService
                     if (!in_array($oldType, self::$simpleTypes)) {
                         $dstVal = json_decode($dstVal, true);
                     }
-                    self::mergeValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $dstVal);
+                    self::mergeValue($newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $dstVal);
                     $val = $dstVal;
                     if (!in_array($newType, self::$simpleTypes)) {
                         $val = json_encode($val);
                     }
                     $var->setValue($val);
-                    $this->testVariableService->update($user, $var, $flush);
+                    $this->testVariableService->update($var, $flush);
 
                     // ports update
 
@@ -340,7 +341,7 @@ class TestWizardParamService extends ASectionService
                                 if (!in_array($oldType, self::$simpleTypes)) {
                                     $portDstVal = json_decode($portDstVal, true);
                                 }
-                                self::mergeValue($user, $newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $portDstVal);
+                                self::mergeValue($newParam->getType(), $oldType, $newDef, $oldDef, $newVal, $oldVal, $portDstVal);
                                 $portVal = $portDstVal;
                                 if (!in_array($newType, self::$simpleTypes)) {
                                     $portVal = json_encode($portVal);
@@ -356,7 +357,7 @@ class TestWizardParamService extends ASectionService
         }
     }
 
-    public static function mergeValue(User $user, $newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$mergedVal, $allowDefault = true, $isParam = false)
+    public static function mergeValue($newType, $oldType, $newDef, $oldDef, &$newVal, $oldVal, &$mergedVal, $allowDefault = true, $isParam = false)
     {
         //type change
         $newField = $oldType === null;
@@ -439,7 +440,7 @@ class TestWizardParamService extends ASectionService
                                 }
                             }
                         }
-                        self::mergeValue($user, $field["type"], $oldFieldType, $newFieldDef, $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $allowDefault);
+                        self::mergeValue($field["type"], $oldFieldType, $newFieldDef, $oldFieldDef, $newFieldVal, $oldFieldVal, $dstFieldVal, $allowDefault);
                     }
                     break;
                 //list type
@@ -465,7 +466,7 @@ class TestWizardParamService extends ASectionService
                                     $newElemVal = $newVal[$i];
                                 }
                             }
-                            self::mergeValue($user, $newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
+                            self::mergeValue($newDef["element"]["type"], $oldElemType, $newDef["element"]["definition"], $oldElemDef, $newElemVal, $oldElemVal, $mergedVal[$i], $allowDefault);
                         }
                     }
                     break;
@@ -482,7 +483,7 @@ class TestWizardParamService extends ASectionService
         return null;
     }
 
-    public function onObjectRename(User $user, $object, $oldName)
+    public function onObjectRename($object, $oldName)
     {
         foreach ($this->testWizardRepository->findAll() as $wizard) {
             foreach ($wizard->getParams() as $param) {
@@ -494,7 +495,7 @@ class TestWizardParamService extends ASectionService
                     $param->setDefinition($def);
                     if (is_array($paramValue)) $paramValue = json_encode($paramValue);
                     $param->setValue($paramValue);
-                    $this->update($user, $param, $oldParam);
+                    $this->update($param, $oldParam);
                 }
 
                 foreach ($wizard->getResultingTests() as $test) {
@@ -504,7 +505,7 @@ class TestWizardParamService extends ASectionService
                             if (self::modifyPropertiesOnRename($object->getName(), get_class($object), $oldName, $type, $def, $varValue, true)) {
                                 if (is_array($varValue)) $varValue = json_encode($varValue);
                                 $var->setValue($varValue);
-                                $this->testVariableService->update($user, $var);
+                                $this->testVariableService->update($var);
                             }
 
                             //ports

@@ -5,7 +5,6 @@ namespace Concerto\PanelBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\UserService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -20,9 +19,9 @@ class UserController extends ASectionController
 
     const ENTITY_NAME = "User";
 
-    public function __construct(EngineInterface $templating, UserService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, UserService $service, TranslatorInterface $translator)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->entityName = self::ENTITY_NAME;
     }
@@ -68,7 +67,6 @@ class UserController extends ASectionController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("accessibility"),
             $request->get("archived") === "1",

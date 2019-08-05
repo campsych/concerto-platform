@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
@@ -29,9 +28,9 @@ class TestWizardController extends AExportableTabController
     private $testService;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, TestWizardService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, TestService $testService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, TestWizardService $service, TranslatorInterface $translator, TestService $testService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
     {
-        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+        parent::__construct($environment, $templating, $service, $translator, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -81,7 +80,6 @@ class TestWizardController extends AExportableTabController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name"),
             $request->get("description"),

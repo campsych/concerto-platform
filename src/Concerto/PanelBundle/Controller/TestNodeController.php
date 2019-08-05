@@ -7,7 +7,6 @@ use Concerto\PanelBundle\Service\TestService;
 use Concerto\PanelBundle\Service\TestNodeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,9 +22,9 @@ class TestNodeController extends ASectionController
 
     private $testService;
 
-    public function __construct(EngineInterface $templating, TestNodeService $nodeService, TestService $testService, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestNodeService $nodeService, TestService $testService, TranslatorInterface $translator)
     {
-        parent::__construct($templating, $nodeService, $translator, $securityTokenStorage);
+        parent::__construct($templating, $nodeService, $translator);
 
         $this->entityName = self::ENTITY_NAME;
         $this->testService = $testService;
@@ -83,7 +82,6 @@ class TestNodeController extends ASectionController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("type"),
             $request->get("posX"),
@@ -119,7 +117,6 @@ class TestNodeController extends ASectionController
     public function addDynamicPort(Request $request, $object_id, $type)
     {
         $result = $this->service->addDynamicPort(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name"),
             (integer)$type

@@ -10,7 +10,6 @@ use Concerto\PanelBundle\Service\TestWizardParamService;
 use Concerto\PanelBundle\Service\TestWizardStepService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -27,9 +26,9 @@ class TestWizardParamController extends ASectionController
     private $testWizardStepService;
     private $testVariableService;
 
-    public function __construct(EngineInterface $templating, TestWizardParamService $service, TranslatorInterface $translator, TestVariableService $testVariableServce, TestWizardStepService $testWizardStepService, TestWizardService $testWizardService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestWizardParamService $service, TranslatorInterface $translator, TestVariableService $testVariableServce, TestWizardStepService $testWizardStepService, TestWizardService $testWizardService)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->entityName = self::ENTITY_NAME;
         $this->testWizardService = $testWizardService;
@@ -102,7 +101,6 @@ class TestWizardParamController extends ASectionController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $this->testVariableService->get($request->get("testVariable")),
             $request->get("label"),

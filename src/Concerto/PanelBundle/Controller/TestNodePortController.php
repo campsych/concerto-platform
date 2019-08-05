@@ -8,7 +8,6 @@ use Concerto\PanelBundle\Service\TestNodePortService;
 use Concerto\PanelBundle\Service\TestVariableService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -25,9 +24,9 @@ class TestNodePortController extends ASectionController
     private $testNodeService;
     private $testVariableService;
 
-    public function __construct(EngineInterface $templating, TestNodePortService $portService, TestNodeService $nodeService, TestVariableService $variableService, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestNodePortService $portService, TestNodeService $nodeService, TestVariableService $variableService, TranslatorInterface $translator)
     {
-        parent::__construct($templating, $portService, $translator, $securityTokenStorage);
+        parent::__construct($templating, $portService, $translator);
 
         $this->entityName = self::ENTITY_NAME;
 
@@ -87,7 +86,6 @@ class TestNodePortController extends ASectionController
         $pointerVariable = $request->get("pointerVariable");
 
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $node,
             $variable,
@@ -112,7 +110,6 @@ class TestNodePortController extends ASectionController
     public function saveCollectionAction(Request $request)
     {
         $result = $this->service->saveCollection(
-            $this->securityTokenStorage->getToken()->getUser(),
             $request->get("serializedCollection")
         );
         if (count($result["errors"]) > 0) {
@@ -135,7 +132,9 @@ class TestNodePortController extends ASectionController
      */
     public function hideAction(Request $request, $object_id)
     {
-        $this->service->hide($object_id);
+        $this->service->hide(
+            $object_id
+        );
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AExportableSectionService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
@@ -20,9 +19,9 @@ abstract class AExportableTabController extends ASectionController
     protected $exportService;
     protected $fileService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, ImportService $importService, ExportService $exportService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, TranslatorInterface $translator, ImportService $importService, ExportService $exportService, FileService $fileService)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->environment = $environment;
         $this->importService = $importService;
@@ -33,8 +32,7 @@ abstract class AExportableTabController extends ASectionController
     public function preImportStatusAction(Request $request)
     {
         $result = $this->importService->getPreImportStatusFromFile(
-            $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
-            $request->get("name"));
+            $this->fileService->getPrivateUploadDirectory() . $request->get("file"));
 
         $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
@@ -44,7 +42,6 @@ abstract class AExportableTabController extends ASectionController
     public function importAction(Request $request)
     {
         $result = $this->importService->importFromFile(
-            $this->securityTokenStorage->getToken()->getUser(),
             $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
             json_decode($request->get("instructions"), true),
             false);
@@ -100,7 +97,6 @@ abstract class AExportableTabController extends ASectionController
     {
         $result = $this->importService->copy(
             $this->entityName,
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name")
         );

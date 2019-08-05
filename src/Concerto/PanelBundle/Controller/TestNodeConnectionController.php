@@ -8,7 +8,6 @@ use Concerto\PanelBundle\Service\TestNodeConnectionService;
 use Concerto\PanelBundle\Service\TestNodeService;
 use Concerto\PanelBundle\Service\TestNodePortService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +26,9 @@ class TestNodeConnectionController extends ASectionController
     private $testNodeService;
     private $testPortService;
 
-    public function __construct(EngineInterface $templating, TestService $testService, TestNodeConnectionService $connectionService, TestNodeService $nodeService, TestNodePortService $portService, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestService $testService, TestNodeConnectionService $connectionService, TestNodeService $nodeService, TestNodePortService $portService, TranslatorInterface $translator)
     {
-        parent::__construct($templating, $connectionService, $translator, $securityTokenStorage);
+        parent::__construct($templating, $connectionService, $translator);
 
         $this->entityName = self::ENTITY_NAME;
 
@@ -93,7 +92,6 @@ class TestNodeConnectionController extends ASectionController
         $destinationPort = $request->get("destinationPort");
 
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $this->testService->get($request->get("flowTest")),
             $this->testNodeService->get($request->get("sourceNode")),

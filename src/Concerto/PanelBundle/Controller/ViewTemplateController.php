@@ -7,7 +7,6 @@ use Concerto\PanelBundle\Service\ViewTemplateService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
@@ -23,9 +22,9 @@ class ViewTemplateController extends AExportableTabController
 
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, ViewTemplateService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, ViewTemplateService $service, TranslatorInterface $translator, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
     {
-        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+        parent::__construct($environment, $templating, $service, $translator, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -78,7 +77,6 @@ class ViewTemplateController extends AExportableTabController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name"),
             $request->get("description"),

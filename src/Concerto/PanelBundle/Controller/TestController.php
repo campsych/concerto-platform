@@ -9,7 +9,6 @@ use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
@@ -29,9 +28,9 @@ class TestController extends AExportableTabController
     private $testWizardService;
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, TestService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, TestService $service, TranslatorInterface $translator, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
     {
-        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+        parent::__construct($environment, $templating, $service, $translator, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -81,7 +80,6 @@ class TestController extends AExportableTabController
     public function saveAction(Request $request, $object_id)
     {
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name"),
             $request->get("description"),
@@ -170,7 +168,6 @@ class TestController extends AExportableTabController
     public function addNodeAction(Request $request, $object_id)
     {
         $result = $this->service->addFlowNode(
-            $this->securityTokenStorage->getToken()->getUser(),
             $request->get("type"),
             $request->get("posX"),
             $request->get("posY"),
@@ -222,7 +219,6 @@ class TestController extends AExportableTabController
     public function addNodeConnectionAction(Request $request, $object_id)
     {
         $result = $this->service->addFlowConnection(
-            $this->securityTokenStorage->getToken()->getUser(),
             $this->service->get($request->get("flowTest")),
             $request->get("sourceNode"),
             $request->get("sourcePort") ? $request->get("sourcePort") : null,
@@ -288,7 +284,6 @@ class TestController extends AExportableTabController
     public function pasteNodesAction(Request $request, $object_id)
     {
         $result = $this->service->pasteNodes(
-            $this->securityTokenStorage->getToken()->getUser(),
             $this->service->get($object_id),
             json_decode($request->get("nodes"), true),
             false);

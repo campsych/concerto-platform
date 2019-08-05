@@ -5,7 +5,6 @@ namespace Concerto\PanelBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\ASectionService;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Translation\TranslatorInterface;
 
 abstract class ASectionController
@@ -15,14 +14,12 @@ abstract class ASectionController
     protected $service;
     protected $templating;
     protected $translator;
-    protected $securityTokenStorage;
 
-    public function __construct(EngineInterface $templating, ASectionService $service, TranslatorInterface $translator, TokenStorage $securityTokenStorage)
+    public function __construct(EngineInterface $templating, ASectionService $service, TranslatorInterface $translator)
     {
         $this->templating = $templating;
         $this->service = $service;
         $this->translator = $translator;
-        $this->securityTokenStorage = $securityTokenStorage;
     }
 
     protected function getSaveResponse($result)
