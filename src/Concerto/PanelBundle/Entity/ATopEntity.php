@@ -68,6 +68,7 @@ abstract class ATopEntity extends AEntity
      * Set accessibility
      *
      * @param integer $access
+     * @return ATopEntity
      */
     public function setAccessibility($access)
     {
@@ -90,6 +91,7 @@ abstract class ATopEntity extends AEntity
      * Set archived
      *
      * @param boolean $archived
+     * @return ATopEntity
      */
     public function setArchived($archived)
     {
@@ -112,6 +114,7 @@ abstract class ATopEntity extends AEntity
      * Set starter content
      *
      * @param boolean $starterContent
+     * @return ATopEntity
      */
     public function setStarterContent($starterContent)
     {
@@ -132,10 +135,16 @@ abstract class ATopEntity extends AEntity
 
     /**
      * Set updated by
-     * @param string $user
+     * @param User|string|null $user
+     * @return ATopEntity
      */
-    public function setUpdatedBy($user) {
-        $this->updatedBy = $user;
+    public function setUpdatedBy($user)
+    {
+        $name = "";
+        if (is_a($user, User::class)) {
+            $name = $user->getUsername();
+        }
+        $this->updatedBy = $name;
 
         return $this;
     }
@@ -145,7 +154,8 @@ abstract class ATopEntity extends AEntity
      *
      * @return string
      */
-    public function getUpdatedBy() {
+    public function getUpdatedBy()
+    {
         return $this->updatedBy;
     }
 
@@ -153,8 +163,10 @@ abstract class ATopEntity extends AEntity
      * Set tags
      *
      * @param string $tags
+     * @return ATopEntity
      */
-    public function setTags($tags) {
+    public function setTags($tags)
+    {
         $this->tags = trim($tags);
 
         return $this;
@@ -165,7 +177,8 @@ abstract class ATopEntity extends AEntity
      *
      * @return string
      */
-    public function getTags() {
+    public function getTags()
+    {
         return $this->tags;
     }
 
@@ -174,7 +187,8 @@ abstract class ATopEntity extends AEntity
      *
      * @return string
      */
-    public function getTagsArray() {
+    public function getTagsArray()
+    {
         $result = array();
         $tags = explode(" ", $this->tags);
         for ($i = 0; $i < count($tags); $i++) {
@@ -189,6 +203,7 @@ abstract class ATopEntity extends AEntity
      * Set groups
      *
      * @param string $groups
+     * @return ATopEntity
      */
     public function setGroups($groups)
     {

@@ -60,8 +60,7 @@ class DataTableService extends AExportableSectionService
             $object->setOwner($user);
         }
         $object->setUpdated();
-        if ($user !== null)
-            $object->setUpdatedBy($user->getUsername());
+        $object->setUpdatedBy($user);
         $object->setName($name);
         if ($description !== null) {
             $object->setDescription($description);

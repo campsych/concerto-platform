@@ -107,8 +107,7 @@ class TestService extends AExportableSectionService
     private function resave($new, User $user, Test $object, $old_name, $serializedVariables = null, $errors = array(), $flush = true)
     {
         $object->setUpdated();
-        if ($user !== null)
-            $object->setUpdatedBy($user->getUsername());
+        $object->setUpdatedBy($user);
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
