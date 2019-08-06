@@ -66,11 +66,9 @@ class TestService extends AExportableSectionService
 
         $errors = array();
         $object = $this->get($object_id);
-        $new = false;
         $old_name = null;
         if ($object === null) {
             $object = new Test();
-            $new = true;
             $object->setOwner($user);
         } else {
             $old_name = $object->getName();
@@ -103,52 +101,55 @@ class TestService extends AExportableSectionService
             $object->setSlug($urlslug . '-' . $slug_postfix++);
         }
 
-        return $this->resave($new, $object, $old_name, $serializedVariables, $errors);
+        return $this->resave($object, $old_name, $serializedVariables, $errors);
     }
 
-    private function resave($new, Test $object, $old_name, $serializedVariables = null, $errors = array(), $flush = true)
+    private function resave(Test $object, $oldName, $serializedVariables = null, $errors = array(), $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
-
-        $object->setUpdated();
-        $object->setUpdatedBy($user);
-
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
         }
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $old_name, $new, $serializedVariables, true, $flush);
-
+        $this->update($object, $oldName, $serializedVariables, $flush);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved($test, $oldName, $new, $serializedVariables, $insertInitialObjects = true, $flush = true)
+    private function update(Test $object, $oldName = null, $serializedVariables = null, $flush = true)
+    {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $isNew = $object->getId() === null;
+        $this->repository->save($object, $flush);
+        $this->onObjectSaved($object, $oldName, $isNew, $serializedVariables, $flush);
+    }
+
+    private function onObjectSaved($test, $oldName, $isNew, $serializedVariables, $flush = true)
     {
         if ($test->getSourceWizard() != null) {
-            if ($new) {
+            if ($isNew) {
                 $this->testVariableService->createVariablesFromSourceTest($test, $flush);
             } else {
                 $this->testVariableService->saveCollection($serializedVariables, $test, $flush);
             }
         }
-        if ($new && count($this->testVariableService->getBranches($test->getId())) == 0 && $insertInitialObjects) {
+        if ($isNew && count($this->testVariableService->getBranches($test->getId())) == 0) {
             $result = $this->testVariableService->save(0, "out", 2, "", false, 0, $test, null, $flush);
             $test->addVariable($result["object"]);
         }
         $this->updateDependentTests($test, $flush);
 
-        if ($test->getType() == Test::TYPE_FLOW && $new && $insertInitialObjects) {
+        if ($test->getType() == Test::TYPE_FLOW && $isNew) {
             $result = $this->testNodeService->save(0, 1, 15000, 15000, $test, $test, "", $flush);
             $test->addNode($result["object"]);
             $result = $this->testNodeService->save(0, 2, 15500, 15100, $test, $test, "", $flush);
             $test->addNode($result["object"]);
         }
 
-        if (!$new && $oldName != $test->getName()) {
+        if (!$isNew && $oldName != $test->getName()) {
             $this->testWizardParamService->onObjectRename($test, $oldName);
         }
     }
@@ -159,7 +160,7 @@ class TestService extends AExportableSectionService
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave(false, $test, $test->getName(), null, array(), $flush);
+            $data = $this->resave($test, $test->getName(), null, array(), $flush);
             array_push($result, $data);
         }
         return $result;
@@ -280,6 +281,8 @@ class TestService extends AExportableSectionService
         $ent->setSourceWizard($wizard);
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
+        $ent->setUpdated();
+        $ent->setUpdatedBy($user);
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
         $ent_errors = $this->validator->validate($ent);
@@ -290,6 +293,7 @@ class TestService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
+        //shouldn't be update because it will lead to redundant variables
         $this->repository->save($ent, false);
         $map["Test"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
@@ -324,10 +328,9 @@ class TestService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, $old_ent->getName(), null, false);
         $map["Test"]["id" . $obj["id"]] = $ent;
 
-        $this->updateDependentTests($ent, false);
         $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
@@ -373,7 +376,7 @@ class TestService extends AExportableSectionService
             $node = $this->testNodeService->get($nodes[$i]["id"]);
             $node->setPosX($nodes[$i]["posX"]);
             $node->setPosY($nodes[$i]["posY"]);
-            $this->testNodeService->repository->save($node);
+            $this->testNodeService->update($node);
         }
     }
 
@@ -430,7 +433,7 @@ class TestService extends AExportableSectionService
                         $dest_port->setValue($src_port["value"]);
                         $dest_port->setString($src_port["string"]);
                         $dest_port->setDefaultValue($src_port["defaultValue"]);
-                        $this->testNodePortService->repository->save($dest_port);
+                        $this->testNodePortService->update($dest_port);
                         break;
                     }
                 }

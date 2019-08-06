@@ -47,8 +47,6 @@ class UserService extends ASectionService
 
     public function save($object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
-
         $errors = array();
         $object = $this->get($object_id);
         $validatation_groups = array("User");
@@ -58,8 +56,6 @@ class UserService extends ASectionService
             $object = new User();
             $new = true;
         }
-        $object->setUpdated();
-        $object->setUpdatedBy($user);
         $object->setEmail($email);
         $object->setUsername($username);
 
@@ -152,7 +148,7 @@ class UserService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
+        $this->update($object);
         if ($new) {
             $result = $this->initializeUserObjects($object);
             foreach ($result as $r) {
@@ -162,6 +158,13 @@ class UserService extends ASectionService
             }
         }
         return array("object" => $object, "errors" => $errors);
+    }
+
+    private function update(User $object, $flush = true) {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $this->repository->save($object, $flush);
     }
 
     private function initializeUserObjects(User $user)

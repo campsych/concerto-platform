@@ -40,20 +40,14 @@ class ViewTemplateService extends AExportableSectionService
 
     public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $html, $head, $css, $js)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
-
         $errors = array();
         $object = $this->get($object_id);
-        $new = false;
         $old_name = null;
         if ($object === null) {
             $object = new ViewTemplate();
-            $new = true;
         } else {
             $old_name = $object->getName();
         }
-        $object->setUpdated();
-        $object->setUpdatedBy($user);
         if ($head !== null) {
             $object->setHead($head);
         }
@@ -84,16 +78,27 @@ class ViewTemplateService extends AExportableSectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
-        $this->onObjectSaved($object, $new, $old_name);
+        $this->update($object, $old_name);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved(ViewTemplate $object, $new, $oldName)
+    private function update(ViewTemplate $object, $oldName = null, $flush = true)
     {
-        if (!$new && $oldName != $object->getName()) {
-            $this->testWizardParamService->onObjectRename($object, $oldName);
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $isNew = $object->getId() === null;
+        $this->repository->save($object, $flush);
+
+        $isRenamed = !$isNew && $oldName !== $object->getName();
+        if ($isRenamed) {
+            $this->onObjectRenamed($object, $oldName);
         }
+    }
+
+    private function onObjectRenamed(ViewTemplate $object, $oldName)
+    {
+        $this->testWizardParamService->onObjectRename($object, $oldName);
     }
 
     public function delete($object_ids, $secure = true)
@@ -169,9 +174,8 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, null, false);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
-
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -204,17 +208,8 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, $old_ent->getName(), false);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
-
-        $this->onConverted($ent, $old_ent);
-
         return array("errors" => null, "entity" => $ent);
     }
-
-    protected function onConverted($new_ent, $old_ent)
-    {
-        //TODO 
-    }
-
 }

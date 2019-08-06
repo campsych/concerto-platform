@@ -55,7 +55,6 @@ class TestNodeService extends ASectionService
         if ($object === null) {
             $object = new TestNode();
         }
-        $object->setUpdated();
         $object->setType($type);
         $object->setPosX($posX);
         $object->setPosY($posY);
@@ -69,30 +68,40 @@ class TestNodeService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object, $flush);
-
-        $this->savePorts($object, $type, $sourceTest, $flush);
+        $this->update($object, $flush);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function savePorts(TestNode $node, $type, Test $sourceTest, $flush = true)
+    public function update(TestNode $object, $flush = true)
     {
-        switch ($type) {
+        $object->setUpdated();
+        $this->repository->save($object, $flush);
+        $this->onObjectSaved($object, $flush);
+    }
+
+    private function onObjectSaved(TestNode $object, $flush = true)
+    {
+        $this->savePorts($object, $flush);
+    }
+
+    private function savePorts(TestNode $node, $flush = true)
+    {
+        switch ($node->getType()) {
             case self::TYPE_BEGIN_TEST:
                 $params = array();
-                $returns = $this->testVariableService->getParameters($sourceTest->getId());
+                $returns = $this->testVariableService->getParameters($node->getSourceTest()->getId());
                 $outs = array();
                 break;
             case self::TYPE_FINISH_TEST:
-                $params = $this->testVariableService->getReturns($sourceTest->getId());
+                $params = $this->testVariableService->getReturns($node->getSourceTest()->getId());
                 $returns = array();
                 $outs = array();
                 break;
             default:
-                $params = $this->testVariableService->getParameters($sourceTest->getId());
-                $returns = $this->testVariableService->getReturns($sourceTest->getId());
-                $outs = $this->testVariableService->getBranches($sourceTest->getId());
+                $params = $this->testVariableService->getParameters($node->getSourceTest()->getId());
+                $returns = $this->testVariableService->getReturns($node->getSourceTest()->getId());
+                $outs = $this->testVariableService->getBranches($node->getSourceTest()->getId());
                 break;
         }
 
@@ -194,6 +203,7 @@ class TestNodeService extends ASectionService
         $ent->setPosY($obj["posY"]);
         $ent->setSourceTest($sourceTest);
         $ent->setType($obj["type"]);
+        $ent->setUpdated();
         if (array_key_exists("title", $obj))
             $ent->setTitle($obj["title"]);
         $ent_errors = $this->validator->validate($ent);
@@ -204,6 +214,7 @@ class TestNodeService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
+        //shouldn't be update because it will lead to redundant ports
         $this->repository->save($ent, false);
         $map["TestNode"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);

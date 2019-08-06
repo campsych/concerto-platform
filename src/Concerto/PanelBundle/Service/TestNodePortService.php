@@ -53,12 +53,9 @@ class TestNodePortService extends ASectionService
     {
         $errors = array();
         $object = $this->get($object_id);
-        $isNew = false;
         if ($object === null) {
-            $isNew = true;
             $object = new TestNodePort();
         }
-        $object->setUpdated();
         $object->setNode($node);
         $object->setVariable($variable);
 
@@ -95,13 +92,12 @@ class TestNodePortService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($isNew, $object);
+        $this->update($object, $flush);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved($isNew, TestNodePort $obj)
+    private function onObjectSaved(TestNodePort $obj, $isNew)
     {
         if (!$isNew) {
             $this->testNodeConnectionService->updateDefaultReturnFunctions($obj);
@@ -132,8 +128,9 @@ class TestNodePortService extends ASectionService
     public function update(TestNodePort $object, $flush = true)
     {
         $object->setUpdated();
+        $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
-        $this->onObjectSaved(false, $object);
+        $this->onObjectSaved($object, $isNew);
     }
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
@@ -295,7 +292,7 @@ class TestNodePortService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestNodePort"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -374,7 +371,7 @@ class TestNodePortService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestNodePort"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }

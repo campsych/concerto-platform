@@ -194,7 +194,7 @@ class UserControllerTest extends AFunctionalTest {
                 "username" => "renamed_user",
                 "email" => "new@user.com",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "updatedBy" => "admin",
+                "updatedBy" => "renamed_user",
                 'role_super_admin' => '1',
                 'role_test' => '0',
                 'role_template' => '0',

@@ -62,13 +62,12 @@ class TestWizardParamService extends ASectionService
     {
         $errors = array();
         $object = $this->get($object_id);
-        $old_obj = null;
+        $originalObject = null;
         if ($object === null) {
             $object = new TestWizardParam();
         } else {
-            $old_obj = clone $object;
+            $originalObject = clone $object;
         }
-        $object->setUpdated();
         if ($variable != null) {
             $object->setVariable($variable);
         }
@@ -93,16 +92,21 @@ class TestWizardParamService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
-        $this->onObjectSaved($object, $old_obj);
+        $this->update($object, $originalObject);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update($object, $oldObj)
+    public function update(TestWizardParam $object, TestWizardParam $originalObject = null, $flush = true)
     {
+        $object->setUpdated();
         $this->repository->save($object);
-        $this->onObjectSaved($object, $oldObj);
+        $this->onObjectSaved($object, $originalObject, $flush);
+    }
+
+    private function onObjectSaved(TestWizardParam $object, TestWizardParam $originalObject = null, $flush = true)
+    {
+        $this->updateValues($object, $originalObject, $flush);
     }
 
     public function delete($object_ids, $secure = true)
@@ -208,9 +212,7 @@ class TestWizardParamService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
-        $this->onObjectSaved($ent, null, false);
-
+        $this->update($ent, null, false);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -265,23 +267,9 @@ class TestWizardParamService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, $old_ent, false);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
-
-        $this->onObjectSaved($ent, $old_ent, false);
-        $this->onConverted($ent, $old_ent);
-
         return array("errors" => null, "entity" => $ent);
-    }
-
-    private function onConverted($new_ent, $old_ent)
-    {
-        //TODO 
-    }
-
-    private function onObjectSaved(TestWizardParam $newParam, $oldParam, $flush = true)
-    {
-        $this->updateValues($newParam, $oldParam, $flush);
     }
 
     private function updateValues(TestWizardParam $newParam, $oldParam, $flush = true)
@@ -311,7 +299,11 @@ class TestWizardParamService extends ASectionService
             $val = json_encode($val);
         }
         $newParam->setValue($val);
+        $newParam->setUpdated();
+
+        // do not use update here or it will do infinite loop
         $this->repository->save($newParam, $flush);
+
 
         //resulting tests variables update
         foreach ($newParam->getWizard()->getResultingTests() as $test) {

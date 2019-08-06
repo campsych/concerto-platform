@@ -85,12 +85,9 @@ class TestVariableService extends ASectionService
     {
         $errors = array();
         $object = $this->get($object_id);
-        $is_new = false;
         if ($object === null) {
             $object = new TestVariable();
-            $is_new = true;
         }
-        $object->setUpdated();
         $object->setName($name);
         $object->setType($type);
         if ($description !== null) {
@@ -111,9 +108,24 @@ class TestVariableService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $is_new, $flush);
+        $this->update($object, $flush);
         return array("object" => $object, "errors" => $errors);
+    }
+
+    public function update(TestVariable $obj, $flush = true)
+    {
+        $obj->setUpdated();
+        $isNew = $obj->getId() === null;
+        $this->repository->save($obj, $flush);
+        $this->onObjectSaved($obj, $isNew, $flush);
+    }
+
+    private function onObjectSaved(TestVariable $object, $isNew, $flush = true)
+    {
+        $this->updateChildVariables($object, $flush);
+        $this->testNodePortService->onTestVariableSaved($object, $isNew, $flush);
+        if (!$isNew)
+            $this->testNodeConnectionService->onTestVariableSaved($object, $isNew, $flush);
     }
 
     public function createVariablesFromSourceTest(Test $dstTest, $flush = true)
@@ -168,14 +180,6 @@ class TestVariableService extends ASectionService
                 }
             }
         }
-    }
-
-    private function onObjectSaved(TestVariable $object, $is_new, $flush = true)
-    {
-        $this->updateChildVariables($object, $flush);
-        $this->testNodePortService->onTestVariableSaved($object, $is_new, $flush);
-        if (!$is_new)
-            $this->testNodeConnectionService->onTestVariableSaved($object, $is_new, $flush);
     }
 
     public function delete($object_ids, $secure = true)
@@ -278,9 +282,8 @@ class TestVariableService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestVariable"]["id" . $obj["id"]] = $ent;
-        $this->onObjectSaved($ent, true);
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -339,18 +342,9 @@ class TestVariableService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestVariable"]["id" . $obj["id"]] = $ent;
-
-        $this->onObjectSaved($ent, false);
-        $this->onConverted($ent, $old_ent);
-
         return array("errors" => null, "entity" => $ent);
-    }
-
-    protected function onConverted($new_ent, $old_ent)
-    {
-        //TODO 
     }
 
     public function authorizeObject($object)
@@ -360,12 +354,5 @@ class TestVariableService extends ASectionService
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
             return $object;
         return null;
-    }
-
-    public function update(TestVariable $obj, $flush = true)
-    {
-        $obj->setUpdated();
-        $this->repository->save($obj, $flush);
-        $this->onObjectSaved($obj, false, $flush);
     }
 }

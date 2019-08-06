@@ -52,14 +52,10 @@ class TestWizardService extends AExportableSectionService
 
         $errors = array();
         $object = $this->get($object_id);
-        $new = false;
         if ($object === null) {
             $object = new TestWizard();
-            $new = true;
             $object->setOwner($user);
         }
-        $object->setUpdated();
-        $object->setUpdatedBy($user);
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
@@ -84,9 +80,17 @@ class TestWizardService extends AExportableSectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
+        $this->update($object);
         $this->updateParamValues($serializedSteps);
         return array("object" => $object, "errors" => $errors);
+    }
+
+    private function update(TestWizard $object, $flush = true) {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $this->repository->save($object, $flush);
     }
 
     public function updateParamValues($serializedSteps)
@@ -222,7 +226,7 @@ class TestWizardService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestWizard"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -236,7 +240,6 @@ class TestWizardService extends AExportableSectionService
     {
         $user = $this->securityTokenStorage->getToken()->getUser();
 
-        $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);
         $ent->setTest($test);
@@ -252,17 +255,9 @@ class TestWizardService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestWizard"]["id" . $obj["id"]] = $ent;
-
-        $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
     }
-
-    protected function onConverted($new_ent, $old_ent)
-    {
-        //$this->testWizardStepService->clear($old_ent->getId());
-    }
-
 }

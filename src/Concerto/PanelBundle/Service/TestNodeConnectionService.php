@@ -53,12 +53,9 @@ class TestNodeConnectionService extends ASectionService
     {
         $errors = array();
         $object = $this->get($object_id);
-        $is_new = false;
         if ($object === null) {
             $object = new TestNodeConnection();
-            $is_new = true;
         }
-        $object->setUpdated();
         $object->setFlowTest($flowTest);
         $object->setSourceNode($sourceNode);
         $object->setSourcePort($sourcePort);
@@ -82,17 +79,25 @@ class TestNodeConnectionService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
-        $this->onObjectSaved($is_new, $object);
+        $this->update($object);
 
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved($is_new, TestNodeConnection $object)
+    private function onObjectSaved(TestNodeConnection $object, $isNew)
     {
-        if ($is_new) {
+        if ($isNew) {
             $this->addSameInputReturnConnection($object);
         }
+    }
+
+    private function update(TestNodeConnection $object, $flush = true)
+    {
+        $object->setUpdated();
+        $isNew = $object->getId() === null;
+        $this->repository->save($object, $flush);
+
+        $this->onObjectSaved($object, $isNew);
     }
 
     public function updateDefaultReturnFunctions(TestNodePort $sourcePort)
@@ -104,7 +109,7 @@ class TestNodeConnectionService extends ASectionService
 
         foreach ($connections as $connection) {
             $connection->setReturnFunction($sourcePort->getName());
-            $this->repository->save($connection);
+            $this->update($connection);
         }
     }
 
@@ -166,7 +171,7 @@ class TestNodeConnectionService extends ASectionService
             foreach ($connections as $connection) {
                 if ($connection->getReturnFunction() != $variable->getName() && $connection->hasDefaultReturnFunction()) {
                     $connection->setReturnFunction($variable->getName());
-                    $this->repository->save($connection, $flush);
+                    $this->update($connection, $flush);
                 }
             }
         }
@@ -269,7 +274,7 @@ class TestNodeConnectionService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestNodeConnection"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }

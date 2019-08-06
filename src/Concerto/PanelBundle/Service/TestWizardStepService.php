@@ -46,7 +46,6 @@ class TestWizardStepService extends ASectionService
         if ($object === null) {
             $object = new TestWizardStep();
         }
-        $object->setUpdated();
         $object->setTitle($title);
         if ($description !== null) {
             $object->setDescription($description);
@@ -59,8 +58,14 @@ class TestWizardStepService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
+        $this->update($object);
         return array("object" => $object, "errors" => $errors);
+    }
+
+    private function update(TestWizardStep $object, $flush = true)
+    {
+        $object->setUpdated();
+        $this->repository->save($object, $flush);
     }
 
     public function delete($object_ids, $secure = true)
@@ -147,14 +152,13 @@ class TestWizardStepService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestWizardStep"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
 
     protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $wizard)
     {
-        $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setColsNum($obj["colsNum"]);
         $ent->setDescription($obj["description"]);
@@ -169,9 +173,8 @@ class TestWizardStepService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, false);
         $map["TestWizardStep"]["id" . $obj["id"]] = $ent;
-
         return array("errors" => null, "entity" => $ent);
     }
 
