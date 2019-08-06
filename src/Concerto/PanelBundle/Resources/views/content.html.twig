@@ -2,16 +2,16 @@
 {% trans_default_domain "panel" %}
 
 {% block content %}
-    <div ng-controller="MainController">
+    <div ng-controller="MainController" style="height: 100%;">
         <div ui-i18n="'{% 
 if app.request.locale == "en_GB" %}en{% 
 elseif app.request.locale == "zh_CN" %}zh-cn{% 
 elseif app.request.locale == "fr_FR" %}fr{% 
 elseif app.request.locale == "pl_PL" %}pl{% 
 elseif app.request.locale == "tr_TR" %}tr{% 
-endif %}'">
+endif %}'" style="height: 100%;">
 
-            <uib-tabset active="tab.activeIndex">
+            <uib-tabset active="tab.activeIndex" style="height: 100%;">
                 {% if app.user and (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TEST')) %}
                     <uib-tab ng-click="goToTab(0)" index="0" ng-init="setFirstActiveTab(0)">
                         <uib-tab-heading uib-tooltip-html="'{{ "tab.tests.tooltip"|trans }}'">{{ "tab.tests"|trans }}</uib-tab-heading>

@@ -22,6 +22,7 @@ changelog:
                 - delete all data for data table now deletes all rows instead of truncating table
                 - improved last update time and username tracking
                 - added 'URL name' column to test grid
+                - panel layout improvements
           - label: Commands
             changes:
                 - added --no-hash option to concerto:content:export

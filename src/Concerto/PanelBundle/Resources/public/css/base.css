@@ -1,8 +1,5 @@
-root {
-}
-
-body{
-    padding-bottom:75px;
+html, body {
+    height: 100%;
 }
 
 fieldset {
@@ -21,19 +18,19 @@ fieldset {
 }
 
 .horizontalElement > table {
-    width:100%;
+    width: 100%;
 }
 
 td.formLabel {
     white-space: nowrap;
     padding-left: 5px;
     font-style: italic;
-    width:100px;
+    width: 100px;
 }
 
 td.formInfo {
     width: 48px;
-    margin-top:2px;
+    margin-top: 2px;
 }
 
 td.formControl {
@@ -42,7 +39,7 @@ td.formControl {
 }
 
 td.formControl > div.formInnerControl {
-    width:100%;
+    width: 100%;
 }
 
 .formRowV > td {
@@ -51,17 +48,21 @@ td.formControl > div.formInnerControl {
 
 .moduleForm, .moduleList {
     text-align: left;
+    height: calc(100% - 60px);
 }
 
 fieldset > legend {
-    font-weight:bold;
+    font-weight: bold;
     margin-top: 30px;
-    float:left;
+    float: left;
+}
+
+.moduleList > .grid {
+    height: calc(100% - 90px) !important;
 }
 
 .grid {
-    margin: 10px;
-    height: 400px
+    margin: 10px 0;
 }
 
 .formFloatingBar {
@@ -82,22 +83,28 @@ fieldset > legend {
 }
 
 table.listPanel {
-    width:100%;
+    width: 100%;
 }
 
-.tab-content{
-    border: 1px solid #ddd;
-    border-top: 0;
-    padding: 25px 25px 25px;
+.tab-content {
+    height: calc(100% - 50px);
+    padding: 8px;
 }
 
-.mainContentContainer{
-    width: 95%;
-    margin: 0 auto;
+.tab-content > .tab-pane {
+    height: 100%;
+}
+
+.tab-content > .tab-pane > div {
+    height: 100%;
+}
+
+.mainContentContainer {
+    height: calc(100% - 60px);
 }
 
 .divButtonContainer {
-    padding:8px;
+    padding: 8px;
 }
 
 .CodeMirror-hints {
@@ -123,7 +130,7 @@ table.listPanel {
 /** R documentation wizards**/
 .completion-wizard-sql .wizard-row-value {
     margin-bottom: 10px;
-    width:100%;
+    width: 100%;
 }
 
 .completion-wizard-sql .wizard-row-value td {
@@ -132,15 +139,15 @@ table.listPanel {
 }
 
 .completion-wizard-sql .wizard-row-value .btn-group {
-    width:200px;
+    width: 200px;
 }
 
 .completion-wizard-sql .wizard-add-button-wrapper {
-    text-align: center; 
+    text-align: center;
     margin: 0 auto;
 }
 
-.completion-wizard-sql .completion-sql-wizard-section{
+.completion-wizard-sql .completion-sql-wizard-section {
     padding: 10px;
     border: 1px solid #ddd;
 
@@ -148,7 +155,7 @@ table.listPanel {
     margin-bottom: 10px;
 }
 
-.completion-wizard-sql .completion-sql-wizard-section +  .completion-sql-wizard-section{
+.completion-wizard-sql .completion-sql-wizard-section + .completion-sql-wizard-section {
     margin-top: 0;
 }
 
@@ -164,22 +171,25 @@ pre.console {
     color: #999;
 }
 
-.subHeading{
+.subHeading {
     border: none;
     font-size: 1.2em;
     font-weight: normal;
 }
 
-.loginPageLogo{
-    text-align:center;
+.loginPageLogo {
+    text-align: center;
 }
-.logiinPageLogo .logoTxt{
+
+.logiinPageLogo .logoTxt {
     font-weight: bold;
 }
-.loginContainer{
+
+.loginContainer {
     margin: 50px auto;
     width: 314px;
 }
+
 .loginContainer td {
     margin: 6px 5px;
 }
@@ -191,6 +201,7 @@ pre.console {
     font-weight: normal;
     margin: 10px 0px;
 }
+
 .loginContainer legend .glyphicon-question-sign {
     margin: 3px;
     display: none;
@@ -230,18 +241,19 @@ pre.console {
     border-radius: 3px;
     border-left-color: #337ab7;
     background-color: #ffffff !important;
+    margin-bottom: 10px !important;
 }
 
 ul.c-breadcrumb li {
     background-color: #ffffff !important;
-    margin:0px !important;
+    margin: 0px !important;
 }
 
 .headerElement {
     background: #FAFAFA;
     padding: 10px 25px;
     border-bottom: 1px solid #DDD;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .wizardParamSummary {
@@ -294,4 +306,8 @@ ul.c-breadcrumb li {
 .tooltip-inner {
     text-align: left;
     max-width: 600px;
+}
+
+angular-filemanager > div {
+    height: auto;
 }
