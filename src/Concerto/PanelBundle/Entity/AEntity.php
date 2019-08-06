@@ -88,6 +88,15 @@ abstract class AEntity
         return $this->created;
     }
 
+    /**
+     * Get updated time, includes child objects
+     * @return DateTime
+     */
+    public function getDeepUpdated()
+    {
+        return $this->updated;
+    }
+
     public static function reserveDependency(&$dependencies, $class, $id)
     {
         if (!array_key_exists("reservations", $dependencies))

@@ -250,7 +250,7 @@ class TestNode extends AEntity implements \JsonSerializable
     /**
      * Get ports
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getPorts()
     {
@@ -326,6 +326,15 @@ class TestNode extends AEntity implements \JsonSerializable
     public function getAccessibility()
     {
         return $this->getFlowTest()->getAccessibility();
+    }
+
+    public function getDeepUpdated()
+    {
+        $max = $this->updated;
+        foreach ($this->ports as $port) {
+            $max = max($max, $port->getDeepUpdated());
+        }
+        return $max;
     }
 
     public function hasAnyFromGroup($other_groups)

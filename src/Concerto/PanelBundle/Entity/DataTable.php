@@ -117,6 +117,7 @@ class DataTable extends ATopEntity implements \JsonSerializable
     /**
      * Set owner
      * @param User $user
+     * @return DataTable
      */
     public function setOwner($user)
     {
@@ -151,6 +152,8 @@ class DataTable extends ATopEntity implements \JsonSerializable
             return null;
         self::reserveDependency($dependencies, "DataTable", $this->id);
 
+
+
         $serialized = array(
             "class_name" => "DataTable",
             "id" => $this->id,
@@ -159,7 +162,7 @@ class DataTable extends ATopEntity implements \JsonSerializable
             "accessibility" => $this->accessibility,
             "archived" => $this->archived ? "1" : "0",
             "columns" => $this->columns,
-            "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
+            "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
             "updatedBy" => $this->updatedBy,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,

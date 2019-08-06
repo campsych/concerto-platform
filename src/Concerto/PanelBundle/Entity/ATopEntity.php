@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class ATopEntity extends AEntity
