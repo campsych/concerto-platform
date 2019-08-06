@@ -43,7 +43,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'htmlmixed',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -60,7 +60,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'css',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -77,7 +77,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'javascript',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -120,9 +120,9 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     };
 
     $scope.onObjectChanged = function () {
-        $scope.headCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
-        $scope.cssCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
-        $scope.jsCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.headCodeOptions.readOnly = !$scope.isEditable();
+        $scope.cssCodeOptions.readOnly = !$scope.isEditable();
+        $scope.jsCodeOptions.readOnly = !$scope.isEditable();
     };
 
     $scope.onAfterPersist = function () {

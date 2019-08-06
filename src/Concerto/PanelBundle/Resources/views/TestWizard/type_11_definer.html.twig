@@ -11,7 +11,7 @@
                         {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
                         <ui-codemirror ng-model="param.definition.defvalue" ui-codemirror-opts="codeEditorOptions"
                                        ui-refresh='codemirrorForceRefresh'
-                                       ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"></ui-codemirror>
+                                       ng-disabled="!isEditable()"></ui-codemirror>
                     {% endblock %}
                 {% endembed %}
             {% endblock %}

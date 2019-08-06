@@ -38,7 +38,7 @@
                             {% block tooltip %}{{ 'param.definer.select.default.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <select ng-model="param.definition.defvalue"
-                                        ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"
+                                        ng-disabled="!isEditable()"
                                         class='form-control'
                                         ng-options="opt.value as opt.label for opt in param.definition.options | orderBy:'order'">
                                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>

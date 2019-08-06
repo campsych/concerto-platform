@@ -11,7 +11,7 @@
     {% endembed %}
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="change()" ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable">{{ 'form.button.change'|trans }}</button>
+        <button class="btn btn-success" ng-click="change()" ng-disabled="!isEditable()">{{ 'form.button.change'|trans }}</button>
         <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans }}</button>
     </div>
 </div>

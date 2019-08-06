@@ -4,14 +4,13 @@
  * @param $scope
  * @constructor
  */
-function WizardParamSetter11Controller($scope, AdministrationSettingsService, RDocumentation, $http) {
-  $scope.administrationSettingsService = AdministrationSettingsService;
+function WizardParamSetter11Controller($scope, RDocumentation, $http) {
 
   $scope.codeEditorOptions = {
     lineWrapping: true,
     lineNumbers: true,
     mode: 'r',
-    readOnly: $scope.wizardObject.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+    readOnly: !$scope.isEditable(),
     viewportMargin: Infinity,
     hintOptions: {
       completeSingle: false,
@@ -51,4 +50,4 @@ function WizardParamSetter11Controller($scope, AdministrationSettingsService, RD
   $scope.onPrimitiveValueChange($scope.output);
 };
 
-concertoPanel.controller('WizardParamSetter11Controller', ["$scope", "AdministrationSettingsService", "RDocumentation", "$http", WizardParamSetter11Controller]);
+concertoPanel.controller('WizardParamSetter11Controller', ["$scope", "RDocumentation", "$http", WizardParamSetter11Controller]);

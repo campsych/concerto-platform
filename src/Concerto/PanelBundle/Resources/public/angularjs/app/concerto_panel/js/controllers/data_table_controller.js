@@ -103,7 +103,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
             entity[colName],
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
-            $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+            !$scope.isEditable(),
             function (newVal) {
                 entity[colName] = newVal;
                 $scope.saveRow(entity);
@@ -142,8 +142,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 exporterSuppressExport: true,
                 cellTemplate:
                 "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
+                '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
+                '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
                 "</div>",
                 width: 100
             }
@@ -438,7 +438,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     return $scope.object;
                 },
                 editable: function () {
-                    return !$scope.object.starterContent || $scope.administrationSettingsService.starterContentEditable;
+                    return $scope.isEditable();
                 }
             }
         });

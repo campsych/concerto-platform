@@ -48,6 +48,14 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         }
     };
 
+    $scope.isEditable = function (entity) {
+        if (typeof (entity) === 'undefined') {
+            entity = $scope.object;
+        }
+        if (entity.starterContent && !$scope.administrationSettingsService.starterContentEditable) return false;
+        return true;
+    };
+
     $scope.setWorkingCopyObject = function () {
         $scope.workingCopyObject = {
             id: $scope.object.id,
@@ -141,7 +149,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         if ($scope.exportable) {
             cellTemplate += '<button class="btn btn-default btn-xs" ng-click="grid.appScope.export(row.entity.id);">' + Trans.LIST_EXPORT + '</button>';
         }
-        cellTemplate += '<button ng-disabled="row.entity.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
+        cellTemplate += '<button ng-disabled="!grid.appScope.isEditable(row.entity)" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
             '</div>';
         $scope.columnDefs.push({
             displayName: "",
@@ -199,7 +207,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 row.visible = false;
         });
         return renderableRows;
-    }
+    };
 
     $scope.deleteSelected = function () {
         var ids = [];

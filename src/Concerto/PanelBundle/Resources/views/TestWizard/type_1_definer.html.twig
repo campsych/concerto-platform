@@ -10,7 +10,7 @@
                     {% block control %}
                         <textarea ng-model="param.definition.defvalue" class='form-control'
                                   ng-model-options='{ updateOn: "blur" }'
-                                  ng-disabled="wizardObject.starterContent && !administrationSettingsService.starterContentEditable"
+                                  ng-disabled="!isEditable()"
                                   ng-trim="false"></textarea>
                     {% endblock %}
                 {% endembed %}

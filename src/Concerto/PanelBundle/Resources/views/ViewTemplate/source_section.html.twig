@@ -13,40 +13,40 @@
 
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "ViewTemplate" %}
-                    {% block label %}{{ 'source.field.head'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'source.field.head.tooltip'|trans }}{% endblock%}
+                    {% block label %}{{ 'source.field.head'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'source.field.head.tooltip'|trans }}{% endblock %}
                     {% block control %}
                         {{ include("ConcertoPanelBundle::code_mirror_header.html.twig") }}
                         <ui-codemirror ng-model="object.head" ui-codemirror-opts="headCodeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
-                        {% endblock %}
-                    {% endembed %}
+                    {% endblock %}
+                {% endembed %}
 
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "ViewTemplate" %}
-                    {% block label %}{{ 'source.field.css'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'source.field.css.tooltip'|trans }}{% endblock%}
+                    {% block label %}{{ 'source.field.css'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'source.field.css.tooltip'|trans }}{% endblock %}
                     {% block control %}
                         {{ include("ConcertoPanelBundle::code_mirror_header.html.twig") }}
                         <ui-codemirror ng-model="object.css" ui-codemirror-opts="cssCodeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
-                        {% endblock %}
-                    {% endembed %}
-                
-                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                    {% trans_default_domain "ViewTemplate" %}
-                    {% block label %}{{ 'source.field.js'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'source.field.js.tooltip'|trans }}{% endblock%}
-                    {% block control %}
-                        {{ include("ConcertoPanelBundle::code_mirror_header.html.twig") }}
-                        <ui-codemirror ng-model="object.js" ui-codemirror-opts="jsCodeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
-                        {% endblock %}
-                    {% endembed %}
+                    {% endblock %}
+                {% endembed %}
 
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                     {% trans_default_domain "ViewTemplate" %}
-                    {% block label %}{{ 'source.field.html'|trans }}{% endblock%}
-                    {% block tooltip %}{{ 'source.field.html.tooltip'|trans }}{% endblock%}
+                    {% block label %}{{ 'source.field.js'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'source.field.js.tooltip'|trans }}{% endblock %}
                     {% block control %}
-                        <textarea name="templateHtml" ckeditor="htmlEditorOptions" ng-model="object.html" ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable"></textarea>
+                        {{ include("ConcertoPanelBundle::code_mirror_header.html.twig") }}
+                        <ui-codemirror ng-model="object.js" ui-codemirror-opts="jsCodeOptions" ui-refresh='codemirrorForceRefresh'></ui-codemirror>
+                    {% endblock %}
+                {% endembed %}
+
+                {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                    {% trans_default_domain "ViewTemplate" %}
+                    {% block label %}{{ 'source.field.html'|trans }}{% endblock %}
+                    {% block tooltip %}{{ 'source.field.html.tooltip'|trans }}{% endblock %}
+                    {% block control %}
+                        <textarea name="templateHtml" ckeditor="htmlEditorOptions" ng-model="object.html" ng-disabled="!isEditable()"></textarea>
                     {% endblock %}
                 {% endembed %}
             </table>

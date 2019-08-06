@@ -251,8 +251,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 exporterSuppressExport: true,
                 cellTemplate:
                     "<div class='ui-grid-cell-contents' align='center'>" +
-                    '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_EDIT + '</button>' +
-                    '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_DELETE + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_DELETE + '</button>' +
                     '</div>',
                 width: 100
             }
@@ -306,8 +306,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 exporterSuppressExport: true,
                 cellTemplate:
                     "<div class='ui-grid-cell-contents' align='center'>" +
-                    '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_EDIT + '</button>' +
-                    '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_DELETE + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_DELETE + '</button>' +
                     "</div>",
                 width: 100
             }
@@ -361,8 +361,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 exporterSuppressExport: true,
                 cellTemplate:
                     "<div class='ui-grid-cell-contents' align='center'>" +
-                    '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_EDIT + '</button>' +
-                    '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_DELETE + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_DELETE + '</button>' +
                     "</div>",
                 width: 100
             }
@@ -374,7 +374,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         lineNumbers: true,
         mode: 'r',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         hintOptions: {
             completeSingle: false,
             wizardService: RDocumentation
@@ -431,7 +431,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if ($scope.logsGridApi)
             $scope.logsGridApi.selection.clearSelectedRows();
 
-        $scope.codeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.codeOptions.readOnly = !$scope.isEditable();
     };
 
     $scope.onBeforePersist = function () {

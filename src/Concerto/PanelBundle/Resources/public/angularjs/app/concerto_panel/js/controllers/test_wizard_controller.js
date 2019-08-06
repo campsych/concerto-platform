@@ -97,8 +97,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 exporterSuppressExport: true,
                 cellTemplate:
                 "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.editStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT + '</button>' +
-                '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.deleteStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE + '</button>' +
+                '<button type="button" class="btn btn-default btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.editStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT + '</button>' +
+                '<button type="button" class="btn btn-danger btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.deleteStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE + '</button>' +
                 "</div>",
                 width: 100
             }
@@ -165,8 +165,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 exporterSuppressExport: true,
                 cellTemplate:
                 "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.editParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT + '</button>' +
-                '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.deleteParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE + '</button>' +
+                '<button type="button" class="btn btn-default btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.editParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT + '</button>' +
+                '<button type="button" class="btn btn-danger btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.deleteParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE + '</button>' +
                 "</div>",
                 width: 100
             }
