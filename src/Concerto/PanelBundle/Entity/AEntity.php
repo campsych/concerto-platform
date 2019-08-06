@@ -2,9 +2,9 @@
 
 namespace Concerto\PanelBundle\Entity;
 
+use Concerto\PanelBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
-use Concerto\PanelBundle\Entity\User;
 
 abstract class AEntity
 {
@@ -25,6 +25,12 @@ abstract class AEntity
     protected $updated;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $updatedBy;
+
+    /**
      *
      * @var DateTime
      * @ORM\Column(type="datetime")
@@ -35,6 +41,7 @@ abstract class AEntity
     {
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
+        $this->updatedBy = "-";
     }
 
     /**
@@ -79,6 +86,32 @@ abstract class AEntity
     }
 
     /**
+     * Set updated by
+     * @param User|string|null $user
+     * @return ATopEntity
+     */
+    public function setUpdatedBy($user)
+    {
+        $name = "-";
+        if (is_a($user, User::class)) {
+            $name = $user->getUsername();
+        }
+        $this->updatedBy = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get updated by
+     *
+     * @return string
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
      * Get created
      *
      * @return DateTime
@@ -95,6 +128,15 @@ abstract class AEntity
     public function getDeepUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Get updated by, includes child objects
+     * @return string
+     */
+    public function getDeepUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 
     public static function reserveDependency(&$dependencies, $class, $id)

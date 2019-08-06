@@ -614,6 +614,34 @@ class Test extends ATopEntity implements \JsonSerializable
         return $max;
     }
 
+    public function getDeepUpdatedBy()
+    {
+        $updatedBy = $this->updatedBy;
+        $max = $this->updated;
+        foreach ($this->nodes as $node) {
+            $val = $node->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $node->getDeepUpdatedBy();
+            }
+        }
+        foreach ($this->nodesConnections as $connection) {
+            $val = $connection->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $connection->getDeepUpdatedBy();
+            }
+        }
+        foreach ($this->variables as $variable) {
+            $val = $variable->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $variable->getDeepUpdatedBy();
+            }
+        }
+        return $updatedBy;
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);
@@ -672,7 +700,7 @@ class Test extends ATopEntity implements \JsonSerializable
             "sourceWizardTestName" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getName() : null,
             "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies, $normalizedIdsMap),
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
-            "updatedBy" => $this->updatedBy,
+            "updatedBy" => $this->getDeepUpdatedBy(),
             "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies, $normalizedIdsMap),
             "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies, $normalizedIdsMap),
             "tags" => $this->tags,

@@ -286,6 +286,27 @@ class TestWizard extends ATopEntity implements \JsonSerializable
         return $max;
     }
 
+    public function getDeepUpdatedBy()
+    {
+        $updatedBy = $this->updatedBy;
+        $max = $this->updated;
+        foreach ($this->params as $param) {
+            $val = $param->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $param->getDeepUpdatedBy();
+            }
+        }
+        foreach ($this->steps as $step) {
+            $val = $step->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $step->getDeepUpdatedBy();
+            }
+        }
+        return $updatedBy;
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);
@@ -320,7 +341,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable
             "test" => $this->getTest()->getId(),
             "testName" => $this->getTest()->getName(),
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
-            "updatedBy" => $this->updatedBy,
+            "updatedBy" => $this->getDeepUpdatedBy(),
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent

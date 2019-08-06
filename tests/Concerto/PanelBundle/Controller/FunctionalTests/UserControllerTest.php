@@ -70,7 +70,7 @@ class UserControllerTest extends AFunctionalTest {
                 "username" => "admin",
                 "email" => "username@domain.com",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
-                "updatedBy" => "",
+                "updatedBy" => "-",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'archived' => '0',
                 'role_super_admin' => '1',

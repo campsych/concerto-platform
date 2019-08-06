@@ -41,12 +41,6 @@ abstract class ATopEntity extends AEntity
     protected $starterContent;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $updatedBy;
-
-    /**
      *
      * @var string
      * @ORM\Column(type="string")
@@ -62,7 +56,6 @@ abstract class ATopEntity extends AEntity
         $this->archived = false;
         $this->starterContent = false;
         $this->tags = "";
-        $this->updatedBy = "";
     }
 
     /**
@@ -132,32 +125,6 @@ abstract class ATopEntity extends AEntity
     public function isStarterContent()
     {
         return $this->starterContent;
-    }
-
-    /**
-     * Set updated by
-     * @param User|string|null $user
-     * @return ATopEntity
-     */
-    public function setUpdatedBy($user)
-    {
-        $name = "";
-        if (is_a($user, User::class)) {
-            $name = $user->getUsername();
-        }
-        $this->updatedBy = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get updated by
-     *
-     * @return string
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**

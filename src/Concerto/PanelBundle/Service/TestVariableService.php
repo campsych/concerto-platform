@@ -112,12 +112,14 @@ class TestVariableService extends ASectionService
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update(TestVariable $obj, $flush = true)
+    public function update(TestVariable $object, $flush = true)
     {
-        $obj->setUpdated();
-        $isNew = $obj->getId() === null;
-        $this->repository->save($obj, $flush);
-        $this->onObjectSaved($obj, $isNew, $flush);
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $isNew = $object->getId() === null;
+        $this->repository->save($object, $flush);
+        $this->onObjectSaved($object, $isNew, $flush);
     }
 
     private function onObjectSaved(TestVariable $object, $isNew, $flush = true)

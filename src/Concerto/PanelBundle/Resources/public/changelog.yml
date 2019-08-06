@@ -8,6 +8,7 @@ changelog:
             changes:
                 - import content (including files) from file path / URL / file upload (from within administration panel)
                 - download content export (including files, from within administration panel)
+                - improved last update time and username tracking
           - label: Starter content
             changes:
                 - score map for CAT and linearTest

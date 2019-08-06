@@ -64,7 +64,9 @@ class TestWizardStepService extends ASectionService
 
     private function update(TestWizardStep $object, $flush = true)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
         $object->setUpdated();
+        $object->setUpdatedBy($user);
         $this->repository->save($object, $flush);
     }
 

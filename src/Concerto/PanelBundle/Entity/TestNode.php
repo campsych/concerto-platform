@@ -337,6 +337,20 @@ class TestNode extends AEntity implements \JsonSerializable
         return $max;
     }
 
+    public function getDeepUpdatedBy()
+    {
+        $updatedBy = $this->updatedBy;
+        $max = $this->updated;
+        foreach ($this->ports as $port) {
+            $val = $port->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $port->getDeepUpdatedBy();
+            }
+        }
+        return $updatedBy;
+    }
+
     public function hasAnyFromGroup($other_groups)
     {
         $groups = $this->getFlowTest()->getGroupsArray();

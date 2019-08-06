@@ -93,7 +93,9 @@ class TestNodeConnectionService extends ASectionService
 
     private function update(TestNodeConnection $object, $flush = true)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
         $object->setUpdated();
+        $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
 

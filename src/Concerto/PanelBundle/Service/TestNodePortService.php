@@ -127,7 +127,9 @@ class TestNodePortService extends ASectionService
 
     public function update(TestNodePort $object, $flush = true)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
         $object->setUpdated();
+        $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
         $this->onObjectSaved($object, $isNew);

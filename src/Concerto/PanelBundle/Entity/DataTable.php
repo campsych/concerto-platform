@@ -163,7 +163,7 @@ class DataTable extends ATopEntity implements \JsonSerializable
             "archived" => $this->archived ? "1" : "0",
             "columns" => $this->columns,
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
-            "updatedBy" => $this->updatedBy,
+            "updatedBy" => $this->getDeepUpdatedBy(),
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent
