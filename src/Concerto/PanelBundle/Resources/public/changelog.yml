@@ -8,7 +8,6 @@ changelog:
             changes:
                 - import content (including files) from file path / URL / file upload (from within administration panel)
                 - download content export (including files, from within administration panel)
-                - improved last update time and username tracking
           - label: Starter content
             changes:
                 - score map for CAT and linearTest
@@ -18,9 +17,11 @@ changelog:
                 - added itemBankFilterModule for CAT
                 - fixed single element CAT item bank
                 - fixed audio tags in binded HTML variable
-          - label: Changes
+          - label: Improvements
             changes:
                 - delete all data for data table now deletes all rows instead of truncating table
+                - improved last update time and username tracking
+                - added 'URL name' column to test grid
           - label: Commands
             changes:
                 - added --no-hash option to concerto:content:export

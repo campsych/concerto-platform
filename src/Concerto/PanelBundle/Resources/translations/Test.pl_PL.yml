@@ -38,6 +38,7 @@ form:
 list: 
   field:
     name: Nazwa
+    slug: Nazwa URL
     wizard: Wizard
     wizard.source: Źródłowy test
     
