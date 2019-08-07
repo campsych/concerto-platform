@@ -452,6 +452,11 @@ class TestNodePort extends AEntity implements \JsonSerializable
         return false;
     }
 
+    public function getLockBy()
+    {
+        return $this->getNode()->getLockBy();
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);

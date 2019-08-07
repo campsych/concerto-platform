@@ -1069,21 +1069,17 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE,
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_MESSAGE,
                     function (response) {
-                        var node = null;
-                        for (var i = 0; i < scope.object.nodes.length; i++) {
-                            if (id === scope.object.nodes[i].id)
-                                node = scope.object.nodes[i];
-                        }
+                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {
+                            objectTimestamp: scope.object.updatedOn
+                        }).success(function (data) {
+                            if (data.result === 0) { //validated
+                                for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                                    var connection = scope.object.nodesConnections[i];
+                                    if (id === connection.sourceNode || id === connection.destinationNode) {
+                                        connection.removed = true;
+                                    }
+                                }
 
-                        for (var i = 0; i < scope.object.nodesConnections.length; i++) {
-                            var connection = scope.object.nodesConnections[i];
-                            if (id === connection.sourceNode || id === connection.destinationNode) {
-                                connection.removed = true;
-                            }
-                        }
-
-                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {}).success(function (data) {
-                            if (data.result === 0) {
                                 jsPlumb.remove("node" + id);
                                 for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
                                     var node = scope.object.nodes[i];
@@ -1098,6 +1094,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         scope.object.nodesConnections.splice(i, 1);
                                     }
                                 }
+                            } else { //validation failed
+                                DialogsService.alertDialog(
+                                    Trans.DIALOG_TITLE_DELETE,
+                                    data.errors.join("<br/>"),
+                                    "danger"
+                                );
                             }
                         });
                     }
@@ -1109,26 +1111,20 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE,
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_MESSAGE,
                     function (response) {
-                        for (var a = 0; a < scope.selectedNodeIds.length; a++) {
-                            var id = scope.selectedNodeIds[a];
-                            var node = null;
-                            for (var i = 0; i < scope.object.nodes.length; i++) {
-                                if (id === scope.object.nodes[i].id)
-                                    node = scope.object.nodes[i];
-                            }
-
-                            for (var i = 0; i < scope.object.nodesConnections.length; i++) {
-                                var connection = scope.object.nodesConnections[i];
-                                if (id === connection.sourceNode || id === connection.destinationNode) {
-                                    connection.removed = true;
-                                }
-                            }
-                        }
-
-                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {}).success(function (data) {
+                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {
+                            objectTimestamp: scope.object.updatedOn
+                        }).success(function (data) {
                             if (data.result === 0) {
                                 for (var a = 0; a < scope.selectedNodeIds.length; a++) {
                                     var id = scope.selectedNodeIds[a];
+
+                                    for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                                        var connection = scope.object.nodesConnections[i];
+                                        if (id === connection.sourceNode || id === connection.destinationNode) {
+                                            connection.removed = true;
+                                        }
+                                    }
+
                                     jsPlumb.remove("node" + id);
 
                                     for (var i = scope.object.nodes.length - 1; i >= 0; i--) {
@@ -1145,6 +1141,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         }
                                     }
                                 }
+                            } else {
+                                DialogsService.alertDialog(
+                                    Trans.DIALOG_TITLE_DELETE,
+                                    data.errors.join("<br/>"),
+                                    "danger"
+                                );
                             }
                         });
                     }
@@ -1302,16 +1304,19 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
             scope.removeConnection = function (ids) {
                 var idsArray = String(ids).split(",");
-                for (var i = 0; i < scope.object.nodesConnections.length; i++) {
-                    var connection = scope.object.nodesConnections[i];
-                    var index = idsArray.indexOf(connection.id);
-                    if (index !== -1 && connection.removed) {
-                        idsArray.splice(index, 1);
-                    }
-                }
 
-                $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(idsArray.join(",")), {}).success(function (data) {
+                $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(idsArray.join(",")), {
+                    objectTimestamp: scope.object.updatedOn
+                }).success(function (data) {
                     if (data.result === 0) {
+                        for (var i = 0; i < scope.object.nodesConnections.length; i++) {
+                            var connection = scope.object.nodesConnections[i];
+                            var index = idsArray.indexOf(connection.id);
+                            if (index !== -1 && connection.removed) {
+                                idsArray.splice(index, 1);
+                            }
+                        }
+
                         for (var i = 0; i < idsArray.length; i++) {
                             $("#overlayConnection" + idsArray[i]).remove();
                         }
@@ -1332,6 +1337,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 scope.refreshConnections([connection.sourceNode, connection.destinationNode], false);
                             }
                         }
+                    } else {
+                        DialogsService.alertDialog(
+                            Trans.DIALOG_TITLE_DELETE,
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
                     }
                 });
             };

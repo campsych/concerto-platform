@@ -272,6 +272,11 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
         return false;
     }
 
+    public function getLockBy()
+    {
+        return $this->getFlowTest()->getLockBy();
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);

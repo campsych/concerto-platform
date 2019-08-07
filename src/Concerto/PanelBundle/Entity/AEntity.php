@@ -139,6 +139,14 @@ abstract class AEntity
         return $this->updatedBy;
     }
 
+    /**
+     * @return User|null
+     */
+    public function getLockBy()
+    {
+        return null;
+    }
+
     public static function reserveDependency(&$dependencies, $class, $id)
     {
         if (!array_key_exists("reservations", $dependencies))

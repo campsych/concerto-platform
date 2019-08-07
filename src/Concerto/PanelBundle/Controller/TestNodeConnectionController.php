@@ -72,12 +72,13 @@ class TestNodeConnectionController extends ASectionController
 
     /**
      * @Route("/TestNodeConnection/{object_ids}/delete", name="TestNodeConnection_delete", methods={"POST"})
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 
     /**

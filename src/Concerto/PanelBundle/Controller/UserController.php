@@ -88,11 +88,12 @@ class UserController extends ASectionController
 
     /**
      * @Route("/User/{object_ids}/delete", name="User_delete", methods={"POST"})
+     * @param Request $request
      * @param $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 }

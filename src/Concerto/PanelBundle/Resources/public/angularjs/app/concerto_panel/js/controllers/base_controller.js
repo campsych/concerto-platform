@@ -1,4 +1,4 @@
-function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
+function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService) {
     $scope.super = {};
     $scope.exportable = false;
 
@@ -11,6 +11,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.saveNewPath = "";
     $scope.exportPath = "";
     $scope.exportInstructionsPath = "";
+    $scope.lockPath = "";
 
     $scope.reloadOnModification = false;
     $scope.columnDefs = [];
@@ -53,7 +54,40 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             entity = $scope.object;
         }
         if (entity.starterContent && !$scope.administrationSettingsService.starterContentEditable) return false;
+        if ($scope.isLockedForMe(entity)) return false;
         return true;
+    };
+
+    $scope.isLockedForMe = function (entity) {
+        return $scope.isLocked(entity) && (AuthService.user === null || entity.lockedBy && entity.lockedBy != AuthService.user.id);
+    };
+
+    $scope.isLocked = function (entity) {
+        if (typeof (entity) === 'undefined') {
+            entity = $scope.object;
+        }
+        return entity.lockedBy !== null;
+    };
+
+    $scope.toggleLock = function () {
+        $http.post($scope.lockPath.pf($scope.object.id), {
+            objectTimestamp: $scope.object.updatedOn
+        }).success(function (data) {
+            switch (data.result) {
+                case BaseController.RESULT_OK: {
+                    $scope.setWorkingCopyObject();
+                    $scope.fetchAllCollections();
+                    break;
+                }
+                case BaseController.RESULT_VALIDATION_FAILED: {
+                    $scope.dialogsService.alertDialog(
+                        "Object lock", //@TODO translation
+                        data.errors.join("<br/>"),
+                        "danger"
+                    );
+                }
+            }
+        });
     };
 
     $scope.setWorkingCopyObject = function () {
@@ -235,7 +269,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                     $scope.cancel();
                 }
 
-                $http.post($scope.deletePath.pf(ids.join(",")), {}).success(function (data) {
+                $http.post($scope.deletePath.pf(ids.join(",")), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
                     switch (data.result) {
                         case BaseController.RESULT_OK: {
                             if ($scope.reloadOnModification)
@@ -253,6 +289,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                                 data.errors.join("<br/>"),
                                 "danger"
                             );
+                            break;
                         }
                     }
                 });

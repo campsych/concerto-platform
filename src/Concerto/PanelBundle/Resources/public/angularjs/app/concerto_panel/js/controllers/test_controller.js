@@ -1,6 +1,6 @@
-function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation, AdministrationSettingsService) {
+function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation, AdministrationSettingsService, AuthService) {
     $scope.tabStateName = "tests";
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_DELETE;
@@ -18,8 +18,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.paramsCollectionPath = Paths.TEST_PARAMS_COLLECTION;
     $scope.returnsCollectionPath = Paths.TEST_RETURNS_COLLECTION;
     $scope.branchesCollectionPath = Paths.TEST_BRANCHES_COLLECTION;
-    $scope.deleteVariablePath = Paths.TEST_VARIABLE_DELETE;
     $scope.exportInstructionsPath = Paths.TEST_EXPORT_INSTRUCTIONS;
+    $scope.lockPath = Paths.TEST_LOCK;
 
     $scope.formTitleAddLabel = Trans.TEST_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.TEST_FORM_TITLE_EDIT;
@@ -525,9 +525,24 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             confirmationTitle,
             confirmationMessage,
             function (response) {
-                $http.post($scope.deleteVariablePath.pf(ids), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchAllCollections();
+                $http.post(Paths.TEST_VARIABLE_DELETE.pf(ids), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.setWorkingCopyObject();
+                            $scope.fetchAllCollections();
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            $scope.dialogsService.alertDialog(
+                                Trans.DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -676,4 +691,4 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     });
 }
 
-concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", TestController]);
+concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", "AuthService", TestController]);

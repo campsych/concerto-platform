@@ -56,6 +56,18 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
+     * @Route("/admin/ViewTemplate/{object_id}/toggleLock", name="ViewTemplate_toggleLock")
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function toggleLock(Request $request, $object_id)
+    {
+        return parent::toggleLock($request, $object_id);
+    }
+
+    /**
      * @Route("/admin/ViewTemplate/form/{action}", name="ViewTemplate_form", defaults={"action":"edit"})
      * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param string $action
@@ -106,12 +118,13 @@ class ViewTemplateController extends AExportableTabController
     /**
      * @Route("/admin/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete", methods={"POST"})
      * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 
     /**

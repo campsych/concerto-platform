@@ -241,6 +241,11 @@ class TestWizardStep extends AEntity implements \JsonSerializable
         return false;
     }
 
+    public function getLockBy()
+    {
+        return $this->getWizard()->getLockBy();
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);

@@ -4,26 +4,26 @@
 {% block content %}
     {% if isAddDialog %}
         <div class="modal-body">
+    {% endif %}
+    {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
+    <uib-accordion close-others="false">
+        <uib-accordion-group is-open="tabAccordion.form.open" is-disabled="tabAccordion.form.disabled">
+            <uib-accordion-heading>
+                {% if isAddDialog == false and exportable %}
+                    <i class="glyphicon glyphicon-comment" ng-click="editDescription()" uib-tooltip-html="'{{ 'description.tooltip'|trans }}'"></i>
+                {% endif %}
+                {% block legend %}{% endblock %}
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.form.open, 'glyphicon-chevron-right': !tabAccordion.form.open}"></i>
+            </uib-accordion-heading>
+            {% block elements %}
+            {% endblock %}
+            <div style="clear: left;"></div>
+        </uib-accordion-group>
+        {% if isAddDialog == false %}
+            {% block sections %}{% endblock %}
         {% endif %}
-        {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
-        <uib-accordion close-others="false">
-            <uib-accordion-group is-open="tabAccordion.form.open" is-disabled="tabAccordion.form.disabled">
-                <uib-accordion-heading>
-                    {% if isAddDialog == false and exportable %}
-                        <i class="glyphicon glyphicon-comment" ng-click="editDescription()" uib-tooltip-html="'{{ 'description.tooltip'|trans }}'"></i>
-                    {% endif %}
-                    {% block legend %}{% endblock %} 
-                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': tabAccordion.form.open, 'glyphicon-chevron-right': !tabAccordion.form.open}"></i>
-                </uib-accordion-heading>
-                {% block elements %}
-                {% endblock %}
-                <div style="clear: left;"></div>
-            </uib-accordion-group>
-            {% if isAddDialog == false %}
-                {% block sections %}{% endblock %}
-            {% endif %}
-        </uib-accordion>
-        {% if isAddDialog %}
+    </uib-accordion>
+    {% if isAddDialog %}
         </div>
         <div class="modal-footer">
             {% if defaultButtons|default('true') == 'true' %}
@@ -35,17 +35,21 @@
 
     {% if isAddDialog == false %}
 
-    <div class="formFloatingBar" align="right">
-        {% if defaultButtons|default('true') == 'true' %}
-            <button ng-disabled="!isEditable()" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
-            <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
-            {% if exportable %}
-                <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
+        <div class="formFloatingBar" align="right">
+            {% if defaultButtons|default('true') == 'true' %}
+                <button ng-disabled="!isEditable()" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
+                <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
+                {% if exportable %}
+                    <!-- @TODO translation -->
+                    <button class="btn btn-default" ng-show="!isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>Lock</button>
+                    <!-- @TODO translation -->
+                    <button class="btn btn-default" ng-show="isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>Unlock</button>
+                    <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
+                {% endif %}
+                <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
+                <button ng-disabled="!isEditable()" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
             {% endif %}
-            <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
-            <button ng-disabled="!isEditable()" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
-        {% endif %}
-        {% block floatingBarExtraButtons %}{% endblock %}
-</div>
-{% endif %}
+            {% block floatingBarExtraButtons %}{% endblock %}
+        </div>
+    {% endif %}
 {% endblock %}

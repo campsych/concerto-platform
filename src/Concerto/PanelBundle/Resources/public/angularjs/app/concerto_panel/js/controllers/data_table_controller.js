@@ -1,6 +1,6 @@
-function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
+function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService) {
     $scope.tabStateName = "tables";
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.DATA_TABLE_DELETE;
@@ -20,6 +20,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.dataInsertPath = Paths.DATA_TABLE_DATA_INSERT;
     $scope.deleteDataPath = Paths.DATA_TABLE_DATA_DELETE;
     $scope.exportInstructionsPath = Paths.DATA_TABLE_EXPORT_INSTRUCTIONS;
+    $scope.lockPath = Paths.DATA_TABLE_LOCK;
 
     $scope.formTitleAddLabel = Trans.DATA_TABLE_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.DATA_TABLE_FORM_TITLE_EDIT;
@@ -85,9 +86,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }
         $scope.dataOptions.columnDefs.push({
             cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-            "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
-            Trans.DATA_TABLE_DATA_LIST_DELETE +
-            "</button>",
+                "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
+                Trans.DATA_TABLE_DATA_LIST_DELETE +
+                "</button>",
             width: 60,
             enableCellEdit: false,
             displayName: "",
@@ -141,10 +142,10 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
-                '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
-                "</div>",
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
+                    "</div>",
                 width: 100
             }
         ],
@@ -478,4 +479,4 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.initializeColumnDefs();
 }
 
-concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", DataTableController]);
+concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", "AuthService", DataTableController]);

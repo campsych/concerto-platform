@@ -66,6 +66,7 @@
     Paths.TEST_WIZARD_PARAM_DELETE = "{{ path("TestWizardParam_delete",{'object_ids':"{0}"}) }}";
     Paths.TEST_WIZARD_PARAM_SAVE = "{{ path("TestWizardParam_save", {"object_id":"{0}"}) }}";
     Paths.TEST_WIZARD_PARAM_FETCH_OBJECT = "{{ path("TestWizardParam_object",{'object_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_LOCK = "{{ path("TestWizard_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.TEST_FLOW_NODE_COLLECTION = "{{ path("TestNode_collection_by_flow_test", {'test_id':"{0}"}) }}";
     Paths.TEST_FLOW_NODE_SAVE = "{{ path("TestNode_save", {"object_id":"{0}"}) }}";
@@ -107,6 +108,7 @@
     Paths.TEST_VARIABLE_SAVE = "{{ path("TestVariable_save", {"object_id":"{0}"}) }}";
     Paths.TEST_RUN = "{{ path("test_runner_start",{"test_slug": "{0}" }) }}";
     Paths.TEST_DEBUG = "{{ path("test_runner_start_debug",{"test_slug":"{0}"}) }}";
+    Paths.TEST_LOCK = "{{ path("Test_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.VIEW_TEMPLATE_COLLECTION = "{{ path("ViewTemplate_collection") }}";
     Paths.VIEW_TEMPLATE_DELETE = "{{ path("ViewTemplate_delete", {'object_ids':"{0}"}) }}";
@@ -118,6 +120,7 @@
     Paths.VIEW_TEMPLATE_PRE_IMPORT_STATUS = "{{ path("ViewTemplate_pre_import_status") }}";
     Paths.VIEW_TEMPLATE_EXPORT_INSTRUCTIONS = "{{ path("ViewTemplate_export_instructions",{'object_ids':"{0}"}) }}";
     Paths.VIEW_TEMPLATE_EXPORT = "{{ path("ViewTemplate_export",{'instructions':"{0}", 'format':"{1}"}) }}";
+    Paths.VIEW_TEMPLATE_LOCK = "{{ path("ViewTemplate_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.DATA_TABLE_COLLECTION = "{{ path("DataTable_collection") }}";
     Paths.DATA_TABLE_DELETE = "{{ path("DataTable_delete", {'object_ids':"{0}"}) }}";
@@ -141,6 +144,7 @@
     Paths.DATA_TABLE_IMPORT_CSV = "{{ path("DataTable_csv_import",{'table_id':"{0}", 'restructure':"{1}", 'header':"{2}", 'delimiter':"{3}", 'enclosure':"{4}"}) }}";
     Paths.DATA_TABLE_COLUMNS_SAVE = "{{ path("DataTable_column_save", {"table_id":"{0}", "column_name":"{1}"}) }}";
     Paths.DATA_TABLE_DATA_ALL_CSV = "{{ path("DataTable_data_collection_csv", {'table_id':"{0}", 'name':"{1}"}) }}";
+    Paths.DATA_TABLE_LOCK = "{{ path("DataTable_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.USER_COLLECTION = "{{ path("User_collection") }}";
     Paths.USER_DELETE = "{{ path("User_delete", {'object_ids':"{0}"}) }}";

@@ -107,11 +107,12 @@ class TestVariableController extends ASectionController
 
     /**
      * @Route("/TestVariable/{object_ids}/delete", name="TestVariable_delete", methods={"POST"})
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 }

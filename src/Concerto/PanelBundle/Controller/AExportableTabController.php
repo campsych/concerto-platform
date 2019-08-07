@@ -122,4 +122,19 @@ abstract class AExportableTabController extends ASectionController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    public function toggleLock(Request $request, $object_id)
+    {
+        $timestamp = $request->get("objectTimestamp");
+        if (!$this->service->canBeModified($object_id, $timestamp, $errorMessage)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => [$this->translator->trans($errorMessage)])));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
+        $this->service->toggleLock($object_id);
+        $response = new Response(json_encode(array("result" => 0)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

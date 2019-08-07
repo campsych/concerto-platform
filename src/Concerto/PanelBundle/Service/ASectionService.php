@@ -2,6 +2,9 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
+use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\AEntityRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -66,6 +69,45 @@ abstract class ASectionService
             $object = $this->authorizeObject($object);
         }
         return $object;
+    }
+
+    public function canBeModified($object_ids, $timestamp, &$errorMessage)
+    {
+        /** @var User $user */
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object_ids = explode(",", $object_ids);
+        foreach ($object_ids as $object_id) {
+            /** @var AEntity|null $object */
+            $object = $this->get($object_id);
+            if ($object) {
+                if ($object->getLockBy() && $object->getLockBy() != $user) {
+                    $errorMessage = "Is locked by someone else."; //@TODO translation
+                    return false;
+                }
+                if ($object->getDeepUpdated()->getTimestamp() > $timestamp && $object->getDeepUpdatedBy() != $user->getUsername()) {
+                    $errorMessage = "Someone updated object. Your current loaded version is not the current one. Please refresh."; //@TODO translation
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function toggleLock($object_id)
+    {
+        /** @var User $user */
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        /** @var ATopEntity $object */
+        $object = $this->get($object_id);
+        if ($object) {
+            $isLocked = $object->getDirectLockBy() !== null;
+            $object->setDirectLockBy($isLocked ? null : $user);
+            $object->setUpdated();
+            $object->setUpdatedBy($user);
+            $this->repository->save($object);
+            return true;
+        }
+        return false;
     }
 
     public abstract function delete($object_ids, $secure = true);

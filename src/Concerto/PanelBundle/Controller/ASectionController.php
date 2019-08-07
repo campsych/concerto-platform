@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\ASectionService;
@@ -29,17 +30,23 @@ abstract class ASectionController
                 $result["errors"][$i] = $this->translator->trans($result["errors"][$i]);
             }
             $result["result"] = 1;
-            $response = new Response(json_encode($result));
         } else {
             $result["result"] = 0;
-            $response = new Response(json_encode($result));
         }
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
+        $timestamp = $request->get("objectTimestamp");
+        if (!$this->service->canBeModified($object_ids, $timestamp, $errorMessage)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => [$this->translator->trans($errorMessage)])));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->delete($object_ids);
         $errors = array();
         foreach ($result as $r) {

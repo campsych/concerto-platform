@@ -351,6 +351,11 @@ class TestNode extends AEntity implements \JsonSerializable
         return $updatedBy;
     }
 
+    public function getLockBy()
+    {
+        return $this->getFlowTest()->getLockBy();
+    }
+
     public function hasAnyFromGroup($other_groups)
     {
         $groups = $this->getFlowTest()->getGroupsArray();

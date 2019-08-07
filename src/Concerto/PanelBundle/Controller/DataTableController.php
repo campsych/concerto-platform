@@ -61,6 +61,17 @@ class DataTableController extends AExportableTabController
     }
 
     /**
+     * @Route("/DataTable/{object_id}/toggleLock", name="DataTable_toggleLock")
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function toggleLock(Request $request, $object_id)
+    {
+        return parent::toggleLock($request, $object_id);
+    }
+
+    /**
      * @Route("/DataTable/form/{action}", name="DataTable_form", defaults={"action":"edit"})
      * @param string $action
      * @param array $params
@@ -104,12 +115,13 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{object_ids}/delete", name="DataTable_delete", methods={"POST"})
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 
     /**

@@ -160,10 +160,10 @@ class DataTable extends ATopEntity implements \JsonSerializable
             "accessibility" => $this->accessibility,
             "archived" => $this->archived ? "1" : "0",
             "columns" => $this->columns,
-            "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
+            "updatedOn" => $this->getDeepUpdated()->getTimestamp(),
             "updatedBy" => $this->getDeepUpdatedBy(),
-            "lockedBy" => $this->getLockBy(),
-            "directLockBy" => $this->getDirectLockBy(),
+            "lockedBy" => $this->getLockBy() ? $this->getLockBy()->getId() : null,
+            "directLockBy" => $this->getDirectLockBy() ? $this->getDirectLockBy()->getId() : null,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent

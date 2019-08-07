@@ -160,7 +160,8 @@ class UserService extends ASectionService
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function update(User $object, $flush = true) {
+    private function update(User $object, $flush = true)
+    {
         $user = $this->securityTokenStorage->getToken()->getUser();
         $object->setUpdated();
         $object->setUpdatedBy($user);
@@ -197,6 +198,11 @@ class UserService extends ASectionService
             array_push($result, array("object" => $object, "errors" => array()));
         }
         return $result;
+    }
+
+    public function canBeModified($object_ids, $timestamp, &$errorMessage)
+    {
+        return true;
     }
 
 }
