@@ -152,8 +152,6 @@ class DataTable extends ATopEntity implements \JsonSerializable
             return null;
         self::reserveDependency($dependencies, "DataTable", $this->id);
 
-
-
         $serialized = array(
             "class_name" => "DataTable",
             "id" => $this->id,
@@ -164,6 +162,8 @@ class DataTable extends ATopEntity implements \JsonSerializable
             "columns" => $this->columns,
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
             "updatedBy" => $this->getDeepUpdatedBy(),
+            "lockedBy" => $this->getLockBy(),
+            "directLockBy" => $this->getDirectLockBy(),
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent

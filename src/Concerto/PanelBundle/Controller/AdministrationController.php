@@ -256,4 +256,27 @@ class AdministrationController
             return $response;
         }
     }
+
+    /**
+     * @Route("/Administration/user", name="Administration_user")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function getAuthUser()
+    {
+        $user = $this->service->getAuthorizedUser();
+
+        $content = array("user" => null);
+        if ($user) {
+            $content = array(
+                "user" => array(
+                    "id" => $user->getId(),
+                    "username" => $user->getUsername()
+                )
+            );
+        }
+        $response = new Response(json_encode($content));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

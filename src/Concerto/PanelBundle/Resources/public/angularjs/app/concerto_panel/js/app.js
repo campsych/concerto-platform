@@ -194,9 +194,7 @@ concertoPanel.config(function ($interpolateProvider) {
                 label: Trans.ADMINISTRATION_BREADCRUMB
             }
         });
-});
-
-concertoPanel.config(function ($uibTooltipProvider) {
+}).config(function ($uibTooltipProvider) {
     $uibTooltipProvider.options({
         "placement": "auto top",
         "appendToBody": true
@@ -269,8 +267,3 @@ concertoPanel.run(['$state', function ($state) {
 jsPlumb.importDefaults({
     Connector: ["Straight", {stub: 30}]
 });
-
-$.each(CKEDITOR.dtd.$removeEmpty, function (i, value) {
-    CKEDITOR.dtd.$removeEmpty[i] = false;
-});
-CKEDITOR.dtd.$removeEmpty.div = false;

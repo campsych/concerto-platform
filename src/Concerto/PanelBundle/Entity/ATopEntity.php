@@ -47,6 +47,12 @@ abstract class ATopEntity extends AEntity
      */
     protected $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    protected $directLockBy;
+
     public function __construct()
     {
         parent::__construct();
@@ -245,5 +251,31 @@ abstract class ATopEntity extends AEntity
             }
         }
         return false;
+    }
+
+    /**
+     * Set direct lock by
+     * @param User $user
+     * @return ATopEntity
+     */
+    public function setDirectLockBy($user)
+    {
+        $this->directLockBy = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get direct lock by
+     * @return User
+     */
+    public function getDirectLockBy()
+    {
+        return $this->directLockBy;
+    }
+
+    public function getLockBy()
+    {
+        return $this->directLockBy;
     }
 }

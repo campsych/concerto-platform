@@ -262,6 +262,8 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable
             "html" => $this->html,
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
             "updatedBy" => $this->getDeepUpdatedBy(),
+            "lockedBy" => $this->getLockBy(),
+            "directLockBy" => $this->getDirectLockBy(),
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent

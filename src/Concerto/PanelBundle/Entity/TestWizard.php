@@ -290,7 +290,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable
     {
         $updatedBy = $this->updatedBy;
         $max = $this->updated;
-        foreach ($this->params as $param) {
+        foreach ($this->getParams() as $param) {
             $val = $param->getDeepUpdated();
             $max = max($max, $val);
             if ($val == $max) {
@@ -305,6 +305,14 @@ class TestWizard extends ATopEntity implements \JsonSerializable
             }
         }
         return $updatedBy;
+    }
+
+    public function getLockBy()
+    {
+        $lockedBy = parent::getLockBy();
+        if ($lockedBy) return $lockedBy;
+
+        return $this->getTest()->getLockBy();
     }
 
     public static function getArrayHash($arr)
@@ -342,6 +350,8 @@ class TestWizard extends ATopEntity implements \JsonSerializable
             "testName" => $this->getTest()->getName(),
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
             "updatedBy" => $this->getDeepUpdatedBy(),
+            "lockedBy" => $this->getLockBy(),
+            "directLockBy" => $this->getDirectLockBy(),
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent

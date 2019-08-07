@@ -618,21 +618,21 @@ class Test extends ATopEntity implements \JsonSerializable
     {
         $updatedBy = $this->updatedBy;
         $max = $this->updated;
-        foreach ($this->nodes as $node) {
+        foreach ($this->getNodes() as $node) {
             $val = $node->getDeepUpdated();
             $max = max($max, $val);
             if ($val == $max) {
                 $updatedBy = $node->getDeepUpdatedBy();
             }
         }
-        foreach ($this->nodesConnections as $connection) {
+        foreach ($this->getNodesConnections() as $connection) {
             $val = $connection->getDeepUpdated();
             $max = max($max, $val);
             if ($val == $max) {
                 $updatedBy = $connection->getDeepUpdatedBy();
             }
         }
-        foreach ($this->variables as $variable) {
+        foreach ($this->getVariables() as $variable) {
             $val = $variable->getDeepUpdated();
             $max = max($max, $val);
             if ($val == $max) {
@@ -640,6 +640,26 @@ class Test extends ATopEntity implements \JsonSerializable
             }
         }
         return $updatedBy;
+    }
+
+    public function getLockBy()
+    {
+        $lockedBy = parent::getLockBy();
+        if ($lockedBy) return $lockedBy;
+
+        /** @var TestNode $node */
+        foreach ($this->getNodes() as $node) {
+            if ($node->getType() == 0) {
+                $lockedBy = $node->getSourceTest()->getLockBy();
+                if ($lockedBy) return $lockedBy;
+            }
+        }
+
+        if ($this->getSourceWizard()) {
+            $lockedBy = $this->getSourceWizard()->getLockBy();
+            if ($lockedBy) return $lockedBy;
+        }
+        return null;
     }
 
     public static function getArrayHash($arr)
@@ -701,6 +721,8 @@ class Test extends ATopEntity implements \JsonSerializable
             "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies, $normalizedIdsMap),
             "updatedOn" => $this->getDeepUpdated()->format("Y-m-d H:i:s"),
             "updatedBy" => $this->getDeepUpdatedBy(),
+            "lockedBy" => $this->getLockBy(),
+            "directLockBy" => $this->getDirectLockBy(),
             "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies, $normalizedIdsMap),
             "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies, $normalizedIdsMap),
             "tags" => $this->tags,

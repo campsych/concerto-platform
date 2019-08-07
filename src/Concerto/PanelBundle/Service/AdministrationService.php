@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\AdministrationSetting;
 use Concerto\PanelBundle\Entity\Message;
 use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
 use Concerto\PanelBundle\Repository\MessageRepository;
 use Concerto\PanelBundle\Repository\TestRepository;
@@ -13,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
@@ -32,7 +33,6 @@ class AdministrationService
 
     private $settingsRepository;
     private $messagesRepository;
-    private $authorizationChecker;
     private $configSettings;
     private $templating;
     private $testSessionLogRepository;
@@ -44,12 +44,12 @@ class AdministrationService
     private $testRunnerSettings;
     private $testRepository;
     private $testSessionRepository;
+    private $securityTokenStorage;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationCheckerInterface $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings, TestRepository $testRepository, TestSessionRepository $testSessionRepository)
+    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings, TestRepository $testRepository, TestSessionRepository $testSessionRepository, TokenStorageInterface $securityTokenStorage)
     {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
-        $this->authorizationChecker = $authorizationChecker;
         $this->configSettings = $configSettings;
         $this->configSettings["internal"]["version"] = $version;
         $this->templating = $templating;
@@ -62,6 +62,7 @@ class AdministrationService
         $this->testRunnerSettings = $testRunnerSettings;
         $this->testRepository = $testRepository;
         $this->testSessionRepository = $testSessionRepository;
+        $this->securityTokenStorage = $securityTokenStorage;
     }
 
     public function insertSessionLimitMessage(TestSession $session)
@@ -461,5 +462,13 @@ class AdministrationService
         $this->setSettings(array(
             "last_import_time" => date("Y-m-d H:i:s")
         ), false);
+    }
+
+    /**
+     * @return User
+     */
+    public function getAuthorizedUser()
+    {
+        return $this->securityTokenStorage->getToken()->getUser();
     }
 }
