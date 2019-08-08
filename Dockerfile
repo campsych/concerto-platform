@@ -17,7 +17,6 @@ RUN apt-get update -y \
     libxml2-dev \
     libssl-dev \
     locales \
-    mysql-client \
     nginx \
     procps \
     r-base \
