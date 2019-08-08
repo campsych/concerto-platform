@@ -5,7 +5,7 @@ ARG CRAN_MIRROR=https://cloud.r-project.org/
 
 RUN apt-get update -y \
  && apt-get -y install gnupg \
- && echo "deb http://cran.rstudio.com/bin/linux/debian stretch-cran35/" | tee -a /etc/apt/sources.list \
+ && echo "deb http://cran.rstudio.com/bin/linux/debian buster-cran35/" | tee -a /etc/apt/sources.list \
  && apt-key adv --no-tty --keyserver keys.gnupg.net --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF' \
  && apt-get update -y \
  && apt-get -y install \
