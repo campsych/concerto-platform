@@ -68,24 +68,24 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                 displayName: Trans.LIST_FIELD_ACTION,
                 name: "action",
                 cellTemplate:
-                '<div class="ui-grid-cell-contents">' +
-                '<select ng-model="row.entity.action" style="width: 100%;">' +
-                "<option value='0'>" + Trans.IMPORT_ACTION_NEW + "</option>" +
-                "<option value='1' ng-show='row.entity.existing_object'>" + Trans.IMPORT_ACTION_CONVERT + "</option>" +
-                "<option value='2' ng-show='row.entity.can_ignore'>" + Trans.IMPORT_ACTION_IGNORE + "</option>" +
-                '</select>' +
-                '</div>'
+                    '<div class="ui-grid-cell-contents">' +
+                    '<select ng-model="row.entity.action" style="width: 100%;">' +
+                    "<option value='0'>" + Trans.IMPORT_ACTION_NEW + "</option>" +
+                    "<option value='1' ng-show='row.entity.existing_object'>" + Trans.IMPORT_ACTION_CONVERT + "</option>" +
+                    "<option value='2' ng-show='row.entity.can_ignore'>" + Trans.IMPORT_ACTION_IGNORE + "</option>" +
+                    '</select>' +
+                    '</div>'
             }, {
                 displayName: Trans.LIST_FIELD_DATA,
                 name: "data",
                 cellTemplate:
-                '<div class="ui-grid-cell-contents">' +
-                '<select ng-model="row.entity.data" style="width: 100%;" ng-disabled="row.entity.action == 2">' +
-                "<option value='0' ng-show='row.entity.class_name != \"DataTable\"'>" + Trans.LIST_FIELD_DATA_NOT_APPLICABLE + "</option>" +
-                "<option value='1' ng-show='row.entity.class_name == \"DataTable\"'>" + Trans.LIST_FIELD_DATA_IGNORE + "</option>" +
-                "<option value='2' ng-show='row.entity.class_name == \"DataTable\"'>" + Trans.LIST_FIELD_DATA_REPLACE + "</option>" +
-                '</select>' +
-                '</div>'
+                    '<div class="ui-grid-cell-contents">' +
+                    '<select ng-model="row.entity.data" style="width: 100%;" ng-disabled="row.entity.action == 2">' +
+                    "<option value='0' ng-show='row.entity.class_name != \"DataTable\"'>" + Trans.LIST_FIELD_DATA_NOT_APPLICABLE + "</option>" +
+                    "<option value='1' ng-show='row.entity.class_name == \"DataTable\"'>" + Trans.LIST_FIELD_DATA_IGNORE + "</option>" +
+                    "<option value='2' ng-show='row.entity.class_name == \"DataTable\"'>" + Trans.LIST_FIELD_DATA_REPLACE + "</option>" +
+                    '</select>' +
+                    '</div>'
             }, {
                 displayName: Trans.LIST_FIELD_DATA_NUM,
                 name: "data_num"
@@ -93,9 +93,9 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                 displayName: Trans.LIST_FIELD_RENAME,
                 field: "rename",
                 cellTemplate:
-                '<div class="ui-grid-cell-contents">' +
-                '<input ng-model="row.entity.rename" style="width: 100%;" ng-disabled="row.entity.action == 2" />' +
-                '</div>'
+                    '<div class="ui-grid-cell-contents">' +
+                    '<input ng-model="row.entity.rename" style="width: 100%;" ng-disabled="row.entity.action == 2" />' +
+                    '</div>'
             }, {
                 displayName: Trans.LIST_FIELD_SAFE,
                 name: "safe",
@@ -145,8 +145,10 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                             $scope.preImportStatus = response.data.status;
                             break;
                         }
-                        case 2: {
-                            $scope.showErrorAlert(Trans.IMPORT_MESSAGE_VERSION_INCOMPATIBLE);
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            $scope.object.validationErrors = response.data.errors;
+                            $(".modal").animate({scrollTop: 0}, "slow");
+                            $scope.dirty = true;
                             break;
                         }
                     }
@@ -187,10 +189,6 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                         $scope.object.validationErrors = response.data.errors;
                         $(".modal").animate({scrollTop: 0}, "slow");
                         $scope.dirty = true;
-                        break;
-                    }
-                    case 2: {
-                        $scope.showErrorAlert(Trans.IMPORT_MESSAGE_VERSION_INCOMPATIBLE);
                         break;
                     }
                 }

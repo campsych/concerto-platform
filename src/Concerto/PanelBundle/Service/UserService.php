@@ -149,14 +149,7 @@ class UserService extends ASectionService
             return array("object" => null, "errors" => $errors);
         }
         $this->update($object);
-        if ($new) {
-            $result = $this->initializeUserObjects($object);
-            foreach ($result as $r) {
-                if (array_key_exists("errors", $r) && $r["errors"]) {
-                    return $r;
-                }
-            }
-        }
+        if ($new && !$this->initializeUserObjects($object, $errorMessages)) return array("object" => null, "errors" => $errorMessages);
         return array("object" => $object, "errors" => $errors);
     }
 
@@ -168,21 +161,22 @@ class UserService extends ASectionService
         $this->repository->save($object, $flush);
     }
 
-    private function initializeUserObjects(User $user)
+    private function initializeUserObjects(User $user, &$errorMessages = null)
     {
-        $result = array();
         foreach ($this->uio as $group => $classes) {
             if (!$user->hasGroup($group))
                 continue;
             foreach (self::$uio_eligible_classes as $class) {
                 if (array_key_exists($class, $classes)) {
                     foreach ($classes[$class] as $obj) {
-                        $result = array_merge($result, $this->importService->copy($class, $user, $obj["id"], $obj["name"]));
+                        //@TODO this needs to be checked as it right now creates object for user adding new user instead of added user
+                        $copySuccessful = $this->importService->copy($class, $obj["id"], $obj["name"], $errorMessages);
+                        if (!$copySuccessful) return false;
                     }
                 }
             }
         }
-        return $result;
+        return true;
     }
 
     public function delete($object_ids, $secure = true)
@@ -200,7 +194,7 @@ class UserService extends ASectionService
         return $result;
     }
 
-    public function canBeModified($object_ids, $timestamp, &$errorMessage)
+    public function canBeModified($object_ids, $timestamp = null, &$errorMessages = null)
     {
         return true;
     }

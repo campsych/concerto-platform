@@ -71,8 +71,10 @@ abstract class ASectionService
         return $object;
     }
 
-    public function canBeModified($object_ids, $timestamp, &$errorMessage)
+    public function canBeModified($object_ids, $timestamp = null, &$errorMessages = null)
     {
+        if ($timestamp === null) $timestamp = time();
+
         /** @var User $user */
         $user = $this->securityTokenStorage->getToken()->getUser();
         $object_ids = explode(",", $object_ids);
@@ -81,11 +83,11 @@ abstract class ASectionService
             $object = $this->get($object_id);
             if ($object) {
                 if ($object->getLockBy() && $object->getLockBy() != $user) {
-                    $errorMessage = "Is locked by someone else."; //@TODO translation
+                    $errorMessages = ["Is locked by someone else."]; //@TODO translation
                     return false;
                 }
                 if ($object->getDeepUpdated()->getTimestamp() > $timestamp && $object->getDeepUpdatedBy() != $user->getUsername()) {
-                    $errorMessage = "Someone updated object. Your current loaded version is not the current one. Please refresh."; //@TODO translation
+                    $errorMessages = ["Someone updated object. Your current loaded version is not the current one. Please refresh."]; //@TODO translation
                     return false;
                 }
             }

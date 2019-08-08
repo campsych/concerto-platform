@@ -77,3 +77,6 @@ errors:
     title: Błedy systemu
     table:
         column.conversion: Wybrana konwersja typu nie jest dostępna przy używanym sterowniku bazy danych.
+
+import:
+    incompatible_version: Plik eksportu jest przestarzały i nie może być używany na tej wersji Concerto Platform!

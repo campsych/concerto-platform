@@ -66,7 +66,7 @@ class TestSessionLogService extends ASectionService
         return null;
     }
 
-    public function canBeModified($object_ids, $timestamp, &$errorMessage)
+    public function canBeModified($object_ids, $timestamp = null, &$errorMessages = true)
     {
         return true;
     }

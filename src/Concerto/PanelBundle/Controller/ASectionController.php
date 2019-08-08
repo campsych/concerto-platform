@@ -25,14 +25,10 @@ abstract class ASectionController
 
     protected function getSaveResponse($result)
     {
-        if (count($result["errors"]) > 0) {
-            for ($i = 0; $i < count($result["errors"]); $i++) {
-                $result["errors"][$i] = $this->translator->trans($result["errors"][$i]);
-            }
-            $result["result"] = 1;
-        } else {
-            $result["result"] = 0;
-        }
+        $result["errors"] = $this->trans($result["errors"]);
+        if (count($result["errors"]) > 0) $result["result"] = 1;
+        else $result["result"] = 0;
+
         $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -41,8 +37,8 @@ abstract class ASectionController
     public function deleteAction(Request $request, $object_ids)
     {
         $timestamp = $request->get("objectTimestamp");
-        if (!$this->service->canBeModified($object_ids, $timestamp, $errorMessage)) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => [$this->translator->trans($errorMessage)])));
+        if (!$this->service->canBeModified($object_ids, $timestamp, $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -51,13 +47,13 @@ abstract class ASectionController
         $errors = array();
         foreach ($result as $r) {
             for ($i = 0; $i < count($r['errors']); $i++) {
-                $errors[] = "#" . $r["object"]->getId() . ": " . $r["object"]->getName() . " - " . $this->translator->trans($r['errors'][$i]);
+                $errors[] = "#" . $r["object"]->getId() . ": " . $r["object"]->getName() . " - " . $this->trans($r['errors'][$i]);
             }
         }
         if (count($errors) > 0) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
         } else {
-            $response = new Response(json_encode(array("result" => 0, "object_ids" => $object_ids)));
+            $response = new Response(json_encode(array("result" => 0)));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -89,4 +85,15 @@ abstract class ASectionController
         return $this->templating->renderResponse("ConcertoPanelBundle:" . $this->entityName . ":form.html.twig", $p);
     }
 
+    protected function trans($messages, $domain = null)
+    {
+        if (!$messages) return $messages;
+        if (is_array($messages)) {
+            foreach ($messages as &$message) {
+                $message = $this->translator->trans($message, [], $domain);
+            }
+            return $messages;
+        }
+        return $this->translator->trans($messages, [], $domain);
+    }
 }

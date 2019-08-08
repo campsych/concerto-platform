@@ -68,3 +68,6 @@ errors:
     title: Sistem hataları
     table:
         column.conversion: Seçili dönüştürme, yapılandırılmış veri tabanıyla uyumlu değildir.
+
+import:
+    incompatible_version: Aktarım dosyası eski bir sürümle oluşturulmuş ve bu Concerto Platform sürümüyle kullanılamaz!

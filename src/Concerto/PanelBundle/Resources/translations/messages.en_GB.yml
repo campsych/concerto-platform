@@ -77,3 +77,6 @@ errors:
     title: System errors
     table:
         column.conversion: Selected type conversion is not supported with configured database driver.
+
+import:
+    incompatible_version: Export file is outdated and can not be used on this version of Concert Plaftorm!

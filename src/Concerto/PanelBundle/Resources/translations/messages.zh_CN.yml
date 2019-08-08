@@ -68,3 +68,6 @@ errors:
     title: 系统错误
     table: 
         column.conversion: 数据库驱动配置无法支持所选中的类型转换
+
+import:
+    incompatible_version: 导出文件已过期，无法在当前康测通平台上使用！

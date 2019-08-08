@@ -113,7 +113,6 @@ import:
         description_warning: Converting current objects on import with new ones is still experimental and might lead to loss of data. There also might be a situation when differences between current object version and imported one will lead to unavoidable data loss. It is strongly recommended to backup your database before continuing.
         message:
             imported: Object imported
-            incompatible_version: Export file is outdated and can not be used on this version of Concert Plaftorm!
     fieldset:
         legend.tooltip: Import new object from the file which was previously exported
     form:

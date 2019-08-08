@@ -227,7 +227,7 @@ class AdministrationController
     {
         $file = $request->get("file");
         if ($file) {
-            $file = $this->fileService->getPrivateUploadDirectory() . $file;
+            $file = realpath($this->fileService->getPrivateUploadDirectory()) . "/" . $file;
         }
         $url = $request->get("url");
         $instructions = $request->get("instructions");
