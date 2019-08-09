@@ -83,6 +83,12 @@ class TestWizardStepController extends ASectionController
      */
     public function saveAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->save(
             $object_id,
             $request->get("title"),
@@ -94,11 +100,18 @@ class TestWizardStepController extends ASectionController
 
     /**
      * @Route("/TestWizardStep/TestWizard/{wizard_id}/clear", name="TestWizardStep_clear", methods={"POST"})
+     * @param Request $request
      * @param $wizard_id
      * @return Response
      */
-    public function clearAction($wizard_id)
+    public function clearAction(Request $request, $wizard_id)
     {
+        if (!$this->service->canBeModified($wizard_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->clear($wizard_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');

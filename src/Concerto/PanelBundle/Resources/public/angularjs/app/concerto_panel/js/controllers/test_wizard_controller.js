@@ -12,10 +12,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.saveNewPath = Paths.TEST_WIZARD_SAVE_NEW;
     $scope.exportPath = Paths.TEST_WIZARD_EXPORT;
     $scope.stepsCollectionPath = Paths.TEST_WIZARD_STEP_COLLECTION;
-    $scope.deleteAllStepsPath = Paths.TEST_WIZARD_STEP_DELETE_ALL;
     $scope.fetchStepObjectPath = Paths.TEST_WIZARD_STEP_FETCH_OBJECT;
     $scope.paramsCollectionPath = Paths.TEST_WIZARD_PARAM_COLLECTION;
-    $scope.deleteAllParamsPath = Paths.TEST_WIZARD_PARAM_DELETE_ALL;
     $scope.fetchParamObjectPath = Paths.TEST_WIZARD_PARAM_FETCH_OBJECT;
     $scope.exportInstructionsPath = Paths.TEST_WIZARD_EXPORT_INSTRUCTIONS;
     $scope.lockPath = Paths.TEST_WIZARD_LOCK;
@@ -242,9 +240,19 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR,
             Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_CLEAR_CONFIRM,
             function (response) {
-                $http.post($scope.deleteAllStepsPath.pf($scope.object.id), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchAllCollections();
+                $http.post(Paths.TEST_WIZARD_STEP_DELETE_ALL.pf($scope.object.id), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    if (data.result == 0) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchAllCollections();
+                    } else {
+                        DialogsService.alertDialog(
+                            Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR,
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
+                    }
                 });
             }
         );
@@ -277,8 +285,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                             break;
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
-                            $scope.dialogsService.alertDialog(
-                                Trans.DIALOG_TITLE_DELETE,
+                            DialogsService.alertDialog(
+                                Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE,
                                 data.errors.join("<br/>"),
                                 "danger"
                             );
@@ -294,9 +302,19 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR,
             Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_CLEAR_CONFIRM,
             function (response) {
-                $http.post($scope.deleteAllParamsPath.pf($scope.object.id), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchAllCollections();
+                $http.post(Paths.TEST_WIZARD_PARAM_DELETE_ALL.pf($scope.object.id), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    if (data.result == 0) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchAllCollections();
+                    } else {
+                        $scope.dialogsService.alertDialog(
+                            Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR,
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
+                    }
                 });
             }
         );
@@ -329,8 +347,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                             break;
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
-                            $scope.dialogsService.alertDialog(
-                                Trans.DIALOG_TITLE_DELETE,
+                            DialogsService.alertDialog(
+                                Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE,
                                 data.errors.join("<br/>"),
                                 "danger"
                             );
@@ -350,6 +368,9 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             resolve: {
                 object: function () {
                     return step;
+                },
+                wizard: function () {
+                    return $scope.object;
                 }
             },
             size: "lg"
@@ -382,6 +403,9 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 },
                 object: function () {
                     return param;
+                },
+                wizard: function () {
+                    return $scope.object;
                 }
             },
             size: "prc-lg"

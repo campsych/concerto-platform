@@ -535,7 +535,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                             break;
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
-                            $scope.dialogsService.alertDialog(
+                            DialogsService.alertDialog(
                                 Trans.DIALOG_TITLE_DELETE,
                                 data.errors.join("<br/>"),
                                 "danger"
@@ -585,6 +585,9 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             resolve: {
                 object: function () {
                     return variable;
+                },
+                test: function () {
+                    return $scope.object;
                 }
             },
             size: "lg"
