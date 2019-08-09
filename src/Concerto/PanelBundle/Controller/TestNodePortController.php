@@ -74,6 +74,12 @@ class TestNodePortController extends ASectionController
      */
     public function saveAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $node = $this->testNodeService->get($request->get("node"));
         $variable = $this->testVariableService->get($request->get("variable"));
         $default = $request->get("default") === "1";
@@ -110,17 +116,18 @@ class TestNodePortController extends ASectionController
      */
     public function saveCollectionAction(Request $request)
     {
+        if (!$this->testNodeService->canBeModified($request->get("node_id"), $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->saveCollection(
             $request->get("serializedCollection")
         );
-        if (count($result["errors"]) > 0) {
-            for ($i = 0; $i < count($result["errors"]); $i++) {
-                $result["errors"][$i] = $this->translator->trans($result["errors"][$i]);
-            }
-            $response = new Response(json_encode(array("result" => 1, "errors" => $result["errors"])));
-        } else {
-            $response = new Response(json_encode(array("result" => 0, "object" => null)));
-        }
+
+        $errors = $this->trans($result["errors"]);
+        $response = new Response(json_encode(array("result" => count($errors) > 0 ? 1 : 0, "errors" => $errors)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -133,6 +140,12 @@ class TestNodePortController extends ASectionController
      */
     public function hideAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->hide(
             $object_id
         );

@@ -82,6 +82,12 @@ class TestNodeController extends ASectionController
      */
     public function saveAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->save(
             $object_id,
             $request->get("type"),
@@ -94,12 +100,19 @@ class TestNodeController extends ASectionController
     }
 
     /**
-     * @Route("/TestNode/ports/expose", name="TestNode_expose_ports", methods={"POST"})
+     * @Route("/TestNode/{object_id}/ports/expose", name="TestNode_expose_ports", methods={"POST"})
      * @param Request $request
+     * @param $object_id
      * @return Response
      */
-    public function exposePorts(Request $request)
+    public function exposePorts(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->exposePorts(
             json_decode($request->get("exposedPorts"), true)
         );
@@ -117,28 +130,24 @@ class TestNodeController extends ASectionController
      */
     public function addDynamicPort(Request $request, $object_id, $type)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->addDynamicPort(
             $object_id,
             $request->get("name"),
             (integer)$type
         );
 
-        $response = null;
-        if (count($result["errors"]) > 0) {
-            $errors = array();
-            foreach ($result["errors"] as $error) {
-                array_push($errors, $this->translator->trans($error));
-            }
-            $response = new Response(json_encode(array(
-                "result" => 1,
-                "errors" => $errors
-            )));
-        } else {
-            $response = new Response(json_encode(array(
-                "result" => 0,
-                "object" => json_encode($result["object"])
-            )));
-        }
+        $errors = $this->trans($result["errors"]);
+        $response = new Response(json_encode(array(
+            "result" => count($errors) > 0 ? 1 : 0,
+            "object" => $result["object"],
+            "errors" => $errors
+        )));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
