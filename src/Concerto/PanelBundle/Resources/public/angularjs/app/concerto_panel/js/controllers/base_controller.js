@@ -59,6 +59,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     };
 
     $scope.isLockedForMe = function (entity) {
+        if (typeof (entity) === 'undefined') {
+            entity = $scope.object;
+        }
         return $scope.isLocked(entity) && (AuthService.user === null || entity.lockedBy && entity.lockedBy != AuthService.user.id);
     };
 
@@ -145,6 +148,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         return $scope.object;
     };
 
+    $scope.getGridLockedIconTooltip = function (object) {
+        return Trans.LIST_LOCKED_TOOLTIP.pf(UserCollectionService.get(object.lockedBy).username);
+    };
+
     $scope.initializeColumnDefs = function () {
         if ($scope.exportable) {
             $scope.columnDefs.push({
@@ -154,8 +161,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 exporterSuppressExport: true,
                 cellTemplate: '<div class="ui-grid-cell-contents" align="center">' +
                     '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    '<i style="vertical-align:middle;" class="glyphicon glyphicon-lock" ng-if="grid.appScope.isLocked(row.entity)" uib-tooltip-html="grid.appScope.getGridLockedIconTooltip(row.entity)" tooltip-append-to-body="true"></i>' +
                     '</div>',
-                width: 50
+                width: 70
             });
         }
         $scope.columnDefs.push({
@@ -174,6 +182,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.columnDefs.push({
             displayName: Trans.LIST_FIELD_UPDATED_ON,
             field: "updatedOn",
+            cellTemplate: '<div class="ui-grid-cell-contents">{{COL_FIELD * 1000|date:\'yyyy-MM-dd HH:mm:ss\'}}</div>',
         });
         var cellTemplate = '<div class="ui-grid-cell-contents" align="center">';
         for (var i = 0; i < $scope.additionalListButtons.length; i++) {
@@ -212,6 +221,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.collectionData = [];
     $scope.collectionOptions = {
+        rowTemplate:
+            '<div ng-class="{ \'grid-row-locked-by-other\': grid.appScope.isLockedForMe(row.entity) }">' +
+            '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }"  ui-grid-cell></div>' +
+            '</div>',
         enableFiltering: true,
         enableGridMenu: true,
         exporterMenuCsv: false,

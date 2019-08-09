@@ -3,6 +3,9 @@
 {% trans_default_domain "Test" %}
 {% set exportable = true %}
 
+{% block top %}
+    {{ include("ConcertoPanelBundle::lock_info.html.twig") }}
+{% endblock %}
 {% block legend %} 
     {% verbatim %}{{formTitle}}{% endverbatim %}
 {% endblock %}

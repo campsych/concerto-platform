@@ -7,18 +7,21 @@ use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Entity\Role;
 
-class UserControllerTest extends AFunctionalTest {
+class UserControllerTest extends AFunctionalTest
+{
 
     private static $repository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         $client = static::createClient();
         self::$encoderFactory = $client->getContainer()->get("test.security.encoder_factory");
         self::$entityManager = $client->getContainer()->get("doctrine")->getManager();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:User");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $repo = self::$entityManager->getRepository("ConcertoPanelBundle:User");
         foreach ($repo->findAll() as $user) {
             self::$entityManager->remove($user);
@@ -58,7 +61,8 @@ class UserControllerTest extends AFunctionalTest {
         self::$entityManager->flush();
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/User/collection');
@@ -81,13 +85,16 @@ class UserControllerTest extends AFunctionalTest {
                 'role_wizard' => '0',
                 'owner' => 1,
                 'groups' => '',
-                'starterContent' => false
+                'starterContent' => false,
+                "lockedBy" => null,
+                "directLockBy" => null
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testFormActionNew() {
+    public function testFormActionNew()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/User/form/add");
@@ -98,7 +105,8 @@ class UserControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.email']")->count());
     }
 
-    public function testFormActionEdit() {
+    public function testFormActionEdit()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/User/form/edit");
@@ -109,22 +117,21 @@ class UserControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.email']")->count());
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/User/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
-            "result" => 0,
-            "object_ids" => 1
-                ), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/User/-1/save", array(
@@ -162,12 +169,15 @@ class UserControllerTest extends AFunctionalTest {
                 "archived" => "0",
                 "owner" => 2,
                 "groups" => "",
-                'starterContent' => false
+                'starterContent' => false,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testSaveActionRename() {
+    public function testSaveActionRename()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/User/1/save", array(
@@ -205,12 +215,15 @@ class UserControllerTest extends AFunctionalTest {
                 "owner" => 1,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                'starterContent' => false
+                'starterContent' => false,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionSameName() {
+    public function testSaveActionSameName()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/User/1/save", array(
@@ -248,12 +261,15 @@ class UserControllerTest extends AFunctionalTest {
                 "owner" => 1,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                'starterContent' => false
+                'starterContent' => false,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionNameAlreadyExists() {
+    public function testSaveActionNameAlreadyExists()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/User/-1/save", array(
@@ -291,7 +307,9 @@ class UserControllerTest extends AFunctionalTest {
                 "owner" => 2,
                 "groups" => "",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
-                'starterContent' => false
+                'starterContent' => false,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 
@@ -308,7 +326,7 @@ class UserControllerTest extends AFunctionalTest {
             "result" => 1,
             "object" => null,
             "errors" => array("This login already exists in the system")
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
 

@@ -5,6 +5,7 @@
     {% if isAddDialog %}
         <div class="modal-body">
     {% endif %}
+    {% block top %}{% endblock %}
     {{ include("ConcertoPanelBundle::form_validation.html.twig") }}
     <uib-accordion close-others="false">
         <uib-accordion-group is-open="tabAccordion.form.open" is-disabled="tabAccordion.form.disabled">

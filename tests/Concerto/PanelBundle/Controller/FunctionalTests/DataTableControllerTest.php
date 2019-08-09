@@ -95,7 +95,9 @@ class DataTableControllerTest extends AFunctionalTest
                 "owner" => null,
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
-                "updatedBy" => 'admin'
+                "updatedBy" => 'admin',
+                "lockedBy" => null,
+                "directLockBy" => null
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -129,7 +131,7 @@ class DataTableControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/DataTable/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_ids" => "1"), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
@@ -173,6 +175,8 @@ class DataTableControllerTest extends AFunctionalTest
             "archived" => "0",
             "starterContent" => false,
             "groups" => "",
+            "lockedBy" => null,
+            "directLockBy" => null,
             'columns' => array(
                 array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
                 array('name' => 'temp', 'type' => 'text', 'nullable' => false)
@@ -266,7 +270,9 @@ class DataTableControllerTest extends AFunctionalTest
                 "description" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => array(),
-                "updatedBy" => "admin"
+                "updatedBy" => "admin",
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -297,7 +303,9 @@ class DataTableControllerTest extends AFunctionalTest
                 "description" => "edited table description",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
-                "updatedBy" => "admin"
+                "updatedBy" => "admin",
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -328,7 +336,9 @@ class DataTableControllerTest extends AFunctionalTest
                 "description" => "edited table description",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
-                "updatedBy" => "admin"
+                "updatedBy" => "admin",
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -359,7 +369,9 @@ class DataTableControllerTest extends AFunctionalTest
                 "description" => "table description",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
-                "updatedBy" => "admin"
+                "updatedBy" => "admin",
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 
@@ -495,7 +507,10 @@ class DataTableControllerTest extends AFunctionalTest
         }
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array(
+            "result" => 0,
+            "errors" => array()
+        ), json_decode($client->getResponse()->getContent(), true));
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -569,7 +584,10 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
 
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array(
+            "result" => 0,
+            "errors" => array()
+        ), json_decode($client->getResponse()->getContent(), true));
 
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());

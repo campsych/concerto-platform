@@ -1,0 +1,11 @@
+{% extends "::base_include.html.twig" %}
+{% trans_default_domain "panel" %}
+
+{% block content %}
+    <uib-alert type="danger" ng-if="isLockedForMe()">
+        {{ "form.locked_by_other_info"|trans({"{0}":"{{userCollectionService.get(object.lockedBy).username}}"})|raw }}
+    </uib-alert>
+    <uib-alert type="info" ng-if="!isLockedForMe() && object.lockedBy">
+        {{ "form.locked_by_me_info"|trans|raw }}
+    </uib-alert>
+{% endblock %}

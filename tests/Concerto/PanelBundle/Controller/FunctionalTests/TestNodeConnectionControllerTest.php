@@ -196,7 +196,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/TestNodeConnection/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_ids" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);

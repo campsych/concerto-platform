@@ -55,6 +55,7 @@ list:
     import: Importuj
     download: Pobierz
     upload: Wyślij CSV
+  locked.tooltip: "Przejęte przez: {0}"
 
 form:
   validation.failed: Walidacja nie powiodła się

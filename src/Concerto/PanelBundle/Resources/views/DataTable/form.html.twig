@@ -3,6 +3,9 @@
 {% trans_default_domain "DataTable" %}
 {% set exportable = true %}
 
+{% block top %}
+    {{ include("ConcertoPanelBundle::lock_info.html.twig") }}
+{% endblock %}
 {% block legend %}
     {% verbatim %}{{formTitle}}{% endverbatim %}
 {% endblock %}
@@ -80,5 +83,5 @@
 {% endblock %}
 
 {% block floatingBarExtraButtons %}
-    <button class="btn btn-primary" ng-click="importCsv()">{{ 'form.button.import.csv'|trans }}</button>
+    <button class="btn btn-primary" ng-click="importCsv()" ng-disabled="!isEditable()">{{ 'form.button.import.csv'|trans }}</button>
 {% endblock %}

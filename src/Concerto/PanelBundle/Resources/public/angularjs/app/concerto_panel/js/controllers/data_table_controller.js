@@ -265,19 +265,14 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $http.post(Paths.DATA_TABLE_DATA_INSERT.pf($scope.object.id), {
             objectTimestamp: $scope.object.updatedOn
         }).success(function (response) {
-            switch (data.result) {
-                case BaseController.RESULT_OK: {
-                    $scope.fetchDataCollection($scope.object.id);
-                    break;
-                }
-                case BaseController.RESULT_VALIDATION_FAILED: {
-                    DialogsService.alertDialog(
-                        Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
-                        data.errors.join("<br/>"),
-                        "danger"
-                    );
-                    break;
-                }
+            if (response.result == 0) {
+                $scope.fetchDataCollection($scope.object.id);
+            } else {
+                DialogsService.alertDialog(
+                    Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
+                    response.errors.join("<br/>"),
+                    "danger"
+                );
             }
         });
     };
