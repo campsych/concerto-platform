@@ -12,13 +12,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.saveNewPath = Paths.DATA_TABLE_SAVE_NEW;
     $scope.exportPath = Paths.DATA_TABLE_EXPORT;
     $scope.columnsCollectionPath = Paths.DATA_TABLE_COLUMNS_COLLECTION;
-    $scope.deleteColumnPath = Paths.DATA_TABLE_COLUMNS_DELETE;
     $scope.fetchColumnObjectPath = Paths.DATA_TABLE_COLUMNS_FETCH_OBJECT;
     $scope.dataCollectionPath = Paths.DATA_TABLE_DATA_COLLECTION;
     $scope.dataAllCsvPath = Paths.DATA_TABLE_DATA_ALL_CSV;
-    $scope.dataUpdatePath = Paths.DATA_TABLE_DATA_UPDATE;
-    $scope.dataInsertPath = Paths.DATA_TABLE_DATA_INSERT;
-    $scope.deleteDataPath = Paths.DATA_TABLE_DATA_DELETE;
     $scope.exportInstructionsPath = Paths.DATA_TABLE_EXPORT_INSTRUCTIONS;
     $scope.lockPath = Paths.DATA_TABLE_LOCK;
 
@@ -100,7 +96,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.fetchDataCollection($scope.object.id);
     });
     $scope.editTextCell = function (entity, colName) {
-        $scope.dialogsService.textareaDialog(
+        DialogsService.textareaDialog(
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
             entity[colName],
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
@@ -266,8 +262,23 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.fetchDataCollection($scope.object.id);
     };
     $scope.addRow = function () {
-        $http.post($scope.dataInsertPath.pf($scope.object.id)).success(function (response) {
-            $scope.fetchDataCollection($scope.object.id);
+        $http.post(Paths.DATA_TABLE_DATA_INSERT.pf($scope.object.id), {
+            objectTimestamp: $scope.object.updatedOn
+        }).success(function (response) {
+            switch (data.result) {
+                case BaseController.RESULT_OK: {
+                    $scope.fetchDataCollection($scope.object.id);
+                    break;
+                }
+                case BaseController.RESULT_VALIDATION_FAILED: {
+                    DialogsService.alertDialog(
+                        "Inserting new row", //@TODO add translation
+                        data.errors.join("<br/>"),
+                        "danger"
+                    );
+                    break;
+                }
+            }
         });
     };
     $scope.saveRow = function (row) {
@@ -280,21 +291,47 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }
         }
 
-        $http.post($scope.dataUpdatePath.pf($scope.object.id, newRow.id), {
-            values: newRow
-        }).then(function (response) {
+        $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRow.id), {
+            values: newRow,
+            objectTimestamp: $scope.object.updatedOn
+        }).then(function (data) {
+            switch (data.result) {
+                case BaseController.RESULT_VALIDATION_FAILED: {
+                    DialogsService.alertDialog(
+                        "Updating row", //@TODO add translation
+                        data.errors.join("<br/>"),
+                        "danger"
+                    );
+                    break;
+                }
+            }
         }).catch(function (error) {
             $scope.refreshRows();
         });
     };
 
     $scope.deleteAllRows = function () {
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post(Paths.DATA_TABLE_DATA_DELETE_ALL.pf($scope.object.id)).success(function (data) {
-                    $scope.fetchDataCollection($scope.object.id);
+                $http.post(Paths.DATA_TABLE_DATA_DELETE_ALL.pf($scope.object.id), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.fetchDataCollection($scope.object.id);
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            $scope.dialogsService.alertDialog(
+                                Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -313,12 +350,27 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             ids = [ids];
         }
 
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post($scope.deleteDataPath.pf($scope.object.id, ids), {}).success(function (data) {
-                    $scope.fetchDataCollection($scope.object.id);
+                $http.post(Paths.DATA_TABLE_DATA_DELETE.pf($scope.object.id, ids), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.fetchDataCollection($scope.object.id);
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            $scope.dialogsService.alertDialog(
+                                Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -370,13 +422,28 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             names = [names];
         }
 
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_STRUCTURE_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post($scope.deleteColumnPath.pf($scope.object.id, names), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchAllCollections();
+                $http.post(Paths.DATA_TABLE_COLUMNS_DELETE.pf($scope.object.id, names), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.setWorkingCopyObject();
+                            $scope.fetchAllCollections();
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            DialogsService.alertDialog(
+                                Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );

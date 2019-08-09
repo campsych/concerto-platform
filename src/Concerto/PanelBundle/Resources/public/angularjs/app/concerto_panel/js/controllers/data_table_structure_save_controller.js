@@ -1,6 +1,4 @@
 function DataTableStructureSaveController($scope, $uibModalInstance, $http, table, object) {
-    $scope.savePath = Paths.DATA_TABLE_COLUMNS_SAVE;
-
     $scope.oldName = object.name;
     if ($scope.oldName === "") {
         $scope.oldName = "0";
@@ -37,33 +35,30 @@ function DataTableStructureSaveController($scope, $uibModalInstance, $http, tabl
         $scope.object.validationErrors = [];
         $scope.object.systemErrors = [];
 
-        var oid = $scope.object.name;
-
         var addModalDialog = $uibModalInstance;
-        $http.post($scope.savePath.pf($scope.table.id, $scope.oldName), $scope.object).then(
-                function successCallback(response) {
-                    switch (response.data.result) {
-                        case BaseController.RESULT_OK:
-                        {
-                            if (addModalDialog != null) {
-                                addModalDialog.close($scope.object);
-                            }
-                            break;
+        $http.post(Paths.DATA_TABLE_COLUMNS_SAVE.pf($scope.table.id, $scope.oldName), angular.extend(
+            {}, $scope.object, {objectTimestamp: $scope.table.updatedOn}
+        )).then(
+            function successCallback(response) {
+                switch (response.data.result) {
+                    case BaseController.RESULT_OK: {
+                        if (addModalDialog != null) {
+                            addModalDialog.close($scope.object);
                         }
-                        case BaseController.RESULT_OPERATION_NOT_SUPPORTED:
-                        case BaseController.RESULT_VALIDATION_FAILED:
-                        {
-                            $scope.object.validationErrors = response.data.errors;
-                            $(".modal").animate({scrollTop: 0}, "slow");
-                            break;
-                        }
+                        break;
                     }
-                },
-                function errorCallback(response) {
-                    $scope.object.systemErrors = [
-                        Trans.DIALOG_MESSAGE_FAILED
-                    ];
+                    case BaseController.RESULT_VALIDATION_FAILED: {
+                        $scope.object.validationErrors = response.data.errors;
+                        $(".modal").animate({scrollTop: 0}, "slow");
+                        break;
+                    }
                 }
+            },
+            function errorCallback(response) {
+                $scope.object.systemErrors = [
+                    Trans.DIALOG_MESSAGE_FAILED
+                ];
+            }
         );
     };
 

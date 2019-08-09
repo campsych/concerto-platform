@@ -261,7 +261,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             ids = [ids];
         }
 
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DIALOG_TITLE_DELETE,
             Trans.DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
@@ -284,7 +284,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                             break;
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
-                            $scope.dialogsService.alertDialog(
+                            DialogsService.alertDialog(
                                 Trans.DIALOG_TITLE_DELETE,
                                 data.errors.join("<br/>"),
                                 "danger"
