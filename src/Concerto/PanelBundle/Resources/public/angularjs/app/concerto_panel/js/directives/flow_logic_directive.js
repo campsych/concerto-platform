@@ -306,7 +306,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 scope.refreshNode(node);
                             } else {
                                 DialogsService.alertDialog(
-                                    "Editing node", //@TODO add translation
+                                    title,
                                     response.errors.join("<br/>"),
                                     "danger"
                                 );
@@ -359,7 +359,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }).success(function (data) {
                             if (data.result != 0) {
                                 DialogsService.alertDialog(
-                                    "Editing node", //@TODO add translation
+                                    Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
                                     data.errors.join("<br/>"),
                                     "danger"
                                 );
@@ -691,7 +691,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         node.posY = y;
                                     } else {
                                         DialogsService.alertDialog(
-                                            "Editing node", //@TODO add translation
+                                            Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
                                             data.errors.join("<br/>"),
                                             "danger"
                                         );
@@ -705,7 +705,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 }).success(function (data) {
                                     if (data.result != 0) {
                                         DialogsService.alertDialog(
-                                            "Editing node", //@TODO add translation
+                                            Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
                                             data.errors.join("<br/>"),
                                             "danger"
                                         );
@@ -787,7 +787,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 }).success(function (data) {
                     if (data.result != 0) {
                         DialogsService.alertDialog(
-                            "Editing port", //@TODO add translation
+                            Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
                             data.errors.join("<br/>"),
                             "danger"
                         );
@@ -826,7 +826,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     }).success(function (data) {
                         if (data.result != 0) {
                             DialogsService.alertDialog(
-                                "Editing node", //@TODO add translation
+                                Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
                                 data.errors.join("<br/>"),
                                 "danger"
                             );
@@ -874,7 +874,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.refreshNode(node);
                         } else {
                             DialogsService.alertDialog(
-                                "Editing node", //@TODO add translation
+                                Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TITLE,
                                 data.errors.join("<br/>"),
                                 "danger"
                             );
@@ -954,6 +954,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
             scope.editConnectionCode = function (connection) {
                 var oldValue = connection.returnFunction;
+                var title = connection.sourcePortObject.name + "->" + connection.destinationPortObject.name;
                 var modalInstance = $uibModal.open({
                     templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "connection_return_function_dialog.html",
                     controller: ConnectionReturnFunctionController,
@@ -963,7 +964,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             return connection;
                         },
                         title: function () {
-                            return connection.sourcePortObject.name + "->" + connection.destinationPortObject.name;
+                            return title;
                         },
                         editable: function () {
                             return scope.isEditable();
@@ -994,7 +995,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     connection.returnFunction = data.object.returnFunction
                                 } else {
                                     DialogsService.alertDialog(
-                                        "Editing connection", //@TODO add translation
+                                        title,
                                         data.errors.join("<br/>"),
                                         "danger"
                                     );
@@ -1038,7 +1039,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     } else {
                         DialogsService.alertDialog(
-                            "Editing node", //@TODO add translation
+                            Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
                             data.errors.join("<br/>"),
                             "danger"
                         );
@@ -1264,7 +1265,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         scope.refreshConnections([params.sourceNode.id, params.targetNode.id]);
                     } else {
                         DialogsService.alertDialog(
-                            "Editing connection", //@TODO add translation
+                            Trans.TEST_FLOW_DIALOG_CONNECTION_EDIT_TITLE,
                             data.errors.join("<br/>"),
                             "danger"
                         );
@@ -1306,7 +1307,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         }
                     } else {
                         DialogsService.alertDialog(
-                            "Editing connection", //@TODO add translation
+                            Trans.TEST_FLOW_DIALOG_CONNECTION_EDIT_TITLE,
                             data.errors.join("<br/>"),
                             "danger"
                         );

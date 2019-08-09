@@ -83,11 +83,11 @@ abstract class ASectionService
             $object = $this->get($object_id);
             if ($object) {
                 if ($object->getLockBy() && $object->getLockBy() != $user) {
-                    $errorMessages = ["Is locked by someone else."]; //@TODO translation
+                    $errorMessages = ["validate.locked"];
                     return false;
                 }
                 if ($object->getDeepUpdated()->getTimestamp() > $timestamp && $object->getDeepUpdatedBy() != $user->getUsername()) {
-                    $errorMessages = ["Someone updated object. Your current loaded version is not the current one. Please refresh."]; //@TODO translation
+                    $errorMessages = ["validate.outdated"];
                     return false;
                 }
             }

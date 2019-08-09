@@ -46,7 +46,22 @@ class AdministrationService
     private $testSessionRepository;
     private $securityTokenStorage;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings, TestRepository $testRepository, TestSessionRepository $testSessionRepository, TokenStorageInterface $securityTokenStorage)
+    public function __construct(
+        AdministrationSettingRepository $settingsRepository,
+        MessageRepository $messageRepository,
+        $configSettings,
+        $version,
+        $rootDir,
+        EngineInterface $templating,
+        TestSessionLogRepository $testSessionLogRepository,
+        RegistryInterface $doctrine,
+        ScheduledTaskRepository $scheduledTaskRepository,
+        KernelInterface $kernel,
+        ClientRepository $clientRepository,
+        $testRunnerSettings,
+        TestRepository $testRepository,
+        TestSessionRepository $testSessionRepository,
+        TokenStorageInterface $securityTokenStorage)
     {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;

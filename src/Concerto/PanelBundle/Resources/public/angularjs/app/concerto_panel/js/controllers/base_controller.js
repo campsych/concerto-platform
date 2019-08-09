@@ -80,8 +80,8 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                     break;
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
-                    $scope.dialogsService.alertDialog(
-                        "Object lock", //@TODO translation
+                    DialogsService.alertDialog(
+                        Trans.DIALOG_TITLE_LOCK,
                         data.errors.join("<br/>"),
                         "danger"
                     );

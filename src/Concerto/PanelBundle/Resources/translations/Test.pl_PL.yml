@@ -200,6 +200,12 @@ flow:
             title:
                 title: Edycja tytułu węzła
                 tooltip: Tuytuł węzła, który będzie widoczny w nagłówku węzła
+            edit:
+                title: Edycja węzła
+    connections:
+        dialog:
+            edit:
+                title: Edycja połączenia
     ports:
         names:
             in: wejście

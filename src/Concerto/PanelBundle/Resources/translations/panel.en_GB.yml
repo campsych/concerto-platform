@@ -71,12 +71,15 @@ form:
     apply: Apply
     upload: Upload
     add: Add
+    lock: Lock
+    unlock: Unlock
 
 dialog:
   title:
     save: Saving object
     delete: Deleting object
     csv: CSV
+    lock: Changing object lock
   message:
     failed: Operation failed. Validate your data and try again.
     saved: Object has been saved

@@ -272,7 +272,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     DialogsService.alertDialog(
-                        "Inserting new row", //@TODO add translation
+                        Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
                         data.errors.join("<br/>"),
                         "danger"
                     );
@@ -298,7 +298,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             switch (data.result) {
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     DialogsService.alertDialog(
-                        "Updating row", //@TODO add translation
+                        Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
                         data.errors.join("<br/>"),
                         "danger"
                     );

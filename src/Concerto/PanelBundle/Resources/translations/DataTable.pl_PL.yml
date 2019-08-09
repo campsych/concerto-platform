@@ -57,6 +57,7 @@ data:
     dialog:
         title:
             delete: Usuwanie rekordu
+            edit: Edycja danych
         message:
             confirm.delete: Jesteś pewien, że chcesz usunąć wybrane rekordy?
     fieldset:

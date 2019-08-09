@@ -40,10 +40,8 @@
                 <button ng-disabled="!isEditable()" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
                 <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
                 {% if exportable %}
-                    <!-- @TODO translation -->
-                    <button class="btn btn-default" ng-show="!isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>Lock</button>
-                    <!-- @TODO translation -->
-                    <button class="btn btn-default" ng-show="isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>Unlock</button>
+                    <button class="btn btn-default" ng-show="!isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.lock'|trans }}</button>
+                    <button class="btn btn-default" ng-show="isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.unlock'|trans }}</button>
                     <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
                 {% endif %}
                 <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
