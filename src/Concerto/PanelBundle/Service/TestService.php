@@ -357,19 +357,6 @@ class TestService extends AExportableSectionService
         return $result;
     }
 
-    public function removeFlowNode($node_ids, $return_collections = false)
-    {
-        $ids = explode(",", $node_ids);
-        $first_node = $this->testNodeService->get($ids[0]);
-        $result = array(
-            "results" => $this->testNodeService->delete($node_ids)
-        );
-        if ($return_collections) {
-            $result["collections"] = $this->getFlowCollections($first_node->getFlowTest()->getId());
-        }
-        return $result;
-    }
-
     public function moveFlowNode($nodes)
     {
         for ($i = 0; $i < count($nodes); $i++) {
@@ -392,16 +379,6 @@ class TestService extends AExportableSectionService
         } else {
             $result["collections"] = array();
             $result["collections"]["newNodesConnections"] = $this->testNodeConnectionService->repository->findByNodes($sourceNode, $destinationNode);
-        }
-        return $result;
-    }
-
-    public function removeFlowConnection($connection_id, $return_collections = false)
-    {
-        $connection = $this->testNodeConnectionService->get($connection_id);
-        $result = $this->testNodeConnectionService->delete($connection_id)[0];
-        if ($return_collections) {
-            $result["collections"] = $this->getFlowCollections($connection->getSourceNode()->getFlowTest()->getId());
         }
         return $result;
     }

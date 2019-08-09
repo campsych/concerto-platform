@@ -665,12 +665,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 var x = elem.position().left / scope.flowScale;
                                 var y = elem.position().top / scope.flowScale;
                                 $http.post(Paths.TEST_FLOW_NODE_SAVE.pf(node.id), {
-                                    "type": node.type,
-                                    "flowTest": scope.object.id,
-                                    "sourceTest": node.sourceTest,
-                                    "posX": x,
-                                    "posY": y,
-                                    "title": node.title
+                                    type: node.type,
+                                    flowTest: scope.object.id,
+                                    sourceTest: node.sourceTest,
+                                    posX: x,
+                                    posY: y,
+                                    title: node.title
                                 }).success(function (data) {
                                     if (data.result === 0) {
                                         node.posX = x;
@@ -679,7 +679,17 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 });
                             } else {
                                 $http.post(Paths.TEST_FLOW_NODE_MOVE, {
-                                    nodes: scope.serializeSelectedNodes()
+                                    nodes: scope.serializeSelectedNodes(),
+                                    object_id: scope.object.id,
+                                    objectTimestamp: scope.object.updatedOn
+                                }).success(function (data) {
+                                    if (data.result != 0) {
+                                        DialogsService.alertDialog(
+                                            "Moving nodes", //@TODO add translation
+                                            data.errors.join("<br/>"),
+                                            "danger"
+                                        );
+                                    }
                                 });
                             }
                         }
@@ -953,12 +963,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 if (testId == null)
                     testId = scope.object.id;
                 $http.post(Paths.TEST_FLOW_NODE_ADD_COLLECTION.pf(scope.object.id), {
-                    "type": type,
-                    "flowTest": scope.object.id,
-                    "sourceTest": testId,
-                    "posX": posX,
-                    "posY": posY,
-                    "title": ""
+                    type: type,
+                    flowTest: scope.object.id,
+                    sourceTest: testId,
+                    posX: posX,
+                    posY: posY,
+                    title: "",
+                    objectTimestamp: scope.object.updatedOn
                 }).success(function (data) {
                     if (data.result === 0) {
                         scope.object.nodes.push(data.object);
@@ -969,6 +980,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (sourceTest && sourceTest.sourceWizard) {
                             scope.editNodeWizard(data.object, sourceTest);
                         }
+                    } else {
+                        DialogsService.alertDialog(
+                            "Adding new node", //@TODO add translation
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
                     }
                 });
             };
@@ -1043,19 +1060,28 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 var serializedNodes = angular.toJson(nodes);
                 $http.post(Paths.TEST_FLOW_NODE_PASTE_COLLECTION.pf(scope.object.id), {
-                    nodes: serializedNodes
+                    nodes: serializedNodes,
+                    objectTimestamp: scope.object.updatedOn
                 }).success(function (data) {
-                    var nodeIds = [];
-                    for (var i = 0; i < data.collections.newNodes.length; i++) {
-                        var node = data.collections.newNodes[i];
-                        scope.object.nodes.push(node);
-                        nodeIds.push(node.id);
+                    if (data.result == 0) {
+                        var nodeIds = [];
+                        for (var i = 0; i < data.collections.newNodes.length; i++) {
+                            var node = data.collections.newNodes[i];
+                            scope.object.nodes.push(node);
+                            nodeIds.push(node.id);
+                        }
+                        for (var i = 0; i < data.collections.newNodesConnections.length; i++) {
+                            var connection = data.collections.newNodesConnections[i];
+                            scope.object.nodesConnections.push(connection);
+                        }
+                        scope.refreshConnections(nodeIds);
+                    } else {
+                        DialogsService.alertDialog(
+                            "Pasting nodes",
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
                     }
-                    for (var i = 0; i < data.collections.newNodesConnections.length; i++) {
-                        var connection = data.collections.newNodesConnections[i];
-                        scope.object.nodesConnections.push(connection);
-                    }
-                    scope.refreshConnections(nodeIds);
                 });
             };
 
@@ -1069,10 +1095,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE,
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_MESSAGE,
                     function (response) {
-                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(id), {
+                        $http.post(Paths.TEST_FLOW_NODE_DELETE.pf(id), {
                             objectTimestamp: scope.object.updatedOn
                         }).success(function (data) {
-                            if (data.result === 0) { //validated
+                            if (data.result === 0) {
                                 for (var i = 0; i < scope.object.nodesConnections.length; i++) {
                                     var connection = scope.object.nodesConnections[i];
                                     if (id === connection.sourceNode || id === connection.destinationNode) {
@@ -1094,9 +1120,9 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         scope.object.nodesConnections.splice(i, 1);
                                     }
                                 }
-                            } else { //validation failed
+                            } else {
                                 DialogsService.alertDialog(
-                                    Trans.DIALOG_TITLE_DELETE,
+                                    Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE,
                                     data.errors.join("<br/>"),
                                     "danger"
                                 );
@@ -1111,7 +1137,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE,
                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_MESSAGE,
                     function (response) {
-                        $http.post(Paths.TEST_FLOW_NODE_DELETE_COLLECTION.pf(scope.selectedNodeIds.join()), {
+                        $http.post(Paths.TEST_FLOW_NODE_DELETE.pf(scope.selectedNodeIds.join()), {
                             objectTimestamp: scope.object.updatedOn
                         }).success(function (data) {
                             if (data.result === 0) {
@@ -1143,7 +1169,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 }
                             } else {
                                 DialogsService.alertDialog(
-                                    Trans.DIALOG_TITLE_DELETE,
+                                    Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE,
                                     data.errors.join("<br/>"),
                                     "danger"
                                 );
@@ -1156,12 +1182,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             scope.addConnection = function (concertoConnection, jspConnection) {
                 var params = jspConnection.getParameters();
                 $http.post(Paths.TEST_FLOW_CONNECTION_ADD_COLLECTION.pf(scope.object.id), {
-                    "flowTest": scope.object.id,
-                    "sourceNode": params.sourceNode.id,
-                    "sourcePort": params.sourcePort ? params.sourcePort.id : null,
-                    "destinationNode": params.targetNode.id,
-                    "destinationPort": params.targetPort ? params.targetPort.id : null,
-                    "default": "1"
+                    flowTest: scope.object.id,
+                    sourceNode: params.sourceNode.id,
+                    sourcePort: params.sourcePort ? params.sourcePort.id : null,
+                    destinationNode: params.targetNode.id,
+                    destinationPort: params.targetPort ? params.targetPort.id : null,
+                    default: "1",
+                    objectTimestamp: scope.object.updatedOn
                 }).success(function (data) {
                     if (data.result === 0) {
                         for (var i = 0; i < data.collections.newNodesConnections.length; i++) {
@@ -1179,6 +1206,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                         }
                         scope.refreshConnections([params.sourceNode.id, params.targetNode.id]);
+                    } else {
+                        DialogsService.alertDialog(
+                            "Adding connection", //@TODO add translation
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
                     }
                 });
             };
@@ -1305,7 +1338,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             scope.removeConnection = function (ids) {
                 var idsArray = String(ids).split(",");
 
-                $http.post(Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION.pf(idsArray.join(",")), {
+                $http.post(Paths.TEST_FLOW_CONNECTION_DELETE.pf(idsArray.join(",")), {
                     objectTimestamp: scope.object.updatedOn
                 }).success(function (data) {
                     if (data.result === 0) {
