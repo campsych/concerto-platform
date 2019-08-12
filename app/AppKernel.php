@@ -69,7 +69,7 @@ class AppKernel extends Kernel
         parent::initializeContainer();
 
         $adminService = $this->container->get("Concerto\\PanelBundle\\Service\\AdministrationService");
-        $sessionRunnerService = "PersistentSessionRunnerService";
+        $sessionRunnerService = "PersistantSessionRunnerService";
         //DB will not always be available at this stage
         try {
             $sessionRunnerService = $adminService->getSessionRunnerService();
