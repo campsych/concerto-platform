@@ -11,6 +11,3 @@ parameters:
         session_forking: true #only Linux, experimental
         dir: /
         connection: local
-
-services:
-    Concerto\TestBundle\Service\ASessionRunnerService: '@Concerto\TestBundle\Service\SerializedSessionRunnerService'

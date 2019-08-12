@@ -37,16 +37,22 @@ services:
             $environment: "%kernel.environment%"
 
     Concerto\TestBundle\Service\PersistantSessionRunnerService:
+        public: true
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
             $root: "%kernel.root_dir%"
             $environment: "%kernel.environment%"
 
     Concerto\TestBundle\Service\SerializedSessionRunnerService:
+        public: true
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
             $root: "%kernel.root_dir%"
             $environment: "%kernel.environment%"
+
+    Concerto\TestBundle\Service\ASessionRunnerService:
+        public: true
+        synthetic: true
 
     Concerto\TestBundle\Service\TestSessionCountService:
         arguments:

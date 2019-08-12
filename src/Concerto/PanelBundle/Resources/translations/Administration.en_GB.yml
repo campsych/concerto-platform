@@ -6,6 +6,29 @@ form:
         session_limit.tooltip: Maximum allowed number of simultaneous test sessions.
         api_enabled: API enabled
         api_enabled.tooltip: Enable API requests
+        session_runner_service: Session runner service
+        session_runner_service.tooltip: |
+            Can be one of two:
+            <ul>
+                <li>
+                    Persistent
+                    <ul>
+                        <li><strong>very high</strong> RAM usage</li>
+                        <li>slighlty decreased CPU usage</li>
+                        <li>slightly faster</li>
+                        <li>allows pure code tests with page submits</li>
+                    </ul>
+                </li>
+                <li>
+                    Serialized (recommended)
+                    <ul>
+                        <li><strong>very low</strong> RAM usage</li>
+                        <li>slighlty increased CPU usage</li>
+                        <li>slightly slower</li>
+                        <li>requires templates to be shown through flow nodes only</li>
+                    </ul>
+                </li>
+            </ul>
         
 messages:
     fieldset:

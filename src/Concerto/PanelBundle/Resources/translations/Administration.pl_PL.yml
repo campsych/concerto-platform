@@ -6,6 +6,29 @@ form:
         session_limit.tooltip: Maksymalna dostępna liczba równoczesnych sesji testów.
         api_enabled: API włączone
         api_enabled.tooltip: Włącz API
+        session_runner_service: Serwis obsługi sesji
+        session_runner_service.tooltip: |
+            Może być jednym z dwojga:
+            <ul>
+                <li>
+                    Stały
+                    <ul>
+                        <li><strong>bardzo wysokie</strong> zużycie RAM</li>
+                        <li>nieco zmniejszone zużycie CPU</li>
+                        <li>nieco szybszy</li>
+                        <li>zezwala na testy czysto-kodowe z wysyłaniem stron</li>
+                    </ul>
+                </li>
+                <li>
+                    Zserializowany (zalecany)
+                    <ul>
+                        <li><strong>bardzo niskie</strong> zużycie RAM</li>
+                        <li>nieco zwiększone zużycie CPU</li>
+                        <li>nieco wolniejszy</li>
+                        <li>wymusza wyświetlanie szablonów poprzez węzły</li>
+                    </ul>
+                </li>
+            </ul>
         
 messages:
     fieldset:

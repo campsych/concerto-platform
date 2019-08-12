@@ -486,4 +486,9 @@ class AdministrationService
     {
         return $this->securityTokenStorage->getToken()->getUser();
     }
+
+    public function getSessionRunnerService()
+    {
+        return $this->getSettingValue("session_runner_service");
+    }
 }

@@ -250,7 +250,8 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "sessionId" => $session_hash,
             "rLogPath" => $rout,
             "response" => $response,
-            "initialPort" => $initial_port
+            "initialPort" => $initial_port,
+            "runnerType" => 1
         ));
 
         $path = $this->getFifoDir() . ($session_hash ? $session_hash : uniqid("hc", true)) . ".fifo";
@@ -305,6 +306,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$keep_alive_tolerance_time "
                     . "'$response' "
                     . "$initial_port "
+                    . "1 " //runnerType
                     . ($rout ? (">> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";
             default:
@@ -322,6 +324,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "$keep_alive_tolerance_time "
                     . "\"" . $this->escapeWindowsArg($response) . "\" "
                     . "$initial_port "
+                    . "1 " //runnerType
                     . ($rout ? (">> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
                     . "2>&1\"";
         }

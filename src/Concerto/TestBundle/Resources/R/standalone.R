@@ -14,5 +14,6 @@ concerto5:::concerto.run(
     client = fromJSON(commandArgs(TRUE)[2]),
     sessionHash = commandArgs(TRUE)[3],
     response = fromJSON(commandArgs(TRUE)[10]),
-    initialPort = commandArgs(TRUE)[11]
+    initialPort = commandArgs(TRUE)[11],
+    runnerType = commandArgs(TRUE)[12]
 )

@@ -1,9 +1,10 @@
-concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, maxExecTime = NULL, response = NULL, initialPort = NULL) {
+concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, maxExecTime = NULL, response = NULL, initialPort = NULL, runnerType = 0) {
     concerto$workingDir <<- workingDir
     concerto$client <<- client
     concerto$sessionHash <<- sessionHash
     concerto$sessionFile <<- paste0(concerto$workingDir,"session.Rs")
     concerto$initialPort <<- initialPort
+    concerto$runnerType <<- runnerType
 
     if(!is.null(maxIdleTime)) {
         concerto$maxIdleTime <<- maxIdleTime
