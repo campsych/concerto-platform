@@ -118,6 +118,7 @@ services:
 
 #services
     Concerto\PanelBundle\Service\AdministrationService:
+        public: true
         arguments:
             $configSettings: "%administration%"
             $version: "%version%"
