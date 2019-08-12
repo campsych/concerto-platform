@@ -324,6 +324,17 @@ class ImportService
                 }
                 break;
             }
+            case "DataTable":
+            {
+                //data
+                if ($obj["data"] === null) {
+                    $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
+                    if (file_exists($path)) {
+                        $obj["data"] = Yaml::parseFile($path);
+                    }
+                }
+                break;
+            }
         }
     }
 

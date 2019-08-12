@@ -217,4 +217,9 @@ class ExportService
     {
         return "template/" . $templateArray["name"] . "/" . $templateArray["name"] . ".js";
     }
+
+    public static function getTableDataFilename($tableArray)
+    {
+        return "table/" . $tableArray["name"] . ".yaml";
+    }
 }

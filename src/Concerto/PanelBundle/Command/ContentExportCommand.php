@@ -209,6 +209,18 @@ class ContentExportCommand extends Command
                     }
                     break;
                 }
+                case "DataTable":
+                {
+                    //data
+                    if (array_key_exists("data", $obj) && count($obj["data"]) > 0) {
+                        $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
+                        $data = Yaml::dump($obj["data"], 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+                        $filesystem->dumpFile($path, $data);
+                        $obj["data"] = null;
+                        $output->writeln($path . " externalized");
+                    }
+                    break;
+                }
             }
         }
         return $collection;
