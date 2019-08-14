@@ -65,7 +65,10 @@ class ContentExportCommand extends Command
 
         $fs = new Filesystem();
         $rdi = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
-        $fs->remove($rdi);
+        $rii = new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator($rdi, function ($file, $key, $iterator) {
+            return $file->getFilename() !== ".git";
+        }));
+        $fs->remove($rii);
         $output->writeln("contents of $path cleared successfully");
         return true;
     }

@@ -30,7 +30,6 @@ use Symfony\Component\Process\Process;
 
 class AdministrationService
 {
-
     private $settingsRepository;
     private $messagesRepository;
     private $configSettings;
@@ -61,7 +60,8 @@ class AdministrationService
         $testRunnerSettings,
         TestRepository $testRepository,
         TestSessionRepository $testSessionRepository,
-        TokenStorageInterface $securityTokenStorage)
+        TokenStorageInterface $securityTokenStorage
+    )
     {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
@@ -192,6 +192,7 @@ class AdministrationService
 
     public function getInternalSettingsMap()
     {
+        //@TODO don't return git password
         $map = $this->configSettings["internal"];
         foreach ($map as $k => $v) {
             $map[$k] = (string)$v;

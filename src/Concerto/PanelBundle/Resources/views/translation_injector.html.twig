@@ -172,6 +172,10 @@
     Paths.ADMINISTRATION_CONTENT_IMPORT = "{{ path("Administration_content_import") }}";
     Paths.ADMINISTRATION_CONTENT_EXPORT = "{{ path("Administration_content_export", {'instructions':"{0}"}) }}";
     Paths.ADMINISTRATION_GET_AUTH_USER = "{{ path("Administration_user") }}";
+    Paths.ADMINISTRATION_GIT_ENABLE = "{{ path("Administration_git_enable") }}";
+    Paths.ADMINISTRATION_GIT_DISABLE = "{{ path("Administration_git_disable") }}";
+    Paths.ADMINISTRATION_GIT_STATUS = "{{ path("Administration_git_status") }}";
+    Paths.ADMINISTRATION_GIT_DIFF = "{{ path("Administration_git_diff", {'sha':"{0}"}) }}";
 
     Trans.LOCALE = "{{ app.request.locale }}";
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}";

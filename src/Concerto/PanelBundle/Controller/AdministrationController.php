@@ -3,6 +3,7 @@
 namespace Concerto\PanelBundle\Controller;
 
 use Concerto\PanelBundle\Service\FileService;
+use Concerto\PanelBundle\Service\GitService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
@@ -20,13 +21,15 @@ class AdministrationController
     private $service;
     private $sessionCountService;
     private $fileService;
+    private $gitService;
 
-    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService)
+    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService, GitService $gitService)
     {
         $this->templating = $templating;
         $this->service = $service;
         $this->sessionCountService = $sessionCountService;
         $this->fileService = $fileService;
+        $this->gitService = $gitService;
     }
 
     /**
@@ -262,7 +265,7 @@ class AdministrationController
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response
      */
-    public function getAuthUser()
+    public function getAuthUserAction()
     {
         $user = $this->service->getAuthorizedUser();
 
@@ -276,6 +279,83 @@ class AdministrationController
             );
         }
         $response = new Response(json_encode($content));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/git/enable", name="Administration_git_enable")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
+     */
+    public function enableGitAction(Request $request)
+    {
+        $success = $this->gitService->enableGit(
+            $request->get("url"),
+            $request->get("branch"),
+            $request->get("login"),
+            $request->get("password"),
+            $output
+        );
+
+        $response = new Response(json_encode(array("result" => $success ? 0 : 1, "output" => $output)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/git/disable", name="Administration_git_disable")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @return Response
+     */
+    public function disableGitAction(Request $request)
+    {
+        $success = $this->gitService->disableGit();
+
+        $response = new Response(json_encode(array("result" => $success ? 0 : 1)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/git/status", name="Administration_git_status")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function gitStatusAction(Request $request)
+    {
+        $exportInstructions = $request->get("exportInstructions");
+        $status = $this->gitService->getStatus($exportInstructions, $errorMessages);
+        $responseContent = [
+            "result" => $status === false ? 1 : 0,
+            "status" => $status === false ? null : $status,
+            "errors" => $status === false ? $errorMessages : null
+        ];
+
+        $response = new Response(json_encode($responseContent));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/git/diff/{sha}", name="Administration_git_diff")
+     * @param string|null $sha
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function gitDiffAction($sha)
+    {
+        $diff = $this->gitService->getDiff($sha, $errorMessages);
+        $responseContent = [
+            "result" => $diff === false ? 1 : 0,
+            "diff" => $diff === false ? null : $diff,
+            "errors" => $diff === false ? $errorMessages : null
+        ];
+
+        $response = new Response(json_encode($responseContent));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

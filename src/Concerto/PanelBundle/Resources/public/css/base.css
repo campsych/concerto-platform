@@ -315,3 +315,16 @@ ul.c-breadcrumb li {
 angular-filemanager > div {
     height: auto;
 }
+
+.git-history {
+    width: 100%;
+}
+
+.git-history th, .git-history td {
+    padding-right: 8px;
+}
+
+.git-history-head {
+    font-weight: bold;
+    border: 1px solid #ddd;
+}

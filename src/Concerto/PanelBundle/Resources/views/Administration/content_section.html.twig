@@ -4,7 +4,7 @@
     <div class="center" style="margin-bottom: 20px;">
         <div class="btn-group">
             <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'url'" ng-disabled="!exposedSettingsMap.content_repository_overridable">{{ 'content.url'|trans }}</label>
-            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'git'" ng-disabled="!exposedSettingsMap.content_repository_overridable || true ">{{ 'content.git'|trans }}</label>
+            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'git'" ng-disabled="!exposedSettingsMap.content_repository_overridable">{{ 'content.git'|trans }}</label>
         </div>
     </div>
 
@@ -67,7 +67,7 @@
                 {% endembed %}
 
                 <div class="center">
-                    <button ng-click="importUrl()" class="btn btn-success btn-sm">{{ 'content.import'|trans }}</button>
+                    <button ng-click="importUrl()" class="btn btn-success btn-sm" ng-disabled="exposedSettingsMap.git_enabled == 1">{{ 'content.import'|trans }}</button>
                 </div>
             </div>
 
@@ -96,4 +96,91 @@
             </div>
         </div>
     </div>
+
+    <div ng-if="exposedSettingsMap.content_repository == 'git'">
+        <div style="display: table; width: 100%;">
+            <div style="display: table-cell; width: 50%; border-right: solid #ddd 1px; padding-right: 16px;">
+                <h4 style="text-align: center;">Manage</h4>
+
+                <div class="alert alert-info" ng-if="exposedSettingsMap.git_enabled == 0">
+                    Not enabled.
+                </div>
+                <div class="alert alert-info" ng-if="exposedSettingsMap.git_enabled == 1">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 5px;">URL:</td>
+                            <td><strong>{% verbatim %}{{exposedSettingsMap.git_url}}{% endverbatim %}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 5px;">Branch:</td>
+                            <td><strong>{% verbatim %}{{exposedSettingsMap.git_branch}}{% endverbatim %}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 5px;">Login:</td>
+                            <td><strong>{% verbatim %}{{exposedSettingsMap.git_login}}{% endverbatim %}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 5px;">Commits behind:</td>
+                            <td><strong>{% verbatim %}{{gitStatus.behind}}{% endverbatim %}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 5px;">Commits ahead:</td>
+                            <td><strong>{% verbatim %}{{gitStatus.ahead}}{% endverbatim %}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 5px;">Local changes:</td>
+                            <td>
+                                <strong ng-if="!hasUncommittedChanges()">No changes</strong>
+                                <strong ng-if="hasUncommittedChanges()" class="clickable" ng-click="showLocalDiff()">Uncommitted changes</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
+                    {% trans_default_domain "Administration" %}
+                    {% block elements %}
+
+                        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                            {% trans_default_domain "Administration" %}
+                            {% block label %}Content export/import options{% endblock %}
+                            {% block tooltip %}Content export/import options{% endblock %}
+                            {% block control %}
+                                <textarea ng-disabled="!exposedSettingsMap.content_export_options_overridable" ng-model="exposedSettingsMap.content_export_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                            {% endblock %}
+                        {% endembed %}
+
+                    {% endblock %}
+                {% endembed %}
+
+                <div class="center">
+                    <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Refresh</button>
+                    <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0">Enable</button>
+                    <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Disable</button>
+                </div>
+            </div>
+
+            <div style="display: table-cell; width: 50%; padding-left: 16px;">
+                <h4 style="text-align: center;">History</h4>
+
+                <table class="git-history">
+                    <tr>
+                        <th>SHA</th>
+                        <th>Committer</th>
+                        <th>Time ago</th>
+                        <th>Subject</th>
+                        <th>Ref</th>
+                    </tr>
+                    <tr ng-repeat="commit in gitStatus.history" class="clickable" ng-class="{'git-history-head': commit.ref.indexOf('HEAD -> master') !== -1}" ng-click="showDiff(commit.sha)">
+                        <td ng-bind="commit.sha" class="git-history-commit"></td>
+                        <td ng-bind="commit.committer"></td>
+                        <td ng-bind="commit.timeAgo"></td>
+                        <td ng-bind="commit.subject"></td>
+                        <td ng-bind="commit.ref"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- @TODO translations -->

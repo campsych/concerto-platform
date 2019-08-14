@@ -36,7 +36,8 @@
         "csv-js": "1.1.x",
         "angular-chart.js": "1.1.x",
         "angular-translate": "2.9.x",
-        "ng-file-upload": "12.2.x"
+        "ng-file-upload": "12.2.x",
+        "diff2html": "2.11.x"
     },
     "resolutions": {
         "angular": "1.5.5"

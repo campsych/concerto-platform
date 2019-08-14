@@ -32,6 +32,7 @@ parameters:
             session_runner_service_overridable: "%env(CONCERTO_SESSION_RUNNER_SERVICE_OVERRIDABLE)%"
         internal:
             r_exec_path: R
+            git_exec_path: git
             r_lib_path: null
             editable_starter_content: false
             session_files_expiration: 7 #days

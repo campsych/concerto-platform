@@ -1,0 +1,62 @@
+{% trans_default_domain "Administration" %}
+
+<div type="text/ng-template" id="enable_git_dialog.html">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "Administration" %}
+        {% block legend %}Enabling Git{% endblock %}
+        {% block legend_tooltip %}Enabling Git{% endblock %}
+        {% block elements %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}URL{% endblock %}
+                {% block tooltip %}URL{% endblock %}
+                {% block control %}
+                    <input type="text" ng-model="url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}Branch{% endblock %}
+                {% block tooltip %}Branch{% endblock %}
+                {% block control %}
+                    <input type="text" ng-model="branch" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}Login{% endblock %}
+                {% block tooltip %}Login{% endblock %}
+                {% block control %}
+                    <input type="text" ng-model="login" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}Password{% endblock %}
+                {% block tooltip %}Password{% endblock %}
+                {% block control %}
+                    <input type="password" ng-model="password" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}Import{% endblock %}
+                {% block tooltip %}Import{% endblock %}
+                {% block control %}
+                    <input type="checkbox" ng-model="import"/>
+                {% endblock %}
+            {% endembed %}
+
+        {% endblock %}
+    {% endembed %}
+
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="enable()">Enable</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
+</div>
