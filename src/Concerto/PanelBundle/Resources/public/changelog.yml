@@ -1,5 +1,12 @@
-version: "5.0.beta.11.1"
+version: "5.0.beta.11.2"
 changelog:
+    - version: "5.0.beta.11.2"
+      description: >
+        Starter content
+      categories:
+          - label: Security
+            changes:
+                - failed authentication throttling
     - version: "5.0.beta.11.1"
       description: >
         Starter content
