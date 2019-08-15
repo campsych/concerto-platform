@@ -359,4 +359,28 @@ class AdministrationController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    /**
+     * @Route("/Administration/git/commit", name="Administration_git_commit")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function gitCommitAction(Request $request)
+    {
+        $commit = $this->gitService->commit(
+            $request->get("message"),
+            $output,
+            $errorMessages
+        );
+        $responseContent = [
+            "result" => $commit === false ? 1 : 0,
+            "output" => $output,
+            "errors" => $commit === false ? $errorMessages : null
+        ];
+
+        $response = new Response(json_encode($responseContent));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

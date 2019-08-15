@@ -246,6 +246,30 @@ class GitService
         return false;
     }
 
+    public function commit($message, &$output, &$errorMessages = null)
+    {
+        $user = $this->adminService->getAuthorizedUser();
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $command = $app->find("concerto:git:commit");
+        $arguments = [
+            "command" => $command->getName(),
+            "message" => $message,
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail()
+        ];
+        $in = new ArrayInput($arguments);
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output = $out->fetch();
+        if ($returnCode === 0) {
+            return true;
+        }
+        $errorMessages = [$output];
+        return false;
+    }
+
     public function getStatus($exportInstructions, &$errorMessages = null)
     {
         if ($this->fetch($errorMessages) === false) {

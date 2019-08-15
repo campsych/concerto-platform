@@ -4,14 +4,19 @@ namespace Concerto\PanelBundle\Command;
 
 use Concerto\PanelBundle\Service\GitService;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class ConcertoGitHistoryCommand extends Command
+class ConcertoGitCommitCommand extends Command
 {
     private $gitService;
     private $localGitRepoPath;
+    private $username;
+    private $email;
+    private $message;
 
     /** @var OutputInterface */
     private $output;
@@ -24,19 +29,24 @@ class ConcertoGitHistoryCommand extends Command
 
     protected function configure()
     {
-        $this->setName("concerto:git:history")->setDescription("Returns commit history");
+        $this->setName("concerto:git:commit")->setDescription("Performs git commit");
+        $this->addArgument("message", InputArgument::REQUIRED, "Commit message");
+        $this->addArgument("username", InputArgument::REQUIRED, "Commit username");
+        $this->addArgument("email", InputArgument::REQUIRED, "Commit email");
     }
 
-    private function getHistoryCommand()
+    private function getCommitCommand()
     {
         $exec = $this->gitService->getGitExecPath();
-
-        return "$exec log --pretty=format:\"%h ||| %an ||| %ar ||| %s ||| %D\" --remotes=* --branches=*";
+        $usernameCmd = "$exec config user.name \"" . $this->username . "\"";
+        $emailCmd = "$exec config user.email \"" . $this->email . "\"";
+        $msgCmd = $this->message ? "-m\"" . $this->message . "\"" : "";
+        return "$usernameCmd; $emailCmd; $exec commit $msgCmd";
     }
 
-    private function history()
+    private function commit()
     {
-        $command = $this->getHistoryCommand();
+        $command = $this->getCommitCommand();
         $process = new Process($command);
         $process->start();
         $process->wait();
@@ -50,6 +60,9 @@ class ConcertoGitHistoryCommand extends Command
     {
         $this->output = $output;
         $this->localGitRepoPath = $this->gitService->getGitRepoPath();
+        $this->username = $input->getArgument("username");
+        $this->email = $input->getArgument("email");
+        $this->message = $input->getArgument("message");
 
         chdir($this->localGitRepoPath);
 
@@ -57,7 +70,7 @@ class ConcertoGitHistoryCommand extends Command
             $output->writeln("Git not initialized.");
             return 1;
         }
-        if (!$this->history()) return 1;
+        if (!$this->commit()) return 1;
         return 0;
     }
 }

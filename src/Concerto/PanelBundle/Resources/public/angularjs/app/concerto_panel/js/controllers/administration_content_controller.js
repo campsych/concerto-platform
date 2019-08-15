@@ -1,4 +1,4 @@
-function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal) {
+function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal, AuthService) {
     $scope.gitStatus = null;
     $scope.uploadItem = null;
     $scope.uploader = new FileUploader({
@@ -99,6 +99,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.showDiff = function (sha) {
+        if (!$scope.canDiff(sha)) return;
         $http.get(Paths.ADMINISTRATION_GIT_DIFF.pf(sha)).then(function (httpResponse) {
             var diffHtml = Diff2Html.getPrettyHtml(
                 httpResponse.data.diff,
@@ -151,7 +152,35 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         });
     };
 
+    $scope.canDiff = function (sha) {
+        return $scope.gitStatus.history[$scope.gitStatus.history.length - 1].sha !== sha;
+    };
+
+    $scope.canCommit = function () {
+        return $scope.hasUncommittedChanges();
+    };
+
+    $scope.commit = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_commit_dialog.html",
+            controller: GitCommitController,
+            size: "lg",
+            backdrop: 'static',
+            keyboard: false
+        });
+        modalInstance.result.then(function (userResponse) {
+            $http.post(Paths.ADMINISTRATION_GIT_COMMIT, userResponse).then(function (httpResponse) {
+                var success = httpResponse.data.result === 0;
+                $scope.refreshGitStatus();
+                DialogsService.preDialog(
+                    success ? "Success" : "Failure", //@TODO translation,
+                    null,
+                    httpResponse.data.output);
+            });
+        });
+    };
+
     $scope.refreshGitStatus();
 }
 
-concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", AdministrationContentController]);
+concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", "AuthService", AdministrationContentController]);

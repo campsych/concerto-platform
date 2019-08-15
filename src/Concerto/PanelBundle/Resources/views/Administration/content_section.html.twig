@@ -154,6 +154,7 @@
                 {% endembed %}
 
                 <div class="center">
+                    <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">Commit</button>
                     <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Refresh</button>
                     <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0">Enable</button>
                     <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Disable</button>
@@ -171,7 +172,7 @@
                         <th>Subject</th>
                         <th>Ref</th>
                     </tr>
-                    <tr ng-repeat="commit in gitStatus.history" class="clickable" ng-class="{'git-history-head': commit.ref.indexOf('HEAD -> master') !== -1}" ng-click="showDiff(commit.sha)">
+                    <tr ng-repeat="commit in gitStatus.history track by $index" ng-class="{'git-history-head': commit.ref.indexOf('HEAD -> master') !== -1, 'clickable': canDiff(commit.sha)}" ng-click="showDiff(commit.sha)">
                         <td ng-bind="commit.sha" class="git-history-commit"></td>
                         <td ng-bind="commit.committer"></td>
                         <td ng-bind="commit.timeAgo"></td>
