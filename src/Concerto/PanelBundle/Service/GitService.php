@@ -348,7 +348,7 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$output];
+        $errorMessages = [$out->fetch()];
         return false;
     }
 
@@ -372,7 +372,57 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$output];
+        $errorMessages = [$out->fetch()];
+        return false;
+    }
+
+    public function push(&$output, &$errorMessages = null)
+    {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $command = $app->find("concerto:git:push");
+        $arguments = ["command" => $command->getName()];
+        $in = new ArrayInput($arguments);
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        if ($returnCode === 0) {
+            return true;
+        }
+        $errorMessages = [$out->fetch()];
+        return false;
+    }
+
+    public function pull($instructions, &$output, &$errorMessages = null)
+    {
+        if (!$this->gitPull($output, $errorMessages)) {
+            $errorMessages = ["Git pull failed"];
+            return false;
+        }
+
+        if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
+            $errorMessages = ["Import working copy failed"];
+            return false;
+        }
+        return true;
+    }
+
+    private function gitPull(&$output = null, &$errorMessages = null)
+    {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $command = $app->find("concerto:git:pull");
+        $arguments = [
+            "command" => $command->getName()
+        ];
+        $in = new ArrayInput($arguments);
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        if ($returnCode === 0) {
+            return true;
+        }
+        $errorMessages = [$out->fetch()];
         return false;
     }
 }

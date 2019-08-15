@@ -154,6 +154,8 @@
                 {% endembed %}
 
                 <div class="center">
+                    <button ng-click="push()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPush()">Push</button>
+                    <button ng-click="pull()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPull()">Pull</button>
                     <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">Commit</button>
                     <button ng-click="reset()" class="btn btn-danger btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canReset()">Reset</button>
                     <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Refresh</button>

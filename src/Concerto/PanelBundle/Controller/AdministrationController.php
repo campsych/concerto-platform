@@ -409,4 +409,53 @@ class AdministrationController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    /**
+     * @Route("/Administration/git/push", name="Administration_git_push")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function gitPushAction()
+    {
+        $push = $this->gitService->push(
+            $output,
+            $errorMessages
+        );
+
+        $responseContent = [
+            "result" => $push === false ? 1 : 0,
+            "output" => $output,
+            "errors" => $push === false ? $errorMessages : null
+        ];
+
+        $response = new Response(json_encode($responseContent));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/git/pull", name="Administration_git_pull")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function gitPullAction(Request $request)
+    {
+        $exportInstructions = $request->get("exportInstructions");
+        $pull = $this->gitService->pull(
+            $exportInstructions,
+            $output,
+            $errorMessages
+        );
+
+        $responseContent = [
+            "result" => $pull === false ? 1 : 0,
+            "output" => $output,
+            "errors" => $pull === false ? $errorMessages : null
+        ];
+
+        $response = new Response(json_encode($responseContent));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }
