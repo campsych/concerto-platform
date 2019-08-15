@@ -318,4 +318,61 @@ class GitService
             "diff" => $diff
         ];
     }
+
+    public function reset($instructions, &$output = null, &$errorMessages = null)
+    {
+        if (!$this->gitReset($output, $errorMessages)) {
+            $errorMessages = ["Git reset failed"];
+            return false;
+        }
+
+        if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
+            $errorMessages = ["Import working copy failed"];
+            return false;
+        }
+        return true;
+    }
+
+    private function gitReset(&$output = null, &$errorMessages = null)
+    {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $command = $app->find("concerto:git:reset");
+        $arguments = [
+            "command" => $command->getName()
+        ];
+        $in = new ArrayInput($arguments);
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        if ($returnCode === 0) {
+            return true;
+        }
+        $errorMessages = [$output];
+        return false;
+    }
+
+    private function importWorkingCopy($instructions, &$output, &$errorMessages = null)
+    {
+        if ($instructions === null) $instructions = $this->adminService->getSettingValue("content_export_options");
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $command = $app->find("concerto:content:import");
+        $arguments = [
+            "command" => $command->getName(),
+            "input" => $this->getGitRepoPath(),
+            "--instructions" => $instructions,
+            "--sc" => true
+        ];
+        $in = new ArrayInput($arguments);
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        if ($returnCode === 0) {
+            return true;
+        }
+        $errorMessages = [$output];
+        return false;
+    }
 }

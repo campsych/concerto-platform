@@ -327,7 +327,7 @@ class ImportService
             case "DataTable":
             {
                 //data
-                if ($obj["data"] === null) {
+                if (array_key_exists("data", $obj) && $obj["data"] === null) {
                     $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
                     if (file_exists($path)) {
                         $obj["data"] = Yaml::parseFile($path);

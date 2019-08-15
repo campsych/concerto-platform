@@ -155,6 +155,7 @@
 
                 <div class="center">
                     <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">Commit</button>
+                    <button ng-click="reset()" class="btn btn-danger btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canReset()">Reset</button>
                     <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Refresh</button>
                     <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0">Enable</button>
                     <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Disable</button>

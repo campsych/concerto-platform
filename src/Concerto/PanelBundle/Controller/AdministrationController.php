@@ -383,4 +383,30 @@ class AdministrationController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    /**
+     * @Route("/Administration/git/reset", name="Administration_git_reset")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function gitResetAction(Request $request)
+    {
+        $exportInstructions = $request->get("exportInstructions");
+        $reset = $this->gitService->reset(
+            $exportInstructions,
+            $output,
+            $errorMessages
+        );
+
+        $responseContent = [
+            "result" => $reset === false ? 1 : 0,
+            "output" => $output,
+            "errors" => $reset === false ? $errorMessages : null
+        ];
+
+        $response = new Response(json_encode($responseContent));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

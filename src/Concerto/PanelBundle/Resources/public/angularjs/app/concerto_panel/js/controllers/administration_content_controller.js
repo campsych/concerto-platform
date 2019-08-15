@@ -180,6 +180,29 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         });
     };
 
+    $scope.canReset = function () {
+        return $scope.hasUncommittedChanges();
+    };
+
+    $scope.reset = function () {
+        DialogsService.confirmDialog(
+            "Resetting working copy",
+            "Are you sure you want to reset your working copy to the latest commit?",
+            function (confirmResponse) {
+                $http.post(Paths.ADMINISTRATION_GIT_RESET, {
+                    exportInstructions: $scope.exposedSettingsMap.content_export_options
+                }).then(function (httpResponse) {
+                    $scope.refreshGitStatus();
+                    var success = httpResponse.data.result == 0;
+                    DialogsService.preDialog(
+                        success ? "Success" : "Failure", //@TODO translation,
+                        null,
+                        httpResponse.data.output);
+                });
+            }
+        );
+    };
+
     $scope.refreshGitStatus();
 }
 
