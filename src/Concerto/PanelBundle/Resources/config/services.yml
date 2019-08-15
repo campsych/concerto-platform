@@ -30,6 +30,10 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    Concerto\PanelBundle\EventSubscriber\AuthenticationSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+
 #commands
     Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand:
         autoconfigure: false

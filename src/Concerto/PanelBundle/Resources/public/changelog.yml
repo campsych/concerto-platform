@@ -45,6 +45,13 @@ changelog:
                 - (TestWizard) linearTest.Items[x].options[x].score removed
                 - (TestWizard) linearTest.Items[x].scoreMap added
                 - (Test) CAT.responseCatValueModule replaced by CAT.responseScoreModule
+    - version: "5.0.beta.11.2"
+      description: >
+        Security
+      categories:
+          - label: Security
+            changes:
+                - failed authentication throttling
     - version: "5.0.beta.11.1"
       description: >
         Starter content

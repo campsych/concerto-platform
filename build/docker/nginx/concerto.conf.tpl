@@ -10,6 +10,10 @@ server {
         allow all;
     }
 
+    location ~ /(\.|web\.config) {
+        deny all;
+    }
+
     location / {
         try_files $uri @rewriteapp;
     }
