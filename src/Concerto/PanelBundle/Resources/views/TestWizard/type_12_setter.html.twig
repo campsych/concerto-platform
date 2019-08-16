@@ -14,7 +14,7 @@
                         {% block label %}{{ 'param.setter.column_map.table'|trans }}{% endblock%}
                         {% block tooltip %}{{ 'param.setter.column_map.table.tooltip'|trans }}{% endblock%}
                         {% block control %}
-                            <select ng-model="output.table" ng-change="onColumnMapTableChange()" style="width:100%;" ng-disabled="!isEditable()"
+                            <select ng-model="output.table" ng-change="onColumnMapTableChange()" style="width:100%;" ng-disabled="!editable"
                             ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
                                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                             </select>
@@ -27,7 +27,7 @@
                         {% block label %}{%verbatim%}{{col.label}}{%endverbatim%}{% endblock%}
                         {% block tooltip %}{%verbatim%}{{col.tooltip}}{%endverbatim%}{% endblock%}
                         {% block control %}
-                            <select ng-model="output.columns[col.name]" style="width:100%;" ng-disabled="!isEditable()"
+                            <select ng-model="output.columns[col.name]" style="width:100%;" ng-disabled="!editable"
                             ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'" class='form-control'>
                                 <option value="">{{"none.choosen"|trans({},"panel")}}</option>
                             </select>

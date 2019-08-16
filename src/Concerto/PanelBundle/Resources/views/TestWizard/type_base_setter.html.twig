@@ -9,7 +9,7 @@
 
         <div ng-if="mode=='dialog' || !isSetterComplex">{% block setter %}{% endblock %}</div>
         <div ng-if="mode!='dialog' && isSetterComplex">
-            <i class='glyphicon glyphicon-align-justify clickable' ng-click='launchSetterDialog(param, output, parent, values, wizardObject)' uib-tooltip-html='"{{ 'param.form.field.setter.icon.tooltip'|trans }}"' tooltip-append-to-body='true'></i>
+            <i class='glyphicon glyphicon-align-justify clickable' ng-click='launchSetterDialog(param, output, parent, values, wizardObject, editable)' uib-tooltip-html='"{{ 'param.form.field.setter.icon.tooltip'|trans }}"' tooltip-append-to-body='true'></i>
             <span class="wizardParamSummary">{%verbatim%}{{summary}}{%endverbatim%}</span>
         </div>
     </div>

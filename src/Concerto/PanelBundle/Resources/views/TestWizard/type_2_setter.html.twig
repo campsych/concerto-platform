@@ -10,7 +10,7 @@
                     {% block control %}
                         <textarea ckeditor="htmlEditorOptions" ng-model="output"
                                   ng-change="onPrimitiveValueChange(output)" class='form-control'
-                                  ng-disabled="!isEditable()"></textarea>
+                                  ng-disabled="!editable"></textarea>
                     {% endblock %}
                 {% endembed %}
             {% endblock %}

@@ -5,8 +5,10 @@ testRunner.compileProvider.component('inputPassword', {
     values: '='
   },
   controller: function controller($scope) {
-    $scope.field = this.field;
-    $scope.values = this.values;
+    this.$onInit = function() {
+      $scope.field = this.field;
+      $scope.values = this.values;
+    };
 
     $scope.getValidator = function (type) {
       if (typeof this.field.validation === 'undefined') return null;

@@ -15,7 +15,7 @@
                             {% block tooltip %}{{ 'param.setter.column.table.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <select ng-model="output.table" style="width:100%;"
-                                        ng-disabled="!isEditable()"
+                                        ng-disabled="!editable"
                                         ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'"
                                         class='form-control'>
                                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
@@ -29,7 +29,7 @@
                             {% block tooltip %}{{ 'param.setter.column.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <select ng-model="output.column" style="width:100%;"
-                                        ng-disabled="!isEditable()"
+                                        ng-disabled="!editable"
                                         ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'"
                                         class='form-control'>
                                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>

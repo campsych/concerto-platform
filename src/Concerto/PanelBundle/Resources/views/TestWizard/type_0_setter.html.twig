@@ -5,7 +5,7 @@
             {% block setter %}
                 <input type="text" ng-model="output" ng-trim="false" ng-change="onPrimitiveValueChange(output)"
                        class='form-control' ng-model-options='{ updateOn: "blur" }'
-                       ng-disabled="!isEditable()" />
+                       ng-disabled="!editable" />
             {% endblock %}
         {% endembed %}
     </div>

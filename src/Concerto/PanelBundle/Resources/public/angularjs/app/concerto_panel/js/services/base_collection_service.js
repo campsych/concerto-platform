@@ -6,7 +6,7 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
         collection: [],
         fetchObjectCollection: function (params, callback, current) {
             var obj = this;
-            if(current && this.collectionInitialized){
+            if (current && this.collectionInitialized) {
                 if (callback)
                     callback.call(this);
             } else {
@@ -15,8 +15,8 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
                     method: "GET",
                     // simple binding can't be used since sorting options need some processing before
                     params: params
-                }).success(function (c) {
-                    obj.collection = c;
+                }).then(function (httpResponse) {
+                    obj.collection = httpResponse.data;
                     obj.collectionInitialized = true;
                     if (callback)
                         callback.call(this);

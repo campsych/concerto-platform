@@ -20,8 +20,14 @@
                     {{ 'alerts.no_params'|trans }}
                 </uib-alert>
                 <div ng-repeat="param in step.params | filter:filterByGuiEligible | orderBy: 'order' track by $index">
-                    <wizard-param-setter param="param" parent="null" output="param.output" mode="outer"
-                                         wizard-mode="{{ wizard_mode }}" values="values" wizard-object="object"
+                    <wizard-param-setter editable="isEditable()"
+                                         param="param"
+                                         parent="null"
+                                         output="param.output"
+                                         mode="outer"
+                                         wizard-mode="{{ wizard_mode }}"
+                                         values="values"
+                                         wizard-object="object"
                                          under-list="false"></wizard-param-setter>
                 </div>
             </div>

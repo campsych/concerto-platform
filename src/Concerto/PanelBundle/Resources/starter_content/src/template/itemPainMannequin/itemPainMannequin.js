@@ -6,10 +6,12 @@ testRunner.compileProvider.component('itemPainMannequin', {
     responseRequired: '<'
   },
   controller: function controller($scope, $timeout) {
-
-    $scope.item = this.item;
-    $scope.response = this.response;
-    $scope.responseRequired = this.responseRequired;
+    
+    this.$onInit = function() {
+      $scope.item = this.item;
+      $scope.response = this.response;
+      $scope.responseRequired = this.responseRequired;
+    };
 
     $scope.reportFront = [];
     $scope.reportBack = [];

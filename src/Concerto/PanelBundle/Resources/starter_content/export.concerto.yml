@@ -1,4 +1,4 @@
-version: 5.0.beta.12.1
+version: 5.0.beta.12.2
 collection:
   -
     class_name: ViewTemplate
@@ -11233,7 +11233,7 @@ collection:
             hideCondition: 'values.queryType == "custom"'
             type: 6
             passableThroughUrl: '0'
-            value: ''
+            value: dev
             testVariable: 61
             name: table
             wizardStep: 8
@@ -11241,7 +11241,7 @@ collection:
             order: 0
             wizard: 4
             definition:
-              defvalue: ''
+              defvalue: dev
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -11454,7 +11454,7 @@ collection:
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
-            value: '[{"name":"","label":"","type":"checkbox","validation":null,"definition":{"options":null}}]'
+            value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[{"type":"required","value":"","alert":"Answer required!"}],"definition":{"options":null}}]'
             testVariable: 65
             name: fields
             wizardStep: 9
@@ -11621,7 +11621,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"name":"","label":"","type":"checkbox","validation":null,"definition":{"options":null}}]'
+        value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[{"type":"required","value":"","alert":"Answer required!"}],"definition":{"options":null}}]'
         test: 19
         parentVariable: 65
       -

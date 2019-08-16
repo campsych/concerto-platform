@@ -9,9 +9,10 @@
                     {% block legend_tooltip %}{{ 'param.definer.titles.r_code.tooltip'|trans }}{% endblock %}
                     {% block control %}
                         {{ include("ConcertoPanelBundle::code_mirror_header.html.twig", {mode: 'R'} ) }}
-                        <ui-codemirror ng-model="param.definition.defvalue" ui-codemirror-opts="codeEditorOptions"
+                        <ui-codemirror ng-model="param.definition.defvalue"
+                                       ui-codemirror-opts="codeEditorOptions"
                                        ui-refresh='codemirrorForceRefresh'
-                                       ng-disabled="!isEditable()"></ui-codemirror>
+                                       ng-disabled="!editable"></ui-codemirror>
                     {% endblock %}
                 {% endembed %}
             {% endblock %}

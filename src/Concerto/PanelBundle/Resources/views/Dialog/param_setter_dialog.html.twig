@@ -1,7 +1,15 @@
 {% trans_default_domain "TestWizard" %}
 <div type="text/ng-template" id="param_setter_dialog.html">
     <div class="modal-body">
-        <wizard-param-setter param="param" parent="parent" output="output" mode="dialog" values="values" under-list="underList" wizard-object="wizardObject" wizard-mode="{%verbatim%}{{wizardMode}}{%endverbatim%}"></wizard-param-setter>
+        <wizard-param-setter editable="editable"
+                             param="param"
+                             parent="parent"
+                             output="output"
+                             mode="dialog"
+                             values="values"
+                             under-list="underList"
+                             wizard-object="wizardObject"
+                             wizard-mode="{% verbatim %}{{ wizardMode }}{% endverbatim %}"></wizard-param-setter>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" ng-click="change()">{{ 'form.button.change'|trans({},"panel") }}</button>

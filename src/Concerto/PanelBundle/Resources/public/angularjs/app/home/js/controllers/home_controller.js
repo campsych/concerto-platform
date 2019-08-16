@@ -6,13 +6,13 @@ function HomeController($scope, $http) {
     $scope.test = null;
     $scope.showAlert = false;
 
-    $scope.fetchTestsCollection = function() {
-        $http.get($scope.featuredCollectionPath).success(function(collection) {
-            $scope.testsCollection = collection;
+    $scope.fetchTestsCollection = function () {
+        $http.get($scope.featuredCollectionPath).then(function (httpResponse) {
+            $scope.testsCollection = httpResponse.data;
         });
     };
 
-    $scope.runTest = function() {
+    $scope.runTest = function () {
         if ($scope.test == null) {
             $scope.showAlert = true;
         } else {

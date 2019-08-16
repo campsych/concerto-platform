@@ -127,7 +127,6 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     };
 
     $scope.onAfterPersist = function () {
-        $scope.fetchAllCollections();
     };
 
     $scope.setWorkingCopyObject = function () {

@@ -8,8 +8,10 @@
                     {% block legend %}{% verbatim %}{{ testWizardParamService.getDefinerTitle(param) }}{% endverbatim %}{% endblock %}
                     {% block legend_tooltip %}{{ 'param.definer.titles.html.tooltip'|trans }}{% endblock %}
                     {% block control %}
-                        <textarea ckeditor="htmlEditorOptions" ng-model="param.definition.defvalue" class='form-control'
-                                  ng-disabled="!isEditable()"></textarea>
+                        <textarea ckeditor="htmlEditorOptions"
+                                  ng-model="param.definition.defvalue"
+                                  class='form-control'
+                                  ng-disabled="!editable"></textarea>
                     {% endblock %}
                 {% endembed %}
             {% endblock %}

@@ -13,8 +13,7 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             $uibModal.open({
                 templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "r_documentation_generation_help.html",
                 controller: RDocumentationGenerationHelpController,
-                resolve: {
-                },
+                resolve: {},
                 size: "lg"
             });
         },
@@ -26,8 +25,8 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
         },
         launchWizard: function (widget, replacement, completion, data) {
             var funct_name = this.sanitizeFunctionName(replacement);
-            var handler = (this.autocompletionWizardMapping[ funct_name ]) ? this.autocompletionWizardMapping[ funct_name ] :
-                    this.autocompletionWizardMapping[ '#default' ];
+            var handler = (this.autocompletionWizardMapping[funct_name]) ? this.autocompletionWizardMapping[funct_name] :
+                this.autocompletionWizardMapping['#default'];
 
             var instance = $uibModal.open({
                 templateUrl: Paths.DIALOG_TEMPLATE_ROOT + handler.template,
@@ -70,7 +69,7 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
         getServicePath: function (name) {
             return Paths.R_CACHE_DIRECTORY + "/html/" + name + ".html";
         },
-        extractArgumentsFromMetadata: function ( ) {
+        extractArgumentsFromMetadata: function () {
             var elem = this.getBodyAsHtmlElement();
             var res = new Array();
 
@@ -78,22 +77,22 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             var defs = angular.fromJson(elem.attr('defs'));
             for (var itr = 0; itr < args.length; itr++) {
                 var row = new Object();
-                row.name = args[ itr ];
-                row.default = defs[ itr ];
+                row.name = args[itr];
+                row.default = defs[itr];
                 res.push(row);
             }
             return res;
         },
-        extractArgumentsFromSample: function ( ) {
+        extractArgumentsFromSample: function () {
             var sample = this.getBodyAsHtmlElement().find('pre').first().text();
             sample = sample.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, ""); // remove whitespace
             // find correct definition
             var matches = sample.match(new RegExp(this.loaded_name + '\\([^\(\)]*?(\\([^\(\)]*?\\))*?[^\(\)]*?\\)', 'g'));
-            if (!matches[ 0 ])
+            if (!matches[0])
                 return false;
 
             // first cut the function name and opening parenthetical
-            var definition = matches[ 0 ].substr(this.loaded_name.length + 1);
+            var definition = matches[0].substr(this.loaded_name.length + 1);
             var function_arguments = new Array();
 
             // simply prevent from hanging if someone put rubbish/incorrect syntax in R documentation.
@@ -103,17 +102,17 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
                 var next_stop = definition.search(/[\)\,\=]{1}/);
                 argument.name = definition.substr(0, next_stop);
                 definition = definition.substr(next_stop);
-                if (definition[ 0 ] == '=') {
+                if (definition[0] == '=') {
                     var tmp_val = definition.match(/\=([^\(\)]*?(\([^\(\)]*?\))*?[^\(\)]*?)[\,\)]{1}/g);
                     if (!tmp_val)
                         return false;
                     else
-                        tmp_val = tmp_val[ 0 ];
+                        tmp_val = tmp_val[0];
                     argument.default = tmp_val.substr(1, tmp_val.length - 2);
                     definition = definition.substr(tmp_val.length - 1);
                 }
                 function_arguments.push(argument);
-                if ((definition == "") || (definition[ 0 ] == ')'))
+                if ((definition == "") || (definition[0] == ')'))
                     break;
 
                 definition = definition.substr(1);
@@ -129,7 +128,7 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             var table;
             // manually roll to the argblock table, as angular's jqlite may not support selectors...
             for (var itr = 0; itr < tables.length; itr++) {
-                table = angular.element(tables[ itr ]);
+                table = angular.element(tables[itr]);
                 var summary = table.attr('summary');
 
                 if (summary && (summary.search('argblock') != -1)) {
@@ -143,15 +142,15 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             var rows = table.find('tr');
 
             for (var itr = 0; itr < rows.length; itr++) {
-                var colls = angular.element(rows[ itr ]).find('td');
-                var argname = angular.element(colls[ 0 ]).text().trim();
-                var argdesc = angular.element(colls[ 1 ]).text().replace(/(\r\n|\n|\r)/gm, " ").trim();
+                var colls = angular.element(rows[itr]).find('td');
+                var argname = angular.element(colls[0]).text().trim();
+                var argdesc = angular.element(colls[1]).text().replace(/(\r\n|\n|\r)/gm, " ").trim();
                 if (argname.search('\\,') == -1)
-                    arguments_map[ argname ] = argdesc;
+                    arguments_map[argname] = argdesc;
                 else {
                     var multi_args = argname.split(',');
                     for (var itr2 = 0; itr2 < multi_args.length; itr2++)
-                        arguments_map[ multi_args[ itr2 ].trim() ] = argdesc;
+                        arguments_map[multi_args[itr2].trim()] = argdesc;
                 }
 
             }
@@ -178,12 +177,12 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
 
             var obj = this;
             this.current_timeout = $timeout(function () {
-                $http.get(obj.getServicePath(local_selected_copy)).success(function (data) {
-                    if (data !== null) {
-                        load_callback(obj.extractHtmlDoc(data));
+                $http.get(obj.getServicePath(local_selected_copy)).then(function (httpResponse) {
+                    if (httpResponse.data !== null) {
+                        load_callback(obj.extractHtmlDoc(httpResponse.data));
                         // we make sure that the name didn't change while loading the HTML
                         if (local_selected_copy == obj.loaded_name)
-                            obj.loaded_html = data;
+                            obj.loaded_html = httpResponse.data;
                     }
                 });
             }, 50);
@@ -192,8 +191,7 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             this.loaded_html = false;
         },
         apply: function (widget, replacement, completion, data) {
-            widget.cm.replaceRange(replacement, completion.from || data.from,
-                    completion.to || data.to, "complete");
+            widget.cm.replaceRange(replacement, completion.from || data.from, completion.to || data.to, "complete");
             widget.cm.execCommand('goCharLeft');
             widget.close();
         },
@@ -215,14 +213,14 @@ concertoPanel.factory('RDocumentation', function ($http, $sce, $timeout, $uibMod
             var args_doc = this.extractArgumentsFromTable(html);
 
             for (var itr = 0; itr < args_list.length; itr++) {
-                if (args_list[ itr ].default)
-                    args_list[ itr ].value = args_list[ itr ].default;
+                if (args_list[itr].default)
+                    args_list[itr].value = args_list[itr].default;
 
-                var argname = args_list[ itr ].name;
-                if (args_doc[ argname ]) {
-                    args_list[ itr ].description = args_doc[ argname ];
-                    var tmp = args_doc[ argname ].split('.');
-                    args_list[ itr ].comment = tmp[ 0 ];
+                var argname = args_list[itr].name;
+                if (args_doc[argname]) {
+                    args_list[itr].description = args_doc[argname];
+                    var tmp = args_doc[argname].split('.');
+                    args_list[itr].comment = tmp[0];
                 }
             }
             return args_list;

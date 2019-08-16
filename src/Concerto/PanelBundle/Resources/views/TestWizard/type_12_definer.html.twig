@@ -15,16 +15,11 @@
                             {% block tooltip %}{{ 'param.definer.column_map.columns.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <div class="center">
-                                    <button class="btn btn-success btn-sm"
-                                            ng-click="addColumn()">{{ 'param.definer.column_map.column.add'|trans }}</button>
-                                    <button class="btn btn-danger btn-sm"
-                                            ng-click="deleteSelectedColumns()">{{ 'param.definer.column_map.column.remove.selected'|trans }}</button>
-                                    <button class="btn btn-danger btn-sm"
-                                            ng-click="deleteAllColumns()">{{ 'param.definer.column_map.column.remove.all'|trans }}</button>
-                                    <button ng-click="gridService.downloadList(selectGridApi);"
-                                            class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
-                                    <button ng-click="gridService.uploadList(selectGridApi);"
-                                            class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                                    <button class="btn btn-success btn-sm" ng-click="addColumn()">{{ 'param.definer.column_map.column.add'|trans }}</button>
+                                    <button class="btn btn-danger btn-sm" ng-click="deleteSelectedColumns()">{{ 'param.definer.column_map.column.remove.selected'|trans }}</button>
+                                    <button class="btn btn-danger btn-sm" ng-click="deleteAllColumns()">{{ 'param.definer.column_map.column.remove.all'|trans }}</button>
+                                    <button ng-click="gridService.downloadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                                    <button ng-click="gridService.uploadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
                                 </div>
                                 <div ui-grid="colMapOptions" ui-grid-edit ui-grid-row-edit ui-grid-auto-resize
                                      ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-importer

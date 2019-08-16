@@ -8,8 +8,8 @@ concertoPanel.factory('ScheduledTasksCollectionService', function ($http) {
             $http({
                 url: obj.collectionPath,
                 method: "GET"
-            }).success(function (c) {
-                obj.collection = c;
+            }).then(function (httpResponse) {
+                obj.collection = httpResponse.data;
                 obj.packagesCollection = obj.filterPackagesCollection();
 
                 if (callback)

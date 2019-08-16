@@ -247,8 +247,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             });
         },
         exporterAllDataFn: function () {
-            return $http.get($scope.dataCollectionPath.pf($scope.object.id)).success(function (data) {
-                $scope.dataOptions.data = data.content;
+            return $http.get($scope.dataCollectionPath.pf($scope.object.id)).then(function (httpResponse) {
+                $scope.dataOptions.data = httpResponse.data.content;
             });
         },
         paginationPageSizes: [100, 250, 500],
@@ -264,13 +264,13 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.addRow = function () {
         $http.post(Paths.DATA_TABLE_DATA_INSERT.pf($scope.object.id), {
             objectTimestamp: $scope.object.updatedOn
-        }).success(function (response) {
-            if (response.result == 0) {
+        }).then(function (httpResponse) {
+            if (httpResponse.data.result == 0) {
                 $scope.fetchDataCollection($scope.object.id);
             } else {
                 DialogsService.alertDialog(
                     Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
-                    response.errors.join("<br/>"),
+                    httpResponse.data.errors.join("<br/>"),
                     "danger"
                 );
             }
@@ -289,12 +289,12 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRow.id), {
             values: newRow,
             objectTimestamp: $scope.object.updatedOn
-        }).then(function (data) {
-            switch (data.result) {
+        }).then(function (httpResponse) {
+            switch (httpResponse.data.result) {
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     DialogsService.alertDialog(
                         Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
-                        data.errors.join("<br/>"),
+                        httpResponse.data.errors.join("<br/>"),
                         "danger"
                     );
                     break;
@@ -312,8 +312,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             function (response) {
                 $http.post(Paths.DATA_TABLE_DATA_DELETE_ALL.pf($scope.object.id), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             $scope.fetchDataCollection($scope.object.id);
                             break;
@@ -321,7 +321,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             $scope.dialogsService.alertDialog(
                                 Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -351,8 +351,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             function (response) {
                 $http.post(Paths.DATA_TABLE_DATA_DELETE.pf($scope.object.id, ids), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             $scope.fetchDataCollection($scope.object.id);
                             break;
@@ -360,7 +360,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             $scope.dialogsService.alertDialog(
                                 Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -384,12 +384,12 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
 
         $http.post($scope.dataCollectionPath.pf(tableId), {
             filters: angular.toJson($scope.dataFilterOptions)
-        }).success(function (collection) {
+        }).then(function (httpResponse) {
             for (var i = 0; i < $scope.object.columns.length; i++) {
                 var col = $scope.object.columns[i];
                 if (col.type == "date") {
-                    for (var j = 0; j < collection.content.length; j++) {
-                        var row = collection.content[j];
+                    for (var j = 0; j < httpResponse.data.content.length; j++) {
+                        var row = httpResponse.data.content[j];
                         if (!(row[col.name] instanceof Date)) {
                             row[col.name] = new Date(row[col.name]);
                         }
@@ -400,8 +400,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 }
             }
 
-            $scope.data = collection.content;
-            $scope.dataOptions.totalItems = collection.count;
+            $scope.data = httpResponse.data.content;
+            $scope.dataOptions.totalItems = httpResponse.data.count;
         });
     };
     $scope.deleteSelectedStructure = function () {
@@ -423,8 +423,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             function (response) {
                 $http.post(Paths.DATA_TABLE_COLUMNS_DELETE.pf($scope.object.id, names), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             $scope.setWorkingCopyObject();
                             $scope.fetchAllCollections();
@@ -433,7 +433,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             DialogsService.alertDialog(
                                 Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -445,9 +445,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
 
     $scope.fetchColumn = function (id, column_name, callback) {
-        $http.get($scope.fetchColumnObjectPath.pf(id, column_name)).success(function (object) {
-            if (object !== null) {
-                $scope.column = object;
+        $http.get($scope.fetchColumnObjectPath.pf(id, column_name)).then(function (httpResponse) {
+            if (httpResponse.data !== null) {
+                $scope.column = httpResponse.data;
                 if (callback != null) {
                     callback.call(this);
                 }
@@ -525,7 +525,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
 
     $scope.onAfterPersist = function () {
-        $scope.fetchAllCollections();
     };
 
     $scope.resetObject = function () {

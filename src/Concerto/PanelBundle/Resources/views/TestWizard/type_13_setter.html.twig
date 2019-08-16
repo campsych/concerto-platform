@@ -26,7 +26,10 @@
                                         {{ 'alerts.no_params'|trans }}
                                     </uib-alert>
                                     <div ng-repeat="param in step.params | orderBy: 'order' track by $index">
-                                        <wizard-param-setter param="param" parent="output" output="output[param.name]"
+                                        <wizard-param-setter editable="editable"
+                                                             param="param"
+                                                             parent="output"
+                                                             output="output[param.name]"
                                                              mode="outer"
                                                              wizard-mode="prod" values="values"
                                                              wizard-object="object"

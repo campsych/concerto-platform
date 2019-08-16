@@ -242,14 +242,14 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             function (response) {
                 $http.post(Paths.TEST_WIZARD_STEP_DELETE_ALL.pf($scope.object.id), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    if (data.result == 0) {
+                }).then(function (httpResponse) {
+                    if (httpResponse.data.result == 0) {
                         $scope.setWorkingCopyObject();
                         $scope.fetchAllCollections();
                     } else {
                         DialogsService.alertDialog(
                             Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR,
-                            data.errors.join("<br/>"),
+                            httpResponse.data.errors.join("<br/>"),
                             "danger"
                         );
                     }
@@ -277,8 +277,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             function (response) {
                 $http.post(Paths.TEST_WIZARD_STEP_DELETE.pf(ids), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             $scope.setWorkingCopyObject();
                             $scope.fetchAllCollections();
@@ -287,7 +287,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             DialogsService.alertDialog(
                                 Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -304,14 +304,14 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             function (response) {
                 $http.post(Paths.TEST_WIZARD_PARAM_DELETE_ALL.pf($scope.object.id), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    if (data.result == 0) {
+                }).then(function (httpResponse) {
+                    if (httpResponse.data.result == 0) {
                         $scope.setWorkingCopyObject();
                         $scope.fetchAllCollections();
                     } else {
                         $scope.dialogsService.alertDialog(
                             Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR,
-                            data.errors.join("<br/>"),
+                            httpResponse.data.errors.join("<br/>"),
                             "danger"
                         );
                     }
@@ -339,8 +339,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             function (response) {
                 $http.post(Paths.TEST_WIZARD_PARAM_DELETE.pf(ids), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             $scope.setWorkingCopyObject();
                             $scope.fetchAllCollections();
@@ -349,7 +349,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             DialogsService.alertDialog(
                                 Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -441,7 +441,6 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     };
 
     $scope.onAfterPersist = function () {
-        $scope.fetchAllCollections();
     };
 
     $scope.onDelete = function () {

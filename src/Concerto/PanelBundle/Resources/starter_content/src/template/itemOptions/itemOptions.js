@@ -6,9 +6,11 @@ testRunner.compileProvider.component('itemOptions', {
     responseRequired: "<"
   },
   controller: function controller($scope) {
-    $scope.item = this.item;
-    $scope.response = this.response;
-    $scope.responseRequired = this.responseRequired;
+    this.$onInit = function() {
+      $scope.item = this.item;
+      $scope.response = this.response;
+      $scope.responseRequired = this.responseRequired;
+    };
 
     $scope.selectResponse = function(option) {
       $scope.response.value = option.value;

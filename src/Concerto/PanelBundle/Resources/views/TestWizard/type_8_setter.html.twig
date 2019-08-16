@@ -4,7 +4,7 @@
             {% trans_default_domain "TestWizard" %}
             {% block setter %}
                 <select ng-model="output" ng-change="onPrimitiveValueChange(output)"
-                        ng-disabled="!isEditable()"
+                        ng-disabled="!editable"
                         class='form-control'
                         ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'">
                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>

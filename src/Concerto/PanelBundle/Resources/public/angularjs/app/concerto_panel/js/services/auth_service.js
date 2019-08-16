@@ -7,8 +7,8 @@ concertoPanel.factory('AuthService', function ($http) {
             $http({
                 url: obj.getAuthUserPath,
                 method: "GET"
-            }).success(function (c) {
-                obj.user = c.user;
+            }).then(function (httpResponse) {
+                obj.user = httpResponse.data.user;
                 if (callback)
                     callback.call(this);
             });

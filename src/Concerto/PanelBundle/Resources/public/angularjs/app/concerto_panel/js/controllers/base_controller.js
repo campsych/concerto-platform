@@ -75,8 +75,8 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.toggleLock = function () {
         $http.post($scope.lockPath.pf($scope.object.id), {
             objectTimestamp: $scope.object.updatedOn
-        }).success(function (data) {
-            switch (data.result) {
+        }).then(function (httpResponse) {
+            switch (httpResponse.data.result) {
                 case BaseController.RESULT_OK: {
                     $scope.setWorkingCopyObject();
                     $scope.fetchAllCollections();
@@ -85,7 +85,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     DialogsService.alertDialog(
                         Trans.DIALOG_TITLE_LOCK,
-                        data.errors.join("<br/>"),
+                        httpResponse.data.errors.join("<br/>"),
                         "danger"
                     );
                 }
@@ -284,8 +284,8 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
                 $http.post($scope.deletePath.pf(ids.join(",")), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             if ($scope.reloadOnModification)
                                 location.reload();
@@ -299,7 +299,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             DialogsService.alertDialog(
                                 Trans.DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -347,8 +347,8 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
         var addModalDialog = modalInstance;
         $http.post($scope.savePath.pf(oid), $scope.getPersistObject()).then(
-            function successCallback(response) {
-                switch (response.data.result) {
+            function successCallback(httpResponse) {
+                switch (httpResponse.data.result) {
                     case BaseController.RESULT_OK: {
                         if (addModalDialog != null) {
                             addModalDialog.close($scope.object);
@@ -367,14 +367,14 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                                 if ($scope.reloadOnModification) {
                                     location.reload();
                                 } else {
-                                    $scope.edit(response.data.object.id);
+                                    $scope.edit(httpResponse.data.object.id);
                                 }
                             }
                         );
                         break;
                     }
                     case BaseController.RESULT_VALIDATION_FAILED: {
-                        $scope.object.validationErrors = response.data.errors;
+                        $scope.object.validationErrors = httpResponse.data.errors;
                         $(".modal").animate({scrollTop: 0}, "slow");
                         break;
                     }

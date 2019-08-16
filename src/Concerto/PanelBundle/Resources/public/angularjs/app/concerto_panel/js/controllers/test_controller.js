@@ -391,10 +391,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         }
     };
     if (RDocumentation.functionIndex === null) {
-        $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').success(function (data) {
-            if (data !== null) {
-                RDocumentation.functionIndex = data;
-                $scope.codeOptions.hintOptions.functionIndex = data;
+        $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').then(function (httpResponse) {
+            if (httpResponse.data !== null) {
+                RDocumentation.functionIndex = httpResponse.data;
+                $scope.codeOptions.hintOptions.functionIndex = httpResponse.data;
             }
         });
     } else {
@@ -402,9 +402,9 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     }
 
     $scope.fetchVariable = function (id, callback) {
-        $http.get($scope.fetchVariableObjectPath.pf(id)).success(function (object) {
-            if (object !== null) {
-                $scope.variable = object;
+        $http.get($scope.fetchVariableObjectPath.pf(id)).then(function (httpResponse) {
+            if (httpResponse.data !== null) {
+                $scope.variable = httpResponse.data;
                 if (callback != null) {
                     callback.call(this);
                 }
@@ -448,7 +448,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             Trans.TEST_LOG_DIALOG_TITLE_CLEAR,
             Trans.TEST_LOG_DIALOG_MESSAGE_CLEAR_CONFIRM,
             function (response) {
-                $http.post($scope.deleteAllLogsPath.pf($scope.object.id), {}).success(function (data) {
+                $http.post($scope.deleteAllLogsPath.pf($scope.object.id), {}).then(function (httpResponse) {
                     $scope.refreshLogs();
                 });
             }
@@ -472,7 +472,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             Trans.TEST_LOG_DIALOG_TITLE_DELETE,
             Trans.TEST_LOG_DIALOG_MESSAGE_DELETE_CONFIRM,
             function (response) {
-                $http.post($scope.deleteLogPath.pf(ids), {}).success(function (data) {
+                $http.post($scope.deleteLogPath.pf(ids), {}).then(function (httpResponse) {
                     $scope.refreshLogs();
                 });
             }
@@ -527,8 +527,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             function (response) {
                 $http.post(Paths.TEST_VARIABLE_DELETE.pf(ids), {
                     objectTimestamp: $scope.object.updatedOn
-                }).success(function (data) {
-                    switch (data.result) {
+                }).then(function (httpResponse) {
+                    switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
                             $scope.setWorkingCopyObject();
                             $scope.fetchAllCollections();
@@ -537,7 +537,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             DialogsService.alertDialog(
                                 Trans.DIALOG_TITLE_DELETE,
-                                data.errors.join("<br/>"),
+                                httpResponse.data.errors.join("<br/>"),
                                 "danger"
                             );
                             break;
@@ -636,7 +636,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.onAfterPersist = function () {
-        $scope.fetchAllCollections();
     };
 
     $scope.resetObject();

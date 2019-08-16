@@ -63,8 +63,8 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
         var oid = $scope.object.id;
 
         var addModalDialog = $uibModalInstance;
-        $http.post(Paths.TEST_WIZARD_PARAM_SAVE.pf(oid), $scope.getPersistObject()).success(function (data) {
-            switch (data.result) {
+        $http.post(Paths.TEST_WIZARD_PARAM_SAVE.pf(oid), $scope.getPersistObject()).then(function (httpResponse) {
+            switch (httpResponse.data.result) {
                 case BaseController.RESULT_OK: {
                     if (addModalDialog != null) {
                         addModalDialog.close($scope.object);
@@ -72,7 +72,7 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
                     break;
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
-                    $scope.object.validationErrors = data.errors;
+                    $scope.object.validationErrors = httpResponse.data.errors;
                     $(".modal").animate({scrollTop: 0}, "slow");
                     break;
                 }

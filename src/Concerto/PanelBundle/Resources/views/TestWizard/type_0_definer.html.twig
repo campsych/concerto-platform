@@ -10,7 +10,7 @@
                     {% block control %}
                         <input ng-model="param.definition.defvalue" class='form-control'
                                ng-model-options='{ updateOn: "blur" }'
-                               ng-disabled="!isEditable()"
+                               ng-disabled="!editable"
                                ng-trim="false" />
                     {% endblock %}
                 {% endembed %}

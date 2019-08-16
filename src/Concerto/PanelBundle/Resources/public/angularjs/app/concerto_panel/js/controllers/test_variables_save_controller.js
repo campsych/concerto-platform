@@ -41,8 +41,8 @@ function TestVariablesSaveController($scope, $uibModalInstance, $http, object, t
         var addModalDialog = $uibModalInstance;
         $http.post(Paths.TEST_VARIABLE_SAVE.pf(oid),
             angular.extend({}, $scope.object, {objectTimestamp: $scope.test.updatedOn})
-        ).success(function (data) {
-            switch (data.result) {
+        ).then(function (httpResponse) {
+            switch (httpResponse.data.result) {
                 case BaseController.RESULT_OK: {
                     if (addModalDialog != null) {
                         addModalDialog.close($scope.object);
@@ -50,7 +50,7 @@ function TestVariablesSaveController($scope, $uibModalInstance, $http, object, t
                     break;
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
-                    $scope.object.validationErrors = data.errors;
+                    $scope.object.validationErrors = httpResponse.data.errors;
                     $(".modal").animate({scrollTop: 0}, "slow");
                     break;
                 }

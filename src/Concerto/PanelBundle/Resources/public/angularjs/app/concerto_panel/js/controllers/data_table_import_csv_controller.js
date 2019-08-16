@@ -33,26 +33,29 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
         $http.post(Paths.DATA_TABLE_IMPORT_CSV.pf($scope.object.id, $scope.restructure ? 1 : 0, $scope.headerRow ? 1 : 0, $scope.delimiter, $scope.enclosure), {
             file: $scope.item.file.name,
             objectTimestamp: $scope.object.updatedOn
-        }).success(function (response) {
-            if (response.result === 0) {
-                DialogsService.alertDialog(
-                    Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
-                    Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED,
-                    "success"
-                );
-            } else {
-                DialogsService.alertDialog(
-                    Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
-                    response.errors.join("<br/>"),
-                    "danger",
-                    "prc-lg"
-                );
+        }).then(
+            function success(httpResponse) {
+                if (httpResponse.data.result === 0) {
+                    DialogsService.alertDialog(
+                        Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
+                        Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED,
+                        "success"
+                    );
+                } else {
+                    DialogsService.alertDialog(
+                        Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
+                        httpResponse.data.errors.join("<br/>"),
+                        "danger",
+                        "prc-lg"
+                    );
+                }
+                $uibModalInstance.close($scope.item.file.name);
+            },
+            function error(httpResponse) {
+                $scope.dirty = true;
+                $scope.showErrorAlert();
             }
-            $uibModalInstance.close($scope.item.file.name);
-        }).error(function (data, status, headers, config) {
-            $scope.dirty = true;
-            $scope.showErrorAlert();
-        });
+        );
     };
 
     $scope.showErrorAlert = function () {

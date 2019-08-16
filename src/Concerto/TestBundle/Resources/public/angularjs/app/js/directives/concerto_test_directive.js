@@ -150,10 +150,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     console.log("start keep alive (" + internalSettings.keepAliveInterval + ")");
                 if (internalSettings.keepAliveInterval > 0) {
                     keepAliveTimerPromise = $interval(function () {
-                        $http.post(internalSettings.directory + "test/session/" + lastResponse.hash + "/keepalive", {}).success(function (response) {
+                        $http.post(internalSettings.directory + "test/session/" + lastResponse.hash + "/keepalive", {}).then(function (httpResponse) {
                             if (internalSettings.clientDebug)
                                 console.log("keep-alive ping");
-                            if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || response.code !== RESPONSE_KEEPALIVE_CHECKIN)
+                            if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || httpResponse.data.code !== RESPONSE_KEEPALIVE_CHECKIN)
                                 $interval.cancel(keepAliveTimerPromise);
                         });
                     }, internalSettings.keepAliveInterval * 1000);
@@ -186,39 +186,42 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     }
                 }
 
-                $http.post(path, {}).success(function (response) {
-                    if (internalSettings.clientDebug)
-                        console.log(response);
-                    if (internalSettings.debug && response.debug)
-                        console.log(response.debug);
-                    lastResponse = response;
-                    lastResponseTime = new Date();
-                    isViewReady = true;
+                $http.post(path, {}).then(
+                    function success(httpResponse) {
+                        if (internalSettings.clientDebug)
+                            console.log(httpResponse.data);
+                        if (internalSettings.debug && httpResponse.data.debug)
+                            console.log(httpResponse.data.debug);
+                        lastResponse = httpResponse.data;
+                        lastResponseTime = new Date();
+                        isViewReady = true;
 
-                    switch (lastResponse.code) {
-                        case RESPONSE_VIEW_TEMPLATE:
-                        case RESPONSE_VIEW_FINAL_TEMPLATE: {
-                            internalSettings.hash = response.hash;
-                            timeLimit = response.timeLimit;
-                            updateLoader(response.data);
-                            break;
+                        switch (lastResponse.code) {
+                            case RESPONSE_VIEW_TEMPLATE:
+                            case RESPONSE_VIEW_FINAL_TEMPLATE: {
+                                internalSettings.hash = httpResponse.data.hash;
+                                timeLimit = httpResponse.data.timeLimit;
+                                updateLoader(httpResponse.data.data);
+                                break;
+                            }
+                        }
+
+                        showView();
+                    },
+                    function error(httpResponse) {
+                        if (httpResponse.status >= 500 && httpResponse.status < 600) {
+                            if (internalSettings.clientDebug)
+                                console.log("server error");
+                            isViewReady = true;
+                            showView(testRunner.settings.serverErrorHtml);
+                        } else if (httpResponse.status >= 400 && httpResponse.status < 500) {
+                            if (internalSettings.clientDebug)
+                                console.log("client error");
+                            isViewReady = true;
+                            showView(testRunner.settings.clientErrorHtml);
                         }
                     }
-
-                    showView();
-                }).error(function (error, status) {
-                    if (status >= 500 && status < 600) {
-                        if (internalSettings.clientDebug)
-                            console.log("server error");
-                        isViewReady = true;
-                        showView(testRunner.settings.serverErrorHtml);
-                    } else if (status >= 400 && status < 500) {
-                        if (internalSettings.clientDebug)
-                            console.log("client error");
-                        isViewReady = true;
-                        showView(testRunner.settings.clientErrorHtml);
-                    }
-                });
+                );
             }
 
             function updateLoader(data) {
@@ -246,23 +249,26 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
                 $http.post(internalSettings.directory + "test/session/" + internalSettings.hash + "/worker", {
                     values: values
-                }).success(function (response) {
-                    if (internalSettings.clientDebug)
-                        console.log(response);
-                    if (internalSettings.debug && response.debug)
-                        console.log(response.debug);
+                }).then(
+                    function success(httpResponse) {
+                        if (internalSettings.clientDebug)
+                            console.log(httpResponse.data);
+                        if (internalSettings.debug && httpResponse.data.debug)
+                            console.log(httpResponse.data.debug);
 
-                    if (successCallback != null) {
-                        successCallback.call(this, response.data);
-                    }
-                }).error(function (error, status) {
-                    if (internalSettings.clientDebug)
-                        console.log("worker failed");
+                        if (successCallback != null) {
+                            successCallback.call(this, httpResponse.data.data);
+                        }
+                    },
+                    function error(httpResult) {
+                        if (internalSettings.clientDebug)
+                            console.log("worker failed");
 
-                    if (errorCallback != null) {
-                        errorCallback.call(this, error, status);
+                        if (errorCallback != null) {
+                            errorCallback.call(this, httpResult.data, httpResult.status);
+                        }
                     }
-                });
+                );
             };
 
             scope.submitView = function (btnName, isTimeout, passedVals) {
@@ -317,63 +323,66 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }
                 $http.post(internalSettings.directory + "test/session/" + internalSettings.hash + "/submit", {
                     values: values
-                }).success(function (response) {
-                    var eventSubmitViewResponseSuccess = new CustomEvent('submitViewResponseSuccess', {
-                        detail: {
-                            response: response
-                        }
-                    });
-                    $window.dispatchEvent(eventSubmitViewResponseSuccess);
+                }).then(
+                    function success(httpResponse) {
+                        var eventSubmitViewResponseSuccess = new CustomEvent('submitViewResponseSuccess', {
+                            detail: {
+                                response: httpResponse.data
+                            }
+                        });
+                        $window.dispatchEvent(eventSubmitViewResponseSuccess);
 
-                    scope.retryTimeStarted = null;
-
-                    if (internalSettings.clientDebug)
-                        console.log(response);
-                    if (internalSettings.debug && response.debug)
-                        console.log(response.debug);
-                    lastResponse = response;
-                    lastResponseTime = new Date();
-                    switch (lastResponse.code) {
-                        case RESPONSE_VIEW_TEMPLATE:
-                        case RESPONSE_VIEW_FINAL_TEMPLATE: {
-                            internalSettings.hash = response.hash;
-                            timeLimit = response.timeLimit;
-                            updateLoader(response.data);
-                            break;
-                        }
-                    }
-
-                    isViewReady = true;
-                    showView();
-                }).error(function (error, status) {
-                    var eventSubmitViewResponseError = new CustomEvent('submitViewResponseError', {
-                        detail: {
-                            error: error,
-                            status: status
-                        }
-                    });
-                    $window.dispatchEvent(eventSubmitViewResponseError);
-
-                    if (status === -1) {
-                        if (internalSettings.clientDebug)
-                            console.log("connection failed");
-                        showConnectionProblems(btnName, isTimeout, passedVals, values);
-                    } else if (status >= 500 && status < 600) {
                         scope.retryTimeStarted = null;
 
                         if (internalSettings.clientDebug)
-                            console.log("server error");
-                        isViewReady = true;
-                        showView(testRunner.settings.serverErrorHtml);
-                    } else if (status >= 400 && status < 500) {
-                        scope.retryTimeStarted = null;
+                            console.log(httpResponse.data);
+                        if (internalSettings.debug && httpResponse.data.debug)
+                            console.log(httpResponse.data.debug);
+                        lastResponse = httpResponse.data;
+                        lastResponseTime = new Date();
+                        switch (lastResponse.code) {
+                            case RESPONSE_VIEW_TEMPLATE:
+                            case RESPONSE_VIEW_FINAL_TEMPLATE: {
+                                internalSettings.hash = httpResponse.data.hash;
+                                timeLimit = httpResponse.data.timeLimit;
+                                updateLoader(httpResponse.data.data);
+                                break;
+                            }
+                        }
 
-                        if (internalSettings.clientDebug)
-                            console.log("client error");
                         isViewReady = true;
-                        showView(testRunner.settings.clientErrorHtml);
+                        showView();
+                    },
+                    function error(httpResponse) {
+                        var eventSubmitViewResponseError = new CustomEvent('submitViewResponseError', {
+                            detail: {
+                                error: httpResponse.data,
+                                status: httpResponse.status
+                            }
+                        });
+                        $window.dispatchEvent(eventSubmitViewResponseError);
+
+                        if (httpResponse.status === -1) {
+                            if (internalSettings.clientDebug)
+                                console.log("connection failed");
+                            showConnectionProblems(btnName, isTimeout, passedVals, values);
+                        } else if (httpResponse.status >= 500 && httpResponse.status < 600) {
+                            scope.retryTimeStarted = null;
+
+                            if (internalSettings.clientDebug)
+                                console.log("server error");
+                            isViewReady = true;
+                            showView(testRunner.settings.serverErrorHtml);
+                        } else if (httpResponse.status >= 400 && httpResponse.status < 500) {
+                            scope.retryTimeStarted = null;
+
+                            if (internalSettings.clientDebug)
+                                console.log("client error");
+                            isViewReady = true;
+                            showView(testRunner.settings.clientErrorHtml);
+                        }
                     }
-                });
+                );
             }
 
             function showConnectionProblems(btnName, isTimeout, passedVals, values) {

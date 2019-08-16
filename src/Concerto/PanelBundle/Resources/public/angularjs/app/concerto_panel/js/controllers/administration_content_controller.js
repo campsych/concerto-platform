@@ -296,9 +296,8 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         );
     };
 
-    $scope.$watch("exposedSettingsMap.git_enabled", function(newValue) {
-        console.log(newValue);
-        if(newValue == 1) $scope.refreshGitStatus();
+    $scope.$watch("exposedSettingsMap.git_enabled", function (newValue) {
+        if (newValue == 1) $scope.refreshGitStatus();
     });
 }
 

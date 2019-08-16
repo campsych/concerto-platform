@@ -7,8 +7,8 @@ concertoPanel.factory('ApiClientsCollectionService', function ($http) {
             $http({
                 url: obj.collectionPath,
                 method: "GET"
-            }).success(function (c) {
-                obj.collection = c;
+            }).then(function (httpResponse) {
+                obj.collection = httpResponse.data;
                 if (callback)
                     callback.call(this);
             });

@@ -9,7 +9,7 @@
                     {% block legend_tooltip %}{{ 'param.definer.titles.wizard.tooltip'|trans }}{% endblock %}
                     {% block control %}
                         <select ng-model="param.definition.test"
-                                ng-disabled="!isEditable()"
+                                ng-disabled="!editable"
                                 class='form-control'
                                 ng-options="test.name as test.name for test in testCollectionService.collection | filter : {'archived':'!1','type':1} | orderBy: 'name'">
                             <option value="">{{ "none.choosen"|trans({},"panel") }}</option>

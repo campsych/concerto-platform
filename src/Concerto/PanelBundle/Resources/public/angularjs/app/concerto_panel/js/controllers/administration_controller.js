@@ -130,7 +130,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 });
             }
         );
-    }
+    };
 
     $scope.messageCollection = [];
     $scope.messageOptions = {
@@ -171,8 +171,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.alertDialog(row.entity.subject, COL_FIELD, \'info\',\'lg\')"></i>' +
-                "</div>"
+                    '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.alertDialog(row.entity.subject, COL_FIELD, \'info\',\'lg\')"></i>' +
+                    "</div>"
             }, {
                 displayName: "",
                 name: "_action",
@@ -215,7 +215,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             Trans.MESSAGES_DIALOGS_TITLE_DELETE,
             Trans.MESSAGES_DIALOGS_MESSAGE_DELETE,
             function (response) {
-                $http.post($scope.deleteMessagePath.pf(ids), {}).success(function (data) {
+                $http.post($scope.deleteMessagePath.pf(ids), {}).then(function (data) {
                     $scope.refreshMessages();
                 });
             }
@@ -235,7 +235,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             Trans.MESSAGES_DIALOGS_TITLE_CLEAR,
             Trans.MESSAGES_DIALOGS_MESSAGE_CLEAR,
             function (response) {
-                $http.post($scope.clearMessagePath, {}).success(function (data) {
+                $http.post($scope.clearMessagePath, {}).then(function (data) {
                     $scope.refreshMessages();
                 });
             }
@@ -281,8 +281,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.textareaDialog(row.entity.updated, COL_FIELD, grid.appScope.getTasksStatusLabel(row.entity.status), true)"></i>' +
-                "</div>"
+                    '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.textareaDialog(row.entity.updated, COL_FIELD, grid.appScope.getTasksStatusLabel(row.entity.status), true)"></i>' +
+                    "</div>"
             }
         ]
     };
@@ -351,7 +351,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             Trans.API_CLIENTS_DIALOGS_TITLE_DELETE,
             Trans.API_CLIENTS_DIALOGS_MESSAGE_DELETE,
             function (response) {
-                $http.post($scope.deleteApiClientsPath.pf(ids), {}).success(function (data) {
+                $http.post($scope.deleteApiClientsPath.pf(ids), {}).then(function (data) {
                     $scope.refreshApiClients();
                 });
             }
@@ -371,7 +371,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             Trans.API_CLIENTS_DIALOGS_TITLE_CLEAR,
             Trans.API_CLIENTS_DIALOGS_MESSAGE_CLEAR,
             function (response) {
-                $http.post($scope.clearApiClientsPath, {}).success(function (data) {
+                $http.post($scope.clearApiClientsPath, {}).then(function (data) {
                     $scope.refreshApiClients();
                 });
             }

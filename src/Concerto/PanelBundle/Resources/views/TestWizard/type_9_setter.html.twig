@@ -9,8 +9,14 @@
                     {% block legend_tooltip %}{{ 'param.setter.titles.group.tooltip'|trans }}{% endblock %}
                     {% block control %}
                         <div ng-repeat="field in param.definition.fields | orderBy: 'order' track by $index">
-                            <wizard-param-setter param="field" output="output[field.name]" mode="outer" values="values"
-                                                 parent="output" under-list="underList" wizard-object="wizardObject"
+                            <wizard-param-setter editable="editable"
+                                                 param="field"
+                                                 output="output[field.name]"
+                                                 mode="outer"
+                                                 values="values"
+                                                 parent="output"
+                                                 under-list="underList"
+                                                 wizard-object="wizardObject"
                                                  wizard-mode="{% verbatim %}{{ wizardMode }}{% endverbatim %}"></wizard-param-setter>
                         </div>
                     {% endblock %}

@@ -25,10 +25,10 @@ function ConnectionReturnFunctionController($scope, $uibModalInstance, $timeout,
     }
   };
   if (RDocumentation.functionIndex === null) {
-    $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').success(function (data) {
-      if (data !== null) {
-        RDocumentation.functionIndex = data;
-        $scope.codeOptions.hintOptions.functionIndex = data;
+    $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').then(function (httpResponse) {
+      if (httpResponse.data !== null) {
+        RDocumentation.functionIndex = httpResponse.data;
+        $scope.codeOptions.hintOptions.functionIndex = httpResponse.data;
       }
     });
   } else {

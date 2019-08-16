@@ -28,9 +28,9 @@ function TestWizardStepSaveController($scope, $uibModalInstance, $http, object, 
         var oid = $scope.object.id;
 
         var addModalDialog = $uibModalInstance;
-        $http.post(Paths.TEST_WIZARD_STEP_SAVE.pf(oid), $scope.getPersistObject()).success(function (data) {
+        $http.post(Paths.TEST_WIZARD_STEP_SAVE.pf(oid), $scope.getPersistObject()).then(function (httpResponse) {
 
-            switch (data.result) {
+            switch (httpResponse.data.result) {
                 case BaseController.RESULT_OK: {
                     if (addModalDialog != null) {
                         addModalDialog.close($scope.object);
@@ -38,7 +38,7 @@ function TestWizardStepSaveController($scope, $uibModalInstance, $http, object, 
                     break;
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
-                    $scope.object.validationErrors = data.errors;
+                    $scope.object.validationErrors = httpResponse.data.errors;
                     $("html, body").animate({scrollTop: 0}, "slow");
                     $(".modal").animate({scrollTop: 0}, "slow");
                     break;
