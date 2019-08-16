@@ -7,9 +7,12 @@ use Concerto\PanelBundle\Entity\Message;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
+use Concerto\PanelBundle\Repository\DataTableRepository;
 use Concerto\PanelBundle\Repository\MessageRepository;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestSessionRepository;
+use Concerto\PanelBundle\Repository\TestWizardRepository;
+use Concerto\PanelBundle\Repository\ViewTemplateRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -42,6 +45,9 @@ class AdministrationService
     private $apiClientRepository;
     private $testRunnerSettings;
     private $testRepository;
+    private $dataTableRepository;
+    private $testWizardRepository;
+    private $viewTemplateRepository;
     private $testSessionRepository;
     private $securityTokenStorage;
 
@@ -59,6 +65,9 @@ class AdministrationService
         ClientRepository $clientRepository,
         $testRunnerSettings,
         TestRepository $testRepository,
+        DataTableRepository $dataTableRepository,
+        TestWizardRepository $testWizardRepository,
+        ViewTemplateRepository $viewTemplateRepository,
         TestSessionRepository $testSessionRepository,
         TokenStorageInterface $securityTokenStorage
     )
@@ -76,6 +85,9 @@ class AdministrationService
         $this->apiClientRepository = $clientRepository;
         $this->testRunnerSettings = $testRunnerSettings;
         $this->testRepository = $testRepository;
+        $this->dataTableRepository = $dataTableRepository;
+        $this->testWizardRepository = $testWizardRepository;
+        $this->viewTemplateRepository = $viewTemplateRepository;
         $this->testSessionRepository = $testSessionRepository;
         $this->securityTokenStorage = $securityTokenStorage;
     }
@@ -491,5 +503,14 @@ class AdministrationService
     public function getSessionRunnerService()
     {
         return $this->getSettingValue("session_runner_service");
+    }
+
+    public function canDoRiskyGitActions()
+    {
+        if (count($this->dataTableRepository->findDirectlyLocked()) > 0) return false;
+        if (count($this->testRepository->findDirectlyLocked()) > 0) return false;
+        if (count($this->testWizardRepository->findDirectlyLocked()) > 0) return false;
+        if (count($this->viewTemplateRepository->findDirectlyLocked()) > 0) return false;
+        return true;
     }
 }

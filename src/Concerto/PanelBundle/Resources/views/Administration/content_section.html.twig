@@ -100,80 +100,84 @@
     <div ng-if="exposedSettingsMap.content_repository == 'git'">
         <div style="display: table; width: 100%;">
             <div style="display: table-cell; width: 50%; border-right: solid #ddd 1px; padding-right: 16px;">
-                <h4 style="text-align: center;">Manage</h4>
+                <h4 style="text-align: center;">{{ "git.manage"|trans }}</h4>
 
                 <div class="alert alert-info" ng-if="exposedSettingsMap.git_enabled == 0">
-                    Not enabled.
+                    {{ "git.not_enabled"|trans }}
                 </div>
                 <div class="alert alert-info" ng-if="exposedSettingsMap.git_enabled == 1">
                     <table>
                         <tr>
-                            <td style="padding-right: 5px;">URL:</td>
+                            <td style="padding-right: 5px;">{{ "git.enable.url"|trans }}</td>
                             <td><strong>{% verbatim %}{{exposedSettingsMap.git_url}}{% endverbatim %}</strong></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 5px;">Branch:</td>
+                            <td style="padding-right: 5px;">{{ "git.enable.branch"|trans }}</td>
                             <td><strong>{% verbatim %}{{exposedSettingsMap.git_branch}}{% endverbatim %}</strong></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 5px;">Login:</td>
+                            <td style="padding-right: 5px;">{{ "git.enable.login"|trans }}</td>
                             <td><strong>{% verbatim %}{{exposedSettingsMap.git_login}}{% endverbatim %}</strong></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 5px;">Commits behind:</td>
+                            <td style="padding-right: 5px;">{{ "git.status.behind"|trans }}</td>
                             <td><strong>{% verbatim %}{{gitStatus.behind}}{% endverbatim %}</strong></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 5px;">Commits ahead:</td>
+                            <td style="padding-right: 5px;">{{ "git.status.ahead"|trans }}</td>
                             <td><strong>{% verbatim %}{{gitStatus.ahead}}{% endverbatim %}</strong></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 5px;">Local changes:</td>
+                            <td style="padding-right: 5px;">{{ "git.status.local_changes"|trans }}</td>
                             <td>
-                                <strong ng-if="!hasUncommittedChanges()">No changes</strong>
-                                <strong ng-if="hasUncommittedChanges()" class="clickable" ng-click="showLocalDiff()">Uncommitted changes</strong>
+                                <strong ng-if="!hasUncommittedChanges()">{{ "git.status.local_changes.no_changes"|trans }}</strong>
+                                <strong ng-if="hasUncommittedChanges()" class="clickable" ng-click="showLocalDiff()">{{ "git.status.local_changes.uncommitted_changes"|trans }}</strong>
                             </td>
                         </tr>
                     </table>
                 </div>
 
-                {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
-                    {% trans_default_domain "Administration" %}
-                    {% block elements %}
+                <div ng-if="isGitEnabled()">
+                    {% embed "ConcertoPanelBundle::form_v.html.twig" with {'no_header': true} %}
+                        {% trans_default_domain "Administration" %}
+                        {% block elements %}
 
-                        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
-                            {% trans_default_domain "Administration" %}
-                            {% block label %}Content export/import options{% endblock %}
-                            {% block tooltip %}Content export/import options{% endblock %}
-                            {% block control %}
-                                <textarea ng-disabled="!exposedSettingsMap.content_export_options_overridable" ng-model="exposedSettingsMap.content_export_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
-                            {% endblock %}
-                        {% endembed %}
+                            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                                {% trans_default_domain "Administration" %}
+                                {% block label %}{{ "git.settings.content_options"|trans }}{% endblock %}
+                                {% block tooltip %}{{ "git.settings.content_options.tooltip"|trans }}{% endblock %}
+                                {% block control %}
+                                    <textarea ng-disabled="!exposedSettingsMap.content_export_options_overridable" ng-model="exposedSettingsMap.content_export_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                                {% endblock %}
+                            {% endembed %}
 
-                    {% endblock %}
-                {% endembed %}
+                        {% endblock %}
+                    {% endembed %}
+                </div>
 
                 <div class="center">
-                    <button ng-click="push()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPush()">Push</button>
-                    <button ng-click="pull()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPull()">Pull</button>
-                    <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">Commit</button>
-                    <button ng-click="reset()" class="btn btn-danger btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canReset()">Reset</button>
-                    <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Refresh</button>
-                    <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0">Enable</button>
-                    <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Disable</button>
+                    <button ng-click="push()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPush()">{{ "git.push.button"|trans }}</button>
+                    <button ng-click="pull()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPull()">{{ "git.pull.button"|trans }}</button>
+                    <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">{{ "git.commit.button"|trans }}</button>
+                    <button ng-click="reset()" class="btn btn-danger btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canReset()">{{ "git.reset.button"|trans }}</button>
+                    <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">{{ "git.refresh.button"|trans }}</button>
+                    <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0">{{ "git.enable.button"|trans }}</button>
+                    <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">{{ "git.disable.button"|trans }}</button>
                 </div>
             </div>
 
-            <div style="display: table-cell; width: 50%; padding-left: 16px;">
-                <h4 style="text-align: center;">History</h4>
+            <div style="display: table-cell; width: 50%; padding-left: 16px;" ng-if="isGitEnabled()">
+                <h4 style="text-align: center;">{{ "git.history.title"|trans }}</h4>
 
-                <table class="git-history">
+                <div class="alert alert-warning" ng-if="gitStatus.history.length == 0">{{ "git.history.no_commits"|trans }}</div>
+
+                <table class="git-history" ng-if="gitStatus.history.length > 0">
                     <tr>
-                        <th>SHA</th>
-                        <th>Committer</th>
-                        <th>Time ago</th>
-                        <th>Subject</th>
-                        <th>Ref</th>
+                        <th>{{ "git.history.list.sha"|trans }}</th>
+                        <th>{{ "git.history.list.committer"|trans }}</th>
+                        <th>{{ "git.history.list.time_ago"|trans }}</th>
+                        <th>{{ "git.history.list.subject"|trans }}</th>
+                        <th>{{ "git.history.list.ref"|trans }}</th>
                     </tr>
                     <tr ng-repeat="commit in gitStatus.history track by $index" ng-class="{'git-history-head': commit.ref.indexOf('HEAD -> master') !== -1, 'clickable': canDiff(commit.sha)}" ng-click="showDiff(commit.sha)">
                         <td ng-bind="commit.sha" class="git-history-commit"></td>

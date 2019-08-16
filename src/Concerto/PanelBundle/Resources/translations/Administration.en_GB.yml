@@ -103,6 +103,86 @@ content:
     import_prompt: Are you sure you want to import content? This is operation can not be undone. Please make sure you have a backup of your data in case anything goes wrong.
     import_success: Import finished successfully
     import_failure: Import failed
+
+git:
+    manage: Manage Git integration
+    not_enabled: Not enabled
+    status:
+        behind: "Commits behind:"
+        ahead: "Commits ahead:"
+        local_changes: "Local changes:"
+        local_changes.no_changes: "No changes"
+        local_changes.uncommitted_changes: "Uncommitted changes"
+    settings:
+        content_options: "Content options:"
+        content_options.tooltip: |
+            Can specify content options. E.g. to include data table data in git operations:
+            <pre>[
+                {
+                    "class_name": "DataTable",
+                    "name": "MyTableName",
+                    "data": 2
+                }
+            ]</pre>
+    history:
+        title: History
+        no_commits: No commits yet
+        list:
+            sha: SHA
+            committer: Committer
+            time_ago: Time ago
+            subject: Subject
+            ref: Ref
+    enable:
+        title: Enabling Git
+        title.tooltip: Enables Git integration and clones Git repository. Enabling Git won\'t modify your content yet.
+        url: "URL:"
+        url.tooltip: Git repository URL
+        branch: "Branch:"
+        branch.tooltip: Git repository branch name
+        login: "Login:"
+        login.tooltip: Git user login
+        password: "Password:"
+        password.tooltip: Git user password
+        success: Git enabled
+        failure: Failed enabling Git
+        button: Enable
+    disable:
+        title: Disabling Git
+        confirm: Are you sure you want to disable Git integration?
+        button: Disable
+    diff:
+        sha: "{0} diff"
+        local: Working copy diff
+    refresh:
+        title: Refreshing Git status
+        button: Refresh
+    commit:
+        title: Commiting changes
+        title.tooltip: Commits your local changes.
+        message: Message
+        message.tooltip: Git commit message that will be visible in your repository history.
+        success: Changes committed
+        failure: Git commit failed
+        button: Commit
+    reset:
+        title: Resetting working copy
+        confirm: This will reset your working copy to the state from latest commit. It will not remove newly added top objects. Are you sure you want to continue?
+        success: Working copy resetted
+        failure: Failed resetting working copy
+        button: Reset
+    push:
+        title: Pushing local commits to remote
+        confirm: Are you sure you want to push your local commits to remote?
+        success: Commits pushed
+        failure: Failed pushing local commits
+        button: Push
+    pull:
+        title: Pulling commits from remote
+        confirm: Are you sure you want to pull commits from remote?
+        success: Commits pulled
+        failure: Failed pulling commits from remote
+        button: Pull
         
 usage_charts:
     fieldset:

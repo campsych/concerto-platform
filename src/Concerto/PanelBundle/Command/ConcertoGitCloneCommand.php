@@ -25,7 +25,7 @@ class ConcertoGitCloneCommand extends Command
 
     protected function configure()
     {
-        $this->setName("concerto:git:enable")->setDescription("Clones git repository");
+        $this->setName("concerto:git:clone")->setDescription("Clones git repository");
     }
 
     private function getCloneCommand()

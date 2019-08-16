@@ -103,6 +103,86 @@ content:
     import_prompt: Jesteś pewien, że chcesz zaimportować zawartość? Tej operacji nie można cofnąć. Upewnij się, że posiadasz kopie zapasową swojej obecnej zawartości zanim kontynuujesz.
     import_success: Import zakończony pomyślnie
     import_failure: Import nie powiódł się
+
+git:
+    manage: Zarządzanie integracją Git
+    not_enabled: Nie włączona
+    status:
+        behind: "Commity do tyłu:"
+        ahead: "Commity do przodu:"
+        local_changes: "Lokalne zmiany:"
+        local_changes.no_changes: "Brak zmian"
+        local_changes.uncommitted_changes: "Nie zcommitowane zmiany"
+    settings:
+        content_options: "Opcje zawartości:"
+        content_options.tooltip: |
+            Można tutaj ustalić opcje zawartości. Np aby dołączyć dane tabeli danych do operacji Git, należy ustalić wartość na:
+            <pre>[
+                {
+                    "class_name": "DataTable",
+                    "name": "MyTableName",
+                    "data": 2
+                }
+            ]</pre>
+    history:
+        title: Historia
+        no_commits: Brak commitów na ten moment
+        list:
+            sha: SHA
+            committer: Commitujący
+            time_ago: Czas temu
+            subject: Temat
+            ref: Ref
+    enable:
+        title: Włączenie Git
+        title.tooltip: Włącza integracje Git i klonuje repozytorium Git. Włączenie Git nie zmodyfikuje jeszcze twojej zawartości.
+        url: "URL:"
+        url.tooltip: URL repozytorium Git
+        branch: "Gałąź:"
+        branch.tooltip: Nazwa gałęzi repozytorium Git
+        login: "Login:"
+        login.tooltip: Login użytkownika Git
+        password: "Hasło:"
+        password.tooltip: Hasło użytkownika Git
+        success: Git włączony
+        failure: Nie powiodło się włączanie Git
+        button: Włącz
+    disable:
+        title: Wyłączania Git
+        confirm: Napewno wyłączyć integracje Git?
+        button: Wyłącz
+    diff:
+        sha: "{0} diff"
+        local: Diff kopii roboczej
+    refresh:
+        title: Odświeżanie statusu Git
+        button: Odśwież
+    commit:
+        title: Commitowanie zmian
+        title.tooltip: Commituje lokalne zmiany
+        message: Wiadomość
+        message.tooltip: Wiadomość commitu Git, która będzie widoczna w historii.
+        success: Zmiany commitowane
+        failure: Commit Git się nie powiódł
+        button: Commit
+    reset:
+        title: Reset kopii roboczej
+        confirm: Zresetuje to twoją kopię roboczą do ostatniego commitu. Nie usunię to nowo dodanych najwyższych obiektów. Napewno kontynuować?
+        success: Kopia robocza zresetowana
+        failure: Nie udało sie zresetować kopii roboczej
+        button: Reset
+    push:
+        title: Pchnięcie lokalnych commitów do zdalnego repozytorium
+        confirm: Napewno pchać lokalne commity do zdalnego repozytorium?
+        success: Commity pchnięte
+        failure: Nie udało się pchnąc lokalnych commitów
+        button: Pchnij
+    pull:
+        title: Pobieranie commitów ze zdalnego repozytorium
+        confirm: Napewno pobrać commity ze zdalnego repozytorium?
+        success: Commity pobrane
+        failure: Nie udało się pobrać commitów ze zdalnego repozytorium
+        button: Pobierz
         
 usage_charts:
     fieldset:

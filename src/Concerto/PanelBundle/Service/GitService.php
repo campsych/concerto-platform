@@ -24,7 +24,7 @@ class GitService
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
-        $command = $app->find("concerto:git:enable");
+        $command = $app->find("concerto:git:clone");
         $arguments = ["command" => $command->getName()];
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
@@ -109,7 +109,7 @@ class GitService
         if ($returnCode === 0) {
             return (int)$output;
         }
-        $errorMessages = [$output];
+        $errorMessages[] = $output;
         return false;
     }
 
@@ -129,7 +129,7 @@ class GitService
         if ($returnCode === 0) {
             return (int)$output;
         }
-        $errorMessages = [$output];
+        $errorMessages[] = $output;
         return false;
     }
 
@@ -148,7 +148,7 @@ class GitService
         if ($returnCode === 0) {
             return $this->parseHistory($output);
         }
-        $errorMessages = [$output];
+        $errorMessages[] = $output;
         return false;
     }
 
@@ -186,7 +186,7 @@ class GitService
         if ($returnCode === 0) {
             return $output;
         }
-        $errorMessages = [$output];
+        $errorMessages[] = $output;
         return false;
     }
 
@@ -202,7 +202,7 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 
@@ -226,7 +226,7 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 
@@ -242,12 +242,17 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 
     public function commit($message, &$output, &$errorMessages = null)
     {
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errorMessages[] = "git.locked";
+            return false;
+        }
+
         $user = $this->adminService->getAuthorizedUser();
 
         $app = new Application($this->kernel);
@@ -266,48 +271,48 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$output];
+        $errorMessages[] = $output;
         return false;
     }
 
     public function getStatus($exportInstructions, &$errorMessages = null)
     {
         if ($this->fetch($errorMessages) === false) {
-            $errorMessages[] = "Git fetch failed";
+            $errorMessages[] = "git.fetch_failed";
             return false;
         }
 
         $behind = $this->getBehindNum($errorMessages);
         if ($behind === false) {
-            $errorMessages[] = "Git behind num failed";
+            $errorMessages[] = "git.behind_num_failed";
             return false;
         }
 
         $ahead = $this->getAheadNum($errorMessages);
         if ($ahead === false) {
-            $errorMessages[] = "Git ahead num failed";
+            $errorMessages[] = "git.ahead_num_failed";
             return false;
         }
 
         $history = $this->getHistory($errorMessages);
         if ($history === false) {
-            $errorMessages[] = "Git history failed";
+            $errorMessages[] = "git.history_failed";
             return false;
         }
 
         if ($this->refreshWorkingCopy($exportInstructions, $errorMessages) === false) {
-            $errorMessages[] = "Working copy refresh failed";
+            $errorMessages[] = "git.refresh_failed";
             return false;
         }
 
         if ($this->add($errorMessages) === false) {
-            $errorMessages[] = "Git add failed";
+            $errorMessages[] = "git.add_failed";
             return false;
         }
 
         $diff = $this->getDiff(null, $errorMessages);
         if ($diff === false) {
-            $errorMessages[] = "Git diff failed";
+            $errorMessages[] = "git.diff_failed";
             return false;
         }
 
@@ -321,13 +326,18 @@ class GitService
 
     public function reset($instructions, &$output = null, &$errorMessages = null)
     {
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errorMessages[] = "git.locked";
+            return false;
+        }
+
         if (!$this->gitReset($output, $errorMessages)) {
-            $errorMessages = ["Git reset failed"];
+            $errorMessages[] = "git.reset_failed";
             return false;
         }
 
         if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
-            $errorMessages = ["Import working copy failed"];
+            $errorMessages[] = "git.import_failed";
             return false;
         }
         return true;
@@ -348,7 +358,7 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 
@@ -372,7 +382,7 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 
@@ -389,19 +399,24 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 
     public function pull($instructions, &$output, &$errorMessages = null)
     {
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errorMessages[] = "git.locked";
+            return false;
+        }
+
         if (!$this->gitPull($output, $errorMessages)) {
-            $errorMessages = ["Git pull failed"];
+            $errorMessages[] = "git.pull_failed";
             return false;
         }
 
         if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
-            $errorMessages = ["Import working copy failed"];
+            $errorMessages[] = "git.import_failed";
             return false;
         }
         return true;
@@ -422,7 +437,7 @@ class GitService
         if ($returnCode === 0) {
             return true;
         }
-        $errorMessages = [$out->fetch()];
+        $errorMessages[] = $out->fetch();
         return false;
     }
 }

@@ -11,6 +11,7 @@ use Concerto\TestBundle\Service\TestSessionCountService;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin")
@@ -22,14 +23,16 @@ class AdministrationController
     private $sessionCountService;
     private $fileService;
     private $gitService;
+    private $translator;
 
-    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService, GitService $gitService)
+    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService, GitService $gitService, TranslatorInterface $translator)
     {
         $this->templating = $templating;
         $this->service = $service;
         $this->sessionCountService = $sessionCountService;
         $this->fileService = $fileService;
         $this->gitService = $gitService;
+        $this->translator = $translator;
     }
 
     /**
@@ -332,7 +335,7 @@ class AdministrationController
         $responseContent = [
             "result" => $status === false ? 1 : 0,
             "status" => $status === false ? null : $status,
-            "errors" => $status === false ? $errorMessages : null
+            "errors" => $status === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
@@ -352,7 +355,7 @@ class AdministrationController
         $responseContent = [
             "result" => $diff === false ? 1 : 0,
             "diff" => $diff === false ? null : $diff,
-            "errors" => $diff === false ? $errorMessages : null
+            "errors" => $diff === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
@@ -376,7 +379,7 @@ class AdministrationController
         $responseContent = [
             "result" => $commit === false ? 1 : 0,
             "output" => $output,
-            "errors" => $commit === false ? $errorMessages : null
+            "errors" => $commit === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
@@ -402,7 +405,7 @@ class AdministrationController
         $responseContent = [
             "result" => $reset === false ? 1 : 0,
             "output" => $output,
-            "errors" => $reset === false ? $errorMessages : null
+            "errors" => $reset === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
@@ -425,7 +428,7 @@ class AdministrationController
         $responseContent = [
             "result" => $push === false ? 1 : 0,
             "output" => $output,
-            "errors" => $push === false ? $errorMessages : null
+            "errors" => $push === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
@@ -451,11 +454,23 @@ class AdministrationController
         $responseContent = [
             "result" => $pull === false ? 1 : 0,
             "output" => $output,
-            "errors" => $pull === false ? $errorMessages : null
+            "errors" => $pull === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    protected function trans($messages, $domain = null)
+    {
+        if (!$messages) return $messages;
+        if (is_array($messages)) {
+            foreach ($messages as &$message) {
+                $message = $this->translator->trans($message, [], $domain);
+            }
+            return $messages;
+        }
+        return $this->translator->trans($messages, [], $domain);
     }
 }

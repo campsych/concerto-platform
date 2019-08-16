@@ -66,9 +66,13 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         angular.element("#form-file-content-import-url")[0].reset();
     };
 
+    $scope.isGitEnabled = function () {
+        return $scope.gitStatus !== null;
+    };
+
     $scope.enableGit = function () {
         var modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "enable_git_dialog.html",
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_enable_dialog.html",
             controller: GitEnableController,
             size: "lg",
             backdrop: 'static',
@@ -78,8 +82,9 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             $http.post(Paths.ADMINISTRATION_GIT_ENABLE, userResponse).then(function (httpResponse) {
                 $scope.refreshSettings();
                 var success = httpResponse.data.result === 0;
+                var title = success ? Trans.GIT_ENABLE_SUCCESS : Trans.GIT_ENABLE_FAILURE;
                 DialogsService.preDialog(
-                    success ? "Success" : "Failure", //@TODO translation,
+                    title,
                     null,
                     httpResponse.data.output);
             });
@@ -88,10 +93,11 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
     $scope.disableGit = function () {
         DialogsService.confirmDialog(
-            "Disabling Git",
-            "Are you sure you want to disable Git integration?",
+            Trans.GIT_DISABLE_TITLE,
+            Trans.GIT_DISABLE_CONFIRM,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_GIT_DISABLE, {}).then(function (httpResponse) {
+                    $scope.gitStatus = null;
                     $scope.refreshSettings();
                 });
             }
@@ -101,6 +107,18 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     $scope.showDiff = function (sha) {
         if (!$scope.canDiff(sha)) return;
         $http.get(Paths.ADMINISTRATION_GIT_DIFF.pf(sha)).then(function (httpResponse) {
+
+            var success = httpResponse.data.result == 0;
+            if (!success) {
+                DialogsService.alertDialog(
+                    Trans.GIT_DIFF_SHA.pf(sha),
+                    httpResponse.data.errors.join("<br/>"),
+                    "danger",
+                    "lg"
+                );
+                return;
+            }
+
             var diffHtml = Diff2Html.getPrettyHtml(
                 httpResponse.data.diff,
                 {
@@ -112,7 +130,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 }
             );
             DialogsService.alertDialog(
-                sha + " diff",
+                Trans.GIT_DIFF_SHA.pf(sha),
                 diffHtml,
                 "none",
                 "prc-lg"
@@ -132,7 +150,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             }
         );
         DialogsService.alertDialog(
-            "Local diff",
+            Trans.GIT_DIFF_LOCAL,
             diffHtml,
             "none",
             "prc-lg"
@@ -140,7 +158,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.hasUncommittedChanges = function () {
-        if ($scope.gitStatus === null) return false;
+        if (!$scope.isGitEnabled()) return false;
         return $scope.gitStatus.diff !== '';
     };
 
@@ -148,6 +166,18 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         $http.post(Paths.ADMINISTRATION_GIT_STATUS, {
             exportInstructions: $scope.exposedSettingsMap.content_export_options
         }).then(function (httpResponse) {
+
+            var success = httpResponse.data.result == 0;
+            if (!success) {
+                DialogsService.alertDialog(
+                    Trans.GIT_REFRESH_TITLE,
+                    httpResponse.data.errors.join("<br/>"),
+                    "danger",
+                    "lg"
+                );
+                return;
+            }
+
             $scope.gitStatus = httpResponse.data.status;
         });
     };
@@ -171,11 +201,15 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_GIT_COMMIT, userResponse).then(function (httpResponse) {
                 var success = httpResponse.data.result === 0;
+                var title = success ? Trans.GIT_COMMIT_SUCCESS : Trans.GIT_COMMIT_FAILURE;
+                var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+
                 $scope.refreshGitStatus();
                 DialogsService.preDialog(
-                    success ? "Success" : "Failure", //@TODO translation,
+                    title,
                     null,
-                    httpResponse.data.output);
+                    content
+                );
             });
         });
     };
@@ -186,68 +220,86 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
     $scope.reset = function () {
         DialogsService.confirmDialog(
-            "Resetting working copy",
-            "Are you sure you want to reset your working copy to the latest commit?",
+            Trans.GIT_RESET_TITLE,
+            Trans.GIT_RESET_CONFIRM,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_GIT_RESET, {
                     exportInstructions: $scope.exposedSettingsMap.content_export_options
                 }).then(function (httpResponse) {
                     $scope.refreshGitStatus();
-                    var success = httpResponse.data.result == 0;
+
+                    var success = httpResponse.data.result === 0;
+                    var title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
+                    var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+
                     DialogsService.preDialog(
-                        success ? "Success" : "Failure", //@TODO translation,
+                        title,
                         null,
-                        httpResponse.data.output);
+                        content
+                    );
                 });
             }
         );
     };
 
     $scope.canPush = function () {
-        return $scope.gitStatus !== null && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0;
+        return $scope.isGitEnabled() && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0;
     };
 
     $scope.push = function () {
         DialogsService.confirmDialog(
-            "Pushing commits to remote",
-            "Are you sure you want to push local commits to remote?",
+            Trans.GIT_PUSH_TITLE,
+            Trans.GIT_PUSH_CONFIRM,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_GIT_PUSH, {}).then(function (httpResponse) {
                     $scope.refreshGitStatus();
-                    var success = httpResponse.data.result == 0;
+
+                    var success = httpResponse.data.result === 0;
+                    var title = success ? Trans.GIT_PUSH_SUCCESS : Trans.GIT_PUSH_FAILURE;
+                    var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+
                     DialogsService.preDialog(
-                        success ? "Success" : "Failure", //@TODO translation,
+                        title,
                         null,
-                        httpResponse.data.output);
+                        content
+                    );
                 });
             }
         );
     };
 
     $scope.canPull = function () {
-        return $scope.gitStatus !== null && $scope.gitStatus.behind > 0;
+        return $scope.isGitEnabled() && $scope.gitStatus.behind > 0;
     };
 
     $scope.pull = function () {
         DialogsService.confirmDialog(
-            "Pulling commits from remote",
-            "Are you sure you want to pull and import changes from remote?",
+            Trans.GIT_PULL_TITLE,
+            Trans.GIT_PULL_CONFIRM,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_GIT_PULL, {
                     exportInstructions: $scope.exposedSettingsMap.content_export_options
                 }).then(function (httpResponse) {
                     $scope.refreshGitStatus();
-                    var success = httpResponse.data.result == 0;
+
+                    var success = httpResponse.data.result === 0;
+                    var title = success ? Trans.GIT_PULL_SUCCESS : Trans.GIT_PULL_FAILURE;
+                    var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+
                     DialogsService.preDialog(
-                        success ? "Success" : "Failure", //@TODO translation,
+                        title,
                         null,
-                        httpResponse.data.output);
+                        content
+                    );
                 });
             }
         );
     };
 
-    $scope.refreshGitStatus();
+    $scope.$watch("exposedSettingsMap.git_enabled", function(newValue) {
+        console.log(newValue);
+        if(newValue == 1) $scope.refreshGitStatus();
+    });
 }
 
 concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", "AuthService", AdministrationContentController]);
