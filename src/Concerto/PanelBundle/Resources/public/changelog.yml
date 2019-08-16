@@ -6,7 +6,18 @@ changelog:
       categories:
           - label: Features
             changes:
+                - object locks
                 - Git integration
+                - exposed session runner service selection to administration tab settings
+          - label: Starter content
+            changes:
+                - fixed single element CAT item bank
+                - fixed audio tags in binded HTML variable
+          - label: Improvements
+            changes:
+                - improved last update time and username tracking
+                - added 'URL name' column to test grid
+                - panel layout improvements
     - version: "5.0.beta.12.1"
       description: >
         Starter content
@@ -15,7 +26,6 @@ changelog:
             changes:
                 - import content (including files) from file path / URL / file upload (from within administration panel)
                 - download content export (including files, from within administration panel)
-                - exposed session runner service selection to administration tab settings
           - label: Starter content
             changes:
                 - score map for CAT and linearTest
@@ -23,14 +33,9 @@ changelog:
                 - added itemBankTableExtraFields for CAT
                 - added itemsAdministered input parameter for itemTemplateParamsModule in CAT
                 - added itemBankFilterModule for CAT
-                - fixed single element CAT item bank
-                - fixed audio tags in binded HTML variable
           - label: Improvements
             changes:
                 - delete all data for data table now deletes all rows instead of truncating table
-                - improved last update time and username tracking
-                - added 'URL name' column to test grid
-                - panel layout improvements
           - label: Commands
             changes:
                 - added --no-hash option to concerto:content:export
