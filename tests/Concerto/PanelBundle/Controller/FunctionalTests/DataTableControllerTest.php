@@ -175,8 +175,6 @@ class DataTableControllerTest extends AFunctionalTest
             "archived" => "0",
             "starterContent" => false,
             "groups" => "",
-            "lockedBy" => null,
-            "directLockBy" => null,
             'columns' => array(
                 array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
                 array('name' => 'temp', 'type' => 'text', 'nullable' => false)

@@ -137,9 +137,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "groups" => "",
-                "lockedBy" => null,
-                "directLockBy" => null
+                "groups" => ""
             ),
         );
         $this->assertTrue($client->getResponse()->isSuccessful());
