@@ -75,7 +75,10 @@ class TestNodeService extends ASectionService
 
     public function update(TestNode $object, $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $object->setUpdated();
         $object->setUpdatedBy($user);
         $this->repository->save($object, $flush);
@@ -199,7 +202,9 @@ class TestNodeService extends ASectionService
 
     protected function importNew($new_name, $obj, &$map, &$queue, $flowTest, $sourceTest)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $ent = new TestNode();
         $ent->setFlowTest($flowTest);

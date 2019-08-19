@@ -99,7 +99,10 @@ class TestWizardParamService extends ASectionService
 
     public function update(TestWizardParam $object, TestWizardParam $originalObject = null, $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $object->setUpdated();
         $object->setUpdatedBy($user);
         $this->repository->save($object);
@@ -302,7 +305,11 @@ class TestWizardParamService extends ASectionService
         }
         $newParam->setValue($val);
         $newParam->setUpdated();
-        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $newParam->setUpdatedBy($user);
 
         // do not use update here or it will do infinite loop

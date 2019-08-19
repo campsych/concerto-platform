@@ -84,7 +84,10 @@ class ViewTemplateService extends AExportableSectionService
 
     private function update(ViewTemplate $object, $oldName = null, $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $object->setUpdated();
         $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
@@ -151,7 +154,10 @@ class ViewTemplateService extends AExportableSectionService
 
     protected function importNew($new_name, $obj, &$map, &$queue)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
 
         $ent = new ViewTemplate();
@@ -186,7 +192,10 @@ class ViewTemplateService extends AExportableSectionService
 
     protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);

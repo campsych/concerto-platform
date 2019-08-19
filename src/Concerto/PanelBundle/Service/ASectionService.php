@@ -75,6 +75,9 @@ abstract class ASectionService
     {
         if ($timestamp === null) $timestamp = time();
 
+        //accessed from command line
+        if($this->securityTokenStorage->getToken() === null) return true;
+
         /** @var User $user */
         $user = $this->securityTokenStorage->getToken()->getUser();
         $object_ids = explode(",", $object_ids);
