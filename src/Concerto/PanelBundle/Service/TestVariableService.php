@@ -114,7 +114,10 @@ class TestVariableService extends ASectionService
 
     public function update(TestVariable $object, $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $object->setUpdated();
         $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;

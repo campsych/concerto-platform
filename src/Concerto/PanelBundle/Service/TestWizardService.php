@@ -48,7 +48,9 @@ class TestWizardService extends AExportableSectionService
 
     public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $test, $serializedSteps)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $errors = array();
         $object = $this->get($object_id);
@@ -86,7 +88,9 @@ class TestWizardService extends AExportableSectionService
     }
 
     private function update(TestWizard $object, $flush = true) {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $object->setUpdated();
         $object->setUpdatedBy($user);
@@ -208,7 +212,10 @@ class TestWizardService extends AExportableSectionService
 
     protected function importNew($new_name, $obj, &$map, &$queue, $test)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
 
         $ent = new TestWizard();
@@ -238,7 +245,9 @@ class TestWizardService extends AExportableSectionService
 
     protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $test)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $ent = $src_ent;
         $ent->setName($new_name);

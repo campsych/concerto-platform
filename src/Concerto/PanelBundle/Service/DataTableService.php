@@ -49,7 +49,9 @@ class DataTableService extends AExportableSectionService
 
     public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $errors = array();
         $object = $this->get($object_id);
@@ -96,7 +98,10 @@ class DataTableService extends AExportableSectionService
 
     public function update(DataTable $obj, $oldName = null, $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
+
         $obj->setUpdated();
         $obj->setUpdatedBy($user);
         $isNew = $obj->getId() === null;
@@ -497,7 +502,9 @@ class DataTableService extends AExportableSectionService
 
     protected function importNew($new_name, $obj, &$map, &$queue)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
 
@@ -532,7 +539,9 @@ class DataTableService extends AExportableSectionService
 
     protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $old_ent = clone $src_ent;
         $ent = $src_ent;

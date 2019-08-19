@@ -62,7 +62,9 @@ class TestService extends AExportableSectionService
 
     public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $errors = array();
         $object = $this->get($object_id);
@@ -118,7 +120,9 @@ class TestService extends AExportableSectionService
 
     private function update(Test $object, $oldName = null, $serializedVariables = null, $flush = true)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $object->setUpdated();
         $object->setUpdatedBy($user);
@@ -270,7 +274,10 @@ class TestService extends AExportableSectionService
     protected function importNew($new_name, $obj, &$map, &$queue, $wizard)
     {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
-        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $ent = new Test();
         $ent->setName($new_name);
@@ -306,7 +313,9 @@ class TestService extends AExportableSectionService
 
     protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $wizard)
     {
-        $user = $this->securityTokenStorage->getToken()->getUser();
+        $user = null;
+        $token = $this->securityTokenStorage->getToken();
+        if ($token !== null) $user = $token->getUser();
 
         $old_ent = clone $src_ent;
         $ent = $src_ent;

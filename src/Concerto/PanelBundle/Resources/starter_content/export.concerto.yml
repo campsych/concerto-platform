@@ -1,4 +1,4 @@
-version: 5.0.beta.12.1
+version: 5.0.beta.13.1
 collection:
   -
     class_name: ViewTemplate
@@ -9782,7 +9782,7 @@ collection:
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
-            value: '[{"id":1,"question":"10 + 10","responseOptions":{"0":{"value":"20","label":"20"},"1":{"value":"40","label":"40"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"1"},{"id":"2","label":"200","value":"2","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"3","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]},"a":1.7,"b":"-2","c":0,"d":1,"correct":20,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"0":{"value":"200","label":"200"},"1":{"value":"400","label":"400"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"0"},{"id":"2","label":"200","value":"2","response":"2","catValue":"1"},{"id":"3","label":"2000","value":"3","response":"3","catValue":"0"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]},"a":1.7,"b":0,"c":0,"d":1,"correct":200,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"0":{"value":"2000","label":"2000"},"1":{"value":"4000","label":"4000"},"type":"options","optionsRandomOrder":"1","options":[{"id":"1","label":"20","value":"1","response":"1","catValue":"0"},{"id":"2","label":"200","value":"2","response":"2","catValue":"0"},{"id":"3","label":"2000","value":"3","response":"3","catValue":"1"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]},"a":1.7,"b":2,"c":0,"d":1,"correct":2000,"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
+            value: '[]'
             testVariable: 14
             name: itemBankItems
             wizardStep: 2
@@ -10030,7 +10030,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"CATItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9"}}'
+            value: '[]'
             testVariable: 15
             name: itemBankTable
             wizardStep: 2
@@ -10449,7 +10449,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","score":"score"}}'
+            value: '[]'
             testVariable: 25
             name: responseBank
             wizardStep: 5
@@ -11454,7 +11454,7 @@ collection:
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
-            value: '[{"name":"","label":"","type":"checkbox","validation":null,"definition":{"options":null}}]'
+            value: '[]'
             testVariable: 65
             name: fields
             wizardStep: 9
@@ -11804,7 +11804,7 @@ collection:
             hideCondition: 'values.itemBankType != "direct"'
             type: 10
             passableThroughUrl: '0'
-            value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"1","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"1","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]}}]'
+            value: '[]'
             testVariable: 71
             name: itemBankItems
             wizardStep: 10
@@ -12185,7 +12185,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"linearTestResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","score":"score","trait":"trait"}}'
+            value: '[]'
             testVariable: 79
             name: responseBank
             wizardStep: 12
@@ -13192,7 +13192,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"translationDictionary","columns":{"id":"id","entryKey":"entryKey"}}'
+            value: '[]'
             testVariable: 116
             name: dictionaryTable
             wizardStep: 19
