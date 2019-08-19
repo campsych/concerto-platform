@@ -9,7 +9,8 @@ use DateTime;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\MessageRepository")
  */
-class Message implements \JsonSerializable {
+class Message implements \JsonSerializable
+{
 
     const CATEGORY_SYSTEM = 0;
     const CATEGORY_TEST = 1;
@@ -26,7 +27,7 @@ class Message implements \JsonSerializable {
     protected $id;
 
     /**
-     * 
+     *
      * @var DateTime
      * @ORM\Column(type="datetime")
      */
@@ -53,16 +54,18 @@ class Message implements \JsonSerializable {
      */
     private $message;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->time = new DateTime("now");
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -71,7 +74,8 @@ class Message implements \JsonSerializable {
      * @param integer $id
      * @return Message
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
         return $this;
     }
@@ -82,7 +86,8 @@ class Message implements \JsonSerializable {
      * @param DateTime $time
      * @return Message
      */
-    public function setTime(DateTime $time) {
+    public function setTime(DateTime $time)
+    {
         $this->time = $time;
 
         return $this;
@@ -91,9 +96,10 @@ class Message implements \JsonSerializable {
     /**
      * Get time
      *
-     * @return DateTime 
+     * @return DateTime
      */
-    public function getTime() {
+    public function getTime()
+    {
         return $this->time;
     }
 
@@ -103,7 +109,8 @@ class Message implements \JsonSerializable {
      * @param integer $category
      * @return Message
      */
-    public function setCagegory($category) {
+    public function setCagegory($category)
+    {
         $this->category = $category;
 
         return $this;
@@ -112,9 +119,10 @@ class Message implements \JsonSerializable {
     /**
      * Get category
      *
-     * @return integer 
+     * @return integer
      */
-    public function getCategory() {
+    public function getCategory()
+    {
         return $this->category;
     }
 
@@ -124,7 +132,8 @@ class Message implements \JsonSerializable {
      * @param string $subject
      * @return Message
      */
-    public function setSubject($subject) {
+    public function setSubject($subject)
+    {
         $this->subject = $subject;
 
         return $this;
@@ -133,9 +142,10 @@ class Message implements \JsonSerializable {
     /**
      * Get subject
      *
-     * @return string 
+     * @return string
      */
-    public function getSubject() {
+    public function getSubject()
+    {
         return $this->subject;
     }
 
@@ -143,9 +153,10 @@ class Message implements \JsonSerializable {
      * Set message
      *
      * @param string $message
-     * @return TestSessionLog
+     * @return Message
      */
-    public function setMessage($message) {
+    public function setMessage($message)
+    {
         if ($message == null)
             $message = "";
         $this->message = $message;
@@ -156,13 +167,15 @@ class Message implements \JsonSerializable {
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array())
+    {
         return array(
             "class_name" => "Message",
             "id" => $this->getId(),

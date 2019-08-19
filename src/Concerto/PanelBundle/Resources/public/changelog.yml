@@ -1,5 +1,23 @@
-version: "5.0.beta.12.1"
+version: "5.0.beta.12.2"
 changelog:
+    - version: "5.0.beta.12.2"
+      description: >
+        Git integration
+      categories:
+          - label: Features
+            changes:
+                - object locks
+                - Git integration
+                - exposed session runner service selection to administration tab settings
+          - label: Starter content
+            changes:
+                - fixed single element CAT item bank
+                - fixed audio tags in binded HTML variable
+          - label: Improvements
+            changes:
+                - improved last update time and username tracking
+                - added 'URL name' column to test grid
+                - panel layout improvements
     - version: "5.0.beta.12.1"
       description: >
         Starter content
@@ -15,7 +33,7 @@ changelog:
                 - added itemBankTableExtraFields for CAT
                 - added itemsAdministered input parameter for itemTemplateParamsModule in CAT
                 - added itemBankFilterModule for CAT
-          - label: Changes
+          - label: Improvements
             changes:
                 - delete all data for data table now deletes all rows instead of truncating table
           - label: Commands
@@ -39,6 +57,13 @@ changelog:
                 - (TestWizard) linearTest.Items[x].options[x].score removed
                 - (TestWizard) linearTest.Items[x].scoreMap added
                 - (Test) CAT.responseCatValueModule replaced by CAT.responseScoreModule
+    - version: "5.0.beta.11.2"
+      description: >
+        Security
+      categories:
+          - label: Security
+            changes:
+                - failed authentication throttling
     - version: "5.0.beta.11.1"
       description: >
         Starter content
@@ -239,7 +264,7 @@ changelog:
       categories:
           - label: Improvements
             changes:
-                - test runner clientn and server errors handling
+                - test runner client and server errors handling
     - version: "5.0.beta.8.0"
       description: >
         New features

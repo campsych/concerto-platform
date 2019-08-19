@@ -1,6 +1,6 @@
-function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
+function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService) {
     $scope.tabStateName = "templates";
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, ViewTemplateCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, ViewTemplateCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.VIEW_TEMPLATE_DELETE;
@@ -12,6 +12,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     $scope.exportPath = Paths.VIEW_TEMPLATE_EXPORT;
     $scope.saveNewPath = Paths.VIEW_TEMPLATE_SAVE_NEW;
     $scope.exportInstructionsPath = Paths.VIEW_TEMPLATE_EXPORT_INSTRUCTIONS;
+    $scope.lockPath = Paths.VIEW_TEMPLATE_LOCK;
 
     $scope.formTitleAddLabel = Trans.VIEW_TEMPLATE_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.VIEW_TEMPLATE_FORM_TITLE_EDIT;
@@ -43,7 +44,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'htmlmixed',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -60,7 +61,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'css',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -77,7 +78,7 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
         lineNumbers: true,
         mode: 'javascript',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         extraKeys: {
             "F11": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -120,14 +121,28 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
     };
 
     $scope.onObjectChanged = function () {
-        $scope.headCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
-        $scope.cssCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
-        $scope.jsCodeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.headCodeOptions.readOnly = !$scope.isEditable();
+        $scope.cssCodeOptions.readOnly = !$scope.isEditable();
+        $scope.jsCodeOptions.readOnly = !$scope.isEditable();
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testCollectionService.fetchObjectCollection();
-        $scope.testWizardCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
+    };
+
+    $scope.setWorkingCopyObject = function () {
+        $scope.workingCopyObject = {
+            id: $scope.object.id,
+            name: $scope.object.name,
+            archived: $scope.object.archived,
+            accessibility: $scope.object.accessibility,
+            owner: $scope.object.owner,
+            groups: $scope.object.groups,
+            head: $scope.object.head,
+            css: $scope.object.css,
+            js: $scope.object.js,
+            html: $scope.object.html
+        };
     };
 
     $scope.$watch("object.css", function () {
@@ -150,4 +165,4 @@ function ViewTemplateController($scope, $uibModal, $http, $filter, $state, $sce,
 }
 
 ViewTemplateController.prototype = Object.create(BaseController.prototype);
-concertoPanel.controller('ViewTemplateController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", ViewTemplateController]);
+concertoPanel.controller('ViewTemplateController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", "AuthService", ViewTemplateController]);

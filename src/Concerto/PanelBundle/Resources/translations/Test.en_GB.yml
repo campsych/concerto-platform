@@ -38,6 +38,7 @@ form:
 list: 
   field:
     name: Name
+    slug: URL name
     wizard: Wizard
     wizard.source: Source test
     
@@ -197,6 +198,12 @@ flow:
             title:
                 title: Edit node title
                 tooltip: Node title that will be visible in node header
+            edit:
+                title: Editing node
+    connections:
+        dialog:
+            edit:
+                title: Editing connection
     ports:
         names:
             in: in

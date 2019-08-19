@@ -3,14 +3,14 @@
 
 {% block content %}
     <div class="center">
-        <button ng-click="fetchObjectCollection();" class="btn btn-default btn-sm btn-list-refresh">{{ "list.button.refresh"|trans }}</button>
+        <button ng-click="fetchAllCollections();" class="btn btn-default btn-sm btn-list-refresh">{{ "list.button.refresh"|trans }}</button>
         <button ng-click="add();" class="btn btn-success btn-sm">{{ "list.button.add"|trans }}</button>
         <button ng-click="import();" class="btn btn-success btn-sm" ng-if="exportable">{{ "list.button.import"|trans }}</button>
         <button ng-click="exportSelected();" class="btn btn-default btn-sm" ng-if="exportable">{{ "list.button.export.checked"|trans }}</button>
         <button ng-click="gridService.downloadList(collectionGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans }}</button>
         <button ng-click="deleteSelected();" class="btn btn-danger btn-sm" ng-disabled="collectionFilter.starterContent && !administrationSettingsService.starterContentEditable">{{ "list.button.delete.checked"|trans }}</button><br/>
     </div>
-    <div class="center" style="margin-top: 25px;">
+    <div class="center" style="margin-top: 16px;">
         <div class="btn-group">
             <label class="btn btn-default btn-sm" ng-model="collectionFilter.starterContent" uib-btn-radio="false" ng-click="refreshGrid()">{{ "list.filter.user_made"|trans }}</label>
             <label class="btn btn-default btn-sm" ng-model="collectionFilter.starterContent" uib-btn-radio="true" ng-click="refreshGrid()">{{ "list.filter.starter_content"|trans }}</label>

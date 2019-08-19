@@ -6,6 +6,7 @@ use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -19,9 +20,9 @@ class TestService extends AExportableSectionService
     private $slugifier;
     private $testWizardParamService;
 
-    public function __construct(TestRepository $repository, ValidatorInterface $validator, Slugify $slugifier, TestVariableService $testVariableService, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService)
+    public function __construct(TestRepository $repository, ValidatorInterface $validator, Slugify $slugifier, TestVariableService $testVariableService, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->testVariableService = $testVariableService;
         $this->testNodeService = $testNodeService;
@@ -59,15 +60,15 @@ class TestService extends AExportableSectionService
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables)
+    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
         $errors = array();
         $object = $this->get($object_id);
-        $new = false;
         $old_name = null;
         if ($object === null) {
             $object = new Test();
-            $new = true;
             $object->setOwner($user);
         } else {
             $old_name = $object->getName();
@@ -96,67 +97,70 @@ class TestService extends AExportableSectionService
         $object->setSlug($urlslug);
         $slug_postfix = 2;
 
-// assuring that the slug is unique - with random one it's a bit unlikely, but with user input it's possible
         while ($this->getBySlug($object->getSlug(), $object->getId(), false)) {
             $object->setSlug($urlslug . '-' . $slug_postfix++);
         }
 
-        return $this->resave($new, $user, $object, $old_name, $serializedVariables, $errors);
+        return $this->resave($object, $old_name, $serializedVariables, $errors);
     }
 
-    private function resave($new, User $user, Test $object, $old_name, $serializedVariables = null, $errors = array(), $flush = true)
+    private function resave(Test $object, $oldName, $serializedVariables = null, $errors = array(), $flush = true)
     {
-        $object->setUpdated();
-        if ($user !== null)
-            $object->setUpdatedBy($user->getUsername());
-
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
         }
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $old_name, $new, $user, $serializedVariables, true, $flush);
-
+        $this->update($object, $oldName, $serializedVariables, $flush);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved($test, $oldName, $new, User $user, $serializedVariables, $insertInitialObjects = true, $flush = true)
+    private function update(Test $object, $oldName = null, $serializedVariables = null, $flush = true)
+    {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $isNew = $object->getId() === null;
+        $this->repository->save($object, $flush);
+        $this->onObjectSaved($object, $oldName, $isNew, $serializedVariables, $flush);
+    }
+
+    private function onObjectSaved($test, $oldName, $isNew, $serializedVariables, $flush = true)
     {
         if ($test->getSourceWizard() != null) {
-            if ($new) {
-                $this->testVariableService->createVariablesFromSourceTest($user, $test, $flush);
+            if ($isNew) {
+                $this->testVariableService->createVariablesFromSourceTest($test, $flush);
             } else {
-                $this->testVariableService->saveCollection($user, $serializedVariables, $test, $flush);
+                $this->testVariableService->saveCollection($serializedVariables, $test, $flush);
             }
         }
-        if ($new && count($this->testVariableService->getBranches($test->getId())) == 0 && $insertInitialObjects) {
-            $result = $this->testVariableService->save($user, 0, "out", 2, "", false, 0, $test, null, $flush);
+        if ($isNew && count($this->testVariableService->getBranches($test->getId())) == 0) {
+            $result = $this->testVariableService->save(0, "out", 2, "", false, 0, $test, null, $flush);
             $test->addVariable($result["object"]);
         }
-        $this->updateDependentTests($user, $test, $flush);
+        $this->updateDependentTests($test, $flush);
 
-        if ($test->getType() == Test::TYPE_FLOW && $new && $insertInitialObjects) {
-            $result = $this->testNodeService->save($user, 0, 1, 15000, 15000, $test, $test, "", $flush);
+        if ($test->getType() == Test::TYPE_FLOW && $isNew) {
+            $result = $this->testNodeService->save(0, 1, 15000, 15000, $test, $test, "", $flush);
             $test->addNode($result["object"]);
-            $result = $this->testNodeService->save($user, 0, 2, 15500, 15100, $test, $test, "", $flush);
+            $result = $this->testNodeService->save(0, 2, 15500, 15100, $test, $test, "", $flush);
             $test->addNode($result["object"]);
         }
 
-        if (!$new && $oldName != $test->getName()) {
-            $this->testWizardParamService->onObjectRename($user, $test, $oldName);
+        if (!$isNew && $oldName != $test->getName()) {
+            $this->testWizardParamService->onObjectRename($test, $oldName);
         }
     }
 
-    public function updateDependentTests(User $user, Test $sourceTest, $flush = true)
+    public function updateDependentTests(Test $sourceTest, $flush = true)
     {
         $tests = $this->repository->findDependent($sourceTest);
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave(false, $user, $test, $test->getName(), null, array(), $flush);
+            $data = $this->resave($test, $test->getName(), null, array(), $flush);
             array_push($result, $data);
         }
         return $result;
@@ -194,7 +198,7 @@ class TestService extends AExportableSectionService
         return $array;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
+    public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("Test", $renames))
@@ -226,7 +230,7 @@ class TestService extends AExportableSectionService
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
-        $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        $new_name = $this->getNextValidName($this->formatImportName($instruction["rename"], $obj), $instruction["action"], $old_name);
         if ($instruction["action"] != 2 && $old_name != $new_name) {
             $renames["Test"][$old_name] = $new_name;
         }
@@ -234,13 +238,13 @@ class TestService extends AExportableSectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue, $wizard);
-            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($user, $result["entity"], $obj);
+            $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue, $wizard);
+            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["Test"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, $new_name, $obj, $map, $queue, $wizard);
+            $result = $this->importNew($new_name, $obj, $map, $queue, $wizard);
 
         array_splice($queue, 1, 0, $obj["nodesConnections"]);
         array_splice($queue, 1, 0, $obj["nodes"]);
@@ -249,7 +253,7 @@ class TestService extends AExportableSectionService
         return $result;
     }
 
-    private function cleanConvert(User $user, Test $entity, $importArray)
+    private function cleanConvert(Test $entity, $importArray)
     {
         foreach ($entity->getVariables() as $currentVariable) {
             $found = false;
@@ -263,9 +267,10 @@ class TestService extends AExportableSectionService
         }
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue, $wizard)
+    protected function importNew($new_name, $obj, &$map, &$queue, $wizard)
     {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
+        $user = $this->securityTokenStorage->getToken()->getUser();
 
         $ent = new Test();
         $ent->setName($new_name);
@@ -276,6 +281,8 @@ class TestService extends AExportableSectionService
         $ent->setSourceWizard($wizard);
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
+        $ent->setUpdated();
+        $ent->setUpdatedBy($user);
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
         $ent_errors = $this->validator->validate($ent);
@@ -286,6 +293,7 @@ class TestService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
+        //shouldn't be update because it will lead to redundant variables
         $this->repository->save($ent, false);
         $map["Test"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
@@ -296,8 +304,10 @@ class TestService extends AExportableSectionService
         return $this->get($obj["name"]);
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue, $wizard)
+    protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $wizard)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);
@@ -318,10 +328,9 @@ class TestService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, $old_ent->getName(), null, false);
         $map["Test"]["id" . $obj["id"]] = $ent;
 
-        $this->updateDependentTests($user, $ent, false);
         $this->onConverted($ent, $old_ent);
 
         return array("errors" => null, "entity" => $ent);
@@ -339,24 +348,11 @@ class TestService extends AExportableSectionService
         $this->testNodeService->repository->deleteByTest($test);
     }
 
-    public function addFlowNode(User $user, $type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false)
+    public function addFlowNode($type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false)
     {
-        $result = $this->testNodeService->save($user, 0, $type, $posX, $posY, $flowTest, $sourceTest, $title);
+        $result = $this->testNodeService->save(0, $type, $posX, $posY, $flowTest, $sourceTest, $title);
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
-        }
-        return $result;
-    }
-
-    public function removeFlowNode($node_ids, $return_collections = false)
-    {
-        $ids = explode(",", $node_ids);
-        $first_node = $this->testNodeService->get($ids[0]);
-        $result = array(
-            "results" => $this->testNodeService->delete($node_ids)
-        );
-        if ($return_collections) {
-            $result["collections"] = $this->getFlowCollections($first_node->getFlowTest()->getId());
         }
         return $result;
     }
@@ -367,32 +363,22 @@ class TestService extends AExportableSectionService
             $node = $this->testNodeService->get($nodes[$i]["id"]);
             $node->setPosX($nodes[$i]["posX"]);
             $node->setPosY($nodes[$i]["posY"]);
-            $this->testNodeService->repository->save($node);
+            $this->testNodeService->update($node);
         }
     }
 
-    public function addFlowConnection(User $user, Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default, $return_collections = false)
+    public function addFlowConnection(Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default, $return_collections = false)
     {
         $sourceNode = $this->testNodeService->get($sourceNode);
         $sourcePort = $this->testNodePortService->get($sourcePort);
         $destinationNode = $this->testNodeService->get($destinationNode);
         $destinationPort = $this->testNodePortService->get($destinationPort);
-        $result = $this->testNodeConnectionService->save($user, 0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default);
+        $result = $this->testNodeConnectionService->save(0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default);
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
         } else {
             $result["collections"] = array();
             $result["collections"]["newNodesConnections"] = $this->testNodeConnectionService->repository->findByNodes($sourceNode, $destinationNode);
-        }
-        return $result;
-    }
-
-    public function removeFlowConnection($connection_id, $return_collections = false)
-    {
-        $connection = $this->testNodeConnectionService->get($connection_id);
-        $result = $this->testNodeConnectionService->delete($connection_id)[0];
-        if ($return_collections) {
-            $result["collections"] = $this->getFlowCollections($connection->getSourceNode()->getFlowTest()->getId());
         }
         return $result;
     }
@@ -405,7 +391,7 @@ class TestService extends AExportableSectionService
         );
     }
 
-    public function pasteNodes(User $user, Test $flowTest, $nodes, $return_collections = false)
+    public function pasteNodes(Test $flowTest, $nodes, $return_collections = false)
     {
         $node_map = array();
         $result = array(
@@ -413,7 +399,7 @@ class TestService extends AExportableSectionService
             "collections" => array("newNodes" => array(), "newNodesConnections" => array())
         );
         foreach ($nodes as $node) {
-            $node_result = $this->addFlowNode($user, $node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), $node["title"], false);
+            $node_result = $this->addFlowNode($node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), $node["title"], false);
             $new_node = $node_result["object"];
             array_push($result["collections"]["newNodes"], $new_node);
             $node_map["id" . $node["id"]] = $new_node->getId();
@@ -424,7 +410,7 @@ class TestService extends AExportableSectionService
                         $dest_port->setValue($src_port["value"]);
                         $dest_port->setString($src_port["string"]);
                         $dest_port->setDefaultValue($src_port["defaultValue"]);
-                        $this->testNodePortService->repository->save($dest_port);
+                        $this->testNodePortService->update($dest_port);
                         break;
                     }
                 }
@@ -474,7 +460,7 @@ class TestService extends AExportableSectionService
                 }
             }
 
-            $connection_result = $this->addFlowConnection($user, $flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->isAutomatic(), $copied_connection->hasDefaultReturnFunction(), false);
+            $connection_result = $this->addFlowConnection($flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->isAutomatic(), $copied_connection->hasDefaultReturnFunction(), false);
             $new_connection = $connection_result["object"];
             array_push($result["collections"]["newNodesConnections"], $new_connection);
         }

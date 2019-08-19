@@ -2,21 +2,26 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Entity\AEntity;
+use Concerto\PanelBundle\Entity\ATopEntity;
+use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\AEntityRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 abstract class ASectionService
 {
-
     public static $securityOn = true;
     public $repository;
     protected $securityAuthorizationChecker;
+    protected $securityTokenStorage;
 
-    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
     {
         $this->repository = $repository;
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
+        $this->securityTokenStorage = $securityTokenStorage;
     }
 
     public static function getObjectImportInstruction($obj, $instructions)
@@ -64,6 +69,47 @@ abstract class ASectionService
             $object = $this->authorizeObject($object);
         }
         return $object;
+    }
+
+    public function canBeModified($object_ids, $timestamp = null, &$errorMessages = null)
+    {
+        if ($timestamp === null) $timestamp = time();
+
+        /** @var User $user */
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object_ids = explode(",", $object_ids);
+        foreach ($object_ids as $object_id) {
+            /** @var AEntity|null $object */
+            $object = $this->get($object_id);
+            if ($object) {
+                if ($object->getLockBy() && $object->getLockBy() != $user) {
+                    $errorMessages = ["validate.locked"];
+                    return false;
+                }
+                if ($object->getDeepUpdated()->getTimestamp() > $timestamp && $object->getDeepUpdatedBy() != $user->getUsername()) {
+                    $errorMessages = ["validate.outdated"];
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function toggleLock($object_id)
+    {
+        /** @var User $user */
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        /** @var ATopEntity $object */
+        $object = $this->get($object_id);
+        if ($object) {
+            $isLocked = $object->getDirectLockBy() !== null;
+            $object->setDirectLockBy($isLocked ? null : $user);
+            $object->setUpdated();
+            $object->setUpdatedBy($user);
+            $this->repository->save($object);
+            return true;
+        }
+        return false;
     }
 
     public abstract function delete($object_ids, $secure = true);

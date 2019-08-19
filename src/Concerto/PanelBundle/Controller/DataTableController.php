@@ -10,7 +10,6 @@ use Concerto\PanelBundle\DAO\DAOUnsupportedOperationException;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\DataTableService;
 use Concerto\PanelBundle\Service\ImportService;
@@ -30,9 +29,9 @@ class DataTableController extends AExportableTabController
 
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, DataTableService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, DataTableService $service, TranslatorInterface $translator, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
     {
-        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+        parent::__construct($environment, $templating, $service, $translator, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -62,6 +61,17 @@ class DataTableController extends AExportableTabController
     }
 
     /**
+     * @Route("/DataTable/{object_id}/toggleLock", name="DataTable_toggleLock")
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function toggleLock(Request $request, $object_id)
+    {
+        return parent::toggleLock($request, $object_id);
+    }
+
+    /**
      * @Route("/DataTable/form/{action}", name="DataTable_form", defaults={"action":"edit"})
      * @param string $action
      * @param array $params
@@ -80,15 +90,20 @@ class DataTableController extends AExportableTabController
      */
     public function saveAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("updatedOn"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(), //
-            $object_id, //
-            $request->get("name"), //
-            $request->get("description"), //
-            $request->get("accessibility"), //
-            $request->get("archived") === "1", //
-            $this->userService->get($request->get("owner")), //
-            $request->get("groups") //
+            $object_id,
+            $request->get("name"),
+            $request->get("description"),
+            $request->get("accessibility"),
+            $request->get("archived") === "1",
+            $this->userService->get($request->get("owner")),
+            $request->get("groups")
         );
         return $this->getSaveResponse($result);
     }
@@ -106,12 +121,13 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{object_ids}/delete", name="DataTable_delete", methods={"POST"})
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 
     /**
@@ -213,12 +229,19 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{table_id}/column/{column_names}/delete", name="DataTable_column_delete", methods={"POST"})
+     * @param Request $request
      * @param $table_id
      * @param string $column_names
      * @return Response
      */
-    public function deleteColumnAction($table_id, $column_names)
+    public function deleteColumnAction(Request $request, $table_id, $column_names)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->deleteColumns($table_id, $column_names);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
@@ -227,12 +250,19 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{table_id}/row/{row_ids}/delete", name="DataTable_row_delete", methods={"POST"})
+     * @param Request $request
      * @param $table_id
      * @param string $row_ids
      * @return Response
      */
-    public function deleteRowAction($table_id, $row_ids)
+    public function deleteRowAction(Request $request, $table_id, $row_ids)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->deleteRows($table_id, $row_ids);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
@@ -241,11 +271,18 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{table_id}/truncate", name="DataTable_truncate", methods={"POST"})
+     * @param Request $request
      * @param $table_id
      * @return Response
      */
-    public function truncateAction($table_id)
+    public function truncateAction(Request $request, $table_id)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->truncate($table_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
@@ -254,11 +291,18 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{table_id}/deleteAll", name="DataTable_deleteAll", methods={"POST"})
+     * @param Request $request
      * @param $table_id
      * @return Response
      */
-    public function deleteAllAction($table_id)
+    public function deleteAllAction(Request $request, $table_id)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->deleteAll($table_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
@@ -274,18 +318,18 @@ class DataTableController extends AExportableTabController
      */
     public function saveColumnAction(Request $request, $table_id, $column_name)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         try {
             $errors = $this->service->saveColumn($table_id, $column_name, $request->get("name"), $request->get("type"));
-            if (count($errors) > 0) {
-                for ($i = 0; $i < count($errors); $i++) {
-                    $errors[$i] = $this->translator->trans($errors[$i]);
-                }
-                $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
-            } else {
-                $response = new Response(json_encode(array("result" => 0)));
-            }
+            $errors = $this->trans($errors);
+            $response = new Response(json_encode(array("result" => count($errors) > 0 ? 1 : 0, "errors" => $errors)));
         } catch (DAOUnsupportedOperationException $exc) {
-            $response = new Response(json_encode(array("result" => 2, "errors" => array($this->translator->trans('errors.table.column.conversion')))));
+            $response = new Response(json_encode(array("result" => 1, "errors" => array($this->translator->trans('errors.table.column.conversion')))));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -293,11 +337,18 @@ class DataTableController extends AExportableTabController
 
     /**
      * @Route("/DataTable/{table_id}/row/insert", name="DataTable_row_insert", methods={"POST"})
+     * @param Request $request
      * @param $table_id
      * @return Response
      */
-    public function insertRowAction($table_id)
+    public function insertRowAction(Request $request, $table_id)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->insertRow($table_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
@@ -314,6 +365,12 @@ class DataTableController extends AExportableTabController
      */
     public function updateRowAction(Request $request, $table_id, $row_id, $prefixed = 0)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $this->service->updateRow($table_id, $row_id, $request->get("values"), $prefixed == 1);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
@@ -373,6 +430,12 @@ class DataTableController extends AExportableTabController
      */
     public function importCsvAction(Request $request, $table_id, $restructure, $header, $delimiter, $enclosure)
     {
+        if (!$this->service->canBeModified($table_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         try {
             $this->service->importFromCsv(
                 $table_id,

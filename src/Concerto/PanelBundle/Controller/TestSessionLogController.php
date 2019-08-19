@@ -2,11 +2,11 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\TestSessionLogService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -19,9 +19,9 @@ class TestSessionLogController extends ASectionController
 
     const ENTITY_NAME = "TestSessionLog";
 
-    public function __construct(EngineInterface $templating, TestSessionLogService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestSessionLogService $service, TranslatorInterface $translator)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->entityName = self::ENTITY_NAME;
     }
@@ -51,12 +51,13 @@ class TestSessionLogController extends ASectionController
 
     /**
      * @Route("/TestSessionLog/{object_ids}/delete", name="TestSessionLog_delete", methods={"POST"})
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 
     /**

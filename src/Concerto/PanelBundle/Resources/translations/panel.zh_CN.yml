@@ -100,7 +100,6 @@ import:
         description_warning: 导入时转换当前对象的功能仍处于试验阶段，可能会导致数据丢失。当前对象版本和导入对象之间有差异时也会导致不可避免的数据丢失。强烈建议在继续前备份数据。
         message: 
             imported: 对象已导入
-            incompatible_version: 导出文件已过期，无法在当前康测通平台上使用！      
     fieldset: 
         legend.tooltip: 从导出文件中导入新对象
     form: 

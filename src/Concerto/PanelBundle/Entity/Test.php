@@ -599,6 +599,69 @@ class Test extends ATopEntity implements \JsonSerializable
         return $this->owner;
     }
 
+    public function getDeepUpdated()
+    {
+        $max = $this->updated;
+        foreach ($this->nodes as $node) {
+            $max = max($max, $node->getDeepUpdated());
+        }
+        foreach ($this->nodesConnections as $connection) {
+            $max = max($max, $connection->getDeepUpdated());
+        }
+        foreach ($this->variables as $variable) {
+            $max = max($max, $variable->getDeepUpdated());
+        }
+        return $max;
+    }
+
+    public function getDeepUpdatedBy()
+    {
+        $updatedBy = $this->updatedBy;
+        $max = $this->updated;
+        foreach ($this->getNodes() as $node) {
+            $val = $node->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $node->getDeepUpdatedBy();
+            }
+        }
+        foreach ($this->getNodesConnections() as $connection) {
+            $val = $connection->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $connection->getDeepUpdatedBy();
+            }
+        }
+        foreach ($this->getVariables() as $variable) {
+            $val = $variable->getDeepUpdated();
+            $max = max($max, $val);
+            if ($val == $max) {
+                $updatedBy = $variable->getDeepUpdatedBy();
+            }
+        }
+        return $updatedBy;
+    }
+
+    public function getLockBy()
+    {
+        $lockedBy = parent::getLockBy();
+        if ($lockedBy) return $lockedBy;
+
+        /** @var TestNode $node */
+        foreach ($this->getNodes() as $node) {
+            if ($node->getType() == 0) {
+                $lockedBy = $node->getSourceTest()->getLockBy();
+                if ($lockedBy) return $lockedBy;
+            }
+        }
+
+        if ($this->getSourceWizard()) {
+            $lockedBy = $this->getSourceWizard()->getLockBy();
+            if ($lockedBy) return $lockedBy;
+        }
+        return null;
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);
@@ -656,8 +719,10 @@ class Test extends ATopEntity implements \JsonSerializable
             "sourceWizardTest" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getId() : null,
             "sourceWizardTestName" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getName() : null,
             "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies, $normalizedIdsMap),
-            "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
-            "updatedBy" => $this->updatedBy,
+            "updatedOn" => $this->getDeepUpdated()->getTimestamp(),
+            "updatedBy" => $this->getDeepUpdatedBy(),
+            "lockedBy" => $this->getLockBy() ? $this->getLockBy()->getId() : null,
+            "directLockBy" => $this->getDirectLockBy() ? $this->getDirectLockBy()->getId() : null,
             "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies, $normalizedIdsMap),
             "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies, $normalizedIdsMap),
             "tags" => $this->tags,

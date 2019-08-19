@@ -2,10 +2,8 @@
 
 namespace Concerto\PanelBundle\Service;
 
-use Concerto\PanelBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Yaml\Yaml;
-use Concerto\PanelBundle\Service\ASectionService;
 
 class ImportService
 {
@@ -205,13 +203,16 @@ class ImportService
         return $result;
     }
 
-    public function getPreImportStatusFromFile($file)
+    public function getPreImportStatusFromFile($file, &$errorMessages = null)
     {
         $data = $this->getImportFileContents($file, false);
         $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
-        if (!$valid)
-            return array("result" => 2);
-        return array("result" => 0, "status" => $this->getPreImportStatus($data["collection"]));
+        if (!$valid) {
+            $errorMessages = ["import.incompatible_version"];
+            return false;
+        }
+
+        return $this->getPreImportStatus($data["collection"]);
     }
 
     public function reset()
@@ -220,13 +221,17 @@ class ImportService
         $this->renames = array();
     }
 
-    public function importFromFile(User $user, $file, $instructions, $unlink = true)
+    public function importFromFile($file, $instructions, $unlink = true, &$errorMessages = null)
     {
         $dir = pathinfo($file)["dirname"];
         $data = $this->getImportFileContents($file, $unlink);
         $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
-        if (!$valid)
-            return array("result" => 2);
+        if (!$valid) {
+            $errorMessages = ["import.incompatible_version"];
+            return false;
+        }
+
+        if (!$this->canCollectionBeModified($data["collection"], $instructions, $errorMessages)) return false;
 
         foreach ($data["collection"] as &$obj) {
             $instruction = ASectionService::getObjectImportInstruction($obj, $instructions);
@@ -235,7 +240,21 @@ class ImportService
             }
         }
 
-        return $this->import($user, $instructions, $data["collection"]);
+        return $this->import($instructions, $data["collection"], $errorMessages);
+    }
+
+    private function canCollectionBeModified($collection, $instructions, &$errorMessages)
+    {
+        foreach ($collection as $object) {
+            /** @var AExportableSectionService $objectService */
+            $objectService = $this->serviceMap[$object["class_name"]];
+            $instruction = $objectService::getObjectImportInstruction($object, $instructions);
+            //if convert
+            if ($instruction["action"] == 1 && !$objectService->canBeModified($object["name"], time(), $errorMessages)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private function mergeExternalSource(&$obj, $srcDir)
@@ -305,37 +324,45 @@ class ImportService
                 }
                 break;
             }
+            case "DataTable":
+            {
+                //data
+                if (array_key_exists("data", $obj) && $obj["data"] === null) {
+                    $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
+                    if (file_exists($path)) {
+                        $obj["data"] = Yaml::parseFile($path);
+                    }
+                }
+                break;
+            }
         }
     }
 
-    public function import(User $user, $instructions, $data)
+    public function import($instructions, $data, &$errorMessages = null)
     {
-        $result = array("result" => 0, "import" => array());
         $this->queue = $data;
         while (count($this->queue) > 0) {
             $obj = $this->queue[0];
             if (is_array($obj) && array_key_exists("class_name", $obj)) {
                 $service = $this->serviceMap[$obj["class_name"]];
-                $last_result = $service->importFromArray($user, $instructions, $obj, $this->map, $this->renames, $this->queue);
-                if (array_key_exists("errors", $last_result) && $last_result["errors"] != null) {
-                    array_push($result["import"], $last_result);
-                    $result["result"] = 1;
-                    return $result;
+                $lastResult = $service->importFromArray($instructions, $obj, $this->map, $this->renames, $this->queue);
+                if (array_key_exists("errors", $lastResult) && $lastResult["errors"] != null) {
+                    $errorMessages = $lastResult["errors"];
+                    return false;
                 }
-                if (array_key_exists("pre_queue", $last_result) && count($last_result["pre_queue"]) > 0) {
-                    $this->queue = array_merge($last_result["pre_queue"], $this->queue);
+                if (array_key_exists("pre_queue", $lastResult) && count($lastResult["pre_queue"]) > 0) {
+                    $this->queue = array_merge($lastResult["pre_queue"], $this->queue);
                 } else {
-                    array_push($result["import"], $last_result);
                     array_shift($this->queue);
                 }
             }
         }
         $this->entityManager->flush();
         $this->reset();
-        return $result;
+        return true;
     }
 
-    public function copy($class_name, User $user, $object_id, $name)
+    public function copy($class_name, $object_id, $name, &$errorMessages = null)
     {
         $ent = $this->serviceMap[$class_name]->get($object_id);
         $dependencies = array();
@@ -358,12 +385,11 @@ class ImportService
             }
             $instructions[$i]["data"] = "2";
         }
-        $result = $this->import(
-            $user, //
-            json_decode(json_encode($instructions), true), //
-            $collection
+        return $this->import(
+            json_decode(json_encode($instructions), true),
+            $collection,
+            $errorMessages
         );
-        return $result;
     }
 
 }

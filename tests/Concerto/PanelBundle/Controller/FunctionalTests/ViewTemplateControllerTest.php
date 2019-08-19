@@ -59,7 +59,9 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -91,7 +93,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/ViewTemplate/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_ids" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(0, self::$repository->findAll());
     }
 
@@ -135,7 +137,9 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
                 "starterContent" => false,
-                "groups" => ""
+                "groups" => "",
+                "lockedBy" => null,
+                "directLockBy" => null
             ),
         );
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -223,7 +227,9 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -261,7 +267,9 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -299,7 +307,9 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -332,7 +342,9 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 

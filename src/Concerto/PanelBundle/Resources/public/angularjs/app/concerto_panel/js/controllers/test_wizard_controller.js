@@ -1,6 +1,6 @@
-function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, AdministrationSettingsService) {
+function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, AdministrationSettingsService, AuthService) {
     $scope.tabStateName = "wizards";
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestWizardCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_WIZARD_DELETE;
@@ -12,14 +12,11 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     $scope.saveNewPath = Paths.TEST_WIZARD_SAVE_NEW;
     $scope.exportPath = Paths.TEST_WIZARD_EXPORT;
     $scope.stepsCollectionPath = Paths.TEST_WIZARD_STEP_COLLECTION;
-    $scope.deleteAllStepsPath = Paths.TEST_WIZARD_STEP_DELETE_ALL;
-    $scope.deleteStepPath = Paths.TEST_WIZARD_STEP_DELETE;
     $scope.fetchStepObjectPath = Paths.TEST_WIZARD_STEP_FETCH_OBJECT;
     $scope.paramsCollectionPath = Paths.TEST_WIZARD_PARAM_COLLECTION;
-    $scope.deleteAllParamsPath = Paths.TEST_WIZARD_PARAM_DELETE_ALL;
-    $scope.deleteParamPath = Paths.TEST_WIZARD_PARAM_DELETE;
     $scope.fetchParamObjectPath = Paths.TEST_WIZARD_PARAM_FETCH_OBJECT;
     $scope.exportInstructionsPath = Paths.TEST_WIZARD_EXPORT_INSTRUCTIONS;
+    $scope.lockPath = Paths.TEST_WIZARD_LOCK;
 
     $scope.formTitleAddLabel = Trans.TEST_WIZARD_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.TEST_WIZARD_FORM_TITLE_EDIT;
@@ -79,8 +76,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 displayName: Trans.TEST_WIZARD_STEP_LIST_FIELD_INFO,
                 field: "description",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>",
+                    '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>",
                 width: 50
             }, {
                 displayName: Trans.TEST_WIZARD_STEP_LIST_FIELD_TITLE,
@@ -96,10 +93,10 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.editStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT + '</button>' +
-                '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.deleteStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE + '</button>' +
-                "</div>",
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button type="button" class="btn btn-default btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.editStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_EDIT + '</button>' +
+                    '<button type="button" class="btn btn-danger btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.deleteStep(row.entity.id);">' + Trans.TEST_WIZARD_STEP_LIST_BUTTON_DELETE + '</button>' +
+                    "</div>",
                 width: 100
             }
         ]
@@ -137,8 +134,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 displayName: Trans.TEST_WIZARD_PARAM_LIST_FIELD_INFO,
                 field: "description",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>",
+                    '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>",
                 width: 50
             }, {
                 displayName: Trans.TEST_WIZARD_PARAM_LIST_FIELD_LABEL,
@@ -164,10 +161,10 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button type="button" class="btn btn-default btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.editParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT + '</button>' +
-                '<button type="button" class="btn btn-danger btn-xs" ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" ng-click="grid.appScope.deleteParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE + '</button>' +
-                "</div>",
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button type="button" class="btn btn-default btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.editParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_EDIT + '</button>' +
+                    '<button type="button" class="btn btn-danger btn-xs" ng-disabled="!grid.appScope.isEditable()" ng-click="grid.appScope.deleteParam(row.entity.id);">' + Trans.TEST_WIZARD_PARAM_LIST_BUTTON_DELETE + '</button>' +
+                    "</div>",
                 width: 100
             }
         ]
@@ -243,10 +240,19 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR,
             Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_CLEAR_CONFIRM,
             function (response) {
-                $http.post($scope.deleteAllStepsPath.pf($scope.object.id), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchObjectCollection();
-                    $scope.testCollectionService.fetchObjectCollection();
+                $http.post(Paths.TEST_WIZARD_STEP_DELETE_ALL.pf($scope.object.id), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    if (data.result == 0) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchAllCollections();
+                    } else {
+                        DialogsService.alertDialog(
+                            Trans.TEST_WIZARD_STEP_DIALOG_TITLE_CLEAR,
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
+                    }
                 });
             }
         );
@@ -269,10 +275,24 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE,
             Trans.TEST_WIZARD_STEP_DIALOG_MESSAGE_DELETE_CONFIRM,
             function (response) {
-                $http.post($scope.deleteStepPath.pf(ids), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchObjectCollection();
-                    $scope.testCollectionService.fetchObjectCollection();
+                $http.post(Paths.TEST_WIZARD_STEP_DELETE.pf(ids), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.setWorkingCopyObject();
+                            $scope.fetchAllCollections();
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            DialogsService.alertDialog(
+                                Trans.TEST_WIZARD_STEP_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -282,10 +302,19 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR,
             Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_CLEAR_CONFIRM,
             function (response) {
-                $http.post($scope.deleteAllParamsPath.pf($scope.object.id), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchObjectCollection();
-                    $scope.testCollectionService.fetchObjectCollection();
+                $http.post(Paths.TEST_WIZARD_PARAM_DELETE_ALL.pf($scope.object.id), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    if (data.result == 0) {
+                        $scope.setWorkingCopyObject();
+                        $scope.fetchAllCollections();
+                    } else {
+                        $scope.dialogsService.alertDialog(
+                            Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_CLEAR,
+                            data.errors.join("<br/>"),
+                            "danger"
+                        );
+                    }
                 });
             }
         );
@@ -308,10 +337,24 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE,
             Trans.TEST_WIZARD_PARAM_DIALOG_MESSAGE_DELETE_CONFIRM,
             function (response) {
-                $http.post($scope.deleteParamPath.pf(ids), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchObjectCollection();
-                    $scope.testCollectionService.fetchObjectCollection();
+                $http.post(Paths.TEST_WIZARD_PARAM_DELETE.pf(ids), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.setWorkingCopyObject();
+                            $scope.fetchAllCollections();
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            DialogsService.alertDialog(
+                                Trans.TEST_WIZARD_PARAM_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -325,6 +368,9 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
             resolve: {
                 object: function () {
                     return step;
+                },
+                wizard: function () {
+                    return $scope.object;
                 }
             },
             size: "lg"
@@ -332,8 +378,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
 
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
-            $scope.testCollectionService.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
@@ -358,6 +403,9 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
                 },
                 object: function () {
                     return param;
+                },
+                wizard: function () {
+                    return $scope.object;
                 }
             },
             size: "prc-lg"
@@ -365,8 +413,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
 
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
-            $scope.testCollectionService.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
@@ -394,11 +441,11 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.onDelete = function () {
-        $scope.testCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.getPersistObject = function () {
@@ -433,4 +480,4 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     });
 }
 
-concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "AdministrationSettingsService", TestWizardController]);
+concertoPanel.controller('TestWizardController', ["$scope", "$uibModal", "$http", "$filter", "$state", "$sce", "$timeout", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "AdministrationSettingsService", "AuthService", TestWizardController]);

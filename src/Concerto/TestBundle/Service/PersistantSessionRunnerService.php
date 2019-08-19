@@ -280,7 +280,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "connection" => $this->getConnection(),
             "sessionId" => $session_hash,
             "rLogPath" => $rout,
-            "initialPort" => $initial_port
+            "initialPort" => $initial_port,
+            "runnerType" => 0
         ));
 
         $path = $this->getFifoDir() . ($session_hash ? $session_hash : uniqid("hc", true)) . ".fifo";
@@ -333,6 +334,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
                     . "$initial_port "
+                    . "0 " //runnerType
                     . ($rout ? ("> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";
             default:
@@ -349,6 +351,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
                     . "$initial_port "
+                    . "0 " //runnerType
                     . ($rout ? ("> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
                     . "2>&1\"";
         }

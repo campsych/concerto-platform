@@ -247,7 +247,7 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
     /**
      * Set whether connection has default return function.
      *
-     * @param boolean $defaultValue
+     * @param boolean $default
      */
     public function setDefaultReturnFunction($default)
     {
@@ -270,6 +270,11 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
             }
         }
         return false;
+    }
+
+    public function getLockBy()
+    {
+        return $this->getFlowTest()->getLockBy();
     }
 
     public static function getArrayHash($arr)

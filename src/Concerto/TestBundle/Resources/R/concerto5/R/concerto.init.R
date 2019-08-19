@@ -1,4 +1,4 @@
-concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, runnerType = 0){
+concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
     options(digits.secs = 6)
     concerto.log("starting session")
     if(Sys.info()['sysname'] != "Windows") {
@@ -64,5 +64,4 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
     concerto$lastSubmitTime <<- as.numeric(Sys.time())
     concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
     concerto$connectionParams <<- connectionParams
-    concerto$runnerType <<- runnerType
 }

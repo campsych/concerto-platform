@@ -9,7 +9,6 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\TestBundle\Service\ASessionRunnerService;
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TestSessionService
 {

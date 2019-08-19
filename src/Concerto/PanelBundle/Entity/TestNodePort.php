@@ -197,7 +197,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
      * Add source for connection
      *
      * @param TestNodeConnection $connection
-     * @return TestNode
+     * @return TestNodePort
      */
     public function addSourceForConnection(TestNodeConnection $connection)
     {
@@ -219,7 +219,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
     /**
      * Get source for connections
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getSourceForConnections()
     {
@@ -230,7 +230,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
      * Add destination for connection
      *
      * @param TestNodeConnection $connection
-     * @return TestNode
+     * @return TestNodePort
      */
     public function addDestinationForConnection(TestNodeConnection $connection)
     {
@@ -252,7 +252,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
     /**
      * Get destination for connections
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getDestinationForConnections()
     {
@@ -450,6 +450,11 @@ class TestNodePort extends AEntity implements \JsonSerializable
             }
         }
         return false;
+    }
+
+    public function getLockBy()
+    {
+        return $this->getNode()->getLockBy();
     }
 
     public static function getArrayHash($arr)

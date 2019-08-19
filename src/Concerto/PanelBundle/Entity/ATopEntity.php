@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class ATopEntity extends AEntity
@@ -40,17 +41,17 @@ abstract class ATopEntity extends AEntity
     protected $starterContent;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $updatedBy;
-
-    /**
      *
      * @var string
      * @ORM\Column(type="string")
      */
     protected $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    protected $directLockBy;
 
     public function __construct()
     {
@@ -61,13 +62,13 @@ abstract class ATopEntity extends AEntity
         $this->archived = false;
         $this->starterContent = false;
         $this->tags = "";
-        $this->updatedBy = "";
     }
 
     /**
      * Set accessibility
      *
      * @param integer $access
+     * @return ATopEntity
      */
     public function setAccessibility($access)
     {
@@ -90,6 +91,7 @@ abstract class ATopEntity extends AEntity
      * Set archived
      *
      * @param boolean $archived
+     * @return ATopEntity
      */
     public function setArchived($archived)
     {
@@ -112,6 +114,7 @@ abstract class ATopEntity extends AEntity
      * Set starter content
      *
      * @param boolean $starterContent
+     * @return ATopEntity
      */
     public function setStarterContent($starterContent)
     {
@@ -131,30 +134,13 @@ abstract class ATopEntity extends AEntity
     }
 
     /**
-     * Set updated by
-     * @param string $user
-     */
-    public function setUpdatedBy($user) {
-        $this->updatedBy = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get updated by
-     *
-     * @return string
-     */
-    public function getUpdatedBy() {
-        return $this->updatedBy;
-    }
-
-    /**
      * Set tags
      *
      * @param string $tags
+     * @return ATopEntity
      */
-    public function setTags($tags) {
+    public function setTags($tags)
+    {
         $this->tags = trim($tags);
 
         return $this;
@@ -165,7 +151,8 @@ abstract class ATopEntity extends AEntity
      *
      * @return string
      */
-    public function getTags() {
+    public function getTags()
+    {
         return $this->tags;
     }
 
@@ -174,7 +161,8 @@ abstract class ATopEntity extends AEntity
      *
      * @return string
      */
-    public function getTagsArray() {
+    public function getTagsArray()
+    {
         $result = array();
         $tags = explode(" ", $this->tags);
         for ($i = 0; $i < count($tags); $i++) {
@@ -189,6 +177,7 @@ abstract class ATopEntity extends AEntity
      * Set groups
      *
      * @param string $groups
+     * @return ATopEntity
      */
     public function setGroups($groups)
     {
@@ -262,5 +251,31 @@ abstract class ATopEntity extends AEntity
             }
         }
         return false;
+    }
+
+    /**
+     * Set direct lock by
+     * @param User $user
+     * @return ATopEntity
+     */
+    public function setDirectLockBy($user)
+    {
+        $this->directLockBy = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get direct lock by
+     * @return User
+     */
+    public function getDirectLockBy()
+    {
+        return $this->directLockBy;
+    }
+
+    public function getLockBy()
+    {
+        return $this->directLockBy;
     }
 }

@@ -1,79 +1,97 @@
 validate:
-    user:
-      username.unique: This login already exists in the system
-      username.min: Login field must be at least of length 3
-      username.max: Login field must be at most of length 25
-      username.blank: Login field must not be empty
-      password.min: Password field must be at least of length 4
-      password.max: Password field must be at most of length 40
-      password.match: Password confirmation doesn't match the password
-      password.blank: Password field must not be empty
-      email: This is not correct email address
-      email.unique: This email already exists in the system
-      email.max: Email field must be at most of length 60
-      email.blank: Email field must not be empty
-      
-    table:
-      name.unique: This name already exists in the system
+  user:
+    username.unique: This login already exists in the system
+    username.min: Login field must be at least of length 3
+    username.max: Login field must be at most of length 25
+    username.blank: Login field must not be empty
+    password.min: Password field must be at least of length 4
+    password.max: Password field must be at most of length 40
+    password.match: Password confirmation doesn't match the password
+    password.blank: Password field must not be empty
+    email: This is not correct email address
+    email.unique: This email already exists in the system
+    email.max: Email field must be at most of length 60
+    email.blank: Email field must not be empty
+
+  table:
+    name.unique: This name already exists in the system
+    name.min: Name field must be at least of length 1
+    name.max: Name field must be at most of length 64
+    name.blank: Name field must not be empty
+    name.incorrect: Invalid name
+    column.name.unique: This column already exists in the table
+    column.name.blank: Name must not be blank
+    column.name.incorrect: Invalid name
+
+  template:
+    name.unique: This name already exists in the system
+    name.min: Name field must be at least of length 1
+    name.max: Name field must be at most of length 64
+    name.blank: Name field must not be empty
+
+  test:
+    name.unique: This name already exists in the system
+    name.min: Name field must be at least of length 1
+    name.max: Name field must be at most of length 64
+    name.blank: Name field must not be empty
+    wizard.source: Source wizard needs to be selected for wizard test type
+    delete.referenced: Test can not be deleted as it is referenced by at least one test wizard
+
+    ports:
+      unique: Input with that name already exist
       name.min: Name field must be at least of length 1
       name.max: Name field must be at most of length 64
       name.blank: Name field must not be empty
       name.incorrect: Invalid name
-      column.name.unique: This column already exists in the table
-      column.name.blank: Name must not be blank 
-      column.name.incorrect: Invalid name
-      
-    template:
-      name.unique: This name already exists in the system
-      name.min: Name field must be at least of length 1
-      name.max: Name field must be at most of length 64
-      name.blank: Name field must not be empty
-      
-    test:
-      name.unique: This name already exists in the system
-      name.min: Name field must be at least of length 1
-      name.max: Name field must be at most of length 64
-      name.blank: Name field must not be empty
-      wizard.source: Source wizard needs to be selected for wizard test type
-      delete.referenced: Test can not be deleted as it is referenced by at least one test wizard
 
-      ports:
-        unique: Input with that name already exist
-        name.min: Name field must be at least of length 1
-        name.max: Name field must be at most of length 64
-        name.blank: Name field must not be empty
-        name.incorrect: Invalid name
-      
-      variables:
-        unique: Variable with that name and type already is assigned to the test
-        name.min: Name field must be at least of length 1
-        name.max: Name field must be at most of length 64
-        name.blank: Name field must not be empty
-        name.incorrect: Invalid name
-          
-      wizards:
-        name.unique: This name already exists in the system
-        name.min: Name field must be at least of length 1
-        name.max: Name field must be at most of length 64
-        name.blank: Name field must not be empty
-        test.null: Test must be selected
-        delete.referenced: Test wizard can not be deleted as it is referenced by at least one test
-        
-        params:
-            label.min: Label field must be at least of length 1
-            label.max: Label field must be at most of length 64
-            label.blank: Label field must not be empty
-            variable.null: Test variable must be selected
-            variable.unique: Only one wizard param can be assigned to specific test param
-            step.null: Test wizard step must be selected
-        
-        steps:
-            unique: Each step title must be unique
-            title.min: Title field must be at least of length 1
-            title.max: Title field must be at most of length 64
-            title.blank: Title field must not be empty
-            
+    variables:
+      unique: Variable with that name and type already is assigned to the test
+      name.min: Name field must be at least of length 1
+      name.max: Name field must be at most of length 64
+      name.blank: Name field must not be empty
+      name.incorrect: Invalid name
+
+    wizards:
+      name.unique: This name already exists in the system
+      name.min: Name field must be at least of length 1
+      name.max: Name field must be at most of length 64
+      name.blank: Name field must not be empty
+      test.null: Test must be selected
+      delete.referenced: Test wizard can not be deleted as it is referenced by at least one test
+
+      params:
+        label.min: Label field must be at least of length 1
+        label.max: Label field must be at most of length 64
+        label.blank: Label field must not be empty
+        variable.null: Test variable must be selected
+        variable.unique: Only one wizard param can be assigned to specific test param
+        step.null: Test wizard step must be selected
+
+      steps:
+        unique: Each step title must be unique
+        title.min: Title field must be at least of length 1
+        title.max: Title field must be at most of length 64
+        title.blank: Title field must not be empty
+  locked: Is locked by someone else.
+  outdated: Someone updated object. Your current loaded version is not the current one. Please refresh.
+
 errors:
-    title: System errors
-    table:
-        column.conversion: Selected type conversion is not supported with configured database driver.
+  title: System errors
+  table:
+    column.conversion: Selected type conversion is not supported with configured database driver.
+
+import:
+  incompatible_version: Export file is outdated and can not be used on this version of Concert Plaftorm!
+
+git:
+  locked: Some objects are locked. Unlock them to continue this operation.
+  fetch_failed: Fetch failed
+  behind_num_failed: Git behind num failed
+  ahead_num_failed: Git ahead num failed
+  history_failed: Git history failed
+  refresh_failed: Working copy refresh failed
+  add_failed: Git add failed
+  diff_failed: Git diff failed
+  reset_failed: Git reset failed
+  import_failed: Import working copy failed
+  pull_failed: Git pull failed

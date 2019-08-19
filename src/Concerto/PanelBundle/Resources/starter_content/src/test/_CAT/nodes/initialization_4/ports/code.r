@@ -88,6 +88,9 @@ itemsNum = dim(items)[1]
 paramBank = items[,c("p1","p2","p3","p4","p5","p6","p7","p8","p9"),drop=F]
 paramBank = paramBank[,1:as.numeric(settings$itemParamsNum),drop=F]
 paramBank = apply(paramBank, 2, as.numeric)
+if(is.vector(paramBank)) { 
+  paramBank = rbind(paramBank)
+}
 
 theta = as.numeric(settings$startingTheta)
 itemsAdministered = NULL

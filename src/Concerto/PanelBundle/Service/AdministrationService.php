@@ -5,15 +5,19 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\AdministrationSetting;
 use Concerto\PanelBundle\Entity\Message;
 use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\AdministrationSettingRepository;
+use Concerto\PanelBundle\Repository\DataTableRepository;
 use Concerto\PanelBundle\Repository\MessageRepository;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestSessionRepository;
+use Concerto\PanelBundle\Repository\TestWizardRepository;
+use Concerto\PanelBundle\Repository\ViewTemplateRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
@@ -29,10 +33,8 @@ use Symfony\Component\Process\Process;
 
 class AdministrationService
 {
-
     private $settingsRepository;
     private $messagesRepository;
-    private $authorizationChecker;
     private $configSettings;
     private $templating;
     private $testSessionLogRepository;
@@ -43,13 +45,35 @@ class AdministrationService
     private $apiClientRepository;
     private $testRunnerSettings;
     private $testRepository;
+    private $dataTableRepository;
+    private $testWizardRepository;
+    private $viewTemplateRepository;
     private $testSessionRepository;
+    private $securityTokenStorage;
 
-    public function __construct(AdministrationSettingRepository $settingsRepository, MessageRepository $messageRepository, AuthorizationCheckerInterface $authorizationChecker, $configSettings, $version, $rootDir, EngineInterface $templating, TestSessionLogRepository $testSessionLogRepository, RegistryInterface $doctrine, ScheduledTaskRepository $scheduledTaskRepository, KernelInterface $kernel, ClientRepository $clientRepository, $testRunnerSettings, TestRepository $testRepository, TestSessionRepository $testSessionRepository)
+    public function __construct(
+        AdministrationSettingRepository $settingsRepository,
+        MessageRepository $messageRepository,
+        $configSettings,
+        $version,
+        $rootDir,
+        EngineInterface $templating,
+        TestSessionLogRepository $testSessionLogRepository,
+        RegistryInterface $doctrine,
+        ScheduledTaskRepository $scheduledTaskRepository,
+        KernelInterface $kernel,
+        ClientRepository $clientRepository,
+        $testRunnerSettings,
+        TestRepository $testRepository,
+        DataTableRepository $dataTableRepository,
+        TestWizardRepository $testWizardRepository,
+        ViewTemplateRepository $viewTemplateRepository,
+        TestSessionRepository $testSessionRepository,
+        TokenStorageInterface $securityTokenStorage
+    )
     {
         $this->settingsRepository = $settingsRepository;
         $this->messagesRepository = $messageRepository;
-        $this->authorizationChecker = $authorizationChecker;
         $this->configSettings = $configSettings;
         $this->configSettings["internal"]["version"] = $version;
         $this->templating = $templating;
@@ -61,7 +85,11 @@ class AdministrationService
         $this->apiClientRepository = $clientRepository;
         $this->testRunnerSettings = $testRunnerSettings;
         $this->testRepository = $testRepository;
+        $this->dataTableRepository = $dataTableRepository;
+        $this->testWizardRepository = $testWizardRepository;
+        $this->viewTemplateRepository = $viewTemplateRepository;
         $this->testSessionRepository = $testSessionRepository;
+        $this->securityTokenStorage = $securityTokenStorage;
     }
 
     public function insertSessionLimitMessage(TestSession $session)
@@ -176,6 +204,7 @@ class AdministrationService
 
     public function getInternalSettingsMap()
     {
+        //@TODO don't return git password
         $map = $this->configSettings["internal"];
         foreach ($map as $k => $v) {
             $map[$k] = (string)$v;
@@ -461,5 +490,27 @@ class AdministrationService
         $this->setSettings(array(
             "last_import_time" => date("Y-m-d H:i:s")
         ), false);
+    }
+
+    /**
+     * @return User
+     */
+    public function getAuthorizedUser()
+    {
+        return $this->securityTokenStorage->getToken()->getUser();
+    }
+
+    public function getSessionRunnerService()
+    {
+        return $this->getSettingValue("session_runner_service");
+    }
+
+    public function canDoRiskyGitActions()
+    {
+        if (count($this->dataTableRepository->findDirectlyLocked()) > 0) return false;
+        if (count($this->testRepository->findDirectlyLocked()) > 0) return false;
+        if (count($this->testWizardRepository->findDirectlyLocked()) > 0) return false;
+        if (count($this->viewTemplateRepository->findDirectlyLocked()) > 0) return false;
+        return true;
     }
 }

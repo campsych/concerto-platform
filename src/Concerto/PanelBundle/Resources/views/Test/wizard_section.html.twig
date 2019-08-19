@@ -1,7 +1,7 @@
 {% trans_default_domain "Test" %}
 
 <div class="center">
-    <button ng-disabled="object.starterContent && !administrationSettingsService.starterContentEditable" class="btn btn-primary" ng-click="convertToR()">{{ "logic.convert.buttons.convert"|trans }}</button>
+    <button ng-disabled="!isEditable()" class="btn btn-primary" ng-click="convertToR()">{{ "logic.convert.buttons.convert"|trans }}</button>
 </div>
 
 {{ include("ConcertoPanelBundle:TestWizard:carousel.html.twig", {'wizard_mode':'prod'}) }}

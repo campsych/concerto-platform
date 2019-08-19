@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\ViewTemplateRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -13,9 +14,9 @@ class ViewTemplateService extends AExportableSectionService
 
     private $testWizardParamService;
 
-    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService)
+    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->testWizardParamService = $testWizardParamService;
     }
@@ -37,21 +38,16 @@ class ViewTemplateService extends AExportableSectionService
         return $object;
     }
 
-    public function save(User $user, $object_id, $name, $description, $accessibility, $archived, $owner, $groups, $html, $head, $css, $js)
+    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $html, $head, $css, $js)
     {
         $errors = array();
         $object = $this->get($object_id);
-        $new = false;
         $old_name = null;
         if ($object === null) {
             $object = new ViewTemplate();
-            $new = true;
         } else {
             $old_name = $object->getName();
         }
-        $object->setUpdated();
-        if ($user !== null)
-            $object->setUpdatedBy($user->getUsername());
         if ($head !== null) {
             $object->setHead($head);
         }
@@ -82,16 +78,27 @@ class ViewTemplateService extends AExportableSectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
-        $this->onObjectSaved($user, $object, $new, $old_name);
+        $this->update($object, $old_name);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved(User $user, ViewTemplate $object, $new, $oldName)
+    private function update(ViewTemplate $object, $oldName = null, $flush = true)
     {
-        if (!$new && $oldName != $object->getName()) {
-            $this->testWizardParamService->onObjectRename($user, $object, $oldName);
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $isNew = $object->getId() === null;
+        $this->repository->save($object, $flush);
+
+        $isRenamed = !$isNew && $oldName !== $object->getName();
+        if ($isRenamed) {
+            $this->onObjectRenamed($object, $oldName);
         }
+    }
+
+    private function onObjectRenamed(ViewTemplate $object, $oldName)
+    {
+        $this->testWizardParamService->onObjectRename($object, $oldName);
     }
 
     public function delete($object_ids, $secure = true)
@@ -109,7 +116,7 @@ class ViewTemplateService extends AExportableSectionService
         return $result;
     }
 
-    public function importFromArray(User $user, $instructions, $obj, &$map, &$renames, &$queue)
+    public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
         if (!array_key_exists("ViewTemplate", $renames))
@@ -125,7 +132,7 @@ class ViewTemplateService extends AExportableSectionService
 
         $instruction = self::getObjectImportInstruction($obj, $instructions);
         $old_name = $instruction["existing_object_name"];
-        $new_name = $this->getNextValidName($this->formatImportName($user, $instruction["rename"], $obj), $instruction["action"], $old_name);
+        $new_name = $this->getNextValidName($this->formatImportName($instruction["rename"], $obj), $instruction["action"], $old_name);
         if ($instruction["action"] != 2 && $old_name != $new_name) {
             $renames["ViewTemplate"][$old_name] = $new_name;
         }
@@ -133,17 +140,18 @@ class ViewTemplateService extends AExportableSectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($user, $new_name, $src_ent, $obj, $map, $queue);
+            $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["ViewTemplate"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($user, $new_name, $obj, $map, $queue);
+            $result = $this->importNew($new_name, $obj, $map, $queue);
         return $result;
     }
 
-    protected function importNew(User $user, $new_name, $obj, &$map, &$queue)
+    protected function importNew($new_name, $obj, &$map, &$queue)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
 
         $ent = new ViewTemplate();
@@ -166,9 +174,8 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, null, false);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
-
         return array("errors" => null, "entity" => $ent);
     }
 
@@ -177,8 +184,9 @@ class ViewTemplateService extends AExportableSectionService
         return $this->get($obj["name"]);
     }
 
-    protected function importConvert(User $user, $new_name, $src_ent, $obj, &$map, &$queue)
+    protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue)
     {
+        $user = $this->securityTokenStorage->getToken()->getUser();
         $old_ent = clone $src_ent;
         $ent = $src_ent;
         $ent->setName($new_name);
@@ -200,17 +208,8 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->repository->save($ent, false);
+        $this->update($ent, $old_ent->getName(), false);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
-
-        $this->onConverted($ent, $old_ent);
-
         return array("errors" => null, "entity" => $ent);
     }
-
-    protected function onConverted($new_ent, $old_ent)
-    {
-        //TODO 
-    }
-
 }

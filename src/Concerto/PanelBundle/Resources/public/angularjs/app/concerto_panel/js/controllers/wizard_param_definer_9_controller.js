@@ -54,7 +54,7 @@ function WizardParamDefiner9Controller($scope, $filter, uiGridConstants, GridSer
         enableFiltering: false,
         exporterSuppressExport: true,
         cellTemplate:
-        "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getParamDefinitionCellTemplate(row.entity)'>" +
+        "<div class='ui-grid-cell-contents' ng-html='grid.appScope.getParamDefinitionCellTemplate(row.entity)'>" +
         "</div>"
       }, {
         displayName: Trans.TEST_WIZARD_PARAM_GROUP_LIST_FIELD_ORDER,

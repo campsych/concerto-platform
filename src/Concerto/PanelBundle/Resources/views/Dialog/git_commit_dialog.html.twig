@@ -1,0 +1,26 @@
+{% trans_default_domain "Administration" %}
+
+<div type="text/ng-template" id="git_commit_dialog.html">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "Administration" %}
+        {% block legend %}{{ "git.commit.title"|trans }}{% endblock %}
+        {% block legend_tooltip %}{{ "git.commit.title.tooltip"|trans }}{% endblock %}
+        {% block elements %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}{{ "git.commit.message"|trans }}{% endblock %}
+                {% block tooltip %}{{ "git.commit.message.tooltip"|trans }}{% endblock %}
+                {% block control %}
+                    <textarea ng-model="message" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                {% endblock %}
+            {% endembed %}
+
+        {% endblock %}
+    {% endembed %}
+
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="commit()">{{ "git.commit.button"|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
+</div>

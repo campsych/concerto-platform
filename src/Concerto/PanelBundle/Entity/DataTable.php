@@ -117,6 +117,7 @@ class DataTable extends ATopEntity implements \JsonSerializable
     /**
      * Set owner
      * @param User $user
+     * @return DataTable
      */
     public function setOwner($user)
     {
@@ -159,8 +160,10 @@ class DataTable extends ATopEntity implements \JsonSerializable
             "accessibility" => $this->accessibility,
             "archived" => $this->archived ? "1" : "0",
             "columns" => $this->columns,
-            "updatedOn" => $this->updated->format("Y-m-d H:i:s"),
-            "updatedBy" => $this->updatedBy,
+            "updatedOn" => $this->getDeepUpdated()->getTimestamp(),
+            "updatedBy" => $this->getDeepUpdatedBy(),
+            "lockedBy" => $this->getLockBy() ? $this->getLockBy()->getId() : null,
+            "directLockBy" => $this->getDirectLockBy() ? $this->getDirectLockBy()->getId() : null,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
             "starterContent" => $this->starterContent

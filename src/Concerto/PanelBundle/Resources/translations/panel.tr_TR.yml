@@ -100,7 +100,6 @@ import:
         description_warning: Seçili nesneleri yeni içeri aktarılanlarla değiştirme özelliği henüz deneysel olarak çalışmaktadır ve veri kaybına yol açabilir. İki nesne arasındaki farkları kaçınılmaz bir veri kaybına neden olması olasıdır. Devam etmeden veritabanınızı yedeklemeniz önemle tavsiye edilir.
         message:
             imported: Nesne içe aktarıldı
-            incompatible_version: Aktarım dosyası eski bir sürümle oluşturulmuş ve bu Concerto Platform sürümüyle kullanılamaz!
     fieldset:
         legend.tooltip: Daha önce dışa aktarılmış dosyadan yeni nesneler içe aktarın.
     form:

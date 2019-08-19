@@ -65,7 +65,10 @@ class ContentExportCommand extends Command
 
         $fs = new Filesystem();
         $rdi = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
-        $fs->remove($rdi);
+        $rii = new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator($rdi, function ($file, $key, $iterator) {
+            return strpos($file->getFilename(), ".git") !== 0;
+        }));
+        $fs->remove($rii);
         $output->writeln("contents of $path cleared successfully");
         return true;
     }
@@ -206,6 +209,18 @@ class ContentExportCommand extends Command
                         $filesystem->dumpFile($pathHtml, $obj["html"]);
                         $obj["html"] = null;
                         $output->writeln($pathHtml . " externalized");
+                    }
+                    break;
+                }
+                case "DataTable":
+                {
+                    //data
+                    if (array_key_exists("data", $obj) && count($obj["data"]) > 0) {
+                        $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
+                        $data = Yaml::dump($obj["data"], 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+                        $filesystem->dumpFile($path, $data);
+                        $obj["data"] = null;
+                        $output->writeln($path . " externalized");
                     }
                     break;
                 }

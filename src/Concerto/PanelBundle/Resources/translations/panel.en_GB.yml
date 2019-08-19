@@ -55,6 +55,7 @@ list:
     import: Import
     download: Download
     upload: Upload CSV
+  locked.tooltip: "Locked by: {0}"
 
 form:
   validation.failed: Validation failed
@@ -71,12 +72,21 @@ form:
     apply: Apply
     upload: Upload
     add: Add
+    lock: Lock
+    unlock: Unlock
+  locked_by_other_info: |
+    <p>This object is locked by: <strong>{0}</strong></p>
+    <p>You won't be able to edit it until it's released.</p>
+  locked_by_me_info: |
+    <p>This object is locked by <strong>You</strong></p>
+    <p>No one will be able to edit it until you release it.</p>
 
 dialog:
   title:
     save: Saving object
     delete: Deleting object
     csv: CSV
+    lock: Changing object lock
   message:
     failed: Operation failed. Validate your data and try again.
     saved: Object has been saved
@@ -113,7 +123,6 @@ import:
         description_warning: Converting current objects on import with new ones is still experimental and might lead to loss of data. There also might be a situation when differences between current object version and imported one will lead to unavoidable data loss. It is strongly recommended to backup your database before continuing.
         message:
             imported: Object imported
-            incompatible_version: Export file is outdated and can not be used on this version of Concert Plaftorm!
     fieldset:
         legend.tooltip: Import new object from the file which was previously exported
     form:

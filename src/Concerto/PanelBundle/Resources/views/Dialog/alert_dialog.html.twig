@@ -2,9 +2,10 @@
 <div type="text/ng-template" id="alert_dialog.html">
     <div class="modal-body">
         <div class="panel panel-default">
-            <div class="panel-heading">{%verbatim%}{{title}}{%endverbatim%}</div>
+            <div class="panel-heading">{% verbatim %}{{ title }}{% endverbatim %}</div>
             <div class="panel-body">
-                <uib-alert type="{%verbatim%}{{type}}{%endverbatim%}" ng-bind-html="content | trustedHtml"></uib-alert>
+                <uib-alert type="{% verbatim %}{{ type }}{% endverbatim %}" ng-bind-html="content | trustedHtml" ng-if="type != 'none'"></uib-alert>
+                <div ng-if="type == 'none'" ng-bind-html="content | trustedHtml"></div>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
+function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService) {
     $scope.super = {};
     $scope.exportable = false;
 
@@ -11,6 +11,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     $scope.saveNewPath = "";
     $scope.exportPath = "";
     $scope.exportInstructionsPath = "";
+    $scope.lockPath = "";
 
     $scope.reloadOnModification = false;
     $scope.columnDefs = [];
@@ -46,6 +47,50 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             "open": true,
             "disabled": false
         }
+    };
+
+    $scope.isEditable = function (entity) {
+        if (typeof (entity) === 'undefined') {
+            entity = $scope.object;
+        }
+        if (entity.starterContent && !$scope.administrationSettingsService.starterContentEditable) return false;
+        if ($scope.isLockedForMe(entity)) return false;
+        return true;
+    };
+
+    $scope.isLockedForMe = function (entity) {
+        if (typeof (entity) === 'undefined') {
+            entity = $scope.object;
+        }
+        return $scope.isLocked(entity) && (AuthService.user === null || entity.lockedBy && entity.lockedBy != AuthService.user.id);
+    };
+
+    $scope.isLocked = function (entity) {
+        if (typeof (entity) === 'undefined') {
+            entity = $scope.object;
+        }
+        return entity.lockedBy !== null;
+    };
+
+    $scope.toggleLock = function () {
+        $http.post($scope.lockPath.pf($scope.object.id), {
+            objectTimestamp: $scope.object.updatedOn
+        }).success(function (data) {
+            switch (data.result) {
+                case BaseController.RESULT_OK: {
+                    $scope.setWorkingCopyObject();
+                    $scope.fetchAllCollections();
+                    break;
+                }
+                case BaseController.RESULT_VALIDATION_FAILED: {
+                    DialogsService.alertDialog(
+                        Trans.DIALOG_TITLE_LOCK,
+                        data.errors.join("<br/>"),
+                        "danger"
+                    );
+                }
+            }
+        });
     };
 
     $scope.setWorkingCopyObject = function () {
@@ -103,6 +148,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         return $scope.object;
     };
 
+    $scope.getGridLockedIconTooltip = function (object) {
+        return Trans.LIST_LOCKED_TOOLTIP.pf(UserCollectionService.get(object.lockedBy).username);
+    };
+
     $scope.initializeColumnDefs = function () {
         if ($scope.exportable) {
             $scope.columnDefs.push({
@@ -111,9 +160,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: '<div class="ui-grid-cell-contents" align="center">' +
-                '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                '</div>',
-                width: 50
+                    '<i style="vertical-align:middle;" class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    '<i style="vertical-align:middle;" class="glyphicon glyphicon-lock" ng-if="grid.appScope.isLocked(row.entity)" uib-tooltip-html="grid.appScope.getGridLockedIconTooltip(row.entity)" tooltip-append-to-body="true"></i>' +
+                    '</div>',
+                width: 70
             });
         }
         $scope.columnDefs.push({
@@ -132,6 +182,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.columnDefs.push({
             displayName: Trans.LIST_FIELD_UPDATED_ON,
             field: "updatedOn",
+            cellTemplate: '<div class="ui-grid-cell-contents">{{COL_FIELD * 1000|date:\'yyyy-MM-dd HH:mm:ss\'}}</div>',
         });
         var cellTemplate = '<div class="ui-grid-cell-contents" align="center">';
         for (var i = 0; i < $scope.additionalListButtons.length; i++) {
@@ -141,7 +192,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         if ($scope.exportable) {
             cellTemplate += '<button class="btn btn-default btn-xs" ng-click="grid.appScope.export(row.entity.id);">' + Trans.LIST_EXPORT + '</button>';
         }
-        cellTemplate += '<button ng-disabled="row.entity.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
+        cellTemplate += '<button ng-disabled="!grid.appScope.isEditable(row.entity)" class="btn btn-danger btn-xs" ng-click="grid.appScope.delete(row.entity.id);">' + Trans.LIST_DELETE + '</button>' +
             '</div>';
         $scope.columnDefs.push({
             displayName: "",
@@ -170,6 +221,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.collectionData = [];
     $scope.collectionOptions = {
+        rowTemplate:
+            '<div ng-class="{ \'grid-row-locked-by-other\': grid.appScope.isLockedForMe(row.entity) }">' +
+            '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }"  ui-grid-cell></div>' +
+            '</div>',
         enableFiltering: true,
         enableGridMenu: true,
         exporterMenuCsv: false,
@@ -199,7 +254,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                 row.visible = false;
         });
         return renderableRows;
-    }
+    };
 
     $scope.deleteSelected = function () {
         var ids = [];
@@ -219,7 +274,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             ids = [ids];
         }
 
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DIALOG_TITLE_DELETE,
             Trans.DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
@@ -227,24 +282,27 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                     $scope.cancel();
                 }
 
-                $http.post($scope.deletePath.pf(ids.join(",")), {}).success(function (data) {
+                $http.post($scope.deletePath.pf(ids.join(",")), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
                     switch (data.result) {
                         case BaseController.RESULT_OK: {
                             if ($scope.reloadOnModification)
                                 location.reload();
                             else {
-                                $scope.fetchObjectCollection();
+                                $scope.fetchAllCollections();
                                 if ($scope.onDelete)
                                     $scope.onDelete();
                             }
                             break;
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
-                            $scope.dialogsService.alertDialog(
+                            DialogsService.alertDialog(
                                 Trans.DIALOG_TITLE_DELETE,
                                 data.errors.join("<br/>"),
                                 "danger"
                             );
+                            break;
                         }
                     }
                 });
@@ -295,7 +353,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                         if (addModalDialog != null) {
                             addModalDialog.close($scope.object);
                         }
-                        $scope.fetchObjectCollection();
+                        $scope.fetchAllCollections();
 
                         $scope.dialogsService.alertDialog(
                             Trans.DIALOG_TITLE_SAVE,
@@ -333,8 +391,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
     $scope.edit = function (id) {
         $state.go($scope.tabStateName + "Form", {'id': id});
-        $scope.fetchObject(id);
-        $scope.tabSection = "form";
     };
 
     $scope.import = function () {
@@ -374,6 +430,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         $scope.testCollectionService.fetchObjectCollection();
         $scope.testWizardCollectionService.fetchObjectCollection();
         $scope.viewTemplateCollectionService.fetchObjectCollection();
+        $scope.userCollectionService.fetchObjectCollection();
     };
 
     $scope.saveNew = function () {
@@ -394,7 +451,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
 
         modalInstance.result.then(function (object) {
             $scope.object = object;
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
@@ -521,14 +578,13 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     };
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name === $scope.tabStateName || toState.name === $scope.tabStateName + "Form") {
-            if (toState.name === $scope.tabStateName + "Form") {
-                $scope.tabSection = "form";
-                $scope.delayedEdit(toParams.id);
-            } else {
-                $scope.tabSection = "list";
-                $scope.resetObject();
-            }
+        $scope.fetchAllCollections();
+        if (toState.name === $scope.tabStateName + "Form") {
+            $scope.tabSection = "form";
+            $scope.delayedEdit(toParams.id);
+        } else if (toState.name === $scope.tabStateName) {
+            $scope.tabSection = "list";
+            $scope.resetObject();
         }
     });
 

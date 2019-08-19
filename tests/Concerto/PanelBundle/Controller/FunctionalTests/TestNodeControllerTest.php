@@ -345,7 +345,7 @@ class TestNodeControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestNode/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_ids" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
         $this->assertCount(3, self::$portRepository->findAll());
     }

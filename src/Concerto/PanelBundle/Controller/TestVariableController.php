@@ -4,7 +4,6 @@ namespace Concerto\PanelBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\TestVariableService;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +22,9 @@ class TestVariableController extends ASectionController
 
     private $testService;
 
-    public function __construct(EngineInterface $templating, TestVariableService $service, TranslatorInterface $translator, TestService $testService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(EngineInterface $templating, TestVariableService $service, TranslatorInterface $translator, TestService $testService)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->entityName = self::ENTITY_NAME;
         $this->testService = $testService;
@@ -94,8 +93,13 @@ class TestVariableController extends ASectionController
      */
     public function saveAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name"),
             $request->get("type"),
@@ -109,11 +113,12 @@ class TestVariableController extends ASectionController
 
     /**
      * @Route("/TestVariable/{object_ids}/delete", name="TestVariable_delete", methods={"POST"})
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 }

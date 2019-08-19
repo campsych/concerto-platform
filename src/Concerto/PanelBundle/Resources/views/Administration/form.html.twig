@@ -11,6 +11,15 @@
 {% block elements %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
         {% trans_default_domain "Administration" %}
+        {% block label %}{{ 'form.settings.api_enabled'|trans }}{% endblock %}
+        {% block tooltip %}{{ 'form.settings.api_enabled.tooltip'|trans }}{% endblock %}
+        {% block control %}
+            <input type="checkbox" ng-disabled="!exposedSettingsMap.api_enabled_overridable" ng-model="exposedSettingsMap.api_enabled" ng-true-value="'1'" ng-false-value="'0'">
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain "Administration" %}
         {% block label %}{{ 'form.settings.session_limit'|trans }}{% endblock %}
         {% block tooltip %}{{'form.settings.session_limit.tooltip'|trans}}{% endblock %}
         {% block control %}
@@ -20,10 +29,13 @@
 
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
         {% trans_default_domain "Administration" %}
-        {% block label %}{{ 'form.settings.api_enabled'|trans }}{% endblock %}
-        {% block tooltip %}{{'form.settings.api_enabled.tooltip'|trans}}{% endblock %}
+        {% block label %}{{ 'form.settings.session_runner_service'|trans }}{% endblock %}
+        {% block tooltip %}{{'form.settings.session_runner_service.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input type="checkbox" ng-disabled="!exposedSettingsMap.api_enabled_overridable" ng-model="exposedSettingsMap.api_enabled" ng-true-value="'1'" ng-false-value="'0'">
+            <select ng-disabled="!exposedSettingsMap.session_runner_service_overridable" ng-model="exposedSettingsMap.session_runner_service" style="width:100%;" class='form-control'>
+                <option value="PersistantSessionRunnerService">Persistent</option>
+                <option value="SerializedSessionRunnerService">Serialized</option>
+            </select>
         {% endblock %}
     {% endembed %}
 

@@ -9,8 +9,8 @@ use DateTime;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\ScheduledTaskRepository")
  */
-class ScheduledTask implements \JsonSerializable {
-
+class ScheduledTask implements \JsonSerializable
+{
     const TYPE_R_PACKAGE_INSTALL = 4;
     const STATUS_PENDING = 0;
     const STATUS_ONGOING = 1;
@@ -27,14 +27,14 @@ class ScheduledTask implements \JsonSerializable {
     protected $id;
 
     /**
-     * 
+     *
      * @var DateTime
      * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * 
+     *
      * @var DateTime
      * @ORM\Column(type="datetime")
      */
@@ -75,7 +75,8 @@ class ScheduledTask implements \JsonSerializable {
      */
     private $info;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
         $this->status = self::STATUS_PENDING;
@@ -87,9 +88,10 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -98,7 +100,8 @@ class ScheduledTask implements \JsonSerializable {
      * @param integer $id
      * @return ScheduledTask
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
         return $this;
     }
@@ -106,9 +109,10 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get created time
      *
-     * @return DateTime 
+     * @return DateTime
      */
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->created;
     }
 
@@ -117,18 +121,19 @@ class ScheduledTask implements \JsonSerializable {
      *
      * @return ScheduledTask
      */
-    public function setUpdated() {
+    public function setUpdated()
+    {
         $this->updated = new DateTime("now");
-
         return $this;
     }
 
     /**
      * Get updated time
      *
-     * @return DateTime 
+     * @return DateTime
      */
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->updated;
     }
 
@@ -138,7 +143,8 @@ class ScheduledTask implements \JsonSerializable {
      * @param integer $type
      * @return ScheduledTask
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
 
         return $this;
@@ -147,9 +153,10 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -159,7 +166,8 @@ class ScheduledTask implements \JsonSerializable {
      * @param integer $status
      * @return ScheduledTask
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
 
         return $this;
@@ -168,9 +176,10 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
@@ -180,7 +189,8 @@ class ScheduledTask implements \JsonSerializable {
      * @param string $description
      * @return ScheduledTask
      */
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
 
         return $this;
@@ -189,9 +199,10 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -201,7 +212,8 @@ class ScheduledTask implements \JsonSerializable {
      * @param string $output
      * @return ScheduledTask
      */
-    public function setOutput($output) {
+    public function setOutput($output)
+    {
         $this->output = $output;
 
         return $this;
@@ -210,13 +222,15 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get output
      *
-     * @return string 
+     * @return string
      */
-    public function getOutput() {
+    public function getOutput()
+    {
         return $this->output;
     }
 
-    public function appendOutput($output) {
+    public function appendOutput($output)
+    {
         $this->output .= PHP_EOL . $output;
     }
 
@@ -226,7 +240,8 @@ class ScheduledTask implements \JsonSerializable {
      * @param string $info
      * @return ScheduledTask
      */
-    public function setInfo($info) {
+    public function setInfo($info)
+    {
         $this->info = $info;
 
         return $this;
@@ -235,13 +250,15 @@ class ScheduledTask implements \JsonSerializable {
     /**
      * Get info
      *
-     * @return string 
+     * @return string
      */
-    public function getInfo() {
+    public function getInfo()
+    {
         return $this->info;
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    public function jsonSerialize(&$dependencies = array())
+    {
         return array(
             "class_name" => "ScheduledTask",
             "id" => $this->getId(),

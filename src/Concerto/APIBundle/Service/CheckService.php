@@ -2,7 +2,6 @@
 
 namespace Concerto\APIBundle\Service;
 
-use Concerto\PanelBundle\Service\TestSessionService;
 use Concerto\TestBundle\Service\ASessionRunnerService;
 use Concerto\TestBundle\Service\TestSessionCountService;
 

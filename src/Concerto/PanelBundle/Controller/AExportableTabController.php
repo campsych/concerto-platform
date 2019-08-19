@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AExportableSectionService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
@@ -20,9 +19,9 @@ abstract class AExportableTabController extends ASectionController
     protected $exportService;
     protected $fileService;
 
-    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, ImportService $importService, ExportService $exportService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, AExportableSectionService $service, TranslatorInterface $translator, ImportService $importService, ExportService $exportService, FileService $fileService)
     {
-        parent::__construct($templating, $service, $translator, $securityTokenStorage);
+        parent::__construct($templating, $service, $translator);
 
         $this->environment = $environment;
         $this->importService = $importService;
@@ -32,43 +31,29 @@ abstract class AExportableTabController extends ASectionController
 
     public function preImportStatusAction(Request $request)
     {
-        $result = $this->importService->getPreImportStatusFromFile(
+        $instructions = $this->importService->getPreImportStatusFromFile(
             $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
-            $request->get("name"));
+            $errorMessages
+        );
 
-        $response = new Response(json_encode($result));
+        $response = new Response(json_encode(array(
+            "result" => $instructions !== false ? 0 : 1,
+            "errors" => $this->trans($errorMessages),
+            "status" => $instructions
+        )));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     public function importAction(Request $request)
     {
-        $result = $this->importService->importFromFile(
-            $this->securityTokenStorage->getToken()->getUser(),
+        $importedSuccessfully = $this->importService->importFromFile(
             $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
             json_decode($request->get("instructions"), true),
-            false);
-        $errors = array();
-        $show_index = 0;
-        for ($j = 0; $j < count($result["import"]); $j++) {
-            $r = $result["import"][$j];
+            false,
+            $errorMessages);
 
-            if (array_key_exists("entity", $r) && get_class($r["entity"]) == $this->entityName)
-                $show_index = $j;
-
-            if (!array_key_exists("errors", $r) || !$r["errors"])
-                continue;
-            for ($i = 0; $i < count($r['errors']); $i++) {
-                $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
-            }
-        }
-        if ($result["result"] == 1) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
-        } else if ($result["result"] == 0) {
-            $response = new Response(json_encode(array("result" => 0, "object" => $result["import"][$show_index]['entity'], "object_id" => $result["import"][$show_index]['entity']->getId())));
-        } else if ($result["result"] == 2) {
-            $response = new Response(json_encode(array("result" => 2)));
-        }
+        $response = new Response(json_encode(array("result" => $importedSuccessfully ? 0 : 1, "errors" => $this->trans($errorMessages))));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -98,31 +83,29 @@ abstract class AExportableTabController extends ASectionController
 
     public function copyAction(Request $request, $object_id)
     {
-        $result = $this->importService->copy(
+        $copySuccessful = $this->importService->copy(
             $this->entityName,
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
-            $request->get("name")
+            $request->get("name"),
+            $errorMessages
         );
-        $errors = array();
-        $show_index = 0;
-        for ($j = 0; $j < count($result["import"]); $j++) {
-            $r = $result["import"][$j];
 
-            if (array_key_exists("entity", $r) && json_decode(json_encode($r["entity"]), true)["class_name"] == $this->entityName)
-                $show_index = $j;
+        $response = new Response(json_encode(array("result" => $copySuccessful ? 0 : 1, "errors" => $this->trans($errorMessages))));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
-            if (!array_key_exists("errors", $r) || !$r['errors'])
-                continue;
-            for ($i = 0; $i < count($r['errors']); $i++) {
-                $errors[] = $r["source"]["class_name"] . "#" . $r["source"]["id"] . ": " . $this->translator->trans($r['errors'][$i]);
-            }
+    public function toggleLock(Request $request, $object_id)
+    {
+        $timestamp = $request->get("objectTimestamp");
+        if (!$this->service->canBeModified($object_id, $timestamp, $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
-        if (count($errors) > 0) {
-            $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
-        } else {
-            $response = new Response(json_encode(array("result" => 0, "object" => $result["import"][$show_index]['entity'], "object_id" => $result["import"][$show_index]['entity']->getId())));
-        }
+
+        $this->service->toggleLock($object_id);
+        $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

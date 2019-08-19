@@ -1,6 +1,6 @@
-function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService) {
+function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService) {
     $scope.tabStateName = "tables";
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, DataTableCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.DATA_TABLE_DELETE;
@@ -12,14 +12,11 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.saveNewPath = Paths.DATA_TABLE_SAVE_NEW;
     $scope.exportPath = Paths.DATA_TABLE_EXPORT;
     $scope.columnsCollectionPath = Paths.DATA_TABLE_COLUMNS_COLLECTION;
-    $scope.deleteColumnPath = Paths.DATA_TABLE_COLUMNS_DELETE;
     $scope.fetchColumnObjectPath = Paths.DATA_TABLE_COLUMNS_FETCH_OBJECT;
     $scope.dataCollectionPath = Paths.DATA_TABLE_DATA_COLLECTION;
     $scope.dataAllCsvPath = Paths.DATA_TABLE_DATA_ALL_CSV;
-    $scope.dataUpdatePath = Paths.DATA_TABLE_DATA_UPDATE;
-    $scope.dataInsertPath = Paths.DATA_TABLE_DATA_INSERT;
-    $scope.deleteDataPath = Paths.DATA_TABLE_DATA_DELETE;
     $scope.exportInstructionsPath = Paths.DATA_TABLE_EXPORT_INSTRUCTIONS;
+    $scope.lockPath = Paths.DATA_TABLE_LOCK;
 
     $scope.formTitleAddLabel = Trans.DATA_TABLE_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.DATA_TABLE_FORM_TITLE_EDIT;
@@ -85,9 +82,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }
         $scope.dataOptions.columnDefs.push({
             cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-            "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
-            Trans.DATA_TABLE_DATA_LIST_DELETE +
-            "</button>",
+                "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
+                Trans.DATA_TABLE_DATA_LIST_DELETE +
+                "</button>",
             width: 60,
             enableCellEdit: false,
             displayName: "",
@@ -99,11 +96,11 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.fetchDataCollection($scope.object.id);
     });
     $scope.editTextCell = function (entity, colName) {
-        $scope.dialogsService.textareaDialog(
+        DialogsService.textareaDialog(
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
             entity[colName],
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TOOLTIP,
-            $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+            !$scope.isEditable(),
             function (newVal) {
                 entity[colName] = newVal;
                 $scope.saveRow(entity);
@@ -141,10 +138,10 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
-                "</div>",
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
+                    "</div>",
                 width: 100
             }
         ],
@@ -265,8 +262,18 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         $scope.fetchDataCollection($scope.object.id);
     };
     $scope.addRow = function () {
-        $http.post($scope.dataInsertPath.pf($scope.object.id)).success(function (response) {
-            $scope.fetchDataCollection($scope.object.id);
+        $http.post(Paths.DATA_TABLE_DATA_INSERT.pf($scope.object.id), {
+            objectTimestamp: $scope.object.updatedOn
+        }).success(function (response) {
+            if (response.result == 0) {
+                $scope.fetchDataCollection($scope.object.id);
+            } else {
+                DialogsService.alertDialog(
+                    Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
+                    response.errors.join("<br/>"),
+                    "danger"
+                );
+            }
         });
     };
     $scope.saveRow = function (row) {
@@ -279,21 +286,47 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }
         }
 
-        $http.post($scope.dataUpdatePath.pf($scope.object.id, newRow.id), {
-            values: newRow
-        }).then(function (response) {
+        $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRow.id), {
+            values: newRow,
+            objectTimestamp: $scope.object.updatedOn
+        }).then(function (data) {
+            switch (data.result) {
+                case BaseController.RESULT_VALIDATION_FAILED: {
+                    DialogsService.alertDialog(
+                        Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
+                        data.errors.join("<br/>"),
+                        "danger"
+                    );
+                    break;
+                }
+            }
         }).catch(function (error) {
             $scope.refreshRows();
         });
     };
 
     $scope.deleteAllRows = function () {
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post(Paths.DATA_TABLE_DATA_DELETE_ALL.pf($scope.object.id)).success(function (data) {
-                    $scope.fetchDataCollection($scope.object.id);
+                $http.post(Paths.DATA_TABLE_DATA_DELETE_ALL.pf($scope.object.id), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.fetchDataCollection($scope.object.id);
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            $scope.dialogsService.alertDialog(
+                                Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -312,12 +345,27 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             ids = [ids];
         }
 
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post($scope.deleteDataPath.pf($scope.object.id, ids), {}).success(function (data) {
-                    $scope.fetchDataCollection($scope.object.id);
+                $http.post(Paths.DATA_TABLE_DATA_DELETE.pf($scope.object.id, ids), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.fetchDataCollection($scope.object.id);
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            $scope.dialogsService.alertDialog(
+                                Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -369,13 +417,28 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             names = [names];
         }
 
-        $scope.dialogsService.confirmDialog(
+        DialogsService.confirmDialog(
             Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE,
             Trans.DATA_TABLE_STRUCTURE_DIALOG_MESSAGE_CONFIRM_DELETE,
             function (response) {
-                $http.post($scope.deleteColumnPath.pf($scope.object.id, names), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.fetchObjectCollection();
+                $http.post(Paths.DATA_TABLE_COLUMNS_DELETE.pf($scope.object.id, names), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.setWorkingCopyObject();
+                            $scope.fetchAllCollections();
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            DialogsService.alertDialog(
+                                Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -422,7 +485,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function () {
         });
     };
@@ -438,17 +501,17 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     return $scope.object;
                 },
                 editable: function () {
-                    return !$scope.object.starterContent || $scope.administrationSettingsService.starterContentEditable;
+                    return $scope.isEditable();
                 }
             }
         });
         modalInstance.result.then(function (response) {
             $scope.setWorkingCopyObject();
-            $scope.fetchObjectCollection();
+            $scope.fetchAllCollections();
         }, function (dirty) {
             if (dirty === true) {
                 $scope.setWorkingCopyObject();
-                $scope.fetchObjectCollection();
+                $scope.fetchAllCollections();
             }
         });
     };
@@ -462,8 +525,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testCollectionService.fetchObjectCollection();
-        $scope.testWizardCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.resetObject = function () {
@@ -479,4 +541,4 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.initializeColumnDefs();
 }
 
-concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", DataTableController]);
+concertoPanel.controller('DataTableController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "AdministrationSettingsService", "AuthService", DataTableController]);

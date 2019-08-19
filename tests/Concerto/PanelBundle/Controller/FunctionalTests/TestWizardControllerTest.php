@@ -133,7 +133,9 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)[0]['updatedOn'],
                 "updatedBy" => "admin",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -161,7 +163,7 @@ class TestWizardControllerTest extends AFunctionalTest {
         $client->request("POST", "/admin/TestWizard/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0, "object_ids" => 1), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(0, self::$repository->findAll());
         $this->assertCount(0, self::$wizardStepsRepository->findAll());
         $this->assertCount(0, self::$wizardParamsRepository->findAll());
@@ -195,7 +197,9 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "groups" => "",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => "admin",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
     }
@@ -257,7 +261,9 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => "admin",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -319,7 +325,9 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "testName" => "test2",
                 "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
                 "updatedBy" => "admin",
-                "accessibility" => ATopEntity::ACCESS_PUBLIC
+                "accessibility" => ATopEntity::ACCESS_PUBLIC,
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -352,7 +360,9 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "archived" => "0",
                 "starterContent" => false,
                 "owner" => null,
-                "groups" => ""
+                "groups" => "",
+                "lockedBy" => null,
+                "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());
 

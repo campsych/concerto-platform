@@ -66,23 +66,22 @@
     Paths.TEST_WIZARD_PARAM_DELETE = "{{ path("TestWizardParam_delete",{'object_ids':"{0}"}) }}";
     Paths.TEST_WIZARD_PARAM_SAVE = "{{ path("TestWizardParam_save", {"object_id":"{0}"}) }}";
     Paths.TEST_WIZARD_PARAM_FETCH_OBJECT = "{{ path("TestWizardParam_object",{'object_id':"{0}"}) }}";
+    Paths.TEST_WIZARD_LOCK = "{{ path("TestWizard_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.TEST_FLOW_NODE_COLLECTION = "{{ path("TestNode_collection_by_flow_test", {'test_id':"{0}"}) }}";
     Paths.TEST_FLOW_NODE_SAVE = "{{ path("TestNode_save", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_NODE_ADD_COLLECTION = "{{ path("Test_add_node", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_NODE_DELETE = "{{ path("TestNode_delete", {"object_ids":"{0}"}) }}";
-    Paths.TEST_FLOW_NODE_DELETE_COLLECTION = "{{ path("Test_remove_node", {"node_ids":"{0}"}) }}";
     Paths.TEST_FLOW_NODE_MOVE = "{{ path("Test_move_node") }}";
     Paths.TEST_FLOW_CONNECTION_COLLECTION = "{{ path("TestNodeConnection_collection_by_flow_test", {'test_id':"{0}"}) }}";
     Paths.TEST_FLOW_CONNECTION_SAVE = "{{ path("TestNodeConnection_save", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_CONNECTION_ADD_COLLECTION = "{{ path("Test_add_connection", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_CONNECTION_DELETE = "{{ path("TestNodeConnection_delete", {"object_ids":"{0}"}) }}";
-    Paths.TEST_FLOW_CONNECTION_DELETE_COLLECTION = "{{ path("Test_remove_connection", {"connection_id":"{0}"}) }}";
     Paths.TEST_FLOW_PORT_SAVE = "{{ path("TestNodePort_save", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_PORT_SAVE_COLLECTION = "{{ path("TestNodePort_save_collection") }}";
     Paths.TEST_FLOW_NODE_PASTE_COLLECTION = "{{ path("Test_paste_nodes", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_PORT_ADD_DYNAMIC = "{{ path("TestNode_add_dynamic_port", {"object_id":"{0}", "type":"{1}"}) }}";
-    Paths.TEST_FLOW_PORT_EXPOSE = "{{ path("TestNode_expose_ports") }}";
+    Paths.TEST_FLOW_PORT_EXPOSE = "{{ path("TestNode_expose_ports", {"object_id":"{0}"}) }}";
     Paths.TEST_FLOW_PORT_HIDE = "{{ path("TestNodePort_hide", {"object_id":"{0}"}) }}";
 
     Paths.TEST_COLLECTION = "{{ path("Test_collection") }}";
@@ -107,6 +106,7 @@
     Paths.TEST_VARIABLE_SAVE = "{{ path("TestVariable_save", {"object_id":"{0}"}) }}";
     Paths.TEST_RUN = "{{ path("test_runner_start",{"test_slug": "{0}" }) }}";
     Paths.TEST_DEBUG = "{{ path("test_runner_start_debug",{"test_slug":"{0}"}) }}";
+    Paths.TEST_LOCK = "{{ path("Test_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.VIEW_TEMPLATE_COLLECTION = "{{ path("ViewTemplate_collection") }}";
     Paths.VIEW_TEMPLATE_DELETE = "{{ path("ViewTemplate_delete", {'object_ids':"{0}"}) }}";
@@ -118,6 +118,7 @@
     Paths.VIEW_TEMPLATE_PRE_IMPORT_STATUS = "{{ path("ViewTemplate_pre_import_status") }}";
     Paths.VIEW_TEMPLATE_EXPORT_INSTRUCTIONS = "{{ path("ViewTemplate_export_instructions",{'object_ids':"{0}"}) }}";
     Paths.VIEW_TEMPLATE_EXPORT = "{{ path("ViewTemplate_export",{'instructions':"{0}", 'format':"{1}"}) }}";
+    Paths.VIEW_TEMPLATE_LOCK = "{{ path("ViewTemplate_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.DATA_TABLE_COLLECTION = "{{ path("DataTable_collection") }}";
     Paths.DATA_TABLE_DELETE = "{{ path("DataTable_delete", {'object_ids':"{0}"}) }}";
@@ -141,6 +142,7 @@
     Paths.DATA_TABLE_IMPORT_CSV = "{{ path("DataTable_csv_import",{'table_id':"{0}", 'restructure':"{1}", 'header':"{2}", 'delimiter':"{3}", 'enclosure':"{4}"}) }}";
     Paths.DATA_TABLE_COLUMNS_SAVE = "{{ path("DataTable_column_save", {"table_id":"{0}", "column_name":"{1}"}) }}";
     Paths.DATA_TABLE_DATA_ALL_CSV = "{{ path("DataTable_data_collection_csv", {'table_id':"{0}", 'name':"{1}"}) }}";
+    Paths.DATA_TABLE_LOCK = "{{ path("DataTable_toggleLock",{'object_id':"{0}"}) }}";
 
     Paths.USER_COLLECTION = "{{ path("User_collection") }}";
     Paths.USER_DELETE = "{{ path("User_delete", {'object_ids':"{0}"}) }}";
@@ -169,6 +171,15 @@
     Paths.ADMINISTRATION_TASKS_PACKAGE_INSTALL = "{{ path("Administration_tasks_package_install") }}";
     Paths.ADMINISTRATION_CONTENT_IMPORT = "{{ path("Administration_content_import") }}";
     Paths.ADMINISTRATION_CONTENT_EXPORT = "{{ path("Administration_content_export", {'instructions':"{0}"}) }}";
+    Paths.ADMINISTRATION_GET_AUTH_USER = "{{ path("Administration_user") }}";
+    Paths.ADMINISTRATION_GIT_ENABLE = "{{ path("Administration_git_enable") }}";
+    Paths.ADMINISTRATION_GIT_DISABLE = "{{ path("Administration_git_disable") }}";
+    Paths.ADMINISTRATION_GIT_STATUS = "{{ path("Administration_git_status") }}";
+    Paths.ADMINISTRATION_GIT_DIFF = "{{ path("Administration_git_diff", {'sha':"{0}"}) }}";
+    Paths.ADMINISTRATION_GIT_COMMIT = "{{ path("Administration_git_commit") }}";
+    Paths.ADMINISTRATION_GIT_RESET = "{{ path("Administration_git_reset") }}";
+    Paths.ADMINISTRATION_GIT_PUSH = "{{ path("Administration_git_push") }}";
+    Paths.ADMINISTRATION_GIT_PULL = "{{ path("Administration_git_pull") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}";
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}";
@@ -198,9 +209,11 @@
     Trans.LIST_EXPORT = "{{ "list.export"|trans }}";
     Trans.LIST_DELETE = "{{ "list.delete"|trans }}";
     Trans.LIST_BUTTONS_TOGGLE_FILTERS = "{{ 'list.button.toggle_filters'|trans }}";
+    Trans.LIST_LOCKED_TOOLTIP = "{{ 'list.locked.tooltip'|trans }}";
     Trans.DIALOG_TITLE_DELETE = "{{ 'dialog.title.delete'|trans }}";
     Trans.DIALOG_TITLE_SAVE = "{{ 'dialog.title.save'|trans }}";
     Trans.DIALOG_TITLE_CSV = "{{ 'dialog.title.csv'|trans }}";
+    Trans.DIALOG_TITLE_LOCK = "{{ 'dialog.title.lock'|trans }}";
     Trans.DIALOG_MESSAGE_CONFIRM_DELETE = "{{ 'dialog.message.confirm.delete'|trans }}";
     Trans.DIALOG_MESSAGE_CONFIRM_UNSAFE_IMPORT = "{{ 'dialog.message.confirm.unsafe_import'|trans }}";
     Trans.DIALOG_MESSAGE_SAVED = "{{ 'dialog.message.saved'|trans }}";
@@ -217,7 +230,6 @@
     Trans.IMPORT_ACTION_NEW = "{{ 'import.action.new'|trans }}";
     Trans.IMPORT_ACTION_CONVERT = "{{ 'import.action.convert'|trans }}";
     Trans.IMPORT_ACTION_IGNORE = "{{ 'import.action.ignore'|trans }}";
-    Trans.IMPORT_MESSAGE_VERSION_INCOMPATIBLE = "{{ 'import.dialog.message.incompatible_version'|trans }}";
 
     {% trans_default_domain "TestWizard" %}
     Trans.TEST_WIZARD_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
@@ -321,6 +333,7 @@
     Trans.TEST_BUTTON_RUN = "{{ "form.button.run"|trans }}";
     Trans.TEST_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
     Trans.TEST_LIST_FIELD_NAME = "{{ "list.field.name"|trans }}";
+    Trans.TEST_LIST_FIELD_SLUG = "{{ "list.field.slug"|trans }}";
     Trans.TEST_LIST_FIELD_WIZARD = "{{ "list.field.wizard"|trans }}";
     Trans.TEST_LIST_FIELD_WIZARD_SOURCE = "{{ "list.field.wizard.source"|trans }}";
     Trans.TEST_FORM_TITLE_ADD = "{{ 'form.title.add'|trans }}";
@@ -394,6 +407,7 @@
     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_MESSAGE = "{{ "flow.nodes.dialog.selection_delete.message"|trans }}";
     Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TITLE = "{{ "flow.nodes.dialog.title.title"|trans }}";
     Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TOOLTIP = "{{ "flow.nodes.dialog.title.tooltip"|trans }}";
+    Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE = "{{ "flow.nodes.dialog.edit.title"|trans }}";
     Trans.TEST_FLOW_DIALOG_NODE_INPUT_ADD_TITLE = "{{ "flow.ports.dialog.titles.input.add"|trans }}";
     Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_INPUT = "{{ "flow.ports.dialog.titles.input.remove"|trans }}";
     Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_INPUT = "{{ "flow.ports.dialog.content.input.remove"|trans }}";
@@ -403,6 +417,7 @@
     Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_RETURN = "{{ "flow.ports.dialog.content.return.remove"|trans }}";
     Trans.TEST_FLOW_PORT_DIALOG_TITLE_REMOVE_ALL_CONNECTIONS = "{{ "flow.ports.dialog.title.port.remove_all_connections"|trans }}";
     Trans.TEST_FLOW_PORT_DIALOG_CONTENT_REMOVE_ALL_CONNECTIONS = "{{ "flow.ports.dialog.content.port.remove_all_connections"|trans }}";
+    Trans.TEST_FLOW_DIALOG_CONNECTION_EDIT_TITLE = "{{ "flow.connections.dialog.edit.title"|trans }}";
 
     {% trans_default_domain "ViewTemplate" %}
     Trans.VIEW_TEMPLATE_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";
@@ -421,6 +436,7 @@
     Trans.DATA_TABLE_STRUCTURE_LIST_EDIT = "{{ 'structure.list.edit'|trans }}";
     Trans.DATA_TABLE_STRUCTURE_LIST_DELETE = "{{ 'structure.list.delete'|trans }}";
     Trans.DATA_TABLE_DATA_DIALOG_TITLE_DELETE = "{{ 'data.dialog.title.delete'|trans }}";
+    Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT = "{{ 'data.dialog.title.edit'|trans }}";
     Trans.DATA_TABLE_DATA_DIALOG_MESSAGE_CONFIRM_DELETE = "{{ 'data.dialog.message.confirm.delete'|trans }}";
     Trans.DATA_TABLE_STRUCTURE_DIALOG_TITLE_DELETE = "{{ 'structure.dialog.title.delete'|trans }}";
     Trans.DATA_TABLE_STRUCTURE_DIALOG_MESSAGE_CONFIRM_DELETE = "{{ 'structure.dialog.message.confirm.delete'|trans }}";
@@ -495,4 +511,25 @@
     Trans.CONTENT_IMPORT_PROMPT = "{{ "content.import_prompt"|trans }}";
     Trans.CONTENT_IMPORT_SUCCESS = "{{ "content.import_success"|trans }}";
     Trans.CONTENT_IMPORT_FAILURE = "{{ "content.import_failure"|trans }}";
+    Trans.GIT_ENABLE_SUCCESS = "{{ "git.enable.success"|trans }}";
+    Trans.GIT_ENABLE_FAILURE = "{{ "git.enable.failure"|trans }}";
+    Trans.GIT_DISABLE_TITLE = "{{ "git.disable.title"|trans }}";
+    Trans.GIT_DISABLE_CONFIRM = "{{ "git.disable.confirm"|trans }}";
+    Trans.GIT_DIFF_SHA = "{{ "git.diff.sha"|trans }}";
+    Trans.GIT_DIFF_LOCAL = "{{ "git.diff.local"|trans }}";
+    Trans.GIT_REFRESH_TITLE = "{{ "git.refresh.title"|trans }}";
+    Trans.GIT_COMMIT_SUCCESS = "{{ "git.commit.success"|trans }}";
+    Trans.GIT_COMMIT_FAILURE = "{{ "git.commit.failure"|trans }}";
+    Trans.GIT_RESET_TITLE = "{{ "git.reset.title"|trans }}";
+    Trans.GIT_RESET_CONFIRM = "{{ "git.reset.confirm"|trans }}";
+    Trans.GIT_RESET_SUCCESS = "{{ "git.reset.success"|trans }}";
+    Trans.GIT_RESET_FAILURE = "{{ "git.reset.failure"|trans }}";
+    Trans.GIT_PUSH_TITLE = "{{ "git.push.title"|trans }}";
+    Trans.GIT_PUSH_CONFIRM = "{{ "git.push.confirm"|trans }}";
+    Trans.GIT_PUSH_SUCCESS = "{{ "git.push.success"|trans }}";
+    Trans.GIT_PUSH_FAILURE = "{{ "git.push.failure"|trans }}";
+    Trans.GIT_PULL_TITLE = "{{ "git.pull.title"|trans }}";
+    Trans.GIT_PULL_CONFIRM = "{{ "git.pull.confirm"|trans }}";
+    Trans.GIT_PULL_SUCCESS = "{{ "git.pull.success"|trans }}";
+    Trans.GIT_PULL_FAILURE = "{{ "git.pull.failure"|trans }}";
 </script>

@@ -43,9 +43,6 @@ class StartForkerCommand extends Command
         $maxIdleTime = $this->testRunnerSettings["max_idle_time"];
         $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
 
-        $runnerType = 0;
-        if($this->sessionRunnerService instanceof SerializedSessionRunnerService) $runnerType = 1;
-
         $cmd = "nohup " . $this->testRunnerSettings["rscript_exec"] . " --no-save --no-restore --quiet "
             . "'$forkerPath' "
             . "'$fifoPath' "
@@ -55,7 +52,6 @@ class StartForkerCommand extends Command
             . "$maxExecTime "
             . "$maxIdleTime "
             . "$keepAliveToleranceTime "
-            . "$runnerType "
             . ">> "
             . "'" . $logPath . "' "
             . "2>&1 & echo $!";

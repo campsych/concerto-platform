@@ -1,79 +1,98 @@
 validate:
-    user:
-      username.unique: Ten login już istnieje w systemie
-      username.min: Minimalna długość pola "login" to 3
-      username.max: Maksymalna długość pola "login" to 25
-      username.blank: Pole "login" nie może być puste
-      password.min: Minimalna długość pola "hasło" to 4
-      password.max: Maksymalna długość pola "hasło" to 40
-      password.match: Potwierdzenie hasła różni się od hasła
-      password.blank: Pole "hasło" nie może być puste
-      email: To nie jest poprawny adres email
-      email.unique: Ten email już istnieje w systemie
-      email.max: Maksymalna długość pola "email" to 60
-      email.blank: Pole "email" nie może być puste
-      
-    table:
-      name.unique: Ta nazwa już istnieje w systemie
+  user:
+    username.unique: Ten login już istnieje w systemie
+    username.min: Minimalna długość pola "login" to 3
+    username.max: Maksymalna długość pola "login" to 25
+    username.blank: Pole "login" nie może być puste
+    password.min: Minimalna długość pola "hasło" to 4
+    password.max: Maksymalna długość pola "hasło" to 40
+    password.match: Potwierdzenie hasła różni się od hasła
+    password.blank: Pole "hasło" nie może być puste
+    email: To nie jest poprawny adres email
+    email.unique: Ten email już istnieje w systemie
+    email.max: Maksymalna długość pola "email" to 60
+    email.blank: Pole "email" nie może być puste
+
+  table:
+    name.unique: Ta nazwa już istnieje w systemie
+    name.min: Minimalna długość pola "nazwa" to 1
+    name.max: Maksymalna długość pola "nazwa" to 64
+    name.blank: Pole "nazwa" nie może być puste
+    name.incorrect: Niepoprawna nazwa
+    column.name.unique: Już jest taka kolumna w tabeli
+    column.name.blank: Nazwa nie może być pusta
+    column.name.incorrect: Niepoprawna nazwa
+
+  template:
+    name.unique: Ta nazwa już istnieje w systemie
+    name.min: Minimalna długość pola "nazwa" to 1
+    name.max: Maksymalna długość pola "nazwa" to 64
+    name.blank: Pole "nazwa" nie może być puste
+
+  test:
+    name.unique: Ta nazwa już istnieje w systemie
+    name.min: Minimalna długość pola "nazwa" to 1
+    name.max: Maksymalna długość pola "nazwa" to 64
+    name.blank: Pole "nazwa" nie może być puste
+    wizard.source: Musi zostać wybrany źródłowy wizard dla testu typu wizard
+    delete.referenced: Test nie może zostać usunięty gdyż jest powiązany z przynajmniej jednym kreatorem testu
+
+    ports:
+      unique: Zmienna wejścia o tej nazwie już istnieje
       name.min: Minimalna długość pola "nazwa" to 1
       name.max: Maksymalna długość pola "nazwa" to 64
       name.blank: Pole "nazwa" nie może być puste
       name.incorrect: Niepoprawna nazwa
-      column.name.unique: Już jest taka kolumna w tabeli
-      column.name.blank: Nazwa nie może być pusta
-      column.name.incorrect: Niepoprawna nazwa
-      
-    template:
+
+    variables:
+      unique: Zmienna o tej nazwie i typie jest już przypisana do testu
+      name.min: Minimalna długość pola "nazwa" to 1
+      name.max: Maksymalna długość pola "nazwa" to 64
+      name.blank: Pole "nazwa" nie może być puste
+      name.incorrect: Niepoprawna nazwa
+
+    wizards:
       name.unique: Ta nazwa już istnieje w systemie
       name.min: Minimalna długość pola "nazwa" to 1
       name.max: Maksymalna długość pola "nazwa" to 64
       name.blank: Pole "nazwa" nie może być puste
-      
-    test:
-      name.unique: Ta nazwa już istnieje w systemie
-      name.min: Minimalna długość pola "nazwa" to 1
-      name.max: Maksymalna długość pola "nazwa" to 64
-      name.blank: Pole "nazwa" nie może być puste
-      wizard.source: Musi zostać wybrany źródłowy wizard dla testu typu wizard
-      delete.referenced: Test nie może zostać usunięty gdyż jest powiązany z przynajmniej jednym kreatorem testu
+      test.null: Test musi zostać wybrany
+      delete.referenced: Kreator testu nie może zostać usunięty gdyż jest powiązany z przynajmniej jednym testem
 
-      ports:
-        unique: Zmienna wejścia o tej nazwie już istnieje
-        name.min: Minimalna długość pola "nazwa" to 1
-        name.max: Maksymalna długość pola "nazwa" to 64
-        name.blank: Pole "nazwa" nie może być puste
-        name.incorrect: Niepoprawna nazwa
+      params:
+        label.min: Minimalna długość pola "nazwa" to 1
+        label.max: Maksymalna długość pola "nazwa" to 64
+        label.blank: Pole "nazwa" nie może być puste
+        variable.null: Zmienna testu musi zostać wybrana
+        variable.unique: Tylko jeden parametr wizarda może być przypisany do konkretnego parametru testu
+        step.null: Krok wizardu testu musi zostać wybrany
 
-      variables:
-        unique: Zmienna o tej nazwie i typie jest już przypisana do testu
-        name.min: Minimalna długość pola "nazwa" to 1
-        name.max: Maksymalna długość pola "nazwa" to 64
-        name.blank: Pole "nazwa" nie może być puste
-        name.incorrect: Niepoprawna nazwa
-          
-      wizards:
-        name.unique: Ta nazwa już istnieje w systemie
-        name.min: Minimalna długość pola "nazwa" to 1
-        name.max: Maksymalna długość pola "nazwa" to 64
-        name.blank: Pole "nazwa" nie może być puste
-        test.null: Test musi zostać wybrany
-        delete.referenced: Kreator testu nie może zostać usunięty gdyż jest powiązany z przynajmniej jednym testem
-        
-        params:
-            label.min: Minimalna długość pola "nazwa" to 1
-            label.max: Maksymalna długość pola "nazwa" to 64
-            label.blank: Pole "nazwa" nie może być puste
-            variable.null: Zmienna testu musi zostać wybrana
-            variable.unique: Tylko jeden parametr wizarda może być przypisany do konkretnego parametru testu
-            step.null: Krok wizardu testu musi zostać wybrany
-        
-        steps:
-            unique: Każdy tytuł kroku musi być unikalny
-            title.min: Minimalna długość pola "tytuł" to 1
-            title.max: Maksymalna długość pola "tytuł" to 64
-            title.blank: Pole "tytuł" nie może być puste
-            
+      steps:
+        unique: Każdy tytuł kroku musi być unikalny
+        title.min: Minimalna długość pola "tytuł" to 1
+        title.max: Maksymalna długość pola "tytuł" to 64
+        title.blank: Pole "tytuł" nie może być puste
+
+  locked: Obiekt przejęty przez kogoś innego.
+  outdated: Ktoś zmienił obiekt. Twoja obecnie wczytana wersja nie jest juz aktualna. Proszę odświeżyć.
+
 errors:
-    title: Błedy systemu
-    table:
-        column.conversion: Wybrana konwersja typu nie jest dostępna przy używanym sterowniku bazy danych.
+  title: Błedy systemu
+  table:
+    column.conversion: Wybrana konwersja typu nie jest dostępna przy używanym sterowniku bazy danych.
+
+import:
+  incompatible_version: Plik eksportu jest przestarzały i nie może być używany na tej wersji Concerto Platform!
+
+git:
+  locked: Niektóre obiekty są zablokowane. Odblokuj je, aby móc kontynuować operację.
+  fetch_failed: Nieudany fetch
+  behind_num_failed: Nieudany Git behind num
+  ahead_num_failed: Nieudany Git ahead num
+  history_failed: Nieudane Git history
+  refresh_failed: Nieudane odświeżenie kopii roboczej
+  add_failed: Nieudany Git add
+  diff_failed: Nieudany Git diff
+  reset_failed: Nieudany Git reset
+  import_failed: Nieudany import kopii roboczej
+  pull_failed: Nieudany Git pull

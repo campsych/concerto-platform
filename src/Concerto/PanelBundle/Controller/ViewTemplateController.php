@@ -7,7 +7,6 @@ use Concerto\PanelBundle\Service\ViewTemplateService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Concerto\PanelBundle\Service\ImportService;
 use Concerto\PanelBundle\Service\ExportService;
@@ -23,9 +22,9 @@ class ViewTemplateController extends AExportableTabController
 
     private $userService;
 
-    public function __construct($environment, EngineInterface $templating, ViewTemplateService $service, TranslatorInterface $translator, TokenStorageInterface $securityTokenStorage, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, ViewTemplateService $service, TranslatorInterface $translator, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
     {
-        parent::__construct($environment, $templating, $service, $translator, $securityTokenStorage, $importService, $exportService, $fileService);
+        parent::__construct($environment, $templating, $service, $translator, $importService, $exportService, $fileService);
 
         $this->entityName = self::ENTITY_NAME;
         $this->exportFilePrefix = self::EXPORT_FILE_PREFIX;
@@ -57,6 +56,18 @@ class ViewTemplateController extends AExportableTabController
     }
 
     /**
+     * @Route("/admin/ViewTemplate/{object_id}/toggleLock", name="ViewTemplate_toggleLock")
+     * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
+     * @param $object_id
+     * @return Response
+     */
+    public function toggleLock(Request $request, $object_id)
+    {
+        return parent::toggleLock($request, $object_id);
+    }
+
+    /**
      * @Route("/admin/ViewTemplate/form/{action}", name="ViewTemplate_form", defaults={"action":"edit"})
      * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
      * @param string $action
@@ -77,8 +88,13 @@ class ViewTemplateController extends AExportableTabController
      */
     public function saveAction(Request $request, $object_id)
     {
+        if (!$this->service->canBeModified($object_id, $request->get("objectTimestamp"), $errorMessages)) {
+            $response = new Response(json_encode(array("result" => 1, "errors" => $this->trans($errorMessages))));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
         $result = $this->service->save(
-            $this->securityTokenStorage->getToken()->getUser(),
             $object_id,
             $request->get("name"),
             $request->get("description"),
@@ -108,12 +124,13 @@ class ViewTemplateController extends AExportableTabController
     /**
      * @Route("/admin/ViewTemplate/{object_ids}/delete", name="ViewTemplate_delete", methods={"POST"})
      * @Security("has_role('ROLE_TEMPLATE') or has_role('ROLE_SUPER_ADMIN')")
+     * @param Request $request
      * @param string $object_ids
      * @return Response
      */
-    public function deleteAction($object_ids)
+    public function deleteAction(Request $request, $object_ids)
     {
-        return parent::deleteAction($object_ids);
+        return parent::deleteAction($request, $object_ids);
     }
 
     /**

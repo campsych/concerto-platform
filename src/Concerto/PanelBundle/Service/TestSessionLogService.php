@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class TestSessionLogService extends ASectionService
@@ -12,9 +13,9 @@ class TestSessionLogService extends ASectionService
 
     private $testService;
 
-    public function __construct(TestSessionLogRepository $repository, TestService $testService, AuthorizationCheckerInterface $securityAuthorizationChecker)
+    public function __construct(TestSessionLogRepository $repository, TestService $testService, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $securityAuthorizationChecker);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->testService = $testService;
     }
@@ -63,6 +64,11 @@ class TestSessionLogService extends ASectionService
         if ($object && $this->securityAuthorizationChecker->isGranted(ObjectVoter::ATTR_ACCESS, $object->getTest()))
             return $object;
         return null;
+    }
+
+    public function canBeModified($object_ids, $timestamp = null, &$errorMessages = true)
+    {
+        return true;
     }
 
 }

@@ -29,7 +29,7 @@ class TestRepository extends AEntityRepository
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.slug = :slug")->andWhere("t.visibility != " . Test::VISIBILITY_SUBTEST)->setParameter("slug", $slug);
         $results = $qb->getQuery()->getResult();
-        if(count($results) > 0) return $results[0];
+        if (count($results) > 0) return $results[0];
         return null;
     }
 
@@ -37,7 +37,7 @@ class TestRepository extends AEntityRepository
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.name = :name")->andWhere("t.visibility != " . Test::VISIBILITY_SUBTEST)->setParameter("name", $name);
         $results = $qb->getQuery()->getResult();
-        if(count($results) > 0) return $results[0];
+        if (count($results) > 0) return $results[0];
         return null;
     }
 
@@ -51,4 +51,9 @@ class TestRepository extends AEntityRepository
         return $result;
     }
 
+    public function findDirectlyLocked()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.directLockBy IS NOT NULL");
+        return $qb->getQuery()->getResult();
+    }
 }

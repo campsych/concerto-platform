@@ -1,0 +1,53 @@
+{% trans_default_domain "Administration" %}
+
+<div type="text/ng-template" id="git_enable_dialog.html">
+    {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+        {% trans_default_domain "Administration" %}
+        {% block legend %}{{ "git.enable.title"|trans }}{% endblock %}
+        {% block legend_tooltip %}{{ "git.enable.title.tooltip"|trans }}{% endblock %}
+        {% block elements %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}{{ "git.enable.url"|trans }}{% endblock %}
+                {% block tooltip %}{{ "git.enable.url.tooltip"|trans }}{% endblock %}
+                {% block control %}
+                    <input type="text" ng-model="url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}{{ "git.enable.branch"|trans }}{% endblock %}
+                {% block tooltip %}{{ "git.enable.branch.tooltip"|trans }}{% endblock %}
+                {% block control %}
+                    <input type="text" ng-model="branch" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}{{ "git.enable.login"|trans }}{% endblock %}
+                {% block tooltip %}{{ "git.enable.login.tooltip"|trans }}{% endblock %}
+                {% block control %}
+                    <input type="text" ng-model="login" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "Administration" %}
+                {% block label %}{{ "git.enable.password"|trans }}{% endblock %}
+                {% block tooltip %}{{ "git.enable.password.tooltip"|trans }}{% endblock %}
+                {% block control %}
+                    <input type="password" ng-model="password" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                {% endblock %}
+            {% endembed %}
+
+        {% endblock %}
+    {% endembed %}
+
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="enable()">{{ "git.enable.button"|trans }}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    </div>
+</div>

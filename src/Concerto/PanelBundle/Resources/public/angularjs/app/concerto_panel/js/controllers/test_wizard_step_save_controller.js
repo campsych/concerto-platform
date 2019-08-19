@@ -1,7 +1,6 @@
-function TestWizardStepSaveController($scope, $uibModalInstance, $http, object) {
-    $scope.savePath = Paths.TEST_WIZARD_STEP_SAVE;
-
+function TestWizardStepSaveController($scope, $uibModalInstance, $http, object, wizard) {
     $scope.object = object;
+    $scope.wizard = wizard;
     $scope.dialogTitle = "";
     $scope.dialogSuccessfulMessage = "";
     $scope.editorOptions = Defaults.ckeditorPanelContentOptions;
@@ -19,6 +18,7 @@ function TestWizardStepSaveController($scope, $uibModalInstance, $http, object) 
     $scope.getPersistObject = function () {
         var obj = angular.copy($scope.object);
         delete obj.params;
+        obj.objectTimestamp = $scope.wizard.updatedOn;
         return obj;
     };
 
@@ -28,20 +28,20 @@ function TestWizardStepSaveController($scope, $uibModalInstance, $http, object) 
         var oid = $scope.object.id;
 
         var addModalDialog = $uibModalInstance;
-        $http.post($scope.savePath.pf(oid), $scope.getPersistObject()).success(function (data) {
+        $http.post(Paths.TEST_WIZARD_STEP_SAVE.pf(oid), $scope.getPersistObject()).success(function (data) {
 
             switch (data.result) {
-                case BaseController.RESULT_OK:
-                {
+                case BaseController.RESULT_OK: {
                     if (addModalDialog != null) {
                         addModalDialog.close($scope.object);
                     }
                     break;
                 }
-                case BaseController.RESULT_VALIDATION_FAILED:
-                {
+                case BaseController.RESULT_VALIDATION_FAILED: {
                     $scope.object.validationErrors = data.errors;
-                    $("html, body").animate({scrollTop: 0}, "slow");$(".modal").animate({scrollTop: 0}, "slow");break;
+                    $("html, body").animate({scrollTop: 0}, "slow");
+                    $(".modal").animate({scrollTop: 0}, "slow");
+                    break;
                 }
             }
         });

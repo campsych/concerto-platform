@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\UserRepository;
 use Concerto\PanelBundle\Repository\RoleRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -24,9 +25,9 @@ class UserService extends ASectionService
     private $importService;
     private $validator;
 
-    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService)
+    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService, TokenStorageInterface $securityTokenStorage)
     {
-        parent::__construct($repository, $securityAuthorizationChecker);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
         $this->roleRepository = $roleRepository;
         $this->validator = $validator;
@@ -44,7 +45,7 @@ class UserService extends ASectionService
         return $object;
     }
 
-    public function save(User $user, $object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard)
+    public function save($object_id, $accessibility, $archived, $owner, $groups, $email, $username, $password, $passwordConfirmation, $role_super_admin, $role_test, $role_template, $role_table, $role_file, $role_wizard)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -55,9 +56,6 @@ class UserService extends ASectionService
             $object = new User();
             $new = true;
         }
-        $object->setUpdated();
-        if ($user !== null)
-            $object->setUpdatedBy($user->getUsername());
         $object->setEmail($email);
         $object->setUsername($username);
 
@@ -150,33 +148,35 @@ class UserService extends ASectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->repository->save($object);
-        if ($new) {
-            $result = $this->initializeUserObjects($object);
-            foreach ($result as $r) {
-                if (array_key_exists("errors", $r) && $r["errors"]) {
-                    return $r;
-                }
-            }
-        }
+        $this->update($object);
+        if ($new && !$this->initializeUserObjects($object, $errorMessages)) return array("object" => null, "errors" => $errorMessages);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function initializeUserObjects(User $user)
+    private function update(User $object, $flush = true)
     {
-        $result = array();
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        $object->setUpdated();
+        $object->setUpdatedBy($user);
+        $this->repository->save($object, $flush);
+    }
+
+    private function initializeUserObjects(User $user, &$errorMessages = null)
+    {
         foreach ($this->uio as $group => $classes) {
             if (!$user->hasGroup($group))
                 continue;
             foreach (self::$uio_eligible_classes as $class) {
                 if (array_key_exists($class, $classes)) {
                     foreach ($classes[$class] as $obj) {
-                        $result = array_merge($result, $this->importService->copy($class, $user, $obj["id"], $obj["name"]));
+                        //@TODO this needs to be checked as it right now creates object for user adding new user instead of added user
+                        $copySuccessful = $this->importService->copy($class, $obj["id"], $obj["name"], $errorMessages);
+                        if (!$copySuccessful) return false;
                     }
                 }
             }
         }
-        return $result;
+        return true;
     }
 
     public function delete($object_ids, $secure = true)
@@ -192,6 +192,11 @@ class UserService extends ASectionService
             array_push($result, array("object" => $object, "errors" => array()));
         }
         return $result;
+    }
+
+    public function canBeModified($object_ids, $timestamp = null, &$errorMessages = null)
+    {
+        return true;
     }
 
 }

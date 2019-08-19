@@ -10,8 +10,9 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\RoleRepository")
  */
-class Role extends \Symfony\Component\Security\Core\Role\Role {
-    
+class Role extends \Symfony\Component\Security\Core\Role\Role
+{
+
     /**
      * @var integer
      * @ORM\Column(type="integer")
@@ -35,16 +36,18 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
      */
     private $users;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->users = new ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -53,7 +56,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
      * @param integer $id
      * @return Role;
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
         return $this;
     }
@@ -61,7 +65,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
     /**
      * @see RoleInterface
      */
-    public function getRole() {
+    public function getRole()
+    {
         return $this->role;
     }
 
@@ -71,7 +76,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
      * @param string $name
      * @return Role
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -80,9 +86,10 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -92,7 +99,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
      * @param string $role
      * @return Role
      */
-    public function setRole($role) {
+    public function setRole($role)
+    {
         $this->role = $role;
 
         return $this;
@@ -104,7 +112,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
      * @param User $users
      * @return Role
      */
-    public function addUser(User $users) {
+    public function addUser(User $users)
+    {
         $this->users[] = $users;
 
         return $this;
@@ -115,16 +124,18 @@ class Role extends \Symfony\Component\Security\Core\Role\Role {
      *
      * @param User $users
      */
-    public function removeUser(User $users) {
+    public function removeUser(User $users)
+    {
         $this->users->removeElement($users);
     }
 
     /**
      * Get users
      *
-     * @return Collection 
+     * @return Collection
      */
-    public function getUsers() {
+    public function getUsers()
+    {
         return $this->users;
     }
 

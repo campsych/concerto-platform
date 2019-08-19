@@ -5,9 +5,9 @@
 {% block content %}
     <div class="center">
         <button ng-click="refreshRows();" class="btn btn-default btn-sm">{{ "list.button.refresh"|trans({}, "panel") }}</button>
-        <button class="btn btn-success btn-sm" ng-click="addRow()">{{ 'data.list.add'|trans }}</button>
-        <button class="btn btn-danger btn-sm" ng-click="deleteSelectedRows()">{{ 'data.list.delete.checked'|trans }}</button>
-        <button class="btn btn-danger btn-sm" ng-click="deleteAllRows()">{{ 'data.list.delete.all'|trans }}</button>
+        <button class="btn btn-success btn-sm" ng-click="addRow()" ng-disabled="!isEditable()">{{ 'data.list.add'|trans }}</button>
+        <button class="btn btn-danger btn-sm" ng-click="deleteSelectedRows()" ng-disabled="!isEditable()">{{ 'data.list.delete.checked'|trans }}</button>
+        <button class="btn btn-danger btn-sm" ng-click="deleteAllRows()" ng-disabled="!isEditable()">{{ 'data.list.delete.all'|trans }}</button>
         <button ng-click="downloadDataList()" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
     </div>
     <div ui-grid="dataOptions" ui-grid-edit ui-grid-row-edit ui-grid-pagination ui-grid-auto-resize ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>

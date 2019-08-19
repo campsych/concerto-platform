@@ -1,6 +1,6 @@
-function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation, AdministrationSettingsService) {
+function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sce, uiGridConstants, GridService, DialogsService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, TestWizardParam, RDocumentation, AdministrationSettingsService, AuthService) {
     $scope.tabStateName = "tests";
-    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService);
+    BaseController.call(this, $scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, TestCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService);
     $scope.exportable = true;
 
     $scope.deletePath = Paths.TEST_DELETE;
@@ -18,8 +18,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.paramsCollectionPath = Paths.TEST_PARAMS_COLLECTION;
     $scope.returnsCollectionPath = Paths.TEST_RETURNS_COLLECTION;
     $scope.branchesCollectionPath = Paths.TEST_BRANCHES_COLLECTION;
-    $scope.deleteVariablePath = Paths.TEST_VARIABLE_DELETE;
     $scope.exportInstructionsPath = Paths.TEST_EXPORT_INSTRUCTIONS;
+    $scope.lockPath = Paths.TEST_LOCK;
 
     $scope.formTitleAddLabel = Trans.TEST_FORM_TITLE_ADD;
     $scope.formTitleEditLabel = Trans.TEST_FORM_TITLE_EDIT;
@@ -47,7 +47,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if (entity.sourceWizard !== null) {
             return "<a href='#/wizards/" + entity.sourceWizard + "'><i class='glyphicon glyphicon-link'></i>" + entity.sourceWizardName + "</a>";
         } else {
-            return Trans.NONE;
+            return "-";
         }
     };
     $scope.getSourceTestCellTemplate = function (col, entity) {
@@ -56,21 +56,26 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             cell += "<i class='glyphicon glyphicon-link'></i>" + entity.sourceWizardTestName + "</a>";
             return cell;
         } else {
-            return Trans.NONE;
+            return "-";
         }
     };
-    $scope.additionalColumnsDef = [{
-        displayName: Trans.TEST_LIST_FIELD_NAME,
-        field: "name",
-    }, {
-        name: "wizard",
-        displayName: Trans.TEST_LIST_FIELD_WIZARD,
-        cellTemplate: "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getWizardCellTemplate(COL_FIELD, row.entity)'></div>"
-    }, {
-        name: "wizard_source",
-        displayName: Trans.TEST_LIST_FIELD_WIZARD_SOURCE,
-        cellTemplate: "<div class='ui-grid-cell-contents' bind-html-compile='grid.appScope.getSourceTestCellTemplate(COL_FIELD, row.entity)'></div>"
-    }];
+    $scope.additionalColumnsDef = [
+        {
+            displayName: Trans.TEST_LIST_FIELD_NAME,
+            field: "name"
+        }, {
+            displayName: Trans.TEST_LIST_FIELD_SLUG,
+            field: "slug"
+        }, {
+            name: "wizard",
+            displayName: Trans.TEST_LIST_FIELD_WIZARD,
+            cellTemplate: "<div class='ui-grid-cell-contents' ng-html='grid.appScope.getWizardCellTemplate(COL_FIELD, row.entity)'></div>"
+        }, {
+            name: "wizard_source",
+            displayName: Trans.TEST_LIST_FIELD_WIZARD_SOURCE,
+            cellTemplate: "<div class='ui-grid-cell-contents' ng-html='grid.appScope.getSourceTestCellTemplate(COL_FIELD, row.entity)'></div>"
+        }
+    ];
 
     $scope.collectionOptions.exporterFieldCallback = function (grid, row, col, input) {
         switch (col.name) {
@@ -177,8 +182,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.dialogsService.textareaDialog(\'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\', COL_FIELD, \'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\', true)"></i>' +
-                "</div>"
+                    '<i class="glyphicon glyphicon-align-justify clickable" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true" ng-click="grid.appScope.dialogsService.textareaDialog(\'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\', COL_FIELD, \'' + Trans.TEST_LOG_LIST_FIELD_MESSAGE + '\', true)"></i>' +
+                    "</div>"
             }, {
                 displayName: Trans.TEST_LOG_LIST_FIELD_TYPE,
                 field: "type",
@@ -222,8 +227,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>",
+                    '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>",
                 width: 50
             }, {
                 displayName: Trans.TEST_VARS_PARAMS_LIST_FIELD_NAME,
@@ -236,8 +241,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 displayName: Trans.TEST_VARS_PARAMS_LIST_FIELD_VALUE,
                 field: "value",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-align-justify" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>"
+                    '<i class="glyphicon glyphicon-align-justify" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>"
             }, {
                 displayName: "",
                 name: "_action",
@@ -245,10 +250,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_EDIT + '</button>' +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_DELETE + '</button>' +
-                '</div>',
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_PARAMS_LIST_DELETE + '</button>' +
+                    '</div>',
                 width: 100
             }
         ]
@@ -281,8 +286,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 displayName: Trans.TEST_VARS_RETURNS_LIST_FIELD_INFO,
                 field: "description",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>",
+                    '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>",
                 width: 50
             }, {
                 displayName: Trans.TEST_VARS_RETURNS_LIST_FIELD_NAME,
@@ -291,8 +296,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 displayName: Trans.TEST_VARS_RETURNS_LIST_FIELD_VALUE,
                 field: "value",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-align-justify" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>"
+                    '<i class="glyphicon glyphicon-align-justify" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>"
             }, {
                 displayName: "",
                 name: "_action",
@@ -300,10 +305,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_EDIT + '</button>' +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_DELETE + '</button>' +
-                "</div>",
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_RETURNS_LIST_DELETE + '</button>' +
+                    "</div>",
                 width: 100
             }
         ]
@@ -336,8 +341,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 displayName: Trans.TEST_VARS_BRANCHES_LIST_FIELD_INFO,
                 field: "description",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>",
+                    '<i class="glyphicon glyphicon-question-sign" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>",
                 width: 50
             }, {
                 displayName: Trans.TEST_VARS_BRANCHES_LIST_FIELD_NAME,
@@ -346,8 +351,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 displayName: Trans.TEST_VARS_BRANCHES_LIST_FIELD_VALUE,
                 field: "value",
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                '<i class="glyphicon glyphicon-align-justify" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
-                "</div>"
+                    '<i class="glyphicon glyphicon-align-justify" uib-tooltip-html="COL_FIELD" tooltip-append-to-body="true"></i>' +
+                    "</div>"
             }, {
                 displayName: "",
                 name: "_action",
@@ -355,10 +360,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
                 enableFiltering: false,
                 exporterSuppressExport: true,
                 cellTemplate:
-                "<div class='ui-grid-cell-contents' align='center'>" +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_EDIT + '</button>' +
-                '<button ng-disabled="grid.appScope.object.starterContent && !grid.appScope.administrationSettingsService.starterContentEditable" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_DELETE + '</button>' +
-                "</div>",
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editVariable(row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteVariable(row.entity.type, row.entity.id);">' + Trans.TEST_VARS_BRANCHES_LIST_DELETE + '</button>' +
+                    "</div>",
                 width: 100
             }
         ]
@@ -369,7 +374,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         lineNumbers: true,
         mode: 'r',
         viewportMargin: Infinity,
-        readOnly: $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable,
+        readOnly: !$scope.isEditable(),
         hintOptions: {
             completeSingle: false,
             wizardService: RDocumentation
@@ -426,7 +431,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if ($scope.logsGridApi)
             $scope.logsGridApi.selection.clearSelectedRows();
 
-        $scope.codeOptions.readOnly = $scope.object.starterContent && !$scope.administrationSettingsService.starterContentEditable;
+        $scope.codeOptions.readOnly = !$scope.isEditable();
     };
 
     $scope.onBeforePersist = function () {
@@ -436,7 +441,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         if ($scope.object.sourceWizard != null) {
             TestWizardParam.wizardParamsToTestVariables($scope.object, $scope.object.steps, $scope.object.variables);
         }
-    }
+    };
 
     $scope.deleteAllLogs = function () {
         $scope.dialogsService.confirmDialog(
@@ -520,10 +525,24 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             confirmationTitle,
             confirmationMessage,
             function (response) {
-                $http.post($scope.deleteVariablePath.pf(ids), {}).success(function (data) {
-                    $scope.setWorkingCopyObject();
-                    $scope.collectionService.fetchObjectCollection();
-                    $scope.testWizardCollectionService.fetchObjectCollection();
+                $http.post(Paths.TEST_VARIABLE_DELETE.pf(ids), {
+                    objectTimestamp: $scope.object.updatedOn
+                }).success(function (data) {
+                    switch (data.result) {
+                        case BaseController.RESULT_OK: {
+                            $scope.setWorkingCopyObject();
+                            $scope.fetchAllCollections();
+                            break;
+                        }
+                        case BaseController.RESULT_VALIDATION_FAILED: {
+                            DialogsService.alertDialog(
+                                Trans.DIALOG_TITLE_DELETE,
+                                data.errors.join("<br/>"),
+                                "danger"
+                            );
+                            break;
+                        }
+                    }
                 });
             }
         );
@@ -566,6 +585,9 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             resolve: {
                 object: function () {
                     return variable;
+                },
+                test: function () {
+                    return $scope.object;
                 }
             },
             size: "lg"
@@ -573,8 +595,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
 
         modalInstance.result.then(function (result) {
             $scope.setWorkingCopyObject();
-            $scope.collectionService.fetchObjectCollection();
-            $scope.testWizardCollectionService.fetchObjectCollection();
+            $scope.fetchAllCollections();
         });
     };
 
@@ -615,7 +636,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.onAfterPersist = function () {
-        $scope.testWizardCollectionService.fetchObjectCollection();
+        $scope.fetchAllCollections();
     };
 
     $scope.resetObject();
@@ -673,4 +694,4 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     });
 }
 
-concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", TestController]);
+concertoPanel.controller('TestController', ["$scope", "$uibModal", "$http", "$filter", "$timeout", "$state", "$sce", "uiGridConstants", "GridService", "DialogsService", "DataTableCollectionService", "TestCollectionService", "TestWizardCollectionService", "UserCollectionService", "ViewTemplateCollectionService", "TestWizardParam", "RDocumentation", "AdministrationSettingsService", "AuthService", TestController]);

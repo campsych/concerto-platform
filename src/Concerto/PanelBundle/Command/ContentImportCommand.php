@@ -15,18 +15,21 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
 use Concerto\PanelBundle\Entity\User;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class ContentImportCommand extends Command
 {
     private $importService;
     private $adminService;
     private $doctrine;
+    private $tranlator;
 
-    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService)
+    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator)
     {
         $this->importService = $importService;
         $this->adminService = $adminService;
         $this->doctrine = $doctrine;
+        $this->tranlator = $translator;
 
         parent::__construct();
     }
@@ -45,7 +48,7 @@ class ContentImportCommand extends Command
         $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready options set. Combines: --convert --clean --files --src");
     }
 
-    protected function importContent(InputInterface $input, OutputInterface $output, User $user, $sourcePath)
+    protected function importContent(InputInterface $input, OutputInterface $output, $sourcePath)
     {
         $output->writeln("importing content...");
 
@@ -54,14 +57,29 @@ class ContentImportCommand extends Command
         $src = $input->getOption("src");
         $instructionsOverride = json_decode($input->getOption("instructions"), true);
 
+        if (is_file($sourcePath)) {
+            $pattern = basename($sourcePath);
+            $dir = dirname($sourcePath);
+        } else {
+            $pattern = '*.concerto*';
+            $dir = $sourcePath;
+        }
+
         $finder = new Finder();
-        $finder->files()->in($sourcePath)->name('*.concerto*');
+        $finder->files()->in($dir)->name($pattern);
 
         foreach ($finder as $f) {
             $this->importService->reset();
             $output->writeln("importing " . $f->getFileName() . "...");
 
-            $instructions = $this->importService->getPreImportStatusFromFile($f->getRealpath())["status"];
+            $instructions = $this->importService->getPreImportStatusFromFile($f->getRealpath(), $errorMessages);
+            if ($instructions === false) {
+                foreach ($errorMessages as $errorMessage) {
+                    $output->writeln($this->tranlator->trans($errorMessage));
+                }
+                return false;
+            }
+
             for ($i = 0; $i < count($instructions); $i++) {
                 if ($convert)
                     $instructions[$i]["action"] = "1";
@@ -90,15 +108,14 @@ class ContentImportCommand extends Command
                 }
             }
 
-            $results = $this->importService->importFromFile($user, $f->getRealpath(), json_decode(json_encode($instructions), true), false)["import"];
-            foreach ($results as $res) {
-                if ($res["errors"]) {
-                    $success = false;
-                    $output->writeln("importing " . $f->getFileName() . " failed!");
-                    $output->writeln("content importing failed!");
-                    var_dump($res["errors"]);
-                    return false;
+            $importedSuccessfully = $this->importService->importFromFile($f->getRealpath(), json_decode(json_encode($instructions), true), false, $errorMessages);
+            if (!$importedSuccessfully) {
+                $output->writeln("importing " . $f->getFileName() . " failed!");
+                $output->writeln("content importing failed!");
+                foreach ($errorMessages as $errorMessage) {
+                    $output->writeln($errorMessages);
                 }
+                return false;
             }
         }
 
@@ -193,10 +210,6 @@ class ContentImportCommand extends Command
         chdir(realpath(__DIR__ . "/../Resources/starter_content"));
 
         ASectionService::$securityOn = false;
-        $em = $this->doctrine->getManager();
-
-        $userRepo = $em->getRepository("ConcertoPanelBundle:User");
-        $user = $userRepo->findOneBy(array());
 
         $topTempDir = null;
         $sourcePath = $input->getArgument("input");
@@ -224,7 +237,7 @@ class ContentImportCommand extends Command
             return 1;
         }
 
-        if (!$this->importContent($input, $output, $user, $sourcePath)) {
+        if (!$this->importContent($input, $output, $sourcePath)) {
             return 1;
         }
 
