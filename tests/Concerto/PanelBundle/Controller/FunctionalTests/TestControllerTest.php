@@ -192,9 +192,7 @@ class TestControllerTest extends AFunctionalTest
             ),
             'nodes' => array(),
             'nodesConnections' => array(),
-            "tags" => "",
-            "lockedBy" => null,
-            "directLockBy" => null
+            "tags" => ""
         )), $content["collection"]);
     }
 
