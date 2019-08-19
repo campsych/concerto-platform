@@ -1,4 +1,4 @@
-function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal, AuthService) {
+function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal) {
     $scope.gitStatus = null;
     $scope.uploadItem = null;
     $scope.uploader = new FileUploader({
@@ -301,4 +301,4 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     });
 }
 
-concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", "AuthService", AdministrationContentController]);
+concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", AdministrationContentController]);

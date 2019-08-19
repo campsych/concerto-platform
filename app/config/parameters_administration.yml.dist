@@ -13,6 +13,16 @@ parameters:
     env(CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE): true
     env(CONCERTO_SESSION_RUNNER_SERVICE): 'SerializedSessionRunnerService'
     env(CONCERTO_SESSION_RUNNER_SERVICE_OVERRIDABLE): true
+    env(CONCERTO_GIT_ENABLED): false
+    env(CONCERTO_GIT_ENABLED_OVERRIDABLE): true
+    env(CONCERTO_GIT_URL): ""
+    env(CONCERTO_GIT_URL_OVERRIDABLE): true
+    env(CONCERTO_GIT_BRANCH): master
+    env(CONCERTO_GIT_BRANCH_OVERRIDABLE): true
+    env(CONCERTO_GIT_LOGIN): ""
+    env(CONCERTO_GIT_LOGIN_OVERRIDABLE): true
+    env(CONCERTO_GIT_PASSWORD): ""
+    env(CONCERTO_GIT_PASSWORD_OVERRIDABLE): true
     administration:
         exposed:
             session_limit: "%env(CONCERTO_SESSION_LIMIT)%" #0 for none
@@ -30,6 +40,16 @@ parameters:
             content_export_options_overridable: "%env(CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE)%"
             session_runner_service: "%env(CONCERTO_SESSION_RUNNER_SERVICE)%"
             session_runner_service_overridable: "%env(CONCERTO_SESSION_RUNNER_SERVICE_OVERRIDABLE)%"
+            git_enabled: "%env(CONCERTO_GIT_ENABLED)%"
+            git_enabled_overridable: "%env(CONCERTO_GIT_ENABLED_OVERRIDABLE)%"
+            git_url: "%env(CONCERTO_GIT_URL)%"
+            git_url_overridable: "%env(CONCERTO_GIT_URL_OVERRIDABLE)%"
+            git_branch: "%env(CONCERTO_GIT_BRANCH)%"
+            git_branch_overridable: "%env(CONCERTO_GIT_BRANCH_OVERRIDABLE)%"
+            git_login: "%env(CONCERTO_GIT_LOGIN)%"
+            git_login_overridable: "%env(CONCERTO_GIT_LOGIN_OVERRIDABLE)%"
+            git_password: "%env(CONCERTO_GIT_PASSWORD)%"
+            git_password_overridable: "%env(CONCERTO_GIT_PASSWORD_OVERRIDABLE)%"
         internal:
             r_exec_path: R
             git_exec_path: git
