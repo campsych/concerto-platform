@@ -163,6 +163,10 @@
         if (typeof CKEDITOR != "undefined") {
             CKEDITOR.plugins.addExternal('cmsource', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/cmsource/') }}', 'plugin.js?v={{ version }}');
             CKEDITOR.plugins.addExternal('autogrow', '{{ asset('bundles/concertopanel/angularjs/app/concerto_panel/js/misc/autogrow/') }}', 'plugin.js?v={{ version }}');
+
+            $.each(CKEDITOR.dtd.$removeEmpty, function (i, value) {
+                CKEDITOR.dtd.$removeEmpty[i] = false;
+            });
         }
     </script>
 

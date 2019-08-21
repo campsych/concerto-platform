@@ -11,8 +11,8 @@ use Symfony\Component\Process\Process;
 
 class ConcertoGitDiffCommand extends Command
 {
-    const MAX_FILE_DIFF_LENGTH = 200;
-    const MAX_FILE_DIFF_NUM = 20;
+    const MAX_FILE_DIFF_LENGTH = 10000;
+    const MAX_FILE_DIFF_NUM = 50;
 
     private $gitService;
     private $localGitRepoPath;
