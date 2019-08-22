@@ -1,7 +1,9 @@
 <div class="pain-mannequin i[[item.id]]-pain-mannequin test-view">
 	<div class="pain-mannequin-front">
 		<div class="pain-mannequin-svg">
-			<h3>Front</h3>
+			<h3>
+				Front
+			</h3>
 			<src>
 				<svg class="female-svg i[[item.id]]-female-svg" height="680" ng-if="gender === 'female'" version="1.1" viewbox="0 0 800 1360" width="400px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
 					<path class="st0" d="M342.3,84.7c-33.4,0.6-53.2-7.2-53.2-7.2l0,0c0.5-5.9,1.4-11.1,2.8-15.9c6.6-21.8,24.5-35.5,50.4-35.5L342.3,84.7L342.3,84.7z" id="i[[item.id]]-1"></path>
@@ -96,24 +98,45 @@
 			<div class="mark" ng-class="{'active': activeMark === 'front-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in reportFront" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
 				<div class="mark-icon" ng-click="activateMark('front-' + (markIndex + 1))" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
 				</div>
+
 				<div class="mark-content">
-					<div class="mark-name">[[mark.area]]</div>
-					<div class="mark-hide" ng-click="hideMark()"><img alt="hide" src="/bundles/concertopanel/files/starter-content/hide.png" /></div>
-					<div class="mark-delete" ng-click="deleteMark(markIndex, 'front')"><img alt="delete" src="/bundles/concertopanel/files/starter-content/delete.png" /></div>
-					<div class="mark-handle"></div>
-					<label>Area size</label>
+					<div class="mark-name">
+						[[mark.area]]
+					</div>
+
+					<div class="mark-hide" ng-click="hideMark()">
+						<img alt="hide" src="/bundles/concertopanel/files/starter-content/hide.png" />
+					</div>
+
+					<div class="mark-delete" ng-click="deleteMark(markIndex, 'front')">
+						<img alt="delete" src="/bundles/concertopanel/files/starter-content/delete.png" />
+					</div>
+
+					<div class="mark-handle">
+					</div>
+					<label>
+						Area size
+					</label>
+					
 					<input class="mark-range mark-size" max="100" min="1" ng-model="mark.size" step="1" type="range" />
-					<label>Pain intensity</label>
+					
+					<label>
+						Pain intensity
+					</label>
+					
 					<input class="mark-range mark-intensity" max="100" min="1" ng-model="mark.intensity" step="1" type="range" />
-					<textarea ng-model="mark.description" placeholder="Description" rows="6"></textarea>
+					<textarea ng-model="mark.description" placeholder="Description" rows="6">
+					</textarea>
 				</div>
 			</div>
-
 		</div>
 	</div>
+
 	<div class="pain-mannequin-back">
 		<div class="pain-mannequin-svg">
-			<h3>Back</h3>
+			<h3>
+				Back
+			</h3>
 			<src>
 				<svg class="female-svg i[[item.id]]-female-svg" height="680" ng-if="gender === 'female'" version="1.1" viewbox="0 0 800 1360" width="400px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
 					<path class="st1" d="M341.9,77.2c-29.7-0.1-53.6-6.6-53.6-6.6c5.4-35,26.5-50.8,51.1-50.8c0.8,0,1.6,0,2.4,0l0,0v57.3L341.9,77.2z" id="i[[item.id]]-39"></path>
@@ -202,16 +225,35 @@
 			<div class="mark" ng-class="{'active': activeMark === 'back-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in reportBack" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
 				<div class="mark-icon" ng-click="activateMark('back-' + (markIndex + 1))" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
 				</div>
+
 				<div class="mark-content">
-					<div class="mark-name">[[mark.area]]</div>
-					<div class="mark-hide" ng-click="hideMark()"><img alt="hide" src="/bundles/concertopanel/files/starter-content/hide.png" /></div>
-					<div class="mark-delete" ng-click="deleteMark(markIndex, 'back')"><img alt="delete" src="/bundles/concertopanel/files/starter-content/delete.png" /></div>
-					<div class="mark-handle"></div>
-					<label>Area size</label>
+					<div class="mark-name">
+						[[mark.area]]
+					</div>
+
+					<div class="mark-hide" ng-click="hideMark()">
+						<img alt="hide" src="/bundles/concertopanel/files/starter-content/hide.png" />
+					</div>
+
+					<div class="mark-delete" ng-click="deleteMark(markIndex, 'back')">
+						<img alt="delete" src="/bundles/concertopanel/files/starter-content/delete.png" />
+					</div>
+
+					<div class="mark-handle">
+					</div>
+					<label>
+						Area size
+					</label>
+					
 					<input class="mark-range mark-size" max="100" min="1" ng-model="mark.size" step="1" type="range" />
-					<label>Pain intensity</label>
+					
+					<label>
+						Pain intensity
+					</label>
+					
 					<input class="mark-range mark-intensity" max="100" min="1" ng-model="mark.intensity" step="1" type="range" />
-					<textarea ng-model="mark.description" placeholder="Description" rows="6"></textarea>
+					<textarea ng-model="mark.description" placeholder="Description" rows="6">
+					</textarea>
 				</div>
 			</div>
 		</div>

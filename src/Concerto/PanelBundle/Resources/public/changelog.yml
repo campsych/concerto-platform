@@ -7,6 +7,9 @@ changelog:
           - label: Improvements
             changes:
                 - updated AngularJS to v1.7 and jQuery to v3.4 (and some of other javascript dependencies)
+          - label: Starter content
+            changes:
+                - fixed handling of non numeric values of timeLimit in showPage
     - version: "5.0.beta.12.2"
       description: >
         Git integration
