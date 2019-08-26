@@ -338,7 +338,7 @@ class ImportService
         }
     }
 
-    public function import($instructions, $data, &$errorMessages = null)
+    public function import($instructions, $data, &$errorMessages = null, &$lastTopObjectImported = null)
     {
         $this->queue = $data;
         while (count($this->queue) > 0) {
@@ -355,6 +355,7 @@ class ImportService
                 } else {
                     array_shift($this->queue);
                 }
+                if (in_array($obj["class_name"], ["DataTable", "Test", "TestWizard", "ViewTemplate"])) $lastTopObjectImported = $lastResult["entity"];
             }
         }
         $this->entityManager->flush();
@@ -362,7 +363,7 @@ class ImportService
         return true;
     }
 
-    public function copy($class_name, $object_id, $name, &$errorMessages = null)
+    public function copy($class_name, $object_id, $name, &$errorMessages = null, &$newObject = null)
     {
         $ent = $this->serviceMap[$class_name]->get($object_id);
         $dependencies = array();
@@ -388,7 +389,8 @@ class ImportService
         return $this->import(
             json_decode(json_encode($instructions), true),
             $collection,
-            $errorMessages
+            $errorMessages,
+            $newObject
         );
     }
 

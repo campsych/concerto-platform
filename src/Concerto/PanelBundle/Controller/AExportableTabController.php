@@ -83,14 +83,16 @@ abstract class AExportableTabController extends ASectionController
 
     public function copyAction(Request $request, $object_id)
     {
+        $newObject = null;
         $copySuccessful = $this->importService->copy(
             $this->entityName,
             $object_id,
             $request->get("name"),
-            $errorMessages
+            $errorMessages,
+            $newObject
         );
 
-        $response = new Response(json_encode(array("result" => $copySuccessful ? 0 : 1, "errors" => $this->trans($errorMessages))));
+        $response = new Response(json_encode(array("result" => $copySuccessful ? 0 : 1, "errors" => $this->trans($errorMessages), "object" => $newObject)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
