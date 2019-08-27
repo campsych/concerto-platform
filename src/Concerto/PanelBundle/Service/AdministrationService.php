@@ -439,7 +439,7 @@ class AdministrationService
     public function importContent($url = null, $instructions = null, &$output = null)
     {
         if ($url === null) $url = $this->getSettingValue("content_url");
-        if ($instructions === null) $instructions = $this->getSettingValue("content_url_import_options");
+        if ($instructions === null) $instructions = $this->getContentImportOptions();
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -455,9 +455,19 @@ class AdministrationService
         return $returnCode;
     }
 
+    public function getContentImportOptions()
+    {
+        return $this->getSettingValue("content_import_options");
+    }
+
+    public function getContentExportOptions()
+    {
+        return $this->getSettingValue("content_export_options");
+    }
+
     public function exportContent($instructions = null, &$zipPath = null, &$output = null)
     {
-        if ($instructions === null) $instructions = $this->getSettingValue("content_url_export_options");
+        if ($instructions === null) $instructions = $this->getContentExportOptions();
         $exportPath = realpath(__DIR__ . "/../Resources/export");
         $uniquePath = $exportPath . "/export_" . uniqid();
 

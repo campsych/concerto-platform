@@ -17,6 +17,9 @@ changelog:
             changes:
                 - fixed handling of non numeric values of timeLimit in showPage
                 - added 'Show' (Both|Unpleasantness|Intensity) configuration option to CAT|linearTest wizard for Gracely Scale item type
+          - label: Commands
+            changes:
+                - added --git option to concerto:content:import that will use git settings to import content
     - version: "5.0.beta.12.2"
       description: >
         Git integration

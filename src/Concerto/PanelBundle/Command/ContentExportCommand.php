@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\PanelBundle\Service\ExportService;
 use Concerto\PanelBundle\Service\ImportService;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -20,13 +21,17 @@ class ContentExportCommand extends Command
     private $importService;
     private $exportService;
     private $version;
+    private $input;
+    private $output;
+    private $adminService;
 
-    public function __construct(ManagerRegistry $doctrine, ImportService $importService, ExportService $exportService, $version)
+    public function __construct(ManagerRegistry $doctrine, ImportService $importService, ExportService $exportService, $version, AdministrationService $adminService)
     {
         $this->doctrine = $doctrine;
         $this->importService = $importService;
         $this->exportService = $exportService;
         $this->version = $version;
+        $this->adminService = $adminService;
 
         parent::__construct();
     }
@@ -43,25 +48,25 @@ class ContentExportCommand extends Command
         $this->addOption("files", null, InputOption::VALUE_NONE, "Include files in archive?");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm all prompts");
         $this->addOption("src", null, InputOption::VALUE_NONE, "External source files");
-        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", "[]");
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", null);
         $this->addOption("zip", "z", InputOption::VALUE_REQUIRED, "Zip archive name");
         $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready export. Combines --single --no-hash --norm-ids --files --src");
     }
 
-    private function clearExportDirectory(InputInterface $input, OutputInterface $output)
+    private function clearExportDirectory()
     {
-        $confirmed = $input->getOption("yes");
-        $path = $input->getArgument("output");
+        $confirmed = $this->input->getOption("yes");
+        $path = $this->input->getArgument("output");
 
         if (!$confirmed) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion("This will clear ALL contents of $path directory. Are you sure you want to continue? [y/n]", false);
-            if (!$helper->ask($input, $output, $question)) {
+            if (!$helper->ask($this->input, $this->output, $question)) {
                 return;
             }
         }
 
-        $output->writeln("clearing contents of $path ...");
+        $this->output->writeln("clearing contents of $path ...");
 
         $fs = new Filesystem();
         $rdi = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
@@ -69,35 +74,38 @@ class ContentExportCommand extends Command
             return strpos($file->getFilename(), ".git") !== 0;
         }));
         $fs->remove($rii);
-        $output->writeln("contents of $path cleared successfully");
+        $this->output->writeln("contents of $path cleared successfully");
         return true;
     }
 
-    private function exportFiles(InputInterface $input, OutputInterface $output)
+    private function exportFiles()
     {
-        $output->writeln("copying files...");
+        $this->output->writeln("copying files...");
         $srcDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
-        $dstDir = realpath($input->getArgument("output")) . "/files/";
+        $dstDir = realpath($this->input->getArgument("output")) . "/files/";
         $filesystem = new Filesystem();
         $filesystem->mirror($srcDir, $dstDir);
-        $output->writeln("files copied successfully");
+        $this->output->writeln("files copied successfully");
         return true;
     }
 
-    protected function exportContent(InputInterface $input, OutputInterface $output)
+    protected function exportContent($instructions = "[]")
     {
+        $this->output->writeln("instructions used:");
+        $this->output->writeln($instructions);
+
         $classes = array(
             "DataTable",
             "Test",
             "TestWizard",
             "ViewTemplate"
         );
-        $single = $input->getOption("single");
-        $noHash = $input->getOption("no-hash");
-        $normIds = $input->getOption("norm-ids");
-        $instructions = json_decode($input->getOption("instructions"), true);
+        $single = $this->input->getOption("single");
+        $noHash = $this->input->getOption("no-hash");
+        $normIds = $this->input->getOption("norm-ids");
+        $decodedInstructions = json_decode($instructions, true);
 
-        $output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
+        $this->output->writeln("exporting content started (" . ($single ? "single file" : "multiple files") . ")");
 
         $em = $this->doctrine->getManager();
         $dependencies = array();
@@ -117,28 +125,28 @@ class ContentExportCommand extends Command
                 if (!$single) {
                     $collection = array();
                     if (array_key_exists("collection", $dependencies)) {
-                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false, !$noHash);
+                        $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $decodedInstructions, false, !$noHash);
                     }
-                    $result = array("version" => $this->version, "collection" => $this->externalizeSource($input, $output, $collection));
+                    $result = array("version" => $this->version, "collection" => $this->externalizeSource($collection));
                     $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
-                    $this->saveFile($class_name, $ent->getName(), $json, $input->getArgument("output"));
-                    $output->writeln("ConcertoPanelBundle:" . $class_name . ":" . $ent->getId() . ":" . $ent->getName() . " exported");
+                    $this->saveFile($class_name, $ent->getName(), $json, $this->input->getArgument("output"));
+                    $this->output->writeln("ConcertoPanelBundle:" . $class_name . ":" . $ent->getId() . ":" . $ent->getName() . " exported");
                 }
             }
         }
         if ($single) {
             $collection = array();
             if (array_key_exists("collection", $dependencies)) {
-                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $instructions, false, !$noHash);
+                $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $decodedInstructions, false, !$noHash);
             }
-            $result = array("version" => $this->version, "collection" => $this->externalizeSource($input, $output, $collection));
+            $result = array("version" => $this->version, "collection" => $this->externalizeSource($collection));
             $json = Yaml::dump($result, 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
-            $this->saveFile(null, "export", $json, $input->getArgument("output"));
-            $output->writeln("content exported");
+            $this->saveFile(null, "export", $json, $this->input->getArgument("output"));
+            $this->output->writeln("content exported");
         }
-        $output->writeln("exporting content finished");
+        $this->output->writeln("exporting content finished");
     }
 
     private function saveFile($class_name, $name, $content, $path)
@@ -151,13 +159,13 @@ class ContentExportCommand extends Command
         $fs->dumpFile($file_path, $content);
     }
 
-    private function externalizeSource(InputInterface $input, OutputInterface $output, $collection)
+    private function externalizeSource($collection)
     {
-        $src = $input->getOption("src");
+        $src = $this->input->getOption("src");
         if (!$src) return $collection;
 
         $filesystem = new Filesystem();
-        $srcDir = realpath($input->getArgument("output")) . "/src";
+        $srcDir = realpath($this->input->getArgument("output")) . "/src";
         foreach ($collection as &$obj) {
             switch ($obj["class_name"]) {
                 case "Test":
@@ -167,7 +175,7 @@ class ContentExportCommand extends Command
                         $path = $srcDir . "/" . ExportService::getTestCodeFilename($obj);
                         $filesystem->dumpFile($path, $obj["code"]);
                         $obj["code"] = null;
-                        $output->writeln($path . " externalized");
+                        $this->output->writeln($path . " externalized");
                     }
 
                     //ports
@@ -181,7 +189,7 @@ class ContentExportCommand extends Command
                                 $path = $srcDir . "/" . ExportService::getPortValueFilename($obj, $node, $port);
                                 $filesystem->dumpFile($path, $port["value"]);
                                 $port["value"] = null;
-                                $output->writeln($path . " externalized");
+                                $this->output->writeln($path . " externalized");
                             }
                         }
                     }
@@ -194,21 +202,21 @@ class ContentExportCommand extends Command
                         $pathCss = $srcDir . "/" . ExportService::getTemplateCssFilename($obj);
                         $filesystem->dumpFile($pathCss, $obj["css"]);
                         $obj["css"] = null;
-                        $output->writeln($pathCss . " externalized");
+                        $this->output->writeln($pathCss . " externalized");
                     }
                     //js
                     if (trim($obj["js"]) !== "") {
                         $pathJs = $srcDir . "/" . ExportService::getTemplateJsFilename($obj);
                         $filesystem->dumpFile($pathJs, $obj["js"]);
                         $obj["js"] = null;
-                        $output->writeln($pathJs . " externalized");
+                        $this->output->writeln($pathJs . " externalized");
                     }
                     //html
                     if (trim($obj["html"]) !== "") {
                         $pathHtml = $srcDir . "/" . ExportService::getTemplateHtmlFilename($obj);
                         $filesystem->dumpFile($pathHtml, $obj["html"]);
                         $obj["html"] = null;
-                        $output->writeln($pathHtml . " externalized");
+                        $this->output->writeln($pathHtml . " externalized");
                     }
                     break;
                 }
@@ -220,7 +228,7 @@ class ContentExportCommand extends Command
                         $data = Yaml::dump($obj["data"], 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
                         $filesystem->dumpFile($path, $data);
                         $obj["data"] = null;
-                        $output->writeln($path . " externalized");
+                        $this->output->writeln($path . " externalized");
                     }
                     break;
                 }
@@ -229,13 +237,13 @@ class ContentExportCommand extends Command
         return $collection;
     }
 
-    private function zipExport(InputInterface $input, OutputInterface $output)
+    private function zipExport()
     {
-        $zipPath = $input->getOption("zip");
+        $zipPath = $this->input->getOption("zip");
         if (!$zipPath) return true;
-        $dirPath = realpath($input->getArgument("output")) . "/";
+        $dirPath = realpath($this->input->getArgument("output")) . "/";
 
-        $output->writeln("zipping $dirPath to $zipPath ...");
+        $this->output->writeln("zipping $dirPath to $zipPath ...");
 
         $zip = new \ZipArchive();
         if ($zip->open($zipPath, \ZipArchive::CREATE) === TRUE) {
@@ -252,15 +260,23 @@ class ContentExportCommand extends Command
             }
             $zip->close();
         } else {
-            $output->writeln("couldn't zip $dirPath to $zipPath");
+            $this->output->writeln("couldn't zip $dirPath to $zipPath");
             return false;
         }
-        $output->writeln("zipping finished");
+        $this->output->writeln("zipping finished");
         return true;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->input = $input;
+        $this->output = $output;
+
+        $instructions = $input->getOption("instructions");
+        if ($instructions === null) {
+            $instructions = $this->adminService->getContentExportOptions();
+        }
+
         if ($input->getOption("sc")) {
             $input->setOption("single", true);
             $input->setOption("no-hash", true);
@@ -269,16 +285,16 @@ class ContentExportCommand extends Command
             $input->setOption("src", true);
         }
 
-        if (!$this->clearExportDirectory($input, $output)) {
+        if (!$this->clearExportDirectory()) {
             return 1;
         }
-        if ($input->getOption("files") && !$this->exportFiles($input, $output)) {
+        if ($input->getOption("files") && !$this->exportFiles()) {
             return 1;
         }
 
-        $this->exportContent($input, $output);
+        $this->exportContent($instructions);
 
-        if ($input->getOption("zip") && !$this->zipExport($input, $output)) {
+        if ($input->getOption("zip") && !$this->zipExport()) {
             return 1;
         }
         return 0;

@@ -3,6 +3,7 @@
 namespace Concerto\PanelBundle\Command;
 
 use Concerto\PanelBundle\Service\AdministrationService;
+use Concerto\PanelBundle\Service\GitService;
 use Concerto\PanelBundle\Service\ImportService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
@@ -23,13 +24,17 @@ class ContentImportCommand extends Command
     private $adminService;
     private $doctrine;
     private $tranlator;
+    private $gitService;
+    private $input;
+    private $output;
 
-    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator)
+    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator, GitService $gitService)
     {
         $this->importService = $importService;
         $this->adminService = $adminService;
         $this->doctrine = $doctrine;
         $this->tranlator = $translator;
+        $this->gitService = $gitService;
 
         parent::__construct();
     }
@@ -44,18 +49,23 @@ class ContentImportCommand extends Command
         $this->addOption("clean", null, InputOption::VALUE_NONE, "Remove left-over object?");
         $this->addOption("files", null, InputOption::VALUE_NONE, "Copy files?");
         $this->addOption("src", null, InputOption::VALUE_NONE, "Look for externalized source files?");
-        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", "[]");
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
         $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready options set. Combines: --convert --clean --files --src");
+        $this->addOption("git", null, InputOption::VALUE_NONE, "Ignores input directory, clones/pulls Git repository if needed and imports content from it");
     }
 
-    protected function importContent(InputInterface $input, OutputInterface $output, $sourcePath)
+    protected function importContent($sourcePath, $instructionsOverride = "[]")
     {
-        $output->writeln("importing content...");
+        $this->output->writeln("importing content...");
+        $this->output->writeln("source path used:");
+        $this->output->writeln($sourcePath);
 
-        $convert = $input->getOption("convert");
-        $clean = $input->getOption("clean");
-        $src = $input->getOption("src");
-        $instructionsOverride = json_decode($input->getOption("instructions"), true);
+        $convert = $this->input->getOption("convert");
+        $clean = $this->input->getOption("clean");
+        $src = $this->input->getOption("src");
+        $this->output->writeln("instructions used:");
+        $this->output->writeln($instructionsOverride);
+        $instructionsOverride = json_decode($instructionsOverride, true);
 
         if (is_file($sourcePath)) {
             $pattern = basename($sourcePath);
@@ -70,12 +80,12 @@ class ContentImportCommand extends Command
 
         foreach ($finder as $f) {
             $this->importService->reset();
-            $output->writeln("importing " . $f->getFileName() . "...");
+            $this->output->writeln("importing " . $f->getFileName() . "...");
 
             $instructions = $this->importService->getPreImportStatusFromFile($f->getRealpath(), $errorMessages);
             if ($instructions === false) {
                 foreach ($errorMessages as $errorMessage) {
-                    $output->writeln($this->tranlator->trans($errorMessage));
+                    $this->output->writeln($this->tranlator->trans($errorMessage));
                 }
                 return false;
             }
@@ -110,29 +120,29 @@ class ContentImportCommand extends Command
 
             $importedSuccessfully = $this->importService->importFromFile($f->getRealpath(), json_decode(json_encode($instructions), true), false, $errorMessages);
             if (!$importedSuccessfully) {
-                $output->writeln("importing " . $f->getFileName() . " failed!");
-                $output->writeln("content importing failed!");
+                $this->output->writeln("importing " . $f->getFileName() . " failed!");
+                $this->output->writeln("content importing failed!");
                 foreach ($errorMessages as $errorMessage) {
-                    $output->writeln($errorMessages);
+                    $this->output->writeln($errorMessages);
                 }
                 return false;
             }
         }
 
-        $output->writeln("imported " . $f->getFileName() . " successfully");
+        $this->output->writeln("imported " . $f->getFileName() . " successfully");
         return true;
     }
 
-    private function downloadSource(InputInterface $input, OutputInterface $output, $url, &$topTempDir = null)
+    private function downloadSource($url, &$topTempDir = null)
     {
-        $output->writeln("downloading source from $url");
+        $this->output->writeln("downloading source from $url");
         $fs = new Filesystem();
         $importPath = realpath(__DIR__ . "/../Resources/import");
         $uniquePath = $importPath . "/import_" . uniqid();
         try {
             $fs->mkdir($uniquePath);
         } catch (IOException $ex) {
-            $output->writeln($ex->getMessage());
+            $this->output->writeln($ex->getMessage());
             return false;
         }
 
@@ -143,24 +153,24 @@ class ContentImportCommand extends Command
         } catch (\Exception $ex) {
         }
         if (!$downloadResult) {
-            $output->writeln("couldn't download $url");
+            $this->output->writeln("couldn't download $url");
             return false;
         }
 
         $topTempDir = $uniquePath;
-        $output->writeln("downloaded source to $downloadPath");
+        $this->output->writeln("downloaded source to $downloadPath");
         return $downloadPath;
     }
 
-    private function unzipSource(InputInterface $input, OutputInterface $output, $zipPath, &$topTempDir = null)
+    private function unzipSource($zipPath, &$topTempDir = null)
     {
-        $output->writeln("unzipping content...");
+        $this->output->writeln("unzipping content...");
         $extractPath = dirname($zipPath) . "/extract_" . uniqid();
         $fs = new Filesystem();
         try {
             $fs->mkdir($extractPath);
         } catch (IOException $ex) {
-            $output->writeln($ex->getMessage());
+            $this->output->writeln($ex->getMessage());
             return false;
         }
 
@@ -169,38 +179,68 @@ class ContentImportCommand extends Command
             $zip->extractTo($extractPath);
             $zip->close();
         } else {
-            $output->writeln("couldn't extract $zipPath to $extractPath");
+            $this->output->writeln("couldn't extract $zipPath to $extractPath");
             return false;
         }
         if ($topTempDir === null) $topTempDir = $extractPath;
-        $output->writeln("unzipping finished");
+        $this->output->writeln("unzipping finished");
         return $extractPath;
     }
 
-    private function cleanTempDir(InputInterface $input, OutputInterface $output, $dirPath)
+    private function cleanTempDir($dirPath)
     {
-        $output->writeln("cleaning temp dir $dirPath ...");
+        $this->output->writeln("cleaning temp dir $dirPath ...");
         $fs = new Filesystem();
         $fs->remove($dirPath);
-        $output->writeln("temp dir cleaned");
+        $this->output->writeln("temp dir cleaned");
     }
 
-    private function importFiles(InputInterface $input, OutputInterface $output, $sourcePath)
+    private function importFiles($sourcePath)
     {
-        $output->writeln("copying files...");
+        $this->output->writeln("copying files...");
         $dstDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
         $srcDir = $sourcePath . "/files/";
 
         if (file_exists($srcDir)) {
             $filesystem = new Filesystem();
             $filesystem->mirror($srcDir, $dstDir);
-            $output->writeln("files copied successfully");
+            $this->output->writeln("files copied successfully");
         }
+        return true;
+    }
+
+    private function prepareGit()
+    {
+        $this->output->writeln("preparing Git");
+
+        if (!$this->gitService->enableGit(null, null, null, null, true, $gitEnableOutput)) {
+            $this->output->writeln($gitEnableOutput);
+            return false;
+        }
+        $this->output->write($gitEnableOutput);
+
+        if (!$this->gitService->gitPull($gitPullOutput, $errorMessages)) {
+            foreach ($errorMessages as $errorMessage) {
+                $this->output->writeln($errorMessage);
+            }
+            return false;
+        }
+        $this->output->write($gitPullOutput);
+
+        $this->output->writeln("Git prepared");
         return true;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->input = $input;
+        $this->output = $output;
+
+        $instructions = $input->getOption("instructions");
+        if ($instructions === null) {
+            $instructions = $this->adminService->getContentImportOptions();
+        }
+
         if ($input->getOption("sc")) {
             $input->setOption("convert", true);
             $input->setOption("clean", true);
@@ -214,9 +254,21 @@ class ContentImportCommand extends Command
         $topTempDir = null;
         $sourcePath = $input->getArgument("input");
 
+        if ($input->getOption("git")) {
+            if ($input->getOption("instructions") === null) {
+                //yes, it's using url export options in git for both import and export
+                $instructions = $this->adminService->getContentExportOptions();
+            }
+
+            if (!$this->prepareGit()) {
+                return 1;
+            }
+            $sourcePath = $this->gitService->getGitRepoPath();
+        }
+
         //url
         if (stripos($sourcePath, "http://") !== false || stripos($sourcePath, "https://") !== false) {
-            $sourcePath = $this->downloadSource($input, $output, $sourcePath, $topTempDir);
+            $sourcePath = $this->downloadSource($sourcePath, $topTempDir);
             if ($sourcePath === false) {
                 return 1;
             }
@@ -226,23 +278,23 @@ class ContentImportCommand extends Command
         if (is_file($sourcePath)) {
             $extension = strtolower(pathinfo($sourcePath)["extension"]);
             if ($extension === "zip") {
-                $sourcePath = $this->unzipSource($input, $output, $sourcePath);
+                $sourcePath = $this->unzipSource($sourcePath);
                 if ($sourcePath === false) {
                     return 1;
                 }
             }
         }
 
-        if ($input->getOption("files") && !$this->importFiles($input, $output, $sourcePath)) {
+        if ($input->getOption("files") && !$this->importFiles($sourcePath)) {
             return 1;
         }
 
-        if (!$this->importContent($input, $output, $sourcePath)) {
+        if (!$this->importContent($sourcePath, $instructions)) {
             return 1;
         }
 
         if ($topTempDir) {
-            $this->cleanTempDir($input, $output, $topTempDir);
+            $this->cleanTempDir($topTempDir);
         }
         $this->adminService->updateLastImportTime();
     }

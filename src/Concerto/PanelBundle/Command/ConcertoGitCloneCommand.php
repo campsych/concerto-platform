@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Command;
 use Concerto\PanelBundle\Service\GitService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -26,6 +27,7 @@ class ConcertoGitCloneCommand extends Command
     protected function configure()
     {
         $this->setName("concerto:git:clone")->setDescription("Clones git repository");
+        $this->addOption("if-not-exists", null, InputOption::VALUE_NONE, "Clone only if Git repository not exists yet");
     }
 
     private function getCloneCommand()
@@ -63,10 +65,22 @@ class ConcertoGitCloneCommand extends Command
         return $process->getExitCode() === 0;
     }
 
+    private function doesGitRepositoryExists()
+    {
+        $fs = new Filesystem();
+        return $fs->exists($this->localGitRepoPath . "/.git");
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
         $this->localGitRepoPath = $this->gitService->getGitRepoPath();
+        $ifNotExists = $input->getOption("if-not-exists");
+
+        if ($ifNotExists && $this->doesGitRepositoryExists()) {
+            $output->writeln("Git repository already exists.");
+            return 0;
+        }
 
         if (!$this->cleanUp()) {
             return 1;

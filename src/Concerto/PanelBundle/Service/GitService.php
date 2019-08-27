@@ -18,18 +18,21 @@ class GitService
         $this->adminService = $adminService;
     }
 
-    public function enableGit($url, $branch, $login, $password, &$output)
+    public function enableGit($url = null, $branch = null, $login = null, $password = null, $cloneOnlyIfNotExists = false, &$output = null)
     {
         $this->saveGitSettings($url, $branch, $login, $password);
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $command = $app->find("concerto:git:clone");
-        $arguments = ["command" => $command->getName()];
+        $arguments = [
+            "command" => $command->getName(),
+            "--if-not-exists" => $cloneOnlyIfNotExists
+        ];
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -75,14 +78,18 @@ class GitService
 
     private function saveGitSettings($url, $branch, $login, $password)
     {
-        $this->adminService->setSettings(array(
-            "content_repository" => "git",
-            "git_enabled" => 1,
-            "git_url" => $url,
-            "git_branch" => $branch,
-            "git_login" => $login,
-            "git_password" => $password
-        ), true);
+        $gitSettings = [];
+        if ($url !== null) $gitSettings["git_url"] = $url;
+        if ($branch !== null) $gitSettings["git_branch"] = $branch;
+        if ($login !== null) $gitSettings["git_login"] = $login;
+        if ($password !== null) $gitSettings["git_password"] = $password;
+
+        if (!empty($gitSettings)) {
+            $gitSettings["content_repository"] = "git";
+            $gitSettings["git_enabled"] = 1;
+
+            $this->adminService->setSettings($gitSettings, true);
+        }
     }
 
     public function disableGit()
@@ -422,7 +429,7 @@ class GitService
         return true;
     }
 
-    private function gitPull(&$output = null, &$errorMessages = null)
+    public function gitPull(&$output = null, &$errorMessages = null)
     {
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
