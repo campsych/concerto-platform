@@ -13,10 +13,29 @@ testRunner.compileProvider.component('itemGracelyScale', {
   },
   controller: function controller($scope) {
 
+    $scope.intensity = null;
+    $scope.unpleasantness = null;
+
     this.$onInit = function() {
       $scope.item = this.item;
       $scope.response = this.response;
       $scope.responseRequired = this.responseRequired;
+
+      $scope.unpleasantnessVisible = typeof($scope.item.responseOptions.gracelyScaleShow) === 'undefined' || $scope.item.responseOptions.gracelyScaleShow === 'both' || $scope.item.responseOptions.gracelyScaleShow === 'unpleasantness';
+      $scope.intensityVisible = typeof($scope.item.responseOptions.gracelyScaleShow) === 'undefined' || $scope.item.responseOptions.gracelyScaleShow === 'both' || $scope.item.responseOptions.gracelyScaleShow === 'intensity';
+
+      if($scope.response.value) {
+        let pastResponse = JSON.parse($scope.response.value);
+        $scope.intensity = pastResponse.intensity;
+        $scope.unpleasantness = pastResponse.unpleasantness;
+      }
+
+      testRunner.addExtraControl("r" + $scope.item.id, function () {
+        return JSON.stringify({
+          intensity: $scope.intensity,
+          unpleasantness: $scope.unpleasantness
+        });
+      });
     };
 
     $scope.intensityOptions = {
@@ -305,15 +324,6 @@ testRunner.compileProvider.component('itemGracelyScale', {
       ],
     };
 
-    $scope.intensity;
-    $scope.unpleasantness;
-
-    if($scope.response.value) {
-      let pastResponse = JSON.parse($scope.response.value);
-      $scope.intensity = pastResponse.intensity;
-      $scope.unpleasantness = pastResponse.unpleasantness;
-    }
-
     $scope.selectIntensity = function (value) {
       $scope.intensity = value;
     };
@@ -321,12 +331,5 @@ testRunner.compileProvider.component('itemGracelyScale', {
     $scope.selectUnpleasantness = function (value) {
       $scope.unpleasantness = value;
     };
-
-    testRunner.addExtraControl("r" + $scope.item.id, function () {
-      return JSON.stringify({
-        intensity: $scope.intensity,
-        unpleasantness: $scope.unpleasantness
-      });
-    });
   }
 });

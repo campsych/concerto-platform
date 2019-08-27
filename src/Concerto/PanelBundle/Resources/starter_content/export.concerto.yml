@@ -9927,6 +9927,27 @@ collection:
                                         placeholder: 0
                                   placeholder: 0
                               placeholder: 0
+                          -
+                            name: gracelyScaleShow
+                            type: 3
+                            label: Show
+                            definition:
+                              options:
+                                -
+                                  label: Both
+                                  order: 0
+                                  value: both
+                                -
+                                  label: Unpleasantness
+                                  order: 1
+                                  value: unpleasantness
+                                -
+                                  label: Intensity
+                                  order: 2
+                                  value: intensity
+                              defvalue: both
+                              placeholder: 0
+                            hideCondition: 'parent.type != "gracelyScale"'
                         element:
                           type: 9
                           definition:
@@ -10648,7 +10669,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
+        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}],"gracelyScaleShow":""},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}],"gracelyScaleShow":""},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}],"gracelyScaleShow":""},"cbGroup":"mathematics","fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0"}]'
         test: 16
         parentVariable: 14
       -
@@ -11947,6 +11968,27 @@ collection:
                                         placeholder: 0
                                   placeholder: 0
                               placeholder: 0
+                          -
+                            name: gracelyScaleShow
+                            type: 3
+                            label: Show
+                            definition:
+                              options:
+                                -
+                                  label: Both
+                                  order: 0
+                                  value: both
+                                -
+                                  label: Unpleasantness
+                                  order: 1
+                                  value: unpleasantness
+                                -
+                                  label: Intensity
+                                  order: 2
+                                  value: intensity
+                              defvalue: both
+                              placeholder: 0
+                            hideCondition: 'parent.type != "gracelyScale"'
                         placeholder: 0
                     -
                       name: orderIndex
@@ -12299,7 +12341,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"1","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}]}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"1","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}]}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}]}}]'
+        value: '[{"id":"1","question":"10 + 10","orderIndex":"1","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"1","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1"}],"gracelyScaleShow":""}},{"id":"2","question":"100 + 100","orderIndex":"2","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"1","response":"200"},{"value":"3","label":"2000","score":"0","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1"}],"gracelyScaleShow":""}},{"id":"3","question":"1000 + 1000","orderIndex":"3","trait":"math","responseOptions":{"type":"options","openCorrect":"","openScore":"1","options":[{"value":"1","label":"20","score":"0","response":"20"},{"value":"2","label":"200","score":"0","response":"200"},{"value":"3","label":"2000","score":"1","response":"2000"}],"optionsRandomOrder":"1","painMannequinGender":"male","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1"}],"gracelyScaleShow":""}}]'
         test: 22
         parentVariable: 71
       -
