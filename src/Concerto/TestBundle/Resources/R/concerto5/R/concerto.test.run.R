@@ -94,7 +94,8 @@ function(testId, params=list(), extraReturns=c()) {
         }
 
         testenv = getCodeTestEnv(params)
-        eval(parse(text = test$code), envir = testenv)
+        sanitizedCode = concerto.test.sanitizeSource(test$code)
+        eval(parse(text = sanitizedCode), envir = testenv)
 
         if (dim(test$variables)[1] > 0) {
             for (i in 1 : dim(test$variables)[1]) {
@@ -160,7 +161,8 @@ function(testId, params=list(), extraReturns=c()) {
                 for(insertName in ls(inserts)) {
                     assign(insertName, inserts[[insertName]], envir=portEnv)
                 }
-                return(eval(parse(text = value), envir=portEnv))
+                sanitizedCode = concerto.test.sanitizeSource(value)
+                return(eval(parse(text = sanitizedCode), envir=portEnv))
             } else {
                 value = concerto.template.insertParams(value, inserts, removeMissing=F)
                 return(value)
@@ -297,7 +299,8 @@ function(testId, params=list(), extraReturns=c()) {
                 if (concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != return_type) { next }
 
                 func = paste0("retFunc = function(", concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name, "){ ", connection$returnFunction, " }")
-                eval(parse(text = func))
+                sanitizedCode = concerto.test.sanitizeSource(func)
+                eval(parse(text = sanitizedCode))
                 concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
             }
             return(r)

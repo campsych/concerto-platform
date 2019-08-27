@@ -1,1 +1,2 @@
-result = eval(parse(text=code))
+sanitizedCode = concerto.test.sanitizeSource(code)
+result = eval(parse(text=sanitizedCode))

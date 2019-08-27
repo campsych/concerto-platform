@@ -7,6 +7,7 @@ changelog:
           - label: Improvements
             changes:
                 - updated AngularJS to v1.7 and jQuery to v3.4 (and some of other javascript dependencies)
+                - added concerto.test.sanitizeSource function for all parsed R code strings
           - label: Fixes
             changes:
                 - fixed copying after latest refactoring
