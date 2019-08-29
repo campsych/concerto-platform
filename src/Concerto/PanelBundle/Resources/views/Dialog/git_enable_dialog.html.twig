@@ -12,7 +12,7 @@
                 {% block label %}{{ "git.enable.url"|trans }}{% endblock %}
                 {% block tooltip %}{{ "git.enable.url.tooltip"|trans }}{% endblock %}
                 {% block control %}
-                    <input type="text" ng-model="url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                    <input type="text" ng-model="url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="!exposedSettingsMap.git_url_overridable" />
                 {% endblock %}
             {% endembed %}
 
@@ -21,7 +21,7 @@
                 {% block label %}{{ "git.enable.branch"|trans }}{% endblock %}
                 {% block tooltip %}{{ "git.enable.branch.tooltip"|trans }}{% endblock %}
                 {% block control %}
-                    <input type="text" ng-model="branch" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                    <input type="text" ng-model="branch" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="!exposedSettingsMap.git_branch_overridable"/>
                 {% endblock %}
             {% endembed %}
 
@@ -30,7 +30,7 @@
                 {% block label %}{{ "git.enable.login"|trans }}{% endblock %}
                 {% block tooltip %}{{ "git.enable.login.tooltip"|trans }}{% endblock %}
                 {% block control %}
-                    <input type="text" ng-model="login" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                    <input type="text" ng-model="login" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="!exposedSettingsMap.git_login_overridable"/>
                 {% endblock %}
             {% endembed %}
 
@@ -39,7 +39,7 @@
                 {% block label %}{{ "git.enable.password"|trans }}{% endblock %}
                 {% block tooltip %}{{ "git.enable.password.tooltip"|trans }}{% endblock %}
                 {% block control %}
-                    <input type="password" ng-model="password" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                    <input type="password" ng-model="password" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' ng-disabled="!exposedSettingsMap.git_password_overridable"/>
                 {% endblock %}
             {% endembed %}
 

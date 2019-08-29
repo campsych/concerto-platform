@@ -41,7 +41,7 @@ class ContentImportCommand extends Command
 
     protected function configure()
     {
-        $files_dir = __DIR__ . "/../Resources/starter_content/";
+        $files_dir = $this->adminService->getContentUrl();
 
         $this->setName("concerto:content:import")->setDescription("Imports content");
         $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);

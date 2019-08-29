@@ -1,4 +1,5 @@
 function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal) {
+    $scope.contentSource = "url";
     $scope.gitStatus = null;
     $scope.uploadItem = null;
     $scope.uploader = new FileUploader({
@@ -22,7 +23,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.importUrl = function () {
-        var importSource = $scope.uploadItem !== null ? Trans.CONTENT_IMPORT_FROM_FILE : Trans.CONTENT_IMPORT_FROM_URL;
+        let importSource = $scope.uploadItem !== null ? Trans.CONTENT_IMPORT_FROM_FILE : Trans.CONTENT_IMPORT_FROM_URL;
         DialogsService.confirmDialog(
             Trans.CONTENT_IMPORTING_CONTENT,
             "<strong>" + importSource + "</strong><br/><br/>" +
@@ -33,8 +34,8 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     instructions: $scope.exposedSettingsMap.content_import_options,
                     file: $scope.uploadItem ? $scope.uploadItem.file.name : null
                 }).then(function (httpResponse) {
-                    var success = httpResponse.data.result === 0;
-                    var title = success ? Trans.CONTENT_IMPORT_SUCCESS : Trans.CONTENT_IMPORT_FAILURE;
+                    let success = httpResponse.data.result === 0;
+                    let title = success ? Trans.CONTENT_IMPORT_SUCCESS : Trans.CONTENT_IMPORT_FAILURE;
 
                     DialogsService.preDialog(
                         title,
@@ -71,18 +72,23 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.enableGit = function () {
-        var modalInstance = $uibModal.open({
+        let modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_enable_dialog.html",
             controller: GitEnableController,
             size: "lg",
             backdrop: 'static',
-            keyboard: false
+            keyboard: false,
+            resolve: {
+                exposedSettingsMap: function () {
+                    return $scope.exposedSettingsMap;
+                }
+            }
         });
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_GIT_ENABLE, userResponse).then(function (httpResponse) {
                 $scope.refreshSettings();
-                var success = httpResponse.data.result === 0;
-                var title = success ? Trans.GIT_ENABLE_SUCCESS : Trans.GIT_ENABLE_FAILURE;
+                let success = httpResponse.data.result === 0;
+                let title = success ? Trans.GIT_ENABLE_SUCCESS : Trans.GIT_ENABLE_FAILURE;
                 DialogsService.preDialog(
                     title,
                     null,
@@ -108,7 +114,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         if (!$scope.canDiff(sha)) return;
         $http.get(Paths.ADMINISTRATION_GIT_DIFF.pf(sha)).then(function (httpResponse) {
 
-            var success = httpResponse.data.result == 0;
+            let success = httpResponse.data.result == 0;
             if (!success) {
                 DialogsService.alertDialog(
                     Trans.GIT_DIFF_SHA.pf(sha),
@@ -119,7 +125,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 return;
             }
 
-            var diffHtml = Diff2Html.getPrettyHtml(
+            let diffHtml = Diff2Html.getPrettyHtml(
                 httpResponse.data.diff,
                 {
                     inputFormat: 'diff',
@@ -139,7 +145,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.showLocalDiff = function () {
-        var diffHtml = Diff2Html.getPrettyHtml(
+        let diffHtml = Diff2Html.getPrettyHtml(
             $scope.gitStatus.diff,
             {
                 inputFormat: 'diff',
@@ -167,7 +173,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             exportInstructions: $scope.exposedSettingsMap.content_export_options
         }).then(function (httpResponse) {
 
-            var success = httpResponse.data.result == 0;
+            let success = httpResponse.data.result == 0;
             if (!success) {
                 DialogsService.alertDialog(
                     Trans.GIT_REFRESH_TITLE,
@@ -191,7 +197,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.commit = function () {
-        var modalInstance = $uibModal.open({
+        let modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_commit_dialog.html",
             controller: GitCommitController,
             size: "lg",
@@ -200,9 +206,9 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         });
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_GIT_COMMIT, userResponse).then(function (httpResponse) {
-                var success = httpResponse.data.result === 0;
-                var title = success ? Trans.GIT_COMMIT_SUCCESS : Trans.GIT_COMMIT_FAILURE;
-                var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                let success = httpResponse.data.result === 0;
+                let title = success ? Trans.GIT_COMMIT_SUCCESS : Trans.GIT_COMMIT_FAILURE;
+                let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
 
                 $scope.refreshGitStatus();
                 DialogsService.preDialog(
@@ -228,9 +234,9 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 }).then(function (httpResponse) {
                     $scope.refreshGitStatus();
 
-                    var success = httpResponse.data.result === 0;
-                    var title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
-                    var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                    let success = httpResponse.data.result === 0;
+                    let title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
 
                     DialogsService.preDialog(
                         title,
@@ -254,9 +260,9 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 $http.post(Paths.ADMINISTRATION_GIT_PUSH, {}).then(function (httpResponse) {
                     $scope.refreshGitStatus();
 
-                    var success = httpResponse.data.result === 0;
-                    var title = success ? Trans.GIT_PUSH_SUCCESS : Trans.GIT_PUSH_FAILURE;
-                    var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                    let success = httpResponse.data.result === 0;
+                    let title = success ? Trans.GIT_PUSH_SUCCESS : Trans.GIT_PUSH_FAILURE;
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
 
                     DialogsService.preDialog(
                         title,
@@ -282,9 +288,9 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 }).then(function (httpResponse) {
                     $scope.refreshGitStatus();
 
-                    var success = httpResponse.data.result === 0;
-                    var title = success ? Trans.GIT_PULL_SUCCESS : Trans.GIT_PULL_FAILURE;
-                    var content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                    let success = httpResponse.data.result === 0;
+                    let title = success ? Trans.GIT_PULL_SUCCESS : Trans.GIT_PULL_FAILURE;
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
 
                     DialogsService.preDialog(
                         title,
@@ -298,6 +304,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
     $scope.$watch("exposedSettingsMap.git_enabled", function (newValue) {
         if (newValue == 1) $scope.refreshGitStatus();
+        $scope.contentSource = newValue == 1 ? "git" : "url";
     });
 }
 

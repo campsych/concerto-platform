@@ -465,6 +465,11 @@ class AdministrationService
         return $this->getSettingValue("content_export_options");
     }
 
+    public function getContentUrl()
+    {
+        return $this->getSettingValue("content_url");
+    }
+
     public function exportContent($instructions = null, &$zipPath = null, &$output = null)
     {
         if ($instructions === null) $instructions = $this->getContentExportOptions();

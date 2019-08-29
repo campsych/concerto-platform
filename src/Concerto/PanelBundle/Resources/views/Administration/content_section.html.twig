@@ -3,12 +3,12 @@
 <div ng-controller="AdministrationContentController">
     <div class="center" style="margin-bottom: 20px;">
         <div class="btn-group">
-            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'url'" ng-disabled="!exposedSettingsMap.content_repository_overridable">{{ 'content.url'|trans }}</label>
-            <label class="btn btn-default btn-sm" ng-model="exposedSettingsMap.content_repository" uib-btn-radio="'git'" ng-disabled="!exposedSettingsMap.content_repository_overridable">{{ 'content.git'|trans }}</label>
+            <label class="btn btn-default btn-sm" ng-model="contentSource" uib-btn-radio="'url'">{{ 'content.url'|trans }}</label>
+            <label class="btn btn-default btn-sm" ng-model="contentSource" uib-btn-radio="'git'">{{ 'content.git'|trans }}</label>
         </div>
     </div>
 
-    <div ng-if="exposedSettingsMap.content_repository == 'url'">
+    <div ng-if="contentSource == 'url'">
 
         <div style="display: table; width: 100%;">
             <div style="display: table-cell; width: 50%; border-right: solid #ddd 1px; padding-right: 16px;">
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <div ng-if="exposedSettingsMap.content_repository == 'git'">
+    <div ng-if="contentSource == 'git'">
         <div style="display: table; width: 100%;">
             <div style="display: table-cell; width: 50%; border-right: solid #ddd 1px; padding-right: 16px;">
                 <h4 style="text-align: center;">{{ "git.manage"|trans }}</h4>
@@ -161,8 +161,8 @@
                     <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">{{ "git.commit.button"|trans }}</button>
                     <button ng-click="reset()" class="btn btn-danger btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canReset()">{{ "git.reset.button"|trans }}</button>
                     <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">{{ "git.refresh.button"|trans }}</button>
-                    <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0">{{ "git.enable.button"|trans }}</button>
-                    <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">{{ "git.disable.button"|trans }}</button>
+                    <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0" ng-disabled="!exposedSettingsMap.git_enabled_overridable">{{ "git.enable.button"|trans }}</button>
+                    <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!exposedSettingsMap.git_enabled_overridable">{{ "git.disable.button"|trans }}</button>
                 </div>
             </div>
 

@@ -85,7 +85,6 @@ class GitService
         if ($password !== null) $gitSettings["git_password"] = $password;
 
         if (!empty($gitSettings)) {
-            $gitSettings["content_repository"] = "git";
             $gitSettings["git_enabled"] = 1;
 
             $this->adminService->setSettings($gitSettings, true);
@@ -95,7 +94,6 @@ class GitService
     public function disableGit()
     {
         $this->adminService->setSettings(array(
-            "content_repository" => "url",
             "git_enabled" => 0
         ), true);
     }
