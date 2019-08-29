@@ -23,7 +23,7 @@ class ContentImportCommand extends Command
     private $importService;
     private $adminService;
     private $doctrine;
-    private $tranlator;
+    private $translator;
     private $gitService;
     private $input;
     private $output;
@@ -33,7 +33,7 @@ class ContentImportCommand extends Command
         $this->importService = $importService;
         $this->adminService = $adminService;
         $this->doctrine = $doctrine;
-        $this->tranlator = $translator;
+        $this->translator = $translator;
         $this->gitService = $gitService;
 
         parent::__construct();
@@ -41,10 +41,8 @@ class ContentImportCommand extends Command
 
     protected function configure()
     {
-        $files_dir = $this->adminService->getContentUrl();
-
         $this->setName("concerto:content:import")->setDescription("Imports content");
-        $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", $files_dir);
+        $this->addArgument("input", InputArgument::OPTIONAL, "Input directory", null);
         $this->addOption("convert", null, InputOption::VALUE_NONE, "Convert any existing objects to imported version.");
         $this->addOption("clean", null, InputOption::VALUE_NONE, "Remove left-over object?");
         $this->addOption("files", null, InputOption::VALUE_NONE, "Copy files?");
@@ -85,7 +83,7 @@ class ContentImportCommand extends Command
             $instructions = $this->importService->getPreImportStatusFromFile($f->getRealpath(), $errorMessages);
             if ($instructions === false) {
                 foreach ($errorMessages as $errorMessage) {
-                    $this->output->writeln($this->tranlator->trans($errorMessage));
+                    $this->output->writeln($this->translator->trans($errorMessage));
                 }
                 return false;
             }
@@ -253,6 +251,7 @@ class ContentImportCommand extends Command
 
         $topTempDir = null;
         $sourcePath = $input->getArgument("input");
+        if ($sourcePath === null) $sourcePath = $this->adminService->getContentUrl();
 
         if ($input->getOption("git")) {
             if ($input->getOption("instructions") === null) {
