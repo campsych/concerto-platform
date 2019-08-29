@@ -77,6 +77,8 @@ abstract class AExportableSectionService extends ASectionService
         unset($arr["updatedOn"]);
         unset($arr["updatedBy"]);
         unset($arr["owner"]);
+        unset($arr["directLockBy"]);
+        unset($arr["lockedBy"]);
         return $arr;
     }
 
