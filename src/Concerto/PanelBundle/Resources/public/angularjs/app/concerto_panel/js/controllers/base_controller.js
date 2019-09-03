@@ -509,6 +509,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             $scope.object.description,
             function (newVal) {
                 $scope.object.description = newVal;
+                $scope.persist();
             }
         );
     };

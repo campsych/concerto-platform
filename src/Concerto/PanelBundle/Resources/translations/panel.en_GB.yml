@@ -67,7 +67,6 @@ form:
     cancel: Cancel
     yes: Yes
     no: No
-    change: Change
     ok: Ok
     apply: Apply
     upload: Upload
@@ -95,7 +94,7 @@ dialog:
     leaving: Are you sure you want to continue? All unsaved changes will be lost.
 
 please.wait: Please wait...
-none.choosen: None choosen
+none.choosen: Not selected
 none: None
 
 description:
