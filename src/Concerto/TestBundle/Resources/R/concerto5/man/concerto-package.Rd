@@ -13,7 +13,7 @@ Package: \tab concerto5\cr
 Type: \tab Package\cr
 Version: \tab 0.29.0\cr
 Date: \tab 2019-08-27\cr
-License: \tab GNU GPL v2\cr
+License: \tab Apache-2.0\cr
 }
 
 }

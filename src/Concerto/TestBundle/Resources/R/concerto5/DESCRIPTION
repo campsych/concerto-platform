@@ -6,6 +6,6 @@ Date: 2019-08-27
 Author: Przemyslaw Lis
 Maintainer: Przemyslaw Lis <pl362@cam.ac.uk>
 Description: Contains all required functions by Concerto platform. 
-License: GNU GPL v2
+License: Apache-2.0
 Depends: session, jsonlite
 ByteCompile: TRUE

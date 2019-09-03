@@ -3,7 +3,7 @@
   "description": "Concerto Platform test runner",
   "version": "5.0.0",
   "homepage": "http://concertoplatform.com/",
-  "license": "AGPLv3",
+  "license": "Apache-2.0",
   "private": false,
   "dependencies": {
     "angular": "1.7.8",

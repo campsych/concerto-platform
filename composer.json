@@ -1,6 +1,6 @@
 {
   "name": "concerto-platform",
-  "license": "AGPLv3",
+  "license": "Apache-2.0",
   "type": "project",
   "description": "Online adaptive testing platform",
   "autoload": {
