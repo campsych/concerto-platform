@@ -54,7 +54,7 @@
         {% trans_default_domain "User" %}
         {% block label %}{{ 'form.field.archived'|trans }}{% endblock %}
         {% block tooltip %}{{'form.field.archived.tooltip'|trans}}{% endblock %}
-        {% block control %} 
+        {% block control %}
             <input type="checkbox" ng-model="object.archived" ng-true-value="'1'" ng-false-value="'0'" />
         {% endblock %}
     {% endembed %}
@@ -68,6 +68,7 @@
         {% endblock %}
     {% endembed %}
 
+<!-- @TODO element shouldn't be cut in half -->
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
         {% trans_default_domain "User" %}
         {% block div %}<div class="horizontalElement center" ng-hide="object.role_super_admin == '1'">{% endblock %}

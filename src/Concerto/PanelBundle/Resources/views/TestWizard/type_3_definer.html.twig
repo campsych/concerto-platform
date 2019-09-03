@@ -15,16 +15,11 @@
                             {% block tooltip %}{{ 'param.definer.select.options.tooltip'|trans }}{% endblock %}
                             {% block control %}
                                 <div class="center">
-                                    <button class="btn btn-success btn-sm"
-                                            ng-click="addOption()">{{ 'param.definer.select.option.add'|trans }}</button>
-                                    <button class="btn btn-danger btn-sm"
-                                            ng-click="deleteSelectedOptions()">{{ 'param.definer.select.option.remove.selected'|trans }}</button>
-                                    <button class="btn btn-danger btn-sm"
-                                            ng-click="deleteAllOptions()">{{ 'param.definer.select.option.remove.all'|trans }}</button>
-                                    <button ng-click="gridService.downloadList(selectGridApi);"
-                                            class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
-                                    <button ng-click="gridService.uploadList(selectGridApi);"
-                                            class="btn btn-default btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                                    <button class="btn btn-success btn-sm" ng-click="addOption()">{{ 'param.definer.select.option.add'|trans }}</button>
+                                    <button ng-click="gridService.uploadList(selectGridApi);" class="btn btn-success btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                                    <button ng-click="gridService.downloadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                                    <button class="btn btn-danger btn-sm" ng-click="deleteSelectedOptions()">{{ 'param.definer.select.option.remove.selected'|trans }}</button>
+                                    <button class="btn btn-danger btn-sm" ng-click="deleteAllOptions()">{{ 'param.definer.select.option.remove.all'|trans }}</button>
                                 </div>
                                 <div ui-grid="selectOptions" ui-grid-edit ui-grid-row-edit ui-grid-auto-resize
                                      ui-grid-cellNav ui-grid-resize-columns ui-grid-exporter ui-grid-importer

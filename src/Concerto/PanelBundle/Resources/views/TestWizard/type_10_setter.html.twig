@@ -10,10 +10,10 @@
                     {% block control %}
                         <div class="center">
                             <button class="btn btn-success btn-sm" ng-click="addElement()" ng-disabled="!editable">{{ 'param.setter.list.element.add'|trans }}</button>
+                            <button ng-click="gridService.uploadList(listGridApi);" class="btn btn-success btn-sm" ng-disabled="!editable">{{ "list.button.upload"|trans({},"panel") }}</button>
+                            <button ng-click="gridService.downloadList(listGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
                             <button class="btn btn-danger btn-sm" ng-click="removeSelectedElements()" ng-disabled="!editable">{{ 'param.setter.list.element.remove.selected'|trans }}</button>
                             <button class="btn btn-danger btn-sm" ng-click="removeAllElements()" ng-disabled="!editable">{{ 'param.setter.list.element.remove.all'|trans }}</button>
-                            <button ng-click="gridService.downloadList(listGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
-                            <button ng-click="gridService.uploadList(listGridApi);" class="btn btn-default btn-sm" ng-disabled="!editable">{{ "list.button.upload"|trans({},"panel") }}</button>
                         </div>
                         <div ui-grid="listOptions"
                              ui-grid-resize-columns

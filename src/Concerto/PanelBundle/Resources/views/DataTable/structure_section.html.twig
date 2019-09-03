@@ -4,8 +4,8 @@
 {% block content %}
     <div class="center">
         <button ng-disabled="!isEditable()" class="btn btn-success btn-sm" ng-click="addStructure()">{{ 'structure.list.add'|trans }}</button>
-        <button ng-disabled="!isEditable()" class="btn btn-danger btn-sm" ng-click="deleteSelectedStructure()">{{ 'structure.list.delete.checked'|trans }}</button>
         <button ng-click="gridService.downloadList(structureGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+        <button ng-disabled="!isEditable()" class="btn btn-danger btn-sm" ng-click="deleteSelectedStructure()">{{ 'structure.list.delete.checked'|trans }}</button>
     </div>
     <div ui-grid="structureOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>
 {% endblock %}

@@ -6,8 +6,8 @@
     <div class="center">
         <div class="divButtonContainer center">
             <button ng-disabled="!isEditable()" class="btn btn-success btn-sm" ng-click="addVariable(0)">{{ 'variables.input.parameters.list.add'|trans }}</button>
-            <button ng-disabled="!isEditable()" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(0)">{{ 'variables.input.parameters.list.delete.checked'|trans }}</button>
             <button ng-click="gridService.downloadList(paramsGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+            <button ng-disabled="!isEditable()" class="btn btn-danger btn-sm" ng-click="deleteSelectedVariables(0)">{{ 'variables.input.parameters.list.delete.checked'|trans }}</button>
         </div>
     </div>
     <div ui-grid="paramsOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-exporter ui-grid-selection ui-grid-move-columns class="grid"></div>

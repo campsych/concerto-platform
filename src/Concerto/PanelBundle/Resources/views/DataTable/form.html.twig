@@ -82,6 +82,13 @@
     </uib-accordion-group>
 {% endblock %}
 
-{% block floatingBarExtraButtons %}
-    <button class="btn btn-primary" ng-click="importCsv()" ng-disabled="!isEditable()">{{ 'form.button.import.csv'|trans }}</button>
+{% block floatingBarButtons %}
+    <button ng-disabled="!isEditable()" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans({},"panel") }}</button>
+    <button class="btn btn-success" ng-click="importCsv()" ng-disabled="!isEditable()">{{ 'form.button.import.csv'|trans }}</button>
+    <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans({},"panel") }}</button>
+    <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans({},"panel") }}</button>
+    <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans({},"panel") }}</button>
+    <button class="btn btn-default" ng-show="!isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.lock'|trans({},"panel") }}</button>
+    <button class="btn btn-default" ng-show="isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.unlock'|trans({},"panel") }}</button>
+    <button ng-disabled="!isEditable()" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans({},"panel") }}</button>
 {% endblock %}

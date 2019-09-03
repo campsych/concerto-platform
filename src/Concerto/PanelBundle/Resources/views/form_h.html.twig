@@ -37,18 +37,20 @@
     {% if isAddDialog == false %}
 
         <div class="formFloatingBar" align="right">
-            {% if defaultButtons|default('true') == 'true' %}
-                <button ng-disabled="!isEditable()" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
-                <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
-                {% if exportable %}
-                    <button class="btn btn-default" ng-show="!isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.lock'|trans }}</button>
-                    <button class="btn btn-default" ng-show="isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.unlock'|trans }}</button>
-                    <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
+            {% block floatingBarButtons %}
+                {% if defaultButtons|default('true') == 'true' %}
+                    <button ng-disabled="!isEditable()" class='btn btn-success' ng-click="persist();">{{ 'form.button.save'|trans }}</button>
+                    <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
+                    <button class='btn btn-success' ng-click="saveNew();">{{ 'form.button.save.new'|trans }}</button>
+                    {% if exportable %}
+                        <button class="btn btn-default" ng-click="exportObject();">{{ 'form.button.export'|trans }}</button>
+                        <button class="btn btn-default" ng-show="!isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.lock'|trans }}</button>
+                        <button class="btn btn-default" ng-show="isLocked()" ng-disabled="!isEditable()" ng-click="toggleLock()"><i class="glyphicon glyphicon-lock"></i>{{ 'form.button.unlock'|trans }}</button>
+                    {% endif %}
+                    <button ng-disabled="!isEditable()" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
                 {% endif %}
-                <button class='btn btn-warning' ng-click="cancel();">{{ 'form.button.cancel'|trans }}</button>
-                <button ng-disabled="!isEditable()" class='btn btn-danger' ng-click="deleteObject();">{{ 'form.button.delete'|trans }}</button>
-            {% endif %}
-            {% block floatingBarExtraButtons %}{% endblock %}
+                {% block floatingBarExtraButtons %}{% endblock %}
+            {% endblock %}
         </div>
     {% endif %}
 {% endblock %}
