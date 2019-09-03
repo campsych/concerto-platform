@@ -1594,8 +1594,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 /** IE fix end */
 
                 $('#flowContainer').mousewheel(function (event) {
-                    scope.setZoom(event.deltaY);
-                    return false;
+                    if(scope.maximized) {
+                        scope.setZoom(event.deltaY);
+                        return false;
+                    }
                 }).mousemove(function (event) {
                     scope.currentMouseEvent = event;
                 });
