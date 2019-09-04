@@ -92,7 +92,7 @@ class DataTableService extends AExportableSectionService
             return array("object" => null, "errors" => $errors);
         }
 
-        $this->update($object);
+        $this->update($object, $oldName);
         return array("object" => $object, "errors" => $errors);
     }
 
