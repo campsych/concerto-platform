@@ -1,7 +1,6 @@
 {
   "name": "concerto-platform-test",
   "description": "Concerto Platform test runner",
-  "version": "5.0.0",
   "homepage": "http://concertoplatform.com/",
   "license": "Apache-2.0",
   "private": false,
