@@ -10,7 +10,7 @@ function WizardParamSetter11Controller($scope, RDocumentation, $http) {
     lineWrapping: true,
     lineNumbers: true,
     mode: 'r',
-    readOnly: !$scope.isEditable(),
+    readOnly: !$scope.editable,
     viewportMargin: Infinity,
     hintOptions: {
       completeSingle: false,
