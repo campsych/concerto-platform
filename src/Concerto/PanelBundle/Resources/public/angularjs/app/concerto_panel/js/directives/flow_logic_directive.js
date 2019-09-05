@@ -901,7 +901,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             return editable;
                         }
                     },
-                    size: port.type == 2 ? "prc-sm" : "prc-lg"
+                    size: "prc-lg"
                 });
 
                 modalInstance.result.then(function (response) {
