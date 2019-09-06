@@ -1523,7 +1523,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                     for (var i = 0; i < scope.object.nodesConnections.length; i++) {
                         var connection = scope.object.nodesConnections[i];
-                        if (connection.sourcePort == sourceParams.sourcePort.id && connection.destinationPort == targetParams.targetPort.id) return false;
+                        if (sourceParams.sourcePort !== null && connection.sourcePort == sourceParams.sourcePort.id && targetParams.targetPort !== null && connection.destinationPort == targetParams.targetPort.id) return false;
                     }
 
                     return true;
@@ -1594,7 +1594,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 /** IE fix end */
 
                 $('#flowContainer').mousewheel(function (event) {
-                    if(scope.maximized) {
+                    if (scope.maximized) {
                         scope.setZoom(event.deltaY);
                         return false;
                     }
