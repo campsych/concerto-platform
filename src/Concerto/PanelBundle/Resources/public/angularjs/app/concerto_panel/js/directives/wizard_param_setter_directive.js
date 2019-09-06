@@ -49,34 +49,11 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 return cell;
             };
 
-            scope.launchSetterDialog = function (param, output, parent, values, wizardObject, editable) {
+            scope.launchSetterDialog = function () {
                 var modalInstance = $uibModal.open({
                     templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "param_setter_dialog.html",
                     scope: scope,
                     controller: TestWizardParamSetterController,
-                    resolve: {
-                        param: function () {
-                            return param;
-                        },
-                        output: function () {
-                            return output;
-                        },
-                        parent: function () {
-                            return parent;
-                        },
-                        values: function () {
-                            return values;
-                        },
-                        wizardObject: function () {
-                            return wizardObject;
-                        },
-                        wizardMode: function () {
-                            return scope.wizardMode;
-                        },
-                        editable: function () {
-                            return editable;
-                        }
-                    },
                     size: "prc-lg"
                 });
                 modalInstance.result.then(function (result) {

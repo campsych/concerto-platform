@@ -8,8 +8,10 @@
                     {% block legend %}{% verbatim %}{{ title }}{% endverbatim %}{% endblock %}
                     {% block legend_tooltip %}{{ 'param.setter.titles.html.tooltip'|trans }}{% endblock %}
                     {% block control %}
-                        <textarea ckeditor="htmlEditorOptions" ng-model="output"
-                                  ng-change="onPrimitiveValueChange(output)" class='form-control'
+                        <textarea ckeditor="htmlEditorOptions"
+                                  ng-model="output"
+                                  ng-change="onPrimitiveValueChange(output)"
+                                  class='form-control'
                                   ng-disabled="!editable"></textarea>
                     {% endblock %}
                 {% endembed %}
