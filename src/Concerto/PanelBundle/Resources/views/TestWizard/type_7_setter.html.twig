@@ -16,9 +16,9 @@
                             {% block control %}
                                 <select ng-model="output.table" style="width:100%;"
                                         ng-disabled="!editable"
-                                        ng-options="table.name as table.name for table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'"
                                         class='form-control'>
                                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                                    <option ng-repeat="table in dataTableCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" ng-value="table.name" ng-bind="table.name"></option>
                                 </select>
                             {% endblock %}
                         {% endembed %}
@@ -30,9 +30,9 @@
                             {% block control %}
                                 <select ng-model="output.column" style="width:100%;"
                                         ng-disabled="!editable"
-                                        ng-options="column.name as column.name for column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'"
                                         class='form-control'>
                                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                                    <option ng-repeat="column in dataTableCollectionService.getBy('name', output.table).columns | orderBy: 'name'" ng-value="column.name" ng-bind="column.name"></option>
                                 </select>
                             {% endblock %}
                         {% endembed %}

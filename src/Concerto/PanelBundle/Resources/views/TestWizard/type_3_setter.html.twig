@@ -4,10 +4,9 @@
             {% trans_default_domain "TestWizard" %}
             {% block setter %}
                 <select ng-model="output" ng-change="onPrimitiveValueChange(output)" style="width:100%;"
-                        ng-options="opt.value as opt.label for opt in param.definition.options | orderBy:'order'"
                         ng-disabled="!editable"
                         class='form-control'>
-                    <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                    <option ng-repeat="opt in param.definition.options | orderBy:'order'" ng-value="opt.value" ng-bind="opt.label"></option>
                 </select>
             {% endblock %}
         {% endembed %}

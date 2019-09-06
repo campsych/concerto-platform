@@ -158,20 +158,13 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         $scope.output.length = 0;
     };
 
-    if ($scope.output === null || $scope.output === undefined || $scope.output.constructor !== Array) {
-        $scope.output = [];
-    }
     $scope.initializeListColumnDefs();
 
     $scope.$watch('param.definition.element.type', function (newValue, oldValue) {
-        if (newValue === null || newValue === undefined)
-            return;
         if (newValue != oldValue) {
-            if ($scope.output === null || $scope.output === undefined || $scope.output.constructor !== Array || newValue !== oldValue) {
-                $scope.output = [];
-            }
+            $scope.output.length = 0;
         }
     });
-};
+}
 
 concertoPanel.controller('WizardParamSetter10Controller', ["$scope", "AdministrationSettingsService", "uiGridConstants", "GridService", "$filter", WizardParamSetter10Controller]);

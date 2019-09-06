@@ -45,12 +45,12 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
             };
 
             scope.getParamSetterCellTemplate = function (param, parent, output) {
-                var cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" under-list="true" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject" editable="grid.appScope.editable"></wizard-param-setter>';
+                let cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" under-list="true" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject" editable="grid.appScope.editable"></wizard-param-setter>';
                 return cell;
             };
 
             scope.launchSetterDialog = function () {
-                var modalInstance = $uibModal.open({
+                let modalInstance = $uibModal.open({
                     templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "param_setter_dialog.html",
                     scope: scope,
                     controller: TestWizardParamSetterController,
@@ -75,7 +75,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 $compile(element.contents())(scope);
             });
 
-            scope.$watch('output', function (newValue) {
+            scope.$watch('output', function () {
                 scope.updateSummary();
             }, true);
             scope.$watch("param.definition.defvalue", function (newValue) {

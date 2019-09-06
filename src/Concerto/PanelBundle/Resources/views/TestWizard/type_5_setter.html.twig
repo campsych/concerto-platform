@@ -5,9 +5,9 @@
             {% block setter %}
                 <select ng-model="output" ng-change="onPrimitiveValueChange(output)"
                         ng-disabled="!editable"
-                        ng-options="template.name as template.name for template in viewTemplateCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'"
                         class='form-control'>
                     <option value="">{{ "none.choosen"|trans({},"panel") }}</option>
+                    <option ng-repeat="template in viewTemplateCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" ng-value="template.name" ng-bind="template.name"></option>
                 </select>
             {% endblock %}
         {% endembed %}
