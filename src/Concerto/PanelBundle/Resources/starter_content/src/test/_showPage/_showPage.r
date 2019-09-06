@@ -19,7 +19,6 @@ response = concerto5:::concerto.template.show(
 for(.name in .dynamicReturns) {
   assign(.name, response[[.name]])
 }
-if(".branch" %in% .dynamicReturns) {
+if(length(.dynamicBranches) > 0) {
   .branch = response$buttonPressed
-  if(!(.branch %in% .dynamicBranches)) { .branch = "out" }
 }
