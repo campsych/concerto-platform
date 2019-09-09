@@ -8,3 +8,4 @@
 #### Fixes
 * fixed disappearing values on some wizard params
 * fixed complex type wizard param's nesting
+* fixed **linearTest** custom item table

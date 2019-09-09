@@ -14,10 +14,6 @@ getSafeItem = function(item, extraFields) {
     } else {
       orderedOptions = item$responseOptions$options
     }
-    orderedOptions = lapply(orderedOptions, function(elem) {
-      elem$catValue = NULL
-      return(elem)
-    })
   }
   item$responseOptions$options = orderedOptions
   item$responseOptions = toJSON(item$responseOptions)

@@ -2161,7 +2161,7 @@ collection:
         id: 4
         title: initialization
         type: 0
-        posX: 15235
+        posX: 15236
         posY: 15084
         flowTest: 2
         sourceTest: 4
@@ -10061,7 +10061,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '[]'
+            value: '{"table":"CATItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9"}}'
             testVariable: 15
             name: itemBankTable
             wizardStep: 2
@@ -10480,7 +10480,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '[]'
+            value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","score":"score","timeTaken":"timeTaken","session_id":"session_id","theta":"theta","sem":"sem","response":"response"}}'
             testVariable: 25
             name: responseBank
             wizardStep: 5
@@ -10637,6 +10637,7 @@ collection:
             order: 0
             wizard: 2
             definition:
+              defvalue: ''
               placeholder: 0
     test: 2
     groups: ''
@@ -11264,7 +11265,7 @@ collection:
             hideCondition: 'values.queryType == "custom"'
             type: 6
             passableThroughUrl: '0'
-            value: dev
+            value: ''
             testVariable: 61
             name: table
             wizardStep: 8
@@ -11272,7 +11273,7 @@ collection:
             order: 0
             wizard: 4
             definition:
-              defvalue: dev
+              defvalue: ''
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -12106,7 +12107,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '[]'
+            value: '{"table":"linearTestItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","orderIndex":"orderIndex","trait":"trait"}}'
             testVariable: 72
             name: itemBankTable
             wizardStep: 11
@@ -12322,7 +12323,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '[]'
+            value: '{"table":"linearTestResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","score":"score","trait":"trait"}}'
             testVariable: 79
             name: responseBank
             wizardStep: 13
@@ -12446,7 +12447,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[]'
+        value: '{"table":"linearTestItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","orderIndex":"orderIndex","trait":"trait"}}'
         test: 23
         parentVariable: 72
       -

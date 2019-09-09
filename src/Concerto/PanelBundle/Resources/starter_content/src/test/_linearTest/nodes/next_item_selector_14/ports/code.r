@@ -25,14 +25,7 @@ getSafeItems = function(nextItems) {
           orderedOptions = item$responseOptions$options
         }
       }
-      orderedOptions = lapply(orderedOptions, function(elem) {
-        elem$score = NULL
-        return(elem)
-      })
-
       item$responseOptions$options = orderedOptions
-      item$responseOptions$openScore = NULL
-      item$responseOptions$openCorrect = NULL
       item$responseOptions = toJSON(item$responseOptions)
       
       nextItems[i,] = item

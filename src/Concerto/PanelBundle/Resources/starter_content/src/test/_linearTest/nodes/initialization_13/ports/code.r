@@ -7,7 +7,6 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, order){
     responseOptionsColumn = tableMap$columns$responseOptions
     orderIndexColumn = tableMap$columns$orderIndex
     traitColumn = tableMap$columns$trait
-    correctColumn = tableMap$columns$correct
     items = concerto.table.query(
       "
 SELECT 
@@ -15,8 +14,7 @@ id,
 {{questionColumn}} AS question, 
 {{responseOptionsColumn}} AS responseOptions,
 {{orderIndexColumn}} AS orderIndex,
-{{traitColumn}} AS trait,
-{{correctColumn}} AS correct
+{{traitColumn}} AS trait
 FROM {{table}} 
 ORDER BY {{orderIndexColumn}}
 ", 
@@ -25,7 +23,6 @@ ORDER BY {{orderIndexColumn}}
         responseOptionsColumn=responseOptionsColumn,
         orderIndexColumn=orderIndexColumn,
         traitColumn=traitColumn,
-        correctColumn=correctColumn,
         table=table
       ))
   }
