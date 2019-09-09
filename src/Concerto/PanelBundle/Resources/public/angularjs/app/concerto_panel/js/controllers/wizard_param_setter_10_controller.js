@@ -4,7 +4,7 @@
  * @param $scope
  * @constructor
  */
-function WizardParamSetter10Controller($scope, AdministrationSettingsService, uiGridConstants, GridService, $filter) {
+function WizardParamSetter10Controller($scope, AdministrationSettingsService, uiGridConstants, GridService, $filter, TestWizardParam) {
     $scope.administrationSettingsService = AdministrationSettingsService;
     $scope.gridService = GridService;
 
@@ -99,7 +99,7 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         var defs = [];
         var param = "grid.appScope.param.definition.element";
         var parent = "grid.appScope.output";
-        var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)].value";
+        var output = TestWizardParam.isSimpleType($scope.param.definition.element.type) ? "grid.appScope.output[grid.appScope.output.indexOf(row.entity)].value" : "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
         var cd = $scope.getColumnDefs($scope.param.definition.element, param, parent, output, false);
         for (var i = 0; i < cd.length; i++) {
             defs.push(cd[i]);
@@ -128,18 +128,11 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         $scope.output.splice(index - 1, 0, $scope.output.splice(index, 1)[0]);
     };
 
-    //TODO Is this below needed?
     $scope.addElement = function () {
-        if ($scope.param.definition.element.type == 4) {
-            $scope.output.push({value: null});
-        } else if ($scope.param.definition.element.type == 7 || $scope.param.definition.element.type == 9) {
-            $scope.output.push({});
-        } else if ($scope.param.definition.element.type == 10) {
-            $scope.output.push([]);
-        } else {
-            $scope.output.push({value: null});
-        }
+        $scope.output.push(TestWizardParam.getParamOutputDefault($scope.param.definition.element));
+        TestWizardParam.objectifyListElements($scope.param, $scope.output);
     };
+
     $scope.removeElement = function (index) {
         $scope.output.splice(index, 1);
     };
@@ -167,4 +160,4 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
     });
 }
 
-concertoPanel.controller('WizardParamSetter10Controller', ["$scope", "AdministrationSettingsService", "uiGridConstants", "GridService", "$filter", WizardParamSetter10Controller]);
+concertoPanel.controller('WizardParamSetter10Controller', ["$scope", "AdministrationSettingsService", "uiGridConstants", "GridService", "$filter", "TestWizardParam", WizardParamSetter10Controller]);

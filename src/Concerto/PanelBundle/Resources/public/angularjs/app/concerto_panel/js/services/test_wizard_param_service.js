@@ -281,9 +281,11 @@ concertoPanel.service('TestWizardParam', ["$filter",
                     if (param.type == 7 || param.type == 9 || param.type == 10 || param.type == 12 || param.type == 13) {
                         param.output = angular.fromJson(param.value);
                         this.objectifyListElements(param, param.output);
-                    } else
+                    } else {
                         param.output = param.value;
-                    if (!this.validateUnserializedParamOutput(param)) {
+                    }
+
+                    if (!this.validateUnserializedParamOutput(param.output, param.type)) {
                         throw "invalid unserialized param value (" + param.label + ")";
                     }
                 } catch (err) {
@@ -291,18 +293,49 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 }
             }
 
-            if (setDefault) {
-                if (param.type == 7 || param.type == 9 || param.type == 12 || param.type == 13) {
-                    param.output = {};
-                } else if (param.type == 10) {
-                    param.output = [];
-                }
-            }
+            if (setDefault) param.output = this.getParamOutputDefault(param);
         };
 
-        this.validateUnserializedParamOutput = function (param) {
-            if (param.output === null || param.output === undefined) return false;
+        this.getParamOutputDefault = function (param) {
+            let result = null;
             switch (parseInt(param.type)) {
+                case 0: //single line
+                case 1: //multi line
+                case 2: //HTML
+                case 3: //select
+                case 5: //view template
+                case 6: //data table
+                case 8: //test
+                case 11: //R
+                    result = param.definition.defvalue;
+                    if (!this.validateUnserializedParamOutput(result, param.type)) result = "";
+                    break;
+                case 4: //checkbox
+                    result = param.definition.defvalue;
+                    if (!this.validateUnserializedParamOutput(result, param.type)) result = "0";
+                    break;
+                case 7: //data table column
+                case 12: //column map
+                case 13: //test wizard
+                    result = {};
+                    break;
+                case 9: //group
+                    result = {};
+                    for (let i = 0; i < param.definition.fields.length; i++) {
+                        let field = param.definition.fields[i];
+                        result[field.name] = this.getParamOutputDefault(field);
+                    }
+                    break;
+                case 10: //list
+                    result = [];
+                    break;
+            }
+            return result;
+        };
+
+        this.validateUnserializedParamOutput = function (output, type) {
+            if (output === null || output === undefined) return false;
+            switch (parseInt(type)) {
                 case 0: //single line
                 case 1: //multi line
                 case 2: //HTML
@@ -312,16 +345,16 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 case 6: //data table
                 case 8: //test
                 case 11: //R
-                    if (typeof param.output === 'object') return false;
+                    if (typeof output === 'object') return false;
                     break;
                 case 7: //data table column
                 case 9: //group
                 case 12: //column map
                 case 13: //test wizard
-                    if (typeof param.output !== 'object' || param.output.constructor === Array) return false;
+                    if (typeof output !== 'object' || output.constructor === Array) return false;
                     break;
                 case 10: //list
-                    if (typeof param.output !== 'object' || param.output.constructor !== Array) return false;
+                    if (typeof output !== 'object' || output.constructor !== Array) return false;
                     break;
             }
             return true;
@@ -344,17 +377,16 @@ concertoPanel.service('TestWizardParam', ["$filter",
         this.objectifyListElements = function (param, output) {
             switch (parseInt(param.type)) {
                 case 9: {
-                    for (var i = 0; i < param.definition.fields.length; i++) {
-                        var field = param.definition.fields[i];
+                    for (let i = 0; i < param.definition.fields.length; i++) {
+                        let field = param.definition.fields[i];
                         this.objectifyListElements(field, output[field.name]);
                     }
                     break;
                 }
                 case 10: {
-                    var validSimpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
-                    if (validSimpleTypes.indexOf(parseInt(param.definition.element.type)) !== -1) {
-                        for (var i = 0; i < output.length; i++) {
-                            output[i] = {value: output[i]};
+                    if (this.isSimpleType(param.definition.element.type)) {
+                        for (let i = 0; i < output.length; i++) {
+                            if (typeof output[i] !== 'object') output[i] = {value: output[i]};
                         }
                     }
                     break;
@@ -365,16 +397,15 @@ concertoPanel.service('TestWizardParam', ["$filter",
         this.deobjectifyListElements = function (param, output) {
             switch (parseInt(param.type)) {
                 case 9: {
-                    for (var i = 0; i < param.definition.fields.length; i++) {
-                        var field = param.definition.fields[i];
+                    for (let i = 0; i < param.definition.fields.length; i++) {
+                        let field = param.definition.fields[i];
                         this.deobjectifyListElements(field, output[field.name]);
                     }
                     break;
                 }
                 case 10: {
-                    var validSimpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
-                    if (validSimpleTypes.indexOf(parseInt(param.definition.element.type)) !== -1) {
-                        for (var i = 0; i < output.length; i++) {
+                    if (this.isSimpleType(param.definition.element.type)) {
+                        for (let i = 0; i < output.length; i++) {
                             output[i] = output[i].value;
                         }
                     }
@@ -382,5 +413,10 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 }
             }
         };
+
+        this.isSimpleType = function (type) {
+            let validSimpleTypes = [0, 1, 2, 3, 4, 5, 6, 8, 11];
+            return validSimpleTypes.indexOf(parseInt(type)) !== -1;
+        }
     }
 ]);
