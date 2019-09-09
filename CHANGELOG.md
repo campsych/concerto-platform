@@ -9,3 +9,4 @@
 * fixed disappearing values on some wizard params
 * fixed complex type wizard param's nesting
 * fixed **linearTest** custom item table
+* fixed setting null data table wizard param related values to recently edited data table

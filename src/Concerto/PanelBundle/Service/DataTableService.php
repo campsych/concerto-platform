@@ -107,7 +107,7 @@ class DataTableService extends AExportableSectionService
         $isNew = $obj->getId() === null;
         $this->repository->save($obj, $flush);
 
-        $isRenamed = !$isNew && $oldName !== $obj->getName();
+        $isRenamed = !$isNew && $oldName !== null && $oldName !== $obj->getName();
         if ($isRenamed) {
             $this->onObjectRenamed($obj, $oldName);
         }
