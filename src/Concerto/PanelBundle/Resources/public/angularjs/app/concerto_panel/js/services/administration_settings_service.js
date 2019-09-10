@@ -6,7 +6,7 @@ concertoPanel.factory('AdministrationSettingsService', function ($http) {
         exposedSettingsMap: {},
         starterContentEditable: false,
         fetchSettingsMap: function (params, callback) {
-            var obj = this;
+            let obj = this;
             $http({
                 url: obj.settingsMapPath,
                 method: "GET",

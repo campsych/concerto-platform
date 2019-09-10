@@ -1,6 +1,7 @@
 concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionService) {
-    var collectionService = Object.create(BaseCollectionService);
+    let collectionService = Object.create(BaseCollectionService);
     collectionService.collectionPath = Paths.TEST_COLLECTION;
+    collectionService.userRoleRequired = "role_test";
 
     collectionService.fetchLogsCollection = function (id) {
         var test = this.get(id);
@@ -17,7 +18,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.fetchNodesCollection = function (id, callback) {
-        var test = this.get(id);
+        let test = this.get(id);
         $http({
             url: Paths.TEST_FLOW_NODE_COLLECTION.pf(id),
             method: "GET"
@@ -33,12 +34,12 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.getPort = function (portId) {
-        for (var i = 0; i < this.collection.length; i++) {
-            var test = this.collection[i];
-            for (var j = 0; j < test.nodes.length; j++) {
-                var node = test.nodes[j];
-                for (var k = 0; k < node.ports.length; k++) {
-                    var port = node.ports[k];
+        for (let i = 0; i < this.collection.length; i++) {
+            let test = this.collection[i];
+            for (let j = 0; j < test.nodes.length; j++) {
+                let node = test.nodes[j];
+                for (let k = 0; k < node.ports.length; k++) {
+                    let port = node.ports[k];
                     if (port.id == portId)
                         return port;
                 }
@@ -48,12 +49,12 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.removePort = function (portId) {
-        for (var i = 0; i < this.collection.length; i++) {
-            var test = this.collection[i];
-            for (var j = 0; j < test.nodes.length; j++) {
-                var node = test.nodes[j];
-                for (var k = 0; k < node.ports.length; k++) {
-                    var port = node.ports[k];
+        for (let i = 0; i < this.collection.length; i++) {
+            let test = this.collection[i];
+            for (let j = 0; j < test.nodes.length; j++) {
+                let node = test.nodes[j];
+                for (let k = 0; k < node.ports.length; k++) {
+                    let port = node.ports[k];
                     if (port.id == portId) {
                         node.ports.splice(k, 1);
                     }
@@ -63,10 +64,10 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.getNode = function (nodeId) {
-        for (var i = 0; i < this.collection.length; i++) {
-            var test = this.collection[i];
-            for (var j = 0; j < test.nodes.length; j++) {
-                var node = test.nodes[j];
+        for (let i = 0; i < this.collection.length; i++) {
+            let test = this.collection[i];
+            for (let j = 0; j < test.nodes.length; j++) {
+                let node = test.nodes[j];
                 if (node.id == nodeId)
                     return node;
             }
@@ -75,10 +76,10 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.updateNode = function (newNode) {
-        for (var i = 0; i < this.collection.length; i++) {
-            var test = this.collection[i];
-            for (var j = 0; j < test.nodes.length; j++) {
-                var node = test.nodes[j];
+        for (let i = 0; i < this.collection.length; i++) {
+            let test = this.collection[i];
+            for (let j = 0; j < test.nodes.length; j++) {
+                let node = test.nodes[j];
                 if (node.id == newNode.id) {
                     angular.merge(test.nodes[j], newNode);
                     return null;
@@ -89,7 +90,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.fetchNodesConnectionCollection = function (id, callback) {
-        var test = this.get(id);
+        let test = this.get(id);
         $http({
             url: Paths.TEST_FLOW_CONNECTION_COLLECTION.pf(id),
             method: "GET"
@@ -105,10 +106,10 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.getConnection = function (connectionId) {
-        for (var i = 0; i < this.collection.length; i++) {
-            var test = this.collection[i];
-            for (var j = 0; j < test.nodesConnections.length; j++) {
-                var connection = test.nodesConnections[j];
+        for (let i = 0; i < this.collection.length; i++) {
+            let test = this.collection[i];
+            for (let j = 0; j < test.nodesConnections.length; j++) {
+                let connection = test.nodesConnections[j];
                 if (connection.id == connectionId)
                     return connection;
             }
@@ -117,7 +118,7 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     };
 
     collectionService.fetchVariablesCollection = function (id) {
-        var test = this.get(id);
+        let test = this.get(id);
         $http({
             url: Paths.TEST_VARIABLE_BY_TEST_COLLECTION.pf(id),
             method: "GET"

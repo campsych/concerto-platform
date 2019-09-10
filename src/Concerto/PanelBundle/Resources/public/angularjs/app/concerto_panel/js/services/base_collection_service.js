@@ -1,11 +1,14 @@
-concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
+concertoPanel.factory('BaseCollectionService', function ($http, $filter, AuthService) {
     return {
         collectionInitialized: false,
+        userRoleRequired: null,
 
         collectionPath: "",
         collection: [],
         fetchObjectCollection: function (params, callback, current) {
-            var obj = this;
+            if (!this.isAuthorized()) return false;
+
+            let obj = this;
             if (current && this.collectionInitialized) {
                 if (callback)
                     callback.call(this);
@@ -24,27 +27,27 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
             }
         },
         get: function (id) {
-            for (var i = 0; i < this.collection.length; i++) {
-                var obj = this.collection[i];
+            for (let i = 0; i < this.collection.length; i++) {
+                let obj = this.collection[i];
                 if (obj.id == id)
                     return obj;
             }
             return null;
         },
         getBy: function (field, value) {
-            for (var i = 0; i < this.collection.length; i++) {
-                var obj = this.collection[i];
+            for (let i = 0; i < this.collection.length; i++) {
+                let obj = this.collection[i];
                 if (obj[field] == value)
                     return obj;
             }
             return null;
         },
         getUniqueTags: function () {
-            var result = [];
-            for (var i = 0; i < this.collection.length; i++) {
-                var obj = this.collection[i];
-                var tags = obj.tags.trim().split(" ");
-                for (var j = 0; j < tags.length; j++) {
+            let result = [];
+            for (let i = 0; i < this.collection.length; i++) {
+                let obj = this.collection[i];
+                let tags = obj.tags.trim().split(" ");
+                for (let j = 0; j < tags.length; j++) {
                     if (tags[j] && result.indexOf(tags[j]) === -1) {
                         result.push(tags[j]);
                     }
@@ -53,11 +56,11 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
             return result;
         },
         getTaggedCollection: function (tag) {
-            var result = [];
-            for (var i = 0; i < this.collection.length; i++) {
-                var obj = this.collection[i];
-                var tags = obj.tags.trim().split(" ");
-                for (var j = 0; j < tags.length; j++) {
+            let result = [];
+            for (let i = 0; i < this.collection.length; i++) {
+                let obj = this.collection[i];
+                let tags = obj.tags.trim().split(" ");
+                for (let j = 0; j < tags.length; j++) {
                     if (tag == null || tags[j] === tag) {
                         result.push(obj);
                         break;
@@ -65,6 +68,13 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter) {
                 }
             }
             return result;
+        },
+        isAuthorized: function () {
+            if (this.userRoleRequired !== null) {
+                if (AuthService.user.role_super_admin == 1) return true;
+                if (AuthService.user[this.userRoleRequired] == 0) return false;
+            }
+            return true;
         }
     };
 });

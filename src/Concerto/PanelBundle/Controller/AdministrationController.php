@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\GitService;
 use Symfony\Component\HttpFoundation\Response;
@@ -265,7 +266,6 @@ class AdministrationController
 
     /**
      * @Route("/Administration/user", name="Administration_user")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response
      */
     public function getAuthUserAction()
@@ -277,7 +277,13 @@ class AdministrationController
             $content = array(
                 "user" => array(
                     "id" => $user->getId(),
-                    "username" => $user->getUsername()
+                    "username" => $user->getUsername(),
+                    "role_super_admin" => $user->hasRoleName(User::ROLE_SUPER_ADMIN) ? 1 : 0,
+                    "role_test" => $user->hasRoleName(User::ROLE_TEST) ? 1 : 0,
+                    "role_template" => $user->hasRoleName(User::ROLE_TEMPLATE) ? 1 : 0,
+                    "role_table" => $user->hasRoleName(User::ROLE_TABLE) ? 1 : 0,
+                    "role_file" => $user->hasRoleName(User::ROLE_FILE) ? 1 : 0,
+                    "role_wizard" => $user->hasRoleName(User::ROLE_WIZARD) ? 1 : 0
                 )
             );
         }
