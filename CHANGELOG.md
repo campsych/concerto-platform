@@ -4,6 +4,7 @@
 
 * fixed reading authorized user info for non super admin users
 * prevented unnecessary collections fetch calls for unauthorized resources when non super admin user
+* **test** template form element now has autocomplete attribute set to off  
 
 ## 5.0.1 (2019-09-09)
 
