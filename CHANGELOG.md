@@ -1,3 +1,10 @@
+## 5.0.2 (work in progress)
+
+#### Fixes
+
+* fixed reading authorized user info for non super admin users
+* prevented unnecessary collections fetch calls for unauthorized resources when non super admin user
+
 ## 5.0.1 (2019-09-09)
 
 #### Starter content

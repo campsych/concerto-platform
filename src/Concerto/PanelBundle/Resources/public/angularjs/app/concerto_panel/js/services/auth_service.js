@@ -3,7 +3,7 @@ concertoPanel.factory('AuthService', function ($http) {
         getAuthUserPath: Paths.ADMINISTRATION_GET_AUTH_USER,
         user: null,
         fetchAuthUser: function (callback) {
-            var obj = this;
+            let obj = this;
             $http({
                 url: obj.getAuthUserPath,
                 method: "GET"

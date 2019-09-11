@@ -1,5 +1,6 @@
 concertoPanel.factory('UserCollectionService', function (BaseCollectionService) {
-    var collectionService = Object.create(BaseCollectionService);
+    let collectionService = Object.create(BaseCollectionService);
     collectionService.collectionPath = Paths.USER_COLLECTION;
+    collectionService.userRoleRequired = "role_super_admin";
     return collectionService;
 });
