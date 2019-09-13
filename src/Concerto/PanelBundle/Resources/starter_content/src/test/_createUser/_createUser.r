@@ -28,7 +28,7 @@ WHERE {{loginColumn}}='{{login}}'
     login=login
   ))
 
-  return(dim(user)[1]>0)
+  return(user)
 }
 
 getMappedColumns = function(fieldNames, tableMap) {
@@ -72,7 +72,9 @@ user=NULL
 if(is.na(password)) { password = "" }
 tableMap = fromJSON(userBankTable)
 fields = formatFields(login, password, userBankEncryption, enabled, extraFields)
-if(checkLoginExist(login, tableMap)) {
+
+user = checkLoginExist(login, tableMap)
+if( dim(user)[1]>0 ) {
   concerto.log(login, title="login already exist")
   .branch = "loginAlreadyExist"
 } else {
