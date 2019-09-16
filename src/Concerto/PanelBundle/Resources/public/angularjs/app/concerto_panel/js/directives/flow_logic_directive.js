@@ -1603,10 +1603,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 });
             });
 
-            scope.$watchCollection("object.variables", function () {
-                scope.initialized = false;
-                if (scope.object.nodes.length > 0) {
-                    scope.refreshFlow();
+            scope.$watchCollection("object.variables", function (newValue, oldValue) {
+
+                if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+                    scope.initialized = false;
+                    if (scope.object.nodes.length > 0 && !scope.refreshing) {
+                        scope.refreshFlow();
+                    }
                 }
             });
 
