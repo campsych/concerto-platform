@@ -8,6 +8,14 @@ testRunner.compileProvider.component('inputCheckbox', {
     this.$onInit = function() {
       $scope.field = this.field;
       $scope.values = this.values;
+      
+      if (typeof $scope.values[this.field.name] === 'undefined' || $scope.values[this.field.name] === "") {
+        $scope.values[this.field.name] = 0;
+      }
+      
+      testRunner.addExtraControl(this.field.name, function () {
+        return $scope.values[$scope.field.name];
+      });
     };
 
     $scope.getValidator = function (type) {
@@ -20,12 +28,5 @@ testRunner.compileProvider.component('inputCheckbox', {
       }
       return null;
     };
-
-    if (typeof $scope.values[this.field.name] === 'undefined' || $scope.values[this.field.name] === "") {
-      $scope.values[this.field.name] = 0;
-    }
-    testRunner.addExtraControl(this.field.name, function () {
-      return $scope.values[$scope.field.name];
-    });
   }
 });

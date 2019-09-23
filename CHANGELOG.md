@@ -1,3 +1,9 @@
+## 5.0.3 (work in progress)
+
+#### Fixes
+
+* fixed checkbox form item type
+
 ## 5.0.2 (2019-09-18)
 
 #### Fixes

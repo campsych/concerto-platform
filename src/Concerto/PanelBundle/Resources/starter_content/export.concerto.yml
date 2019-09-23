@@ -1,4 +1,4 @@
-version: 5.0.1
+version: 5.0.2
 collection:
   -
     class_name: ViewTemplate
@@ -242,11 +242,11 @@ collection:
         type: text
         nullable: false
       -
-        name: de
+        name: es
         type: text
         nullable: false
       -
-        name: es
+        name: de
         type: text
         nullable: false
       -
@@ -10002,63 +10002,63 @@ collection:
                     -
                       name: p1
                       type: 0
-                      label: 'Item Parameter #1'
+                      label: p1
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p2
                       type: 0
-                      label: 'Item Parameter #2'
+                      label: p2
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p3
                       type: 0
-                      label: 'Item Parameter #3'
+                      label: p3
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p4
                       type: 0
-                      label: 'Item Parameter #4'
+                      label: p4
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p5
                       type: 0
-                      label: 'Item Parameter #5'
+                      label: p5
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p6
                       type: 0
-                      label: 'Item Parameter #6'
+                      label: p6
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p7
                       type: 0
-                      label: 'Item Parameter #7'
+                      label: p7
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p8
                       type: 0
-                      label: 'Item Parameter #8'
+                      label: p8
                       definition:
                         defvalue: '0'
                         placeholder: 0
                     -
                       name: p9
                       type: 0
-                      label: 'Item Parameter #9'
+                      label: p9
                       definition:
                         defvalue: '0'
                         placeholder: 0
