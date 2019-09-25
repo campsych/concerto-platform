@@ -1,8 +1,13 @@
 ## 5.0.3 (work in progress)
 
+#### Features
+
+* cookies are now included in concerto.template.show return (**result$.cookies**) for both submit and background worker actions
+
 #### Fixes
 
 * fixed checkbox form item type
+* fixed unforked session initialization
 
 ## 5.0.2 (2019-09-18)
 

@@ -65,7 +65,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         if (!$this->createSubmitterSock($session, false, $submitter_sock, $error_response)) return $error_response;
 
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
-            $success = $this->startChildProcess($client, $session_hash,null, $max_exec_time);
+            $success = $this->startChildProcess($client, $session_hash, null, $max_exec_time);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, null, $max_exec_time);
         }
@@ -93,7 +93,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return $response;
     }
 
-    public function submit(TestSession $session, $values, $client_ip, $client_browser)
+    public function submit(TestSession $session, $values, $cookies, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
@@ -110,7 +110,8 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_SUBMIT,
             "client" => $client,
-            "values" => $values
+            "values" => $values,
+            "cookies" => $cookies
         );
 
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
@@ -142,7 +143,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         return $response;
     }
 
-    public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser)
+    public function backgroundWorker(TestSession $session, $values, $cookies, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
@@ -159,7 +160,8 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_WORKER,
             "client" => $client,
-            "values" => $values
+            "values" => $values,
+            "cookies" => $cookies
         );
 
         if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {

@@ -39,13 +39,13 @@ concerto.server.listen = function(){
         con = socketConnection(host = "localhost", port = concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "rt")
         response = readLines(con, warn = FALSE)
         response = fromJSON(response)
+        response$values$.cookies = response$cookies
         close(con)
         if(concerto$maxExecTime > 0) {
             setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
         }
 
-        concerto.log("received response")
-        concerto.log(response)
+        concerto.log(response, "received response")
 
         concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
         concerto$session <<- as.list(concerto.session.get(concerto$session$hash))

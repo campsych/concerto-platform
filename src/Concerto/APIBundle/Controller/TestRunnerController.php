@@ -76,6 +76,7 @@ class TestRunnerController
         $result = $this->service->submitToSession(
             $session_hash,
             $values,
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );

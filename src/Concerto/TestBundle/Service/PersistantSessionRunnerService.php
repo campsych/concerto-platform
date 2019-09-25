@@ -94,7 +94,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         return $response;
     }
 
-    public function submit(TestSession $session, $values, $client_ip, $client_browser)
+    public function submit(TestSession $session, $values, $cookies, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
@@ -111,7 +111,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_SUBMIT,
             "client" => $client,
-            "values" => $values
+            "values" => $values,
+            "cookies" => $cookies
         ));
         if ($sent === false) {
             socket_close($submitter_sock);
@@ -136,7 +137,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         return $response;
     }
 
-    public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser)
+    public function backgroundWorker(TestSession $session, $values, $cookies, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
@@ -153,7 +154,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_WORKER,
             "client" => $client,
-            "values" => $values
+            "values" => $values,
+            "cookies" => $cookies
         ));
         if ($sent === false) {
             socket_close($submitter_sock);
@@ -326,14 +328,14 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "'$ini_path' "
                     . "'$database_connection' "
                     . "'$client' "
-                    . $session_hash . " "
+                    . "'$session_hash' "
                     . "'$working_directory' "
                     . "'$public_directory' "
                     . "'$media_url' "
-                    . "$max_exec_time "
-                    . "$max_idle_time "
-                    . "$keep_alive_tolerance_time "
-                    . "$initial_port "
+                    . "'$max_exec_time' "
+                    . "'$max_idle_time' "
+                    . "'$keep_alive_tolerance_time' "
+                    . "'$initial_port' "
                     . "0 " //runnerType
                     . ($rout ? ("> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";

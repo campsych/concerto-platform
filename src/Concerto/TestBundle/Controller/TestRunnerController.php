@@ -140,6 +140,7 @@ class TestRunnerController
         $result = $this->testRunnerService->submitToSession(
             $session_hash,
             $request->get("values"),
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
@@ -161,6 +162,7 @@ class TestRunnerController
         $result = $this->testRunnerService->backgroundWorker(
             $session_hash,
             $request->get("values"),
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );

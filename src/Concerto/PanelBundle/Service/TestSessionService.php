@@ -146,7 +146,7 @@ class TestSessionService
         return $values;
     }
 
-    public function submit($session_hash, $values, $client_ip, $client_browser)
+    public function submit($session_hash, $values, $cookies, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
@@ -173,11 +173,11 @@ class TestSessionService
         $session->setUpdated();
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->submit($session, $values, $client_ip, $client_browser);
+        $response = $this->sessionRunnerService->submit($session, $values, $cookies, $client_ip, $client_browser);
         return $this->prepareResponse($session_hash, $response);
     }
 
-    public function backgroundWorker($session_hash, $values, $client_ip, $client_browser)
+    public function backgroundWorker($session_hash, $values, $cookies, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
@@ -204,7 +204,7 @@ class TestSessionService
         $session->setUpdated();
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->backgroundWorker($session, $values, $client_ip, $client_browser);
+        $response = $this->sessionRunnerService->backgroundWorker($session, $values, $cookies, $client_ip, $client_browser);
         return $this->prepareResponse($session_hash, $response);
     }
 
