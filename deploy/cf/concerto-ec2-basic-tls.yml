@@ -395,7 +395,7 @@ Resources:
                 sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
-                sed -ri 's/^(.*CONCERTO_CONTENT_URL\s*=).*$/\1${ConcertoContentURL}/' docker-compose.yml
+                sed -ri 's~^(.*CONCERTO_CONTENT_URL\s*=).*$~\1${ConcertoContentURL}~' docker-compose.yml
               cwd: /home/concerto
             04_start:
               command: /usr/local/bin/docker-compose up -d --force-recreate concerto database
