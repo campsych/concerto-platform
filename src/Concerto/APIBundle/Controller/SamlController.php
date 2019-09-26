@@ -27,28 +27,32 @@ class SamlController
 
     /**
      * @Route("/login", methods={"GET"})
+     * @param Request $request
      * @return Response
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        $this->service->login();
+        $redirectTo = $request->get("redirectTo");
+        $this->service->login($redirectTo);
 
         return new Response('', 200);
     }
 
     /**
      * @Route("/logout", methods={"GET"})
+     * @param Request $request
      * @return Response
      */
-    public function logoutAction()
+    public function logoutAction(Request $request)
     {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        $this->service->logout();
+        $redirectTo = $request->get("redirectTo");
+        $this->service->logout($redirectTo);
 
         return new Response('', 200);
     }
@@ -63,7 +67,7 @@ class SamlController
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
-        $stateRelay = $request->get("stateRelay");
+        $stateRelay = $request->get("RelayState");
         $token = $this->service->acs($stateRelay);
 
         if ($token !== false) {
@@ -90,8 +94,20 @@ class SamlController
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
         $tokenHash = $request->cookies->get("concertoSamlTokenHash");
-        $success = $this->service->sls($tokenHash);
-        return new Response('', $success ? 200 : 403);
+        $stateRelay = $request->get("RelayState");
+        $success = $this->service->sls($tokenHash, $stateRelay);
+
+        if ($success) {
+            if ($stateRelay !== null) {
+                $response = new RedirectResponse($stateRelay);
+            } else {
+                $response = new Response("", 200);
+            }
+        } else {
+            $response = new Response("", 403);
+        }
+
+        return $response;
     }
 
     /**

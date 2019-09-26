@@ -38,8 +38,7 @@ class StartForkerCommand extends Command
         $fifoPath = $this->sessionRunnerService->getFifoDir();
         $publicDir = $this->sessionRunnerService->getPublicDirPath();
         $connection = json_encode($this->sessionRunnerService->getConnection());
-        $mediaUrl = $this->sessionRunnerService->getMediaUrl();
-        $apiUrl = $this->sessionRunnerService->getApiUrl();
+        $platformUrl = $this->sessionRunnerService->getPlatformUrl();
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $maxIdleTime = $this->testRunnerSettings["max_idle_time"];
         $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
@@ -48,12 +47,11 @@ class StartForkerCommand extends Command
             . "'$forkerPath' "
             . "'$fifoPath' "
             . "'$publicDir' "
-            . "'$mediaUrl' "
+            . "'$platformUrl' "
             . "'$connection' "
             . "$maxExecTime "
             . "$maxIdleTime "
             . "$keepAliveToleranceTime "
-            . "'$apiUrl' "
             . ">> "
             . "'" . $logPath . "' "
             . "2>&1 & echo $!";

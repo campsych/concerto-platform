@@ -1,5 +1,5 @@
-\name{concerto.file.getPublicPath}
-\alias{concerto.file.getPublicPath}
+\name{concerto.file.getPath}
+\alias{concerto.file.getPath}
 \title{
 Public path
 }
@@ -7,7 +7,7 @@ Public path
 Gets file public path.
 }
 \usage{
-concerto.file.getPublicPath(filename)
+concerto.file.getPath(filename)
 }
 \arguments{
   \item{filename}{
@@ -30,7 +30,7 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-plot_path <- concerto.file.getPublicPath("plot.png")
+plot_path <- concerto.file.getPath("plot.png")
 }
 
 \keyword{ table }

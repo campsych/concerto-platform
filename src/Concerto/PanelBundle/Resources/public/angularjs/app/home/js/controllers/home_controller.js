@@ -1,6 +1,6 @@
 function HomeController($scope, $http) {
     $scope.featuredCollectionPath = Paths.HOME_FEATURED_COLLECTION;
-    $scope.testRunnerStart = Paths.TEST_RUNNER_START;
+    $scope.testRunnerStart = Paths.TEST_RUN;
 
     $scope.testsCollection = [];
     $scope.test = null;

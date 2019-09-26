@@ -1,4 +1,4 @@
-concerto.server.listen = function(){
+concerto.server.listen = function(skipOnResume=F){
     repeat {
         concerto.log("listening to server...")
 
@@ -61,6 +61,13 @@ concerto.server.listen = function(){
                 do.call("concerto.onTemplateSubmit",list(response=response$values), envir = .GlobalEnv)
             }
             return(response$values)
+        } else if (response$code == RESPONSE_RESUME) {
+            concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
+            response = NULL
+            if(skipOnResume) {
+                response = list()
+            }
+            return(response)
         } else if(response$code == RESPONSE_KEEPALIVE_CHECKIN) {
             concerto.log("keep alive checkin")
             concerto$lastKeepAliveTime <<- as.numeric(Sys.time())

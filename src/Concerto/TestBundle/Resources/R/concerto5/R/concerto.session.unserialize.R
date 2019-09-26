@@ -24,6 +24,8 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto$lastSubmitTime <<- prevConcerto$lastSubmitTime
     concerto$lastKeepAliveTime <<- prevConcerto$lastKeepAliveTime
     concerto$bgWorkers <<- prevConcerto$bgWorkers
+    concerto$lastResponse <<- prevConcerto$lastResponse
+    concerto$skipTemplateOnResume <<- prevConcerto$skipTemplateOnResume
 
     concerto.log("session unserialized")
 
@@ -52,6 +54,11 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
         concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         concerto5:::concerto.session.serialize()
         concerto5:::concerto.session.stop(STATUS_RUNNING)
+    } else if(!is.null(response$code) && response$code == RESPONSE_RESUME) {
+        concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
+        if(concerto$skipTemplateOnResume) {
+            concerto$queuedResponse <<- list()
+        }
     }
 
     return(T)

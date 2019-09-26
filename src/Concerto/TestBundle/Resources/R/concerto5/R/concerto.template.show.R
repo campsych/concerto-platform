@@ -1,12 +1,15 @@
 concerto.template.show = function(
-templateId=- 1,
-html="",
-head="",
-params=list(),
-timeLimit=0,
-finalize=F,
-removeMissingParams=T,
-bgWorkers=list()) {
+    templateId=-1,
+    html="",
+    head="",
+    params=list(),
+    timeLimit=0,
+    finalize=F,
+    removeMissingParams=T,
+    bgWorkers=list(),
+    skipOnResume=F
+) {
+    concerto$skipTemplateOnResume <<- skipOnResume
     if (! is.null(concerto$queuedResponse)) {
         response = concerto$queuedResponse
         concerto$queuedResponse <<- NULL
@@ -14,7 +17,7 @@ bgWorkers=list()) {
     }
 
     if (! is.list(params)) stop("'params' must be a list!")
-    if (templateId == - 1 && html == "") stop("templateId or html must be declared")
+    if (templateId == -1 && html == "") stop("templateId or html must be declared")
 
     if (html != "") {
         concerto$response$templateHead <<- concerto.template.insertParams(head, params, removeMissing = removeMissingParams)
@@ -51,16 +54,19 @@ bgWorkers=list()) {
     if (finalize) {
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE, data)
     } else {
-        concerto5:::concerto.session.update()
-        concerto$templateParams <<- list()
-        concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE, data)
-        concerto$response <<- list()
+        repeat {
+            concerto5:::concerto.session.update()
+            concerto$templateParams <<- list()
+            concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE, data)
+            concerto$response <<- list()
 
-        if (concerto$runnerType == RUNNER_SERIALIZED) {
-            concerto5:::concerto.session.serialize()
-            concerto5:::concerto.session.stop(STATUS_RUNNING)
+            if (concerto$runnerType == RUNNER_SERIALIZED) {
+                concerto5:::concerto.session.serialize()
+                concerto5:::concerto.session.stop(STATUS_RUNNING)
+            }
+
+            response = concerto5:::concerto.server.listen(skipOnResume)
+            if(!is.null(response)) return(response)
         }
-
-        return(concerto5:::concerto.server.listen())
     }
 }

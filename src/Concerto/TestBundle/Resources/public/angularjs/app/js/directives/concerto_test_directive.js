@@ -28,17 +28,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if (testRunner.settings.connectionRetryHtml === null) testRunner.settings.connectionRetryHtml = $templateCache.get("connection_retry_template.html");
             if (testRunner.settings.loaderHtml === null) testRunner.settings.loaderHtml = $templateCache.get("loading_template.html");
 
-            $window.addEventListener('unload', function (e) {
-                clearTimer();
-
-                $.ajax({
-                    type: "POST",
-                    url: internalSettings.directory + "test/session/" + lastResponse.hash + "/kill",
-                    async: false,
-                    data: {}
-                });
-            });
-
             var DISPLAY_UNKNOWN = -1;
             var DISPLAY_LOADER_SHOWING = 0;
             var DISPLAY_LOADER_SHOWN = 1;
@@ -66,15 +55,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var SOURCE_TEST_NODE = 2;
             var internalSettings = angular.extend({
                 debug: false,
-                clientDebug: false,
                 params: null,
-                directory: "/",
+                platformUrl: "/",
                 testSlug: null,
                 testName: null,
                 hash: null,
                 keepAliveInterval: 0
             }, scope.options);
-            testRunner.settings.directory = internalSettings.directory;
+            testRunner.settings.platformUrl = internalSettings.platformUrl;
             var timeLimit = 0;
             var timer = 0;
             var timerId;
@@ -112,7 +100,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             });
 
             scope.logClientSideError = function (error) {
-                $http.post(internalSettings.directory + "test/session/" + lastResponse.hash + "/log", {
+                $http.post(internalSettings.platformUrl + "test/session/" + lastResponse.hash + "/log", {
                     error: error
                 });
                 console.error(error);
@@ -146,13 +134,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function startKeepAlive(lastResponse) {
-                if (internalSettings.clientDebug)
-                    console.log("start keep alive (" + internalSettings.keepAliveInterval + ")");
                 if (internalSettings.keepAliveInterval > 0) {
                     keepAliveTimerPromise = $interval(function () {
-                        $http.post(internalSettings.directory + "test/session/" + lastResponse.hash + "/keepalive", {}).then(function (httpResponse) {
-                            if (internalSettings.clientDebug)
-                                console.log("keep-alive ping");
+                        $http.post(internalSettings.platformUrl + "test/session/" + lastResponse.hash + "/keepalive", {}).then(function (httpResponse) {
                             if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || httpResponse.data.code !== RESPONSE_KEEPALIVE_CHECKIN)
                                 $interval.cancel(keepAliveTimerPromise);
                         });
@@ -171,25 +155,28 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function startNewTest() {
-                if (internalSettings.clientDebug)
-                    console.log("start");
-
                 showLoader();
-                var path = "";
+                let path = "";
                 if (internalSettings.debug) {
-                    path = internalSettings.directory + "admin/test/" + internalSettings.testSlug + "/session/start/debug/" + encodeURIComponent(internalSettings.params);
-                } else {
-                    if (internalSettings.testName !== null) {
-                        path = internalSettings.directory + "test_n/" + internalSettings.testName + "/session/start/" + encodeURIComponent(internalSettings.params);
+                    if (internalSettings.existingSessionHash !== null) {
+                        path = internalSettings.platformUrl + "admin/test/session/" + internalSettings.existingSessionHash + "/resume/debug";
                     } else {
-                        path = internalSettings.directory + "test/" + internalSettings.testSlug + "/session/start/" + encodeURIComponent(internalSettings.params);
+                        path = internalSettings.platformUrl + "admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
+                    }
+                } else {
+                    if (internalSettings.existingSessionHash !== null) {
+                        path = internalSettings.platformUrl + "test/session/" + internalSettings.existingSessionHash + "/resume";
+                    } else {
+                        if (internalSettings.testName !== null) {
+                            path = internalSettings.platformUrl + "test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
+                        } else {
+                            path = internalSettings.platformUrl + "test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
+                        }
                     }
                 }
 
                 $http.post(path, {}).then(
                     function success(httpResponse) {
-                        if (internalSettings.clientDebug)
-                            console.log(httpResponse.data);
                         if (internalSettings.debug && httpResponse.data.debug)
                             console.log(httpResponse.data.debug);
                         lastResponse = httpResponse.data;
@@ -210,13 +197,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     },
                     function error(httpResponse) {
                         if (httpResponse.status >= 500 && httpResponse.status < 600) {
-                            if (internalSettings.clientDebug)
-                                console.log("server error");
                             isViewReady = true;
                             showView(testRunner.settings.serverErrorHtml);
                         } else if (httpResponse.status >= 400 && httpResponse.status < 500) {
-                            if (internalSettings.clientDebug)
-                                console.log("client error");
                             isViewReady = true;
                             showView(testRunner.settings.clientErrorHtml);
                         }
@@ -238,21 +221,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             scope.runWorker = function (name, passedVals, successCallback, errorCallback) {
-                if (internalSettings.clientDebug)
-                    console.log("worker", name);
-
                 var values = getControlsValues();
                 if (passedVals) {
                     angular.merge(values, passedVals);
                 }
                 values["bgWorker"] = name;
 
-                $http.post(internalSettings.directory + "test/session/" + internalSettings.hash + "/worker", {
+                $http.post(internalSettings.platformUrl + "test/session/" + internalSettings.hash + "/worker", {
                     values: values
                 }).then(
                     function success(httpResponse) {
-                        if (internalSettings.clientDebug)
-                            console.log(httpResponse.data);
                         if (internalSettings.debug && httpResponse.data.debug)
                             console.log(httpResponse.data.debug);
 
@@ -261,9 +239,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         }
                     },
                     function error(httpResult) {
-                        if (internalSettings.clientDebug)
-                            console.log("worker failed");
-
                         if (errorCallback != null) {
                             errorCallback.call(this, httpResult.data, httpResult.status);
                         }
@@ -282,9 +257,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     }
                 });
                 $window.dispatchEvent(eventBeforeSubmitView);
-
-                if (internalSettings.clientDebug)
-                    console.log("submit");
 
                 removeSubmitEvents();
                 clearTimer();
@@ -321,7 +293,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (passedVals) {
                     angular.merge(values, passedVals);
                 }
-                $http.post(internalSettings.directory + "test/session/" + internalSettings.hash + "/submit", {
+                $http.post(internalSettings.platformUrl + "test/session/" + internalSettings.hash + "/submit", {
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -334,8 +306,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
                         scope.retryTimeStarted = null;
 
-                        if (internalSettings.clientDebug)
-                            console.log(httpResponse.data);
                         if (internalSettings.debug && httpResponse.data.debug)
                             console.log(httpResponse.data.debug);
                         lastResponse = httpResponse.data;
@@ -363,21 +333,15 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         $window.dispatchEvent(eventSubmitViewResponseError);
 
                         if (httpResponse.status === -1) {
-                            if (internalSettings.clientDebug)
-                                console.log("connection failed");
                             showConnectionProblems(btnName, isTimeout, passedVals, values);
                         } else if (httpResponse.status >= 500 && httpResponse.status < 600) {
                             scope.retryTimeStarted = null;
 
-                            if (internalSettings.clientDebug)
-                                console.log("server error");
                             isViewReady = true;
                             showView(testRunner.settings.serverErrorHtml);
                         } else if (httpResponse.status >= 400 && httpResponse.status < 500) {
                             scope.retryTimeStarted = null;
 
-                            if (internalSettings.clientDebug)
-                                console.log("client error");
                             isViewReady = true;
                             showView(testRunner.settings.clientErrorHtml);
                         }
@@ -393,8 +357,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function initializeRetryTimer(btnName, isTimeout, passedVals, values) {
                 if (retryTimeTotal > 0) {
-                    if (internalSettings.clientDebug)
-                        console.log("connection retry in " + retryTimeTotal + " secs");
                     retryTimer = retryTimeTotal;
                     scope.retryTimeLeft = retryTimer;
                     retryTimerId = $interval(function () {
@@ -418,8 +380,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function showView(content) {
-                if (internalSettings.clientDebug)
-                    console.log("showView (" + displayState + ")");
                 if (displayState === DISPLAY_LOADER_SHOWN) {
                     hideLoader(content);
                 }
@@ -476,8 +436,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function hideView() {
-                if (internalSettings.clientDebug)
-                    console.log("hideView");
                 isViewReady = false;
                 displayState = DISPLAY_VIEW_HIDDEN;
                 if (isViewReady) {
@@ -488,8 +446,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function showLoader() {
-                if (internalSettings.clientDebug)
-                    console.log("showLoader");
                 displayState = DISPLAY_LOADER_SHOWN;
 
                 if (internalSettings.loaderHead != null)
@@ -499,8 +455,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             }
 
             function hideLoader(content) {
-                if (internalSettings.clientDebug)
-                    console.log("hideLoader");
                 displayState = DISPLAY_LOADER_HIDDEN;
                 showView(content);
             }
@@ -613,7 +567,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 $window.removeEventListener(name, callback);
             };
             scope.queueUpload = function (name, file) {
-                scope.fileUploader.url = internalSettings.directory + "test/session/" + internalSettings.hash + "/upload";
+                scope.fileUploader.url = internalSettings.platformUrl + "test/session/" + internalSettings.hash + "/upload";
                 scope.fileUploader.formData = [{
                     name: name
                 }];
@@ -633,14 +587,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             testRunner.queueUpload = scope.queueUpload;
 
             var options = scope.options;
-            if (internalSettings.clientDebug)
-                console.log(options);
             if (options.testSlug != null || options.testName != null) {
                 startNewTest();
                 return;
             }
-            if (internalSettings.clientDebug)
-                console.log("invalid options");
         }
 
         return {

@@ -18,10 +18,10 @@ class SamlService
         $this->samlTokenRepository = $samlTokenRepository;
     }
 
-    public function login()
+    public function login($redirectTo = null)
     {
         $auth = new Auth($this->settings);
-        $auth->login();
+        $auth->login($redirectTo);
     }
 
     public function acs(&$stateRelay = null, &$errors = null)
@@ -63,13 +63,13 @@ class SamlService
         return $metadata;
     }
 
-    public function logout()
+    public function logout($redirectTo = null)
     {
         $auth = new Auth($this->settings);
-        $auth->logout();
+        $auth->logout($redirectTo);
     }
 
-    public function sls($tokenHash, &$errors = null)
+    public function sls($tokenHash, &$stateRelay, &$errors = null)
     {
         $auth = new Auth($this->settings);
         $auth->processSLO(true);
@@ -82,6 +82,9 @@ class SamlService
         if($token !== null) {
             $token->setRevoked(true);
             $this->samlTokenRepository->save($token);
+        }
+        if (Utils::getSelfURL() == $stateRelay) {
+            $stateRelay = null;
         }
         return true;
     }

@@ -4,11 +4,10 @@ require(parallel)
 concerto5:::concerto.init(
     connectionParams = fromJSON(commandArgs(TRUE)[4]),
     publicDir = commandArgs(TRUE)[2],
-    mediaUrl = commandArgs(TRUE)[3],
+    platformUrl = commandArgs(TRUE)[3],
     maxExecTime = as.numeric(commandArgs(TRUE)[5]),
     maxIdleTime = as.numeric(commandArgs(TRUE)[6]),
-    keepAliveToleranceTime = as.numeric(commandArgs(TRUE)[7]),
-    apiUrl = commandArgs(TRUE)[8]
+    keepAliveToleranceTime = as.numeric(commandArgs(TRUE)[7])
 )
 
 switch(concerto$connectionParams$driver,

@@ -5,20 +5,21 @@ testRunner.controller('testRunnerController', [
     function ($scope, $compile) {
 
         $scope.concertoOptions = {};
-        $scope.init = function (directory, testSlug, testName, params, debug, keepAliveInterval) {
+        $scope.init = function (platformUrl, testSlug, testName, params, debug, keepAliveInterval, existingSessionHash) {
 
             $scope.concertoOptions = angular.extend($scope.concertoOptions, {
-                directory: directory,
+                platformUrl: platformUrl,
                 testSlug: testSlug,
                 testName: testName,
                 params: params,
                 debug: debug,
-                keepAliveInterval: keepAliveInterval
+                keepAliveInterval: keepAliveInterval,
+                existingSessionHash: existingSessionHash
             });
         };
 
         $scope.startTest = function (hash) {
-            var testElement = angular.element("<concerto-test concerto-options='concertoOptions' />");
+            let testElement = angular.element("<concerto-test concerto-options='concertoOptions' />");
             angular.element("#testContainer").html(testElement);
             $compile(testElement)($scope);
         };

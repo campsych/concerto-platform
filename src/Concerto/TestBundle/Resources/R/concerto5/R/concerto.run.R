@@ -5,6 +5,7 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, max
     concerto$sessionFile <<- paste0(concerto$workingDir,"session.Rs")
     concerto$initialPort <<- initialPort
     concerto$runnerType <<- runnerType
+    concerto$lastResponse <<- response
 
     if(!is.null(maxIdleTime)) {
         concerto$maxIdleTime <<- maxIdleTime
@@ -34,7 +35,6 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, max
             testId = concerto$session["test_id"]
             params = concerto$session$params
             if(concerto$runnerType == RUNNER_SERIALIZED && concerto.session.unserialize(response)) {
-
                 concerto$resuming <<- T
                 concerto$resumeIndex <<- 0
                 testId = concerto$flow[[1]]$id

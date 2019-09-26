@@ -1,4 +1,5 @@
 parameters:
+    env(CONCERTO_PLATFORM_URL): http://localhost/
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
@@ -9,6 +10,5 @@ parameters:
         rscript_exec: Rscript
         timer_type: server #client or server
         session_forking: true #only Linux, experimental
-        dir: /
         connection: local
-        api_url: https://myconcerto.com/api/
+        platform_url: "%env(CONCERTO_PLATFORM_URL)%" #must end with /
