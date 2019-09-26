@@ -1,4 +1,4 @@
-concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
+concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, apiUrl){
     options(digits.secs = 6)
     concerto.log("starting session")
     if(Sys.info()['sysname'] != "Windows") {
@@ -58,6 +58,7 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
 
     concerto$publicDir <<- publicDir
     concerto$mediaUrl <<- mediaUrl
+    concerto$apiUrl <<- apiUrl
     concerto$maxExecTime <<- maxExecTime
     concerto$maxIdleTime <<- maxIdleTime
     concerto$keepAliveToleranceTime <<- keepAliveToleranceTime

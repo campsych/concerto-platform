@@ -18,7 +18,11 @@
 /app/config/parameters_administration.yml
 /app/config/parameters_test_runner.yml
 /app/config/parameters_uio.yml
+/app/config/parameters_saml.yml
 /.idea
 *.iml
 /.web-server-pid
 /deploy/docker-compose/data
+/src/Concerto/TestBundle/Resources/sessions/*
+/src/Concerto/TestBundle/Resources/R/*.log
+!/src/Concerto/TestBundle/Resources/sessions/.gitkeep

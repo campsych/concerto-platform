@@ -1,0 +1,74 @@
+parameters:
+  saml:
+    strict: true
+    debug: false
+    baseurl: null
+
+    sp:
+      entityId: ''
+      assertionConsumerService:
+        url: ''
+        binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+      attributeConsumingService:
+        serviceName: SP test
+        serviceDescription: Test Service
+        requestedAttributes:
+          -
+            name: ''
+            isRequired: false
+            nameFormat: ''
+            friendlyName: ''
+            attributeValue: {}
+      singleLogoutService:
+        url: ''
+        binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+      NameIDFormat: urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
+      x509cert: ''
+      privateKey: ''
+
+    idp:
+      entityId: ''
+      singleSignOnService:
+        url: ''
+        binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+      singleLogoutService:
+        url: ''
+        responseUrl: ''
+        binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+      x509cert: ''
+
+    compress:
+      request: true
+      responses: true
+
+    security:
+      nameIdEncrypted: false
+      authnRequestSigned: false
+      logoutRequestSigned: false
+      logoutResponseSigned: false
+      signMetadata: false
+      wantMessagesSigned: false
+      wantAssertionsEncrypted: false
+      wantAssertionsSigned: false
+      wantNameId: true
+      wantNameIdEncrypted: false
+      requestedAuthnContext: true
+      wantXMLValidation: true
+      relaxDestinationValidation: false
+      signatureAlgorithm: http://www.w3.org/2001/04/xmldsig-more#rsa-sha256
+      digestAlgorithm: http://www.w3.org/2001/04/xmlenc#sha256
+      lowercaseUrlencoding: false
+
+    #contactPerson:
+    #  technical:
+    #    givenName: ''
+    #    emailAddress: ''
+    #  support:
+    #    givenName: ''
+    #    emailAddress: ''
+
+    #organization:
+    #  en-US:
+    #    name: ''
+    #    displayname: ''
+    #    url: ''

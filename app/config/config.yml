@@ -13,6 +13,7 @@ imports:
     - { resource: parameters_administration.yml }
     - { resource: parameters_test_runner.yml }
     - { resource: parameters_uio.yml }
+    - { resource: parameters_saml.yml }
 
 framework:
     #esi:             ~

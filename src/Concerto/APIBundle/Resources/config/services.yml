@@ -20,10 +20,19 @@ services:
     public: true
     tags: ['controller.service_arguments']
 
-#repositories
+  #repositories
   Concerto\APIBundle\Repository\ClientRepository:
     factory: doctrine.orm.entity_manager:getRepository
     arguments: [ Concerto\APIBundle\Entity\Client]
 
-#aliases
+  Concerto\APIBundle\Repository\SamlTokenRepository:
+    factory: doctrine.orm.entity_manager:getRepository
+    arguments: [ Concerto\APIBundle\Entity\SamlToken]
+
+  #services
+  Concerto\APIBundle\Service\SamlService:
+    arguments:
+      $settings: "%saml%"
+
+  #aliases
   FOS\OAuthServerBundle\Model\ClientManagerInterface: '@fos_oauth_server.client_manager.default'

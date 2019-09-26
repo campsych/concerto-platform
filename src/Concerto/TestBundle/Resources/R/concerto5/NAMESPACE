@@ -1,9 +1,11 @@
 import("session")
+import("httr")
 export(
 concerto.file.getPublicPath,
 concerto.file.getUrl,
 concerto.list.merge,
 concerto.log,
+concerto.saml.getAuthenticatedUser,
 concerto.table.get,
 concerto.table.insertParams,
 concerto.table.lastInsertId,

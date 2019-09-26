@@ -39,6 +39,7 @@ concerto.server.listen = function(){
         con = socketConnection(host = "localhost", port = concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "rt")
         response = readLines(con, warn = FALSE)
         response = fromJSON(response)
+        concerto$lastResponse <<- response
         response$values$.cookies = response$cookies
         close(con)
         if(concerto$maxExecTime > 0) {

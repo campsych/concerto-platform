@@ -34,7 +34,7 @@ security:
           anonymous:  false
 
         open_api:
-          pattern:    ^/api/check
+          pattern:    ^/api(/check|/saml)
           logout_on_user_change: true
           fos_oauth:  true
           stateless:  true

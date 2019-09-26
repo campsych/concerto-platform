@@ -92,6 +92,11 @@ abstract class ASessionRunnerService
         return $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
     }
 
+    public function getApiUrl()
+    {
+        return $this->testRunnerSettings["api_url"];
+    }
+
     public function getWorkingDirPath($session_hash, $create = true)
     {
         $path = null;

@@ -289,6 +289,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
         $working_directory = $this->getWorkingDirPath($session_hash);
         $public_directory = $this->getPublicDirPath();
         $media_url = $this->getMediaUrl();
+        $api_url = $this->getApiUrl();
         $client = json_encode($client);
         $response = json_encode($response ? $response : array());
         $rout = $this->getROutputFilePath($session_hash);
@@ -309,6 +310,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "'$response' "
                     . "$initial_port "
                     . "1 " //runnerType
+                    . "'$api_url' "
                     . ($rout ? (">> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";
             default:
@@ -327,6 +329,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
                     . "\"" . $this->escapeWindowsArg($response) . "\" "
                     . "$initial_port "
                     . "1 " //runnerType
+                    . "$api_url "
                     . ($rout ? (">> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
                     . "2>&1\"";
         }

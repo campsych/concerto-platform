@@ -2,7 +2,9 @@
 
 #### Features
 
+* SAML flow API
 * cookies are now included in concerto.template.show return (**result$.cookies**) for both submit and background worker actions
+* concerto.saml.getAuthenticatedUser R method
 
 #### Fixes
 

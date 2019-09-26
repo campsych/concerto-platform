@@ -319,6 +319,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         $working_directory = $this->getWorkingDirPath($session_hash);
         $public_directory = $this->getPublicDirPath();
         $media_url = $this->getMediaUrl();
+        $api_url = $this->getApiUrl();
         $client = json_encode($client);
         $rout = $this->getROutputFilePath($session_hash);
 
@@ -335,8 +336,10 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "'$max_exec_time' "
                     . "'$max_idle_time' "
                     . "'$keep_alive_tolerance_time' "
+                    . "'' " //response
                     . "'$initial_port' "
                     . "0 " //runnerType
+                    . "'$api_url' "
                     . ($rout ? ("> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";
             default:
@@ -352,8 +355,10 @@ class PersistantSessionRunnerService extends ASessionRunnerService
                     . "$max_exec_time "
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "
+                    . "\"\" " //response
                     . "$initial_port "
                     . "0 " //runnerType
+                    . "$api_url "
                     . ($rout ? ("> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
                     . "2>&1\"";
         }
