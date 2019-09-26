@@ -12,6 +12,7 @@ Metadata:
         Parameters:
           - ConcertoVersion
           - ConcertoPassword
+          - ConcertoContentURL
       - Label:
           default: Domain + TLS
         Parameters:
@@ -36,6 +37,8 @@ Metadata:
         default: Tag
       ConcertoPassword:
         default: Password
+      ConcertoContentURL:
+        default: URL
       KeyName:
         default: Key pair
       WebServerInstanceType:
@@ -60,6 +63,10 @@ Parameters:
     Type: String
     MinLength: 8
     ConstraintDescription: min. 8 characters.
+  ConcertoContentURL:
+    Description: URL with Concerto content backup to preload (optional).
+    Type: String
+    Default: .
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
@@ -388,6 +395,7 @@ Resources:
                 sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
                 sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
+                sed -ri 's/^(.*CONCERTO_CONTENT_URL\s*=).*$/\1${ConcertoContentURL}/' docker-compose.yml
               cwd: /home/concerto
             04_start:
               command: /usr/local/bin/docker-compose up -d --force-recreate concerto database

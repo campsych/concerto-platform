@@ -21,6 +21,7 @@ services:
       - ./data/concerto:/data
     environment:
       - CONCERTO_PASSWORD=admin
+      - CONCERTO_CONTENT_URL=.
       - DB_HOST=database
       - DB_PASSWORD=changeme
       - TZ=Europe/London
