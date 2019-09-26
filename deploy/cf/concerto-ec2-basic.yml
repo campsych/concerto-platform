@@ -353,7 +353,7 @@ Resources:
             01_dir:
               command: mkdir -p /home/concerto
             02_download:
-              command: wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml
+              command: curl -s https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml > docker-compose.yml
               cwd: /home/concerto
             03_config:
               command: !Sub |

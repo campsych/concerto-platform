@@ -390,7 +390,7 @@ Resources:
             01_dir:
               command: mkdir -p /home/concerto
             02_download:
-              command: wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml
+              command: curl -s https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/docker-compose.yml > docker-compose.yml
               cwd: /home/concerto
             03_config:
               command: !Sub |
@@ -408,7 +408,7 @@ Resources:
           commands:
             01_download:
               command: |
-                wget https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/install_tls.sh
+                curl -s https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/tls/install_tls.sh > install_tls.sh
                 chmod 775 ./install_tls.sh
               cwd: /home/concerto
             02_install_tls:
