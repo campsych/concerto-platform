@@ -17,7 +17,7 @@ get_tsl_params() {
     if [[ ! -e "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf" ]] || [[ ! -e "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem" ]]; then
       printf "### Downloading TLS parameters\n"
       mkdir -p "${CERTBOT_DATA_PATH}/conf"
-      curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/options-ssl-nginx.conf > "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf"
+      curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/tls_configs/options-ssl-nginx.conf > "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf"
       curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem"
     fi
 }
