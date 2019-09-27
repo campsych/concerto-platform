@@ -3,6 +3,7 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
 
+ENV CONCERTO_PLATFORM_URL=http://localhost
 ENV CONCERTO_PASSWORD=admin
 ENV CONCERTO_API_ENABLED=1
 ENV CONCERTO_API_ENABLED_OVERRIDABLE=true

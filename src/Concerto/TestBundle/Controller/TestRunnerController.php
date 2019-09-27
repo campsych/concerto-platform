@@ -32,17 +32,20 @@ class TestRunnerController
     /**
      * Returns start new test template.
      *
-     * @Route("/test/{test_slug}/{params}", name="test_runner_start", defaults={"test_name":null,"params":"{}","debug":false})
-     * @Route("/test_n/{test_name}/{params}", name="test_runner_start_name", defaults={"test_slug":null,"params":"{}"})
+     * @Route("/test/session/{existing_session_hash}", name="test_runner_test_resume", defaults={"test_slug":null,"test_name":null,"params":"{}","debug":false})
+     * @Route("/test/session/{existing_session_hash}", name="test_runner_test_resume_name", defaults={"test_slug":null,"test_name":null,"params":"{}","debug":false})
+     * @Route("/test/{test_slug}/{params}", name="test_runner_test_start", defaults={"test_name":null,"params":"{}","debug":false})
+     * @Route("/test_n/{test_name}/{params}", name="test_runner_test_start_name", defaults={"test_slug":null,"params":"{}"})
      * @param Request $request
      * @param SessionInterface $session
      * @param string $test_slug
      * @param string $test_name
      * @param string $params
      * @param boolean $debug
+     * @param string|null $existing_session_hash
      * @return Response
      */
-    public function startNewTestAction(Request $request, SessionInterface $session, $test_slug, $test_name = null, $params = "{}", $debug = false)
+    public function startNewTestAction(Request $request, SessionInterface $session, $test_slug = null, $test_name = null, $params = "{}", $debug = false, $existing_session_hash = null)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
@@ -64,33 +67,36 @@ class TestRunnerController
         $browser_valid = $this->testRunnerService->isBrowserValid($request->headers->get('User-Agent'));
 
         $response = $this->templating->renderResponse("ConcertoTestBundle::index.html.twig", array(
-            "directory" => $this->testRunnerSettings["dir"] . ($this->environment === "dev" ? "app_dev.php/" : ""),
+            "platform_url" => $this->testRunnerSettings["platform_url"],
             "test_name" => $test_name,
             "test_slug" => $test_slug,
             "params" => addcslashes($params, "'"),
             "keep_alive_interval" => $this->testRunnerSettings["keep_alive_interval_time"],
             "debug" => $debug,
-            "browser_valid" => $browser_valid
+            "browser_valid" => $browser_valid,
+            "existing_session_hash" => $existing_session_hash
         ));
         return $response;
     }
 
     /**
-     * @Route("/admin/test/{test_slug}/debug/{params}", name="test_runner_start_debug", defaults={"params":"{}"})
+     * @Route("/admin/test/{test_slug}/debug/{params}", name="test_runner_test_start_debug", defaults={"params":"{}"})
+     * @Route("/admin/test/{test_slug}/session/{existing_session_hash}/debug/{params}", name="test_runner_resume_debug", defaults={"params":"{}"})
      * @param Request $request
      * @param SessionInterface $session
      * @param string $test_slug
      * @param string $params
+     * @param string|null $existing_session_hash
      * @return Response
      */
-    public function startNewDebugTestAction(Request $request, SessionInterface $session, $test_slug, $params = "{}")
+    public function startNewDebugTestAction(Request $request, SessionInterface $session, $test_slug, $params = "{}", $existing_session_hash = null)
     {
-        return $this->startNewTestAction($request, $session, $test_slug, null, $params, true);
+        return $this->startNewTestAction($request, $session, $test_slug, null, $params, true, $existing_session_hash);
     }
 
     /**
-     * @Route("/test/{test_slug}/session/start/{params}", name="test_runner_session_start", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
-     * @Route("/test_n/{test_name}/session/start/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false}, methods={"POST"})
+     * @Route("/test/{test_slug}/start_session/{params}", name="test_runner_session_start", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
+     * @Route("/test_n/{test_name}/start_session/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false}, methods={"POST"})
      * @param Request $request
      * @param $test_slug
      * @param $test_name
@@ -106,6 +112,7 @@ class TestRunnerController
             $test_slug,
             $test_name,
             $params,
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT'),
             $debug
@@ -116,7 +123,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/admin/test/{test_slug}/session/start/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"}, methods={"POST"})
+     * @Route("/admin/test/{test_slug}/start_session/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"}, methods={"POST"})
      * @param Request $request
      * @param string $test_slug
      * @param string $params
@@ -125,6 +132,40 @@ class TestRunnerController
     public function startNewDebugSessionAction(Request $request, $test_slug, $params = "{}")
     {
         return $this->startNewSessionAction($request, $test_slug, null, $params, true);
+    }
+
+    /**
+     * @Route("/test/session/{session_hash}/resume", name="test_runner_session_resume", defaults={"debug":false}, methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @param bool $debug
+     * @return RedirectResponse|Response
+     */
+    public function resumeSessionAction(Request $request, $session_hash, $debug = false)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $debug");
+
+        $result = $this->testRunnerService->resumeSession(
+            $session_hash,
+            $request->cookies->all(),
+            $request->getClientIp(),
+            $request->server->get('HTTP_USER_AGENT'),
+            $debug
+        );
+        $response = new Response($result);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/admin/test/session/{session_hash}/resume/debug", name="test_runner_session_resume_debug", methods={"POST"})
+     * @param Request $request
+     * @param string $session_hash
+     * @return RedirectResponse|Response
+     */
+    public function resumeDebugSessionAction(Request $request, $session_hash)
+    {
+        return $this->resumeSessionAction($request, $session_hash, true);
     }
 
     /**
@@ -140,6 +181,7 @@ class TestRunnerController
         $result = $this->testRunnerService->submitToSession(
             $session_hash,
             $request->get("values"),
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
@@ -161,6 +203,7 @@ class TestRunnerController
         $result = $this->testRunnerService->backgroundWorker(
             $session_hash,
             $request->get("values"),
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );

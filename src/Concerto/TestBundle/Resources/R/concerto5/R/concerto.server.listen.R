@@ -1,4 +1,4 @@
-concerto.server.listen = function(){
+concerto.server.listen = function(skipOnResume=F){
     repeat {
         concerto.log("listening to server...")
 
@@ -39,13 +39,14 @@ concerto.server.listen = function(){
         con = socketConnection(host = "localhost", port = concerto$session$submitterPort, blocking = TRUE, timeout = 60 * 60 * 24, open = "rt")
         response = readLines(con, warn = FALSE)
         response = fromJSON(response)
+        concerto$lastResponse <<- response
+        response$values$.cookies = response$cookies
         close(con)
         if(concerto$maxExecTime > 0) {
             setTimeLimit(elapsed = concerto$maxExecTime, transient = TRUE)
         }
 
-        concerto.log("received response")
-        concerto.log(response)
+        concerto.log(response, "received response")
 
         concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
         concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
@@ -60,6 +61,13 @@ concerto.server.listen = function(){
                 do.call("concerto.onTemplateSubmit",list(response=response$values), envir = .GlobalEnv)
             }
             return(response$values)
+        } else if (response$code == RESPONSE_RESUME) {
+            concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
+            response = NULL
+            if(skipOnResume) {
+                response = list()
+            }
+            return(response)
         } else if(response$code == RESPONSE_KEEPALIVE_CHECKIN) {
             concerto.log("keep alive checkin")
             concerto$lastKeepAliveTime <<- as.numeric(Sys.time())

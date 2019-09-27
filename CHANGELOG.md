@@ -1,3 +1,25 @@
+## 5.1.0 (work in progress)
+
+#### Features
+
+* SAML flow API
+* cookies are now included in concerto.template.show return (**result$.cookies**) for both submit and background worker actions
+* concerto.saml.getAuthenticatedUser R method
+* session resume endpoint
+
+#### Fixes
+
+* fixed unforked session initialization
+
+#### Other
+
+* added **platform_url** config parameter
+* renamed **concerto.file.getPublicPath** to **concerto.file.getPath**
+* added **concerto.saml.login** R function
+* added **concerto.saml.logout** R function
+* added **concerto.session.getResumeUrl** R function
+* added **concerto.template.redirect** R function
+
 ## 5.0.3 (work in progress)
 
 #### Fixes

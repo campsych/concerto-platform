@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestSession;
 use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
@@ -30,6 +31,7 @@ class TestSessionService
     const RESPONSE_TEST_NOT_FOUND = 13;
     const RESPONSE_SESSION_LOST = 14;
     const RESPONSE_WORKER = 15;
+    const RESPONSE_RESUME = 16;
     const RESPONSE_ERROR = -1;
     const STATUS_RUNNING = 0;
     const STATUS_FINALIZED = 2;
@@ -64,7 +66,7 @@ class TestSessionService
         return sha1(time() . "_" . $this->secret . "_" . $session_id);
     }
 
-    public function startNewSession($test_slug, $test_name, $params, $client_ip, $client_browser, $debug, $max_exec_time = null)
+    public function startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug, $max_exec_time = null)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug");
 
@@ -92,8 +94,25 @@ class TestSessionService
         $session->setHash($hash);
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->startNew($session, $params, $client_ip, $client_browser, $debug, $max_exec_time);
+        $response = $this->sessionRunnerService->startNew($session, $params, $cookies, $client_ip, $client_browser, $debug, $max_exec_time);
         return $this->prepareResponse($hash, $response);
+    }
+
+    public function resumeSession($session_hash, $cookies, $client_ip, $client_browser, $debug, $max_exec_time = null)
+    {
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser, $debug");
+
+        /** @var TestSession $session */
+        $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
+        if($session === null) {
+            return $this->prepareResponse(null, array(
+                "source" => self::SOURCE_PANEL_NODE,
+                "code" => self::RESPONSE_SESSION_LOST
+            ));
+        }
+
+        $response = $this->sessionRunnerService->resume($session, $cookies, $client_ip, $client_browser, $debug, $max_exec_time);
+        return $this->prepareResponse($session_hash, $response);
     }
 
     private function validateParams($session, $params)
@@ -146,7 +165,7 @@ class TestSessionService
         return $values;
     }
 
-    public function submit($session_hash, $values, $client_ip, $client_browser)
+    public function submit($session_hash, $values, $cookies, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
@@ -173,11 +192,11 @@ class TestSessionService
         $session->setUpdated();
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->submit($session, $values, $client_ip, $client_browser);
+        $response = $this->sessionRunnerService->submit($session, $values, $cookies, $client_ip, $client_browser);
         return $this->prepareResponse($session_hash, $response);
     }
 
-    public function backgroundWorker($session_hash, $values, $client_ip, $client_browser)
+    public function backgroundWorker($session_hash, $values, $cookies, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
@@ -204,7 +223,7 @@ class TestSessionService
         $session->setUpdated();
         $this->testSessionRepository->save($session);
 
-        $response = $this->sessionRunnerService->backgroundWorker($session, $values, $client_ip, $client_browser);
+        $response = $this->sessionRunnerService->backgroundWorker($session, $values, $cookies, $client_ip, $client_browser);
         return $this->prepareResponse($session_hash, $response);
     }
 

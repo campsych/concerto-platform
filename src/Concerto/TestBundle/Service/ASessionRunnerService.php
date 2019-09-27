@@ -22,6 +22,7 @@ abstract class ASessionRunnerService
     protected $testSessionCountService;
     protected $administrationService;
     protected $testSessionRepository;
+    protected $runnerType = -1;
 
     public function __construct(LoggerInterface $logger, $testRunnerSettings, $root, RegistryInterface $doctrine, TestSessionCountService $testSessionCountService, AdministrationService $administrationService, TestSessionRepository $testSessionRepository)
     {
@@ -34,11 +35,13 @@ abstract class ASessionRunnerService
         $this->testSessionRepository = $testSessionRepository;
     }
 
-    abstract public function startNew(TestSession $session, $params, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
+    abstract public function startNew(TestSession $session, $params, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
-    abstract public function submit(TestSession $session, $values, $client_ip, $client_browser);
+    abstract public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
-    abstract public function backgroundWorker(TestSession $session, $values, $client_ip, $client_browser);
+    abstract public function submit(TestSession $session, $values, $cookies, $client_ip, $client_browser);
+
+    abstract public function backgroundWorker(TestSession $session, $values, $cookies, $client_ip, $client_browser);
 
     abstract public function keepAlive(TestSession $session, $client_ip, $client_browser);
 
@@ -87,9 +90,11 @@ abstract class ASessionRunnerService
         return realpath($this->root . "/../src/Concerto/PanelBundle/Resources/public/files") . "/";
     }
 
-    public function getMediaUrl()
+    public function getPlatformUrl()
     {
-        return $this->testRunnerSettings["dir"] . "bundles/concertopanel/files/";
+        $url = $this->testRunnerSettings["platform_url"];
+        if (strrpos($url, "/") !== strlen($url) - 1) $url .= "/";
+        return $url;
     }
 
     public function getWorkingDirPath($session_hash, $create = true)
@@ -324,6 +329,123 @@ abstract class ASessionRunnerService
             break;
         } while (usleep(100 * 1000) || true);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - submitter ended");
+        return true;
+    }
+
+    protected function getCommand($client, $session_hash, $request, $max_exec_time, $initial_port)
+    {
+        $rscript_exec = $this->testRunnerSettings["rscript_exec"];
+        $ini_path = $this->getRDir() . "standalone.R";
+        $max_exec_time = $max_exec_time === null ? $this->testRunnerSettings["max_execution_time"] : $max_exec_time;
+        $max_idle_time = $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time");
+        $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
+        $database_connection = json_encode($this->getConnection());
+        $working_directory = $this->getWorkingDirPath($session_hash);
+        $public_directory = $this->getPublicDirPath();
+        $platform_url = $this->getPlatformUrl();
+        $client = json_encode($client);
+        $request = json_encode($request ? $request : array());
+        $rout = $this->getROutputFilePath($session_hash);
+
+        switch ($this->getOS()) {
+            case self::OS_LINUX:
+                return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
+                    . "'$ini_path' "
+                    . "'$database_connection' "
+                    . "'$client' "
+                    . "'$session_hash' "
+                    . "'$working_directory' "
+                    . "'$public_directory' "
+                    . "'$platform_url' "
+                    . "'$max_exec_time' "
+                    . "'$max_idle_time' "
+                    . "'$keep_alive_tolerance_time' "
+                    . "'$request' "
+                    . "'$initial_port' "
+                    . $this->runnerType . " "
+                    . ($rout ? ("> '" . $rout . "' ") : "")
+                    . "2>&1 & echo $!";
+            default:
+                return "start cmd /C \""
+                    . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
+                    . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
+                    . "\"" . $this->escapeWindowsArg($database_connection) . "\" "
+                    . "\"" . $this->escapeWindowsArg($client) . "\" "
+                    . $session_hash . " "
+                    . "\"" . $this->escapeWindowsArg($working_directory) . "\" "
+                    . "\"" . $this->escapeWindowsArg($public_directory) . "\" "
+                    . "$platform_url "
+                    . "$max_exec_time "
+                    . "$max_idle_time "
+                    . "$keep_alive_tolerance_time "
+                    . "\"" . $this->escapeWindowsArg($request) . "\" "
+                    . "$initial_port "
+                    . $this->runnerType . " "
+                    . ($rout ? ("> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
+                    . "2>&1\"";
+        }
+    }
+
+    protected function startChildProcess($client, $session_hash, $request = null, $max_exec_time = null, $initial_port = null)
+    {
+        if ($max_exec_time === null) {
+            $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        }
+
+        $rout = $this->getROutputFilePath($session_hash);
+
+        $response = json_encode(array(
+            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . "/",
+            "maxExecTime" => $max_exec_time,
+            "maxIdleTime" => $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time"),
+            "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
+            "client" => $client,
+            "connection" => $this->getConnection(),
+            "sessionId" => $session_hash,
+            "rLogPath" => $rout,
+            "response" => $request,
+            "initialPort" => $initial_port,
+            "runnerType" => $this->runnerType
+        ));
+
+        $path = $this->getFifoDir() . ($session_hash ? $session_hash : uniqid("hc", true)) . ".fifo";
+        posix_mkfifo($path, POSIX_S_IFIFO | 0644);
+        $fh = fopen($path, "wt");
+        if ($fh === false) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fopen() failed");
+            return false;
+        }
+        stream_set_blocking($fh, 1);
+        $buffer = $response . "\n";
+        $sent = fwrite($fh, $buffer);
+        $success = $sent !== false;
+        if (!$success) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fwrite() failed");
+        }
+        if (strlen($buffer) != $sent) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fwrite() failed, sent only $sent/" . strlen($buffer));
+            $success = false;
+        }
+        fclose($fh);
+        return $success;
+    }
+
+    protected function startStandaloneProcess($client, $session_hash, $request = null, $max_exec_time = null, $initial_port = null)
+    {
+        $cmd = $this->getCommand($client, $session_hash, $request, $max_exec_time, $initial_port);
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
+
+        $process = new Process($cmd);
+        $process->setEnhanceWindowsCompatibility(false);
+
+        $env = array(
+            "R_GC_MEM_GROW" => 0
+        );
+        if ($this->testRunnerSettings["r_environ_path"] != null) {
+            $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
+        }
+        $process->setEnv($env);
+        $process->mustRun();
         return true;
     }
 }

@@ -1,4 +1,4 @@
-concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
+concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
     options(digits.secs = 6)
     concerto.log("starting session")
     if(Sys.info()['sysname'] != "Windows") {
@@ -37,6 +37,7 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
     RESPONSE_KEEPALIVE_CHECKIN <<- 10
     RESPONSE_UNRESUMABLE <<- 11
     RESPONSE_WORKER <<- 15
+    RESPONSE_RESUME <<- 16
     RESPONSE_ERROR <<- -1
 
     STATUS_RUNNING <<- 0
@@ -54,10 +55,12 @@ concerto.init = function(connectionParams, publicDir, mediaUrl, maxExecTime, max
     concerto$flow <<- list()
     concerto$bgWorkers <<- list()
     concerto$queuedResponse <<- NULL
+    concerto$skipTemplateOnResume <<- F
     concerto$response <<- list()
 
     concerto$publicDir <<- publicDir
-    concerto$mediaUrl <<- mediaUrl
+    concerto$platformUrl <<- platformUrl
+    concerto$mediaUrl <<- gsub("app_dev.php", "/", paste0(platformUrl, "bundles/concertopanel/files/"))
     concerto$maxExecTime <<- maxExecTime
     concerto$maxIdleTime <<- maxIdleTime
     concerto$keepAliveToleranceTime <<- keepAliveToleranceTime
