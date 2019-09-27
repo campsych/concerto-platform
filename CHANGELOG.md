@@ -1,8 +1,9 @@
-## 5.0.3 (work in progress)
+## 5.0.3 (2019-09-27)
 
 #### Fixes
 
 * fixed checkbox form item type
+* fixed pain mannequin test item type
 
 ## 5.0.2 (2019-09-18)
 

@@ -22,3 +22,6 @@
 *.iml
 /.web-server-pid
 /deploy/docker-compose/data
+/src/Concerto/TestBundle/Resources/sessions/*
+!/src/Concerto/TestBundle/Resources/sessions/.gitkeep
+/src/Concerto/TestBundle/Resources/R/*.log
