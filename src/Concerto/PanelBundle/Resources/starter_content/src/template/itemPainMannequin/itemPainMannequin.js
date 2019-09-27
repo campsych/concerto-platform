@@ -6,25 +6,9 @@ testRunner.compileProvider.component('itemPainMannequin', {
     responseRequired: '<'
   },
   controller: function controller($scope, $timeout) {
-    
-    this.$onInit = function() {
-      $scope.item = this.item;
-      $scope.response = this.response;
-      $scope.responseRequired = this.responseRequired;
-    };
-
     $scope.reportFront = [];
     $scope.reportBack = [];
-    if($scope.response.value) {
-      let pastResponse = JSON.parse($scope.response.value);
-      $scope.reportFront = pastResponse.reportFront;
-      $scope.reportBack = pastResponse.reportBack;
-    }
 
-    $scope.gender = $scope.item.responseOptions.painMannequinGender;
-    if($scope.gender == "custom") { 
-      $scope.gender = $scope.item.responseOptions.painMannequinGenderValue;
-    }
     $scope.bodyParts = [
       {
         id: 1,
@@ -336,6 +320,32 @@ testRunner.compileProvider.component('itemPainMannequin', {
 
     let timeout;
 
+    this.$onInit = function() {
+      $scope.item = this.item;
+      $scope.response = this.response;
+      $scope.responseRequired = this.responseRequired;
+
+      if($scope.response.value) {
+        let pastResponse = JSON.parse($scope.response.value);
+        $scope.reportFront = pastResponse.reportFront;
+        $scope.reportBack = pastResponse.reportBack;
+      }
+
+      $scope.gender = $scope.item.responseOptions.painMannequinGender;
+      if($scope.gender == "custom") {
+        $scope.gender = $scope.item.responseOptions.painMannequinGenderValue;
+      }
+
+      loadData();
+
+      testRunner.addExtraControl("r" + $scope.item.id, function () {
+        return JSON.stringify({
+          reportFront: $scope.reportFront,
+          reportBack: $scope.reportBack
+        });
+      });
+    };
+
     function loadData() {
       if ($(".i" + $scope.item.id + "-" + $scope.gender + "-svg path").length > 0) {
         setEvents();
@@ -347,7 +357,7 @@ testRunner.compileProvider.component('itemPainMannequin', {
     function setEvents() {
       $('.i' + $scope.item.id + '-pain-mannequin path')
         .on('click', function (e) {
-        let parent = $(e.target).parent().parent();
+        let parent = $(e.target).parents(".pain-mannequin-svg");
         let relX = e.pageX - parent.offset().left;
         let relY = e.pageY - parent.offset().top;
         let source;
@@ -462,14 +472,5 @@ testRunner.compileProvider.component('itemPainMannequin', {
         $("#i" + $scope.item.id + '-' + id).removeClass('highlighted');
       }
     };
-
-    loadData();
-
-    testRunner.addExtraControl("r" + $scope.item.id, function () {
-      return JSON.stringify({
-        reportFront: $scope.reportFront,
-        reportBack: $scope.reportBack
-      });
-    });
   }
 });
