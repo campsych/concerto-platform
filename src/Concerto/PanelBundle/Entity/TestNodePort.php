@@ -119,6 +119,11 @@ class TestNodePort extends AEntity implements \JsonSerializable
         $this->pointerVariable = "";
     }
 
+    public function __toString()
+    {
+        return "TestNodePort (name:" . $this->getName() . ")";
+    }
+
     public function getOwner()
     {
         return $this->getNode()->getFlowTest()->getOwner();
