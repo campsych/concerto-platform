@@ -11,6 +11,8 @@
 #### Fixes
 
 * fixed unforked session initialization
+* fixed test node port update on test variable import
+* when adding native port to nodes that already contains dynamic port named the same, dynamic port will be converted to native
 
 #### Other
 
