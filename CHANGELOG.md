@@ -7,6 +7,7 @@
 * concerto.saml.getAuthenticatedUser R method
 * session resume endpoint
 * **concerto.template.show** now accepts **cookies** input parameter (name-value pair list)
+* added **CONCERTO_BEHIND_PROXY** env and **behind_proxy** config option for SAML toolkit
 
 #### Fixes
 

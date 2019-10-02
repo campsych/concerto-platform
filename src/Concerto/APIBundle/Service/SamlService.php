@@ -11,11 +11,15 @@ class SamlService
 {
     private $settings;
     private $samlTokenRepository;
+    private $behindProxy;
 
-    public function __construct($settings, SamlTokenRepository $samlTokenRepository)
+    public function __construct($settings, $behindProxy, SamlTokenRepository $samlTokenRepository)
     {
         $this->settings = $settings;
         $this->samlTokenRepository = $samlTokenRepository;
+        $this->behindProxy = $behindProxy;
+
+        Utils::setProxyVars($this->behindProxy);
     }
 
     public function login($redirectTo = null)
@@ -56,6 +60,7 @@ class SamlService
     {
         $auth = new Auth($this->settings);
         $settings = $auth->getSettings();
+        Utils::setProxyVars();
         $metadata = $settings->getSPMetadata();
         $errors = $settings->validateMetadata($metadata);
         if(!empty($errors)) return false;
