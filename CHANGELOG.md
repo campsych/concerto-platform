@@ -6,6 +6,7 @@
 * cookies are now included in concerto.template.show return (**result$.cookies**) for both submit and background worker actions
 * concerto.saml.getAuthenticatedUser R method
 * session resume endpoint
+* **concerto.template.show** now accepts **cookies** input parameter (name-value pair list)
 
 #### Fixes
 

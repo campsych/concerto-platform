@@ -7,7 +7,8 @@ concerto.template.show = function(
     finalize=F,
     removeMissingParams=T,
     bgWorkers=list(),
-    skipOnResume=F
+    skipOnResume=F,
+    cookies=list()
 ) {
     concerto$skipTemplateOnResume <<- skipOnResume
     if (! is.null(concerto$queuedResponse)) {
@@ -51,6 +52,7 @@ concerto.template.show = function(
 
     data = concerto$response
     data$templateParams = concerto$templateParams
+    data$cookies = cookies
     if (finalize) {
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE, data)
     } else {
