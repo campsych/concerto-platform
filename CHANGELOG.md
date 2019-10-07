@@ -8,12 +8,14 @@
 * session resume endpoint
 * **concerto.template.show** now accepts **cookies** input parameter (name-value pair list)
 * added **CONCERTO_BEHIND_PROXY** env and **behind_proxy** config option for SAML toolkit
+* added **CONCERTO_CONTENT_IMPORT_AT_START** env var
 
 #### Fixes
 
 * fixed unforked session initialization
 * fixed test node port update on test variable import
 * when adding native port to nodes that already contains dynamic port named the same, dynamic port will be converted to native
+* added missing git dependencies
 
 #### Other
 
