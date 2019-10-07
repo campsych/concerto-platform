@@ -1,5 +1,9 @@
 ## 5.0.4 (work in progress)
 
+#### Features
+
+* added **CONCERTO_CONTENT_IMPORT_AT_START** env var
+
 #### Fixes
 
 * fixed data import warnings
@@ -7,6 +11,7 @@
 * fixed test node port update on test variable import
 * when adding native port to nodes that already contains dynamic port named the same, dynamic port will be converted to native
 * fixed not persisted entities found in relations on import
+* added missing git dependencies
 
 ## 5.0.3 (2019-09-27)
 

@@ -26,6 +26,7 @@ ENV CONCERTO_GIT_LOGIN=""
 ENV CONCERTO_GIT_LOGIN_OVERRIDABLE=true
 ENV CONCERTO_GIT_PASSWORD=""
 ENV CONCERTO_GIT_PASSWORD_OVERRIDABLE=true
+ENV CONCERTO_CONTENT_IMPORT_AT_START=true
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
@@ -56,6 +57,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     cron \
     curl \
     gettext \
+    git \
     libcurl4-openssl-dev \
     libmariadbclient-dev \
     libxml2-dev \
@@ -105,7 +107,9 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
- && php bin/console concerto:content:import --env=prod --sc  \
+ && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
+    then php bin/console concerto:content:import --env=prod --sc; \
+    fi \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \
@@ -113,6 +117,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
+ && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/git \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data /data/sessions \
  && chown -R www-data:www-data /data/files \
