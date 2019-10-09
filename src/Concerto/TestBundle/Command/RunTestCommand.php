@@ -32,7 +32,7 @@ class RunTestCommand extends Command
         $name = $input->getArgument("name");
         $params = $input->getArgument("params");
 
-        $result = $this->sessionService->startNewSession(null, $name, $params, "CLI", "CLI", true, 0);
+        $result = $this->sessionService->startNewSession(null, $name, $params, array(), "CLI", "CLI", true, 0);
         if (array_key_exists("debug", $result)) {
             $output->writeln($result["debug"]);
         } else {
