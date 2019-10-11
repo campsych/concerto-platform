@@ -26,6 +26,13 @@
 * added **concerto.session.getResumeUrl** R function
 * added **concerto.template.redirect** R function
 
+## 5.0.4 (work in progress)
+
+#### Fixes
+
+* fixed data import warnings
+* public files permissions are now set at correct time in Dockerfile
+
 ## 5.0.3 (2019-09-27)
 
 #### Fixes
