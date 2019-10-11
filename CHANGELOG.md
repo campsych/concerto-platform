@@ -32,6 +32,8 @@
 
 * fixed data import warnings
 * public files permissions are now set at correct time in Dockerfile
+* fixed test node port update on test variable import
+* when adding native port to nodes that already contains dynamic port named the same, dynamic port will be converted to native
 
 ## 5.0.3 (2019-09-27)
 
