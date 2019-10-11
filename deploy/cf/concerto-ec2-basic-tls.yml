@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  Concerto EC2: Creates a single EC2 instance running Concerto with MySQL database together and a TLS terminating
-  proxy in front. Automatically provisions free certificate from Lets Encrypt.
+  concerto-ec2-basic-tls: Creates a single EC2 instance running Concerto with MySQL database together and a TLS terminating
+  proxy in front. Automatically provisions free certificate from Let's Encrypt.
   **WARNING** You may be billed for the AWS resources used if you create a stack from this template.
 
 Metadata:
@@ -291,12 +291,6 @@ Resources:
     Properties:
       SubnetId: !Ref SubnetA
       NetworkAclId: !Ref NetworkAcl
-  IPAddress:
-    Type: AWS::EC2::EIP
-    DependsOn: AttachGateway
-    Properties:
-      Domain: vpc
-      InstanceId: !Ref WebServerInstance
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -420,9 +414,6 @@ Resources:
         - RegionMap
         - !Ref AWS::Region
         - ami
-      SecurityGroupIds:
-        - !Ref WebServerSecurityGroup
-      SubnetId: !Ref SubnetA
       InstanceType: !Ref WebServerInstanceType
       KeyName: !Ref KeyName
       UserData:
@@ -433,6 +424,13 @@ Resources:
           amazon-linux-extras install -y docker
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource WebServerInstance --region ${AWS::Region}
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackId} --resource WebServerInstance --region ${AWS::Region}
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeleteOnTermination: true
+          DeviceIndex: 0
+          SubnetId: !Ref SubnetA
+          GroupSet:
+            - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
           Value: !Ref AWS::StackName
