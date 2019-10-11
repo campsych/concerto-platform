@@ -100,9 +100,7 @@ HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/che
 
 CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
  && mkdir -p /data/files \
- && chown -R www-data:www-data /data/files \
  && mkdir -p /data/sessions \
- && chown -R www-data:www-data /data/sessions \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
@@ -116,6 +114,8 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
+ && chown -R www-data:www-data /data/sessions \
+ && chown -R www-data:www-data /data/files \
  && cron \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \

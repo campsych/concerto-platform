@@ -1,3 +1,10 @@
+## 5.0.4 (?)
+
+#### Fixes
+
+* fixed data import warnings
+* public files permissions are now set at correct time in Dockerfile
+
 ## 5.0.3 (2019-09-27)
 
 #### Fixes
