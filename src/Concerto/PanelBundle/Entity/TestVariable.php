@@ -89,7 +89,7 @@ class TestVariable extends AEntity implements \JsonSerializable
 
     public function __toString()
     {
-        return "TestVariable (name:" . $this->getName() . ")";
+        return "TestVariable (name:" . $this->getName() . ", test name: " . $this->getTest()->getName() . ")";
     }
 
     public function getOwner()
