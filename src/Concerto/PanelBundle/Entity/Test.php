@@ -57,7 +57,7 @@ class Test extends ATopEntity implements \JsonSerializable
     private $logs;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="test", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="test", cascade={"remove", "persist"})
      */
     private $variables;
 
