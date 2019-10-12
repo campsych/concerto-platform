@@ -8,6 +8,7 @@
 
 * more diff friendly content export
 * id normalization no longer happens on content export with --sc option
+* limited number of git history entries returned
 
 #### Fixes
 
