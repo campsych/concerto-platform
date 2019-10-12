@@ -28,6 +28,12 @@
 
 * added **CONCERTO_CONTENT_IMPORT_AT_START** env var
 
+#### Improvements
+
+* more diff friendly content export
+* id normalization no longer happens on content export with --sc option
+* limited number of git history entries returned
+
 #### Fixes
 
 * fixed data import warnings

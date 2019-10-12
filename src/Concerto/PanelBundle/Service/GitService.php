@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class GitService
 {
+    const GIT_HISTORY_ROWS_LIMIT = 10;
+
     private $adminService;
     private $kernel;
 
@@ -161,8 +163,10 @@ class GitService
     {
         $result = [];
         $lines = explode("\n", $history);
+        $i = 0;
         foreach ($lines as $line) {
             if (trim($line) === "") continue;
+            $i++;
             preg_match("/(.*) \|\|\| (.*) \|\|\| (.*) \|\|\| (.*) \|\|\| (.*)/", $line, $entries);
             array_push($result, [
                 "sha" => $entries[1],
@@ -171,6 +175,7 @@ class GitService
                 "subject" => $entries[4],
                 "ref" => $entries[5]
             ]);
+            if ($i == self::GIT_HISTORY_ROWS_LIMIT) break;
         }
         return $result;
     }

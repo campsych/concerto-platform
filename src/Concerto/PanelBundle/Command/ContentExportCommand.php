@@ -50,7 +50,7 @@ class ContentExportCommand extends Command
         $this->addOption("src", null, InputOption::VALUE_NONE, "External source files");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Export instructions", null);
         $this->addOption("zip", "z", InputOption::VALUE_REQUIRED, "Zip archive name");
-        $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready export. Combines --single --no-hash --norm-ids --files --src");
+        $this->addOption("sc", null, InputOption::VALUE_NONE, "Source control ready export. Combines --single --no-hash --files --src");
     }
 
     private function clearExportDirectory()
@@ -96,9 +96,9 @@ class ContentExportCommand extends Command
 
         $classes = array(
             "DataTable",
+            "ViewTemplate",
             "Test",
             "TestWizard",
-            "ViewTemplate"
         );
         $single = $this->input->getOption("single");
         $noHash = $this->input->getOption("no-hash");
@@ -113,7 +113,7 @@ class ContentExportCommand extends Command
 
         foreach ($classes as $class_name) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $content = $repo->findBy(array(), array("name" => "ASC"));
+            $content = $repo->findBy(array(), array("id" => "ASC"));
             $class_service = $this->importService->serviceMap[$class_name];
             foreach ($content as $ent) {
                 if (!$single) {
@@ -280,7 +280,6 @@ class ContentExportCommand extends Command
         if ($input->getOption("sc")) {
             $input->setOption("single", true);
             $input->setOption("no-hash", true);
-            $input->setOption("norm-ids", true);
             $input->setOption("files", true);
             $input->setOption("src", true);
         }

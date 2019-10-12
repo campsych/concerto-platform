@@ -118,14 +118,7 @@ class ExportService
             }
 
             $export_elem = $elem_service->convertToExportable($export_elem, $elemInstruction, $secure);
-            if (in_array($elem["class_name"], array(
-                "DataTable",
-                "ViewTemplate"
-            ))) {
-                array_unshift($result, $export_elem);
-            } else {
-                array_push($result, $export_elem);
-            }
+            array_push($result, $export_elem);
         }
         return $result;
     }
