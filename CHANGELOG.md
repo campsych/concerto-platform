@@ -4,6 +4,10 @@
 
 * added **CONCERTO_CONTENT_IMPORT_AT_START** env var
 
+#### Improvements
+
+* more diff friendly content export
+
 #### Fixes
 
 * fixed data import warnings
