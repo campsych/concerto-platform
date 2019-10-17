@@ -33,6 +33,10 @@
 * more diff friendly content export
 * limited number of git history entries returned
 
+#### Starter content
+
+* **CAT** now returns **testTimeLeft**
+
 #### Fixes
 
 * fixed data import warnings

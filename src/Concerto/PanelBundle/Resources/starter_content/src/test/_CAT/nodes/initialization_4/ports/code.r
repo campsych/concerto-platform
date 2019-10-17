@@ -96,4 +96,3 @@ theta = as.numeric(settings$startingTheta)
 itemsAdministered = NULL
 correctness = NULL
 testTimeStarted = as.numeric(Sys.time())
-testTimeLeft = as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset)
