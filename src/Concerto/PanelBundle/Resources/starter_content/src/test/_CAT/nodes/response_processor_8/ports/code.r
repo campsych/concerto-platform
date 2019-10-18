@@ -10,7 +10,7 @@ getSessionId = function(session) {
 
 saveResponse = function(responseBank, session, response, score, item, theta, sem) {
   responseBank = fromJSON(responseBank)
-  if(is.null(responseBank$table)) {
+  if(!is.character(responseBank$table) || nchar(responseBank$table) == 0) {
     concerto.log("no response bank defined, skipping response saving")
     return(NULL)
   }
