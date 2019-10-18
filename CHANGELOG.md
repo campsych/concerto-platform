@@ -36,6 +36,8 @@
 #### Starter content
 
 * **CAT** now returns **testTimeLeft**
+* added dynamic inputs to **settings** of **CAT** and **linearTest**
+* **settings** are now passed as input parameter to all **CAT** and **linearTest** modules
 
 #### Fixes
 

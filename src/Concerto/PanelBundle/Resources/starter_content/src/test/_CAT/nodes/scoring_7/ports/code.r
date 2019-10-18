@@ -21,7 +21,8 @@ getScore = function(item, response) {
     score = concerto.test.run(settings$responseScoreModule, params=list(
       item=item,
       response=response,
-      score=score
+      score=score,
+      settings=settings
     ))$score
   }
   return(as.numeric(score))

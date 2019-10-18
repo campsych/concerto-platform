@@ -30,7 +30,8 @@ if(!concerto.template.isResponseQueued()) {
     params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
       params = params,
       item = item,
-      itemsAdministered = itemsAdministered
+      itemsAdministered = itemsAdministered,
+      settings=settings
     ))$params
   }
 }
