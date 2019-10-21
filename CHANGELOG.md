@@ -1,4 +1,4 @@
-## 5.0.4 (work in progress)
+## 5.0.4 (2019-10-21)
 
 #### Features
 
