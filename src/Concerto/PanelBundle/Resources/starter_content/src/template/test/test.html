@@ -8,7 +8,7 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
-			<form name="form" autocomplete="off">
+			<form autocomplete="off" name="form">
 				<div ng-repeat="item in items">
 					<div class="question-text" ng-html="item.question">
 					</div>
@@ -28,7 +28,7 @@
 				</div>
 
 				<div class="question-footer">
-					<button class="main-btn left-btn" name="back" ng-if="canGoBack">
+					<button class="main-btn left-btn" name="back" ng-show="canGoBack">
 						Back
 					</button>
 					<div class="question-page" ng-show="page != null && totalPages != null">
