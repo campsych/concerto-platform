@@ -1,4 +1,4 @@
-version: 5.1.0
+version: 5.0.4
 collection:
   -
     class_name: DataTable
@@ -464,6 +464,32 @@ collection:
     class_name: ViewTemplate
     id: 15
     name: test
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: null
+    js: null
+    html: null
+    groups: ''
+    starterContent: true
+  -
+    class_name: ViewTemplate
+    id: 16
+    name: inputNumber
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: null
+    js: null
+    html: null
+    groups: ''
+    starterContent: true
+  -
+    class_name: ViewTemplate
+    id: 17
+    name: inputDate
     description: ''
     accessibility: 2
     archived: '0'
@@ -11690,7 +11716,7 @@ collection:
                         options:
                           -
                             label: 'Single line text'
-                            order: 0
+                            order: 6
                             value: singleLine
                           -
                             label: 'Multi line text'
@@ -11698,16 +11724,24 @@ collection:
                             value: multiLine
                           -
                             label: Checkbox
-                            order: 3
+                            order: 0
                             value: checkbox
                           -
                             label: Password
-                            order: 1
+                            order: 4
                             value: password
                           -
                             label: Select
-                            order: 4
+                            order: 5
                             value: select
+                          -
+                            label: Number
+                            order: 3
+                            value: number
+                          -
+                            label: Date
+                            order: 1
+                            value: date
                         defvalue: singleLine
                         placeholder: 0
                     -

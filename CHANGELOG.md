@@ -22,7 +22,7 @@
 * added **concerto.session.getResumeUrl** R function
 * added **concerto.template.redirect** R function
 
-## 5.0.4 (work in progress)
+## 5.0.4 (2019-10-21)
 
 #### Features
 
@@ -38,6 +38,7 @@
 * **CAT** now returns **testTimeLeft**
 * added dynamic inputs to **settings** of **CAT** and **linearTest**
 * **settings** are now passed as input parameter to all **CAT** and **linearTest** modules
+* added number and date input type for **form**
 
 #### Fixes
 
@@ -47,7 +48,8 @@
 * when adding native port to nodes that already contains dynamic port named the same, dynamic port will be converted to native
 * fixed not persisted entities found in relations on import
 * added missing git dependencies
-* no response bank fix for **CAT** and **linearTest** 
+* no response bank fix for **CAT** and **linearTest**
+* fixed "go back" button on **linearTest** 
 
 ## 5.0.3 (2019-09-27)
 
