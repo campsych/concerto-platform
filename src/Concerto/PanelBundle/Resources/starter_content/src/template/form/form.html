@@ -1,9 +1,11 @@
 <src>
 	{{template:inputSingleLine,css=FALSE,html=FALSE}}
 	{{template:inputMultiLine,css=FALSE,html=FALSE}}
+	{{template:inputNumber,css=FALSE,html=FALSE}}
 	{{template:inputCheckbox,css=FALSE,html=FALSE}}
 	{{template:inputSelect,css=FALSE,html=FALSE}}
 	{{template:inputPassword,css=FALSE,html=FALSE}}
+	{{template:inputDate,css=FALSE,html=FALSE}}
 </src>
 <div class="body" ng-controller="form">
 	{{template:header}}
@@ -16,9 +18,11 @@
 							<src>
 								<input-single-line field="field" ng-switch-when="singleLine" values="values"></input-single-line>
 								<input-multi-line field="field" ng-switch-when="multiLine" values="values"></input-multi-line>
+								<input-number field="field" ng-switch-when="number" values="values"></input-number>
 								<input-checkbox field="field" ng-switch-when="checkbox" values="values"></input-checkbox>
 								<input-select field="field" ng-switch-when="select" values="values"></input-select>
 								<input-password field="field" ng-switch-when="password" values="values"></input-password>
+								<input-date field="field" ng-switch-when="date" values="values"></input-date>
 							</src>
 						</div>
 

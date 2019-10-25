@@ -33,6 +33,7 @@ services:
   Concerto\APIBundle\Service\SamlService:
     arguments:
       $settings: "%saml%"
+      $behindProxy: "%behind_proxy%"
 
   #aliases
   FOS\OAuthServerBundle\Model\ClientManagerInterface: '@fos_oauth_server.client_manager.default'

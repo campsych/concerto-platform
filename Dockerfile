@@ -27,6 +27,8 @@ ENV CONCERTO_GIT_LOGIN=""
 ENV CONCERTO_GIT_LOGIN_OVERRIDABLE=true
 ENV CONCERTO_GIT_PASSWORD=""
 ENV CONCERTO_GIT_PASSWORD_OVERRIDABLE=true
+ENV CONCERTO_BEHIND_PROXY=false
+ENV CONCERTO_CONTENT_IMPORT_AT_START=true
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
@@ -57,6 +59,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     cron \
     curl \
     gettext \
+    git \
     libcurl4-openssl-dev \
     libmariadbclient-dev \
     libxml2-dev \
@@ -101,14 +104,14 @@ HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/che
 
 CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
  && mkdir -p /data/files \
- && chown -R www-data:www-data /data/files \
  && mkdir -p /data/sessions \
- && chown -R www-data:www-data /data/sessions \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
- && php bin/console concerto:content:import --env=prod --sc  \
+ && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
+    then php bin/console concerto:content:import --env=prod --sc; \
+    fi \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
  && chown -R www-data:www-data var/cache \
@@ -116,7 +119,10 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
+ && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/git \
  && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
+ && chown -R www-data:www-data /data/sessions \
+ && chown -R www-data:www-data /data/files \
  && cron \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \

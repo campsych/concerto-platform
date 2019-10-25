@@ -144,25 +144,40 @@ class TestNodePortService extends ASectionService
         foreach ($nodes as $node) {
             $ports = $node->getPorts();
             $found = false;
+            /** @var TestNodePort $port */
             foreach ($ports as $port) {
-                if ($port->getVariable() && $port->getVariable()->getId() == $variable->getId()) {
+                if (($port->getVariable() && $variable->getId() && $port->getVariable()->getId() == $variable->getId()) ||
+                    ($port->getType() == $variable->getType() && $port->getName() == $variable->getName() && $port->isDynamic())) {
+
                     $found = true;
                     $updateNeeded = false;
+
+                    if ($port->isDynamic()) {
+                        $port->setExposed(true);
+                        $port->setDynamic(false);
+                        $port->setVariable($variable);
+                        $updateNeeded = true;
+                    }
+
                     $changeValue = $port->hasDefaultValue() && $port->getValue() != $variable->getValue();
                     if ($changeValue) {
                         $port->setValue($variable->getValue());
                         $updateNeeded = true;
                     }
+
                     $changeName = $port->getName() != $variable->getName();
                     if ($changeName) {
                         $port->setName($variable->getName());
                         $updateNeeded = true;
                     }
 
-                    if ($updateNeeded) $this->update($port, $flush);
+                    if ($updateNeeded) {
+                        $this->update($port, $flush);
+                    }
                     break;
                 }
             }
+
             if (!$found) {
                 if ($node->getType() == 1) {
                     if ($variable->getType() == 1 || $variable->getType() == 2) continue;

@@ -30,19 +30,22 @@ if(!concerto.template.isResponseQueued()) {
     params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
       params = params,
       item = item,
-      itemsAdministered = itemsAdministered
+      itemsAdministered = itemsAdministered,
+      settings=settings
     ))$params
   }
 }
 
+testTimeLeft = getTimeLimit(
+  testTimeStarted, 
+  as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset), 
+  as.numeric(settings$itemTimeLimit)
+)
+
 response = concerto.template.show(
   settings$itemTemplate, 
   params=params, 
-  timeLimit=getTimeLimit(
-    testTimeStarted, 
-    as.numeric(settings$testTimeLimit), 
-    as.numeric(settings$itemTimeLimit)
-  )
+  timeLimit=testTimeLeft
 )
 
 .branch = "submitted"

@@ -15,3 +15,5 @@ parameters:
     env(DB_TEST_PASSWORD): ThisIsYourTestDatabaseUserPassword #not needed for production env
     locale: en_GB
     secret: ThisTokenIsNotSoSecretChangeIt
+    env(CONCERTO_BEHIND_PROXY): false
+    behind_proxy: '%env(CONCERTO_BEHIND_PROXY)%'

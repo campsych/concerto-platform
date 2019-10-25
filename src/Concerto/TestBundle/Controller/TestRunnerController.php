@@ -3,6 +3,7 @@
 namespace Concerto\TestBundle\Controller;
 
 use Concerto\TestBundle\Service\TestRunnerService;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
@@ -119,6 +120,8 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setCookies($response, $result);
+
         return $response;
     }
 
@@ -154,6 +157,8 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setCookies($response, $result);
+
         return $response;
     }
 
@@ -187,6 +192,8 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setCookies($response, $result);
+
         return $response;
     }
 
@@ -209,6 +216,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setCookies($response, $result);
 
         return $response;
     }
@@ -295,4 +303,14 @@ class TestRunnerController
         return $response;
     }
 
+    private function setCookies(&$response, $result)
+    {
+        $decodedResult = json_decode($result, true);
+        if(array_key_exists("data", $decodedResult) && array_key_exists("cookies", $decodedResult["data"])) {
+            $cookies = $decodedResult["data"]["cookies"];
+            foreach ($cookies as $k => $v) {
+                $response->headers->setCookie(new Cookie($k, $v));
+            }
+        }
+    }
 }

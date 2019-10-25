@@ -59,7 +59,7 @@ class TestVariable extends AEntity implements \JsonSerializable
 
     /**
      * @ORM\JoinColumn(name="parentVariable_id", referencedColumnName="id", nullable=true)
-     * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="childVariables")
+     * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="childVariables", cascade={"persist"})
      */
     private $parentVariable;
 
@@ -74,7 +74,7 @@ class TestVariable extends AEntity implements \JsonSerializable
     private $params;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="variable", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="variable", cascade={"remove", "persist"})
      */
     private $ports;
 
@@ -85,6 +85,11 @@ class TestVariable extends AEntity implements \JsonSerializable
         $this->description = "";
         $this->ports = new ArrayCollection();
         $this->params = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return "TestVariable (name:" . $this->getName() . ", test name: " . $this->getTest()->getName() . ")";
     }
 
     public function getOwner()

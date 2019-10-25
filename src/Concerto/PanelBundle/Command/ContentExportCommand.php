@@ -96,9 +96,9 @@ class ContentExportCommand extends Command
 
         $classes = array(
             "DataTable",
+            "ViewTemplate",
             "Test",
             "TestWizard",
-            "ViewTemplate"
         );
         $single = $this->input->getOption("single");
         $noHash = $this->input->getOption("no-hash");
@@ -113,7 +113,7 @@ class ContentExportCommand extends Command
 
         foreach ($classes as $class_name) {
             $repo = $em->getRepository("ConcertoPanelBundle:" . $class_name);
-            $content = $repo->findBy(array(), array("name" => "ASC"));
+            $content = $repo->findBy(array(), array("id" => "ASC"));
             $class_service = $this->importService->serviceMap[$class_name];
             foreach ($content as $ent) {
                 if (!$single) {

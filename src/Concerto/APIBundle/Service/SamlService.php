@@ -11,11 +11,15 @@ class SamlService
 {
     private $settings;
     private $samlTokenRepository;
+    private $behindProxy;
 
-    public function __construct($settings, SamlTokenRepository $samlTokenRepository)
+    public function __construct($settings, $behindProxy, SamlTokenRepository $samlTokenRepository)
     {
         $this->settings = $settings;
         $this->samlTokenRepository = $samlTokenRepository;
+        $this->behindProxy = $behindProxy;
+
+        Utils::setProxyVars($this->behindProxy);
     }
 
     public function login($redirectTo = null)
@@ -42,7 +46,11 @@ class SamlService
 
         $token = new SamlToken();
         $token->setAttributes(json_encode($auth->getAttributes()));
-        $token->setExpiresAt($auth->getSessionExpiration());
+        $sessionExpiration = $auth->getSessionExpiration();
+        if ($sessionExpiration === null) {
+            $sessionExpiration = time() + 60 * 60 * 24;
+        }
+        $token->setExpiresAt($sessionExpiration);
         $token->setNameId($auth->getNameId());
         $this->samlTokenRepository->save($token);
 
@@ -56,9 +64,10 @@ class SamlService
     {
         $auth = new Auth($this->settings);
         $settings = $auth->getSettings();
+        Utils::setProxyVars();
         $metadata = $settings->getSPMetadata();
         $errors = $settings->validateMetadata($metadata);
-        if(!empty($errors)) return false;
+        if (!empty($errors)) return false;
 
         return $metadata;
     }
@@ -79,7 +88,7 @@ class SamlService
         }
 
         $token = $this->samlTokenRepository->findOneBy(array("hash" => $tokenHash));
-        if($token !== null) {
+        if ($token !== null) {
             $token->setRevoked(true);
             $this->samlTokenRepository->save($token);
         }

@@ -6,6 +6,8 @@
 * cookies are now included in concerto.template.show return (**result$.cookies**) for both submit and background worker actions
 * concerto.saml.getAuthenticatedUser R method
 * session resume endpoint
+* **concerto.template.show** now accepts **cookies** input parameter (name-value pair list)
+* added **CONCERTO_BEHIND_PROXY** env and **behind_proxy** config option for SAML toolkit
 
 #### Fixes
 
@@ -20,11 +22,47 @@
 * added **concerto.session.getResumeUrl** R function
 * added **concerto.template.redirect** R function
 
-## 5.0.3 (work in progress)
+## 5.0.5 (work in progress)
+
+#### Fixes
+
+* Disabled escape characters for both CSV import and export
+
+## 5.0.4 (2019-10-21)
+
+#### Features
+
+* added **CONCERTO_CONTENT_IMPORT_AT_START** env var
+
+#### Improvements
+
+* more diff friendly content export
+* limited number of git history entries returned
+
+#### Starter content
+
+* **CAT** now returns **testTimeLeft**
+* added dynamic inputs to **settings** of **CAT** and **linearTest**
+* **settings** are now passed as input parameter to all **CAT** and **linearTest** modules
+* added number and date input type for **form**
+
+#### Fixes
+
+* fixed data import warnings
+* public files permissions are now set at correct time in Dockerfile
+* fixed test node port update on test variable import
+* when adding native port to nodes that already contains dynamic port named the same, dynamic port will be converted to native
+* fixed not persisted entities found in relations on import
+* added missing git dependencies
+* no response bank fix for **CAT** and **linearTest**
+* fixed "go back" button on **linearTest** 
+
+## 5.0.3 (2019-09-27)
 
 #### Fixes
 
 * fixed checkbox form item type
+* fixed pain mannequin test item type
 
 ## 5.0.2 (2019-09-18)
 

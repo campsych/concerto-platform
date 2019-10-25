@@ -180,7 +180,8 @@ class ImportService
             $data_num = 0;
             if ($imported_object["class_name"] == "DataTable") {
                 $data = "1";
-                if (array_key_exists("data", $imported_object)) {
+                if (array_key_exists("data", $imported_object) && $imported_object["data"] !== null) {
+                    //value will be zero when data set in external file
                     $data_num = count($imported_object["data"]);
                 }
             }
