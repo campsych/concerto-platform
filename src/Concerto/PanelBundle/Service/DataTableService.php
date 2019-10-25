@@ -230,10 +230,10 @@ class DataTableService extends AExportableSectionService
             foreach ($cols as $col) {
                 array_push($header, $col["name"]);
             }
-            fputcsv($fh, $header, ',');
+            fputcsv($fh, $header, ',', '"', "\0");
             $iterator = $this->dbDataDao->getFilteredDataResult($object->getName());
             while (($row = $iterator->fetch()) !== false) {
-                fputcsv($fh, $row, ',');
+                fputcsv($fh, $row, ',', '"', "\0");
             }
             fclose($fh);
         }
@@ -362,7 +362,7 @@ class DataTableService extends AExportableSectionService
         $colNamesMapping = array();
         $batch = null;
         if (($fp = fopen($file_name, "r")) !== FALSE) {
-            while (($data = fgetcsv($fp, 0, $delimiter, $enclosure)) !== FALSE) {
+            while (($data = fgetcsv($fp, 0, $delimiter, $enclosure, "\0")) !== FALSE) {
                 $num = count($data);
                 if ($row === 1) {
                     if ($header) {
