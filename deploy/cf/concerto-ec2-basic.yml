@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  Concerto EC2: Creates a single EC2 instance running Concerto with MySQL database together.
+  concerto-ec2-basic: Creates a single EC2 instance running Concerto with MySQL database together.
   **WARNING** You may be billed for the AWS resources used if you create a stack from this template.
 
 Metadata:
@@ -46,13 +46,14 @@ Parameters:
   ConcertoVersion:
     Description: Concerto version to use. See tags in https://github.com/campsych/concerto-platform
     Type: String
-    Default: latest
+    Default: 5.0
+    ConstraintDescription: Can be any tag from https://github.com/campsych/concerto-platform, defaults to latest stable.
   ConcertoPassword:
-    Default: changeme
     Description: Concerto admin account password
     Type: String
+    NoEcho: true
     MinLength: 8
-    ConstraintDescription: min. 8 characters.
+    ConstraintDescription: Generate a random one, min. 8 characters.
   ConcertoContentURL:
     Description: URL with Concerto content backup to preload (optional).
     Type: String
@@ -72,11 +73,11 @@ Parameters:
       - t2.large
     ConstraintDescription: must be a valid EC2 instance type.
   DBPassword:
-    Default: changeme
     Description: Database admin account password
     Type: String
+    NoEcho: true
     MinLength: 8
-    ConstraintDescription: min. 8 characters.
+    ConstraintDescription: Generate a random one, min. 8 characters, make it different than Concerto one.
   CIDR:
     Description: The private IP address range to be used for VPC
     Type: String
@@ -86,7 +87,7 @@ Parameters:
     AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
   CIDRA:
-    Description: Address range within the VPC to be used for subnet
+    Description: Address range within the VPC to be used for the subnet
     Type: String
     MinLength: 9
     MaxLength: 18
@@ -398,3 +399,9 @@ Outputs:
   ConcertoVersion:
     Value: !Ref ConcertoVersion
     Description: Concerto version being used
+  ConcertoPassword:
+    Value: !Ref ConcertoPassword
+    Description: Concerto admin password
+  DBPassword:
+    Value: !Ref DBPassword
+    Description: Database password
