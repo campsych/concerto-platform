@@ -54,16 +54,15 @@ Metadata:
 
 Parameters:
   ConcertoVersion:
-    Description: Concerto version to use. See tags in https://github.com/campsych/concerto-platform
+    Description: Concerto version to use. Can be any tag from https://github.com/campsych/concerto-platform, defaults to latest stable.
     Type: String
     Default: 5.0
-    ConstraintDescription: Can be any tag from https://github.com/campsych/concerto-platform, defaults to latest stable.
   ConcertoPassword:
-    Description: Concerto admin account password
+    Description: Concerto admin account password (recommended to generate a random one)
     Type: String
     NoEcho: true
     MinLength: 8
-    ConstraintDescription: Generate a random one, min. 8 characters.
+    ConstraintDescription: min. 8 characters.
   ConcertoContentURL:
     Description: URL with Concerto content backup to preload (optional).
     Type: String
@@ -93,11 +92,11 @@ Parameters:
       - t2.large
     ConstraintDescription: must be a valid EC2 instance type.
   DBPassword:
-    Description: Database admin account password
+    Description: Database admin account password (recommended to generate a random one, different than Concerto's)
     Type: String
     NoEcho: true
     MinLength: 8
-    ConstraintDescription: Generate a random one, min. 8 characters, make it different than Concerto one.
+    ConstraintDescription: min. 8 characters
   CIDR:
     Description: The private IP address range to be used for VPC
     Type: String
