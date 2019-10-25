@@ -1,3 +1,9 @@
+## 5.0.5 (work in progress)
+
+#### Fixes
+
+* Disabled escape characters for both CSV import and export
+
 ## 5.0.4 (2019-10-21)
 
 #### Features
