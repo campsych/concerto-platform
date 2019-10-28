@@ -11,7 +11,9 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
-			<div class="instructions" ng-if="instructions" ng-bind-html="instructions"></div>
+			<div class="instructions" ng-bind-html="instructions" ng-if="instructions">
+			</div>
+
 			<form name="form">
 				<div ng-repeat="field in fields track by $index">
 					<div class="form-field">
@@ -35,7 +37,7 @@
 
 				<div class="question-footer">
 					<button class="main-btn right-btn" id="submitButton" name="submit" ng-disabled="form.$invalid">
-						Next
+						[[buttonLabel]]
 					</button>
 				</div>
 			</form>

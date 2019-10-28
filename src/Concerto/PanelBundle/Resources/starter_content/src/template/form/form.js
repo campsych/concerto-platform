@@ -3,6 +3,7 @@ testRunner.controllerProvider.register("form", function ($scope) {
   $scope.fields = angular.fromJson(testRunner.R.fields);
   $scope.values = angular.fromJson(testRunner.R.initialValues);
   if (typeof $scope.values === 'undefined' || $scope.values === null) $scope.values = {};
+  $scope.buttonLabel = testRunner.R.buttonLabel ? testRunner.R.buttonLabel : "Next";
 
   function initializeValues() {
     for (var i = 0; i < $scope.fields.length; i++) {

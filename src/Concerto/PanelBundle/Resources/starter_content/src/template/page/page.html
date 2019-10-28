@@ -1,11 +1,11 @@
-<div class="body">
+<div class="body" ng-controller="page">
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
 			{{content}}
 			<div class="question-footer">
 				<button class="main-btn right-btn" id="submitButton" name="next">
-					Next
+					[[buttonLabel]]
 				</button>
 			</div>
 		</div>

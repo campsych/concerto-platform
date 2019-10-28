@@ -12,12 +12,15 @@
 #### Starter content
 
 * added **instructions** block to **test** and **form** template
+* added **buttonLabel** for **form** and **page** template
+* added **nextButtonLabel** and **backButtonLabel** for **test** template
 
 #### Fixes
 
 * Disabled escape characters for both CSV import and export
 * fixed unforked session initialization
 * fixed **showPage** node
+* client side template params object is now cleared each time template is shown (testRunner.R)
 
 #### Other
 

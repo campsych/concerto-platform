@@ -10,7 +10,7 @@
 		<div class="container">
 			<div class="instructions" ng-bind-html="instructions" ng-if="instructions">
 			</div>
-			
+
 			<form autocomplete="off" name="form">
 				<div ng-repeat="item in items">
 					<div class="question-text" ng-html="item.question">
@@ -32,13 +32,13 @@
 
 				<div class="question-footer">
 					<button class="main-btn left-btn" name="back" ng-show="canGoBack">
-						Back
+						[[backButtonLabel]]
 					</button>
 					<div class="question-page" ng-show="page != null && totalPages != null">
 						Page [[page]] / [[totalPages]]
 					</div>
 					<button class="main-btn right-btn" id="submitButton" name="next" ng-disabled="form.$invalid">
-						Next
+						[[nextButtonLabel]]
 					</button>
 				</div>
 			</form>

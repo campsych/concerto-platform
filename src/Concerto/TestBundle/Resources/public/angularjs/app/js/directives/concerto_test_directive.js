@@ -422,7 +422,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         }
 
                         if (typeof (lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
-                            scope.R = angular.extend(scope.R, angular.fromJson(lastResponse.data.templateParams));
+                            scope.R = angular.fromJson(lastResponse.data.templateParams);
                         }
 
                         if (head != null && head.trim() !== "") {
