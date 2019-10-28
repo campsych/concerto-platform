@@ -73,16 +73,7 @@
   margin-top: 20px;
 }
 
-.question-page {
-  font-size: 14px;
-  padding: 10px 0;
-}
-
 @media screen and (max-width: 500px) {
-  .question-text {
-    font-size: 14px;
-  }
-
   .main-btn {
     min-width: 0;
   }

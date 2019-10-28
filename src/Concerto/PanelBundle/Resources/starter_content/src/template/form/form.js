@@ -1,4 +1,5 @@
 testRunner.controllerProvider.register("form", function ($scope) {
+  $scope.instructions = testRunner.R.instructions;
   $scope.fields = angular.fromJson(testRunner.R.fields);
   $scope.values = angular.fromJson(testRunner.R.initialValues);
   if (typeof $scope.values === 'undefined' || $scope.values === null) $scope.values = {};

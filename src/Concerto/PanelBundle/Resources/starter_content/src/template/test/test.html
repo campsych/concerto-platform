@@ -8,6 +8,9 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
+			<div class="instructions" ng-bind-html="instructions" ng-if="instructions">
+			</div>
+			
 			<form autocomplete="off" name="form">
 				<div ng-repeat="item in items">
 					<div class="question-text" ng-html="item.question">

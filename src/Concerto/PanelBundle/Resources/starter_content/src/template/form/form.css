@@ -86,3 +86,7 @@
         min-width: 0;
     }
 }
+
+.instructions {
+  margin-bottom: 20px;
+}

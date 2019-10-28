@@ -1,4 +1,5 @@
 testRunner.controllerProvider.register("test", function ($scope) {
+  $scope.instructions = testRunner.R.instructions;
   $scope.items = testRunner.R.items;
   $scope.canGoBack = testRunner.R.canGoBack == 1;
   $scope.responseRequired = testRunner.R.responseRequired == 1;

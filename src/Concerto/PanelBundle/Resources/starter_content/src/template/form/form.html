@@ -11,6 +11,7 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
+			<div class="instructions" ng-if="instructions" ng-bind-html="instructions"></div>
 			<form name="form">
 				<div ng-repeat="field in fields track by $index">
 					<div class="form-field">
