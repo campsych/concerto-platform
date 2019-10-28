@@ -1,8 +1,8 @@
-## 5.1.0 (work in progress)
+## 5.0.5 (work in progress)
 
 #### Features
 
-* SAML flow API
+* SAML flow API (experimental)
 * cookies are now included in concerto.template.show return (**result$.cookies**) for both submit and background worker actions
 * concerto.saml.getAuthenticatedUser R method
 * session resume endpoint
@@ -11,6 +11,7 @@
 
 #### Fixes
 
+* Disabled escape characters for both CSV import and export
 * fixed unforked session initialization
 
 #### Other
@@ -21,12 +22,6 @@
 * added **concerto.saml.logout** R function
 * added **concerto.session.getResumeUrl** R function
 * added **concerto.template.redirect** R function
-
-## 5.0.5 (work in progress)
-
-#### Fixes
-
-* Disabled escape characters for both CSV import and export
 
 ## 5.0.4 (2019-10-21)
 
