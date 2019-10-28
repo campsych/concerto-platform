@@ -1,90 +1,91 @@
 :root {
-    --option-bg: #f3f3f3;
-    --option-hover-bg: #efefef;
-    --option-color: #000000;
-    --option-unselected-bg: #ffffd5;
-    --error-color: #f32828;
-    --accent-light-color: #45b87e;
-    --accent-dark-color: #35a26b;
-    --font-color-for-accent-bg: #ffffff;
-    --main-font-style: 'Open Sans', sans-serif;
-    --main-font-color: #000000;
-    --main-font-size: 16px;
-    --header-bg: #4581b5;
+  --option-bg: #f3f3f3;
+  --option-hover-bg: #efefef;
+  --option-color: #000000;
+  --option-unselected-bg: #ffffd5;
+  --error-color: #f32828;
+  --accent-light-color: #45b87e;
+  --accent-dark-color: #35a26b;
+  --font-color-for-accent-bg: #ffffff;
+  --main-font-style: 'Open Sans', sans-serif;
+  --main-font-color: #000000;
+  --main-font-size: 16px;
+  --header-bg: #4581b5;
+  --header-color: #ffffff;
 }
 
 .body {
-    min-height: 100vh;
-    position: relative;
-    font-size: var(--main-font-size);
-    font-family: var(--main-font-style);
-    color: var(--main-font-color);
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  font-size: var(--main-font-size);
+  font-family: var(--main-font-style);
+  color: var(--main-font-color);
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
 }
 
 .main-btn {
-    background-color: var(--accent-light-color);
-    border: none;
-    padding: 10px 20px;
-    font-size: var(--main-font-size);
-    color: var(--font-color-for-accent-bg);
-    display: block;
-    min-width: 100px;
-    cursor: pointer;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-transition-property: background-color;
-    transition-property: background-color;
-    outline: none;
+  background-color: var(--accent-light-color);
+  border: none;
+  padding: 10px 20px;
+  font-size: var(--main-font-size);
+  color: var(--font-color-for-accent-bg);
+  display: block;
+  min-width: 100px;
+  cursor: pointer;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: background-color;
+  transition-property: background-color;
+  outline: none;
 }
 
 .main-btn:hover {
-    background-color: var(--accent-dark-color);
+  background-color: var(--accent-dark-color);
 }
 
 .main-btn:disabled {
-    background-color: var(--option-hover-bg);
-    color: #ccc;
-    cursor: default;
+  background-color: var(--option-hover-bg);
+  color: #ccc;
+  cursor: default;
 }
 
 .left-btn {
-    margin: 0 auto 0 0;
+  margin: 0 auto 0 0;
 }
 
 .right-btn {
-    margin: 0 0 0 auto;
+  margin: 0 0 0 auto;
 }
 
 .question-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 30px;
 }
 
 .form-error {
-    color: var(--error-color);
-    font-size: 14px;
+  color: var(--error-color);
+  font-size: 14px;
 }
 
 .form-field {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 500px) {
-    .main-btn {
-        min-width: 0;
-    }
+  .main-btn {
+    min-width: 0;
+  }
 }
 
 .instructions {

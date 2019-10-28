@@ -14,6 +14,7 @@
 * added **instructions** block to **test** and **form** template
 * added **buttonLabel** for **form** and **page** template
 * added **nextButtonLabel** and **backButtonLabel** for **test** template
+* default templates improvements
 
 #### Fixes
 

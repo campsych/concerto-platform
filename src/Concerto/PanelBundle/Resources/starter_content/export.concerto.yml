@@ -417,7 +417,7 @@ collection:
     archived: '0'
     head: ''
     css: null
-    js: ''
+    js: null
     html: null
     groups: ''
     starterContent: true
@@ -430,7 +430,7 @@ collection:
     archived: '0'
     head: ''
     css: null
-    js: ''
+    js: null
     html: null
     groups: ''
     starterContent: true

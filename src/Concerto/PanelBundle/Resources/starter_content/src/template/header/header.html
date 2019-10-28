@@ -1,7 +1,14 @@
-<div class="header">
+<div class="header" ng-controller="header">
 	<div class="container">
-		<div class="header-text">{{title}}</div>
-		<div class="timer">[[timeLeft]]</div>
-		<div ng-if="logo" class="header-logo"><img ng-src="[[logo]]" alt="logo"></div>
+		<div class="header-text" ng-bind-html="title">
+		</div>
+
+		<div class="timer">
+			[[timeLeft]]
+		</div>
+
+		<div class="header-logo" ng-if="logo">
+			<img alt="logo" ng-src="[[logo]]" />
+		</div>
 	</div>
 </div>
