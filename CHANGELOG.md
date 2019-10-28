@@ -17,6 +17,7 @@
 
 * Disabled escape characters for both CSV import and export
 * fixed unforked session initialization
+* fixed **showPage** node
 
 #### Other
 
