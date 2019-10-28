@@ -423,6 +423,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
                         if (typeof (lastResponse.data) !== 'undefined' && lastResponse.data.templateParams != null) {
                             scope.R = angular.fromJson(lastResponse.data.templateParams);
+                            testRunner.R = scope.R;
                         }
 
                         if (head != null && head.trim() !== "") {
@@ -577,7 +578,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 scope.fileUploader.addToQueue(file);
             };
 
-            testRunner.R = scope.R;
             testRunner.submitView = scope.submitView;
             testRunner.runWorker = scope.runWorker;
             testRunner.logClientSideError = scope.logClientSideError;
