@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('inputSingleLine', {
-  templateUrl: testRunner.settings.directory + "ViewTemplate/inputSingleLine/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "ViewTemplate/inputSingleLine/content?css=1,html=1",
   bindings: {
     field: '=',
     values: '='

@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('inputMultiLine', {
-  templateUrl: testRunner.settings.directory + "ViewTemplate/inputMultiLine/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "ViewTemplate/inputMultiLine/content?css=1,html=1",
   bindings: {
     field: '=',
     values: '='

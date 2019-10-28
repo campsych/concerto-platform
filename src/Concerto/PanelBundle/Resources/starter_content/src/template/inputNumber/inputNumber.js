@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('inputNumber', {
-  templateUrl: testRunner.settings.directory + "ViewTemplate/inputNumber/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "ViewTemplate/inputNumber/content?css=1,html=1",
   bindings: {
     field: '=',
     values: '='
