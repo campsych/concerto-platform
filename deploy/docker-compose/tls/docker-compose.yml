@@ -22,7 +22,7 @@ services:
     environment:
       - CONCERTO_PASSWORD=admin
       - CONCERTO_CONTENT_URL=.
-      - CONCERTO_PLATFORM_URL=http://localhost/ #must end with /
+      - CONCERTO_PLATFORM_URL=/
       - DB_HOST=database
       - DB_PASSWORD=changeme
       - TZ=Europe/London

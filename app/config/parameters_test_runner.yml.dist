@@ -1,5 +1,5 @@
 parameters:
-    env(CONCERTO_PLATFORM_URL): http://localhost/
+    env(CONCERTO_PLATFORM_URL): /
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
@@ -9,6 +9,6 @@ parameters:
         php_exec: php
         rscript_exec: Rscript
         timer_type: server #client or server
-        session_forking: true #only Linux, experimental
+        session_forking: true #only Linux
         connection: local
         platform_url: "%env(CONCERTO_PLATFORM_URL)%" #must end with /

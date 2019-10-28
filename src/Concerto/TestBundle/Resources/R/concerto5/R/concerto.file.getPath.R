@@ -1,3 +1,3 @@
-concerto.file.getPath = function(filename){
+concerto.file.getPath = concerto.file.getPublicPath = function(filename){
     return(paste0(concerto$publicDir, filename))
 }
