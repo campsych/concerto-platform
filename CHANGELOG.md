@@ -9,6 +9,11 @@
 * **concerto.template.show** now accepts **cookies** input parameter (name-value pair list)
 * added **CONCERTO_BEHIND_PROXY** env and **behind_proxy** config option for SAML toolkit
 
+#### Improvements
+
+* Git requests more verbose
+* Git pull command will try to do non fast-forward merge automatically if possible 
+
 #### Starter content
 
 * added **instructions** block to **test** and **form** template

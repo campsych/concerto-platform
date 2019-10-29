@@ -434,11 +434,15 @@ class GitService
 
     public function gitPull(&$output = null, &$errorMessages = null)
     {
+        $user = $this->adminService->getAuthorizedUser();
+
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $command = $app->find("concerto:git:pull");
         $arguments = [
-            "command" => $command->getName()
+            "command" => $command->getName(),
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail()
         ];
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();

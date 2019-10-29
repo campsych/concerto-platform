@@ -208,7 +208,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             $http.post(Paths.ADMINISTRATION_GIT_COMMIT, userResponse).then(function (httpResponse) {
                 let success = httpResponse.data.result === 0;
                 let title = success ? Trans.GIT_COMMIT_SUCCESS : Trans.GIT_COMMIT_FAILURE;
-                let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
                 $scope.refreshGitStatus();
                 DialogsService.preDialog(
@@ -236,7 +236,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
                     let success = httpResponse.data.result === 0;
                     let title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
                     DialogsService.preDialog(
                         title,
@@ -262,7 +262,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
                     let success = httpResponse.data.result === 0;
                     let title = success ? Trans.GIT_PUSH_SUCCESS : Trans.GIT_PUSH_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
                     DialogsService.preDialog(
                         title,
@@ -290,7 +290,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
                     let success = httpResponse.data.result === 0;
                     let title = success ? Trans.GIT_PULL_SUCCESS : Trans.GIT_PULL_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n");
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
                     DialogsService.preDialog(
                         title,
