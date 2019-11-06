@@ -701,6 +701,12 @@ class Test extends ATopEntity implements \JsonSerializable
         if ($this->sourceWizard != null)
             $this->sourceWizard->jsonSerialize($dependencies, $normalizedIdsMap);
 
+        //sorting for prettier diffs
+        $variables = $this->variables->toArray();
+        usort($variables, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
         $serialized = array(
             "class_name" => "Test",
             "id" => $this->id,
@@ -712,7 +718,7 @@ class Test extends ATopEntity implements \JsonSerializable
             "code" => $this->code,
             "slug" => $this->slug,
             "description" => $this->description,
-            "variables" => self::jsonSerializeArray($this->variables->toArray(), $dependencies, $normalizedIdsMap),
+            "variables" => self::jsonSerializeArray($variables, $dependencies, $normalizedIdsMap),
             "logs" => $this->logs->toArray(),
             "sourceWizard" => $this->sourceWizard != null ? $this->sourceWizard->getId() : null,
             "sourceWizardName" => $this->sourceWizard != null ? $this->sourceWizard->getName() : null,
