@@ -120,9 +120,9 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/git \
- && chown -R www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
- && chown -R www-data:www-data /data/sessions \
- && chown -R www-data:www-data /data/files \
+ && chown www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
+ && chown www-data:www-data /data/sessions \
+ && chown www-data:www-data /data/files \
  && cron \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \

@@ -1,4 +1,4 @@
-version: 5.0.5
+version: 5.0.6
 collection:
   -
     class_name: DataTable
@@ -513,56 +513,6 @@ collection:
       -
         class_name: TestVariable
         id: 1
-        name: authorized
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 2
-        name: login
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 3
-        name: password
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 4
-        name: unauthorized
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 5
-        name: user
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 6
         name: .branch
         type: 1
         description: ''
@@ -572,9 +522,59 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 7
-        name: userBankType
+        id: 2
+        name: authorized
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 3
+        name: login
         type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 4
+        name: password
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 5
+        name: resultCode
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 6
+        name: unauthorized
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 7
+        name: user
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -583,26 +583,6 @@ collection:
       -
         class_name: TestVariable
         id: 8
-        name: userBankList
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 9
-        name: userBankTable
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 1
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 10
         name: userBankEncryption
         type: 0
         description: ''
@@ -612,9 +592,29 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
+        id: 9
+        name: userBankList
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 10
+        name: userBankTable
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 1
+        parentVariable: null
+      -
+        class_name: TestVariable
         id: 11
-        name: resultCode
-        type: 1
+        name: userBankType
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -651,8 +651,8 @@ collection:
       -
         class_name: TestVariable
         id: 13
-        name: sourceList
-        type: 0
+        name: result
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -661,8 +661,8 @@ collection:
       -
         class_name: TestVariable
         id: 14
-        name: result
-        type: 1
+        name: sourceList
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -689,21 +689,21 @@ collection:
       -
         class_name: TestVariable
         id: 15
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 3
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 16
         name: code
         type: 0
         description: 'Code value is expected to be text.'
         passableThroughUrl: '0'
         value: null
+        test: 3
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 16
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 3
         parentVariable: null
       -
@@ -737,21 +737,21 @@ collection:
       -
         class_name: TestVariable
         id: 18
-        name: out
-        type: 2
+        name: contentBalancing
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '[]'
         test: 4
         parentVariable: null
       -
         class_name: TestVariable
         id: 19
-        name: itemBankType
+        name: itemBankFilterModule
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: direct
+        value: null
         test: 4
         parentVariable: null
       -
@@ -777,236 +777,6 @@ collection:
       -
         class_name: TestVariable
         id: 22
-        name: testTimeLimit
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 23
-        name: itemTimeLimit
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 24
-        name: itemTimeFullRequired
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 25
-        name: testTimeLimitOffset
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 26
-        name: contentBalancing
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '[]'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 27
-        name: startingTheta
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 28
-        name: nextItemCriterion
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: MFI
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 29
-        name: nextItemRandomesque
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '1'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 30
-        name: scoringMethod
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: BM
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 31
-        name: responseBank
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 32
-        name: itemTemplate
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 33
-        name: session
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 34
-        name: itemNumLimit
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 35
-        name: minAccuracy
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '1'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 36
-        name: responseRequired
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 37
-        name: responseRequiredAlert
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 38
-        name: sem
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 39
-        name: theta
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 40
-        name: itemTemplateParamsModule
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 41
-        name: model
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 42
-        name: responseScoreModule
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 43
-        name: itemParamsNum
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '9'
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 44
-        name: nextItemModule
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 45
         name: itemBankTableExtraFields
         type: 0
         description: ''
@@ -1016,8 +786,38 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 46
-        name: itemBankFilterModule
+        id: 23
+        name: itemBankType
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: direct
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 24
+        name: itemNumLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 25
+        name: itemParamsNum
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '9'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 26
+        name: itemTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -1026,8 +826,208 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 47
+        id: 27
+        name: itemTemplateParamsModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 28
+        name: itemTimeFullRequired
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 29
+        name: itemTimeLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 30
+        name: minAccuracy
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '1'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 31
+        name: model
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 32
+        name: nextItemCriterion
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: MFI
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 33
+        name: nextItemModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 34
+        name: nextItemRandomesque
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '1'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 35
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 36
+        name: responseBank
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 37
+        name: responseRequired
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 38
+        name: responseRequiredAlert
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 39
+        name: responseScoreModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 40
+        name: scoringMethod
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: BM
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 41
+        name: sem
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 42
+        name: session
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 43
+        name: startingTheta
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 44
         name: testTimeLeft
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 45
+        name: testTimeLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 46
+        name: testTimeLimitOffset
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 47
+        name: theta
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -1054,10 +1054,10 @@ collection:
             id: 1
             value: direct
             node: 1
-            variable: 19
+            variable: 23
             variableObject:
               class_name: TestVariable
-              id: 19
+              id: 23
               name: itemBankType
               type: 0
               description: ''
@@ -1126,10 +1126,10 @@ collection:
             id: 4
             value: '0'
             node: 1
-            variable: 22
+            variable: 45
             variableObject:
               class_name: TestVariable
-              id: 22
+              id: 45
               name: testTimeLimit
               type: 0
               description: ''
@@ -1150,10 +1150,10 @@ collection:
             id: 5
             value: '0'
             node: 1
-            variable: 23
+            variable: 29
             variableObject:
               class_name: TestVariable
-              id: 23
+              id: 29
               name: itemTimeLimit
               type: 0
               description: ''
@@ -1174,10 +1174,10 @@ collection:
             id: 6
             value: '0'
             node: 1
-            variable: 24
+            variable: 28
             variableObject:
               class_name: TestVariable
-              id: 24
+              id: 28
               name: itemTimeFullRequired
               type: 0
               description: ''
@@ -1198,10 +1198,10 @@ collection:
             id: 7
             value: '0'
             node: 1
-            variable: 25
+            variable: 46
             variableObject:
               class_name: TestVariable
-              id: 25
+              id: 46
               name: testTimeLimitOffset
               type: 0
               description: ''
@@ -1222,10 +1222,10 @@ collection:
             id: 8
             value: '[]'
             node: 1
-            variable: 26
+            variable: 18
             variableObject:
               class_name: TestVariable
-              id: 26
+              id: 18
               name: contentBalancing
               type: 0
               description: ''
@@ -1246,10 +1246,10 @@ collection:
             id: 9
             value: '0'
             node: 1
-            variable: 27
+            variable: 43
             variableObject:
               class_name: TestVariable
-              id: 27
+              id: 43
               name: startingTheta
               type: 0
               description: ''
@@ -1270,10 +1270,10 @@ collection:
             id: 10
             value: MFI
             node: 1
-            variable: 28
+            variable: 32
             variableObject:
               class_name: TestVariable
-              id: 28
+              id: 32
               name: nextItemCriterion
               type: 0
               description: ''
@@ -1294,10 +1294,10 @@ collection:
             id: 11
             value: '1'
             node: 1
-            variable: 29
+            variable: 34
             variableObject:
               class_name: TestVariable
-              id: 29
+              id: 34
               name: nextItemRandomesque
               type: 0
               description: ''
@@ -1318,10 +1318,10 @@ collection:
             id: 12
             value: BM
             node: 1
-            variable: 30
+            variable: 40
             variableObject:
               class_name: TestVariable
-              id: 30
+              id: 40
               name: scoringMethod
               type: 0
               description: ''
@@ -1342,10 +1342,10 @@ collection:
             id: 13
             value: null
             node: 1
-            variable: 31
+            variable: 36
             variableObject:
               class_name: TestVariable
-              id: 31
+              id: 36
               name: responseBank
               type: 0
               description: ''
@@ -1366,10 +1366,10 @@ collection:
             id: 14
             value: null
             node: 1
-            variable: 32
+            variable: 26
             variableObject:
               class_name: TestVariable
-              id: 32
+              id: 26
               name: itemTemplate
               type: 0
               description: ''
@@ -1390,10 +1390,10 @@ collection:
             id: 15
             value: null
             node: 1
-            variable: 33
+            variable: 42
             variableObject:
               class_name: TestVariable
-              id: 33
+              id: 42
               name: session
               type: 0
               description: ''
@@ -1414,10 +1414,10 @@ collection:
             id: 16
             value: '0'
             node: 1
-            variable: 34
+            variable: 24
             variableObject:
               class_name: TestVariable
-              id: 34
+              id: 24
               name: itemNumLimit
               type: 0
               description: ''
@@ -1438,10 +1438,10 @@ collection:
             id: 17
             value: '1'
             node: 1
-            variable: 35
+            variable: 30
             variableObject:
               class_name: TestVariable
-              id: 35
+              id: 30
               name: minAccuracy
               type: 0
               description: ''
@@ -1462,10 +1462,10 @@ collection:
             id: 18
             value: null
             node: 1
-            variable: 36
+            variable: 37
             variableObject:
               class_name: TestVariable
-              id: 36
+              id: 37
               name: responseRequired
               type: 0
               description: ''
@@ -1486,10 +1486,10 @@ collection:
             id: 19
             value: null
             node: 1
-            variable: 37
+            variable: 38
             variableObject:
               class_name: TestVariable
-              id: 37
+              id: 38
               name: responseRequiredAlert
               type: 0
               description: ''
@@ -1510,10 +1510,10 @@ collection:
             id: 20
             value: null
             node: 1
-            variable: 40
+            variable: 27
             variableObject:
               class_name: TestVariable
-              id: 40
+              id: 27
               name: itemTemplateParamsModule
               type: 0
               description: ''
@@ -1534,10 +1534,10 @@ collection:
             id: 21
             value: null
             node: 1
-            variable: 41
+            variable: 31
             variableObject:
               class_name: TestVariable
-              id: 41
+              id: 31
               name: model
               type: 0
               description: ''
@@ -1558,10 +1558,10 @@ collection:
             id: 22
             value: null
             node: 1
-            variable: 42
+            variable: 39
             variableObject:
               class_name: TestVariable
-              id: 42
+              id: 39
               name: responseScoreModule
               type: 0
               description: ''
@@ -1582,10 +1582,10 @@ collection:
             id: 23
             value: '9'
             node: 1
-            variable: 43
+            variable: 25
             variableObject:
               class_name: TestVariable
-              id: 43
+              id: 25
               name: itemParamsNum
               type: 0
               description: ''
@@ -1606,10 +1606,10 @@ collection:
             id: 24
             value: null
             node: 1
-            variable: 44
+            variable: 33
             variableObject:
               class_name: TestVariable
-              id: 44
+              id: 33
               name: nextItemModule
               type: 0
               description: ''
@@ -1630,10 +1630,10 @@ collection:
             id: 25
             value: null
             node: 1
-            variable: 45
+            variable: 22
             variableObject:
               class_name: TestVariable
-              id: 45
+              id: 22
               name: itemBankTableExtraFields
               type: 0
               description: ''
@@ -1654,10 +1654,10 @@ collection:
             id: 26
             value: null
             node: 1
-            variable: 46
+            variable: 19
             variableObject:
               class_name: TestVariable
-              id: 46
+              id: 19
               name: itemBankFilterModule
               type: 0
               description: ''
@@ -1690,10 +1690,10 @@ collection:
             id: 27
             value: null
             node: 2
-            variable: 38
+            variable: 41
             variableObject:
               class_name: TestVariable
-              id: 38
+              id: 41
               name: sem
               type: 1
               description: ''
@@ -1714,10 +1714,10 @@ collection:
             id: 28
             value: null
             node: 2
-            variable: 39
+            variable: 47
             variableObject:
               class_name: TestVariable
-              id: 39
+              id: 47
               name: theta
               type: 1
               description: ''
@@ -1738,10 +1738,10 @@ collection:
             id: 29
             value: null
             node: 2
-            variable: 47
+            variable: 44
             variableObject:
               class_name: TestVariable
-              id: 47
+              id: 44
               name: testTimeLeft
               type: 1
               description: ''
@@ -1774,10 +1774,10 @@ collection:
             id: 30
             value: null
             node: 3
-            variable: 13
+            variable: 14
             variableObject:
               class_name: TestVariable
-              id: 13
+              id: 14
               name: sourceList
               type: 0
               description: ''
@@ -1798,10 +1798,10 @@ collection:
             id: 31
             value: null
             node: 3
-            variable: 14
+            variable: 13
             variableObject:
               class_name: TestVariable
-              id: 14
+              id: 13
               name: result
               type: 1
               description: ''
@@ -2248,10 +2248,10 @@ collection:
             id: 59
             value: null
             node: 4
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -2296,10 +2296,10 @@ collection:
             id: 61
             value: '0'
             node: 4
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -2452,10 +2452,10 @@ collection:
             id: 70
             value: null
             node: 5
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -2500,10 +2500,10 @@ collection:
             id: 72
             value: '0'
             node: 5
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -2671,10 +2671,10 @@ collection:
             id: 82
             value: null
             node: 6
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -2719,10 +2719,10 @@ collection:
             id: 84
             value: '0'
             node: 6
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -2920,10 +2920,10 @@ collection:
             id: 96
             value: null
             node: 7
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -2968,10 +2968,10 @@ collection:
             id: 98
             value: '0'
             node: 7
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -3184,10 +3184,10 @@ collection:
             id: 111
             value: null
             node: 8
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -3232,10 +3232,10 @@ collection:
             id: 113
             value: '0'
             node: 8
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -3433,10 +3433,10 @@ collection:
             id: 125
             value: null
             node: 9
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -3481,10 +3481,10 @@ collection:
             id: 127
             value: '0'
             node: 9
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -3745,10 +3745,10 @@ collection:
           id: 1
           value: direct
           node: 1
-          variable: 19
+          variable: 23
           variableObject:
             class_name: TestVariable
-            id: 19
+            id: 23
             name: itemBankType
             type: 0
             description: ''
@@ -3795,10 +3795,10 @@ collection:
           id: 8
           value: '[]'
           node: 1
-          variable: 26
+          variable: 18
           variableObject:
             class_name: TestVariable
-            id: 26
+            id: 18
             name: contentBalancing
             type: 0
             description: ''
@@ -3845,10 +3845,10 @@ collection:
           id: 9
           value: '0'
           node: 1
-          variable: 27
+          variable: 43
           variableObject:
             class_name: TestVariable
-            id: 27
+            id: 43
             name: startingTheta
             type: 0
             description: ''
@@ -3895,10 +3895,10 @@ collection:
           id: 4
           value: '0'
           node: 1
-          variable: 22
+          variable: 45
           variableObject:
             class_name: TestVariable
-            id: 22
+            id: 45
             name: testTimeLimit
             type: 0
             description: ''
@@ -3945,10 +3945,10 @@ collection:
           id: 7
           value: '0'
           node: 1
-          variable: 25
+          variable: 46
           variableObject:
             class_name: TestVariable
-            id: 25
+            id: 46
             name: testTimeLimitOffset
             type: 0
             description: ''
@@ -3995,10 +3995,10 @@ collection:
           id: 16
           value: '0'
           node: 1
-          variable: 34
+          variable: 24
           variableObject:
             class_name: TestVariable
-            id: 34
+            id: 24
             name: itemNumLimit
             type: 0
             description: ''
@@ -4045,10 +4045,10 @@ collection:
           id: 14
           value: null
           node: 1
-          variable: 32
+          variable: 26
           variableObject:
             class_name: TestVariable
-            id: 32
+            id: 26
             name: itemTemplate
             type: 0
             description: ''
@@ -4095,10 +4095,10 @@ collection:
           id: 6
           value: '0'
           node: 1
-          variable: 24
+          variable: 28
           variableObject:
             class_name: TestVariable
-            id: 24
+            id: 28
             name: itemTimeFullRequired
             type: 0
             description: ''
@@ -4145,10 +4145,10 @@ collection:
           id: 5
           value: '0'
           node: 1
-          variable: 23
+          variable: 29
           variableObject:
             class_name: TestVariable
-            id: 23
+            id: 29
             name: itemTimeLimit
             type: 0
             description: ''
@@ -4195,10 +4195,10 @@ collection:
           id: 17
           value: '1'
           node: 1
-          variable: 35
+          variable: 30
           variableObject:
             class_name: TestVariable
-            id: 35
+            id: 30
             name: minAccuracy
             type: 0
             description: ''
@@ -4245,10 +4245,10 @@ collection:
           id: 10
           value: MFI
           node: 1
-          variable: 28
+          variable: 32
           variableObject:
             class_name: TestVariable
-            id: 28
+            id: 32
             name: nextItemCriterion
             type: 0
             description: ''
@@ -4295,10 +4295,10 @@ collection:
           id: 11
           value: '1'
           node: 1
-          variable: 29
+          variable: 34
           variableObject:
             class_name: TestVariable
-            id: 29
+            id: 34
             name: nextItemRandomesque
             type: 0
             description: ''
@@ -4345,10 +4345,10 @@ collection:
           id: 13
           value: null
           node: 1
-          variable: 31
+          variable: 36
           variableObject:
             class_name: TestVariable
-            id: 31
+            id: 36
             name: responseBank
             type: 0
             description: ''
@@ -4395,10 +4395,10 @@ collection:
           id: 12
           value: BM
           node: 1
-          variable: 30
+          variable: 40
           variableObject:
             class_name: TestVariable
-            id: 30
+            id: 40
             name: scoringMethod
             type: 0
             description: ''
@@ -4445,10 +4445,10 @@ collection:
           id: 18
           value: null
           node: 1
-          variable: 36
+          variable: 37
           variableObject:
             class_name: TestVariable
-            id: 36
+            id: 37
             name: responseRequired
             type: 0
             description: ''
@@ -4495,10 +4495,10 @@ collection:
           id: 19
           value: null
           node: 1
-          variable: 37
+          variable: 38
           variableObject:
             class_name: TestVariable
-            id: 37
+            id: 38
             name: responseRequiredAlert
             type: 0
             description: ''
@@ -4545,10 +4545,10 @@ collection:
           id: 20
           value: null
           node: 1
-          variable: 40
+          variable: 27
           variableObject:
             class_name: TestVariable
-            id: 40
+            id: 27
             name: itemTemplateParamsModule
             type: 0
             description: ''
@@ -4636,10 +4636,10 @@ collection:
           id: 61
           value: '0'
           node: 4
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -4672,10 +4672,10 @@ collection:
           id: 72
           value: '0'
           node: 5
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -4762,10 +4762,10 @@ collection:
           id: 113
           value: '0'
           node: 8
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -4888,10 +4888,10 @@ collection:
           id: 21
           value: null
           node: 1
-          variable: 41
+          variable: 31
           variableObject:
             class_name: TestVariable
-            id: 41
+            id: 31
             name: model
             type: 0
             description: ''
@@ -4938,10 +4938,10 @@ collection:
           id: 98
           value: '0'
           node: 7
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -5015,10 +5015,10 @@ collection:
           id: 22
           value: null
           node: 1
-          variable: 42
+          variable: 39
           variableObject:
             class_name: TestVariable
-            id: 42
+            id: 39
             name: responseScoreModule
             type: 0
             description: ''
@@ -5065,10 +5065,10 @@ collection:
           id: 23
           value: '9'
           node: 1
-          variable: 43
+          variable: 25
           variableObject:
             class_name: TestVariable
-            id: 43
+            id: 25
             name: itemParamsNum
             type: 0
             description: ''
@@ -5115,10 +5115,10 @@ collection:
           id: 24
           value: null
           node: 1
-          variable: 44
+          variable: 33
           variableObject:
             class_name: TestVariable
-            id: 44
+            id: 33
             name: nextItemModule
             type: 0
             description: ''
@@ -5165,10 +5165,10 @@ collection:
           id: 25
           value: null
           node: 1
-          variable: 45
+          variable: 22
           variableObject:
             class_name: TestVariable
-            id: 45
+            id: 22
             name: itemBankTableExtraFields
             type: 0
             description: ''
@@ -5215,10 +5215,10 @@ collection:
           id: 26
           value: null
           node: 1
-          variable: 46
+          variable: 19
           variableObject:
             class_name: TestVariable
-            id: 46
+            id: 19
             name: itemBankFilterModule
             type: 0
             description: ''
@@ -5271,6 +5271,16 @@ collection:
       -
         class_name: TestVariable
         id: 48
+        name: .branch
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 5
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 49
         name: created
         type: 2
         description: ''
@@ -5280,28 +5290,18 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 49
-        name: userBankTable
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 5
-        parentVariable: null
-      -
-        class_name: TestVariable
         id: 50
-        name: login
+        name: enabled
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '1'
         test: 5
         parentVariable: null
       -
         class_name: TestVariable
         id: 51
-        name: password
+        name: extraFields
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -5311,11 +5311,11 @@ collection:
       -
         class_name: TestVariable
         id: 52
-        name: enabled
+        name: login
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '1'
+        value: null
         test: 5
         parentVariable: null
       -
@@ -5331,8 +5331,8 @@ collection:
       -
         class_name: TestVariable
         id: 54
-        name: .branch
-        type: 1
+        name: password
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -5361,7 +5361,7 @@ collection:
       -
         class_name: TestVariable
         id: 57
-        name: extraFields
+        name: userBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -5389,21 +5389,21 @@ collection:
       -
         class_name: TestVariable
         id: 58
-        name: out
-        type: 2
+        name: insertId
+        type: 1
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 6
         parentVariable: null
       -
         class_name: TestVariable
         id: 59
-        name: queryType
-        type: 0
+        name: out
+        type: 2
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 6
         parentVariable: null
       -
@@ -5419,6 +5419,16 @@ collection:
       -
         class_name: TestVariable
         id: 61
+        name: queryType
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 6
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 62
         name: result
         type: 1
         description: ''
@@ -5428,27 +5438,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 62
-        name: table
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 6
-        parentVariable: null
-      -
-        class_name: TestVariable
         id: 63
-        name: whereClause
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 6
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 64
         name: setClause
         type: 0
         description: ''
@@ -5458,9 +5448,19 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
+        id: 64
+        name: table
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 6
+        parentVariable: null
+      -
+        class_name: TestVariable
         id: 65
-        name: insertId
-        type: 1
+        name: whereClause
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -5487,16 +5487,6 @@ collection:
       -
         class_name: TestVariable
         id: 66
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 7
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 67
         name: fields
         type: 0
         description: ''
@@ -5506,12 +5496,22 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 68
-        name: templateParams
+        id: 67
+        name: initialValues
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '{}'
+        test: 7
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 68
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 7
         parentVariable: null
       -
@@ -5537,11 +5537,11 @@ collection:
       -
         class_name: TestVariable
         id: 71
-        name: initialValues
+        name: templateParams
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{}'
+        value: null
         test: 7
         parentVariable: null
     sourceWizard: null
@@ -5565,8 +5565,8 @@ collection:
       -
         class_name: TestVariable
         id: 72
-        name: out
-        type: 2
+        name: canGoBack
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
@@ -5605,27 +5605,27 @@ collection:
       -
         class_name: TestVariable
         id: 76
-        name: testTimeLimit
+        name: itemNumLimit
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 8
         parentVariable: null
       -
         class_name: TestVariable
         id: 77
-        name: testTimeLimitOffset
+        name: itemTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 8
         parentVariable: null
       -
         class_name: TestVariable
         id: 78
-        name: order
+        name: itemTimeFullRequired
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -5645,17 +5645,17 @@ collection:
       -
         class_name: TestVariable
         id: 80
-        name: itemTemplate
+        name: itemsPerPage
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '1'
         test: 8
         parentVariable: null
       -
         class_name: TestVariable
         id: 81
-        name: responseBank
+        name: order
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -5665,17 +5665,17 @@ collection:
       -
         class_name: TestVariable
         id: 82
-        name: session
-        type: 0
+        name: out
+        type: 2
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 8
         parentVariable: null
       -
         class_name: TestVariable
         id: 83
-        name: itemNumLimit
+        name: responseBank
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -5685,26 +5685,6 @@ collection:
       -
         class_name: TestVariable
         id: 84
-        name: itemTimeFullRequired
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 8
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 85
-        name: canGoBack
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 8
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 86
         name: responseRequired
         type: 0
         description: ''
@@ -5714,7 +5694,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 87
+        id: 85
         name: responseRequiredAlert
         type: 0
         description: ''
@@ -5724,7 +5704,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 88
+        id: 86
         name: scores
         type: 1
         description: ''
@@ -5734,12 +5714,32 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 89
-        name: itemsPerPage
+        id: 87
+        name: session
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '1'
+        value: null
+        test: 8
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 88
+        name: testTimeLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 8
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 89
+        name: testTimeLimitOffset
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 8
         parentVariable: null
     sourceWizard: null
@@ -5834,10 +5834,10 @@ collection:
             id: 139
             value: '0'
             node: 10
-            variable: 76
+            variable: 88
             variableObject:
               class_name: TestVariable
-              id: 76
+              id: 88
               name: testTimeLimit
               type: 0
               description: ''
@@ -5858,10 +5858,10 @@ collection:
             id: 140
             value: '0'
             node: 10
-            variable: 77
+            variable: 89
             variableObject:
               class_name: TestVariable
-              id: 77
+              id: 89
               name: testTimeLimitOffset
               type: 0
               description: ''
@@ -5882,10 +5882,10 @@ collection:
             id: 141
             value: null
             node: 10
-            variable: 78
+            variable: 81
             variableObject:
               class_name: TestVariable
-              id: 78
+              id: 81
               name: order
               type: 0
               description: ''
@@ -5930,10 +5930,10 @@ collection:
             id: 143
             value: null
             node: 10
-            variable: 80
+            variable: 77
             variableObject:
               class_name: TestVariable
-              id: 80
+              id: 77
               name: itemTemplate
               type: 0
               description: ''
@@ -5954,10 +5954,10 @@ collection:
             id: 144
             value: null
             node: 10
-            variable: 81
+            variable: 83
             variableObject:
               class_name: TestVariable
-              id: 81
+              id: 83
               name: responseBank
               type: 0
               description: ''
@@ -5978,10 +5978,10 @@ collection:
             id: 145
             value: null
             node: 10
-            variable: 82
+            variable: 87
             variableObject:
               class_name: TestVariable
-              id: 82
+              id: 87
               name: session
               type: 0
               description: ''
@@ -6002,10 +6002,10 @@ collection:
             id: 146
             value: null
             node: 10
-            variable: 83
+            variable: 76
             variableObject:
               class_name: TestVariable
-              id: 83
+              id: 76
               name: itemNumLimit
               type: 0
               description: ''
@@ -6026,10 +6026,10 @@ collection:
             id: 147
             value: null
             node: 10
-            variable: 84
+            variable: 78
             variableObject:
               class_name: TestVariable
-              id: 84
+              id: 78
               name: itemTimeFullRequired
               type: 0
               description: ''
@@ -6050,10 +6050,10 @@ collection:
             id: 148
             value: '0'
             node: 10
-            variable: 85
+            variable: 72
             variableObject:
               class_name: TestVariable
-              id: 85
+              id: 72
               name: canGoBack
               type: 0
               description: ''
@@ -6074,10 +6074,10 @@ collection:
             id: 149
             value: null
             node: 10
-            variable: 86
+            variable: 84
             variableObject:
               class_name: TestVariable
-              id: 86
+              id: 84
               name: responseRequired
               type: 0
               description: ''
@@ -6098,10 +6098,10 @@ collection:
             id: 150
             value: null
             node: 10
-            variable: 87
+            variable: 85
             variableObject:
               class_name: TestVariable
-              id: 87
+              id: 85
               name: responseRequiredAlert
               type: 0
               description: ''
@@ -6122,10 +6122,10 @@ collection:
             id: 151
             value: '1'
             node: 10
-            variable: 89
+            variable: 80
             variableObject:
               class_name: TestVariable
-              id: 89
+              id: 80
               name: itemsPerPage
               type: 0
               description: ''
@@ -6158,10 +6158,10 @@ collection:
             id: 152
             value: ''
             node: 11
-            variable: 88
+            variable: 86
             variableObject:
               class_name: TestVariable
-              id: 88
+              id: 86
               name: scores
               type: 1
               description: ''
@@ -6194,10 +6194,10 @@ collection:
             id: 153
             value: null
             node: 12
-            variable: 13
+            variable: 14
             variableObject:
               class_name: TestVariable
-              id: 13
+              id: 14
               name: sourceList
               type: 0
               description: ''
@@ -6218,10 +6218,10 @@ collection:
             id: 154
             value: null
             node: 12
-            variable: 14
+            variable: 13
             variableObject:
               class_name: TestVariable
-              id: 14
+              id: 13
               name: result
               type: 1
               description: ''
@@ -6518,10 +6518,10 @@ collection:
             id: 172
             value: null
             node: 13
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -6566,10 +6566,10 @@ collection:
             id: 174
             value: '0'
             node: 13
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -6707,10 +6707,10 @@ collection:
             id: 182
             value: null
             node: 14
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -6755,10 +6755,10 @@ collection:
             id: 184
             value: '0'
             node: 14
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -6956,10 +6956,10 @@ collection:
             id: 196
             value: null
             node: 15
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -7004,10 +7004,10 @@ collection:
             id: 198
             value: '0'
             node: 15
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -7235,10 +7235,10 @@ collection:
             id: 212
             value: null
             node: 16
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -7283,10 +7283,10 @@ collection:
             id: 214
             value: '0'
             node: 16
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -7469,10 +7469,10 @@ collection:
             id: 225
             value: null
             node: 17
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -7517,10 +7517,10 @@ collection:
             id: 227
             value: '0'
             node: 17
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -7703,10 +7703,10 @@ collection:
             id: 238
             value: null
             node: 18
-            variable: 16
+            variable: 15
             variableObject:
               class_name: TestVariable
-              id: 16
+              id: 15
               name: code
               type: 0
               description: 'Code value is expected to be text.'
@@ -7751,10 +7751,10 @@ collection:
             id: 240
             value: '0'
             node: 18
-            variable: 15
+            variable: 16
             variableObject:
               class_name: TestVariable
-              id: 15
+              id: 16
               name: out
               type: 2
               description: ''
@@ -7945,10 +7945,10 @@ collection:
           id: 148
           value: '0'
           node: 10
-          variable: 85
+          variable: 72
           variableObject:
             class_name: TestVariable
-            id: 85
+            id: 72
             name: canGoBack
             type: 0
             description: ''
@@ -8145,10 +8145,10 @@ collection:
           id: 146
           value: null
           node: 10
-          variable: 83
+          variable: 76
           variableObject:
             class_name: TestVariable
-            id: 83
+            id: 76
             name: itemNumLimit
             type: 0
             description: ''
@@ -8195,10 +8195,10 @@ collection:
           id: 143
           value: null
           node: 10
-          variable: 80
+          variable: 77
           variableObject:
             class_name: TestVariable
-            id: 80
+            id: 77
             name: itemTemplate
             type: 0
             description: ''
@@ -8245,10 +8245,10 @@ collection:
           id: 147
           value: null
           node: 10
-          variable: 84
+          variable: 78
           variableObject:
             class_name: TestVariable
-            id: 84
+            id: 78
             name: itemTimeFullRequired
             type: 0
             description: ''
@@ -8345,10 +8345,10 @@ collection:
           id: 141
           value: null
           node: 10
-          variable: 78
+          variable: 81
           variableObject:
             class_name: TestVariable
-            id: 78
+            id: 81
             name: order
             type: 0
             description: ''
@@ -8395,10 +8395,10 @@ collection:
           id: 144
           value: null
           node: 10
-          variable: 81
+          variable: 83
           variableObject:
             class_name: TestVariable
-            id: 81
+            id: 83
             name: responseBank
             type: 0
             description: ''
@@ -8445,10 +8445,10 @@ collection:
           id: 139
           value: '0'
           node: 10
-          variable: 76
+          variable: 88
           variableObject:
             class_name: TestVariable
-            id: 76
+            id: 88
             name: testTimeLimit
             type: 0
             description: ''
@@ -8495,10 +8495,10 @@ collection:
           id: 140
           value: '0'
           node: 10
-          variable: 77
+          variable: 89
           variableObject:
             class_name: TestVariable
-            id: 77
+            id: 89
             name: testTimeLimitOffset
             type: 0
             description: ''
@@ -8545,10 +8545,10 @@ collection:
           id: 149
           value: null
           node: 10
-          variable: 86
+          variable: 84
           variableObject:
             class_name: TestVariable
-            id: 86
+            id: 84
             name: responseRequired
             type: 0
             description: ''
@@ -8595,10 +8595,10 @@ collection:
           id: 150
           value: null
           node: 10
-          variable: 87
+          variable: 85
           variableObject:
             class_name: TestVariable
-            id: 87
+            id: 85
             name: responseRequiredAlert
             type: 0
             description: ''
@@ -8645,10 +8645,10 @@ collection:
           id: 151
           value: '1'
           node: 10
-          variable: 89
+          variable: 80
           variableObject:
             class_name: TestVariable
-            id: 89
+            id: 80
             name: itemsPerPage
             type: 0
             description: ''
@@ -8731,10 +8731,10 @@ collection:
           id: 174
           value: '0'
           node: 13
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -8767,10 +8767,10 @@ collection:
           id: 184
           value: '0'
           node: 14
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -8939,10 +8939,10 @@ collection:
           id: 214
           value: '0'
           node: 16
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -8975,10 +8975,10 @@ collection:
           id: 227
           value: '0'
           node: 17
-          variable: 15
+          variable: 16
           variableObject:
             class_name: TestVariable
-            id: 15
+            id: 16
             name: out
             type: 2
             description: ''
@@ -9071,26 +9071,6 @@ collection:
       -
         class_name: TestVariable
         id: 90
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 9
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 91
-        name: layout
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 9
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 92
         name: content
         type: 0
         description: ''
@@ -9100,8 +9080,18 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 93
-        name: params
+        id: 91
+        name: html
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 9
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 92
+        name: layout
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9110,9 +9100,19 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
+        id: 93
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 9
+        parentVariable: null
+      -
+        class_name: TestVariable
         id: 94
-        name: html
-        type: 1
+        name: params
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -9149,16 +9149,6 @@ collection:
       -
         class_name: TestVariable
         id: 96
-        name: test
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 10
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 97
         name: params
         type: 0
         description: ''
@@ -9168,9 +9158,19 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 98
+        id: 97
         name: results
         type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 10
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 98
+        name: test
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -9197,21 +9197,21 @@ collection:
       -
         class_name: TestVariable
         id: 99
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 11
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 100
         name: loaderTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
+        test: 11
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 100
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 11
         parentVariable: null
       -
@@ -9245,66 +9245,6 @@ collection:
       -
         class_name: TestVariable
         id: 102
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 12
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 103
-        name: template
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 12
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 104
-        name: response
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 12
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 105
-        name: timeLimit
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 12
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 106
-        name: templateParams
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 12
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 107
-        name: html
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 12
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 108
         name: .branch
         type: 1
         description: ''
@@ -9314,12 +9254,72 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 109
+        id: 103
         name: cookies
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
+        test: 12
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 104
+        name: html
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 12
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 105
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 12
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 106
+        name: response
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 12
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 107
+        name: template
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 12
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 108
+        name: templateParams
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 12
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 109
+        name: timeLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 12
         parentVariable: null
     sourceWizard: null
@@ -9343,16 +9343,6 @@ collection:
       -
         class_name: TestVariable
         id: 110
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 13
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 111
         name: extraFields
         type: 0
         description: ''
@@ -9362,8 +9352,18 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
+        id: 111
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 13
+        parentVariable: null
+      -
+        class_name: TestVariable
         id: 112
-        name: user
+        name: resumable
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9373,7 +9373,7 @@ collection:
       -
         class_name: TestVariable
         id: 113
-        name: sessionBankTable
+        name: resumableExpiration
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9393,7 +9393,7 @@ collection:
       -
         class_name: TestVariable
         id: 115
-        name: resumable
+        name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9403,7 +9403,7 @@ collection:
       -
         class_name: TestVariable
         id: 116
-        name: resumableExpiration
+        name: user
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9431,26 +9431,6 @@ collection:
       -
         class_name: TestVariable
         id: 117
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 14
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 118
-        name: language
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 14
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 119
         name: defaultLanguage
         type: 0
         description: ''
@@ -9460,12 +9440,32 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 120
+        id: 118
         name: dictionaryTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
+        test: 14
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 119
+        name: language
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 14
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 120
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 14
         parentVariable: null
       -
@@ -9517,7 +9517,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: direct
-            testVariable: 7
+            testVariable: 11
             name: userBankType
             wizardStep: 1
             stepTitle: 'User Bank'
@@ -9542,7 +9542,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 8
+            testVariable: 9
             name: userBankList
             wizardStep: 1
             stepTitle: 'User Bank'
@@ -9602,7 +9602,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: plain
-            testVariable: 10
+            testVariable: 8
             name: userBankEncryption
             wizardStep: 1
             stepTitle: 'User Bank'
@@ -9657,7 +9657,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 9
+            testVariable: 10
             name: userBankTable
             wizardStep: 1
             stepTitle: 'User Bank'
@@ -9699,27 +9699,27 @@ collection:
       -
         class_name: TestVariable
         id: 122
+        name: .branch
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 15
+        parentVariable: 1
+      -
+        class_name: TestVariable
+        id: 123
         name: authorized
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 1
-      -
-        class_name: TestVariable
-        id: 123
-        name: login
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 15
         parentVariable: 2
       -
         class_name: TestVariable
         id: 124
-        name: password
+        name: login
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9729,8 +9729,8 @@ collection:
       -
         class_name: TestVariable
         id: 125
-        name: unauthorized
-        type: 2
+        name: password
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -9739,7 +9739,7 @@ collection:
       -
         class_name: TestVariable
         id: 126
-        name: user
+        name: resultCode
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -9749,8 +9749,8 @@ collection:
       -
         class_name: TestVariable
         id: 127
-        name: .branch
-        type: 1
+        name: unauthorized
+        type: 2
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -9759,51 +9759,51 @@ collection:
       -
         class_name: TestVariable
         id: 128
-        name: userBankType
-        type: 0
+        name: user
+        type: 1
         description: ''
         passableThroughUrl: '0'
-        value: direct
+        value: null
         test: 15
         parentVariable: 7
       -
         class_name: TestVariable
         id: 129
-        name: userBankList
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '[]'
-        test: 15
-        parentVariable: 8
-      -
-        class_name: TestVariable
-        id: 130
-        name: userBankTable
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '{"table":"users","columns":{"id":"id","login":"login","password":"password","enabled":"enabled"}}'
-        test: 15
-        parentVariable: 9
-      -
-        class_name: TestVariable
-        id: 131
         name: userBankEncryption
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: plain
         test: 15
+        parentVariable: 8
+      -
+        class_name: TestVariable
+        id: 130
+        name: userBankList
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '[]'
+        test: 15
+        parentVariable: 9
+      -
+        class_name: TestVariable
+        id: 131
+        name: userBankTable
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '{"table":"users","columns":{"id":"id","login":"login","password":"password","enabled":"enabled"}}'
+        test: 15
         parentVariable: 10
       -
         class_name: TestVariable
         id: 132
-        name: resultCode
-        type: 1
+        name: userBankType
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: direct
         test: 15
         parentVariable: 11
     sourceWizard: 1
@@ -9846,7 +9846,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: direct
-            testVariable: 19
+            testVariable: 23
             name: itemBankType
             wizardStep: 2
             stepTitle: Items
@@ -10216,7 +10216,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: test
-            testVariable: 32
+            testVariable: 26
             name: itemTemplate
             wizardStep: 2
             stepTitle: Items
@@ -10234,7 +10234,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 45
+            testVariable: 22
             name: itemBankTableExtraFields
             wizardStep: 2
             stepTitle: Items
@@ -10276,7 +10276,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 22
+            testVariable: 45
             name: testTimeLimit
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10294,7 +10294,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 23
+            testVariable: 29
             name: itemTimeLimit
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10312,7 +10312,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 24
+            testVariable: 28
             name: itemTimeFullRequired
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10330,7 +10330,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 34
+            testVariable: 24
             name: itemNumLimit
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10348,7 +10348,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 35
+            testVariable: 30
             name: minAccuracy
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10383,7 +10383,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 26
+            testVariable: 18
             name: contentBalancing
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10417,7 +10417,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: MFI
-            testVariable: 28
+            testVariable: 32
             name: nextItemCriterion
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10445,7 +10445,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 29
+            testVariable: 34
             name: nextItemRandomesque
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10463,7 +10463,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: BM
-            testVariable: 30
+            testVariable: 40
             name: scoringMethod
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10494,7 +10494,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: dichotomous
-            testVariable: 41
+            testVariable: 31
             name: model
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10534,7 +10534,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '9'
-            testVariable: 43
+            testVariable: 25
             name: itemParamsNum
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10561,7 +10561,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","score":"score","timeTaken":"timeTaken","session_id":"session_id","theta":"theta","sem":"sem","response":"response"}}'
-            testVariable: 31
+            testVariable: 36
             name: responseBank
             wizardStep: 5
             stepTitle: Responses
@@ -10611,7 +10611,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 36
+            testVariable: 37
             name: responseRequired
             wizardStep: 5
             stepTitle: Responses
@@ -10629,7 +10629,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: 'Please answer all items on this page'
-            testVariable: 37
+            testVariable: 38
             name: responseRequiredAlert
             wizardStep: 5
             stepTitle: Responses
@@ -10656,7 +10656,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 40
+            testVariable: 27
             name: itemTemplateParamsModule
             wizardStep: 6
             stepTitle: Modules
@@ -10674,7 +10674,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 42
+            testVariable: 39
             name: responseScoreModule
             wizardStep: 6
             stepTitle: Modules
@@ -10692,7 +10692,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 44
+            testVariable: 33
             name: nextItemModule
             wizardStep: 6
             stepTitle: Modules
@@ -10710,7 +10710,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 46
+            testVariable: 19
             name: itemBankFilterModule
             wizardStep: 6
             stepTitle: Modules
@@ -10736,21 +10736,21 @@ collection:
       -
         class_name: TestVariable
         id: 133
-        name: out
-        type: 2
+        name: contentBalancing
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '[]'
         test: 16
         parentVariable: 18
       -
         class_name: TestVariable
         id: 134
-        name: itemBankType
+        name: itemBankFilterModule
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: direct
+        value: ''
         test: 16
         parentVariable: 19
       -
@@ -10776,27 +10776,27 @@ collection:
       -
         class_name: TestVariable
         id: 137
-        name: testTimeLimit
+        name: itemBankTableExtraFields
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '[]'
         test: 16
         parentVariable: 22
       -
         class_name: TestVariable
         id: 138
-        name: itemTimeLimit
+        name: itemBankType
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: direct
         test: 16
         parentVariable: 23
       -
         class_name: TestVariable
         id: 139
-        name: itemTimeFullRequired
+        name: itemNumLimit
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -10806,87 +10806,87 @@ collection:
       -
         class_name: TestVariable
         id: 140
-        name: testTimeLimitOffset
+        name: itemParamsNum
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '9'
         test: 16
         parentVariable: 25
       -
         class_name: TestVariable
         id: 141
-        name: contentBalancing
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '[]'
-        test: 16
-        parentVariable: 26
-      -
-        class_name: TestVariable
-        id: 142
-        name: startingTheta
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 16
-        parentVariable: 27
-      -
-        class_name: TestVariable
-        id: 143
-        name: nextItemCriterion
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: MFI
-        test: 16
-        parentVariable: 28
-      -
-        class_name: TestVariable
-        id: 144
-        name: nextItemRandomesque
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '1'
-        test: 16
-        parentVariable: 29
-      -
-        class_name: TestVariable
-        id: 145
-        name: scoringMethod
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: BM
-        test: 16
-        parentVariable: 30
-      -
-        class_name: TestVariable
-        id: 146
-        name: responseBank
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score"}}'
-        test: 16
-        parentVariable: 31
-      -
-        class_name: TestVariable
-        id: 147
         name: itemTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: test
         test: 16
+        parentVariable: 26
+      -
+        class_name: TestVariable
+        id: 142
+        name: itemTemplateParamsModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 16
+        parentVariable: 27
+      -
+        class_name: TestVariable
+        id: 143
+        name: itemTimeFullRequired
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 16
+        parentVariable: 28
+      -
+        class_name: TestVariable
+        id: 144
+        name: itemTimeLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 16
+        parentVariable: 29
+      -
+        class_name: TestVariable
+        id: 145
+        name: minAccuracy
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 16
+        parentVariable: 30
+      -
+        class_name: TestVariable
+        id: 146
+        name: model
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: dichotomous
+        test: 16
+        parentVariable: 31
+      -
+        class_name: TestVariable
+        id: 147
+        name: nextItemCriterion
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: MFI
+        test: 16
         parentVariable: 32
       -
         class_name: TestVariable
         id: 148
-        name: session
+        name: nextItemModule
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -10896,18 +10896,18 @@ collection:
       -
         class_name: TestVariable
         id: 149
-        name: itemNumLimit
+        name: nextItemRandomesque
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '1'
         test: 16
         parentVariable: 34
       -
         class_name: TestVariable
         id: 150
-        name: minAccuracy
-        type: 0
+        name: out
+        type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
@@ -10916,38 +10916,38 @@ collection:
       -
         class_name: TestVariable
         id: 151
+        name: responseBank
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '{"table":"CATResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score"}}'
+        test: 16
+        parentVariable: 36
+      -
+        class_name: TestVariable
+        id: 152
         name: responseRequired
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 16
-        parentVariable: 36
+        parentVariable: 37
       -
         class_name: TestVariable
-        id: 152
+        id: 153
         name: responseRequiredAlert
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: 'Response required!'
         test: 16
-        parentVariable: 37
-      -
-        class_name: TestVariable
-        id: 153
-        name: sem
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 16
         parentVariable: 38
       -
         class_name: TestVariable
         id: 154
-        name: theta
-        type: 1
+        name: responseScoreModule
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -10956,27 +10956,27 @@ collection:
       -
         class_name: TestVariable
         id: 155
-        name: itemTemplateParamsModule
+        name: scoringMethod
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: BM
         test: 16
         parentVariable: 40
       -
         class_name: TestVariable
         id: 156
-        name: model
-        type: 0
+        name: sem
+        type: 1
         description: ''
         passableThroughUrl: '0'
-        value: dichotomous
+        value: null
         test: 16
         parentVariable: 41
       -
         class_name: TestVariable
         id: 157
-        name: responseScoreModule
+        name: session
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -10986,18 +10986,18 @@ collection:
       -
         class_name: TestVariable
         id: 158
-        name: itemParamsNum
+        name: startingTheta
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '9'
+        value: '0'
         test: 16
         parentVariable: 43
       -
         class_name: TestVariable
         id: 159
-        name: nextItemModule
-        type: 0
+        name: testTimeLeft
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -11006,27 +11006,27 @@ collection:
       -
         class_name: TestVariable
         id: 160
-        name: itemBankTableExtraFields
+        name: testTimeLimit
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[]'
+        value: '0'
         test: 16
         parentVariable: 45
       -
         class_name: TestVariable
         id: 161
-        name: itemBankFilterModule
+        name: testTimeLimitOffset
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: ''
+        value: '0'
         test: 16
         parentVariable: 46
       -
         class_name: TestVariable
         id: 162
-        name: testTimeLeft
+        name: theta
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -11066,7 +11066,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 49
+            testVariable: 57
             name: userBankTable
             wizardStep: 7
             stepTitle: 'User Bank'
@@ -11177,37 +11177,37 @@ collection:
       -
         class_name: TestVariable
         id: 163
+        name: .branch
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 17
+        parentVariable: 48
+      -
+        class_name: TestVariable
+        id: 164
         name: created
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 17
-        parentVariable: 48
-      -
-        class_name: TestVariable
-        id: 164
-        name: userBankTable
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '{"table":"users","columns":{"id":"id","login":"login","password":"password","enabled":"enabled"}}'
-        test: 17
         parentVariable: 49
       -
         class_name: TestVariable
         id: 165
-        name: login
+        name: enabled
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '1'
         test: 17
         parentVariable: 50
       -
         class_name: TestVariable
         id: 166
-        name: password
+        name: extraFields
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -11217,11 +11217,11 @@ collection:
       -
         class_name: TestVariable
         id: 167
-        name: enabled
+        name: login
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '1'
+        value: null
         test: 17
         parentVariable: 52
       -
@@ -11237,8 +11237,8 @@ collection:
       -
         class_name: TestVariable
         id: 169
-        name: .branch
-        type: 1
+        name: password
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -11267,11 +11267,11 @@ collection:
       -
         class_name: TestVariable
         id: 172
-        name: extraFields
+        name: userBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '{"table":"users","columns":{"id":"id","login":"login","password":"password","enabled":"enabled"}}'
         test: 17
         parentVariable: 57
     sourceWizard: 3
@@ -11317,7 +11317,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: select
-            testVariable: 59
+            testVariable: 61
             name: queryType
             wizardStep: 8
             stepTitle: Data
@@ -11356,7 +11356,7 @@ collection:
             type: 6
             passableThroughUrl: '0'
             value: ''
-            testVariable: 62
+            testVariable: 64
             name: table
             wizardStep: 8
             stepTitle: Data
@@ -11449,7 +11449,7 @@ collection:
             type: 1
             passableThroughUrl: '0'
             value: ''
-            testVariable: 64
+            testVariable: 63
             name: setClause
             wizardStep: 8
             stepTitle: Data
@@ -11531,7 +11531,7 @@ collection:
             type: 1
             passableThroughUrl: '0'
             value: ''
-            testVariable: 63
+            testVariable: 65
             name: whereClause
             wizardStep: 8
             stepTitle: Data
@@ -11557,21 +11557,21 @@ collection:
       -
         class_name: TestVariable
         id: 173
-        name: out
-        type: 2
+        name: insertId
+        type: 1
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 18
         parentVariable: 58
       -
         class_name: TestVariable
         id: 174
-        name: queryType
-        type: 0
+        name: out
+        type: 2
         description: ''
         passableThroughUrl: '0'
-        value: select
+        value: '0'
         test: 18
         parentVariable: 59
       -
@@ -11587,18 +11587,18 @@ collection:
       -
         class_name: TestVariable
         id: 176
-        name: result
-        type: 1
+        name: queryType
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: select
         test: 18
         parentVariable: 61
       -
         class_name: TestVariable
         id: 177
-        name: table
-        type: 0
+        name: result
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -11607,7 +11607,7 @@ collection:
       -
         class_name: TestVariable
         id: 178
-        name: whereClause
+        name: setClause
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -11617,7 +11617,7 @@ collection:
       -
         class_name: TestVariable
         id: 179
-        name: setClause
+        name: table
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -11627,8 +11627,8 @@ collection:
       -
         class_name: TestVariable
         id: 180
-        name: insertId
-        type: 1
+        name: whereClause
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -11685,7 +11685,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 67
+            testVariable: 66
             name: fields
             wizardStep: 9
             stepTitle: Form
@@ -11845,31 +11845,31 @@ collection:
       -
         class_name: TestVariable
         id: 181
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 19
-        parentVariable: 66
-      -
-        class_name: TestVariable
-        id: 182
         name: fields
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[{"type":"required","value":"","alert":"Answer required!"}],"definition":{"options":null}}]'
         test: 19
-        parentVariable: 67
+        parentVariable: 66
       -
         class_name: TestVariable
-        id: 183
-        name: templateParams
+        id: 182
+        name: initialValues
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
+        test: 19
+        parentVariable: 67
+      -
+        class_name: TestVariable
+        id: 183
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 19
         parentVariable: 68
       -
@@ -11895,7 +11895,7 @@ collection:
       -
         class_name: TestVariable
         id: 186
-        name: initialValues
+        name: templateParams
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -11941,11 +11941,11 @@ collection:
       -
         class_name: TestVariable
         id: 187
-        name: 'true'
-        type: 2
+        name: .branch
+        type: 1
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 21
         parentVariable: null
       -
@@ -11961,8 +11961,8 @@ collection:
       -
         class_name: TestVariable
         id: 189
-        name: .branch
-        type: 1
+        name: 'false'
+        type: 2
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -11971,11 +11971,11 @@ collection:
       -
         class_name: TestVariable
         id: 190
-        name: 'false'
+        name: 'true'
         type: 2
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 21
         parentVariable: null
     sourceWizard: null
@@ -12267,7 +12267,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: test
-            testVariable: 80
+            testVariable: 77
             name: itemTemplate
             wizardStep: 10
             stepTitle: Items
@@ -12292,7 +12292,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: random
-            testVariable: 78
+            testVariable: 81
             name: order
             wizardStep: 10
             stepTitle: Items
@@ -12317,7 +12317,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 85
+            testVariable: 72
             name: canGoBack
             wizardStep: 10
             stepTitle: Items
@@ -12335,7 +12335,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 89
+            testVariable: 80
             name: itemsPerPage
             wizardStep: 10
             stepTitle: Items
@@ -12362,7 +12362,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 76
+            testVariable: 88
             name: testTimeLimit
             wizardStep: 11
             stepTitle: 'Stopping Rules'
@@ -12398,7 +12398,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 84
+            testVariable: 78
             name: itemTimeFullRequired
             wizardStep: 11
             stepTitle: 'Stopping Rules'
@@ -12416,7 +12416,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 83
+            testVariable: 76
             name: itemNumLimit
             wizardStep: 11
             stepTitle: 'Stopping Rules'
@@ -12445,7 +12445,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"linearTestResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","score":"score","trait":"trait"}}'
-            testVariable: 81
+            testVariable: 83
             name: responseBank
             wizardStep: 12
             stepTitle: Responses
@@ -12491,7 +12491,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 86
+            testVariable: 84
             name: responseRequired
             wizardStep: 12
             stepTitle: Responses
@@ -12509,7 +12509,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: 'Response required!'
-            testVariable: 87
+            testVariable: 85
             name: responseRequiredAlert
             wizardStep: 12
             stepTitle: Responses
@@ -12544,8 +12544,8 @@ collection:
       -
         class_name: TestVariable
         id: 191
-        name: out
-        type: 2
+        name: canGoBack
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
@@ -12584,7 +12584,7 @@ collection:
       -
         class_name: TestVariable
         id: 195
-        name: testTimeLimit
+        name: itemNumLimit
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -12594,21 +12594,21 @@ collection:
       -
         class_name: TestVariable
         id: 196
-        name: testTimeLimitOffset
+        name: itemTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: test
         test: 22
         parentVariable: 77
       -
         class_name: TestVariable
         id: 197
-        name: order
+        name: itemTimeFullRequired
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: random
+        value: '0'
         test: 22
         parentVariable: 78
       -
@@ -12624,47 +12624,47 @@ collection:
       -
         class_name: TestVariable
         id: 199
-        name: itemTemplate
+        name: itemsPerPage
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: test
+        value: '1'
         test: 22
         parentVariable: 80
       -
         class_name: TestVariable
         id: 200
+        name: order
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: random
+        test: 22
+        parentVariable: 81
+      -
+        class_name: TestVariable
+        id: 201
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 22
+        parentVariable: 82
+      -
+        class_name: TestVariable
+        id: 202
         name: responseBank
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"linearTestResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","score":"score","trait":"trait"}}'
         test: 22
-        parentVariable: 81
-      -
-        class_name: TestVariable
-        id: 201
-        name: session
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 22
-        parentVariable: 82
-      -
-        class_name: TestVariable
-        id: 202
-        name: itemNumLimit
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 22
         parentVariable: 83
       -
         class_name: TestVariable
         id: 203
-        name: itemTimeFullRequired
+        name: responseRequired
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -12674,51 +12674,51 @@ collection:
       -
         class_name: TestVariable
         id: 204
-        name: canGoBack
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 22
-        parentVariable: 85
-      -
-        class_name: TestVariable
-        id: 205
-        name: responseRequired
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 22
-        parentVariable: 86
-      -
-        class_name: TestVariable
-        id: 206
         name: responseRequiredAlert
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: 'Response required!'
         test: 22
-        parentVariable: 87
+        parentVariable: 85
       -
         class_name: TestVariable
-        id: 207
+        id: 205
         name: scores
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 22
+        parentVariable: 86
+      -
+        class_name: TestVariable
+        id: 206
+        name: session
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 22
+        parentVariable: 87
+      -
+        class_name: TestVariable
+        id: 207
+        name: testTimeLimit
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 22
         parentVariable: 88
       -
         class_name: TestVariable
         id: 208
-        name: itemsPerPage
+        name: testTimeLimitOffset
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '1'
+        value: '0'
         test: 22
         parentVariable: 89
     sourceWizard: 6
@@ -12754,7 +12754,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: ''
-            testVariable: 91
+            testVariable: 92
             name: layout
             wizardStep: 14
             stepTitle: Templates
@@ -12779,7 +12779,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 92
+            testVariable: 90
             name: content
             wizardStep: 14
             stepTitle: Templates
@@ -12820,18 +12820,18 @@ collection:
       -
         class_name: TestVariable
         id: 209
-        name: out
-        type: 2
+        name: content
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '[]'
         test: 23
         parentVariable: 90
       -
         class_name: TestVariable
         id: 210
-        name: layout
-        type: 0
+        name: html
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12840,28 +12840,28 @@ collection:
       -
         class_name: TestVariable
         id: 211
-        name: content
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '[]'
-        test: 23
-        parentVariable: 92
-      -
-        class_name: TestVariable
-        id: 212
-        name: params
+        name: layout
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 23
+        parentVariable: 92
+      -
+        class_name: TestVariable
+        id: 212
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 23
         parentVariable: 93
       -
         class_name: TestVariable
         id: 213
-        name: html
-        type: 1
+        name: params
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12900,7 +12900,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 96
+            testVariable: 98
             name: test
             wizardStep: 15
             stepTitle: Test
@@ -12936,7 +12936,7 @@ collection:
       -
         class_name: TestVariable
         id: 215
-        name: test
+        name: params
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -12946,8 +12946,8 @@ collection:
       -
         class_name: TestVariable
         id: 216
-        name: params
-        type: 0
+        name: results
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12956,8 +12956,8 @@ collection:
       -
         class_name: TestVariable
         id: 217
-        name: results
-        type: 1
+        name: test
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -13024,7 +13024,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: loader
-            testVariable: 100
+            testVariable: 99
             name: loaderTemplate
             wizardStep: 16
             stepTitle: 'Internal Templates'
@@ -13050,21 +13050,21 @@ collection:
       -
         class_name: TestVariable
         id: 219
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 26
-        parentVariable: 99
-      -
-        class_name: TestVariable
-        id: 220
         name: loaderTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
+        test: 26
+        parentVariable: 99
+      -
+        class_name: TestVariable
+        id: 220
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 26
         parentVariable: 100
       -
@@ -13110,7 +13110,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: ''
-            testVariable: 103
+            testVariable: 107
             name: template
             wizardStep: 17
             stepTitle: Template
@@ -13128,7 +13128,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 105
+            testVariable: 109
             name: timeLimit
             wizardStep: 17
             stepTitle: Template
@@ -13146,7 +13146,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 107
+            testVariable: 104
             name: html
             wizardStep: 17
             stepTitle: Template
@@ -13172,17 +13172,17 @@ collection:
       -
         class_name: TestVariable
         id: 222
-        name: out
-        type: 2
+        name: .branch
+        type: 1
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 27
         parentVariable: 102
       -
         class_name: TestVariable
         id: 223
-        name: template
+        name: cookies
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -13192,8 +13192,8 @@ collection:
       -
         class_name: TestVariable
         id: 224
-        name: response
-        type: 1
+        name: html
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -13202,9 +13202,9 @@ collection:
       -
         class_name: TestVariable
         id: 225
-        name: timeLimit
-        type: 0
-        description: 'Time limit in seconds.'
+        name: out
+        type: 2
+        description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 27
@@ -13212,8 +13212,8 @@ collection:
       -
         class_name: TestVariable
         id: 226
-        name: templateParams
-        type: 0
+        name: response
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -13222,7 +13222,7 @@ collection:
       -
         class_name: TestVariable
         id: 227
-        name: html
+        name: template
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -13232,8 +13232,8 @@ collection:
       -
         class_name: TestVariable
         id: 228
-        name: .branch
-        type: 1
+        name: templateParams
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -13242,11 +13242,11 @@ collection:
       -
         class_name: TestVariable
         id: 229
-        name: cookies
+        name: timeLimit
         type: 0
-        description: ''
+        description: 'Time limit in seconds.'
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 27
         parentVariable: 109
     sourceWizard: 10
@@ -13282,7 +13282,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 113
+            testVariable: 115
             name: sessionBankTable
             wizardStep: 18
             stepTitle: Session
@@ -13328,7 +13328,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 116
+            testVariable: 113
             name: resumableExpiration
             wizardStep: 18
             stepTitle: Session
@@ -13346,7 +13346,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 115
+            testVariable: 112
             name: resumable
             wizardStep: 18
             stepTitle: Session
@@ -13372,41 +13372,41 @@ collection:
       -
         class_name: TestVariable
         id: 230
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 28
-        parentVariable: 110
-      -
-        class_name: TestVariable
-        id: 231
         name: extraFields
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 28
+        parentVariable: 110
+      -
+        class_name: TestVariable
+        id: 231
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 28
         parentVariable: 111
       -
         class_name: TestVariable
         id: 232
-        name: user
+        name: resumable
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 28
         parentVariable: 112
       -
         class_name: TestVariable
         id: 233
-        name: sessionBankTable
+        name: resumableExpiration
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"sessions","columns":{"id":"id","internal_id":"internal_id","user_id":"user_id","test_id":"test_id","updateTime":"updateTime","finished":"finished","startedTime":"startedTime"}}'
+        value: '0'
         test: 28
         parentVariable: 113
       -
@@ -13422,21 +13422,21 @@ collection:
       -
         class_name: TestVariable
         id: 235
-        name: resumable
+        name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '{"table":"sessions","columns":{"id":"id","internal_id":"internal_id","user_id":"user_id","test_id":"test_id","updateTime":"updateTime","finished":"finished","startedTime":"startedTime"}}'
         test: 28
         parentVariable: 115
       -
         class_name: TestVariable
         id: 236
-        name: resumableExpiration
+        name: user
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 28
         parentVariable: 116
     sourceWizard: 11
@@ -13472,7 +13472,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 120
+            testVariable: 118
             name: dictionaryTable
             wizardStep: 19
             stepTitle: Dictionary
@@ -13498,7 +13498,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: en
-            testVariable: 119
+            testVariable: 117
             name: defaultLanguage
             wizardStep: 19
             stepTitle: Dictionary
@@ -13558,41 +13558,41 @@ collection:
       -
         class_name: TestVariable
         id: 237
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 29
-        parentVariable: 117
-      -
-        class_name: TestVariable
-        id: 238
-        name: language
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 29
-        parentVariable: 118
-      -
-        class_name: TestVariable
-        id: 239
         name: defaultLanguage
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: en
         test: 29
-        parentVariable: 119
+        parentVariable: 117
       -
         class_name: TestVariable
-        id: 240
+        id: 238
         name: dictionaryTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"translationDictionary","columns":{"id":"id","entryKey":"entryKey"}}'
+        test: 29
+        parentVariable: 118
+      -
+        class_name: TestVariable
+        id: 239
+        name: language
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 29
+        parentVariable: 119
+      -
+        class_name: TestVariable
+        id: 240
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 29
         parentVariable: 120
       -
@@ -13638,7 +13638,7 @@ collection:
             type: 11
             passableThroughUrl: '0'
             value: ''
-            testVariable: 16
+            testVariable: 15
             name: code
             wizardStep: 20
             stepTitle: eval
@@ -13663,21 +13663,21 @@ collection:
       -
         class_name: TestVariable
         id: 242
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 30
-        parentVariable: 15
-      -
-        class_name: TestVariable
-        id: 243
         name: code
         type: 0
         description: 'R code to execute'
         passableThroughUrl: '0'
         value: null
+        test: 30
+        parentVariable: 15
+      -
+        class_name: TestVariable
+        id: 243
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
         test: 30
         parentVariable: 16
       -
