@@ -1,6 +1,5 @@
 concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
     options(digits.secs = 6)
-    concerto.log("starting session")
     if(Sys.info()['sysname'] != "Windows") {
         options(encoding='UTF-8')
         Sys.setlocale("LC_ALL","en_US.utf8")

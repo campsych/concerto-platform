@@ -1,3 +1,9 @@
+## 5.0.6 (work in progress)
+
+#### Improvements
+
+* improved logging for forker and forked child processes
+
 ## 5.0.5 (2019-11-02)
 
 #### Features

@@ -15,9 +15,7 @@ switch(concerto$connectionParams$driver,
     pdo_sqlsrv = require("RSQLServer")
 )
 
-#fifo_path = commandArgs(TRUE)[1]
-
-concerto.log("starting listener")
+concerto.log("starting forker listener")
 queue = c()
 unlink(paste0(commandArgs(TRUE)[1],"*.fifo"))
 while (T) {
@@ -33,7 +31,6 @@ while (T) {
         next
     }
     con = fifo(fpath, blocking=TRUE, open="rt")
-    concerto.log("incoming session request")
     response = readLines(con, warn = FALSE, n = 1, ok = FALSE)
     response = tryCatch({
         fromJSON(response)
@@ -43,14 +40,18 @@ while (T) {
         q("no", 1)
     })
     close(con)
+    rm(con)
     unlink(fpath)
-    message(response$sessionId)
+    rm(fpath)
+
+    if(is.null(response$rLogPath)) response$rLogPath = "/dev/null"
+
     mcparallel({
-        sink(file = response$rLogPath, append = TRUE, type = "output", split = FALSE)
-        concerto.log("starting session")
+        sinkFile <- file(response$rLogPath, open = "at")
+        sink(file = sinkFile, append = TRUE, type = "output", split = FALSE)
+        sink(file = sinkFile, append = TRUE, type = "message", split = FALSE)
         rm(queue)
-        rm(fpath)
-        rm(con)
+        rm(sinkFile)
 
         concerto$lastSubmitTime <- as.numeric(Sys.time())
         concerto$lastKeepAliveTime <- as.numeric(Sys.time())
