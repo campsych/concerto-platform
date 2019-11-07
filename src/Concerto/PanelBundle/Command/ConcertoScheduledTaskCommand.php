@@ -36,7 +36,6 @@ abstract class ConcertoScheduledTaskCommand extends Command
     {
         $this->addOption("task", null, InputOption::VALUE_OPTIONAL, "Task id", null);
         $this->addOption("cancel-pending-on-fail", null, InputOption::VALUE_NONE, "Cancels all other pending tasks when this task fails", null);
-        $this->addOption("backup", null, InputOption::VALUE_NONE, "Perform backup and use it as restore point when content upgrade task will fail.", null);
     }
 
     protected function check(&$error, &$code, InputInterface $input)
@@ -46,17 +45,12 @@ abstract class ConcertoScheduledTaskCommand extends Command
 
     protected function getTaskResultFile(ScheduledTask $task)
     {
-        return realpath($this->administration["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . "concerto_task_" . $task->getId() . ".result";
+        return realpath(dirname(__FILE__) . "/../Resources/tasks") . "/concerto_task_" . $task->getId() . ".result";
     }
 
     protected function getTaskOutputFile(ScheduledTask $task)
     {
-        return realpath($this->administration["internal"]["backup_directory"]) . DIRECTORY_SEPARATOR . "concerto_task_" . $task->getId() . ".output";
-    }
-
-    protected function getConcertoPath()
-    {
-        return realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "..");
+        return realpath(dirname(__FILE__) . "/../Resources/tasks") . "/concerto_task_" . $task->getId() . ".output";
     }
 
     abstract protected function getCommand(ScheduledTask $task, InputInterface $input);
@@ -68,8 +62,7 @@ abstract class ConcertoScheduledTaskCommand extends Command
         $info = array(
             "task_output_path" => $this->getTaskOutputFile($task),
             "task_result_path" => $this->getTaskResultFile($task),
-            "cancel_pending_on_fail" => $input->getOption("cancel-pending-on-fail"),
-            "restore_backup_on_fail" => $input->getOption("backup")
+            "cancel_pending_on_fail" => $input->getOption("cancel-pending-on-fail")
         );
         return $info;
     }
@@ -78,20 +71,6 @@ abstract class ConcertoScheduledTaskCommand extends Command
 
     protected function onBeforeTaskCreate(InputInterface $input, OutputInterface $output)
     {
-        $backup = $input->getOption("backup");
-        if ($backup) {
-            $output->writeln("restore point creation requested");
-
-            $app = $this->getApplication()->find('concerto:backup');
-            $in = new ArrayInput(array(
-                'command' => 'concerto:backup',
-                '--cancel-pending-on-fail' => true
-            ));
-            $out = new BufferedOutput();
-            $return_code = $app->run($in, $out);
-            $response = $out->fetch();
-            $output->writeln($response);
-        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

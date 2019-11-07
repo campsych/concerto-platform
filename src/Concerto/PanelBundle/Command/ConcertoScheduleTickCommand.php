@@ -118,17 +118,6 @@ class ConcertoScheduleTickCommand extends Command
                 $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
                 $tasksRepo->cancelPending();
             }
-            if ($info["restore_backup_on_fail"]) {
-                $app = $this->getApplication()->find("concerto:restore");
-                $in = new ArrayInput(array(
-                    "command" => "concerto:content:restore"
-                ));
-                $out = new BufferedOutput();
-                $return_code = $app->run($in, $out);
-                $response = $out->fetch();
-
-                $output->writeln($response);
-            }
         }
     }
 
