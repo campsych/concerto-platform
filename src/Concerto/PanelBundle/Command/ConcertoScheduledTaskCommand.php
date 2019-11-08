@@ -15,10 +15,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 
 abstract class ConcertoScheduledTaskCommand extends Command
 {
-
-    const FILES_BACKUP_FILENAME = "c5_files_backup.zip";
-    const DB_BACKUP_FILENAME = "c5_db_backup.sql";
-
     protected $administrationService;
     protected $administration;
     protected $doctrine;
@@ -53,7 +49,7 @@ abstract class ConcertoScheduledTaskCommand extends Command
         return realpath(dirname(__FILE__) . "/../Resources/tasks") . "/concerto_task_" . $task->getId() . ".output";
     }
 
-    abstract protected function getCommand(ScheduledTask $task, InputInterface $input);
+    abstract protected function executeTask(ScheduledTask $task, OutputInterface $output);
 
     abstract public function getTaskDescription(ScheduledTask $task);
 
@@ -88,7 +84,7 @@ abstract class ConcertoScheduledTaskCommand extends Command
         $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
         $task = null;
         if ($task_id) {
-            //START TASK
+            //EXECUTE TASK
 
             $task = $tasksRepo->find($task_id);
             if (!$task) {
@@ -99,15 +95,12 @@ abstract class ConcertoScheduledTaskCommand extends Command
             $task->setStatus(ScheduledTask::STATUS_ONGOING);
             $tasksRepo->save($task);
 
-            $cmd = $this->getCommand($task, $input);
-            //$output->writeln($cmd);
-            $proc = new Process($cmd);
-            $return_code = $proc->run();
+            $return_code = $this->executeTask($task, $output);
             if ($return_code !== 0) {
-                $output->writeln("failed to start task #" . $task->getId() . "!");
+                $output->writeln("task #" . $task->getId() . " failed");
                 return $return_code;
             }
-            $output->writeln("task #" . $task->getId() . " started");
+            $output->writeln("task #" . $task->getId() . " finished successfully");
         } else {
             //SCHEDULE TASK
 
@@ -123,5 +116,4 @@ abstract class ConcertoScheduledTaskCommand extends Command
             $output->writeln("task #" . $task->getId() . " scheduled");
         }
     }
-
 }

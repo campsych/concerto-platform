@@ -152,9 +152,36 @@ class AdministrationController
      */
     public function taskPackageInstallAction(Request $request)
     {
-        $install_options = json_decode($request->get("install_options"), true);
-        $return = $this->service->schedulePackageInstallTask($out, $install_options, true);
-        $response = new Response(json_encode(array("result" => $return, "out" => $out)));
+        $installOptions = json_decode($request->get("install_options"), true);
+        $success = $this->service->scheduleTaskPackageInstall($installOptions, $output, $errors);
+        $content = array(
+            "result" => $success ? 0 : 1,
+            "output" => $output,
+            "errors" => $this->trans($errors)
+        );
+
+        $response = new Response(json_encode($content));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/ScheduledTask/git_pull", name="Administration_tasks_git_pull")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function taskGitPullAction(Request $request)
+    {
+        $exportInstructions = $request->get("exportInstructions");
+        $success = $this->service->scheduleTaskGitPull($exportInstructions, $output, $errors);
+        $content = array(
+            "result" => $success ? 0 : 1,
+            "output" => $output,
+            "errors" => $this->trans($errors)
+        );
+
+        $response = new Response(json_encode($content));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -436,32 +463,6 @@ class AdministrationController
             "result" => $push === false ? 1 : 0,
             "output" => $output,
             "errors" => $push === false ? $this->trans($errorMessages) : null
-        ];
-
-        $response = new Response(json_encode($responseContent));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/git/pull", name="Administration_git_pull")
-     * @param Request $request
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @return Response
-     */
-    public function gitPullAction(Request $request)
-    {
-        $exportInstructions = $request->get("exportInstructions");
-        $pull = $this->gitService->pull(
-            $exportInstructions,
-            $output,
-            $errorMessages
-        );
-
-        $responseContent = [
-            "result" => $pull === false ? 1 : 0,
-            "output" => $output,
-            "errors" => $pull === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));

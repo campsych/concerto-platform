@@ -413,14 +413,9 @@ class GitService
         return false;
     }
 
-    public function pull($instructions, &$output, &$errorMessages = null)
+    public function pull($username, $email, $instructions, &$output, &$errorMessages = null)
     {
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errorMessages[] = "git.locked";
-            return false;
-        }
-
-        if (!$this->gitPull($output, $errorMessages)) {
+        if (!$this->gitPull($username, $email, $output, $errorMessages)) {
             $errorMessages[] = "git.pull_failed";
             return false;
         }
@@ -432,17 +427,15 @@ class GitService
         return true;
     }
 
-    public function gitPull(&$output = null, &$errorMessages = null)
+    public function gitPull($username, $email, &$output = null, &$errorMessages = null)
     {
-        $user = $this->adminService->getAuthorizedUser();
-
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $command = $app->find("concerto:git:pull");
         $arguments = [
             "command" => $command->getName(),
-            "username" => $user->getUsername(),
-            "email" => $user->getEmail()
+            "username" => $username,
+            "email" => $email
         ];
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();

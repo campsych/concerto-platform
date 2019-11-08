@@ -180,8 +180,6 @@ git:
     pull:
         title: Pulling commits from remote
         confirm: Are you sure you want to pull commits from remote?
-        success: Commits pulled
-        failure: Failed pulling commits from remote
         button: Pull
         
 usage_charts:
@@ -246,9 +244,6 @@ tasks:
             status.canceled: Canceled
             description: Description
             output: Output
-    dialog:
-        content:
-            busy: There are already pending or ongoing scheduled tasks.
             
 api_clients:
     fieldset:

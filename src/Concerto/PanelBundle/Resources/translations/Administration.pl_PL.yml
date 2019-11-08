@@ -180,8 +180,6 @@ git:
     pull:
         title: Pobieranie commitów ze zdalnego repozytorium
         confirm: Napewno pobrać commity ze zdalnego repozytorium?
-        success: Commity pobrane
-        failure: Nie udało się pobrać commitów ze zdalnego repozytorium
         button: Pobierz
         
 usage_charts:
@@ -246,9 +244,6 @@ tasks:
             status.canceled: Anulowane
             description: Opis
             output: Wyjście
-    dialog:
-        content:
-            busy: Obecnie już trwają lub są zaplanowane zadania.
         
 api_clients:
     fieldset:

@@ -275,6 +275,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canPull = function () {
+        return true; //@TODO remove
         return $scope.isGitEnabled() && $scope.gitStatus.behind > 0;
     };
 
@@ -283,20 +284,19 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             Trans.GIT_PULL_TITLE,
             Trans.GIT_PULL_CONFIRM,
             function (confirmResponse) {
-                $http.post(Paths.ADMINISTRATION_GIT_PULL, {
+                $http.post(Paths.ADMINISTRATION_TASKS_GIT_PULL, {
                     exportInstructions: $scope.exposedSettingsMap.content_export_options
                 }).then(function (httpResponse) {
-                    $scope.refreshGitStatus();
-
                     let success = httpResponse.data.result === 0;
-                    let title = success ? Trans.GIT_PULL_SUCCESS : Trans.GIT_PULL_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
-
-                    DialogsService.preDialog(
-                        title,
-                        null,
-                        content
-                    );
+                    if (success) {
+                        $scope.refreshGitStatus();
+                    } else {
+                        DialogsService.preDialog(
+                            Trans.GIT_PULL_TITLE,
+                            null,
+                            httpResponse.data.errors.join("\n")
+                        );
+                    }
                 });
             }
         );

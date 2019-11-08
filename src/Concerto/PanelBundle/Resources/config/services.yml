@@ -38,10 +38,14 @@ services:
     Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand:
         autoconfigure: false
 
-    Concerto\PanelBundle\Command\ConcertoPackageInstallCommand:
+    Concerto\PanelBundle\Command\ConcertoTaskPackageInstallCommand:
         arguments:
             $administration: "%administration%"
             $testRunnerSettings: "%test_runner_settings%"
+
+    Concerto\PanelBundle\Command\ConcertoTaskGitPullCommand:
+        arguments:
+            $administration: "%administration%"
 
     Concerto\PanelBundle\Command\ConcertoRCacheCommand:
         arguments:

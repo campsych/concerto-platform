@@ -358,32 +358,66 @@ class AdministrationService
         return $this->scheduledTaskRepository->findAll();
     }
 
-    public function schedulePackageInstallTask(&$output, $install_options, $busy_check)
+    public function isTaskScheduled()
     {
-        if ($busy_check) {
-            $pending = $this->scheduledTaskRepository->findAllPending();
-            if (count($pending) > 0)
-                return -1;
+        $pending = $this->scheduledTaskRepository->findAllPending();
+        if (count($pending) > 0)
+            return true;
 
-            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
-            if (count($ongoing) > 0) {
-                return -1;
-            }
+        $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+        if (count($ongoing) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function scheduleTaskPackageInstall($installOptions, &$output = null, &$errors = null)
+    {
+        if ($this->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
         }
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
-            "command" => "concerto:package:install",
-            "--method" => $install_options["method"],
-            "--name" => $install_options["name"],
-            "--mirror" => $install_options["mirror"],
-            "--url" => $install_options["url"]
+            "command" => "concerto:task:package:install",
+            "--method" => $installOptions["method"],
+            "--name" => $installOptions["name"],
+            "--mirror" => $installOptions["mirror"],
+            "--url" => $installOptions["url"]
         ));
         $out = new BufferedOutput();
-        $return_code = $app->run($in, $out);
+        $returnCode = $app->run($in, $out);
         $output = $out->fetch();
-        return $return_code;
+        return $returnCode === 0;
+    }
+
+    public function scheduleTaskGitPull($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $user = $this->getAuthorizedUser();
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:pull",
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail(),
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output = $out->fetch();
+        return $returnCode === 0;
     }
 
     public function getApiClientsCollection()

@@ -3,8 +3,7 @@
 namespace Concerto\PanelBundle\Command;
 
 use Concerto\PanelBundle\Service\AdministrationService;
-use Concerto\PanelBundle\Service\MaintenanceService;
-use Concerto\TestBundle\Service\TestSessionCountService;
+use Concerto\PanelBundle\Service\GitService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,8 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Concerto\PanelBundle\Entity\ScheduledTask;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Concerto\PanelBundle\Entity\Message;
-use DateTime;
 use Symfony\Component\Templating\EngineInterface;
 
 class ConcertoScheduleTickCommand extends Command
@@ -21,12 +18,14 @@ class ConcertoScheduleTickCommand extends Command
     private $administrationService;
     private $templating;
     private $doctrine;
+    private $gitService;
 
-    public function __construct(ManagerRegistry $doctrine, AdministrationService $administrationService, EngineInterface $templating)
+    public function __construct(ManagerRegistry $doctrine, AdministrationService $administrationService, EngineInterface $templating, GitService $gitService)
     {
         $this->administrationService = $administrationService;
         $this->templating = $templating;
         $this->doctrine = $doctrine;
+        $this->gitService = $gitService;
 
         parent::__construct();
     }
@@ -106,6 +105,8 @@ class ConcertoScheduleTickCommand extends Command
         switch ($task->getType()) {
             case ScheduledTask::TYPE_R_PACKAGE_INSTALL:
                 return $this->executePackageInstallTask($task, $output);
+            case ScheduledTask::TYPE_GIT_PULL:
+                return $this->executeGitPullTask($task, $output);
         }
     }
 
@@ -123,9 +124,9 @@ class ConcertoScheduleTickCommand extends Command
 
     private function executePackageInstallTask(ScheduledTask $task, OutputInterface $output)
     {
-        $app = $this->getApplication()->find("concerto:package:install");
+        $app = $this->getApplication()->find("concerto:task:package:install");
         $input = new ArrayInput(array(
-            "command" => "concerto:package:install",
+            "command" => "concerto:task:package:install",
             "--task" => $task->getId()
         ));
         $bo = new BufferedOutput();
@@ -141,4 +142,23 @@ class ConcertoScheduleTickCommand extends Command
         return $return_code;
     }
 
+    private function executeGitPullTask(ScheduledTask $task, OutputInterface $output)
+    {
+        $app = $this->getApplication()->find("concerto:task:git:pull");
+        $input = new ArrayInput(array(
+            "command" => "concerto:task:git:pull",
+            "--task" => $task->getId()
+        ));
+        $bo = new BufferedOutput();
+        $return_code = $app->run($input, $bo);
+        $response = $bo->fetch();
+
+        $output->writeln($response);
+        $em = $this->doctrine->getManager();
+        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
+        $task->appendOutput($response);
+        $tasksRepo->save($task);
+
+        return $return_code;
+    }
 }
