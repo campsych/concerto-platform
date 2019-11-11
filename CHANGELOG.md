@@ -6,6 +6,10 @@
 * test variables sorted by name for prettier export diffs
 * added working path writeable check to health check
 
+#### Fixes
+
+* fixed form select element values
+
 ## 5.0.5 (2019-11-02)
 
 #### Features

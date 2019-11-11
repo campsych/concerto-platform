@@ -9,7 +9,7 @@
 	<select name="[[field.name]]" ng-model="values[field.name]" ng-required="getValidator('required')">
 		<option disabled="disabled" hidden="" selected="selected" value="">
 		</option>
-		<option ng-attr-value="option.value" ng-html="option.label" ng-repeat="option in field.definition.options">
+		<option value="[[option.value]]" ng-html="option.label" ng-repeat="option in field.definition.options">
 		</option>
 		
 	</select>
