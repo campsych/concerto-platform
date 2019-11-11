@@ -52,6 +52,7 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
     concerto$globals <<- list()
     concerto$templateParams <<- list()
     concerto$flow <<- list()
+    concerto$flowIndex <<- 0
     concerto$bgWorkers <<- list()
     concerto$queuedResponse <<- NULL
     concerto$skipTemplateOnResume <<- F

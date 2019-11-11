@@ -9,6 +9,8 @@
 #### Fixes
 
 * fixed form select element values
+* fixed global variables scope on resuming
+* fixed standalone session runner missing use statement
 
 ## 5.0.5 (2019-11-02)
 

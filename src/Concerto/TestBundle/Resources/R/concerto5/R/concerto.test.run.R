@@ -76,6 +76,7 @@ function(testId, params=list(), extraReturns=c()) {
             }
         }
     }
+    concerto$flowIndex <<- flowIndex
 
     if (test$type == 1) {
         #wizard
@@ -366,6 +367,7 @@ function(testId, params=list(), extraReturns=c()) {
         }
     }
     concerto$flow[[flowIndex]] <<- NULL
+    concerto$flowIndex <<- length(concerto$flow)
 
     concerto.log(paste0("test #", test$id, ": ", test$name, " finished"))
     return(r)
