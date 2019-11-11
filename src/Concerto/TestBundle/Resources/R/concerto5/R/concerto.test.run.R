@@ -48,16 +48,19 @@ function(testId, params=list(), extraReturns=c()) {
 
     r <- list()
     flowIndex = length(concerto$flow)
+    concerto$flowIndex <<- flowIndex
     if(concerto$resuming) {
         if (test$type != 1) {
             concerto$resumeIndex <<- concerto$resumeIndex + 1
         }
         flowIndex = concerto$resumeIndex
+        concerto$flowIndex <<- flowIndex
         params = concerto$flow[[flowIndex]]$params
     } else {
         params = getParams(params)
         if (test$type != 1) {
             flowIndex = flowIndex + 1
+            concerto$flowIndex <<- flowIndex
             globals = list()
             if(!is.null(concerto$passedGlobals)) {
                 globals = concerto$passedGlobals
@@ -76,7 +79,6 @@ function(testId, params=list(), extraReturns=c()) {
             }
         }
     }
-    concerto$flowIndex <<- flowIndex
 
     if (test$type == 1) {
         #wizard
