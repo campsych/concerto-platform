@@ -107,6 +107,8 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && mkdir -p /data/sessions \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
+ && chown www-data:www-data /data/sessions \
+ && chown www-data:www-data /data/files \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
@@ -114,15 +116,13 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
     fi \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
+ && chown www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/git \
- && chown www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
- && chown www-data:www-data /data/sessions \
- && chown www-data:www-data /data/files \
  && cron \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \

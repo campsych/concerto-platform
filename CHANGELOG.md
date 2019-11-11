@@ -4,6 +4,7 @@
 
 * improved logging for forker and forked child processes
 * test variables sorted by name for prettier export diffs
+* added working path writeable check to health check
 
 ## 5.0.5 (2019-11-02)
 
