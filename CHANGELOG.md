@@ -1,4 +1,4 @@
-## 5.0.6 (work in progress)
+## 5.0.6 (2019-11-11)
 
 #### Improvements
 
