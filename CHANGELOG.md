@@ -12,6 +12,10 @@
 * fixed global variables scope on resuming
 * fixed standalone session runner missing use statement
 
+#### Starter content
+
+* added **Test Time Limit Type** option to **CAT**
+
 ## 5.0.5 (2019-11-02)
 
 #### Features
