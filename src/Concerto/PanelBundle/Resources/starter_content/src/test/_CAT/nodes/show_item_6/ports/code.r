@@ -59,13 +59,13 @@ templateTimeLimit = getTemplateTimeLimit(
   as.numeric(settings$itemTimeLimit)
 )
 
-response = concerto.template.show(
+templateResponse = concerto.template.show(
   settings$itemTemplate, 
   params=params, 
   timeLimit=templateTimeLimit
 )
 
-timeTaken = as.numeric(response$timeTaken)
+timeTaken = as.numeric(templateResponse$timeTaken)
 totalTimeTaken = totalTimeTaken + timeTaken
 
 testTimeLeft = getTestTimeLeft(
@@ -77,4 +77,4 @@ testTimeLeft = getTestTimeLeft(
 )
 
 .branch = "submitted"
-if(response$isTimeout == 1) { .branch = "outOfTime" }
+if(templateResponse$isTimeout == 1) { .branch = "outOfTime" }

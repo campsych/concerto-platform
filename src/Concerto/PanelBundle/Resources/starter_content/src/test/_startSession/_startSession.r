@@ -110,7 +110,7 @@ tableMap = fromJSON(sessionBankTable)
 session = NULL
 if(resumable == 1) {
   session = resumeSession(user, tableMap)
-  if(!is.null(session)) {
+  if(restoreState == 1 && !is.null(session)) {
     hash = concerto.table.query("SELECT hash FROM TestSession WHERE id={{id}}", list(id=session$previousInternal_id))
     concerto.log(hash, "resuming session...")
     if(!concerto.session.unserialize(hash=hash)) {

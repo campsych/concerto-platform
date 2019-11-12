@@ -28,17 +28,17 @@ getScore = function(item, response) {
   return(as.numeric(score))
 }
 
-responseRaw = response[[paste0("r",item$id)]]
+responseRaw = templateResponse[[paste0("r",item$id)]]
 score = getScore(item, responseRaw)
-responses = c(responses, score)
+scores = c(scores, score)
 itemsAdministered = unique(c(itemsAdministered, itemIndex))
 paramBankAdministered = paramBank
 if(dim(items)[1] > 1) {
   paramBankAdministered = paramBank[itemsAdministered,]
 }
 concerto.log(itemsAdministered, "itemsAdministered")
-concerto.log(responses, "responses")
-theta <- thetaEst(matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), responses, model=settings$model, method=settings$scoringMethod)
+concerto.log(scores, "scores")
+theta <- thetaEst(matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), scores, model=settings$model, method=settings$scoringMethod)
 concerto.log(theta, "theta")
-sem <- semTheta(theta, matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), responses, model=settings$model)
+sem <- semTheta(theta, matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), scores, model=settings$model)
 concerto.log(sem, "SEM")

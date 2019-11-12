@@ -1,3 +1,10 @@
+## 5.0.7 (in progress)
+
+#### Starter content
+
+* Database based resuming for **CAT**
+* Session state restore is now optional when resuming session in **startSession**
+
 ## 5.0.6 (2019-11-11)
 
 #### Improvements

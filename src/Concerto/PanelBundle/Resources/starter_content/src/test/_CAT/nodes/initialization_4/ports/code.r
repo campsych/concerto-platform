@@ -94,5 +94,55 @@ if(is.vector(paramBank)) {
 
 theta = as.numeric(settings$startingTheta)
 itemsAdministered = NULL
-correctness = NULL
 testTimeStarted = as.numeric(Sys.time())
+totalTimeTaken = 0
+resumedItemIndex = 0
+
+if(settings$sessionResuming == 1) {
+  #get response data
+  sessionTable = fromJSON(settings$sessionTable)
+
+  sessionTestTimeStarted = as.numeric(session[[sessionTable$columns$testTimeStarted]])
+  if(sessionTestTimeStarted != 0) {
+    testTimeStarted = sessionTestTimeStarted
+  }
+  resumedItemId = session[[sessionTable$columns$nextItem_id]]
+  resumedItemIndex = as.numeric(rownames(items[items$id == resumedItemId,]))
+  if(length(resumedItemIndex ) == 0) { 
+    resumedItemIndex = 0
+  }
+
+  responseTable = fromJSON(settings$responseBank)
+  responses = concerto.table.query("
+SELECT id, 
+{{scoreCol}} AS score, 
+{{timeTakenCol}} AS timeTaken,
+{{itemIdCol}} AS item_id
+FROM {{table}} 
+WHERE {{sessionIdCol}}={{sessionId}}", params=list(
+  scoreCol = responseTable$columns$score,
+  timeTakenCol = responseTable$columns$timeTaken,
+  itemIdCol = responseTable$columns$item_id,
+  table = responseTable$table,
+  sessionIdCol = responseTable$columns$session_id,
+  sessionId = session$id
+))
+
+  totalTimeTaken = sum(responses[,"timeTaken"])
+  itemsAdministered = as.numeric(rownames(items[items[,"id"] %in% responses[,"item_id"],]))
+  if(length(itemsAdministered) == 0) {
+    itemsAdministered = NULL
+  }
+  scores = responses[,"score"]
+
+  #save test time started
+  concerto.table.query("
+UPDATE {{table}} 
+SET {{testTimeStartedCol}}={{testTimeStarted}} 
+WHERE id={{id}}", params=list(
+  table = sessionTable$table,
+  testTimeStartedCol = sessionTable$columns$testTimeStarted,
+  testTimeStarted = testTimeStarted,
+  id = session$id
+))
+}
