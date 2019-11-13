@@ -1,4 +1,4 @@
-version: 5.0.6
+version: 5.0.7
 collection:
   -
     class_name: DataTable
@@ -9765,7 +9765,7 @@ collection:
       -
         class_name: TestVariable
         id: 115
-        name: restoreState
+        name: preventParallelSessionUsage
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9775,6 +9775,16 @@ collection:
       -
         class_name: TestVariable
         id: 116
+        name: restoreState
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '1'
+        test: 13
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 117
         name: resumable
         type: 0
         description: ''
@@ -9784,7 +9794,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 117
+        id: 118
         name: resumableExpiration
         type: 0
         description: ''
@@ -9794,7 +9804,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 118
+        id: 119
         name: session
         type: 1
         description: ''
@@ -9804,7 +9814,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 119
+        id: 120
         name: sessionBankTable
         type: 0
         description: ''
@@ -9814,7 +9824,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 120
+        id: 121
         name: user
         type: 0
         description: ''
@@ -9842,7 +9852,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 121
+        id: 122
         name: defaultLanguage
         type: 0
         description: ''
@@ -9852,7 +9862,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 122
+        id: 123
         name: dictionaryTable
         type: 0
         description: ''
@@ -9862,7 +9872,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 123
+        id: 124
         name: language
         type: 0
         description: ''
@@ -9872,7 +9882,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 124
+        id: 125
         name: out
         type: 2
         description: ''
@@ -9882,7 +9892,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 125
+        id: 126
         name: type
         type: 0
         description: ''
@@ -10110,7 +10120,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 126
+        id: 127
         name: .branch
         type: 1
         description: ''
@@ -10120,7 +10130,7 @@ collection:
         parentVariable: 1
       -
         class_name: TestVariable
-        id: 127
+        id: 128
         name: authorized
         type: 2
         description: ''
@@ -10130,7 +10140,7 @@ collection:
         parentVariable: 2
       -
         class_name: TestVariable
-        id: 128
+        id: 129
         name: login
         type: 0
         description: ''
@@ -10140,7 +10150,7 @@ collection:
         parentVariable: 3
       -
         class_name: TestVariable
-        id: 129
+        id: 130
         name: password
         type: 0
         description: ''
@@ -10150,7 +10160,7 @@ collection:
         parentVariable: 4
       -
         class_name: TestVariable
-        id: 130
+        id: 131
         name: resultCode
         type: 1
         description: ''
@@ -10160,7 +10170,7 @@ collection:
         parentVariable: 5
       -
         class_name: TestVariable
-        id: 131
+        id: 132
         name: unauthorized
         type: 2
         description: ''
@@ -10170,7 +10180,7 @@ collection:
         parentVariable: 6
       -
         class_name: TestVariable
-        id: 132
+        id: 133
         name: user
         type: 1
         description: ''
@@ -10180,7 +10190,7 @@ collection:
         parentVariable: 7
       -
         class_name: TestVariable
-        id: 133
+        id: 134
         name: userBankEncryption
         type: 0
         description: ''
@@ -10190,7 +10200,7 @@ collection:
         parentVariable: 8
       -
         class_name: TestVariable
-        id: 134
+        id: 135
         name: userBankList
         type: 0
         description: ''
@@ -10200,7 +10210,7 @@ collection:
         parentVariable: 9
       -
         class_name: TestVariable
-        id: 135
+        id: 136
         name: userBankTable
         type: 0
         description: ''
@@ -10210,7 +10220,7 @@ collection:
         parentVariable: 10
       -
         class_name: TestVariable
-        id: 136
+        id: 137
         name: userBankType
         type: 0
         description: ''
@@ -11230,7 +11240,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 137
+        id: 138
         name: contentBalancing
         type: 0
         description: ''
@@ -11240,7 +11250,7 @@ collection:
         parentVariable: 18
       -
         class_name: TestVariable
-        id: 138
+        id: 139
         name: itemBankFilterModule
         type: 0
         description: ''
@@ -11250,7 +11260,7 @@ collection:
         parentVariable: 19
       -
         class_name: TestVariable
-        id: 139
+        id: 140
         name: itemBankItems
         type: 0
         description: ''
@@ -11260,7 +11270,7 @@ collection:
         parentVariable: 20
       -
         class_name: TestVariable
-        id: 140
+        id: 141
         name: itemBankTable
         type: 0
         description: ''
@@ -11270,7 +11280,7 @@ collection:
         parentVariable: 21
       -
         class_name: TestVariable
-        id: 141
+        id: 142
         name: itemBankTableExtraFields
         type: 0
         description: ''
@@ -11280,7 +11290,7 @@ collection:
         parentVariable: 22
       -
         class_name: TestVariable
-        id: 142
+        id: 143
         name: itemBankType
         type: 0
         description: ''
@@ -11290,7 +11300,7 @@ collection:
         parentVariable: 23
       -
         class_name: TestVariable
-        id: 143
+        id: 144
         name: itemNumLimit
         type: 0
         description: ''
@@ -11300,7 +11310,7 @@ collection:
         parentVariable: 24
       -
         class_name: TestVariable
-        id: 144
+        id: 145
         name: itemParamsNum
         type: 0
         description: ''
@@ -11310,7 +11320,7 @@ collection:
         parentVariable: 25
       -
         class_name: TestVariable
-        id: 145
+        id: 146
         name: itemTemplate
         type: 0
         description: ''
@@ -11320,7 +11330,7 @@ collection:
         parentVariable: 26
       -
         class_name: TestVariable
-        id: 146
+        id: 147
         name: itemTemplateParamsModule
         type: 0
         description: ''
@@ -11330,7 +11340,7 @@ collection:
         parentVariable: 27
       -
         class_name: TestVariable
-        id: 147
+        id: 148
         name: itemTimeFullRequired
         type: 0
         description: ''
@@ -11340,7 +11350,7 @@ collection:
         parentVariable: 28
       -
         class_name: TestVariable
-        id: 148
+        id: 149
         name: itemTimeLimit
         type: 0
         description: ''
@@ -11350,7 +11360,7 @@ collection:
         parentVariable: 29
       -
         class_name: TestVariable
-        id: 149
+        id: 150
         name: minAccuracy
         type: 0
         description: ''
@@ -11360,7 +11370,7 @@ collection:
         parentVariable: 30
       -
         class_name: TestVariable
-        id: 150
+        id: 151
         name: model
         type: 0
         description: ''
@@ -11370,7 +11380,7 @@ collection:
         parentVariable: 31
       -
         class_name: TestVariable
-        id: 151
+        id: 152
         name: nextItemCriterion
         type: 0
         description: ''
@@ -11380,7 +11390,7 @@ collection:
         parentVariable: 32
       -
         class_name: TestVariable
-        id: 152
+        id: 153
         name: nextItemModule
         type: 0
         description: ''
@@ -11390,7 +11400,7 @@ collection:
         parentVariable: 33
       -
         class_name: TestVariable
-        id: 153
+        id: 154
         name: nextItemRandomesque
         type: 0
         description: ''
@@ -11400,7 +11410,7 @@ collection:
         parentVariable: 34
       -
         class_name: TestVariable
-        id: 154
+        id: 155
         name: out
         type: 2
         description: ''
@@ -11410,7 +11420,7 @@ collection:
         parentVariable: 35
       -
         class_name: TestVariable
-        id: 155
+        id: 156
         name: responseBank
         type: 0
         description: ''
@@ -11420,7 +11430,7 @@ collection:
         parentVariable: 36
       -
         class_name: TestVariable
-        id: 156
+        id: 157
         name: responseRequired
         type: 0
         description: ''
@@ -11430,7 +11440,7 @@ collection:
         parentVariable: 37
       -
         class_name: TestVariable
-        id: 157
+        id: 158
         name: responseRequiredAlert
         type: 0
         description: ''
@@ -11440,7 +11450,7 @@ collection:
         parentVariable: 38
       -
         class_name: TestVariable
-        id: 158
+        id: 159
         name: responseScoreModule
         type: 0
         description: ''
@@ -11450,7 +11460,7 @@ collection:
         parentVariable: 39
       -
         class_name: TestVariable
-        id: 159
+        id: 160
         name: scoringMethod
         type: 0
         description: ''
@@ -11460,7 +11470,7 @@ collection:
         parentVariable: 40
       -
         class_name: TestVariable
-        id: 160
+        id: 161
         name: sem
         type: 1
         description: ''
@@ -11470,7 +11480,7 @@ collection:
         parentVariable: 41
       -
         class_name: TestVariable
-        id: 161
+        id: 162
         name: session
         type: 0
         description: ''
@@ -11480,7 +11490,7 @@ collection:
         parentVariable: 42
       -
         class_name: TestVariable
-        id: 162
+        id: 163
         name: sessionResuming
         type: 0
         description: ''
@@ -11490,7 +11500,7 @@ collection:
         parentVariable: 43
       -
         class_name: TestVariable
-        id: 163
+        id: 164
         name: sessionTable
         type: 0
         description: ''
@@ -11500,7 +11510,7 @@ collection:
         parentVariable: 44
       -
         class_name: TestVariable
-        id: 164
+        id: 165
         name: startingTheta
         type: 0
         description: ''
@@ -11510,7 +11520,7 @@ collection:
         parentVariable: 45
       -
         class_name: TestVariable
-        id: 165
+        id: 166
         name: testTimeLeft
         type: 1
         description: ''
@@ -11520,7 +11530,7 @@ collection:
         parentVariable: 46
       -
         class_name: TestVariable
-        id: 166
+        id: 167
         name: testTimeLimit
         type: 0
         description: ''
@@ -11530,7 +11540,7 @@ collection:
         parentVariable: 47
       -
         class_name: TestVariable
-        id: 167
+        id: 168
         name: testTimeLimitOffset
         type: 0
         description: ''
@@ -11540,7 +11550,7 @@ collection:
         parentVariable: 48
       -
         class_name: TestVariable
-        id: 168
+        id: 169
         name: testTimeLimitType
         type: 0
         description: ''
@@ -11550,7 +11560,7 @@ collection:
         parentVariable: 49
       -
         class_name: TestVariable
-        id: 169
+        id: 170
         name: theta
         type: 1
         description: ''
@@ -11701,7 +11711,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 170
+        id: 171
         name: .branch
         type: 1
         description: ''
@@ -11711,7 +11721,7 @@ collection:
         parentVariable: 51
       -
         class_name: TestVariable
-        id: 171
+        id: 172
         name: created
         type: 2
         description: ''
@@ -11721,7 +11731,7 @@ collection:
         parentVariable: 52
       -
         class_name: TestVariable
-        id: 172
+        id: 173
         name: enabled
         type: 0
         description: ''
@@ -11731,7 +11741,7 @@ collection:
         parentVariable: 53
       -
         class_name: TestVariable
-        id: 173
+        id: 174
         name: extraFields
         type: 0
         description: ''
@@ -11741,7 +11751,7 @@ collection:
         parentVariable: 54
       -
         class_name: TestVariable
-        id: 174
+        id: 175
         name: login
         type: 0
         description: ''
@@ -11751,7 +11761,7 @@ collection:
         parentVariable: 55
       -
         class_name: TestVariable
-        id: 175
+        id: 176
         name: loginAlreadyExist
         type: 2
         description: ''
@@ -11761,7 +11771,7 @@ collection:
         parentVariable: 56
       -
         class_name: TestVariable
-        id: 176
+        id: 177
         name: password
         type: 0
         description: ''
@@ -11771,7 +11781,7 @@ collection:
         parentVariable: 57
       -
         class_name: TestVariable
-        id: 177
+        id: 178
         name: user
         type: 1
         description: ''
@@ -11781,7 +11791,7 @@ collection:
         parentVariable: 58
       -
         class_name: TestVariable
-        id: 178
+        id: 179
         name: userBankEncryption
         type: 0
         description: ''
@@ -11791,7 +11801,7 @@ collection:
         parentVariable: 59
       -
         class_name: TestVariable
-        id: 179
+        id: 180
         name: userBankTable
         type: 0
         description: ''
@@ -12081,7 +12091,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 180
+        id: 181
         name: insertId
         type: 1
         description: ''
@@ -12091,7 +12101,7 @@ collection:
         parentVariable: 61
       -
         class_name: TestVariable
-        id: 181
+        id: 182
         name: out
         type: 2
         description: ''
@@ -12101,7 +12111,7 @@ collection:
         parentVariable: 62
       -
         class_name: TestVariable
-        id: 182
+        id: 183
         name: queryString
         type: 0
         description: ''
@@ -12111,7 +12121,7 @@ collection:
         parentVariable: 63
       -
         class_name: TestVariable
-        id: 183
+        id: 184
         name: queryType
         type: 0
         description: ''
@@ -12121,7 +12131,7 @@ collection:
         parentVariable: 64
       -
         class_name: TestVariable
-        id: 184
+        id: 185
         name: result
         type: 1
         description: ''
@@ -12131,7 +12141,7 @@ collection:
         parentVariable: 65
       -
         class_name: TestVariable
-        id: 185
+        id: 186
         name: setClause
         type: 0
         description: ''
@@ -12141,7 +12151,7 @@ collection:
         parentVariable: 66
       -
         class_name: TestVariable
-        id: 186
+        id: 187
         name: table
         type: 0
         description: ''
@@ -12151,7 +12161,7 @@ collection:
         parentVariable: 67
       -
         class_name: TestVariable
-        id: 187
+        id: 188
         name: whereClause
         type: 0
         description: ''
@@ -12369,7 +12379,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 188
+        id: 189
         name: fields
         type: 0
         description: ''
@@ -12379,7 +12389,7 @@ collection:
         parentVariable: 69
       -
         class_name: TestVariable
-        id: 189
+        id: 190
         name: initialValues
         type: 0
         description: ''
@@ -12389,7 +12399,7 @@ collection:
         parentVariable: 70
       -
         class_name: TestVariable
-        id: 190
+        id: 191
         name: out
         type: 2
         description: ''
@@ -12399,7 +12409,7 @@ collection:
         parentVariable: 71
       -
         class_name: TestVariable
-        id: 191
+        id: 192
         name: response
         type: 1
         description: ''
@@ -12409,7 +12419,7 @@ collection:
         parentVariable: 72
       -
         class_name: TestVariable
-        id: 192
+        id: 193
         name: template
         type: 0
         description: ''
@@ -12419,7 +12429,7 @@ collection:
         parentVariable: 73
       -
         class_name: TestVariable
-        id: 193
+        id: 194
         name: templateParams
         type: 0
         description: ''
@@ -12465,7 +12475,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 194
+        id: 195
         name: .branch
         type: 1
         description: ''
@@ -12475,7 +12485,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 195
+        id: 196
         name: expression
         type: 0
         description: ''
@@ -12485,7 +12495,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 196
+        id: 197
         name: 'false'
         type: 2
         description: ''
@@ -12495,7 +12505,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 197
+        id: 198
         name: 'true'
         type: 2
         description: ''
@@ -13068,7 +13078,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 198
+        id: 199
         name: canGoBack
         type: 0
         description: ''
@@ -13078,7 +13088,7 @@ collection:
         parentVariable: 75
       -
         class_name: TestVariable
-        id: 199
+        id: 200
         name: itemBankItems
         type: 0
         description: ''
@@ -13088,7 +13098,7 @@ collection:
         parentVariable: 76
       -
         class_name: TestVariable
-        id: 200
+        id: 201
         name: itemBankTable
         type: 0
         description: ''
@@ -13098,7 +13108,7 @@ collection:
         parentVariable: 77
       -
         class_name: TestVariable
-        id: 201
+        id: 202
         name: itemBankType
         type: 0
         description: ''
@@ -13108,7 +13118,7 @@ collection:
         parentVariable: 78
       -
         class_name: TestVariable
-        id: 202
+        id: 203
         name: itemNumLimit
         type: 0
         description: ''
@@ -13118,7 +13128,7 @@ collection:
         parentVariable: 79
       -
         class_name: TestVariable
-        id: 203
+        id: 204
         name: itemTemplate
         type: 0
         description: ''
@@ -13128,7 +13138,7 @@ collection:
         parentVariable: 80
       -
         class_name: TestVariable
-        id: 204
+        id: 205
         name: itemTimeFullRequired
         type: 0
         description: ''
@@ -13138,7 +13148,7 @@ collection:
         parentVariable: 81
       -
         class_name: TestVariable
-        id: 205
+        id: 206
         name: itemTimeLimit
         type: 0
         description: ''
@@ -13148,7 +13158,7 @@ collection:
         parentVariable: 82
       -
         class_name: TestVariable
-        id: 206
+        id: 207
         name: itemsPerPage
         type: 0
         description: ''
@@ -13158,7 +13168,7 @@ collection:
         parentVariable: 83
       -
         class_name: TestVariable
-        id: 207
+        id: 208
         name: order
         type: 0
         description: ''
@@ -13168,7 +13178,7 @@ collection:
         parentVariable: 84
       -
         class_name: TestVariable
-        id: 208
+        id: 209
         name: out
         type: 2
         description: ''
@@ -13178,7 +13188,7 @@ collection:
         parentVariable: 85
       -
         class_name: TestVariable
-        id: 209
+        id: 210
         name: responseBank
         type: 0
         description: ''
@@ -13188,7 +13198,7 @@ collection:
         parentVariable: 86
       -
         class_name: TestVariable
-        id: 210
+        id: 211
         name: responseRequired
         type: 0
         description: ''
@@ -13198,7 +13208,7 @@ collection:
         parentVariable: 87
       -
         class_name: TestVariable
-        id: 211
+        id: 212
         name: responseRequiredAlert
         type: 0
         description: ''
@@ -13208,7 +13218,7 @@ collection:
         parentVariable: 88
       -
         class_name: TestVariable
-        id: 212
+        id: 213
         name: scores
         type: 1
         description: ''
@@ -13218,7 +13228,7 @@ collection:
         parentVariable: 89
       -
         class_name: TestVariable
-        id: 213
+        id: 214
         name: session
         type: 0
         description: ''
@@ -13228,7 +13238,7 @@ collection:
         parentVariable: 90
       -
         class_name: TestVariable
-        id: 214
+        id: 215
         name: testTimeLimit
         type: 0
         description: ''
@@ -13238,7 +13248,7 @@ collection:
         parentVariable: 91
       -
         class_name: TestVariable
-        id: 215
+        id: 216
         name: testTimeLimitOffset
         type: 0
         description: ''
@@ -13344,7 +13354,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 216
+        id: 217
         name: content
         type: 0
         description: ''
@@ -13354,7 +13364,7 @@ collection:
         parentVariable: 93
       -
         class_name: TestVariable
-        id: 217
+        id: 218
         name: html
         type: 1
         description: ''
@@ -13364,7 +13374,7 @@ collection:
         parentVariable: 94
       -
         class_name: TestVariable
-        id: 218
+        id: 219
         name: layout
         type: 0
         description: ''
@@ -13374,7 +13384,7 @@ collection:
         parentVariable: 95
       -
         class_name: TestVariable
-        id: 219
+        id: 220
         name: out
         type: 2
         description: ''
@@ -13384,7 +13394,7 @@ collection:
         parentVariable: 96
       -
         class_name: TestVariable
-        id: 220
+        id: 221
         name: params
         type: 0
         description: ''
@@ -13450,7 +13460,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 221
+        id: 222
         name: out
         type: 2
         description: ''
@@ -13460,7 +13470,7 @@ collection:
         parentVariable: 98
       -
         class_name: TestVariable
-        id: 222
+        id: 223
         name: params
         type: 0
         description: ''
@@ -13470,7 +13480,7 @@ collection:
         parentVariable: 99
       -
         class_name: TestVariable
-        id: 223
+        id: 224
         name: results
         type: 1
         description: ''
@@ -13480,7 +13490,7 @@ collection:
         parentVariable: 100
       -
         class_name: TestVariable
-        id: 224
+        id: 225
         name: test
         type: 0
         description: ''
@@ -13508,7 +13518,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 225
+        id: 226
         name: out
         type: 2
         description: ''
@@ -13574,7 +13584,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 226
+        id: 227
         name: loaderTemplate
         type: 0
         description: ''
@@ -13584,7 +13594,7 @@ collection:
         parentVariable: 102
       -
         class_name: TestVariable
-        id: 227
+        id: 228
         name: out
         type: 2
         description: ''
@@ -13594,7 +13604,7 @@ collection:
         parentVariable: 103
       -
         class_name: TestVariable
-        id: 228
+        id: 229
         name: params
         type: 0
         description: ''
@@ -13696,7 +13706,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 229
+        id: 230
         name: .branch
         type: 1
         description: ''
@@ -13706,7 +13716,7 @@ collection:
         parentVariable: 105
       -
         class_name: TestVariable
-        id: 230
+        id: 231
         name: cookies
         type: 0
         description: ''
@@ -13716,7 +13726,7 @@ collection:
         parentVariable: 106
       -
         class_name: TestVariable
-        id: 231
+        id: 232
         name: html
         type: 0
         description: ''
@@ -13726,7 +13736,7 @@ collection:
         parentVariable: 107
       -
         class_name: TestVariable
-        id: 232
+        id: 233
         name: out
         type: 2
         description: ''
@@ -13736,7 +13746,7 @@ collection:
         parentVariable: 108
       -
         class_name: TestVariable
-        id: 233
+        id: 234
         name: response
         type: 1
         description: ''
@@ -13746,7 +13756,7 @@ collection:
         parentVariable: 109
       -
         class_name: TestVariable
-        id: 234
+        id: 235
         name: template
         type: 0
         description: ''
@@ -13756,7 +13766,7 @@ collection:
         parentVariable: 110
       -
         class_name: TestVariable
-        id: 235
+        id: 236
         name: templateParams
         type: 0
         description: ''
@@ -13766,7 +13776,7 @@ collection:
         parentVariable: 111
       -
         class_name: TestVariable
-        id: 236
+        id: 237
         name: timeLimit
         type: 0
         description: 'Time limit in seconds.'
@@ -13807,7 +13817,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 119
+            testVariable: 120
             name: sessionBankTable
             wizardStep: 19
             stepTitle: Session
@@ -13853,7 +13863,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 117
+            testVariable: 118
             name: resumableExpiration
             wizardStep: 19
             stepTitle: Session
@@ -13871,7 +13881,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 116
+            testVariable: 117
             name: resumable
             wizardStep: 19
             stepTitle: Session
@@ -13889,11 +13899,29 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 115
+            testVariable: 116
             name: restoreState
             wizardStep: 19
             stepTitle: Session
             order: 3
+            wizard: 11
+            definition:
+              defvalue: '1'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 65
+            label: 'Prevent Parallel Session Usage'
+            description: ''
+            hideCondition: 'values.resumable == 0'
+            type: 4
+            passableThroughUrl: '0'
+            value: '1'
+            testVariable: 115
+            name: preventParallelSessionUsage
+            wizardStep: 19
+            stepTitle: Session
+            order: 4
             wizard: 11
             definition:
               defvalue: '1'
@@ -13914,7 +13942,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 237
+        id: 238
         name: extraFields
         type: 0
         description: ''
@@ -13924,7 +13952,7 @@ collection:
         parentVariable: 113
       -
         class_name: TestVariable
-        id: 238
+        id: 239
         name: out
         type: 2
         description: ''
@@ -13934,8 +13962,8 @@ collection:
         parentVariable: 114
       -
         class_name: TestVariable
-        id: 239
-        name: restoreState
+        id: 240
+        name: preventParallelSessionUsage
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -13944,18 +13972,18 @@ collection:
         parentVariable: 115
       -
         class_name: TestVariable
-        id: 240
-        name: resumable
+        id: 241
+        name: restoreState
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: '1'
         test: 28
         parentVariable: 116
       -
         class_name: TestVariable
-        id: 241
-        name: resumableExpiration
+        id: 242
+        name: resumable
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -13964,34 +13992,44 @@ collection:
         parentVariable: 117
       -
         class_name: TestVariable
-        id: 242
+        id: 243
+        name: resumableExpiration
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 28
+        parentVariable: 118
+      -
+        class_name: TestVariable
+        id: 244
         name: session
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 28
-        parentVariable: 118
+        parentVariable: 119
       -
         class_name: TestVariable
-        id: 243
+        id: 245
         name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"sessions","columns":{"id":"id","internal_id":"internal_id","user_id":"user_id","test_id":"test_id","updateTime":"updateTime","finished":"finished","startedTime":"startedTime"}}'
         test: 28
-        parentVariable: 119
+        parentVariable: 120
       -
         class_name: TestVariable
-        id: 244
+        id: 246
         name: user
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 28
-        parentVariable: 120
+        parentVariable: 121
     sourceWizard: 11
     sourceWizardTest: 13
     nodes: {  }
@@ -14018,14 +14056,14 @@ collection:
         params:
           -
             class_name: TestWizardParam
-            id: 65
+            id: 66
             label: 'Dictionary table'
             description: 'Select which table to use as the dictionary table. If you are using the&nbsp;<strong>Language per table</strong>&nbsp;type, it does not matter which language version table you select here.'
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 122
+            testVariable: 123
             name: dictionaryTable
             wizardStep: 20
             stepTitle: Dictionary
@@ -14044,14 +14082,14 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 66
+            id: 67
             label: 'Default language'
             description: 'Select which language should be used as a default when no language is specified'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
             value: en
-            testVariable: 121
+            testVariable: 122
             name: defaultLanguage
             wizardStep: 20
             stepTitle: Dictionary
@@ -14062,7 +14100,7 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 67
+            id: 68
             label: Type
             description: |
               <p>Select which type of dictionary table you would like&nbsp;to use:</p>
@@ -14076,7 +14114,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: multiColumn
-            testVariable: 125
+            testVariable: 126
             name: type
             wizardStep: 20
             stepTitle: Dictionary
@@ -14110,54 +14148,54 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 245
+        id: 247
         name: defaultLanguage
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: en
         test: 29
-        parentVariable: 121
+        parentVariable: 122
       -
         class_name: TestVariable
-        id: 246
+        id: 248
         name: dictionaryTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"translationDictionary","columns":{"id":"id","entryKey":"entryKey"}}'
         test: 29
-        parentVariable: 122
+        parentVariable: 123
       -
         class_name: TestVariable
-        id: 247
+        id: 249
         name: language
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 29
-        parentVariable: 123
+        parentVariable: 124
       -
         class_name: TestVariable
-        id: 248
+        id: 250
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 29
-        parentVariable: 124
+        parentVariable: 125
       -
         class_name: TestVariable
-        id: 249
+        id: 251
         name: type
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: multiColumn
         test: 29
-        parentVariable: 125
+        parentVariable: 126
     sourceWizard: 12
     sourceWizardTest: 14
     nodes: {  }
@@ -14184,7 +14222,7 @@ collection:
         params:
           -
             class_name: TestWizardParam
-            id: 68
+            id: 69
             label: Code
             description: 'R code to execute'
             hideCondition: ''
@@ -14215,7 +14253,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 250
+        id: 252
         name: code
         type: 0
         description: 'R code to execute'
@@ -14225,7 +14263,7 @@ collection:
         parentVariable: 15
       -
         class_name: TestVariable
-        id: 251
+        id: 253
         name: out
         type: 2
         description: ''
@@ -14235,7 +14273,7 @@ collection:
         parentVariable: 16
       -
         class_name: TestVariable
-        id: 252
+        id: 254
         name: result
         type: 1
         description: ''
@@ -14263,7 +14301,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 253
+        id: 255
         name: out
         type: 2
         description: ''

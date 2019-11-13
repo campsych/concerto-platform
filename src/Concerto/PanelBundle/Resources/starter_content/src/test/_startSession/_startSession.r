@@ -63,17 +63,17 @@ WHERE
 {{userIdColumn}} = '{{userId}}' AND 
 {{finishedColumn}} = 0 
 ORDER BY id DESC", params=list(
-    table=tableMap$table, 
-    testIdColumn=tableMap$columns$test_id, 
-    testId=concerto$mainTest$id, 
-    userIdColumn=tableMap$columns$user_id, 
-    userId=user$id,
-    finishedColumn=tableMap$columns$finished
-  ), n=1)
+  table=tableMap$table, 
+  testIdColumn=tableMap$columns$test_id, 
+  testId=concerto$mainTest$id, 
+  userIdColumn=tableMap$columns$user_id, 
+  userId=user$id,
+  finishedColumn=tableMap$columns$finished
+), n=1)
   if(dim(session)[1] == 0) {
     return(NULL)
   }
-  
+
   session = as.list(session)
   session$previousInternal_id = session$internal_id
   session$internal_id = concerto$session$id
@@ -93,12 +93,12 @@ SET
 {{internalIdColumn}}='{{internal_id}}', 
 {{updateTimeColumn}}=CURRENT_TIMESTAMP 
 WHERE id={{id}}", params=list(
-    table=tableMap$table,
-    internalIdColumn=tableMap$columns$internal_id,
-    internal_id=concerto$session$id,
-    id=session$id,
-    updateTimeColumn=tableMap$columns$updateTime
-  ))
+  table=tableMap$table,
+  internalIdColumn=tableMap$columns$internal_id,
+  internal_id=concerto$session$id,
+  id=session$id,
+  updateTimeColumn=tableMap$columns$updateTime
+))
 
   return(session)
 }
@@ -114,11 +114,31 @@ if(resumable == 1) {
     hash = concerto.table.query("SELECT hash FROM TestSession WHERE id={{id}}", list(id=session$previousInternal_id))
     concerto.log(hash, "resuming session...")
     if(!concerto.session.unserialize(hash=hash)) {
-      	session = NULL
+      session = NULL
     }
   }
 }
 if(is.null(session)) {
-	session = insertSession(fields, tableMap)
+  session = insertSession(fields, tableMap)
 }
+
+if(preventParallelSessionUsage == 1) {
+  concerto.event.add("onTemplateSubmit", function(response) {
+    sql = "
+SELECT {{internalIdCol}}
+FROM {{table}} 
+WHERE id={{id}}"
+    internalId = concerto.table.query(sql, params=list(
+      table=tableMap$table,
+      internalIdCol=tableMap$columns$internal_id,
+      id=session$id
+    ))[1,1]
+    
+    if(internalId != concerto$session$id) {
+      concerto.log("detected parallel session usage")
+      concerto.session.stop(response=RESPONSE_SESSION_LOST)
+    }
+  })
+}
+
 concerto.log(session, "session")

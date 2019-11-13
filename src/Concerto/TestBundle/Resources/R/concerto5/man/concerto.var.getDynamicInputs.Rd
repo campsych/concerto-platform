@@ -2,25 +2,25 @@
 \alias{concerto.var.getDynamicInputs}
 \alias{c.getDynamicInputs}
 \title{
-Dynamic inputs
+    Dynamic inputs
 }
 \description{
-Gets vector of names of dynamic inputs in current context
+    Gets vector of names of dynamic inputs in current context
 }
 \usage{
-concerto.var.getDynamicInputs()
+    concerto.var.getDynamicInputs()
 }
 \arguments{
 }
 \details{
 }
 \value{
-Vector of dynamic input names
+    Vector of dynamic input names
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -28,7 +28,7 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-names <- concerto.var.getDynamicInputs()
+    names <- concerto.var.getDynamicInputs()
 }
 
-\keyword{ variable }
+\keyword{variable}

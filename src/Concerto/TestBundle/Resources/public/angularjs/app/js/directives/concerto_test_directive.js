@@ -1,6 +1,5 @@
 'use strict';
 testRunner.settings = {
-    unresumableHtml: null,
     finishedHtml: null,
     sessionLimitReachedHtml: null,
     testNotFoundHtml: null,
@@ -17,7 +16,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
     function ($http, $interval, $timeout, $sce, $compile, $templateCache, dateFilter, FileUploader, $window) {
         function link(scope, element, attrs) {
 
-            if (testRunner.settings.unresumableHtml === null) testRunner.settings.unresumableHtml = $templateCache.get("unresumable_template.html");
             if (testRunner.settings.finishedHtml === null) testRunner.settings.finishedHtml = $templateCache.get("finished_template.html");
             if (testRunner.settings.testErrorHtml === null) testRunner.settings.testErrorHtml = $templateCache.get("test_error_template.html");
             if (testRunner.settings.serverErrorHtml === null) testRunner.settings.serverErrorHtml = $templateCache.get("server_error_template.html");
@@ -44,7 +42,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var RESPONSE_AUTHENTICATION_FAILED = 8;
             var RESPONSE_STARTING = 9;
             var RESPONSE_KEEPALIVE_CHECKIN = 10;
-            var RESPONSE_UNRESUMABLE = 11;
             var RESPONSE_SESSION_LIMIT_REACHED = 12;
             var RESPONSE_TEST_NOT_FOUND = 13;
             var RESPONSE_SESSION_LOST = 14;
@@ -406,9 +403,6 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                 break;
                             case RESPONSE_FINISHED:
                                 html = testRunner.settings.finishedHtml;
-                                break;
-                            case RESPONSE_UNRESUMABLE:
-                                html = testRunner.settings.unresumableHtml;
                                 break;
                             case RESPONSE_SESSION_LIMIT_REACHED:
                                 html = testRunner.settings.sessionLimitReachedHtml;

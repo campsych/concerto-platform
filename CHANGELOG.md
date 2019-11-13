@@ -2,8 +2,15 @@
 
 #### Starter content
 
-* Database based resuming for **CAT**
-* Session state restore is now optional when resuming session in **startSession**
+* database based resuming for **CAT**
+* session state restore is now optional when resuming session in **startSession**
+* added parallel session usage prevention option to **startSession*
+
+#### Features
+
+* added **concerto.event.add** function to R package
+* added **concerto.event.fire** function to R package
+* added **concerto.event.remove** function to R package 
 
 ## 5.0.6 (2019-11-11)
 

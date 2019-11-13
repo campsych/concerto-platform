@@ -1,40 +1,40 @@
 \name{concerto.template.join}
 \alias{concerto.template.join}
 \title{
-Template helper function.
+    Template helper function.
 }
 \description{
-Combines template CSS, JS and HTML.
+    Combines template CSS, JS and HTML.
 }
 \usage{
-concerto.template.join(html="", css="", js="", templateId=NULL, params = list())
+    concerto.template.join(html="", css="", js="", templateId=NULL, params = list())
 }
 \arguments{
-  \item{html}{
-HTML
-}
-  \item{css}{
-CSS
-}
-  \item{js}{
-javascript
-}
-  \item{templateId}{
-Template id.
-}
-  \item{params}{
-Named list with parameters.
-}
+    \item{html}{
+        HTML
+    }
+    \item{css}{
+        CSS
+    }
+    \item{js}{
+        javascript
+    }
+    \item{templateId}{
+        Template id.
+    }
+    \item{params}{
+        Named list with parameters.
+    }
 }
 \details{
 }
 \value{
-Combined HTML.
+    Combined HTML.
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -42,8 +42,8 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-html <- concerto.template.join(templateId=1)
+    html <- concerto.template.join(templateId=1)
 }
 
-\keyword{ template }
-\keyword{ HTML }
+\keyword{template}
+\keyword{HTML}

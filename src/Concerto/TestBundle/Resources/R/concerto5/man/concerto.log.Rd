@@ -1,28 +1,28 @@
 \name{concerto.log}
 \alias{concerto.log}
 \title{
-Logs
+    Logs
 }
 \description{
-Logs message
+    Logs message
 }
 \usage{
-concerto.log(obj)
+    concerto.log(obj)
 }
 \arguments{
-\item{obj}{
-Object to log
-}
-\item{title}{
-Object description
-}
+    \item{obj}{
+        Object to log
+    }
+    \item{title}{
+        Object description
+    }
 }
 \details{
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -30,7 +30,7 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-concerto.log("success")
+    concerto.log("success")
 }
 
-\keyword{ log }
+\keyword{log}

@@ -46,9 +46,7 @@ concerto.template.show = function(
         }
     }
 
-    if (exists("concerto.onBeforeTemplateShow")) {
-        do.call("concerto.onBeforeTemplateShow", list(params = concerto$templateParams), envir = .GlobalEnv)
-    }
+    concerto.event.fire("onBeforeTemplateShow", list(params = concerto$templateParams))
 
     data = concerto$response
     data$templateParams = concerto$templateParams

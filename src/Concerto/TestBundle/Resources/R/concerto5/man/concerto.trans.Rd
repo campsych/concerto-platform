@@ -2,28 +2,28 @@
 \alias{concerto.trans}
 \alias{c.trans}
 \title{
-Translations
+    Translations
 }
 \description{
-Translate entry using global dictionary
+    Translate entry using global dictionary
 }
 \usage{
-concerto.trans(key)
+    concerto.trans(key)
 }
 \arguments{
-  \item{key}{
-Entry key
-}
+    \item{key}{
+        Entry key
+    }
 }
 \details{
 }
 \value{
-Translated entry
+    Translated entry
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -31,7 +31,7 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-text <- concerto.trans("text")
+    text <- concerto.trans("text")
 }
 
-\keyword{ variable }
+\keyword{translation}

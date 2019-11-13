@@ -34,7 +34,7 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
     RESPONSE_STOPPED <<- 4
     RESPONSE_VIEW_FINAL_TEMPLATE <<- 5
     RESPONSE_KEEPALIVE_CHECKIN <<- 10
-    RESPONSE_UNRESUMABLE <<- 11
+    RESPONSE_SESSION_LOST <<- 14
     RESPONSE_WORKER <<- 15
     RESPONSE_RESUME <<- 16
     RESPONSE_ERROR <<- -1
@@ -67,4 +67,9 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
     concerto$lastSubmitTime <<- as.numeric(Sys.time())
     concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
     concerto$connectionParams <<- connectionParams
+
+    concerto$events <<- list(
+        onBeforeTemplateShow=NULL,
+        onTemplateSubmit=NULL
+    )
 }
