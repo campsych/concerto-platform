@@ -9927,83 +9927,6 @@ collection:
           -
             class_name: TestWizardParam
             id: 1
-            label: Type
-            description: |
-              Select where to get user information from:
-              <ul>
-              	<li><b>Direct</b>&nbsp;- user bank is declared at node level</li>
-              	<li><strong>Table</strong> - user bank is taken from data table</li>
-              </ul>
-              
-            hideCondition: ''
-            type: 3
-            passableThroughUrl: '0'
-            value: direct
-            testVariable: 11
-            name: userBankType
-            wizardStep: 1
-            stepTitle: 'User Bank'
-            order: 0
-            wizard: 1
-            definition:
-              options:
-                -
-                  label: Direct
-                  value: direct
-                -
-                  label: Table
-                  value: table
-              defvalue: direct
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 2
-            label: 'User list'
-            description: 'Directly input a list of users for authorisation'
-            hideCondition: 'values.userBankType != "direct"'
-            type: 10
-            passableThroughUrl: '0'
-            value: '[]'
-            testVariable: 9
-            name: userBankList
-            wizardStep: 1
-            stepTitle: 'User Bank'
-            order: 1
-            wizard: 1
-            definition:
-              element:
-                type: 9
-                definition:
-                  fields:
-                    -
-                      name: id
-                      type: 0
-                      label: Id
-                      definition:
-                        placeholder: 0
-                    -
-                      name: login
-                      type: 0
-                      label: Login
-                      definition:
-                        placeholder: 0
-                    -
-                      name: password
-                      type: 0
-                      label: Password
-                      definition:
-                        placeholder: 0
-                    -
-                      name: enabled
-                      type: 4
-                      label: Enabled
-                      definition:
-                        defvalue: '1'
-                        placeholder: 0
-                  placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 3
             label: 'Password encryption'
             description: |
               <p>Choose which hashing algorithm to apply&nbsp;to user&nbsp;passwords:</p>
@@ -10070,6 +9993,83 @@ collection:
                   value: plain
               defvalue: plain
               placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 2
+            label: Type
+            description: |
+              Select where to get user information from:
+              <ul>
+              	<li><b>Direct</b>&nbsp;- user bank is declared at node level</li>
+              	<li><strong>Table</strong> - user bank is taken from data table</li>
+              </ul>
+              
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: direct
+            testVariable: 11
+            name: userBankType
+            wizardStep: 1
+            stepTitle: 'User Bank'
+            order: 0
+            wizard: 1
+            definition:
+              options:
+                -
+                  label: Direct
+                  value: direct
+                -
+                  label: Table
+                  value: table
+              defvalue: direct
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 3
+            label: 'User list'
+            description: 'Directly input a list of users for authorisation'
+            hideCondition: 'values.userBankType != "direct"'
+            type: 10
+            passableThroughUrl: '0'
+            value: '[]'
+            testVariable: 9
+            name: userBankList
+            wizardStep: 1
+            stepTitle: 'User Bank'
+            order: 1
+            wizard: 1
+            definition:
+              element:
+                type: 9
+                definition:
+                  fields:
+                    -
+                      name: id
+                      type: 0
+                      label: Id
+                      definition:
+                        placeholder: 0
+                    -
+                      name: login
+                      type: 0
+                      label: Login
+                      definition:
+                        placeholder: 0
+                    -
+                      name: password
+                      type: 0
+                      label: Password
+                      definition:
+                        placeholder: 0
+                    -
+                      name: enabled
+                      type: 4
+                      label: Enabled
+                      definition:
+                        defvalue: '1'
+                        placeholder: 0
+                  placeholder: 0
           -
             class_name: TestWizardParam
             id: 4
@@ -10255,40 +10255,57 @@ collection:
           -
             class_name: TestWizardParam
             id: 5
-            label: Type
-            description: |
-              <p>Select where to get items from:</p>
-              
-              <ul>
-              	<li><strong>Direct&nbsp;</strong>- declare item bank at the node level</li>
-              	<li><strong>Table&nbsp;</strong>- use a data table as the item bank</li>
-              </ul>
-              
-            hideCondition: ''
-            type: 3
+            label: 'Item Bank Extra Fields'
+            description: ''
+            hideCondition: 'values.itemBankType != "table"'
+            type: 10
             passableThroughUrl: '0'
-            value: direct
-            testVariable: 23
-            name: itemBankType
+            value: '[]'
+            testVariable: 22
+            name: itemBankTableExtraFields
             wizardStep: 2
             stepTitle: Items
             order: 0
             wizard: 2
             definition:
-              options:
-                -
-                  label: Direct
-                  order: ''
-                  value: direct
-                -
-                  label: Table
-                  order: ''
-                  value: table
-              defvalue: direct
-              placeholder: 0
+              element:
+                type: 9
+                definition:
+                  fields:
+                    -
+                      name: name
+                      type: 0
+                      label: Name
+                      definition:
+                        placeholder: 0
+                    -
+                      name: sensitive
+                      type: 4
+                      label: Sensitive
+                      definition:
+                        placeholder: 0
+                  placeholder: 0
           -
             class_name: TestWizardParam
             id: 6
+            label: 'Item Template'
+            description: 'Select which template to use for CAT item page design'
+            hideCondition: ''
+            type: 5
+            passableThroughUrl: '0'
+            value: test
+            testVariable: 26
+            name: itemTemplate
+            wizardStep: 2
+            stepTitle: Items
+            order: 1
+            wizard: 2
+            definition:
+              defvalue: test
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 7
             label: Items
             description: 'Directly input your item bank'
             hideCondition: 'values.itemBankType != "direct"'
@@ -10557,7 +10574,7 @@ collection:
                   placeholder: 0
           -
             class_name: TestWizardParam
-            id: 7
+            id: 8
             label: Table
             description: 'Map columns in data table to item bank'
             hideCondition: 'values.itemBankType != "table"'
@@ -10631,55 +10648,38 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 8
-            label: 'Item Template'
-            description: 'Select which template to use for CAT item page design'
-            hideCondition: ''
-            type: 5
-            passableThroughUrl: '0'
-            value: test
-            testVariable: 26
-            name: itemTemplate
-            wizardStep: 2
-            stepTitle: Items
-            order: 1
-            wizard: 2
-            definition:
-              defvalue: test
-              placeholder: 0
-          -
-            class_name: TestWizardParam
             id: 9
-            label: 'Item Bank Extra Fields'
-            description: ''
-            hideCondition: 'values.itemBankType != "table"'
-            type: 10
+            label: Type
+            description: |
+              <p>Select where to get items from:</p>
+              
+              <ul>
+              	<li><strong>Direct&nbsp;</strong>- declare item bank at the node level</li>
+              	<li><strong>Table&nbsp;</strong>- use a data table as the item bank</li>
+              </ul>
+              
+            hideCondition: ''
+            type: 3
             passableThroughUrl: '0'
-            value: '[]'
-            testVariable: 22
-            name: itemBankTableExtraFields
+            value: direct
+            testVariable: 23
+            name: itemBankType
             wizardStep: 2
             stepTitle: Items
             order: 0
             wizard: 2
             definition:
-              element:
-                type: 9
-                definition:
-                  fields:
-                    -
-                      name: name
-                      type: 0
-                      label: Name
-                      definition:
-                        placeholder: 0
-                    -
-                      name: sensitive
-                      type: 4
-                      label: Sensitive
-                      definition:
-                        placeholder: 0
-                  placeholder: 0
+              options:
+                -
+                  label: Direct
+                  order: ''
+                  value: direct
+                -
+                  label: Table
+                  order: ''
+                  value: table
+              defvalue: direct
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 3
@@ -10692,17 +10692,17 @@ collection:
           -
             class_name: TestWizardParam
             id: 10
-            label: 'Limit Total Test Time'
-            description: 'Total test time limit in seconds. 0 = no limit.'
+            label: 'Limit Number of Items'
+            description: 'Maximum number of items to show in the test. 0 = no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 47
-            name: testTimeLimit
+            testVariable: 24
+            name: itemNumLimit
             wizardStep: 3
             stepTitle: 'Stopping Rules'
-            order: 1
+            order: 0
             wizard: 2
             definition:
               defvalue: '0'
@@ -10728,17 +10728,17 @@ collection:
           -
             class_name: TestWizardParam
             id: 12
-            label: 'Require Sufficient Time Per Item'
-            description: 'Check this box to prevent the test from showing more items when the total test time remaining is less than the time limit per item.'
-            hideCondition: 'values.testTimeLimit == 0 || values.itemTimeLimit == 0'
-            type: 4
+            label: 'Limit Total Test Time'
+            description: 'Total test time limit in seconds. 0 = no limit.'
+            hideCondition: ''
+            type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 28
-            name: itemTimeFullRequired
+            testVariable: 47
+            name: testTimeLimit
             wizardStep: 3
             stepTitle: 'Stopping Rules'
-            order: 0
+            order: 1
             wizard: 2
             definition:
               defvalue: '0'
@@ -10746,14 +10746,14 @@ collection:
           -
             class_name: TestWizardParam
             id: 13
-            label: 'Limit Number of Items'
-            description: 'Maximum number of items to show in the test. 0 = no limit.'
+            label: 'Minimum Accuracy'
+            description: 'Minimum accuracy value that must be reached before stopping the test. 0 = no minimum accuracy.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 24
-            name: itemNumLimit
+            testVariable: 30
+            name: minAccuracy
             wizardStep: 3
             stepTitle: 'Stopping Rules'
             order: 0
@@ -10764,14 +10764,14 @@ collection:
           -
             class_name: TestWizardParam
             id: 14
-            label: 'Minimum Accuracy'
-            description: 'Minimum accuracy value that must be reached before stopping the test. 0 = no minimum accuracy.'
-            hideCondition: ''
-            type: 0
+            label: 'Require Sufficient Time Per Item'
+            description: 'Check this box to prevent the test from showing more items when the total test time remaining is less than the time limit per item.'
+            hideCondition: 'values.testTimeLimit == 0 || values.itemTimeLimit == 0'
+            type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 30
-            name: minAccuracy
+            testVariable: 28
+            name: itemTimeFullRequired
             wizardStep: 3
             stepTitle: 'Stopping Rules'
             order: 0
@@ -10858,83 +10858,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 17
-            label: 'Next item criterion'
+            label: 'Item Parameters Number'
             description: ''
             hideCondition: ''
-            type: 3
+            type: 0
             passableThroughUrl: '0'
-            value: MFI
-            testVariable: 32
-            name: nextItemCriterion
+            value: '9'
+            testVariable: 25
+            name: itemParamsNum
             wizardStep: 4
             stepTitle: 'CAT Options'
-            order: 1
+            order: 0
             wizard: 2
             definition:
-              options:
-                -
-                  label: MFI
-                  value: MFI
-                -
-                  label: bOpt
-                  value: bOpt
-                -
-                  label: random
-                  value: random
-              defvalue: MFI
+              defvalue: '9'
               placeholder: 0
           -
             class_name: TestWizardParam
             id: 18
-            label: 'Next item randomesque'
-            description: 'The number of items to be chosen from the next item selection rule, among those the next item to be administered will be randomly picked up. Default value is 1 and leads to usual selection of the optimal item for the specified criterion.'
-            hideCondition: ''
-            type: 0
-            passableThroughUrl: '0'
-            value: '1'
-            testVariable: 34
-            name: nextItemRandomesque
-            wizardStep: 4
-            stepTitle: 'CAT Options'
-            order: 1
-            wizard: 2
-            definition:
-              defvalue: '1'
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 19
-            label: 'Scoring method'
-            description: 'Ability estimator'
-            hideCondition: ''
-            type: 3
-            passableThroughUrl: '0'
-            value: BM
-            testVariable: 40
-            name: scoringMethod
-            wizardStep: 4
-            stepTitle: 'CAT Options'
-            order: 2
-            wizard: 2
-            definition:
-              options:
-                -
-                  label: BM
-                  value: BM
-                -
-                  label: ML
-                  value: ML
-                -
-                  label: WL
-                  value: WL
-                -
-                  label: EAP
-                  value: EAP
-              defvalue: BM
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 20
             label: Model
             description: ''
             hideCondition: ''
@@ -10974,21 +10915,80 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 21
-            label: 'Item Parameters Number'
+            id: 19
+            label: 'Next item criterion'
             description: ''
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: MFI
+            testVariable: 32
+            name: nextItemCriterion
+            wizardStep: 4
+            stepTitle: 'CAT Options'
+            order: 1
+            wizard: 2
+            definition:
+              options:
+                -
+                  label: MFI
+                  value: MFI
+                -
+                  label: bOpt
+                  value: bOpt
+                -
+                  label: random
+                  value: random
+              defvalue: MFI
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 20
+            label: 'Next item randomesque'
+            description: 'The number of items to be chosen from the next item selection rule, among those the next item to be administered will be randomly picked up. Default value is 1 and leads to usual selection of the optimal item for the specified criterion.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
-            value: '9'
-            testVariable: 25
-            name: itemParamsNum
+            value: '1'
+            testVariable: 34
+            name: nextItemRandomesque
             wizardStep: 4
             stepTitle: 'CAT Options'
-            order: 0
+            order: 1
             wizard: 2
             definition:
-              defvalue: '9'
+              defvalue: '1'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 21
+            label: 'Scoring method'
+            description: 'Ability estimator'
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: BM
+            testVariable: 40
+            name: scoringMethod
+            wizardStep: 4
+            stepTitle: 'CAT Options'
+            order: 2
+            wizard: 2
+            definition:
+              options:
+                -
+                  label: BM
+                  value: BM
+                -
+                  label: ML
+                  value: ML
+                -
+                  label: WL
+                  value: WL
+                -
+                  label: EAP
+                  value: EAP
+              defvalue: BM
               placeholder: 0
       -
         class_name: TestWizardStep
@@ -11002,6 +11002,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 22
+            label: 'Require Response'
+            description: 'Check to require user to answer all items before proceeding to next page.'
+            hideCondition: ''
+            type: 4
+            passableThroughUrl: '0'
+            value: '0'
+            testVariable: 37
+            name: responseRequired
+            wizardStep: 5
+            stepTitle: Responses
+            order: 0
+            wizard: 2
+            definition:
+              defvalue: '0'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 23
             label: 'Response Bank'
             description: 'Specify where to save responses to items. Leave empty to not store responses.'
             hideCondition: ''
@@ -11051,24 +11069,6 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 23
-            label: 'Require Response'
-            description: 'Check to require user to answer all items before proceeding to next page.'
-            hideCondition: ''
-            type: 4
-            passableThroughUrl: '0'
-            value: '0'
-            testVariable: 37
-            name: responseRequired
-            wizardStep: 5
-            stepTitle: Responses
-            order: 0
-            wizard: 2
-            definition:
-              defvalue: '0'
-              placeholder: 0
-          -
-            class_name: TestWizardParam
             id: 24
             label: 'Response validation alert'
             description: 'Specify the message shown to users when no answer is given to a required item.'
@@ -11097,6 +11097,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 25
+            label: 'Item Bank Filter Module'
+            description: ''
+            hideCondition: ''
+            type: 8
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 19
+            name: itemBankFilterModule
+            wizardStep: 6
+            stepTitle: Modules
+            order: 0
+            wizard: 2
+            definition:
+              defvalue: ''
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 26
             label: 'Item Template Params Module'
             description: ''
             hideCondition: ''
@@ -11108,24 +11126,6 @@ collection:
             wizardStep: 6
             stepTitle: Modules
             order: 1
-            wizard: 2
-            definition:
-              defvalue: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 26
-            label: 'Response Score Module'
-            description: ''
-            hideCondition: ''
-            type: 8
-            passableThroughUrl: '0'
-            value: ''
-            testVariable: 39
-            name: responseScoreModule
-            wizardStep: 6
-            stepTitle: Modules
-            order: 3
             wizard: 2
             definition:
               defvalue: ''
@@ -11151,17 +11151,17 @@ collection:
           -
             class_name: TestWizardParam
             id: 28
-            label: 'Item Bank Filter Module'
+            label: 'Response Score Module'
             description: ''
             hideCondition: ''
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 19
-            name: itemBankFilterModule
+            testVariable: 39
+            name: responseScoreModule
             wizardStep: 6
             stepTitle: Modules
-            order: 0
+            order: 3
             wizard: 2
             definition:
               defvalue: ''
@@ -11595,40 +11595,6 @@ collection:
           -
             class_name: TestWizardParam
             id: 31
-            label: 'User table'
-            description: 'User bank column mapping'
-            hideCondition: ''
-            type: 12
-            passableThroughUrl: '0'
-            value: '[]'
-            testVariable: 60
-            name: userBankTable
-            wizardStep: 8
-            stepTitle: 'User Bank'
-            order: 1
-            wizard: 3
-            definition:
-              cols:
-                -
-                  name: id
-                  label: Id
-                  tooltip: ''
-                -
-                  name: login
-                  label: Login
-                  tooltip: ''
-                -
-                  name: password
-                  label: Password
-                  tooltip: ''
-                -
-                  name: enabled
-                  label: Enabled
-                  tooltip: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 32
             label: 'Password encryption'
             description: |
               <p>Select which hashing algorithm to apply to users&#39; passwords:</p>
@@ -11694,6 +11660,40 @@ collection:
                   order: 0
                   value: plain
               defvalue: plain
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 32
+            label: 'User table'
+            description: 'User bank column mapping'
+            hideCondition: ''
+            type: 12
+            passableThroughUrl: '0'
+            value: '[]'
+            testVariable: 60
+            name: userBankTable
+            wizardStep: 8
+            stepTitle: 'User Bank'
+            order: 1
+            wizard: 3
+            definition:
+              cols:
+                -
+                  name: id
+                  label: Id
+                  tooltip: ''
+                -
+                  name: login
+                  label: Login
+                  tooltip: ''
+                -
+                  name: password
+                  label: Password
+                  tooltip: ''
+                -
+                  name: enabled
+                  label: Enabled
+                  tooltip: ''
               placeholder: 0
     test: 5
     groups: ''
@@ -11836,6 +11836,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 33
+            label: Query
+            description: 'Custom query. Can use insert directives that will be replaced with dynamic input values.'
+            hideCondition: 'values.queryType != "custom"'
+            type: 1
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 63
+            name: queryString
+            wizardStep: 9
+            stepTitle: Data
+            order: 0
+            wizard: 4
+            definition:
+              defvalue: ''
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 34
             label: 'Query type'
             description: |
               <p>Select which type of query this&nbsp;node should perform:</p>
@@ -11884,43 +11902,7 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 34
-            label: Table
-            description: 'Select which table to perform the query on'
-            hideCondition: 'values.queryType == "custom"'
-            type: 6
-            passableThroughUrl: '0'
-            value: ''
-            testVariable: 67
-            name: table
-            wizardStep: 9
-            stepTitle: Data
-            order: 0
-            wizard: 4
-            definition:
-              defvalue: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
             id: 35
-            label: Query
-            description: 'Custom query. Can use insert directives that will be replaced with dynamic input values.'
-            hideCondition: 'values.queryType != "custom"'
-            type: 1
-            passableThroughUrl: '0'
-            value: ''
-            testVariable: 63
-            name: queryString
-            wizardStep: 9
-            stepTitle: Data
-            order: 0
-            wizard: 4
-            definition:
-              defvalue: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 36
             label: 'Set clause'
             description: |
               <p>
@@ -11986,6 +11968,24 @@ collection:
             value: ''
             testVariable: 66
             name: setClause
+            wizardStep: 9
+            stepTitle: Data
+            order: 0
+            wizard: 4
+            definition:
+              defvalue: ''
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 36
+            label: Table
+            description: 'Select which table to perform the query on'
+            hideCondition: 'values.queryType == "custom"'
+            type: 6
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 67
+            name: table
             wizardStep: 9
             stepTitle: Data
             order: 0
@@ -12196,24 +12196,6 @@ collection:
           -
             class_name: TestWizardParam
             id: 38
-            label: Template
-            description: 'Select which template to use for form design'
-            hideCondition: ''
-            type: 5
-            passableThroughUrl: '0'
-            value: form
-            testVariable: 73
-            name: template
-            wizardStep: 10
-            stepTitle: Form
-            order: 0
-            wizard: 5
-            definition:
-              defvalue: form
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 39
             label: Fields
             description: 'List of fields to be used by the form'
             hideCondition: ''
@@ -12363,6 +12345,24 @@ collection:
                         placeholder: 0
                       hideCondition: 'parent.type != "select"'
                   placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 39
+            label: Template
+            description: 'Select which template to use for form design'
+            hideCondition: ''
+            type: 5
+            passableThroughUrl: '0'
+            value: form
+            testVariable: 73
+            name: template
+            wizardStep: 10
+            stepTitle: Form
+            order: 0
+            wizard: 5
+            definition:
+              defvalue: form
+              placeholder: 0
     test: 7
     groups: ''
     starterContent: true
@@ -12540,38 +12540,42 @@ collection:
           -
             class_name: TestWizardParam
             id: 40
-            label: Type
-            description: |
-              <p>Select where to get items from:</p>
-              
-              <ul>
-              	<li><strong>Direct&nbsp;</strong>- declare item bank at the node level</li>
-              	<li><strong>Table&nbsp;</strong>- use a data table as the item bank</li>
-              </ul>
-              
+            label: 'Can Go Back?'
+            description: 'Check box to enable the user to go back to items that have already been answered and change their response(s)'
             hideCondition: ''
-            type: 3
+            type: 4
             passableThroughUrl: '0'
-            value: direct
-            testVariable: 78
-            name: itemBankType
+            value: '0'
+            testVariable: 75
+            name: canGoBack
             wizardStep: 11
             stepTitle: Items
             order: 0
             wizard: 6
             definition:
-              options:
-                -
-                  label: Direct
-                  value: direct
-                -
-                  label: Table
-                  value: table
-              defvalue: direct
+              defvalue: '0'
               placeholder: 0
           -
             class_name: TestWizardParam
             id: 41
+            label: 'Item Template'
+            description: 'Select which template to use for linear test item page design'
+            hideCondition: ''
+            type: 5
+            passableThroughUrl: '0'
+            value: test
+            testVariable: 80
+            name: itemTemplate
+            wizardStep: 11
+            stepTitle: Items
+            order: 0
+            wizard: 6
+            definition:
+              defvalue: test
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 42
             label: Items
             description: 'Directly input your item bank'
             hideCondition: 'values.itemBankType != "direct"'
@@ -12757,7 +12761,57 @@ collection:
                   placeholder: 0
           -
             class_name: TestWizardParam
-            id: 42
+            id: 43
+            label: 'Items Per Page'
+            description: ''
+            hideCondition: ''
+            type: 0
+            passableThroughUrl: '0'
+            value: '1'
+            testVariable: 83
+            name: itemsPerPage
+            wizardStep: 11
+            stepTitle: Items
+            order: 0
+            wizard: 6
+            definition:
+              defvalue: '1'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 44
+            label: Order
+            description: |
+              <p>Select the order in which to show items:</p>
+              
+              <ul>
+              	<li><strong>Manual</strong>&nbsp;- item order will be determined by sorted values in&nbsp;the&nbsp;<strong>orderIndex&nbsp;</strong>column</li>
+              	<li><strong>Random&nbsp;</strong>- items will be shown in a random order</li>
+              </ul>
+              
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: random
+            testVariable: 84
+            name: order
+            wizardStep: 11
+            stepTitle: Items
+            order: 0
+            wizard: 6
+            definition:
+              options:
+                -
+                  label: Manual
+                  value: manual
+                -
+                  label: Random
+                  value: random
+              defvalue: random
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 45
             label: Table
             description: 'Map columns in data table to item bank'
             hideCondition: 'values.itemBankType != "table"'
@@ -12795,40 +12849,22 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 43
-            label: 'Item Template'
-            description: 'Select which template to use for linear test item page design'
-            hideCondition: ''
-            type: 5
-            passableThroughUrl: '0'
-            value: test
-            testVariable: 80
-            name: itemTemplate
-            wizardStep: 11
-            stepTitle: Items
-            order: 0
-            wizard: 6
-            definition:
-              defvalue: test
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 44
-            label: Order
+            id: 46
+            label: Type
             description: |
-              <p>Select the order in which to show items:</p>
+              <p>Select where to get items from:</p>
               
               <ul>
-              	<li><strong>Manual</strong>&nbsp;- item order will be determined by sorted values in&nbsp;the&nbsp;<strong>orderIndex&nbsp;</strong>column</li>
-              	<li><strong>Random&nbsp;</strong>- items will be shown in a random order</li>
+              	<li><strong>Direct&nbsp;</strong>- declare item bank at the node level</li>
+              	<li><strong>Table&nbsp;</strong>- use a data table as the item bank</li>
               </ul>
               
             hideCondition: ''
             type: 3
             passableThroughUrl: '0'
-            value: random
-            testVariable: 84
-            name: order
+            value: direct
+            testVariable: 78
+            name: itemBankType
             wizardStep: 11
             stepTitle: Items
             order: 0
@@ -12836,48 +12872,12 @@ collection:
             definition:
               options:
                 -
-                  label: Manual
-                  value: manual
+                  label: Direct
+                  value: direct
                 -
-                  label: Random
-                  value: random
-              defvalue: random
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 45
-            label: 'Can Go Back?'
-            description: 'Check box to enable the user to go back to items that have already been answered and change their response(s)'
-            hideCondition: ''
-            type: 4
-            passableThroughUrl: '0'
-            value: '0'
-            testVariable: 75
-            name: canGoBack
-            wizardStep: 11
-            stepTitle: Items
-            order: 0
-            wizard: 6
-            definition:
-              defvalue: '0'
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 46
-            label: 'Items Per Page'
-            description: ''
-            hideCondition: ''
-            type: 0
-            passableThroughUrl: '0'
-            value: '1'
-            testVariable: 83
-            name: itemsPerPage
-            wizardStep: 11
-            stepTitle: Items
-            order: 0
-            wizard: 6
-            definition:
-              defvalue: '1'
+                  label: Table
+                  value: table
+              defvalue: direct
               placeholder: 0
       -
         class_name: TestWizardStep
@@ -12891,14 +12891,14 @@ collection:
           -
             class_name: TestWizardParam
             id: 47
-            label: 'Limit Total Test Time'
-            description: 'Total test time limit in seconds. 0&nbsp;= no limit.'
+            label: 'Limit Number of Items'
+            description: 'Maximum number of items to show in the test.&nbsp;0 =&nbsp;no limit.'
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 91
-            name: testTimeLimit
+            testVariable: 79
+            name: itemNumLimit
             wizardStep: 12
             stepTitle: 'Stopping Rules'
             order: 0
@@ -12927,14 +12927,14 @@ collection:
           -
             class_name: TestWizardParam
             id: 49
-            label: 'Require Sufficient Time Per Item'
-            description: 'Check this box to prevent the test from showing more items when the total test time remaining is less than the time limit per item.'
-            hideCondition: 'values.testTimeLimit == 0 || values.itemTimeLimit == 0'
-            type: 4
+            label: 'Limit Total Test Time'
+            description: 'Total test time limit in seconds. 0&nbsp;= no limit.'
+            hideCondition: ''
+            type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 81
-            name: itemTimeFullRequired
+            testVariable: 91
+            name: testTimeLimit
             wizardStep: 12
             stepTitle: 'Stopping Rules'
             order: 0
@@ -12945,14 +12945,14 @@ collection:
           -
             class_name: TestWizardParam
             id: 50
-            label: 'Limit Number of Items'
-            description: 'Maximum number of items to show in the test.&nbsp;0 =&nbsp;no limit.'
-            hideCondition: ''
-            type: 0
+            label: 'Require Sufficient Time Per Item'
+            description: 'Check this box to prevent the test from showing more items when the total test time remaining is less than the time limit per item.'
+            hideCondition: 'values.testTimeLimit == 0 || values.itemTimeLimit == 0'
+            type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 79
-            name: itemNumLimit
+            testVariable: 81
+            name: itemTimeFullRequired
             wizardStep: 12
             stepTitle: 'Stopping Rules'
             order: 0
@@ -12972,6 +12972,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 51
+            label: 'Require Response'
+            description: '<span style="font-size:10.5pt"><span style="line-height:107%"><span style="font-family:&quot;Helvetica&quot;,sans-serif"><span style="color:#333333">Check box to require user to answer all items before proceeding to next page.</span></span></span></span>'
+            hideCondition: ''
+            type: 4
+            passableThroughUrl: '0'
+            value: '0'
+            testVariable: 87
+            name: responseRequired
+            wizardStep: 13
+            stepTitle: Responses
+            order: 0
+            wizard: 6
+            definition:
+              defvalue: '0'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 52
             label: 'Response Bank'
             description: |
               <p style="margin-bottom:10px"><span style="font-size:11pt"><span style="background:white"><span style="line-height:normal"><span style="font-family:Calibri,sans-serif"><span style="font-size:10.5pt"><span style="font-family:&quot;Helvetica&quot;,sans-serif"><span style="color:#333333">Specify where to save responses to items. Leave empty to not store responses.</span></span></span></span></span></span></span></p>
@@ -13016,24 +13034,6 @@ collection:
                   name: trait
                   label: Trait
                   tooltip: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 52
-            label: 'Require Response'
-            description: '<span style="font-size:10.5pt"><span style="line-height:107%"><span style="font-family:&quot;Helvetica&quot;,sans-serif"><span style="color:#333333">Check box to require user to answer all items before proceeding to next page.</span></span></span></span>'
-            hideCondition: ''
-            type: 4
-            passableThroughUrl: '0'
-            value: '0'
-            testVariable: 87
-            name: responseRequired
-            wizardStep: 13
-            stepTitle: Responses
-            order: 0
-            wizard: 6
-            definition:
-              defvalue: '0'
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -13283,24 +13283,6 @@ collection:
           -
             class_name: TestWizardParam
             id: 54
-            label: 'Layout Template'
-            description: 'Select which template to use for the layout of the main page into which other templates are inserted'
-            hideCondition: ''
-            type: 5
-            passableThroughUrl: '0'
-            value: ''
-            testVariable: 95
-            name: layout
-            wizardStep: 15
-            stepTitle: Templates
-            order: 0
-            wizard: 7
-            definition:
-              defvalue: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 55
             label: 'Content Templates'
             description: |
               <p>Specify which templates to insert into the main layout template. There are two variables:</p>
@@ -13338,6 +13320,24 @@ collection:
                       definition:
                         placeholder: 0
                   placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 55
+            label: 'Layout Template'
+            description: 'Select which template to use for the layout of the main page into which other templates are inserted'
+            hideCondition: ''
+            type: 5
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 95
+            name: layout
+            wizardStep: 15
+            stepTitle: Templates
+            order: 0
+            wizard: 7
+            definition:
+              defvalue: ''
+              placeholder: 0
     test: 9
     groups: ''
     starterContent: true
@@ -13639,17 +13639,17 @@ collection:
           -
             class_name: TestWizardParam
             id: 58
-            label: 'View Template'
-            description: 'Select which template should be shown by this node.&nbsp;This field will be ignored if HTML has been entered above.'
+            label: HTML
+            description: 'Directly input HTML to be shown by this node.'
             hideCondition: ''
-            type: 5
+            type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 110
-            name: template
+            testVariable: 107
+            name: html
             wizardStep: 18
             stepTitle: Template
-            order: 1
+            order: 0
             wizard: 10
             definition:
               defvalue: ''
@@ -13675,17 +13675,17 @@ collection:
           -
             class_name: TestWizardParam
             id: 60
-            label: HTML
-            description: 'Directly input HTML to be shown by this node.'
+            label: 'View Template'
+            description: 'Select which template should be shown by this node.&nbsp;This field will be ignored if HTML has been entered above.'
             hideCondition: ''
-            type: 2
+            type: 5
             passableThroughUrl: '0'
             value: ''
-            testVariable: 107
-            name: html
+            testVariable: 110
+            name: template
             wizardStep: 18
             stepTitle: Template
-            order: 0
+            order: 1
             wizard: 10
             definition:
               defvalue: ''
@@ -13811,6 +13811,78 @@ collection:
           -
             class_name: TestWizardParam
             id: 61
+            label: 'Prevent Parallel Session Usage'
+            description: ''
+            hideCondition: 'values.resumable == 0'
+            type: 4
+            passableThroughUrl: '0'
+            value: '1'
+            testVariable: 115
+            name: preventParallelSessionUsage
+            wizardStep: 19
+            stepTitle: Session
+            order: 4
+            wizard: 11
+            definition:
+              defvalue: '1'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 62
+            label: 'Restore State?'
+            description: ''
+            hideCondition: 'values.resumable == 0'
+            type: 4
+            passableThroughUrl: '0'
+            value: '1'
+            testVariable: 116
+            name: restoreState
+            wizardStep: 19
+            stepTitle: Session
+            order: 3
+            wizard: 11
+            definition:
+              defvalue: '1'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 63
+            label: 'Resumable expiration'
+            description: 'Specify the length of time (in seconds) for which the session should be resumable. <strong>0</strong>&nbsp;= session does not expire.'
+            hideCondition: 'values.resumable == 0'
+            type: 0
+            passableThroughUrl: '0'
+            value: '0'
+            testVariable: 118
+            name: resumableExpiration
+            wizardStep: 19
+            stepTitle: Session
+            order: 2
+            wizard: 11
+            definition:
+              defvalue: '0'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 64
+            label: 'Resumable?'
+            description: 'Check box to make the session resumable'
+            hideCondition: ''
+            type: 4
+            passableThroughUrl: '0'
+            value: '0'
+            testVariable: 117
+            name: resumable
+            wizardStep: 19
+            stepTitle: Session
+            order: 1
+            wizard: 11
+            definition:
+              defvalue: '0'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 65
             label: Table
             description: 'Specify where to save session information'
             hideCondition: ''
@@ -13853,78 +13925,6 @@ collection:
                   name: finished
                   label: Finished
                   tooltip: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 62
-            label: 'Resumable expiration'
-            description: 'Specify the length of time (in seconds) for which the session should be resumable. <strong>0</strong>&nbsp;= session does not expire.'
-            hideCondition: 'values.resumable == 0'
-            type: 0
-            passableThroughUrl: '0'
-            value: '0'
-            testVariable: 118
-            name: resumableExpiration
-            wizardStep: 19
-            stepTitle: Session
-            order: 2
-            wizard: 11
-            definition:
-              defvalue: '0'
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 63
-            label: 'Resumable?'
-            description: 'Check box to make the session resumable'
-            hideCondition: ''
-            type: 4
-            passableThroughUrl: '0'
-            value: '0'
-            testVariable: 117
-            name: resumable
-            wizardStep: 19
-            stepTitle: Session
-            order: 1
-            wizard: 11
-            definition:
-              defvalue: '0'
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 64
-            label: 'Restore State?'
-            description: ''
-            hideCondition: 'values.resumable == 0'
-            type: 4
-            passableThroughUrl: '0'
-            value: '1'
-            testVariable: 116
-            name: restoreState
-            wizardStep: 19
-            stepTitle: Session
-            order: 3
-            wizard: 11
-            definition:
-              defvalue: '1'
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 65
-            label: 'Prevent Parallel Session Usage'
-            description: ''
-            hideCondition: 'values.resumable == 0'
-            type: 4
-            passableThroughUrl: '0'
-            value: '1'
-            testVariable: 115
-            name: preventParallelSessionUsage
-            wizardStep: 19
-            stepTitle: Session
-            order: 4
-            wizard: 11
-            definition:
-              defvalue: '1'
               placeholder: 0
     test: 13
     groups: ''
@@ -14057,6 +14057,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 66
+            label: 'Default language'
+            description: 'Select which language should be used as a default when no language is specified'
+            hideCondition: ''
+            type: 0
+            passableThroughUrl: '0'
+            value: en
+            testVariable: 122
+            name: defaultLanguage
+            wizardStep: 20
+            stepTitle: Dictionary
+            order: 2
+            wizard: 12
+            definition:
+              defvalue: en
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 67
             label: 'Dictionary table'
             description: 'Select which table to use as the dictionary table. If you are using the&nbsp;<strong>Language per table</strong>&nbsp;type, it does not matter which language version table you select here.'
             hideCondition: ''
@@ -14079,24 +14097,6 @@ collection:
                   name: entryKey
                   label: 'Entry key'
                   tooltip: ''
-              placeholder: 0
-          -
-            class_name: TestWizardParam
-            id: 67
-            label: 'Default language'
-            description: 'Select which language should be used as a default when no language is specified'
-            hideCondition: ''
-            type: 0
-            passableThroughUrl: '0'
-            value: en
-            testVariable: 122
-            name: defaultLanguage
-            wizardStep: 20
-            stepTitle: Dictionary
-            order: 2
-            wizard: 12
-            definition:
-              defvalue: en
               placeholder: 0
           -
             class_name: TestWizardParam

@@ -704,7 +704,9 @@ class Test extends ATopEntity implements \JsonSerializable
         //sorting for prettier diffs
         $variables = $this->variables->toArray();
         usort($variables, function ($a, $b) {
-            return strcmp($a->getName(), $b->getName());
+            $compareResult = strcmp($a->getName(), $b->getName());
+            if($compareResult !== 0) return $compareResult;
+            return strcmp($a->getType(), $b->getType());
         });
 
         $serialized = array(
