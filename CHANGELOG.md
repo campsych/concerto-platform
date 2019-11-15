@@ -12,6 +12,14 @@
 * added **concerto.event.fire** function to R package
 * added **concerto.event.remove** function to R package 
 
+#### Fixes
+
+* fixed possible two requests for same session running at once when forking is used on multi-instance setup
+
+#### Improvements
+
+* setting **session_files_expiration** config to negative value will disable session clearing
+
 ## 5.0.6 (2019-11-11)
 
 #### Improvements

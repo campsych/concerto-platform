@@ -57,11 +57,15 @@ concerto.template.show = function(
         repeat {
             concerto5:::concerto.session.update()
             concerto$templateParams <<- list()
+
+            if (concerto$runnerType == RUNNER_SERIALIZED) {
+                concerto5:::concerto.session.serialize()
+            }
+
             concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE, data)
             concerto$response <<- list()
 
             if (concerto$runnerType == RUNNER_SERIALIZED) {
-                concerto5:::concerto.session.serialize()
                 concerto5:::concerto.session.stop(STATUS_RUNNING)
             }
 

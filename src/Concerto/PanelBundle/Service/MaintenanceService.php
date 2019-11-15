@@ -10,7 +10,7 @@ class MaintenanceService
 
     public function __construct($administration)
     {
-        $this->expirationTime = $administration["internal"]["session_files_expiration"];
+        $this->expirationTime = (int)$administration["internal"]["session_files_expiration"];
     }
 
     private function getSessionsPath()
@@ -25,7 +25,9 @@ class MaintenanceService
 
     public function deleteOldSessions()
     {
-        $borderTime = time() - ((int)$this->expirationTime * 86400);
+        if ($this->expirationTime < 0) return;
+
+        $borderTime = time() - ($this->expirationTime * 86400);
         $fs = new Filesystem();
         foreach (new \DirectoryIterator($this->getSessionsPath()) as $sessionDir) {
             if ($sessionDir->isDir() && !$sessionDir->isDot()) {

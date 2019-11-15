@@ -50,8 +50,8 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
             concerto.log(paste0("running worker: ", response$values$bgWorker))
             result = do.call(concerto$bgWorkers[[response$values$bgWorker]], list(response=response$values))
         }
-        concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         concerto5:::concerto.session.serialize()
+        concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         concerto5:::concerto.session.stop(STATUS_RUNNING)
     } else if(!is.null(response$code) && response$code == RESPONSE_RESUME) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
