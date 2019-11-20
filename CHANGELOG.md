@@ -1,10 +1,10 @@
-## 5.0.7 (in progress)
+## 5.0.7 (2019-11-20)
 
 #### Starter content
 
 * database based resuming for **CAT**
 * session state restore is now optional when resuming session in **startSession**
-* added parallel session usage prevention option to **startSession*
+* added parallel session usage prevention option to **startSession**
 
 #### Features
 
