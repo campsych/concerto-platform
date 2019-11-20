@@ -144,8 +144,6 @@ git:
         login.tooltip: Git user login
         password: "Password:"
         password.tooltip: Git user password
-        success: Git enabled
-        failure: Failed enabling Git
         button: Enable
     disable:
         title: Disabling Git

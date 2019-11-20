@@ -12,6 +12,7 @@ use DateTime;
 class ScheduledTask implements \JsonSerializable
 {
     const TYPE_GIT_PULL = 0;
+    const TYPE_GIT_ENABLE = 1;
     const TYPE_R_PACKAGE_INSTALL = 4;
 
     const STATUS_PENDING = 0;

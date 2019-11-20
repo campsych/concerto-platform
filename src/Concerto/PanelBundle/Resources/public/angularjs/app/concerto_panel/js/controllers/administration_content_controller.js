@@ -71,32 +71,6 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         return $scope.gitStatus !== null;
     };
 
-    $scope.enableGit = function () {
-        let modalInstance = $uibModal.open({
-            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_enable_dialog.html",
-            controller: GitEnableController,
-            size: "lg",
-            backdrop: 'static',
-            keyboard: false,
-            resolve: {
-                exposedSettingsMap: function () {
-                    return $scope.exposedSettingsMap;
-                }
-            }
-        });
-        modalInstance.result.then(function (userResponse) {
-            $http.post(Paths.ADMINISTRATION_GIT_ENABLE, userResponse).then(function (httpResponse) {
-                $scope.refreshSettings();
-                let success = httpResponse.data.result === 0;
-                let title = success ? Trans.GIT_ENABLE_SUCCESS : Trans.GIT_ENABLE_FAILURE;
-                DialogsService.preDialog(
-                    title,
-                    null,
-                    httpResponse.data.output);
-            });
-        });
-    };
-
     $scope.disableGit = function () {
         DialogsService.confirmDialog(
             Trans.GIT_DISABLE_TITLE,
@@ -275,7 +249,6 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canPull = function () {
-        return true; //@TODO remove
         return $scope.isGitEnabled() && $scope.gitStatus.behind > 0;
     };
 
@@ -300,6 +273,36 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 });
             }
         );
+    };
+
+    $scope.enableGit = function () {
+        let modalInstance = $uibModal.open({
+            templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_enable_dialog.html",
+            controller: GitEnableController,
+            size: "lg",
+            backdrop: 'static',
+            keyboard: false,
+            resolve: {
+                exposedSettingsMap: function () {
+                    return $scope.exposedSettingsMap;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (userResponse) {
+            $http.post(Paths.ADMINISTRATION_TASKS_GIT_ENABLE, userResponse).then(function (httpResponse) {
+                let success = httpResponse.data.result === 0;
+                if(success) {
+                    //@TODO
+                } else {
+                    DialogsService.preDialog(
+                        Trans.GIT_ENABLE_TITLE,
+                        null,
+                        httpResponse.data.errors.join("\n")
+                    );
+                }
+            });
+        });
     };
 
     $scope.$watch("exposedSettingsMap.git_enabled", function (newValue) {

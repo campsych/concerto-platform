@@ -20,29 +20,6 @@ class GitService
         $this->adminService = $adminService;
     }
 
-    public function enableGit($url = null, $branch = null, $login = null, $password = null, $cloneOnlyIfNotExists = false, &$output = null)
-    {
-        $this->saveGitSettings($url, $branch, $login, $password);
-
-        $app = new Application($this->kernel);
-        $app->setAutoExit(false);
-        $command = $app->find("concerto:git:clone");
-        $arguments = [
-            "command" => $command->getName(),
-            "--if-not-exists" => $cloneOnlyIfNotExists
-        ];
-        $in = new ArrayInput($arguments);
-        $out = new BufferedOutput();
-        $returnCode = $app->run($in, $out);
-        $output .= $out->fetch();
-        if ($returnCode === 0) {
-            return true;
-        }
-
-        $this->disableGit();
-        return false;
-    }
-
     public function getGitExecPath()
     {
         return $this->adminService->getSettingValue("git_exec_path");
@@ -446,5 +423,57 @@ class GitService
         }
         $errorMessages[] = $out->fetch();
         return false;
+    }
+
+    public function scheduleTaskGitPull($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $user = $this->adminService->getAuthorizedUser();
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:pull",
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail(),
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output = $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function scheduleTaskGitEnable($url, $branch, $login, $password, $instantRun = false, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $this->saveGitSettings($url, $branch, $login, $password);
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:enable",
+            "--instant-run" => $instantRun
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output = $out->fetch();
+        return $returnCode === 0;
     }
 }

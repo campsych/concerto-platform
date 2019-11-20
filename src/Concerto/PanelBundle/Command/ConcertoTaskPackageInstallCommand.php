@@ -40,8 +40,6 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
         $r_lib_path = $this->administration["internal"]["r_lib_path"];
         $r_exec_path = $this->administration["internal"]["r_exec_path"];
         $rscript_exec_path = $this->testRunnerSettings["rscript_exec"];
-        $task_output_file = $this->getTaskOutputFile($task);
-        $task_result_file = $this->getTaskResultFile($task);
 
         $info = json_decode($task->getInfo(), true);
         $method = $info["method"];
@@ -52,14 +50,12 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
         if ($method == 0) {
             $lib = $r_lib_path ? ", lib='$r_lib_path'" : "";
 
-            $cmd = "($rscript_exec_path -e \"install.packages(" . escapeshellarg($name) . ", repos=" . escapeshellarg($mirror) . $lib . ")\" ";
-            $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file ) > $task_output_file 2>&1 & echo $! ";
+            $cmd = "($rscript_exec_path -e \"install.packages(" . escapeshellarg($name) . ", repos=" . escapeshellarg($mirror) . $lib . ")\"";
         } else {
             $lib = $r_lib_path ? "-l $r_lib_path " : "";
 
             $cmd = "(wget -O /tmp/concerto_r_package " . escapeshellarg($url) . " ";
             $cmd .= "&& $r_exec_path CMD INSTALL /tmp/concerto_r_package " . $lib;
-            $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file ) > $task_output_file 2>&1 & echo $! ";
         }
         return $cmd;
     }

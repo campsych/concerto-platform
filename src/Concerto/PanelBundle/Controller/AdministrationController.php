@@ -174,7 +174,35 @@ class AdministrationController
     public function taskGitPullAction(Request $request)
     {
         $exportInstructions = $request->get("exportInstructions");
-        $success = $this->service->scheduleTaskGitPull($exportInstructions, $output, $errors);
+        $success = $this->gitService->scheduleTaskGitPull($exportInstructions, $output, $errors);
+        $content = array(
+            "result" => $success ? 0 : 1,
+            "output" => $output,
+            "errors" => $this->trans($errors)
+        );
+
+        $response = new Response(json_encode($content));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/Administration/ScheduledTask/git_enable", name="Administration_tasks_git_enable")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function taskGitEnableAction(Request $request)
+    {
+        $success = $this->gitService->scheduleTaskGitEnable(
+            $request->get("url"),
+            $request->get("branch"),
+            $request->get("login"),
+            $request->get("password"),
+            false,
+            $output,
+            $errors
+        );
         $content = array(
             "result" => $success ? 0 : 1,
             "output" => $output,
@@ -315,28 +343,6 @@ class AdministrationController
             );
         }
         $response = new Response(json_encode($content));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/git/enable", name="Administration_git_enable")
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @param Request $request
-     * @return Response
-     */
-    public function enableGitAction(Request $request)
-    {
-        $success = $this->gitService->enableGit(
-            $request->get("url"),
-            $request->get("branch"),
-            $request->get("login"),
-            $request->get("password"),
-            false,
-            $output
-        );
-
-        $response = new Response(json_encode(array("result" => $success ? 0 : 1, "output" => $output)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

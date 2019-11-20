@@ -144,8 +144,6 @@ git:
         login.tooltip: Login użytkownika Git
         password: "Hasło:"
         password.tooltip: Hasło użytkownika Git
-        success: Git włączony
-        failure: Nie powiodło się włączanie Git
         button: Włącz
     disable:
         title: Wyłączania Git

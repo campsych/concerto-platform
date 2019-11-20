@@ -32,21 +32,12 @@ abstract class ConcertoScheduledTaskCommand extends Command
     {
         $this->addOption("task", null, InputOption::VALUE_OPTIONAL, "Task id", null);
         $this->addOption("cancel-pending-on-fail", null, InputOption::VALUE_NONE, "Cancels all other pending tasks when this task fails", null);
+        $this->addOption("instant-run", null, InputOption::VALUE_NONE, "Instant run without schedule", null);
     }
 
     protected function check(&$error, &$code, InputInterface $input)
     {
         return true;
-    }
-
-    protected function getTaskResultFile(ScheduledTask $task)
-    {
-        return realpath(dirname(__FILE__) . "/../Resources/tasks") . "/concerto_task_" . $task->getId() . ".result";
-    }
-
-    protected function getTaskOutputFile(ScheduledTask $task)
-    {
-        return realpath(dirname(__FILE__) . "/../Resources/tasks") . "/concerto_task_" . $task->getId() . ".output";
     }
 
     abstract protected function executeTask(ScheduledTask $task, OutputInterface $output);
@@ -56,8 +47,6 @@ abstract class ConcertoScheduledTaskCommand extends Command
     public function getTaskInfo(ScheduledTask $task, InputInterface $input)
     {
         $info = array(
-            "task_output_path" => $this->getTaskOutputFile($task),
-            "task_result_path" => $this->getTaskResultFile($task),
             "cancel_pending_on_fail" => $input->getOption("cancel-pending-on-fail")
         );
         return $info;
@@ -79,11 +68,29 @@ abstract class ConcertoScheduledTaskCommand extends Command
         $output->writeln("checks passed");
 
         $task_id = $input->getOption("task");
+        $instantRun = $input->getOption("instant-run");
 
         $em = $this->doctrine->getManager();
         $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
         $task = null;
-        if ($task_id) {
+
+        $execute = $task_id || $instantRun;
+        if (!$task_id) {
+            //SCHEDULE TASK
+
+            $this->onBeforeTaskCreate($input, $output);
+
+            $task = new ScheduledTask();
+            $task->setType($this->getTaskType());
+            $tasksRepo->save($task);
+            $task->setInfo(json_encode($this->getTaskInfo($task, $input)));
+            $task->setDescription($this->getTaskDescription($task));
+            $tasksRepo->save($task);
+
+            $output->writeln("task #" . $task->getId() . " scheduled");
+            $task_id = $task->getId();
+        }
+        if ($execute) {
             //EXECUTE TASK
 
             $task = $tasksRepo->find($task_id);
@@ -101,19 +108,6 @@ abstract class ConcertoScheduledTaskCommand extends Command
                 return $return_code;
             }
             $output->writeln("task #" . $task->getId() . " finished successfully");
-        } else {
-            //SCHEDULE TASK
-
-            $this->onBeforeTaskCreate($input, $output);
-
-            $task = new ScheduledTask();
-            $task->setType($this->getTaskType());
-            $tasksRepo->save($task);
-            $task->setInfo(json_encode($this->getTaskInfo($task, $input)));
-            $task->setDescription($this->getTaskDescription($task));
-            $tasksRepo->save($task);
-
-            $output->writeln("task #" . $task->getId() . " scheduled");
         }
     }
 }

@@ -393,33 +393,6 @@ class AdministrationService
         return $returnCode === 0;
     }
 
-    public function scheduleTaskGitPull($exportInstructions, &$output = null, &$errors = null)
-    {
-        if ($this->isTaskScheduled()) {
-            $errors[] = "tasks.already_scheduled";
-            return false;
-        }
-        if (!$this->canDoRiskyGitActions()) {
-            $errors[] = "git.locked";
-            return false;
-        }
-
-        $user = $this->getAuthorizedUser();
-
-        $app = new Application($this->kernel);
-        $app->setAutoExit(false);
-        $in = new ArrayInput(array(
-            "command" => "concerto:task:git:pull",
-            "username" => $user->getUsername(),
-            "email" => $user->getEmail(),
-            "--instructions" => $exportInstructions
-        ));
-        $out = new BufferedOutput();
-        $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
-        return $returnCode === 0;
-    }
-
     public function getApiClientsCollection()
     {
         return $this->apiClientRepository->findAll();

@@ -211,7 +211,7 @@ class ContentImportCommand extends Command
     {
         $this->output->writeln("preparing Git");
 
-        if (!$this->gitService->enableGit(null, null, null, null, true, $gitEnableOutput)) {
+        if (!$this->gitService->scheduleTaskGitEnable(null, null, null, null, true, $gitEnableOutput)) {
             $this->output->writeln($gitEnableOutput);
             return false;
         }
