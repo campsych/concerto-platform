@@ -8,7 +8,7 @@ getSessionId = function(session) {
   return(id)
 }
 
-saveResponse = function(responseBank, session, response, score, item, theta, sem) {
+saveResponse = function(responseBank, session, templateResponse, score, item, theta, sem) {
   responseBank = fromJSON(responseBank)
   if(!is.character(responseBank$table) || nchar(responseBank$table) == 0) {
     concerto.log("no response bank defined, skipping response saving")
@@ -27,11 +27,11 @@ VALUES ({{itemId}}, '{{responseValue}}', {{score}}, {{timeTaken}}, '{{sessionId}
     itemIdColumn=responseBank$columns$item_id,
     itemId=item$id,
     responseColumn=responseBank$columns$response,
-    responseValue=response[[paste0("r",item$id)]],
+    responseValue=templateResponse[[paste0("r",item$id)]],
     scoreColumn=responseBank$columns$score,
     score=score,
     timeTakenColumn=responseBank$columns$timeTaken,
-    timeTaken=response$timeTaken, #could use time difference
+    timeTaken=templateResponse$timeTaken, #could use time difference
     thetaColumn=responseBank$columns$theta,
     theta=theta,
     semColumn=responseBank$columns$sem,
@@ -41,4 +41,4 @@ VALUES ({{itemId}}, '{{responseValue}}', {{score}}, {{timeTaken}}, '{{sessionId}
 }
 
 itemsAdministered = unique(c(itemsAdministered, itemIndex))
-responseId = saveResponse(settings$responseBank, session, response, score, item, theta, sem)
+responseId = saveResponse(settings$responseBank, session, templateResponse, score, item, theta, sem)

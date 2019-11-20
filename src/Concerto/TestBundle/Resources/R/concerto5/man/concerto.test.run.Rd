@@ -1,31 +1,31 @@
 \name{concerto.test.run}
 \alias{concerto.test.run}
 \title{
-Running Concerto test
+    Running Concerto test
 }
 \description{
-Runs Concerto test.
+    Runs Concerto test.
 }
 \usage{
-concerto.test.run(testId, params = list())
+    concerto.test.run(testId, params = list())
 }
 \arguments{
-  \item{testId}{
-Test ID or name.
-}
-  \item{params}{
-Named list of parameters you want to pass to the test logic.
-}
+    \item{testId}{
+        Test ID or name.
+    }
+    \item{params}{
+        Named list of parameters you want to pass to the test logic.
+    }
 }
 \details{
 }
 \value{
-Named list with the test specific return variables.
+    Named list with the test specific return variables.
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -33,6 +33,6 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-test <- concerto.test.run(1)
+    test <- concerto.test.run(1)
 }
-\keyword{ test }
+\keyword{test}

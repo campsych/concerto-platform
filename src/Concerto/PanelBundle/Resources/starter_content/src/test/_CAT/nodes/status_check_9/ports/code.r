@@ -1,15 +1,20 @@
-isOutOfTime = function(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFullRequired) {
-  startedAgo = as.numeric(Sys.time()) - testTimeStarted
-  testTimeLeft = testTimeLimit - startedAgo
+isOutOfTime = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullRequired) {
   if(testTimeLimit > 0) {
-    if(testTimeLeft <= 0) { return(T) }
+    if(testTimeLeft <= 1) { return(T) }
     if(testTimeLeft < itemTimeLimit && itemTimeFullRequired) { return(T) }
   }
   return(F)
 }
 
-getBranch = function(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, itemsAdministered, itemsNum, sem) {
-  if(isOutOfTime(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFullRequired)) {
+getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, itemsAdministered, itemsNum, sem) {
+  outOfTime = isOutOfTime(
+    testTimeLimit, 
+    testTimeLeft,
+    itemTimeLimit, 
+    itemTimeFullRequired
+  )
+  
+  if(outOfTime) {
     concerto.log("time out", "test status")
     return("stop")
   }
@@ -28,8 +33,8 @@ getBranch = function(testTimeLimit, testTimeStarted, itemTimeLimit, itemTimeFull
 }
 
 .branch = getBranch(
-  as.numeric(settings$testTimeLimit), 
-  testTimeStarted, 
+  as.numeric(settings$testTimeLimit),
+  testTimeLeft,
   as.numeric(settings$itemTimeLimit), 
   settings$itemTimeFullRequired == "1", 
   as.numeric(settings$itemNumLimit), 

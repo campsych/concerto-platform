@@ -1,31 +1,31 @@
 \name{concerto.list.merge}
 \alias{concerto.list.merge}
 \title{
-Merge two lists.
+    Merge two lists.
 }
 \description{
-Merges two lists
+    Merges two lists
 }
 \usage{
-concerto.list.merge(list1, list2)
+    concerto.list.merge(list1, list2)
 }
 \arguments{
-  \item{list1}{
-First list
-}
-  \item{list2}{
-Second list
-}
+    \item{list1}{
+        First list
+    }
+    \item{list2}{
+        Second list
+    }
 }
 \details{
 }
 \value{
-Merged list
+    Merged list
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -33,7 +33,7 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-res <- concerto.list.merge(list1, list2)
+    res <- concerto.list.merge(list1, list2)
 }
 
-\keyword{ list }
+\keyword{list}

@@ -57,9 +57,7 @@ concerto.server.listen = function(skipOnResume=F){
         if (response$code == RESPONSE_SUBMIT) {
             concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
             concerto$lastSubmitTime <<- as.numeric(Sys.time())
-            if(exists("concerto.onTemplateSubmit")) {
-                do.call("concerto.onTemplateSubmit",list(response=response$values), envir = .GlobalEnv)
-            }
+            concerto.event.fire("onTemplateSubmit", list(response=response$values))
             return(response$values)
         } else if (response$code == RESPONSE_RESUME) {
             concerto$lastKeepAliveTime <<- as.numeric(Sys.time())

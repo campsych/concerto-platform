@@ -1,30 +1,30 @@
 \name{concerto.table.get}
 \alias{concerto.table.get}
 \title{
-Table object retrieval
+    Table object retrieval
 }
 \description{
-Gets table object.
+    Gets table object.
 }
 \usage{
-concerto.table.get(tableId)
+    concerto.table.get(tableId)
 }
 \arguments{
-  \item{tableId}{
-Table object Id or name.
-}
+    \item{tableId}{
+        Table object Id or name.
+    }
 }
 \details{
 }
 \value{
-List with table object properties:
-\item{id }{table object ID}
-\item{name}{table object name}
+    List with table object properties:
+    \item{id}{table object ID}
+    \item{name}{table object name}
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -32,9 +32,9 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-table1 <- concerto.table.get(1)
-table2 <- concerto.table.get("some_other_table")
+    table1 <- concerto.table.get(1)
+    table2 <- concerto.table.get("some_other_table")
 }
 
-\keyword{ table }
-\keyword{ database }
+\keyword{table}
+\keyword{database}

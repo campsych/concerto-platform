@@ -1,28 +1,28 @@
 \name{concerto.file.getPath}
 \alias{concerto.file.getPath}
 \title{
-Public path
+    Public path
 }
 \description{
-Gets file public path.
+    Gets file public path.
 }
 \usage{
-concerto.file.getPath(filename)
+    concerto.file.getPath(filename)
 }
 \arguments{
-  \item{filename}{
-File name
-}
+    \item{filename}{
+        File name
+    }
 }
 \details{
 }
 \value{
-Public path of given file name
+    Public path of given file name
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -30,8 +30,8 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-plot_path <- concerto.file.getPath("plot.png")
+    plot_path <- concerto.file.getPath("plot.png")
 }
 
-\keyword{ table }
-\keyword{ database }
+\keyword{table}
+\keyword{database}

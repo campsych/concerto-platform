@@ -7,7 +7,6 @@ ignition.browser.potentionallynotsupported: Jika pesan ini tidak hilang sendiri 
 default.template:
     finished: Test Anda sudah selesai.
     loading: Mohon menunggu...
-    unresumable: Tes Anda terlalu lama tidak dikerjakan. Silakan refresh mesin perambah Anda untuk melanjutkan/memulai ulang.
     session_limit_reached: Maaf, saat ini tes diakses oleh terlalu banyak pengguna sekaligus. Mohon coba lagi setelah beberapa saat.
     test_not_found: Tes tidak dapat ditemukan.
     session_lost: Sesi terputus. Silakan panggil ulang tes.

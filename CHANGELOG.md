@@ -1,9 +1,42 @@
-## 5.0.6 (work in progress)
+## 5.0.7 (in progress)
+
+#### Starter content
+
+* database based resuming for **CAT**
+* session state restore is now optional when resuming session in **startSession**
+* added parallel session usage prevention option to **startSession*
+
+#### Features
+
+* added **concerto.event.add** function to R package
+* added **concerto.event.fire** function to R package
+* added **concerto.event.remove** function to R package 
+
+#### Fixes
+
+* fixed possible two requests for same session running at once when forking is used on multi-instance setup
+
+#### Improvements
+
+* setting **session_files_expiration** config to negative value will disable session clearing
+
+## 5.0.6 (2019-11-11)
 
 #### Improvements
 
 * improved logging for forker and forked child processes
 * test variables sorted by name for prettier export diffs
+* added working path writeable check to health check
+
+#### Fixes
+
+* fixed form select element values
+* fixed global variables scope on resuming
+* fixed standalone session runner missing use statement
+
+#### Starter content
+
+* added **Test Time Limit Type** option to **CAT**
 
 ## 5.0.5 (2019-11-02)
 

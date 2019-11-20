@@ -24,6 +24,12 @@ class SerializedSessionRunnerService extends ASessionRunnerService
 
     public function healthCheck()
     {
+        $workingDirPath = $this->getWorkingDirPath(null);
+        if (!is_writeable($workingDirPath)) {
+            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - working dir path $workingDirPath not writeable");
+            return false;
+        }
+
         $port = $this->createSubmitterSock(null, false, $submitter_sock, $error_response);
         if ($port === false) {
             return false;

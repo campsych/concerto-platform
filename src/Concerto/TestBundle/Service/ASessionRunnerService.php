@@ -8,6 +8,7 @@ use Concerto\PanelBundle\Service\AdministrationService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Concerto\PanelBundle\Service\TestSessionService;
+use Symfony\Component\Process\Process;
 
 abstract class ASessionRunnerService
 {

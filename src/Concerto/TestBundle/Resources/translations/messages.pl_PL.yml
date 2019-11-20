@@ -10,7 +10,6 @@ default.template:
     client_error: Napotkano problem klienta. Wykonanie wstrzymane.
     finished: Test ukończony.
     loading: Proszę czekać...
-    unresumable: Ta sesja nie może być wznowiona.
     session_limit_reached: Przepraszamy, ten test ma obecnie zbyt wielu użytkowników. Proszę spróbować później.
     test_not_found: Nie znaleziono testu.
     session_lost: Sesja stracona. Proszę odświeżyć test.

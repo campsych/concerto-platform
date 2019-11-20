@@ -260,6 +260,13 @@ class TestWizardStep extends AEntity implements \JsonSerializable
 
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
+        //sorting for prettier diffs
+        $params = $this->params->toArray();
+        usort($params, function ($a, $b) {
+            $compareResult = strcmp($a->getLabel(), $b->getLabel());
+            return $compareResult;
+        });
+
         $serialized = array(
             "class_name" => "TestWizardStep",
             "id" => $this->id,
@@ -268,7 +275,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable
             "orderNum" => $this->orderNum,
             "colsNum" => $this->colsNum,
             "wizard" => $this->wizard->getId(),
-            "params" => self::jsonSerializeArray($this->params->toArray(), $dependencies, $normalizedIdsMap)
+            "params" => self::jsonSerializeArray($params, $dependencies, $normalizedIdsMap)
         );
 
         if ($normalizedIdsMap !== null) {

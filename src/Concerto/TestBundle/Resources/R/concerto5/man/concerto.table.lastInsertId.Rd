@@ -1,23 +1,23 @@
 \name{concerto.table.lastInsertId}
 \alias{concerto.table.lastInsertId}
 \title{
-Last insert id
+    Last insert id
 }
 \description{
-Gets last inserted record id
+    Gets last inserted record id
 }
 \usage{
-concerto.table.lastInsertId()
+    concerto.table.lastInsertId()
 }
 \details{
 }
 \value{
-Last insert id
+    Last insert id
 }
 \references{
 }
 \author{
-Przemyslaw Lis
+    Przemyslaw Lis
 }
 \note{
 }
@@ -25,8 +25,8 @@ Przemyslaw Lis
 \seealso{
 }
 \examples{
-lid <- concerto.table.lastInsertId()
+    lid <- concerto.table.lastInsertId()
 }
 
-\keyword{ table }
-\keyword{ database }
+\keyword{table}
+\keyword{database}

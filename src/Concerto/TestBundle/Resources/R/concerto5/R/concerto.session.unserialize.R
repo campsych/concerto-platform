@@ -26,6 +26,7 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto$bgWorkers <<- prevConcerto$bgWorkers
     concerto$lastResponse <<- prevConcerto$lastResponse
     concerto$skipTemplateOnResume <<- prevConcerto$skipTemplateOnResume
+    concerto$events <<- prevConcerto$events
 
     concerto.log("session unserialized")
 
@@ -40,9 +41,7 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     if (!is.null(response$code) && response$code == RESPONSE_SUBMIT) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         concerto$lastSubmitTime <<- as.numeric(Sys.time())
-        if(exists("concerto.onTemplateSubmit")) {
-            do.call("concerto.onTemplateSubmit",list(response=response$values), envir = .GlobalEnv)
-        }
+        concerto.event.fire("onTemplateSubmit", list(response=response$values))
         concerto$queuedResponse <<- response$values
     } else if(!is.null(response$code) && response$code == RESPONSE_WORKER) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
@@ -51,8 +50,8 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
             concerto.log(paste0("running worker: ", response$values$bgWorker))
             result = do.call(concerto$bgWorkers[[response$values$bgWorker]], list(response=response$values))
         }
-        concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         concerto5:::concerto.session.serialize()
+        concerto5:::concerto.server.respond(RESPONSE_WORKER, result)
         concerto5:::concerto.session.stop(STATUS_RUNNING)
     } else if(!is.null(response$code) && response$code == RESPONSE_RESUME) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())

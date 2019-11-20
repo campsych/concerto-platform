@@ -82,9 +82,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
- && crontab -l | { cat; echo "* * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:schedule:tick --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "0 0 * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:clear --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
- && crontab -l | { cat; echo "*/5 * * * * . /root/env.sh; /usr/bin/php /app/concerto/bin/console concerto:sessions:log --env=prod >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.schedule.tick.sh >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "0 0 * * * . /app/concerto/cron/concerto.session.clear.sh >> /var/log/cron.log 2>&1"; } | crontab - \
+ && crontab -l | { cat; echo "*/5 * * * * . /app/concerto/cron/concerto.session.log.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
@@ -113,6 +113,8 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && ln -sf /data/git /app/concerto/src/Concerto/PanelBundle/Resources/git \
  && ln -sf /data/tasks /app/concerto/src/Concerto/PanelBundle/Resources/tasks \
+ && chown www-data:www-data /data/sessions \
+ && chown -R www-data:www-data /data/files \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
@@ -120,14 +122,12 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
     fi \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
+ && chown www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
- && chown www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
- && chown www-data:www-data /data/sessions \
- && chown www-data:www-data /data/files \
  && chown -R www-data:www-data /data/git \
  && chown -R www-data:www-data /data/tasks \
  && cron \
