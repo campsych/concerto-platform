@@ -2,9 +2,11 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class GitService
@@ -13,11 +15,13 @@ class GitService
 
     private $adminService;
     private $kernel;
+    private $scheduledTaskRepository;
 
-    public function __construct(KernelInterface $kernel, AdministrationService $adminService)
+    public function __construct(KernelInterface $kernel, AdministrationService $adminService, ScheduledTaskRepository $scheduledTaskRepository)
     {
         $this->kernel = $kernel;
         $this->adminService = $adminService;
+        $this->scheduledTaskRepository = $scheduledTaskRepository;
     }
 
     public function getGitExecPath()
@@ -299,8 +303,14 @@ class GitService
             "behind" => $behind,
             "ahead" => $ahead,
             "history" => $history,
-            "diff" => $diff
+            "diff" => $diff,
+            "latestTask" => $this->getLatestGitTask()
         ];
+    }
+
+    private function getLatestGitTask()
+    {
+        return $this->scheduledTaskRepository->findLatestGit();
     }
 
     private function gitReset(&$output = null, &$errorMessages = null)
@@ -528,5 +538,11 @@ class GitService
             return false;
         }
         return true;
+    }
+
+    public function setGitRepoOwner()
+    {
+        $fs = new Filesystem();
+        $fs->chown($this->getGitRepoPath(), "www-data", true);
     }
 }

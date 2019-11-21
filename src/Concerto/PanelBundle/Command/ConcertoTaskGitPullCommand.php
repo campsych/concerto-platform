@@ -73,6 +73,8 @@ class ConcertoTaskGitPullCommand extends ConcertoScheduledTaskCommand
 
         $result = $this->gitService->pull($username, $email, $instructions, $pullOutput);
         $output->writeln($pullOutput);
+
+        $this->gitService->setGitRepoOwner();
         return $result ? 0 : 1;
     }
 }

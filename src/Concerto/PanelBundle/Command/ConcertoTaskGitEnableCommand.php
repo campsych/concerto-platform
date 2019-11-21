@@ -38,15 +38,13 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
     public function getTaskDescription(ScheduledTask $task)
     {
         $info = json_decode($task->getInfo(), true);
-        $desc = $this->templating->render("@ConcertoPanel/Administration/task_git_enable.html.twig", array(
-        ));
+        $desc = $this->templating->render("@ConcertoPanel/Administration/task_git_enable.html.twig", array());
         return $desc;
     }
 
     public function getTaskInfo(ScheduledTask $task, InputInterface $input)
     {
-        $info = array_merge(parent::getTaskInfo($task, $input), array(
-        ));
+        $info = array_merge(parent::getTaskInfo($task, $input), array());
         return $info;
     }
 
@@ -69,6 +67,8 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
             return 1;
         }
         if (!$this->clone()) return 1;
+
+        $this->gitService->setGitRepoOwner();
         return 0;
     }
 

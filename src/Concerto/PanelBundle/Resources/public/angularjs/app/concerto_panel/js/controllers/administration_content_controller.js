@@ -267,10 +267,9 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_TASKS_GIT_ENABLE, userResponse).then(function (httpResponse) {
+                $scope.refreshGitStatus();
                 let success = httpResponse.data.result === 0;
-                if (success) {
-                    //@TODO
-                } else {
+                if (!success) {
                     DialogsService.preDialog(
                         Trans.GIT_ENABLE_TITLE,
                         null,
@@ -321,6 +320,14 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     );
                 });
             }
+        );
+    };
+
+    $scope.showLatestTaskOutput = function () {
+        DialogsService.preDialog(
+            $scope.gitStatus.latestTask.description,
+            null,
+            $scope.gitStatus.latestTask.output
         );
     };
 

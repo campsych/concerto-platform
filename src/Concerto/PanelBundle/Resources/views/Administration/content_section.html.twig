@@ -165,6 +165,28 @@
                     <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0" ng-disabled="!exposedSettingsMap.git_enabled_overridable">{{ "git.enable.button"|trans }}</button>
                     <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!exposedSettingsMap.git_enabled_overridable">{{ "git.disable.button"|trans }}</button>
                 </div>
+
+                <div ng-if="isGitEnabled()">
+                    <h4 style="text-align: center; margin-top: 32px;">Latest Git operation:</h4>
+
+                    <div class="alert alert-warning" ng-if="gitStatus.latestTask == null">No Git task executed yet.</div>
+                    <table class="table-lite" ng-if="gitStatus.latestTask != null">
+                        <tr>
+                            <th>started</th>
+                            <th>description</th>
+                            <th>output</th>
+                            <th>status</th>
+                        </tr>
+                        <tr>
+                            <td ng-bind="gitStatus.latestTask.created"></td>
+                            <td ng-bind="gitStatus.latestTask.description"></td>
+                            <td>
+                                <i class="glyphicon glyphicon-align-justify clickable" ng-click="showLatestTaskOutput()"></i>
+                            </td>
+                            <td ng-bind="getTasksStatusLabel(gitStatus.latestTask.status)"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
             <div style="display: table-cell; width: 50%; padding-left: 16px;" ng-if="isGitEnabled()">
@@ -172,7 +194,7 @@
 
                 <div class="alert alert-warning" ng-if="gitStatus.history.length == 0">{{ "git.history.no_commits"|trans }}</div>
 
-                <table class="git-history" ng-if="gitStatus.history.length > 0">
+                <table class="table-lite" ng-if="gitStatus.history.length > 0">
                     <tr>
                         <th>{{ "git.history.list.sha"|trans }}</th>
                         <th>{{ "git.history.list.committer"|trans }}</th>
