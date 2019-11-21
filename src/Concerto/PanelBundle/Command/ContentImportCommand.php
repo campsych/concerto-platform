@@ -236,7 +236,7 @@ class ContentImportCommand extends Command
 
         $instructions = $input->getOption("instructions");
         if ($instructions === null) {
-            $instructions = $this->adminService->getContentImportOptions();
+            $instructions = $this->adminService->getContentTransferOptions();
         }
 
         if ($input->getOption("sc")) {
@@ -256,7 +256,7 @@ class ContentImportCommand extends Command
         if ($input->getOption("git")) {
             if ($input->getOption("instructions") === null) {
                 //yes, it's using url export options in git for both import and export
-                $instructions = $this->adminService->getContentExportOptions();
+                $instructions = $this->adminService->getContentTransferOptions();
             }
 
             if (!$this->prepareGit()) {

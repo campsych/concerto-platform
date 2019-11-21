@@ -1,5 +1,4 @@
 function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal) {
-    $scope.contentSource = "url";
     $scope.gitStatus = null;
     $scope.uploadItem = null;
     $scope.uploader = new FileUploader({
@@ -19,7 +18,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.exportUrl = function () {
-        $window.open(Paths.ADMINISTRATION_CONTENT_EXPORT.pf($scope.exposedSettingsMap.content_export_options), "_blank");
+        $window.open(Paths.ADMINISTRATION_CONTENT_EXPORT.pf($scope.exposedSettingsMap.content_transfer_options), "_blank");
     };
 
     $scope.importUrl = function () {
@@ -31,7 +30,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_CONTENT_IMPORT, {
                     url: $scope.exposedSettingsMap.content_url,
-                    instructions: $scope.exposedSettingsMap.content_import_options,
+                    instructions: $scope.exposedSettingsMap.content_transfer_options,
                     file: $scope.uploadItem ? $scope.uploadItem.file.name : null
                 }).then(function (httpResponse) {
                     let success = httpResponse.data.result === 0;
@@ -68,7 +67,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.isGitEnabled = function () {
-        return $scope.gitStatus !== null;
+        return $scope.exposedSettingsMap.git_enabled == 1;
     };
 
     $scope.disableGit = function () {
@@ -139,12 +138,12 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
     $scope.hasUncommittedChanges = function () {
         if (!$scope.isGitEnabled()) return false;
-        return $scope.gitStatus.diff !== '';
+        return $scope.gitStatus !== null && $scope.gitStatus.diff !== '';
     };
 
     $scope.refreshGitStatus = function () {
         $http.post(Paths.ADMINISTRATION_GIT_STATUS, {
-            exportInstructions: $scope.exposedSettingsMap.content_export_options
+            exportInstructions: $scope.exposedSettingsMap.content_transfer_options
         }).then(function (httpResponse) {
 
             let success = httpResponse.data.result == 0;
@@ -199,7 +198,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canPush = function () {
-        return $scope.isGitEnabled() && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0;
+        return $scope.isGitEnabled() && $scope.gitStatus !== null && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0;
     };
 
     $scope.push = function () {
@@ -225,7 +224,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canPull = function () {
-        return $scope.isGitEnabled() && $scope.gitStatus.behind > 0;
+        return $scope.isGitEnabled() && $scope.gitStatus !== null && $scope.gitStatus.behind > 0;
     };
 
     $scope.pull = function () {
@@ -234,7 +233,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             Trans.GIT_PULL_CONFIRM,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_TASKS_GIT_PULL, {
-                    exportInstructions: $scope.exposedSettingsMap.content_export_options
+                    exportInstructions: $scope.exposedSettingsMap.content_transfer_options
                 }).then(function (httpResponse) {
                     let success = httpResponse.data.result === 0;
                     if (success) {
@@ -267,6 +266,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_TASKS_GIT_ENABLE, userResponse).then(function (httpResponse) {
+                $scope.refreshSettings();
                 $scope.refreshGitStatus();
                 let success = httpResponse.data.result === 0;
                 if (!success) {
@@ -282,7 +282,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
     $scope.update = function () {
         $http.post(Paths.ADMINISTRATION_TASKS_GIT_UPDATE, {
-            exportInstructions: $scope.exposedSettingsMap.content_export_options
+            exportInstructions: $scope.exposedSettingsMap.content_transfer_options
         }).then(function (httpResponse) {
             let success = httpResponse.data.result === 0;
             if (success) {
@@ -303,7 +303,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             Trans.GIT_RESET_CONFIRM,
             function (confirmResponse) {
                 $http.post(Paths.ADMINISTRATION_TASKS_GIT_RESET, {
-                    exportInstructions: $scope.exposedSettingsMap.content_export_options
+                    exportInstructions: $scope.exposedSettingsMap.content_transfer_options
                 }).then(function (httpResponse) {
                     $scope.refreshGitStatus();
 
@@ -333,7 +333,6 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
     $scope.$watch("exposedSettingsMap.git_enabled", function (newValue) {
         if (newValue == 1) $scope.refreshGitStatus();
-        $scope.contentSource = newValue == 1 ? "git" : "url";
     });
 }
 

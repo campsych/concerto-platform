@@ -5,10 +5,8 @@ parameters:
     env(CONCERTO_SESSION_LIMIT_OVERRIDABLE): true
     env(CONCERTO_CONTENT_URL): .
     env(CONCERTO_CONTENT_URL_OVERRIDABLE): true
-    env(CONCERTO_CONTENT_IMPORT_OPTIONS): '[]'
-    env(CONCERTO_CONTENT_IMPORT_OPTIONS_OVERRIDABLE): true
-    env(CONCERTO_CONTENT_EXPORT_OPTIONS): '[]'
-    env(CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE): true
+    env(CONCERTO_CONTENT_TRANSFER_OPTIONS): '[]'
+    env(CONCERTO_CONTENT_TRANSFER_OPTIONS_OVERRIDABLE): true
     env(CONCERTO_SESSION_RUNNER_SERVICE): 'SerializedSessionRunnerService'
     env(CONCERTO_SESSION_RUNNER_SERVICE_OVERRIDABLE): true
     env(CONCERTO_GIT_ENABLED): 0
@@ -30,10 +28,8 @@ parameters:
             api_enabled_overridable: "%env(CONCERTO_API_ENABLED_OVERRIDABLE)%"
             content_url: "%env(CONCERTO_CONTENT_URL)%"
             content_url_overridable: "%env(CONCERTO_CONTENT_URL_OVERRIDABLE)%"
-            content_import_options: "%env(CONCERTO_CONTENT_IMPORT_OPTIONS)%"
-            content_import_options_overridable: "%env(CONCERTO_CONTENT_IMPORT_OPTIONS_OVERRIDABLE)%"
-            content_export_options: "%env(CONCERTO_CONTENT_EXPORT_OPTIONS)%"
-            content_export_options_overridable: "%env(CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE)%"
+            content_transfer_options: "%env(CONCERTO_CONTENT_TRANSFER_OPTIONS)%"
+            content_transfer_options_overridable: "%env(CONCERTO_CONTENT_TRANSFER_OPTIONS_OVERRIDABLE)%"
             session_runner_service: "%env(CONCERTO_SESSION_RUNNER_SERVICE)%"
             session_runner_service_overridable: "%env(CONCERTO_SESSION_RUNNER_SERVICE_OVERRIDABLE)%"
             git_enabled: "%env(CONCERTO_GIT_ENABLED)%"

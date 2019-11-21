@@ -274,7 +274,7 @@ class ContentExportCommand extends Command
 
         $instructions = $input->getOption("instructions");
         if ($instructions === null) {
-            $instructions = $this->adminService->getContentExportOptions();
+            $instructions = $this->adminService->getContentTransferOptions();
         }
 
         if ($input->getOption("sc")) {

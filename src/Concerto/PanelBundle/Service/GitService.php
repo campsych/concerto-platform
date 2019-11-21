@@ -199,7 +199,7 @@ class GitService
 
     private function exportWorkingCopy($exportInstructions, &$output = null, &$errorMessages = null)
     {
-        if ($exportInstructions === null) $exportInstructions = $this->adminService->getSettingValue("content_export_options");
+        if ($exportInstructions === null) $exportInstructions = $this->adminService->getContentTransferOptions();
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -334,7 +334,7 @@ class GitService
 
     private function importWorkingCopy($instructions, &$output, &$errorMessages = null)
     {
-        if ($instructions === null) $instructions = $this->adminService->getSettingValue("content_export_options");
+        if ($instructions === null) $instructions = $this->adminService->getContentTransferOptions();
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -350,6 +350,7 @@ class GitService
         $returnCode = $app->run($in, $out);
         $output .= $out->fetch();
         if ($returnCode === 0) {
+            $this->adminService->updateLastImportTime();
             return true;
         }
         $errorMessages[] = $out->fetch();
