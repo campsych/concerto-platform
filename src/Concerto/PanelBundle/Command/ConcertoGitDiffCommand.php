@@ -38,7 +38,7 @@ class ConcertoGitDiffCommand extends Command
         $exec = $this->gitService->getGitExecPath();
         if ($this->sha) $shaCmd = $this->sha . "^ " . $this->sha;
         else $shaCmd = "HEAD";
-        $options = "--ignore-space-at-eol --ignore-cr-at-eol";
+        $options = ""; //"--ignore-cr-at-eol --ignore-all-space --ignore-blank-lines";
         return "i=-1; for f in `$exec diff $shaCmd $options --name-only`; do i=$((\$i+1)); if [ \"\$i\" -ge " . self::MAX_FILE_DIFF_NUM . " ]; then break; fi;  $exec diff $shaCmd $options -- \$f | head -n" . self::MAX_FILE_DIFF_LENGTH . "; done";
     }
 

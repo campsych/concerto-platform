@@ -509,6 +509,13 @@ class AdministrationService
         ), false);
     }
 
+    public function updateLastGitUpdateTime()
+    {
+        $this->setSettings(array(
+            "last_git_update_time" => date("Y-m-d H:i:s")
+        ), false);
+    }
+
     /**
      * @return User
      */

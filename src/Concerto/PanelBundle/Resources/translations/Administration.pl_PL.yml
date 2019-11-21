@@ -141,8 +141,6 @@ git:
     reset:
         title: Reset kopii roboczej
         confirm: Zresetuje to twoją kopię roboczą do ostatniego commitu. Nie usunię to nowo dodanych najwyższych obiektów. Napewno kontynuować?
-        success: Kopia robocza zresetowana
-        failure: Nie udało sie zresetować kopii roboczej
         button: Reset
     push:
         title: Pchnięcie lokalnych commitów do zdalnego repozytorium
@@ -154,6 +152,16 @@ git:
         title: Pobieranie commitów ze zdalnego repozytorium
         confirm: Napewno pobrać commity ze zdalnego repozytorium?
         button: Pobierz
+    update:
+        title: Aktualizacja lokalnych zmian
+        button: Zaktualizuj lokalne zmiany
+    latest_operation: "Ostatnia operacja Git:"
+    no_git_task: Żadne zadanie Git nie zostało jeszcze uruchomione.
+    task:
+        started: Rozpoczęte
+        description: Opis
+        output: Wyjście
+        status: Status
         
 usage_charts:
     fieldset:

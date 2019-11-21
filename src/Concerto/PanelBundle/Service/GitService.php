@@ -496,6 +496,8 @@ class GitService
             return false;
         }
 
+        $this->adminService->updateLastGitUpdateTime();
+
         return true;
     }
 

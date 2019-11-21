@@ -142,6 +142,8 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.refreshGitStatus = function () {
+        $scope.refreshSettings();
+
         $http.post(Paths.ADMINISTRATION_GIT_STATUS, {
             exportInstructions: $scope.exposedSettingsMap.content_transfer_options
         }).then(function (httpResponse) {
@@ -166,7 +168,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canCommit = function () {
-        return $scope.hasUncommittedChanges();
+        return $scope.hasUncommittedChanges() && !$scope.isOngoingGitTask();
     };
 
     $scope.commit = function () {
@@ -194,11 +196,11 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canReset = function () {
-        return $scope.hasUncommittedChanges();
+        return $scope.hasUncommittedChanges() && !$scope.isOngoingGitTask();
     };
 
     $scope.canPush = function () {
-        return $scope.isGitEnabled() && $scope.gitStatus !== null && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0;
+        return $scope.isGitEnabled() && $scope.gitStatus !== null && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0 && !$scope.isOngoingGitTask();
     };
 
     $scope.push = function () {
@@ -224,7 +226,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canPull = function () {
-        return $scope.isGitEnabled() && $scope.gitStatus !== null && $scope.gitStatus.behind > 0;
+        return $scope.isGitEnabled() && $scope.gitStatus !== null && $scope.gitStatus.behind > 0 && !$scope.isOngoingGitTask();
     };
 
     $scope.pull = function () {
@@ -235,14 +237,16 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 $http.post(Paths.ADMINISTRATION_TASKS_GIT_PULL, {
                     exportInstructions: $scope.exposedSettingsMap.content_transfer_options
                 }).then(function (httpResponse) {
+                    $scope.refreshGitStatus();
+
                     let success = httpResponse.data.result === 0;
-                    if (success) {
-                        $scope.refreshGitStatus();
-                    } else {
+                    if (!success) {
+                        let content = httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
+
                         DialogsService.preDialog(
                             Trans.GIT_PULL_TITLE,
                             null,
-                            httpResponse.data.errors.join("\n")
+                            content
                         );
                     }
                 });
@@ -266,14 +270,15 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
 
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_TASKS_GIT_ENABLE, userResponse).then(function (httpResponse) {
-                $scope.refreshSettings();
                 $scope.refreshGitStatus();
                 let success = httpResponse.data.result === 0;
                 if (!success) {
+                    let content = httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
+
                     DialogsService.preDialog(
                         Trans.GIT_ENABLE_TITLE,
                         null,
-                        httpResponse.data.errors.join("\n")
+                        content
                     );
                 }
             });
@@ -284,14 +289,16 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         $http.post(Paths.ADMINISTRATION_TASKS_GIT_UPDATE, {
             exportInstructions: $scope.exposedSettingsMap.content_transfer_options
         }).then(function (httpResponse) {
+            $scope.refreshGitStatus();
+
             let success = httpResponse.data.result === 0;
-            if (success) {
-                $scope.refreshGitStatus();
-            } else {
+            if (!success) {
+                let content = httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
+
                 DialogsService.preDialog(
-                    "Update git", //@TODO translate
+                    Trans.GIT_UPDATE_TITLE,
                     null,
-                    httpResponse.data.errors.join("\n")
+                    content
                 );
             }
         });
@@ -307,17 +314,16 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 }).then(function (httpResponse) {
                     $scope.refreshGitStatus();
 
-                    //@TODO
-
                     let success = httpResponse.data.result === 0;
-                    let title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
+                    if (!success) {
+                        let content = httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
-                    DialogsService.preDialog(
-                        title,
-                        null,
-                        content
-                    );
+                        DialogsService.preDialog(
+                            Trans.GIT_RESET_TITLE,
+                            null,
+                            content
+                        );
+                    }
                 });
             }
         );
@@ -331,9 +337,29 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         );
     };
 
+    $scope.isOngoingGitTask = function () {
+        return $scope.gitStatus !== null && $scope.gitStatus.latestTask !== null && $scope.gitStatus.latestTask.status < 2;
+    };
+
+    $scope.canImport = function () {
+        return !$scope.isOngoingGitTask();
+    };
+
     $scope.$watch("exposedSettingsMap.git_enabled", function (newValue) {
         if (newValue == 1) $scope.refreshGitStatus();
     });
+
+    $scope.canUpdate = function () {
+        return !$scope.isOngoingGitTask();
+    };
+
+    $scope.canEnableGit = function () {
+        return $scope.exposedSettingsMap.git_enabled_overridable && !$scope.isOngoingGitTask();
+    };
+
+    $scope.canDisableGit = function () {
+        return $scope.exposedSettingsMap.git_enabled_overridable && !$scope.isOngoingGitTask();
+    };
 }
 
 concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", AdministrationContentController]);

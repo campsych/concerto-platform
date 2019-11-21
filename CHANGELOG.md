@@ -1,3 +1,15 @@
+## 5.0.8 (in progress)
+
+#### Features
+
+* potentially long running Git actions are now made as a scheduled task no longer limited by web request time
+  
+#### Improvements
+
+* unified URL content and Git content sections
+* **content_import_options** and **content_export_options** config options now merged as **content_transfer_options**
+* **content_import_options_overridable** and **content_export_options_overridable** config options now merged as **content_transfer_options_overridable**
+
 ## 5.0.7 (in progress)
 
 #### Starter content

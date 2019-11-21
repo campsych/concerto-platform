@@ -141,8 +141,6 @@ git:
     reset:
         title: Resetting working copy
         confirm: This will reset your working copy to the state from latest commit. It will not remove newly added top objects. Are you sure you want to continue?
-        success: Working copy resetted
-        failure: Failed resetting working copy
         button: Reset
     push:
         title: Pushing local commits to remote
@@ -154,6 +152,16 @@ git:
         title: Pulling commits from remote
         confirm: Are you sure you want to pull commits from remote?
         button: Pull
+    update:
+        title: Upadting local changes
+        button: Update local changes
+    latest_operation: "Latest Git operation:"
+    no_git_task: No Git task executed yet.
+    task:
+        started: Started
+        description: Description
+        output: Output
+        status: Status
         
 usage_charts:
     fieldset:
