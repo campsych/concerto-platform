@@ -160,6 +160,7 @@
                     <button ng-click="pull()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canPull()">{{ "git.pull.button"|trans }}</button>
                     <button ng-click="commit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canCommit()">{{ "git.commit.button"|trans }}</button>
                     <button ng-click="reset()" class="btn btn-danger btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!canReset()">{{ "git.reset.button"|trans }}</button>
+                    <button ng-click="update()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">Update local changes</button> <!-- @TODO translate -->
                     <button ng-click="refreshGitStatus()" class="btn btn-default btn-sm" ng-if="exposedSettingsMap.git_enabled == 1">{{ "git.refresh.button"|trans }}</button>
                     <button ng-click="enableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 0" ng-disabled="!exposedSettingsMap.git_enabled_overridable">{{ "git.enable.button"|trans }}</button>
                     <button ng-click="disableGit()" class="btn btn-success btn-sm" ng-if="exposedSettingsMap.git_enabled == 1" ng-disabled="!exposedSettingsMap.git_enabled_overridable">{{ "git.disable.button"|trans }}</button>

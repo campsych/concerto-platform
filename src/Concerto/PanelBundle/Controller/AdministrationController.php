@@ -215,6 +215,27 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/git_update", name="Administration_tasks_git_update")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function taskGitUpdateAction(Request $request)
+    {
+        $exportInstructions = $request->get("exportInstructions");
+        $success = $this->gitService->scheduleTaskGitUpdate($exportInstructions, $output, $errors);
+        $content = array(
+            "result" => $success ? 0 : 1,
+            "output" => $output,
+            "errors" => $this->trans($errors)
+        );
+
+        $response = new Response(json_encode($content));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
      * @Route("/Administration/api_clients/collection", name="Administration_api_clients_collection")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response

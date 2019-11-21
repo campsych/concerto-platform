@@ -51,6 +51,10 @@ services:
         arguments:
             $administration: "%administration%"
 
+    Concerto\PanelBundle\Command\ConcertoTaskGitUpdateCommand:
+        arguments:
+            $administration: "%administration%"
+
     Concerto\PanelBundle\Command\ConcertoRCacheCommand:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"

@@ -109,7 +109,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return (int)$output;
         }
@@ -193,7 +193,7 @@ class GitService
         return false;
     }
 
-    private function refreshWorkingCopy($exportInstructions, &$errorMessages = null)
+    private function exportWorkingCopy($exportInstructions, &$output = null, &$errorMessages = null)
     {
         if ($exportInstructions === null) $exportInstructions = $this->adminService->getSettingValue("content_export_options");
 
@@ -210,6 +210,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -217,7 +218,7 @@ class GitService
         return false;
     }
 
-    private function add(&$errorMessages = null)
+    private function add(&$output = null, &$errorMessages = null)
     {
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -226,6 +227,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -254,7 +256,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -284,16 +286,6 @@ class GitService
         $history = $this->getHistory($errorMessages);
         if ($history === false) {
             $errorMessages[] = "git.history_failed";
-            return false;
-        }
-
-        if ($this->refreshWorkingCopy($exportInstructions, $errorMessages) === false) {
-            $errorMessages[] = "git.refresh_failed";
-            return false;
-        }
-
-        if ($this->add($errorMessages) === false) {
-            $errorMessages[] = "git.add_failed";
             return false;
         }
 
@@ -448,7 +440,7 @@ class GitService
         ));
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
+        $output .= $out->fetch();
         return $returnCode === 0;
     }
 
@@ -473,7 +465,45 @@ class GitService
         ));
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
+        $output .= $out->fetch();
         return $returnCode === 0;
+    }
+
+    public function scheduleTaskGitUpdate($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:update",
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function update($instructions, &$output = null, &$errorMessages = null)
+    {
+        if ($this->exportWorkingCopy($instructions, $output, $errorMessages) === false) {
+            $errorMessages[] = "git.refresh_failed";
+            return false;
+        }
+
+        if ($this->add($output, $errorMessages) === false) {
+            $errorMessages[] = "git.add_failed";
+            return false;
+        }
+
+        return true;
     }
 }

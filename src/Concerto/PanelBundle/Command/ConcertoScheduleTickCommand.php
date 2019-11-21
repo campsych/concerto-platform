@@ -32,6 +32,10 @@ class ConcertoScheduleTickCommand extends Command
         ScheduledTask::TYPE_GIT_ENABLE => array(
             "name" => "concerto:task:git:enable",
             "options" => []
+        ),
+        ScheduledTask::TYPE_GIT_UPDATE => array(
+            "name" => "concerto:task:git:update",
+            "options" => []
         )
     );
 

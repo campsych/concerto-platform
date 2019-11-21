@@ -292,7 +292,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_TASKS_GIT_ENABLE, userResponse).then(function (httpResponse) {
                 let success = httpResponse.data.result === 0;
-                if(success) {
+                if (success) {
                     //@TODO
                 } else {
                     DialogsService.preDialog(
@@ -302,6 +302,23 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     );
                 }
             });
+        });
+    };
+
+    $scope.update = function () {
+        $http.post(Paths.ADMINISTRATION_TASKS_GIT_UPDATE, {
+            exportInstructions: $scope.exposedSettingsMap.content_export_options
+        }).then(function (httpResponse) {
+            let success = httpResponse.data.result === 0;
+            if (success) {
+                $scope.refreshGitStatus();
+            } else {
+                DialogsService.preDialog(
+                    "Update git", //@TODO translate
+                    null,
+                    httpResponse.data.errors.join("\n")
+                );
+            }
         });
     };
 
