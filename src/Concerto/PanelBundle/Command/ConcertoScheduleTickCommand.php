@@ -36,6 +36,10 @@ class ConcertoScheduleTickCommand extends Command
         ScheduledTask::TYPE_GIT_UPDATE => array(
             "name" => "concerto:task:git:update",
             "options" => []
+        ),
+        ScheduledTask::TYPE_GIT_RESET => array(
+            "name" => "concerto:task:git:reset",
+            "options" => []
         )
     );
 

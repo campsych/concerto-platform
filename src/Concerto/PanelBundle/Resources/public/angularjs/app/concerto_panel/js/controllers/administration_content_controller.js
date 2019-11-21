@@ -198,30 +198,6 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         return $scope.hasUncommittedChanges();
     };
 
-    $scope.reset = function () {
-        DialogsService.confirmDialog(
-            Trans.GIT_RESET_TITLE,
-            Trans.GIT_RESET_CONFIRM,
-            function (confirmResponse) {
-                $http.post(Paths.ADMINISTRATION_GIT_RESET, {
-                    exportInstructions: $scope.exposedSettingsMap.content_export_options
-                }).then(function (httpResponse) {
-                    $scope.refreshGitStatus();
-
-                    let success = httpResponse.data.result === 0;
-                    let title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
-
-                    DialogsService.preDialog(
-                        title,
-                        null,
-                        content
-                    );
-                });
-            }
-        );
-    };
-
     $scope.canPush = function () {
         return $scope.isGitEnabled() && $scope.gitStatus.ahead > 0 && $scope.gitStatus.behind == 0;
     };
@@ -320,6 +296,32 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                 );
             }
         });
+    };
+
+    $scope.reset = function () {
+        DialogsService.confirmDialog(
+            Trans.GIT_RESET_TITLE,
+            Trans.GIT_RESET_CONFIRM,
+            function (confirmResponse) {
+                $http.post(Paths.ADMINISTRATION_TASKS_GIT_RESET, {
+                    exportInstructions: $scope.exposedSettingsMap.content_export_options
+                }).then(function (httpResponse) {
+                    $scope.refreshGitStatus();
+
+                    //@TODO
+
+                    let success = httpResponse.data.result === 0;
+                    let title = success ? Trans.GIT_RESET_SUCCESS : Trans.GIT_RESET_FAILURE;
+                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
+
+                    DialogsService.preDialog(
+                        title,
+                        null,
+                        content
+                    );
+                });
+            }
+        );
     };
 
     $scope.$watch("exposedSettingsMap.git_enabled", function (newValue) {

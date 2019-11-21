@@ -109,7 +109,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output .= $out->fetch();
+        $output = $out->fetch();
         if ($returnCode === 0) {
             return (int)$output;
         }
@@ -303,25 +303,6 @@ class GitService
         ];
     }
 
-    public function reset($instructions, &$output = null, &$errorMessages = null)
-    {
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errorMessages[] = "git.locked";
-            return false;
-        }
-
-        if (!$this->gitReset($output, $errorMessages)) {
-            $errorMessages[] = "git.reset_failed";
-            return false;
-        }
-
-        if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
-            $errorMessages[] = "git.import_failed";
-            return false;
-        }
-        return true;
-    }
-
     private function gitReset(&$output = null, &$errorMessages = null)
     {
         $app = new Application($this->kernel);
@@ -504,6 +485,48 @@ class GitService
             return false;
         }
 
+        return true;
+    }
+
+    public function scheduleTaskGitReset($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:reset",
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function reset($instructions, &$output = null, &$errorMessages = null)
+    {
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errorMessages[] = "git.locked";
+            return false;
+        }
+
+        if (!$this->gitReset($output, $errorMessages)) {
+            $errorMessages[] = "git.reset_failed";
+            return false;
+        }
+
+        if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
+            $errorMessages[] = "git.import_failed";
+            return false;
+        }
         return true;
     }
 }

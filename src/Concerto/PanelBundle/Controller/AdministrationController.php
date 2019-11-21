@@ -236,6 +236,27 @@ class AdministrationController
     }
 
     /**
+     * @Route("/Administration/ScheduledTask/git_reset", name="Administration_tasks_git_reset")
+     * @param Request $request
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @return Response
+     */
+    public function taskGitResetAction(Request $request)
+    {
+        $exportInstructions = $request->get("exportInstructions");
+        $success = $this->gitService->scheduleTaskGitReset($exportInstructions, $output, $errors);
+        $content = array(
+            "result" => $success ? 0 : 1,
+            "output" => $output,
+            "errors" => $this->trans($errors)
+        );
+
+        $response = new Response(json_encode($content));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
      * @Route("/Administration/api_clients/collection", name="Administration_api_clients_collection")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response
@@ -441,32 +462,6 @@ class AdministrationController
             "result" => $commit === false ? 1 : 0,
             "output" => $output,
             "errors" => $commit === false ? $this->trans($errorMessages) : null
-        ];
-
-        $response = new Response(json_encode($responseContent));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/Administration/git/reset", name="Administration_git_reset")
-     * @param Request $request
-     * @Security("has_role('ROLE_SUPER_ADMIN')")
-     * @return Response
-     */
-    public function gitResetAction(Request $request)
-    {
-        $exportInstructions = $request->get("exportInstructions");
-        $reset = $this->gitService->reset(
-            $exportInstructions,
-            $output,
-            $errorMessages
-        );
-
-        $responseContent = [
-            "result" => $reset === false ? 1 : 0,
-            "output" => $output,
-            "errors" => $reset === false ? $this->trans($errorMessages) : null
         ];
 
         $response = new Response(json_encode($responseContent));
