@@ -83,6 +83,9 @@ errors:
 import:
   incompatible_version: Export file is outdated and can not be used on this version of Concert Plaftorm!
 
+tasks:
+  already_scheduled: There are already pending or ongoing scheduled tasks.
+
 git:
   locked: Some objects are locked. Unlock them to continue this operation.
   fetch_failed: Fetch failed

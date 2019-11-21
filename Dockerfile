@@ -11,10 +11,8 @@ ENV CONCERTO_SESSION_LIMIT=0
 ENV CONCERTO_SESSION_LIMIT_OVERRIDABLE=true
 ENV CONCERTO_CONTENT_URL=.
 ENV CONCERTO_CONTENT_URL_OVERRIDABLE=true
-ENV CONCERTO_CONTENT_IMPORT_OPTIONS='[]'
-ENV CONCERTO_CONTENT_IMPORT_OPTIONS_OVERRIDABLE=true
-ENV CONCERTO_CONTENT_EXPORT_OPTIONS='[]'
-ENV CONCERTO_CONTENT_EXPORT_OPTIONS_OVERRIDABLE=true
+ENV CONCERTO_CONTENT_TRANSFER_OPTIONS='[]'
+ENV CONCERTO_CONTENT_TRANSFER_OPTIONS_OVERRIDABLE=true
 ENV CONCERTO_SESSION_RUNNER_SERVICE=SerializedSessionRunnerService
 ENV CONCERTO_SESSION_RUNNER_SERVICE_OVERRIDABLE=true
 ENV CONCERTO_GIT_ENABLED=0
@@ -96,7 +94,8 @@ COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
+ && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
+ && rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/git
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
@@ -105,8 +104,10 @@ HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/che
 CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
  && mkdir -p /data/files \
  && mkdir -p /data/sessions \
+ && mkdir -p /data/git \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
+ && ln -sf /data/git /app/concerto/src/Concerto/PanelBundle/Resources/git \
  && chown www-data:www-data /data/sessions \
  && chown -R www-data:www-data /data/files \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
@@ -122,7 +123,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data var/sessions \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
- && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/git \
+ && chown -R www-data:www-data /data/git \
  && cron \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \

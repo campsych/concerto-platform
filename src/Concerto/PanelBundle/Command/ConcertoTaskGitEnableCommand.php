@@ -2,32 +2,74 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\PanelBundle\Service\GitService;
-use Symfony\Component\Console\Command\Command;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Concerto\PanelBundle\Entity\ScheduledTask;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Templating\EngineInterface;
 
-class ConcertoGitCloneCommand extends Command
+class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
 {
+    private $templating;
     private $gitService;
     private $localGitRepoPath;
 
     /** @var OutputInterface */
     private $output;
 
-    public function __construct(GitService $gitService)
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, GitService $gitService)
     {
+        $this->templating = $templating;
         $this->gitService = $gitService;
-        parent::__construct();
+
+        parent::__construct($administrationService, $administration, $doctrine);
     }
 
     protected function configure()
     {
-        $this->setName("concerto:git:clone")->setDescription("Clones git repository");
-        $this->addOption("if-not-exists", null, InputOption::VALUE_NONE, "Clone only if Git repository not exists yet");
+        $this->setName("concerto:task:git:enable")->setDescription("Git enable");
+        parent::configure();
+    }
+
+    public function getTaskDescription(ScheduledTask $task)
+    {
+        $info = json_decode($task->getInfo(), true);
+        $desc = $this->templating->render("@ConcertoPanel/Administration/task_git_enable.html.twig", array());
+        return $desc;
+    }
+
+    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    {
+        $info = array_merge(parent::getTaskInfo($task, $input), array());
+        return $info;
+    }
+
+    public function getTaskType()
+    {
+        return ScheduledTask::TYPE_GIT_ENABLE;
+    }
+
+    protected function executeTask(ScheduledTask $task, OutputInterface $output)
+    {
+        $this->output = $output;
+        $this->localGitRepoPath = $this->gitService->getGitRepoPath();
+
+        if (!$this->cleanUp()) {
+            return 1;
+        }
+
+        if (!$this->gitService->isEnabled()) {
+            $output->writeln("Git not initialized.");
+            return 1;
+        }
+        if (!$this->clone()) return 1;
+
+        $this->gitService->setGitRepoOwner();
+        return 0;
     }
 
     private function getCloneCommand()
@@ -63,34 +105,5 @@ class ConcertoGitCloneCommand extends Command
         if (!empty($process->getOutput())) $this->output->writeln($process->getOutput());
         if (!empty($process->getErrorOutput())) $this->output->writeln($process->getErrorOutput());
         return $process->getExitCode() === 0;
-    }
-
-    private function doesGitRepositoryExists()
-    {
-        $fs = new Filesystem();
-        return $fs->exists($this->localGitRepoPath . "/.git");
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->output = $output;
-        $this->localGitRepoPath = $this->gitService->getGitRepoPath();
-        $ifNotExists = $input->getOption("if-not-exists");
-
-        if ($ifNotExists && $this->doesGitRepositoryExists()) {
-            $output->writeln("Git repository already exists.");
-            return 0;
-        }
-
-        if (!$this->cleanUp()) {
-            return 1;
-        }
-
-        if (!$this->gitService->isEnabled()) {
-            $output->writeln("Git not initialized.");
-            return 1;
-        }
-        if (!$this->clone()) return 1;
-        return 0;
     }
 }

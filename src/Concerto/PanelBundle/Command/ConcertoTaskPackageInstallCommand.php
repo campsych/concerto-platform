@@ -7,9 +7,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Concerto\PanelBundle\Entity\ScheduledTask;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Templating\EngineInterface;
 
-class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand
+class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
 {
     private $testRunnerSettings;
     private $templating;
@@ -24,7 +25,7 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand
 
     protected function configure()
     {
-        $this->setName("concerto:package:install")->setDescription("Installs R package");
+        $this->setName("concerto:task:package:install")->setDescription("Installs R package");
 
         $this->addOption("method", null, InputOption::VALUE_OPTIONAL, "R package install method", 0);
         $this->addOption("name", null, InputOption::VALUE_OPTIONAL, "R package name");
@@ -34,13 +35,11 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand
         parent::configure();
     }
 
-    protected function getCommand(ScheduledTask $task, InputInterface $input)
+    protected function getCommand(ScheduledTask $task)
     {
         $r_lib_path = $this->administration["internal"]["r_lib_path"];
         $r_exec_path = $this->administration["internal"]["r_exec_path"];
         $rscript_exec_path = $this->testRunnerSettings["rscript_exec"];
-        $task_output_file = $this->getTaskOutputFile($task);
-        $task_result_file = $this->getTaskResultFile($task);
 
         $info = json_decode($task->getInfo(), true);
         $method = $info["method"];
@@ -51,16 +50,12 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand
         if ($method == 0) {
             $lib = $r_lib_path ? ", lib='$r_lib_path'" : "";
 
-            $cmd = "nohup sh -c \"sleep 3 ";
-            $cmd .= "&& $rscript_exec_path -e \\\"install.packages(" . escapeshellarg($name) . ", repos=" . escapeshellarg($mirror) . $lib . ")\\\" ";
-            $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
+            $cmd = "($rscript_exec_path -e \"install.packages(" . escapeshellarg($name) . ", repos=" . escapeshellarg($mirror) . $lib . ")\"";
         } else {
             $lib = $r_lib_path ? "-l $r_lib_path " : "";
 
-            $cmd = "nohup sh -c \"sleep 3 ";
-            $cmd .= "&& wget -O /tmp/concerto_r_package " . escapeshellarg($url) . " ";
+            $cmd = "(wget -O /tmp/concerto_r_package " . escapeshellarg($url) . " ";
             $cmd .= "&& $r_exec_path CMD INSTALL /tmp/concerto_r_package " . $lib;
-            $cmd .= "&& echo 0 > $task_result_file || echo 1 > $task_result_file \" > $task_output_file 2>&1 & echo $! ";
         }
         return $cmd;
     }
@@ -94,4 +89,10 @@ class ConcertoPackageInstallCommand extends ConcertoScheduledTaskCommand
         return ScheduledTask::TYPE_R_PACKAGE_INSTALL;
     }
 
+    protected function executeTask(ScheduledTask $task, OutputInterface $output)
+    {
+        $cmd = $this->getCommand($task);
+        $proc = new Process($cmd);
+        return $proc->run();
+    }
 }

@@ -405,7 +405,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     };
 
     $scope.installPackage = function () {
-        var modalInstance = $uibModal.open({
+        let modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + 'r_package_installation_dialog.html',
             controller: RPackageInstallController,
             size: "lg"
@@ -420,7 +420,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
                 if (response.data.result !== 0) {
                     $scope.dialogsService.alertDialog(
                         Trans.PACKAGES_DIALOG_TITLE_INSTALLATION_FAILED,
-                        response.data.result === -1 ? Trans.TASKS_DIALOG_CONTENT_BUSY : response.data.out,
+                        response.data.errors.join("<br/>"),
                         "danger",
                         "lg"
                     );

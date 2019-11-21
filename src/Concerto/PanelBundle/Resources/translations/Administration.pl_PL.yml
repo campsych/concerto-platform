@@ -62,11 +62,9 @@ content:
     fieldset:
         legend: Zawartość
         legend.tooltip: Import i eksport zawartości
-    git: Git
     import: Import
     export: Eksport
     last_import_time: Czas ostatniego importu
-    last_import_time.tooltip: Czas ostatniej akcji pomyślnego importu
     url: URL
     url.tooltip: |
         URL z którego należy pobrać zawartość do pobrania. Może być jednym z:
@@ -77,19 +75,9 @@ content:
     file: Plik
     file.tooltip: Wysyłalny plik eksportu. Gdy zostanie wysłany, pole \'URL\' będzie ignorowane.
     clear: usuń
-    import_options: Opcje importu
-    import_options.tooltip: |
-        Zawiera specyficzne dla obiektu opcje importu. Np. aby podmienić dane w tabeli danych na te z pliku importu:
-        <pre>[
-            {
-                "class_name": "DataTable",
-                "name": "MyTableName",
-                "data": 2
-            }
-        ]</pre>
-    export_options: Opcje eksportu
-    export_options.tooltip: |
-        Zawiera specyficzne dla obiektu opcje eksportu. Np. aby dołączyć dane tabeli w pliku eksportu:
+    transfer_options: Opcje transferu
+    transfer_options.tooltip: |
+        Zawiera specyficzne dla obiektu opcje transferu. Np. aby podmienić dane w tabeli danych na te z pliku importu / zawrzeć dane tabeli w pliku eksportu:
         <pre>[
             {
                 "class_name": "DataTable",
@@ -105,25 +93,12 @@ content:
     import_failure: Import nie powiódł się
 
 git:
-    manage: Zarządzanie integracją Git
-    not_enabled: Nie włączona
     status:
         behind: "Commity do tyłu:"
         ahead: "Commity do przodu:"
         local_changes: "Lokalne zmiany:"
         local_changes.no_changes: "Brak zmian"
         local_changes.uncommitted_changes: "Nie zcommitowane zmiany"
-    settings:
-        content_options: "Opcje zawartości:"
-        content_options.tooltip: |
-            Można tutaj ustalić opcje zawartości. Np aby dołączyć dane tabeli danych do operacji Git, należy ustalić wartość na:
-            <pre>[
-                {
-                    "class_name": "DataTable",
-                    "name": "MyTableName",
-                    "data": 2
-                }
-            ]</pre>
     history:
         title: Historia
         no_commits: Brak commitów na ten moment
@@ -136,21 +111,19 @@ git:
     enable:
         title: Włączenie Git
         title.tooltip: Włącza integracje Git i klonuje repozytorium Git. Włączenie Git nie zmodyfikuje jeszcze twojej zawartości.
-        url: "URL:"
+        url: "URL Git:"
         url.tooltip: URL repozytorium Git
-        branch: "Gałąź:"
+        branch: "Gałąź Git:"
         branch.tooltip: Nazwa gałęzi repozytorium Git
-        login: "Login:"
+        login: "Login Git:"
         login.tooltip: Login użytkownika Git
-        password: "Hasło:"
+        password: "Hasło Git:"
         password.tooltip: Hasło użytkownika Git
-        success: Git włączony
-        failure: Nie powiodło się włączanie Git
-        button: Włącz
+        button: Włącz Git
     disable:
         title: Wyłączania Git
         confirm: Napewno wyłączyć integracje Git?
-        button: Wyłącz
+        button: Wyłącz Git
     diff:
         sha: "{0} diff"
         local: Diff kopii roboczej
@@ -168,8 +141,6 @@ git:
     reset:
         title: Reset kopii roboczej
         confirm: Zresetuje to twoją kopię roboczą do ostatniego commitu. Nie usunię to nowo dodanych najwyższych obiektów. Napewno kontynuować?
-        success: Kopia robocza zresetowana
-        failure: Nie udało sie zresetować kopii roboczej
         button: Reset
     push:
         title: Pchnięcie lokalnych commitów do zdalnego repozytorium
@@ -180,9 +151,17 @@ git:
     pull:
         title: Pobieranie commitów ze zdalnego repozytorium
         confirm: Napewno pobrać commity ze zdalnego repozytorium?
-        success: Commity pobrane
-        failure: Nie udało się pobrać commitów ze zdalnego repozytorium
         button: Pobierz
+    update:
+        title: Aktualizacja lokalnych zmian
+        button: Zaktualizuj lokalne zmiany
+    latest_operation: "Ostatnia operacja Git:"
+    no_git_task: Żadne zadanie Git nie zostało jeszcze uruchomione.
+    task:
+        started: Rozpoczęte
+        description: Opis
+        output: Wyjście
+        status: Status
         
 usage_charts:
     fieldset:
@@ -246,9 +225,6 @@ tasks:
             status.canceled: Anulowane
             description: Opis
             output: Wyjście
-    dialog:
-        content:
-            busy: Obecnie już trwają lub są zaplanowane zadania.
         
 api_clients:
     fieldset:

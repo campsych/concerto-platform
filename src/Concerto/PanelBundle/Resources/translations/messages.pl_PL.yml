@@ -84,6 +84,9 @@ errors:
 import:
   incompatible_version: Plik eksportu jest przestarzały i nie może być używany na tej wersji Concerto Platform!
 
+tasks:
+  already_scheduled: Obecnie już trwają lub są zaplanowane zadania.
+
 git:
   locked: Niektóre obiekty są zablokowane. Odblokuj je, aby móc kontynuować operację.
   fetch_failed: Nieudany fetch

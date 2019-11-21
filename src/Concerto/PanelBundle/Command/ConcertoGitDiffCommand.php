@@ -11,7 +11,7 @@ use Symfony\Component\Process\Process;
 
 class ConcertoGitDiffCommand extends Command
 {
-    const MAX_FILE_DIFF_LENGTH = 10000;
+    const MAX_FILE_DIFF_LENGTH = 1000;
     const MAX_FILE_DIFF_NUM = 50;
 
     private $gitService;
@@ -38,7 +38,8 @@ class ConcertoGitDiffCommand extends Command
         $exec = $this->gitService->getGitExecPath();
         if ($this->sha) $shaCmd = $this->sha . "^ " . $this->sha;
         else $shaCmd = "HEAD";
-        return "i=-1; for f in `$exec diff $shaCmd --name-only`; do i=$((\$i+1)); if [ \"\$i\" -ge " . self::MAX_FILE_DIFF_NUM . " ]; then break; fi;  $exec diff $shaCmd -- \$f | head -n" . self::MAX_FILE_DIFF_LENGTH . "; done";
+        $options = ""; //"--ignore-cr-at-eol --ignore-all-space --ignore-blank-lines";
+        return "i=-1; for f in `$exec diff $shaCmd $options --name-only`; do i=$((\$i+1)); if [ \"\$i\" -ge " . self::MAX_FILE_DIFF_NUM . " ]; then break; fi;  $exec diff $shaCmd $options -- \$f | head -n" . self::MAX_FILE_DIFF_LENGTH . "; done";
     }
 
     private function diff()

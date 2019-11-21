@@ -171,14 +171,15 @@
     Paths.ADMINISTRATION_CONTENT_IMPORT = "{{ path("Administration_content_import") }}";
     Paths.ADMINISTRATION_CONTENT_EXPORT = "{{ path("Administration_content_export", {'instructions':"{0}"}) }}";
     Paths.ADMINISTRATION_GET_AUTH_USER = "{{ path("Administration_user") }}";
-    Paths.ADMINISTRATION_GIT_ENABLE = "{{ path("Administration_git_enable") }}";
     Paths.ADMINISTRATION_GIT_DISABLE = "{{ path("Administration_git_disable") }}";
     Paths.ADMINISTRATION_GIT_STATUS = "{{ path("Administration_git_status") }}";
     Paths.ADMINISTRATION_GIT_DIFF = "{{ path("Administration_git_diff", {'sha':"{0}"}) }}";
     Paths.ADMINISTRATION_GIT_COMMIT = "{{ path("Administration_git_commit") }}";
-    Paths.ADMINISTRATION_GIT_RESET = "{{ path("Administration_git_reset") }}";
     Paths.ADMINISTRATION_GIT_PUSH = "{{ path("Administration_git_push") }}";
-    Paths.ADMINISTRATION_GIT_PULL = "{{ path("Administration_git_pull") }}";
+    Paths.ADMINISTRATION_TASKS_GIT_PULL = "{{ path("Administration_tasks_git_pull") }}";
+    Paths.ADMINISTRATION_TASKS_GIT_ENABLE = "{{ path("Administration_tasks_git_enable") }}";
+    Paths.ADMINISTRATION_TASKS_GIT_UPDATE = "{{ path("Administration_tasks_git_update") }}";
+    Paths.ADMINISTRATION_TASKS_GIT_RESET = "{{ path("Administration_tasks_git_reset") }}";
 
     Trans.LOCALE = "{{ app.request.locale }}";
     Trans.LANGUAGE = "{{ app.request.locale[:2] }}";
@@ -490,7 +491,6 @@
     Trans.TASKS_LIST_FIELD_STATUS_CANCELED = "{{ "tasks.list.fields.status.canceled"|trans }}";
     Trans.TASKS_LIST_FIELD_DESCRIPTION = "{{ "tasks.list.fields.description"|trans }}";
     Trans.TASKS_LIST_FIELD_OUTPUT = "{{ "tasks.list.fields.output"|trans }}";
-    Trans.TASKS_DIALOG_CONTENT_BUSY = "{{ "tasks.dialog.content.busy"|trans }}";
     Trans.API_CLIENTS_LIST_FIELD_ID = "{{ "api_clients.list.fields.id"|trans }}";
     Trans.API_CLIENTS_LIST_FIELD_SECRET = "{{ "api_clients.list.fields.secret"|trans }}";
     Trans.API_CLIENTS_LIST_BUTTONS_DELETE = "{{ "api_clients.list.buttons.delete"|trans }}";
@@ -510,8 +510,7 @@
     Trans.CONTENT_IMPORT_PROMPT = "{{ "content.import_prompt"|trans }}";
     Trans.CONTENT_IMPORT_SUCCESS = "{{ "content.import_success"|trans }}";
     Trans.CONTENT_IMPORT_FAILURE = "{{ "content.import_failure"|trans }}";
-    Trans.GIT_ENABLE_SUCCESS = "{{ "git.enable.success"|trans }}";
-    Trans.GIT_ENABLE_FAILURE = "{{ "git.enable.failure"|trans }}";
+    Trans.GIT_ENABLE_TITLE = "{{ "git.enable.title"|trans }}";
     Trans.GIT_DISABLE_TITLE = "{{ "git.disable.title"|trans }}";
     Trans.GIT_DISABLE_CONFIRM = "{{ "git.disable.confirm"|trans }}";
     Trans.GIT_DIFF_SHA = "{{ "git.diff.sha"|trans }}";
@@ -521,14 +520,12 @@
     Trans.GIT_COMMIT_FAILURE = "{{ "git.commit.failure"|trans }}";
     Trans.GIT_RESET_TITLE = "{{ "git.reset.title"|trans }}";
     Trans.GIT_RESET_CONFIRM = "{{ "git.reset.confirm"|trans }}";
-    Trans.GIT_RESET_SUCCESS = "{{ "git.reset.success"|trans }}";
-    Trans.GIT_RESET_FAILURE = "{{ "git.reset.failure"|trans }}";
     Trans.GIT_PUSH_TITLE = "{{ "git.push.title"|trans }}";
     Trans.GIT_PUSH_CONFIRM = "{{ "git.push.confirm"|trans }}";
     Trans.GIT_PUSH_SUCCESS = "{{ "git.push.success"|trans }}";
     Trans.GIT_PUSH_FAILURE = "{{ "git.push.failure"|trans }}";
     Trans.GIT_PULL_TITLE = "{{ "git.pull.title"|trans }}";
     Trans.GIT_PULL_CONFIRM = "{{ "git.pull.confirm"|trans }}";
-    Trans.GIT_PULL_SUCCESS = "{{ "git.pull.success"|trans }}";
     Trans.GIT_PULL_FAILURE = "{{ "git.pull.failure"|trans }}";
+    Trans.GIT_UPDATE_TITLE = "{{ "git.update.title"|trans }}";
 </script>

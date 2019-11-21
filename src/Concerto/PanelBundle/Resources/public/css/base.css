@@ -316,11 +316,11 @@ angular-filemanager > div {
     height: auto;
 }
 
-.git-history {
+.table-lite {
     width: 100%;
 }
 
-.git-history th, .git-history td {
+.table-lite th, .table-lite td {
     padding-right: 8px;
 }
 

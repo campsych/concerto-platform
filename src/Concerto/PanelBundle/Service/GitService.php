@@ -2,9 +2,11 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class GitService
@@ -13,34 +15,13 @@ class GitService
 
     private $adminService;
     private $kernel;
+    private $scheduledTaskRepository;
 
-    public function __construct(KernelInterface $kernel, AdministrationService $adminService)
+    public function __construct(KernelInterface $kernel, AdministrationService $adminService, ScheduledTaskRepository $scheduledTaskRepository)
     {
         $this->kernel = $kernel;
         $this->adminService = $adminService;
-    }
-
-    public function enableGit($url = null, $branch = null, $login = null, $password = null, $cloneOnlyIfNotExists = false, &$output = null)
-    {
-        $this->saveGitSettings($url, $branch, $login, $password);
-
-        $app = new Application($this->kernel);
-        $app->setAutoExit(false);
-        $command = $app->find("concerto:git:clone");
-        $arguments = [
-            "command" => $command->getName(),
-            "--if-not-exists" => $cloneOnlyIfNotExists
-        ];
-        $in = new ArrayInput($arguments);
-        $out = new BufferedOutput();
-        $returnCode = $app->run($in, $out);
-        $output .= $out->fetch();
-        if ($returnCode === 0) {
-            return true;
-        }
-
-        $this->disableGit();
-        return false;
+        $this->scheduledTaskRepository = $scheduledTaskRepository;
     }
 
     public function getGitExecPath()
@@ -216,9 +197,9 @@ class GitService
         return false;
     }
 
-    private function refreshWorkingCopy($exportInstructions, &$errorMessages = null)
+    private function exportWorkingCopy($exportInstructions, &$output = null, &$errorMessages = null)
     {
-        if ($exportInstructions === null) $exportInstructions = $this->adminService->getSettingValue("content_export_options");
+        if ($exportInstructions === null) $exportInstructions = $this->adminService->getContentTransferOptions();
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -233,6 +214,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -240,7 +222,7 @@ class GitService
         return false;
     }
 
-    private function add(&$errorMessages = null)
+    private function add(&$output = null, &$errorMessages = null)
     {
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -249,6 +231,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -277,7 +260,7 @@ class GitService
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
+        $output .= $out->fetch();
         if ($returnCode === 0) {
             return true;
         }
@@ -310,16 +293,6 @@ class GitService
             return false;
         }
 
-        if ($this->refreshWorkingCopy($exportInstructions, $errorMessages) === false) {
-            $errorMessages[] = "git.refresh_failed";
-            return false;
-        }
-
-        if ($this->add($errorMessages) === false) {
-            $errorMessages[] = "git.add_failed";
-            return false;
-        }
-
         $diff = $this->getDiff(null, $errorMessages);
         if ($diff === false) {
             $errorMessages[] = "git.diff_failed";
@@ -330,27 +303,14 @@ class GitService
             "behind" => $behind,
             "ahead" => $ahead,
             "history" => $history,
-            "diff" => $diff
+            "diff" => $diff,
+            "latestTask" => $this->getLatestGitTask()
         ];
     }
 
-    public function reset($instructions, &$output = null, &$errorMessages = null)
+    private function getLatestGitTask()
     {
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errorMessages[] = "git.locked";
-            return false;
-        }
-
-        if (!$this->gitReset($output, $errorMessages)) {
-            $errorMessages[] = "git.reset_failed";
-            return false;
-        }
-
-        if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
-            $errorMessages[] = "git.import_failed";
-            return false;
-        }
-        return true;
+        return $this->scheduledTaskRepository->findLatestGit();
     }
 
     private function gitReset(&$output = null, &$errorMessages = null)
@@ -374,7 +334,7 @@ class GitService
 
     private function importWorkingCopy($instructions, &$output, &$errorMessages = null)
     {
-        if ($instructions === null) $instructions = $this->adminService->getSettingValue("content_export_options");
+        if ($instructions === null) $instructions = $this->adminService->getContentTransferOptions();
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -390,6 +350,7 @@ class GitService
         $returnCode = $app->run($in, $out);
         $output .= $out->fetch();
         if ($returnCode === 0) {
+            $this->adminService->updateLastImportTime();
             return true;
         }
         $errorMessages[] = $out->fetch();
@@ -413,14 +374,9 @@ class GitService
         return false;
     }
 
-    public function pull($instructions, &$output, &$errorMessages = null)
+    public function pull($username, $email, $instructions, &$output, &$errorMessages = null)
     {
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errorMessages[] = "git.locked";
-            return false;
-        }
-
-        if (!$this->gitPull($output, $errorMessages)) {
+        if (!$this->gitPull($username, $email, $output, $errorMessages)) {
             $errorMessages[] = "git.pull_failed";
             return false;
         }
@@ -432,17 +388,15 @@ class GitService
         return true;
     }
 
-    public function gitPull(&$output = null, &$errorMessages = null)
+    public function gitPull($username, $email, &$output = null, &$errorMessages = null)
     {
-        $user = $this->adminService->getAuthorizedUser();
-
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $command = $app->find("concerto:git:pull");
         $arguments = [
             "command" => $command->getName(),
-            "username" => $user->getUsername(),
-            "email" => $user->getEmail()
+            "username" => $username,
+            "email" => $email
         ];
         $in = new ArrayInput($arguments);
         $out = new BufferedOutput();
@@ -453,5 +407,145 @@ class GitService
         }
         $errorMessages[] = $out->fetch();
         return false;
+    }
+
+    public function scheduleTaskGitPull($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $user = $this->adminService->getAuthorizedUser();
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:pull",
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail(),
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function scheduleTaskGitEnable($url, $branch, $login, $password, $instantRun = false, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $this->saveGitSettings($url, $branch, $login, $password);
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:enable",
+            "--instant-run" => $instantRun
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function scheduleTaskGitUpdate($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:update",
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function update($instructions, &$output = null, &$errorMessages = null)
+    {
+        if ($this->exportWorkingCopy($instructions, $output, $errorMessages) === false) {
+            $errorMessages[] = "git.refresh_failed";
+            return false;
+        }
+
+        if ($this->add($output, $errorMessages) === false) {
+            $errorMessages[] = "git.add_failed";
+            return false;
+        }
+
+        $this->adminService->updateLastGitUpdateTime();
+
+        return true;
+    }
+
+    public function scheduleTaskGitReset($exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errors[] = "git.locked";
+            return false;
+        }
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:git:reset",
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
+    }
+
+    public function reset($instructions, &$output = null, &$errorMessages = null)
+    {
+        if (!$this->adminService->canDoRiskyGitActions()) {
+            $errorMessages[] = "git.locked";
+            return false;
+        }
+
+        if (!$this->gitReset($output, $errorMessages)) {
+            $errorMessages[] = "git.reset_failed";
+            return false;
+        }
+
+        if (!$this->importWorkingCopy($instructions, $output, $errorMessages)) {
+            $errorMessages[] = "git.import_failed";
+            return false;
+        }
+        return true;
+    }
+
+    public function setGitRepoOwner()
+    {
+        $fs = new Filesystem();
+        $fs->chown($this->getGitRepoPath(), "www-data", true);
     }
 }

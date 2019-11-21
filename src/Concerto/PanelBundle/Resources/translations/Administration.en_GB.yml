@@ -62,34 +62,22 @@ content:
     fieldset:
         legend: Content
         legend.tooltip: Content import and export
-    git: Git
     import: Import
     export: Export
     last_import_time: Last import time
-    last_import_time.tooltip: Time of last successful import action
-    url: URL
+    url: Import URL
     url.tooltip: |
         URL to import from. Can be one of the following:
         <ul>
             <li>remote URL pointing to single file export (can be zipped); only HTTP or HTTPS protocols allowed</li>
             <li>file path; can be directory or export file (zip allowed); <strong>.</strong> will point to default starter content directory</li>
         </ul>
-    file: File
+    file: Import file
     file.tooltip: Uploadable export file. When uploaded, \'URL\' field will be ignored.
     clear: clear
-    import_options: Import options
-    import_options.tooltip: |
-        Can specify object specific import options. E.g. to replace data of content tables with data in import file:
-        <pre>[
-            {
-                "class_name": "DataTable",
-                "name": "MyTableName",
-                "data": 2
-            }
-        ]</pre>
-    export_options: Export options
-    export_options.tooltip: |
-        Can specify object specific export options. E.g. to include data table data in export file:
+    transfer_options: Transfer options
+    transfer_options.tooltip: |
+        Can specify object specific transfer options. E.g. to replace data of content tables with data in import file / include data of content tables in export file:
         <pre>[
             {
                 "class_name": "DataTable",
@@ -105,25 +93,12 @@ content:
     import_failure: Import failed
 
 git:
-    manage: Manage Git integration
-    not_enabled: Not enabled
     status:
         behind: "Commits behind:"
         ahead: "Commits ahead:"
         local_changes: "Local changes:"
         local_changes.no_changes: "No changes"
         local_changes.uncommitted_changes: "Uncommitted changes"
-    settings:
-        content_options: "Content options:"
-        content_options.tooltip: |
-            Can specify content options. E.g. to include data table data in git operations:
-            <pre>[
-                {
-                    "class_name": "DataTable",
-                    "name": "MyTableName",
-                    "data": 2
-                }
-            ]</pre>
     history:
         title: History
         no_commits: No commits yet
@@ -136,21 +111,19 @@ git:
     enable:
         title: Enabling Git
         title.tooltip: Enables Git integration and clones Git repository. Enabling Git won\'t modify your content yet.
-        url: "URL:"
+        url: "Git URL:"
         url.tooltip: Git repository URL
-        branch: "Branch:"
+        branch: "Git branch:"
         branch.tooltip: Git repository branch name
-        login: "Login:"
+        login: "Git login:"
         login.tooltip: Git user login
-        password: "Password:"
+        password: "Git password:"
         password.tooltip: Git user password
-        success: Git enabled
-        failure: Failed enabling Git
-        button: Enable
+        button: Enable Git
     disable:
         title: Disabling Git
         confirm: Are you sure you want to disable Git integration?
-        button: Disable
+        button: Disable Git
     diff:
         sha: "{0} diff"
         local: Working copy diff
@@ -168,8 +141,6 @@ git:
     reset:
         title: Resetting working copy
         confirm: This will reset your working copy to the state from latest commit. It will not remove newly added top objects. Are you sure you want to continue?
-        success: Working copy resetted
-        failure: Failed resetting working copy
         button: Reset
     push:
         title: Pushing local commits to remote
@@ -180,9 +151,17 @@ git:
     pull:
         title: Pulling commits from remote
         confirm: Are you sure you want to pull commits from remote?
-        success: Commits pulled
-        failure: Failed pulling commits from remote
         button: Pull
+    update:
+        title: Upadting local changes
+        button: Update local changes
+    latest_operation: "Latest Git operation:"
+    no_git_task: No Git task executed yet.
+    task:
+        started: Started
+        description: Description
+        output: Output
+        status: Status
         
 usage_charts:
     fieldset:
@@ -246,9 +225,6 @@ tasks:
             status.canceled: Canceled
             description: Description
             output: Output
-    dialog:
-        content:
-            busy: There are already pending or ongoing scheduled tasks.
             
 api_clients:
     fieldset:

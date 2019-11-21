@@ -358,32 +358,39 @@ class AdministrationService
         return $this->scheduledTaskRepository->findAll();
     }
 
-    public function schedulePackageInstallTask(&$output, $install_options, $busy_check)
+    public function isTaskScheduled()
     {
-        if ($busy_check) {
-            $pending = $this->scheduledTaskRepository->findAllPending();
-            if (count($pending) > 0)
-                return -1;
+        $pending = $this->scheduledTaskRepository->findAllPending();
+        if (count($pending) > 0)
+            return true;
 
-            $ongoing = $this->scheduledTaskRepository->findAllOngoing();
-            if (count($ongoing) > 0) {
-                return -1;
-            }
+        $ongoing = $this->scheduledTaskRepository->findAllOngoing();
+        if (count($ongoing) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function scheduleTaskPackageInstall($installOptions, &$output = null, &$errors = null)
+    {
+        if ($this->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
         }
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
-            "command" => "concerto:package:install",
-            "--method" => $install_options["method"],
-            "--name" => $install_options["name"],
-            "--mirror" => $install_options["mirror"],
-            "--url" => $install_options["url"]
+            "command" => "concerto:task:package:install",
+            "--method" => $installOptions["method"],
+            "--name" => $installOptions["name"],
+            "--mirror" => $installOptions["mirror"],
+            "--url" => $installOptions["url"]
         ));
         $out = new BufferedOutput();
-        $return_code = $app->run($in, $out);
+        $returnCode = $app->run($in, $out);
         $output = $out->fetch();
-        return $return_code;
+        return $returnCode === 0;
     }
 
     public function getApiClientsCollection()
@@ -439,7 +446,7 @@ class AdministrationService
     public function importContent($url = null, $instructions = null, &$output = null)
     {
         if ($url === null) $url = $this->getSettingValue("content_url");
-        if ($instructions === null) $instructions = $this->getContentImportOptions();
+        if ($instructions === null) $instructions = $this->getContentTransferOptions();
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
@@ -455,14 +462,9 @@ class AdministrationService
         return $returnCode;
     }
 
-    public function getContentImportOptions()
+    public function getContentTransferOptions()
     {
-        return $this->getSettingValue("content_import_options");
-    }
-
-    public function getContentExportOptions()
-    {
-        return $this->getSettingValue("content_export_options");
+        return $this->getSettingValue("content_transfer_options");
     }
 
     public function getContentUrl()
@@ -472,7 +474,7 @@ class AdministrationService
 
     public function exportContent($instructions = null, &$zipPath = null, &$output = null)
     {
-        if ($instructions === null) $instructions = $this->getContentExportOptions();
+        if ($instructions === null) $instructions = $this->getContentTranferOptions();
         $exportPath = realpath(__DIR__ . "/../Resources/export");
         $uniquePath = $exportPath . "/export_" . uniqid();
 
@@ -504,6 +506,13 @@ class AdministrationService
     {
         $this->setSettings(array(
             "last_import_time" => date("Y-m-d H:i:s")
+        ), false);
+    }
+
+    public function updateLastGitUpdateTime()
+    {
+        $this->setSettings(array(
+            "last_git_update_time" => date("Y-m-d H:i:s")
         ), false);
     }
 
