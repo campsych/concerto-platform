@@ -19,6 +19,7 @@ parameters:
     env(CONCERTO_GIT_LOGIN_OVERRIDABLE): true
     env(CONCERTO_GIT_PASSWORD): ""
     env(CONCERTO_GIT_PASSWORD_OVERRIDABLE): true
+    env(CONCERTO_GIT_REPOSITORY_PATH): /data/git
     administration:
         exposed:
             session_limit: "%env(CONCERTO_SESSION_LIMIT)%" #0 for none
@@ -45,6 +46,7 @@ parameters:
         internal:
             r_exec_path: R
             git_exec_path: git
+            git_repository_path: "%env(CONCERTO_GIT_REPOSITORY_PATH)%"
             r_lib_path: null
             editable_starter_content: false
             session_files_expiration: 7 #days

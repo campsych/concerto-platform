@@ -25,6 +25,7 @@ ENV CONCERTO_GIT_LOGIN=""
 ENV CONCERTO_GIT_LOGIN_OVERRIDABLE=true
 ENV CONCERTO_GIT_PASSWORD=""
 ENV CONCERTO_GIT_PASSWORD_OVERRIDABLE=true
+ENV CONCERTO_GIT_REPOSITORY_PATH=/data/git
 ENV CONCERTO_BEHIND_PROXY=false
 ENV CONCERTO_CONTENT_IMPORT_AT_START=true
 ENV DB_HOST=localhost
@@ -94,8 +95,7 @@ COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
- && rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/git
+ && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
@@ -107,7 +107,6 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && mkdir -p /data/git \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
- && ln -sf /data/git /app/concerto/src/Concerto/PanelBundle/Resources/git \
  && chown www-data:www-data /data/sessions \
  && chown -R www-data:www-data /data/files \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \

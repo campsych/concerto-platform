@@ -3,6 +3,7 @@
 #### Features
 
 * potentially long running Git actions are now made as a scheduled task no longer limited by web request time
+* configurable Git repository path
   
 #### Improvements
 

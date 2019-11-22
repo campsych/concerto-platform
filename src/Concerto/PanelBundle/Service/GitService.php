@@ -31,7 +31,7 @@ class GitService
 
     public function getGitRepoPath()
     {
-        return realpath(__DIR__ . "/../Resources") . "/git";
+        return $this->adminService->getSettingValue("git_repository_path");
     }
 
     public function isEnabled()
