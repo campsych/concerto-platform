@@ -197,17 +197,59 @@ class ViewTemplateController extends AExportableTabController
         $jsOverride = $request->get("js");
         if ($jsOverride !== null) $showJs = $jsOverride == 1;
 
-        $template = $this->service->get($id, false, false);
-        if ($template === null) {
+        $content = $this->service->getContent($id, true, $showHtml, $showCss, $showJs);
+        if ($content === false) {
             return new Response('', 404);
         }
+        return new Response($content, 200);
+    }
 
-        $content = "";
-        if ($showCss) {
-            $content .= "<style>" . $template->getCss() . "</style>";
+    /**
+     * @Route("/ViewTemplate/{id}/css", name="ViewTemplate_css", methods={"GET"})
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function cssAction(Request $request, $id)
+    {
+        $content = $this->service->getContent($id, false, false, true, false);
+        if ($content === false) {
+            return new Response('', 404);
         }
-        if ($showHtml) $content .= $template->getHtml();
-        if ($showJs) $content .= "<script>" . $template->getJs() . "</script>";
+        $response = new Response($content, 200);
+        $response->headers->set('Content-Type', 'text/css');
+        return $response;
+    }
+
+    /**
+     * @Route("/ViewTemplate/{id}/js", name="ViewTemplate_js", methods={"GET"})
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function jsAction(Request $request, $id)
+    {
+        $content = $this->service->getContent($id, false, false, false, true);
+        if ($content === false) {
+            return new Response('', 404);
+        }
+        $response = new Response($content, 200);
+        $response->headers->set('Content-Type', 'text/javascript');
+        return $response;
+    }
+
+    /**
+     * @Route("/ViewTemplate/{id}/html", name="ViewTemplate_html", methods={"GET"})
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function htmlAction(Request $request, $id)
+    {
+        $content = $this->service->getContent($id, false, true, false, false);
+        if ($content === false) {
+            return new Response('', 404);
+        }
         return new Response($content, 200);
     }
 }

@@ -221,4 +221,26 @@ class ViewTemplateService extends AExportableSectionService
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
+
+    public function getContent($id, $wrapTags = true, $html = true, $css = true, $js = true)
+    {
+        $template = $this->get($id, false, false);
+        if ($template === null) {
+            return false;
+        }
+
+        $content = "";
+        if ($css) {
+            if ($wrapTags) $content .= "<style>";
+            $content .= $template->getCss();
+            if ($wrapTags) $content .= "</style>";
+        }
+        if ($html) $content .= $template->getHtml();
+        if ($js) {
+            if ($wrapTags) $content .= "<script>";
+            $content .= $template->getJs();
+            if ($wrapTags) $content .= "</script>";
+        }
+        return $content;
+    }
 }
