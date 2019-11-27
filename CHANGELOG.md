@@ -15,6 +15,7 @@
 * unified URL content and Git content sections
 * **content_import_options** and **content_export_options** config options now merged as **content_transfer_options**
 * **content_import_options_overridable** and **content_export_options_overridable** config options now merged as **content_transfer_options_overridable**
+* flow node size is adjusted to its contents
 
 ## 5.0.7 (2019-11-20)
 

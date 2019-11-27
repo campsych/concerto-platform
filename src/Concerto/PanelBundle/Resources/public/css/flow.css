@@ -80,7 +80,6 @@
 }
 
 .node {
-  width: 250px;
   border: 1px solid black;
   position: absolute;
   z-index: 7;
@@ -89,16 +88,17 @@
 
 .node-content {
   width: 100%;
+  display: table;
 }
 
 .node-content-left {
-  width: 50%;
-  float: left;
+  display: table-cell;
+  padding-right: 4px;
 }
 
 .node-content-right {
-  width: 50%;
-  float: right;
+  display: table-cell;
+  padding-left: 4px;
 }
 
 .node-active {
@@ -159,7 +159,6 @@
 .portLabel span {
   overflow: hidden;
   display: inline-grid;
-  width: 97px;
 }
 
 .portLabel i {

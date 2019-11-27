@@ -461,7 +461,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         isTarget: true,
                         maxConnections: -1,
                         endpoint: flowEndpoint,
-                        anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
+                        anchor: [0, 0, -1, 0, -12, portTopMargin + leftCount * portElemMargin],
                         paintStyle: {fillStyle: "white", strokeStyle: "grey"},
                         parameters: {
                             targetNode: node,
@@ -502,7 +502,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 isSource: true,
                                 maxConnections: 1,
                                 endpoint: flowEndpoint,
-                                anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                                anchor: [1, 0, 1, 0, 12, portTopMargin + rightCount * portElemMargin],
                                 paintStyle: {fillStyle: port.dynamic == 1 ? "#ffdd84" : "#cca335", strokeStyle: "grey"},
                                 parameters: {
                                     sourceNode: node,
@@ -537,7 +537,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         isSource: true,
                         maxConnections: 1,
                         endpoint: flowEndpoint,
-                        anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                        anchor: [1, 0, 1, 0, 12, portTopMargin + rightCount * portElemMargin],
                         paintStyle: {fillStyle: "#cca335", strokeStyle: "grey"},
                         parameters: {
                             sourceNode: node,
@@ -575,7 +575,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             maxConnections: -1,
                             isTarget: true,
                             endpoint: varEndpoint,
-                            anchor: [-0.042, 0, -1, 0, 0, portTopMargin + leftCount * portElemMargin],
+                            anchor: [0, 0, -1, 0, -12, portTopMargin + leftCount * portElemMargin],
                             paintStyle: {fillStyle: port.dynamic == "1" ? "#a8c6e0" : "#337ab7", strokeStyle: "grey"},
                             overlays: [[
                                 "Custom", {
@@ -611,7 +611,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             isSource: true,
                             maxConnections: -1,
                             endpoint: varEndpoint,
-                            anchor: [1.053, 0, 1, 0, 0, portTopMargin + rightCount * portElemMargin],
+                            anchor: [1, 0, 1, 0, 12, portTopMargin + rightCount * portElemMargin],
                             paintStyle: {fillStyle: port.dynamic == "1" ? "#ef7785" : "#a52937", strokeStyle: "grey"},
                             overlays: [[
                                 "Custom", {
