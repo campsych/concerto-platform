@@ -5,6 +5,10 @@
 * potentially long running Git actions are now made as a scheduled task no longer limited by web request time
 * configurable Git repository path
 * view template's content endpoints
+
+#### Starter content
+
+* **CAT** response options can now be left blank if custom mechanism used
   
 #### Improvements
 

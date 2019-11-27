@@ -1,4 +1,4 @@
-version: 5.0.7
+version: 5.0.8
 collection:
   -
     class_name: DataTable
@@ -11185,6 +11185,7 @@ collection:
               	<li>passed session</li>
               	<li>response bank</li>
               </ul>
+              
             hideCondition: ''
             type: 4
             passableThroughUrl: '0'

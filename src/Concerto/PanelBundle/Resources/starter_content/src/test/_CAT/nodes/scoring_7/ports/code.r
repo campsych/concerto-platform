@@ -2,7 +2,7 @@ library(catR)
 
 getScore = function(item, response) {
   defaultScore = 0
-  if(!is.null(response)) {
+  if(!is.null(response) && !is.null(item$responseOptions) && item$responseOptions != "") {
     responseOptions = fromJSON(item$responseOptions)
     defaultScore = responseOptions$defaultScore
     if(length(responseOptions$scoreMap) > 0) {

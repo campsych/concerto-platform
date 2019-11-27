@@ -2,21 +2,22 @@ library(catR)
 
 getSafeItem = function(item, extraFields) {
   item = as.list(item)
-  item$correct = NULL
 
-  if(is.character(item$responseOptions)) { item$responseOptions = fromJSON(item$responseOptions) }
-  responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == "1"
-  orderedOptions = c()
+  if(!is.null(item$responseOptions) && item$responseOptions != "") {
+    if(is.character(item$responseOptions)) { item$responseOptions = fromJSON(item$responseOptions) }
+    responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == "1"
+    orderedOptions = c()
 
-  if(length(item$responseOptions$options) > 0) {
-    if(responseOptionsRandomOrder) {
-      orderedOptions = item$responseOptions$options[sample(1:length(item$responseOptions$options))]
-    } else {
-      orderedOptions = item$responseOptions$options
+    if(length(item$responseOptions$options) > 0) {
+      if(responseOptionsRandomOrder) {
+        orderedOptions = item$responseOptions$options[sample(1:length(item$responseOptions$options))]
+      } else {
+        orderedOptions = item$responseOptions$options
+      }
     }
+    item$responseOptions$options = orderedOptions
+    item$responseOptions = toJSON(item$responseOptions)
   }
-  item$responseOptions$options = orderedOptions
-  item$responseOptions = toJSON(item$responseOptions)
 
   extraFields = fromJSON(extraFields)
   for(extraField in extraFields) {
