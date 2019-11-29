@@ -95,7 +95,7 @@
 				</svg>
 			</src>
 
-			<div class="mark" ng-class="{'active': activeMark === 'front-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in reportFront" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
+			<div class="mark" ng-class="{'active': activeMark === 'front-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in response.value.reportFront" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
 				<div class="mark-icon" ng-click="activateMark('front-' + (markIndex + 1))" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
 				</div>
 
@@ -223,7 +223,7 @@
 				</svg>
 			</src>
 
-			<div class="mark" ng-class="{'active': activeMark === 'back-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in reportBack" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
+			<div class="mark" ng-class="{'active': activeMark === 'back-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in response.value.reportBack" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
 				<div class="mark-icon" ng-click="activateMark('back-' + (markIndex + 1))" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
 				</div>
 

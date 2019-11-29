@@ -9,6 +9,7 @@
 #### Starter content
 
 * **CAT** response options can now be left blank if custom mechanism used
+* pain mannequin item response two-way binding (js)
   
 #### Improvements
 

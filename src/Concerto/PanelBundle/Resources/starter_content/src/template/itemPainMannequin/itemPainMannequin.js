@@ -6,9 +6,6 @@ testRunner.compileProvider.component('itemPainMannequin', {
     responseRequired: '<'
   },
   controller: function controller($scope, $timeout) {
-    $scope.reportFront = [];
-    $scope.reportBack = [];
-
     $scope.bodyParts = [
       {
         id: 1,
@@ -326,10 +323,18 @@ testRunner.compileProvider.component('itemPainMannequin', {
       $scope.responseRequired = this.responseRequired;
 
       if($scope.response.value) {
-        let pastResponse = JSON.parse($scope.response.value);
-        $scope.reportFront = pastResponse.reportFront;
-        $scope.reportBack = pastResponse.reportBack;
+        if(typeof $scope.response.value === 'string' || $scope.response.value instanceof String) {
+        	$scope.response.value = JSON.parse($scope.response.value);
+        }
+      } else {
+        $scope.response = {
+          value: {
+            reportFront: [],
+            reportBack: []
+          }
+        }
       }
+      console.log($scope.response);
 
       $scope.gender = $scope.item.responseOptions.painMannequinGender;
       if($scope.gender == "custom") {
@@ -339,10 +344,7 @@ testRunner.compileProvider.component('itemPainMannequin', {
       loadData();
 
       testRunner.addExtraControl("r" + $scope.item.id, function () {
-        return JSON.stringify({
-          reportFront: $scope.reportFront,
-          reportBack: $scope.reportBack
-        });
+        return JSON.stringify($scope.response.value);
       });
     };
 
@@ -399,11 +401,11 @@ testRunner.compileProvider.component('itemPainMannequin', {
       };
 
       if (source === 'front') {
-        $scope.reportFront.push(mark);
-        $scope.activeMark = 'front-' + $scope.reportFront.length;
+        $scope.response.value.reportFront.push(mark);
+        $scope.activeMark = 'front-' + $scope.response.value.reportFront.length;
       } else if (source === 'back') {
-        $scope.reportBack.push(mark);
-        $scope.activeMark = 'back-' + $scope.reportBack.length;
+        $scope.response.value.reportBack.push(mark);
+        $scope.activeMark = 'back-' + $scope.response.value.reportBack.length;
       }
 
       $scope.$apply();
@@ -449,19 +451,19 @@ testRunner.compileProvider.component('itemPainMannequin', {
       $scope.activeMark = null;
       let id, hasSiblings;
       if (source === 'front') {
-        id = $scope.reportFront[markIndex].id;
-        $scope.reportFront.splice(markIndex, 1);
-        for (let i = 0; i < $scope.reportFront.length; i++) {
-          if ($scope.reportFront[i].id === id) {
+        id = $scope.response.value.reportFront[markIndex].id;
+        $scope.response.value.reportFront.splice(markIndex, 1);
+        for (let i = 0; i < $scope.response.value.reportFront.length; i++) {
+          if ($scope.response.value.reportFront[i].id === id) {
             hasSiblings = true;
             break;
           }
         }
       } else if (source === 'back') {
-        id = $scope.reportBack[markIndex].id;
-        $scope.reportBack.splice(markIndex, 1);
-        for (let i = 0; i < $scope.reportBack.length; i++) {
-          if ($scope.reportBack[i].id === id) {
+        id = $scope.response.value.reportBack[markIndex].id;
+        $scope.response.value.reportBack.splice(markIndex, 1);
+        for (let i = 0; i < $scope.response.value.reportBack.length; i++) {
+          if ($scope.response.value.reportBack[i].id === id) {
             hasSiblings = true;
             break;
           }
