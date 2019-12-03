@@ -112,6 +112,7 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
         $command = $this->getCloneCommand();
         $process = new Process($command);
         $process->start();
+        $process->setTimeout(null);
         $process->wait();
 
         if (!empty($process->getOutput())) $this->output->writeln($process->getOutput());
