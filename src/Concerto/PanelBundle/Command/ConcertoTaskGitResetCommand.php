@@ -65,12 +65,6 @@ class ConcertoTaskGitResetCommand extends ConcertoScheduledTaskCommand
             return 1;
         }
 
-        $updateSuccessful = $this->gitService->update($instructions, $updateOutput);
-        $output->writeln($updateOutput);
-        if (!$updateSuccessful) {
-            return 1;
-        }
-
         $this->gitService->setGitRepoOwner();
         return 0;
     }
