@@ -269,6 +269,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         });
 
         modalInstance.result.then(function (userResponse) {
+            userResponse.instructions = $scope.exposedSettingsMap.content_transfer_options;
             $http.post(Paths.ADMINISTRATION_TASKS_GIT_ENABLE, userResponse).then(function (httpResponse) {
                 $scope.refreshGitStatus();
                 let success = httpResponse.data.result === 0;

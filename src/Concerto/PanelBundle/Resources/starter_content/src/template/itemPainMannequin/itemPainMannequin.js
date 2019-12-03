@@ -334,7 +334,6 @@ testRunner.compileProvider.component('itemPainMannequin', {
           }
         }
       }
-      console.log($scope.response);
 
       $scope.gender = $scope.item.responseOptions.painMannequinGender;
       if($scope.gender == "custom") {

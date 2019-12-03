@@ -207,11 +207,11 @@ class ContentImportCommand extends Command
         return true;
     }
 
-    private function prepareGit()
+    private function prepareGit($instructions)
     {
         $this->output->writeln("preparing Git");
 
-        if (!$this->gitService->scheduleTaskGitEnable(null, null, null, null, true, $gitEnableOutput)) {
+        if (!$this->gitService->scheduleTaskGitEnable(null, null, null, null, $instructions, true, $gitEnableOutput)) {
             $this->output->writeln($gitEnableOutput);
             return false;
         }
@@ -255,11 +255,10 @@ class ContentImportCommand extends Command
 
         if ($input->getOption("git")) {
             if ($input->getOption("instructions") === null) {
-                //yes, it's using url export options in git for both import and export
                 $instructions = $this->adminService->getContentTransferOptions();
             }
 
-            if (!$this->prepareGit()) {
+            if (!$this->prepareGit($instructions)) {
                 return 1;
             }
             $sourcePath = $this->gitService->getGitRepoPath();

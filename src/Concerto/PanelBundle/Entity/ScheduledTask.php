@@ -188,6 +188,11 @@ class ScheduledTask implements \JsonSerializable
         return $this->status;
     }
 
+    public function isFinished()
+    {
+        return $this->status !== self::STATUS_PENDING && $this->status !== self::STATUS_ONGOING;
+    }
+
     /**
      * Set description
      *

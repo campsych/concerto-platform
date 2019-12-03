@@ -25,7 +25,7 @@ ENV CONCERTO_GIT_LOGIN=""
 ENV CONCERTO_GIT_LOGIN_OVERRIDABLE=true
 ENV CONCERTO_GIT_PASSWORD=""
 ENV CONCERTO_GIT_PASSWORD_OVERRIDABLE=true
-ENV CONCERTO_GIT_REPOSITORY_PATH=/data/git
+ENV CONCERTO_GIT_REPOSITORY_PATH=""
 ENV CONCERTO_BEHIND_PROXY=false
 ENV CONCERTO_CONTENT_IMPORT_AT_START=true
 ENV DB_HOST=localhost
@@ -120,6 +120,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
+ && chown -R www-data:www-data var/git \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
  && chown -R www-data:www-data /data/git \

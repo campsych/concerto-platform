@@ -9,6 +9,9 @@
 !/var/sessions
 /var/sessions/*
 !var/sessions/.gitkeep
+!var/git
+var/git/*
+!var/git/.gitkeep
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/

@@ -7,6 +7,7 @@ use Concerto\PanelBundle\Service\GitService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Concerto\PanelBundle\Entity\ScheduledTask;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -32,6 +33,7 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
     protected function configure()
     {
         $this->setName("concerto:task:git:enable")->setDescription("Git enable");
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
         parent::configure();
     }
 
@@ -44,7 +46,9 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
 
     public function getTaskInfo(ScheduledTask $task, InputInterface $input)
     {
-        $info = array_merge(parent::getTaskInfo($task, $input), array());
+        $info = array_merge(parent::getTaskInfo($task, $input), array(
+            "instructions" => $input->getOption("instructions")
+        ));
         return $info;
     }
 
@@ -57,6 +61,8 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
     {
         $this->output = $output;
         $this->localGitRepoPath = $this->gitService->getGitRepoPath();
+        $info = json_decode($task->getInfo(), true);
+        $instructions = $info["instructions"];
 
         if (!$this->cleanUp()) {
             return 1;
@@ -67,6 +73,12 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
             return 1;
         }
         if (!$this->clone()) return 1;
+
+        $updateSuccessful = $this->gitService->update($instructions, $updateOutput);
+        $output->writeln($updateOutput);
+        if (!$updateSuccessful) {
+            return 1;
+        }
 
         $this->gitService->setGitRepoOwner();
         return 0;

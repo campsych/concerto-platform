@@ -19,7 +19,7 @@ parameters:
     env(CONCERTO_GIT_LOGIN_OVERRIDABLE): true
     env(CONCERTO_GIT_PASSWORD): ""
     env(CONCERTO_GIT_PASSWORD_OVERRIDABLE): true
-    env(CONCERTO_GIT_REPOSITORY_PATH): /data/git
+    env(CONCERTO_GIT_REPOSITORY_PATH): ''
     administration:
         exposed:
             session_limit: "%env(CONCERTO_SESSION_LIMIT)%" #0 for none

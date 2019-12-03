@@ -194,11 +194,13 @@ class AdministrationController
      */
     public function taskGitEnableAction(Request $request)
     {
+        $instructions = $request->get("instructions");
         $success = $this->gitService->scheduleTaskGitEnable(
             $request->get("url"),
             $request->get("branch"),
             $request->get("login"),
             $request->get("password"),
+            $instructions,
             false,
             $output,
             $errors

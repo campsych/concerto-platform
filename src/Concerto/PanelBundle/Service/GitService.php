@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Entity\ScheduledTask;
 use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -31,7 +32,11 @@ class GitService
 
     public function getGitRepoPath()
     {
-        return $this->adminService->getSettingValue("git_repository_path");
+        $repoPath = $this->adminService->getSettingValue("git_repository_path");
+        if (!$repoPath) {
+            $repoPath = realpath(__DIR__ . "/../../../../var/git");
+        }
+        return $repoPath;
     }
 
     public function isEnabled()
@@ -270,6 +275,17 @@ class GitService
 
     public function getStatus($exportInstructions, &$errorMessages = null)
     {
+        $latestTask = $this->getLatestGitTask();
+        if (!$this->isEnabled() || (!$latestTask->isFinished() && $latestTask->getType() == ScheduledTask::TYPE_GIT_ENABLE)) {
+            return $status = [
+                "behind" => "?",
+                "ahead" => "?",
+                "history" => [],
+                "diff" => "",
+                "latestTask" => $latestTask
+            ];
+        }
+
         if ($this->fetch($errorMessages) === false) {
             $errorMessages[] = "git.fetch_failed";
             return false;
@@ -304,7 +320,7 @@ class GitService
             "ahead" => $ahead,
             "history" => $history,
             "diff" => $diff,
-            "latestTask" => $this->getLatestGitTask()
+            "latestTask" => $latestTask
         ];
     }
 
@@ -436,7 +452,7 @@ class GitService
         return $returnCode === 0;
     }
 
-    public function scheduleTaskGitEnable($url, $branch, $login, $password, $instantRun = false, &$output = null, &$errors = null)
+    public function scheduleTaskGitEnable($url, $branch, $login, $password, $instructions, $instantRun = false, &$output = null, &$errors = null)
     {
         if ($this->adminService->isTaskScheduled()) {
             $errors[] = "tasks.already_scheduled";
@@ -453,6 +469,7 @@ class GitService
         $app->setAutoExit(false);
         $in = new ArrayInput(array(
             "command" => "concerto:task:git:enable",
+            "--instructions" => $instructions,
             "--instant-run" => $instantRun
         ));
         $out = new BufferedOutput();
