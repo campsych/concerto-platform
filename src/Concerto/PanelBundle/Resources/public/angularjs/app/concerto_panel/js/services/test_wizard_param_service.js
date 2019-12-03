@@ -278,7 +278,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
                 setDefault = true;
             } else {
                 try {
-                    if (param.type == 7 || param.type == 9 || param.type == 10 || param.type == 12 || param.type == 13) {
+                    if (!this.isSimpleType(param.type)) {
                         param.output = angular.fromJson(param.value);
                         this.objectifyListElements(param, param.output);
                     } else {

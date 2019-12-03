@@ -1,4 +1,4 @@
-## 5.0.8 (in progress)
+## 5.0.8 (2019-12-03)
 
 #### Features
 
@@ -17,6 +17,10 @@
 * **content_import_options** and **content_export_options** config options now merged as **content_transfer_options**
 * **content_import_options_overridable** and **content_export_options_overridable** config options now merged as **content_transfer_options_overridable**
 * flow node size is adjusted to its contents
+
+#### Fixes
+
+* importing CSV to grid with invalid structure now properly sets missing fields to their type default value
 
 ## 5.0.7 (2019-11-20)
 

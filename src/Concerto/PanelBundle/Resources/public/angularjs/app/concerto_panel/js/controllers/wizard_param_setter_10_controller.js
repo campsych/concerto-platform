@@ -37,19 +37,25 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
             $scope.listGridApi = gridApi;
         },
         importerDataAddCallback: function (grid, newObjects) {
-            for (var i = 0; i < newObjects.length; i++) {
-                for (var key in newObjects[i]) {
-                    for (var j = 0; j < $scope.listOptions.columnDefs.length; j++) {
-                        var col = $scope.listOptions.columnDefs[j];
+            for (let i = 0; i < newObjects.length; i++) {
+                for (let j = 0; j < $scope.listOptions.columnDefs.length; j++) {
+                    let col = $scope.listOptions.columnDefs[j];
+                    if (typeof (col.param) === 'undefined') continue;
+                    let found = false;
+                    for (let key in newObjects[i]) {
                         if (col.name === key) {
-                            if (col.type == 4) {
+                            found = true;
+                            if (col.param.type == 4) {
                                 newObjects[i][key] = newObjects[i][key].toString();
                             }
-                            if (col.type == 7 || col.type == 9 || col.type == 10 || col.type == 12) {
+                            if (!TestWizardParam.isSimpleType(col.param.type)) {
                                 newObjects[i][key] = angular.fromJson(newObjects[i][key]);
                             }
                             break;
                         }
+                    }
+                    if (!found) {
+                        newObjects[i][col.name] = TestWizardParam.getParamOutputDefault(col.param);
                     }
                 }
                 $scope.output.push(newObjects[i]);
@@ -68,15 +74,15 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         if (!obj)
             return [];
         if (!isGroupField && obj.type == 9) {
-            var cols = [];
-            var fields = obj.definition.fields;
-            for (var i = 0; i < fields.length; i++) {
-                var field = fields[i];
-                var param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
-                var parent = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
-                var output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]." + field.name;
-                var add = $scope.getColumnDefs(field, param, parent, output, true);
-                for (var j = 0; j < add.length; j++) {
+            let cols = [];
+            let fields = obj.definition.fields;
+            for (let i = 0; i < fields.length; i++) {
+                let field = fields[i];
+                let param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
+                let parent = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
+                let output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]." + field.name;
+                let add = $scope.getColumnDefs(field, param, parent, output, true);
+                for (let j = 0; j < add.length; j++) {
                     cols.push(add[j]);
                 }
             }
@@ -84,7 +90,7 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         }
 
         return [{
-            type: obj.type,
+            param: obj,
             order: obj.order,
             displayName: isGroupField ? obj.label : Trans.TEST_WIZARD_PARAM_LIST_COLUMN_ELEMENT,
             name: isGroupField ? obj.name : "value",
@@ -96,12 +102,12 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
     };
 
     $scope.initializeListColumnDefs = function () {
-        var defs = [];
-        var param = "grid.appScope.param.definition.element";
-        var parent = "grid.appScope.output";
-        var output = TestWizardParam.isSimpleType($scope.param.definition.element.type) ? "grid.appScope.output[grid.appScope.output.indexOf(row.entity)].value" : "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
-        var cd = $scope.getColumnDefs($scope.param.definition.element, param, parent, output, false);
-        for (var i = 0; i < cd.length; i++) {
+        let defs = [];
+        let param = "grid.appScope.param.definition.element";
+        let parent = "grid.appScope.output";
+        let output = TestWizardParam.isSimpleType($scope.param.definition.element.type) ? "grid.appScope.output[grid.appScope.output.indexOf(row.entity)].value" : "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
+        let cd = $scope.getColumnDefs($scope.param.definition.element, param, parent, output, false);
+        for (let i = 0; i < cd.length; i++) {
             defs.push(cd[i]);
         }
 
@@ -137,9 +143,9 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         $scope.output.splice(index, 1);
     };
     $scope.removeSelectedElements = function () {
-        var selectedRows = $scope.listGridApi.selection.getSelectedRows();
-        for (var i = 0; i < selectedRows.length; i++) {
-            for (var j = 0; j < $scope.output.length; j++) {
+        let selectedRows = $scope.listGridApi.selection.getSelectedRows();
+        for (let i = 0; i < selectedRows.length; i++) {
+            for (let j = 0; j < $scope.output.length; j++) {
                 if ($scope.output[j] == selectedRows[i]) {
                     $scope.removeElement(j);
                     break;
