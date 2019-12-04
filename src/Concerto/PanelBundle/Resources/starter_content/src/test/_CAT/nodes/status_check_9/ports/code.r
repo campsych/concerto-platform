@@ -6,7 +6,7 @@ isOutOfTime = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullR
   return(F)
 }
 
-getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, itemsAdministered, itemsNum, sem) {
+getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsAdministered, itemsNum, sem) {
   outOfTime = isOutOfTime(
     testTimeLimit, 
     testTimeLeft,
@@ -24,7 +24,7 @@ getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullReq
     return("stop")
   }
 
-  if(minAccuracy != 0 && minAccuracy >= sem) {
+  if(minAccuracy != 0 && minAccuracy >= sem && minAccuracyMinItems >= length(itemsAdministered)) {
     concerto.log("minimum accuracy", "test status")
     return("stop")
   }
@@ -39,6 +39,7 @@ getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullReq
   settings$itemTimeFullRequired == "1", 
   as.numeric(settings$itemNumLimit), 
   as.numeric(settings$minAccuracy), 
+  as.numeric(settings$minAccuracyMinItems), 
   itemsAdministered, 
   dim(items)[1], 
   sem

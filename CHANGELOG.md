@@ -5,6 +5,11 @@
 * removed redundant data table's data calls
 * data table's data pagination is now properly reset when changing tables
 
+#### Starter content
+
+* added minAccuracyMinItems stopping rule to **CAT**
+* execution no longer is halted when can't satisfy CB rules in **CAT**
+
 ## 5.0.8 (2019-12-03)
 
 #### Features

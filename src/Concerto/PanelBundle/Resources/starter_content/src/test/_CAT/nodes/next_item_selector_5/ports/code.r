@@ -68,7 +68,16 @@ if(nextItemIndex == 0) {
   }
 
   if(nextItemIndex == 0) {
-    result = nextItem(paramBank, model=settings$model, theta=theta, out=itemsExcluded, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
+    result = tryCatch({
+      nextItem(paramBank, model=settings$model, theta=theta, out=itemsExcluded, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
+    }, error=function(ex) {
+      concerto.log(ex, "potentialy not possible to satisfy CB rule")
+      if(!is.null(cbGroup) && !is.null(cbControl)) {
+        return(nextItem(paramBank, model=settings$model, theta=theta, out=itemsExcluded, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=NULL, cbControl=NULL))
+      } else {
+        stop(ex)
+      }
+    })
     nextItemIndex = result$item
   }
 
