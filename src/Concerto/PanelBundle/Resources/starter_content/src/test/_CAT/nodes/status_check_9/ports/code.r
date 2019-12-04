@@ -24,7 +24,7 @@ getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullReq
     return("stop")
   }
 
-  if(minAccuracy != 0 && minAccuracy >= sem && minAccuracyMinItems >= length(itemsAdministered)) {
+  if(minAccuracy != 0 && minAccuracy >= sem && minAccuracyMinItems <= length(itemsAdministered)) {
     concerto.log("minimum accuracy", "test status")
     return("stop")
   }
