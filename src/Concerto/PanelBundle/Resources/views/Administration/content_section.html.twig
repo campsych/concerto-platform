@@ -33,9 +33,12 @@
                     <tr ng-if="isGitEnabled()">
                         <td style="padding-right: 5px;">{{ "git.status.local_changes"|trans }}</td>
                         <td>
-                            <strong ng-if="!hasUncommittedChanges()">{{ "git.status.local_changes.no_changes"|trans }}</strong>
-                            <strong ng-if="hasUncommittedChanges()" class="clickable" ng-click="showLocalDiff()">{{ "git.status.local_changes.uncommitted_changes"|trans }}</strong>
-                            {% verbatim %}{{ internalSettingsMap.last_git_update_time ? " (" + internalSettingsMap.last_git_update_time + ")" : "" }}{% endverbatim %}
+                            <span ng-if="gitStatus.diff !== '?'">
+                                <strong ng-if="!hasUncommittedChanges()">{{ "git.status.local_changes.no_changes"|trans }}</strong>
+                                <strong ng-if="hasUncommittedChanges()" class="clickable" ng-click="showLocalDiff()">{{ "git.status.local_changes.uncommitted_changes"|trans }}</strong>
+                                {% verbatim %}{{ internalSettingsMap.last_git_update_time ? " (" + internalSettingsMap.last_git_update_time + ")" : "" }}{% endverbatim %}
+                            </span>
+                            <span ng-if="gitStatus.diff === '?'"><strong>?</strong></span>
                         </td>
                     </tr>
                 </table>

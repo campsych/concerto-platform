@@ -414,8 +414,7 @@ class AdministrationController
      */
     public function gitStatusAction(Request $request)
     {
-        $exportInstructions = $request->get("exportInstructions");
-        $status = $this->gitService->getStatus($exportInstructions, $errorMessages);
+        $status = $this->gitService->getStatus($errorMessages);
         $responseContent = [
             "result" => $status === false ? 1 : 0,
             "status" => $status === false ? null : $status,

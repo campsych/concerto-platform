@@ -273,15 +273,15 @@ class GitService
         return false;
     }
 
-    public function getStatus($exportInstructions, &$errorMessages = null)
+    public function getStatus(&$errorMessages = null)
     {
         $latestTask = $this->getLatestGitTask();
-        if (!$this->isEnabled() || (!$latestTask->isFinished() && $latestTask->getType() == ScheduledTask::TYPE_GIT_ENABLE)) {
+        if (!$this->isEnabled() || !$latestTask || !$latestTask->isFinished()) {
             return $status = [
                 "behind" => "?",
                 "ahead" => "?",
                 "history" => [],
-                "diff" => "",
+                "diff" => "?",
                 "latestTask" => $latestTask
             ];
         }

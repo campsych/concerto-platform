@@ -144,9 +144,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     $scope.refreshGitStatus = function () {
         $scope.refreshSettings();
 
-        $http.post(Paths.ADMINISTRATION_GIT_STATUS, {
-            exportInstructions: $scope.exposedSettingsMap.content_transfer_options
-        }).then(function (httpResponse) {
+        $http.post(Paths.ADMINISTRATION_GIT_STATUS, {}).then(function (httpResponse) {
 
             let success = httpResponse.data.result == 0;
             if (!success) {
