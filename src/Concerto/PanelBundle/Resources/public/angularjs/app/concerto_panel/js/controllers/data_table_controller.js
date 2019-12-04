@@ -40,11 +40,24 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     });
     $scope.datePickerOptions = {};
     $scope.datePickerFormat = "yyyy-MM-dd";
-    $scope.$watchCollection("object.columns", function (newStructure) {
+
+    $scope.$watchCollection("object.columns", function (newStructure, oldStructure) {
         $scope.dataOptions.columnDefs = [];
         $scope.columns = newStructure;
-        if (newStructure == null)
+        if (!newStructure || newStructure.length === 0)
             return;
+
+        if (newStructure.length === oldStructure.length) {
+            let same = true;
+            for (let i = 0; i < newStructure.length; i++) {
+                if (newStructure[i].name !== oldStructure[i].name) {
+                    same = false;
+                    break;
+                }
+            }
+            if (same) return;
+        }
+
         for (var i = 0; i < newStructure.length; i++) {
             var col = newStructure[i];
             var colDef = {
@@ -95,6 +108,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
         $scope.fetchDataCollection($scope.object.id);
     });
+
     $scope.editTextCell = function (entity, colName) {
         DialogsService.textareaDialog(
             Trans.DATA_TABLE_CELL_TEXT_EDIT_TITLE,
@@ -245,6 +259,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             $scope.dataGridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
                 $scope.saveRow(rowEntity);
             });
+            $scope.dataGridApi.pagination.seek(1);
         },
         exporterAllDataFn: function () {
             return $http.get($scope.dataCollectionPath.pf($scope.object.id)).then(function (httpResponse) {
@@ -258,9 +273,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         useExternalFiltering: true,
         enableCellEditOnFocus: true
     };
-    $scope.refreshRows = function () {
-        $scope.fetchDataCollection($scope.object.id);
-    };
+
     $scope.addRow = function () {
         $http.post(Paths.DATA_TABLE_DATA_INSERT.pf($scope.object.id), {
             objectTimestamp: $scope.object.updatedOn
@@ -301,7 +314,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 }
             }
         }).catch(function (error) {
-            $scope.refreshRows();
+            $scope.fetchDataCollection($scope.object.id);
         });
     };
 
@@ -522,6 +535,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             $scope.structureGridApi.selection.clearSelectedRows();
         $scope.dataFilterOptions.filters = {};
         $scope.dataFilterOptions.sorting = [];
+        $scope.dataFilterOptions.paging.page = 1;
     };
 
     $scope.onAfterPersist = function () {
@@ -536,6 +550,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             columns: []
         };
     };
+
     $scope.resetObject();
     $scope.initializeColumnDefs();
 }

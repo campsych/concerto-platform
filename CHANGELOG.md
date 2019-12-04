@@ -1,3 +1,10 @@
+## 5.0.9 (in progress)
+
+#### Fixes
+
+* removed redundant data table's data calls
+* data table's data pagination is now properly reset when changing tables
+
 ## 5.0.8 (2019-12-03)
 
 #### Features
