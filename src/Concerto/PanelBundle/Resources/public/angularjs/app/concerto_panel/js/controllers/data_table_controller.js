@@ -47,17 +47,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         if (!newStructure || newStructure.length === 0)
             return;
 
-        if (newStructure.length === oldStructure.length) {
-            let same = true;
-            for (let i = 0; i < newStructure.length; i++) {
-                if (newStructure[i].name !== oldStructure[i].name) {
-                    same = false;
-                    break;
-                }
-            }
-            if (same) return;
-        }
-
         for (var i = 0; i < newStructure.length; i++) {
             var col = newStructure[i];
             var colDef = {
@@ -106,6 +95,18 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             enableFiltering: false,
             exporterSuppressExport: true
         });
+
+        if (newStructure.length === oldStructure.length) {
+            let same = true;
+            for (let i = 0; i < newStructure.length; i++) {
+                if (newStructure[i].name !== oldStructure[i].name) {
+                    same = false;
+                    break;
+                }
+            }
+            if (same) return;
+        }
+
         $scope.fetchDataCollection($scope.object.id);
     });
 
