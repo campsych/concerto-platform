@@ -42,7 +42,7 @@ EOF
 
 start_nginx() {
     printf "### Starting Nginx\n"
-    docker-compose up -d nginx
+    /usr/local/bin/docker-compose up -d nginx
 }
 
 request_cert() {
@@ -53,7 +53,7 @@ request_cert() {
       *) email="--email $EMAIL" ;;
     esac
 
-    docker-compose run --rm --entrypoint "\
+    /usr/local/bin/docker-compose run --rm --entrypoint "\
       certbot certonly --non-interactive --webroot -w /var/www/certbot \
         $email \
         -d ${DOMAIN} \
@@ -133,12 +133,12 @@ EOF
 
 reload_nginx() {
     printf "### Reloading Nginx\n"
-    docker-compose exec -T nginx nginx -s reload
+    /usr/local/bin/docker-compose exec -T nginx nginx -s reload
 }
 
 start_certbot() {
     printf "### Starting Certbot\n"
-    docker-compose up -d certbot
+    /usr/local/bin/docker-compose up -d certbot
 }
 
 configure_nginx_without_tls
