@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ "$#" -lt 2 ]]; then
-    printf "Usage: $0 domain proxy_url [email]\n\n"
+    printf "Usage: %s domain proxy_url [email]\n\n" "$0"
     exit 1
 fi
 
@@ -12,15 +12,6 @@ EMAIL=$3
 NGINX_DATA_PATH="./data/nginx"
 CERTBOT_DATA_PATH="./data/certbot"
 CERTBOT_RSA_KEY_SIZE=4096
-
-get_tsl_params() {
-    if [[ ! -e "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf" ]] || [[ ! -e "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem" ]]; then
-      printf "### Downloading TLS parameters\n"
-      mkdir -p "${CERTBOT_DATA_PATH}/conf"
-      curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/tls_configs/options-ssl-nginx.conf > "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf"
-      curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem"
-    fi
-}
 
 configure_nginx_without_tls() {
     if [[ ! -e "${NGINX_DATA_PATH}/app.conf" ]]; then
@@ -77,7 +68,30 @@ request_cert() {
     fi
 }
 
+make_options_ssl() {
+  if [[ ! -e "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf" ]]; then
+    cat > "${CERTBOT_DATA_PATH}/conf/options-ssl-nginx.conf" << EOF
+ssl_session_cache shared:le_nginx_SSL:10m;
+ssl_session_timeout 1440m;
+ssl_session_tickets off;
+
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_prefer_server_ciphers off;
+
+ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA";
+EOF
+  fi
+}
+
+make_dhparams() {
+  if [[ ! -e "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem" ]]; then
+    openssl dhparam -out "${CERTBOT_DATA_PATH}/conf/ssl-dhparams.pem" 2048
+  fi
+}
+
 configure_nginx_with_tls() {
+    make_options_ssl
+    make_dhparams
     printf "### Writing TLS-enabled Nginx configuration\n"
     cat > ${NGINX_DATA_PATH}/app.conf << EOF
 server {
@@ -127,7 +141,6 @@ start_certbot() {
     docker-compose up -d certbot
 }
 
-get_tsl_params
 configure_nginx_without_tls
 start_nginx
 request_cert
