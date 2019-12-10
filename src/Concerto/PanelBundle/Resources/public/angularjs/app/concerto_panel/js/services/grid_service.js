@@ -1,6 +1,6 @@
 concertoPanel.factory('GridService', function ($uibModal, DialogsService) {
     CSV.error = function (err) {
-        var msg = CSV.dump(err);
+        let msg = CSV.dump(err);
         CSV.reset();
 
         DialogsService.alertDialog(

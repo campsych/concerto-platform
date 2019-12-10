@@ -16,8 +16,8 @@
                             {% block control %}
                                 <div class="center">
                                     <button class="btn btn-success btn-sm" ng-click="addColumn()">{{ 'param.definer.column_map.column.add'|trans }}</button>
-                                    <button ng-click="gridService.uploadList(selectGridApi);" class="btn btn-success btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
-                                    <button ng-click="gridService.downloadList(selectGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
+                                    <button ng-click="gridService.uploadList(colMapGridApi);" class="btn btn-success btn-sm">{{ "list.button.upload"|trans({},"panel") }}</button>
+                                    <button ng-click="gridService.downloadList(colMapGridApi);" class="btn btn-default btn-sm">{{ "list.button.download"|trans({},"panel") }}</button>
                                     <button class="btn btn-danger btn-sm" ng-click="deleteSelectedColumns()">{{ 'param.definer.column_map.column.remove.selected'|trans }}</button>
                                     <button class="btn btn-danger btn-sm" ng-click="deleteAllColumns()">{{ 'param.definer.column_map.column.remove.all'|trans }}</button>
                                 </div>

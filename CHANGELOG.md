@@ -5,6 +5,7 @@
 * removed redundant data table's data calls
 * data table's data pagination is now properly reset when changing tables
 * cell editing focus loss fixed
+* fixed list download/upload on column map definer
 
 #### Starter content
 
