@@ -4,6 +4,7 @@
 
 * removed redundant data table's data calls
 * data table's data pagination is now properly reset when changing tables
+* cell editing focus loss fixed
 
 #### Starter content
 
@@ -14,6 +15,7 @@
 
 * added SHOW statement to **concerto.table.query**
 * html argument takes precedence over templateId in **concerto.template.join**
+* data tables can now be scrolled horizontally
 
 ## 5.0.8 (2019-12-03)
 

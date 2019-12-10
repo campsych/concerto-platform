@@ -31,9 +31,8 @@ concertoPanel.config(function ($interpolateProvider) {
 
     blockUIConfig.requestFilter = function (config) {
 
-        if (config.url.match(/^.*\/rcache\/?\/html\/.*/)) {
-            return false;
-        }
+        if (config.url.match(/^.*\/rcache\/?\/html\/.*/)) return false;
+        if (config.url.match(/^.*\/admin\/DataTable\/\d+\/row\/\d+\/update/)) return false;
     };
     blockUIConfig.message = Trans.PLEASE_WAIT;
     blockUIConfig.delay = 250;
