@@ -7,10 +7,10 @@ function(sql, params=list(), n=-1){
 
   result <- NULL
   output <- NULL
-  if(toupper(substring(sql, 1, 6)) == "SELECT") {
+  if(startsWith(toupper(sql), "SELECT") || startsWith(toupper(sql), "SHOW")) {
     result <- dbSendQuery(concerto$connection, sql)
     output <- fetch(result, n=n)
-  } else if(toupper(substring(sql, 1, 6)) == "INSERT") {
+  } else if(startsWith(toupper(sql), "INSERT")) {
     if(concerto$connectionParams$driver == "pdo_sqlsrv") {
          result <- dbSendQuery(concerto$connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
          output <- fetch(result, n=1)[1,1]

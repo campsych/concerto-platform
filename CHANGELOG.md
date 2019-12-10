@@ -10,6 +10,11 @@
 * added minAccuracyMinItems stopping rule to **CAT**
 * execution no longer is halted when can't satisfy CB rules in **CAT**
 
+#### Improvements
+
+* added SHOW statement to **concerto.table.query**
+* html argument takes precedence over templateId in **concerto.template.join**
+
 ## 5.0.8 (2019-12-03)
 
 #### Features
@@ -29,6 +34,7 @@
 * **content_import_options** and **content_export_options** config options now merged as **content_transfer_options**
 * **content_import_options_overridable** and **content_export_options_overridable** config options now merged as **content_transfer_options_overridable**
 * flow node size is adjusted to its contents
+
 
 #### Fixes
 
