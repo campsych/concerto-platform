@@ -58,8 +58,7 @@ request_cert() {
         $email \
         -d ${DOMAIN} \
         --rsa-key-size ${CERTBOT_RSA_KEY_SIZE} \
-        --agree-tos \
-        --force-renewal" certbot
+        --agree-tos" certbot
 
     if [[ $? -ne 0 ]]; then
         printf "### Error while requesting certificate, will sleep for 5m and retry...\n"
