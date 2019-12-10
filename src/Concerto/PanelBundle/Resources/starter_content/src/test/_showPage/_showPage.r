@@ -1,7 +1,14 @@
-getTemplateParams = function(templateParams) {
+getTemplateParams = function() {
   if(!is.list(templateParams)) {
     templateParams = list()
   }
+  
+  templateParams$logo = logo
+  templateParams$title = title
+  templateParams$content = content
+  templateParams$buttonLabel = buttonLabel
+  templateParams$footer = footer
+  
   for(.name in .dynamicInputs) {
     templateParams[[.name]] = get(.name)
   }
@@ -15,7 +22,7 @@ if(is.na(cookies)) {
 response = concerto5:::concerto.template.show(
   template=template, 
   html=if(!is.null(html) && !is.na(html) && html != "") {html} else {""},
-  params=getTemplateParams(templateParams), 
+  params=getTemplateParams(), 
   timeLimit=if(!is.na(numericTimeLimit)) { numericTimeLimit } else { 0 },
   cookies=cookies
 )

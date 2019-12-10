@@ -355,22 +355,14 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                         }
                         $scope.fetchAllCollections();
 
-                        $scope.dialogsService.alertDialog(
-                            Trans.DIALOG_TITLE_SAVE,
-                            Trans.DIALOG_MESSAGE_SAVED,
-                            "success",
-                            "sm",
-                            function (r) {
-                                if ($scope.onAfterPersist) {
-                                    $scope.onAfterPersist();
-                                }
-                                if ($scope.reloadOnModification) {
-                                    location.reload();
-                                } else {
-                                    $scope.edit(httpResponse.data.object.id);
-                                }
-                            }
-                        );
+                        if ($scope.onAfterPersist) {
+                            $scope.onAfterPersist();
+                        }
+                        if ($scope.reloadOnModification) {
+                            location.reload();
+                        } else {
+                            $scope.edit(httpResponse.data.object.id);
+                        }
                         break;
                     }
                     case BaseController.RESULT_VALIDATION_FAILED: {

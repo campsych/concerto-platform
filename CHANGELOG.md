@@ -4,6 +4,7 @@
 
 * removed redundant data table's data calls
 * data table's data pagination is now properly reset when changing tables
+* data tables can now scroll horizontally
 * cell editing focus loss fixed
 * fixed list download/upload on column map definer
 
@@ -11,12 +12,16 @@
 
 * added minAccuracyMinItems stopping rule to **CAT**
 * execution no longer is halted when can't satisfy CB rules in **CAT**
+* added more descriptive error message when parsing responseOptions JSON fails in **CAT**
+* renamed **cbGroup** column in **CAT** item bank to **trait**
+* default template inserts exposed as wizard params in **CAT**, **form** and **showPage**
 
 #### Improvements
 
 * added SHOW statement to **concerto.table.query**
 * html argument takes precedence over templateId in **concerto.template.join**
 * data tables can now be scrolled horizontally
+* removed alert on successful object save
 
 ## 5.0.8 (2019-12-03)
 

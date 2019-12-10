@@ -1,26 +1,106 @@
-getItems = function(itemBankType, itemBankItems, itemBankTable, extraFields){
+getFlatResponseColumnsNum = function(tableName, responseValue1ColumnName) {
+  columnPrefix = substring(responseValue1ColumnName, 1, nchar(responseValue1ColumnName) - 1)
+
+  columns = concerto.table.query("SHOW COLUMNS FROM {{tableName}} LIKE '{{columnPrefix}}%'", params=list(
+    tableName=tableName,
+    columnPrefix=columnPrefix
+  ))[,"Field"]
+
+  i=1;
+  while(paste0(columnPrefix,i) %in% columns) {
+    i=i+1
+  }
+  return(i-1)
+}
+
+getExtraFieldsSql = function(extraFields) {
+  extraFields = fromJSON(extraFields)
+  extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
+  extraFieldsSql = paste(extraFieldsNames, collapse=", ")  
+  if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
+  return(extraFieldsSql)
+}
+
+getIndicedColumnsSql = function(firstColumnName, num, aliasPrefix) {
+  columnNamePrefix = substring(firstColumnName, 1, nchar(firstColumnName) - 1)
+  columns = c()
+  for(i in 1:num) {
+    columnName = paste0(columnNamePrefix, i)
+    alias = paste0(aliasPrefix, i)
+    columns = c(columns, paste0(columnName, " AS ", alias))
+  }
+  return(paste(columns, collapse=", "))
+}
+
+convertFromFlat = function(items, responseColumnsNum) {
+  itemsNum = dim(items)[1]
+  if(itemsNum == 0) { return(items) }
+  
+  defaultScore = 0
+  defaultPainMannequinGender = "male"
+  defaultGracelyScaleShow = "both"
+  defaultOptionsRandomOrder = 0
+
+  for(i in 1:itemsNum) {
+    item = items[i,]
+
+    options = list()
+    for(j in 1:responseColumnsNum) {
+      options[[j]] = list(
+        label=item[[paste0("responseLabel",j)]],
+        value=item[[paste0("responseValue",j)]]
+      )
+    }
+
+    scoreMap = list()
+    for(j in 1:responseColumnsNum) {
+      scoreMap[[j]] = list(
+        score=item[[paste0("responseScore",j)]],
+        value=item[[paste0("responseValue",j)]]
+      )
+    }
+    
+    responseOptions = list(
+      type=item$type,
+      optionsRandomOrder=item$optionsRandomOrder,
+      painMannequinGender=item$painMannequinGender,
+      gracelyScaleShow=item$gracelyScaleShow,
+      options=options,
+      scoreMap=scoreMap,
+      defaultScore=defaultScore
+    )
+    
+    if(is.null(responseOptions$painMannequinGender)) { 
+      responseOptions$painMannequinGender = defaultPainMannequinGender
+    }
+    if(is.null(responseOptions$gracelyScaleShow)) { 
+      responseOptions$gracelyScaleShow = defaultGracelyScaleShow
+    }
+    if(is.null(responseOptions$optionsRandomOrder)) { 
+      responseOptions$optionsRandomOrder = defaultOptionsRandomOrder
+    }
+
+    items[i, "responseOptions"] = toJSON(responseOptions)
+  }
+
+  return(items)
+}
+
+getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTable, extraFields, paramsNum){
   items = NULL
+
   if(itemBankType == "table") {
     tableMap = fromJSON(itemBankTable)
+
     table = tableMap$table
     questionColumn = tableMap$columns$question
     responseOptionsColumn = tableMap$columns$responseOptions
     p1Column = tableMap$columns$p1
-    p2Column = tableMap$columns$p2
-    p3Column = tableMap$columns$p3
-    p4Column = tableMap$columns$p4
-    p5Column = tableMap$columns$p5
-    p6Column = tableMap$columns$p6
-    p7Column = tableMap$columns$p7
-    p8Column = tableMap$columns$p8
-    p9Column = tableMap$columns$p9
-    cbGroupColumn = tableMap$columns$cbGroup
+    traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
 
-    extraFields = fromJSON(extraFields)
-    extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
-    extraFieldsSql = paste(extraFieldsNames, collapse=", ")  
-    if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
+    extraFieldsSql = getExtraFieldsSql(extraFields)
+    parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
 
     items = concerto.table.query(
       "
@@ -28,38 +108,91 @@ SELECT
 id, 
 {{questionColumn}} AS question, 
 {{responseOptionsColumn}} AS responseOptions,
-{{p1Column}} AS p1,
-{{p2Column}} AS p2,
-{{p3Column}} AS p3,
-{{p4Column}} AS p4,
-{{p5Column}} AS p5,
-{{p6Column}} AS p6,
-{{p7Column}} AS p7,
-{{p8Column}} AS p8,
-{{p9Column}} AS p9,
-{{cbGroupColumn}} AS cbGroup,
+{{parametersSql}},
+{{traitColumn}} AS trait,
 {{fixedIndexColumn}} AS fixedIndex
-{{extraFields}}
+{{extraFieldsSql}}
 FROM {{table}}
 ", 
       list(
         questionColumn=questionColumn,
         responseOptionsColumn=responseOptionsColumn,
-        p1Column=p1Column,
-        p2Column=p2Column,
-        p3Column=p3Column,
-        p4Column=p4Column,
-        p5Column=p5Column,
-        p6Column=p6Column,
-        p7Column=p7Column,
-        p8Column=p8Column,
-        p9Column=p9Column,
-        cbGroupColumn=cbGroupColumn,
+        parametersSql=parametersSql,
+        traitColumn=traitColumn,
         fixedIndexColumn=fixedIndexColumn,
-        extraFields=extraFieldsSql,
+        extraFieldsSql=extraFieldsSql,
         table=table
       ))
   }
+
+  if(itemBankType == "flatTable") {
+    tableMap = fromJSON(itemBankFlatTable)
+
+    table = tableMap$table
+    questionColumn = tableMap$columns$question
+    p1Column = tableMap$columns$p1
+    traitColumn = tableMap$columns$trait
+    fixedIndexColumn = tableMap$columns$fixedIndex
+    responseLabel1Column = tableMap$columns$responseLabel1
+    responseValue1Column = tableMap$columns$responseValue1
+    responseScore1Column = tableMap$columns$responseScore1
+    typeColumn = tableMap$columns$type
+    gracelyScaleShowColumn = tableMap$columns$gracelyScaleShow
+    painMannequinGenderColumn = tableMap$columns$painMannequinGender
+    optionsRandomOrderColumn = tableMap$columns$optionsRandomOrder
+
+    gracelyScaleShowSql = ""
+    if(!is.null(gracelyScaleShowColumn) && !is.na(gracelyScaleShowColumn)) { gracelyScaleShowSql = "{{gracelyScaleShowColumn}} AS gracelyScaleShow," }
+    painMannequinGenderSql = ""
+    if(!is.null(painMannequinGenderColumn) && !is.na(painMannequinGenderColumn)) { painMannequinGenderSql = "{{painMannequinGenderColumn}} AS painMannequinGender," }
+    optionsRandomOrderSql = ""
+    if(!is.null(optionsRandomOrderColumn) && !is.na(optionsRandomOrderColumn)) { optionsRandomOrderSql = "{{optionsRandomOrderColumn}} AS optionsRandomOrder," }
+    extraFieldsSql = getExtraFieldsSql(extraFields)
+    parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
+    responseColumnsNum = getFlatResponseColumnsNum(table, responseValue1Column)
+    responseLabelSql = getIndicedColumnsSql(responseLabel1Column, responseColumnsNum, "responseLabel")
+    responseValueSql = getIndicedColumnsSql(responseValue1Column, responseColumnsNum, "responseValue")
+    responseScoreSql = getIndicedColumnsSql(responseScore1Column, responseColumnsNum, "responseScore")
+
+    items = concerto.table.query(
+      "
+SELECT 
+id, 
+{{questionColumn}} AS question,
+{{parametersSql}},
+{{traitColumn}} AS trait,
+{{fixedIndexColumn}} AS fixedIndex,
+{{responseLabelSql}},
+{{responseValueSql}},
+{{responseScoreSql}},
+{{gracelyScaleShowSql}}
+{{painMannequinGenderSql}}
+{{optionsRandomOrderSql}}
+{{extraFieldsSql}}
+{{typeColumn}} AS type
+FROM {{table}}
+", 
+      list(
+        questionColumn=questionColumn,
+        parametersSql=parametersSql,
+        traitColumn=traitColumn,
+        fixedIndexColumn=fixedIndexColumn,
+        extraFieldsSql=extraFieldsSql,
+        responseLabelSql=responseLabelSql,
+        responseValueSql=responseValueSql,
+        responseScoreSql=responseScoreSql,
+        typeColumn=typeColumn,
+        gracelyScaleShowSql=gracelyScaleShowSql,
+        gracelyScaleShowColumn=gracelyScaleShowColumn,
+        painMannequinGenderSql=painMannequinGenderSql,
+        painMannequinGenderColumn=painMannequinGenderColumn,
+        optionsRandomOrderSql=optionsRandomOrderSql,
+        optionsRandomOrderColumn=optionsRandomOrderColumn,
+        table=table
+      ))
+    items = convertFromFlat(items, responseColumnsNum)
+  }
+
   if(itemBankType == "direct") {
     itemBankItems = fromJSON(itemBankItems)
     if(length(itemBankItems) > 0) {
@@ -82,11 +215,11 @@ FROM {{table}}
   return(items)
 }
 
-items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankTableExtraFields)
+paramsNum = as.numeric(settings$itemParamsNum)
+items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankFlatTable, settings$itemBankTableExtraFields, paramsNum)
 itemsNum = dim(items)[1]
 
-paramBank = items[,c("p1","p2","p3","p4","p5","p6","p7","p8","p9"),drop=F]
-paramBank = paramBank[,1:as.numeric(settings$itemParamsNum),drop=F]
+paramBank = items[, paste0("p", 1:paramsNum), drop=F]
 paramBank = apply(paramBank, 2, as.numeric)
 if(is.vector(paramBank)) { 
   paramBank = rbind(paramBank)
