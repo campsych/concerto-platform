@@ -77,7 +77,7 @@ function WizardParamDefiner9Controller($scope, $filter, uiGridConstants, GridSer
     onRegisterApi: function (gridApi) {
       $scope.groupGridApi = gridApi;
     },
-    enableCellEditOnFocus: true
+    enableCellEditOnFocus: false
   };
 
   $scope.addField = function () {

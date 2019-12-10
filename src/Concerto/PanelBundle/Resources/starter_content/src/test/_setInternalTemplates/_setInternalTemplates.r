@@ -6,5 +6,9 @@ for(.name in .dynamicInputs) {
 }
 
 if(!is.na(loaderTemplate)) {
-  concerto.template.loader(loaderTemplate, params=params)
+  concerto.template.loader(
+    templateId=loaderTemplate, 
+    html=loaderTemplateHtml,
+    params=params
+  )
 }

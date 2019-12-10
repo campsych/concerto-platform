@@ -1,12 +1,19 @@
-getTemplateParams = function(itemSafe, templateParams, responseRequired, responseRequiredAlert) {
+getTemplateParams = function() {
   templateParams$items = data.frame(itemSafe)
-  templateParams$responseRequired = responseRequired
-  templateParams$responseRequiredAlert = responseRequiredAlert
+  templateParams$responseRequired = settings$responseRequired
+  templateParams$responseRequiredAlert = settings$responseRequiredAlert
+  templateParams$footer = settings$footer
+  templateParams$instructions = settings$instructions
+  templateParams$logo = settings$logo
+  templateParams$nextButtonLabel = settings$nextButtonLabel
+  templateParams$title = settings$title
 
   return(templateParams)
 }
 
-getTestTimeLeft = function(testTimeLimitType, testTimeStarted, testTimeLimit, totalTimeTaken, oneSecRound=T) {
+getTestTimeLeft = function(oneSecRound=T) {
+  testTimeLimit = as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset)
+  testTimeLimitType = settings$testTimeLimitType
   limit = 0
   if(testTimeLimit > 0) {
     if(testTimeLimitType == "startedAgo") {
@@ -22,7 +29,8 @@ getTestTimeLeft = function(testTimeLimitType, testTimeStarted, testTimeLimit, to
   return(limit)
 }
 
-getTemplateTimeLimit = function(testTimeLimit, itemTimeLimit) {
+getTemplateTimeLimit = function(testTimeLimit) {
+  itemTimeLimit = as.numeric(settings$itemTimeLimit)
   limit = testTimeLimit
   if(itemTimeLimit > 0) {
     if(limit > 0) {
@@ -35,7 +43,7 @@ getTemplateTimeLimit = function(testTimeLimit, itemTimeLimit) {
 }
 
 if(!concerto.template.isResponseQueued()) {
-  params = getTemplateParams(itemSafe, templateParams, settings$responseRequired, settings$responseRequiredAlert)
+  params = getTemplateParams()
   if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModule != "") {
     params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
       params = params,
@@ -46,21 +54,13 @@ if(!concerto.template.isResponseQueued()) {
   }
 }
 
-testTimeLeft = getTestTimeLeft(
-  settings$testTimeLimitType,
-  testTimeStarted, 
-  as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset), 
-  totalTimeTaken,
-  T
-)
+testTimeLeft = getTestTimeLeft(T)
 
-templateTimeLimit = getTemplateTimeLimit(
-  testTimeLeft,
-  as.numeric(settings$itemTimeLimit)
-)
+templateTimeLimit = getTemplateTimeLimit(testTimeLeft)
 
 templateResponse = concerto.template.show(
-  settings$itemTemplate, 
+  templateId=settings$itemTemplate, 
+  html=settings$itemTemplateHtml,
   params=params, 
   timeLimit=templateTimeLimit
 )
@@ -68,13 +68,7 @@ templateResponse = concerto.template.show(
 timeTaken = as.numeric(templateResponse$timeTaken)
 totalTimeTaken = totalTimeTaken + timeTaken
 
-testTimeLeft = getTestTimeLeft(
-  settings$testTimeLimitType,
-  testTimeStarted, 
-  as.numeric(settings$testTimeLimit) + as.numeric(settings$testTimeLimitOffset), 
-  totalTimeTaken,
-  F
-)
+testTimeLeft = getTestTimeLeft(F)
 
 .branch = "submitted"
 if(templateResponse$isTimeout == 1) { .branch = "outOfTime" }

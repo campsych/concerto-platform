@@ -55,7 +55,7 @@ function WizardParamDefiner12Controller($scope, uiGridConstants, GridService) {
     importerDataAddCallback: function (gridApi, newObjects) {
       $scope.param.definition.cols = $scope.param.definition.cols.concat(newObjects);
     },
-    enableCellEditOnFocus: true
+    enableCellEditOnFocus: false
   };
 
   $scope.addColumn = function () {

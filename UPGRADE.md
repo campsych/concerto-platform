@@ -1,5 +1,9 @@
 ## 5.0.8
 
+* renamed **cbGroup** column in **CAT** item bank to **trait**
+
+## 5.0.8
+
 * **content_import_options** and **content_export_options** config options now merged as **content_transfer_options**
 * **content_import_options_overridable** and **content_export_options_overridable** config options now merged as **content_transfer_options_overridable**
 

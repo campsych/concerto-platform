@@ -57,7 +57,7 @@ function WizardParamDefiner3Controller($scope, uiGridConstants, AdministrationSe
     importerDataAddCallback: function (gridApi, newObjects) {
       $scope.param.definition.options = $scope.param.definition.options.concat(newObjects);
     },
-    enableCellEditOnFocus: true
+    enableCellEditOnFocus: false
   };
 
   $scope.addOption = function () {

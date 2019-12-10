@@ -1,3 +1,3 @@
 testRunner.controllerProvider.register("page", function($scope) {
-  $scope.buttonLabel = testRunner.R.buttonLabel ? testRunner.R.buttonLabel : "Next";
+  $scope.buttonLabel = testRunner.R.buttonLabel;
 });

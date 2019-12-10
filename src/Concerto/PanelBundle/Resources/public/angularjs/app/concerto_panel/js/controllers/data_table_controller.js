@@ -47,14 +47,20 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         if (!newStructure || newStructure.length === 0)
             return;
 
-        for (var i = 0; i < newStructure.length; i++) {
-            var col = newStructure[i];
-            var colDef = {
+        for (let i = 0; i < newStructure.length; i++) {
+            let col = newStructure[i];
+            let colDef = {
                 field: col.name,
                 displayName: col.name,
                 enableCellEdit: col.name !== "id",
-                type: "string"
+                type: "string",
+                minWidth: 100
             };
+
+            if(col.name === "id") {
+                colDef.minWidth = 75;
+            }
+
             switch (col.type) {
                 case "boolean":
                     colDef.cellTemplate =
@@ -62,6 +68,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         "<input type='checkbox' ng-change='grid.appScope.saveRow(row.entity)' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' />" +
                         "</div>";
                     colDef.enableCellEdit = false;
+                    colDef.minWidth = 50;
                     break;
                 case "date":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
@@ -77,6 +84,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.editTextCell(row.entity, \'' + col.name + '\')" uib-tooltip="{{row.entity.' + col.name + '}}" tooltip-append-to-body="true"></i>' +
                         "</div>";
                     colDef.enableCellEdit = false;
+                    colDef.minWidth = 50;
                     break;
             }
 
@@ -272,7 +280,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         useExternalPagination: true,
         useExternalSorting: true,
         useExternalFiltering: true,
-        enableCellEditOnFocus: true
+        enableCellEditOnFocus: false
     };
 
     $scope.addRow = function () {
@@ -291,8 +299,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
     };
     $scope.saveRow = function (row) {
-        var newRow = angular.copy(row);
-        for (var key in newRow) {
+        let newRow = angular.copy(row);
+        for (let key in newRow) {
             if (key.substring(0, 1) === "$" || key.substring(0, 1) === "_")
                 delete newRow[key];
             if (newRow[key] instanceof Date) {

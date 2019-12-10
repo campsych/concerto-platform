@@ -4,7 +4,14 @@ getSafeItem = function(item, extraFields) {
   item = as.list(item)
 
   if(!is.null(item$responseOptions) && item$responseOptions != "") {
-    if(is.character(item$responseOptions)) { item$responseOptions = fromJSON(item$responseOptions) }
+    if(is.character(item$responseOptions)) { 
+      item$responseOptions = tryCatch({
+        fromJSON(item$responseOptions)
+      }, error = function(message) {
+        concerto.log(message)
+        stop(paste0("item #", item$id, " contains invalid JSON in responseOptions field"))
+      })
+    }
     responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == "1"
     orderedOptions = c()
 
@@ -54,7 +61,7 @@ if(nextItemIndex == 0) {
   cbProps = fromJSON(settings$contentBalancing)
   concerto.log(cbProps, "cbProps")
   if(length(cbProps) > 0) {
-    cbGroup = as.character(items[,"cbGroup"])
+    cbGroup = as.character(items[,"trait"])
     cbControl = list(
       names=NULL,
       props=NULL
