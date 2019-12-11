@@ -96,9 +96,7 @@ class TestVariableService extends ASectionService
         if ($passableThroughUrl !== null) {
             $object->setPassableThroughUrl($passableThroughUrl == 1);
         }
-        if (trim($value) == null) {
-            $value = null;
-        }
+
         $object->setParentVariable($parentVariable);
         $object->setValue($value);
         $object->setTest($test);
