@@ -564,9 +564,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     var port = node.ports[i];
 
                     if (scope.isPortVisible(node, port) && port.type === 0) {
+                        let label = port.name;
+                        if (port.pointer == 1 && port.name != port.pointerVariable) label = port.pointerVariable + " -> " + port.name;
                         var overlayElem = $("<div class='portLabel portLabelInput' " +
                             "ng-class='{\"port-non-default-value\": !usesDefaultValue(collectionService.getPort(" + port.id + "))}'>" +
-                            "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
+                            "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + label + "</span>" +
                             "</div>");
                         overlayElem.appendTo(elemContentLeft);
 
@@ -599,9 +601,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         leftCount++;
                     } else if (scope.isPortVisible(node, port) && port.type === 1) { //return vars
 
+                        let label = port.name;
+                        if (port.pointer == 1 && port.name != port.pointerVariable) label = port.name + " -> " + port.pointerVariable;
+
                         var overlayElem = $(
                             "<div class='portLabel portLabelReturn'>" +
-                            "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
+                            "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + label + "</span>" +
                             "</div>"
                         );
                         overlayElem.appendTo(elemContentRight);

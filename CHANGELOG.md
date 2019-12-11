@@ -22,6 +22,7 @@
 * html argument takes precedence over templateId in **concerto.template.join**
 * data tables can now be scrolled horizontally
 * removed alert on successful object save
+* flow variable pointer name is visible on port label when its value is different than port variable name
 
 ## 5.0.8 (2019-12-03)
 
