@@ -2789,7 +2789,7 @@ collection:
             variable: null
             variableObject: null
             string: '1'
-            defaultValue: '0'
+            defaultValue: '1'
             dynamic: '1'
             type: 0
             exposed: '1'
@@ -2804,7 +2804,7 @@ collection:
             variable: null
             variableObject: null
             string: '1'
-            defaultValue: '0'
+            defaultValue: '1'
             dynamic: '1'
             type: 0
             exposed: '1'
@@ -2819,7 +2819,7 @@ collection:
             variable: null
             variableObject: null
             string: '1'
-            defaultValue: '0'
+            defaultValue: '1'
             dynamic: '1'
             type: 0
             exposed: '1'
@@ -2834,7 +2834,7 @@ collection:
             variable: null
             variableObject: null
             string: '1'
-            defaultValue: '0'
+            defaultValue: '1'
             dynamic: '1'
             type: 0
             exposed: '1'
@@ -6374,7 +6374,7 @@ collection:
           variable: null
           variableObject: null
           string: '1'
-          defaultValue: '0'
+          defaultValue: '1'
           dynamic: '1'
           type: 0
           exposed: '1'
@@ -6424,7 +6424,7 @@ collection:
           variable: null
           variableObject: null
           string: '1'
-          defaultValue: '0'
+          defaultValue: '1'
           dynamic: '1'
           type: 0
           exposed: '1'
@@ -6474,7 +6474,7 @@ collection:
           variable: null
           variableObject: null
           string: '1'
-          defaultValue: '0'
+          defaultValue: '1'
           dynamic: '1'
           type: 0
           exposed: '1'
@@ -6524,7 +6524,7 @@ collection:
           variable: null
           variableObject: null
           string: '1'
-          defaultValue: '0'
+          defaultValue: '1'
           dynamic: '1'
           type: 0
           exposed: '1'
@@ -12496,7 +12496,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 20
       -
@@ -12506,7 +12506,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 21
       -
@@ -12536,7 +12536,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"CATItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9"}}'
+        value: '{"table":"CATItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait"}}'
         test: 16
         parentVariable: 24
       -
@@ -12596,7 +12596,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 30
       -
@@ -12606,7 +12606,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 31
       -
@@ -12636,7 +12636,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 34
       -
@@ -12696,7 +12696,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 40
       -
@@ -12756,7 +12756,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 46
       -
@@ -12876,7 +12876,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: ''
         test: 16
         parentVariable: 58
     sourceWizard: 2
