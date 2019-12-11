@@ -12,12 +12,10 @@ html = concerto.template.join(
 content = fromJSON(content)
 if(length(content) > 0) {
   for(i in 1:length(content)) {
-    pageParam = list()
-    pageParam[[content[[i]]$name]] = concerto.template.join(
+    params[[content[[i]]$name]] = concerto.template.join(
       templateId=content[[i]]$template,
-      html=content[[i]]$templteHtml
+      html=content[[i]]$html
     )
-    html = concerto.template.insertParams(html, pageParam, removeMissing=F)
   }
 }
 
