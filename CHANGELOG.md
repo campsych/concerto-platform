@@ -1,5 +1,9 @@
 ## 5.0.9 (in progress)
 
+#### Features
+
+* data table columns can now be nullable
+
 #### Fixes
 
 * removed redundant data table's data calls

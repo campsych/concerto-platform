@@ -41,6 +41,34 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.datePickerOptions = {};
     $scope.datePickerFormat = "yyyy-MM-dd";
 
+    $scope.toggleFieldNull = function (row, fieldName) {
+        row[fieldName] = row[fieldName] === null ? $scope.getDefaultColumnValue(fieldName) : null;
+        $scope.saveRow(row);
+    };
+
+    $scope.getDefaultColumnValue = function (fieldName) {
+        //no nulls
+
+        let col = null;
+        for (let i = 0; i < $scope.columns.length; i++) {
+            if (fieldName === $scope.columns[i].name) {
+                col = $scope.columns[i];
+            }
+        }
+        if (col === null) return null;
+
+        switch (col.type) {
+            case "boolean":
+                return 0;
+            case "date":
+                return new Date(0);
+            case "datetime":
+                return "1970-01-01 00:00:00";
+            default:
+                return "";
+        }
+    };
+
     $scope.$watchCollection("object.columns", function (newStructure, oldStructure) {
         $scope.dataOptions.columnDefs = [];
         $scope.columns = newStructure;
@@ -57,34 +85,48 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 minWidth: 100
             };
 
-            if(col.name === "id") {
+            if (col.name === "id") {
                 colDef.minWidth = 75;
+            }
+
+            let nullableCb = "";
+            if (col.nullable) {
+                nullableCb = "<input type='checkbox' class='nullable-checkbox' ng-model='row.entity." + col.name + "' ng-true-value='null' ng-click='grid.appScope.toggleFieldNull(row.entity, \"" + col.name + "\")' uib-tooltip='NULL' tooltip-append-to-body='true' />";
             }
 
             switch (col.type) {
                 case "boolean":
                     colDef.cellTemplate =
-                        "<div lass='ui-grid-cell-contents' align='center'>" +
-                        "<input type='checkbox' ng-change='grid.appScope.saveRow(row.entity)' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' />" +
+                        "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
+                        "<input type='checkbox' ng-change='grid.appScope.saveRow(row.entity)' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' style='margin: 0;' />" +
+                        nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;
                     colDef.minWidth = 50;
                     break;
                 case "date":
-                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
+                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
                         "<input type='text' ng-click='row.entity._datepicker_opened=true' ng-model='row.entity." + col.name + "' " +
                         "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity)' style='width:100%;' " +
                         "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
+                        nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;
                     colDef.type = "date";
                     break;
                 case "text":
-                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center'>" +
+                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
                         '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.editTextCell(row.entity, \'' + col.name + '\')" uib-tooltip="{{row.entity.' + col.name + '}}" tooltip-append-to-body="true"></i>' +
+                        nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;
                     colDef.minWidth = 50;
+                    break;
+                default:
+                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
+                        "{{COL_FIELD}}" +
+                        nullableCb +
+                        "</div>";
                     break;
             }
 
@@ -154,6 +196,13 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }, {
                 displayName: Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_TYPE,
                 field: "type"
+            }, {
+                displayName: Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_NULLABLE,
+                field: "nullable",
+                cellTemplate:
+                    "<div class='ui-grid-cell-contents' align='center'>" +
+                    "<i class='glyphicon glyphicon-{{COL_FIELD ? \"ok\" : \"remove\"}}'></i>" +
+                    "</div>"
             }, {
                 displayName: "",
                 name: "_action",

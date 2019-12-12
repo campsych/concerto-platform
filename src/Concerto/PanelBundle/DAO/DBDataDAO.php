@@ -3,6 +3,7 @@
 namespace Concerto\PanelBundle\DAO;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Column;
 
 class DBDataDAO
 {
@@ -110,6 +111,23 @@ class DBDataDAO
 
             $qb->set($k, ":k" . $i)->setParameter(":k" . $i, $v);
         }
+
+        foreach ($cols as $col) {
+            if ($col->getNotnull()) continue;
+            $i++;
+            $found = false;
+            foreach ($values as $k => $v) {
+                if ($k === $col->getName()) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $qb->set($col->getName(), ":k" . $i)->setParameter(":k" . $i, null);
+            }
+        }
+
         $qb->where("$id_field=:id")->setParameter(":id", $row_id)->execute();
         return array();
     }
@@ -118,6 +136,16 @@ class DBDataDAO
     {
         $this->connection->delete($table_name, array("$id_field" => $id));
         return array();
+    }
+
+    public function getColumnDefaultValue(Column $col)
+    {
+        if (!$col->getNotnull()) return null;
+        switch ($col->getType()->getName()) {
+            case "text":
+                return "";
+        }
+        return false;
     }
 
     public function addBlankRow($table_name)
@@ -139,7 +167,10 @@ class DBDataDAO
                 $vals = array();
                 $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
                 foreach ($cols as $col) {
-                    if ($col->getType()->getName() == "text") $vals[$col->getName()] = "";
+                    $defaultValue = $this->getColumnDefaultValue($col);
+                    if ($defaultValue !== false) {
+                        $vals[$col->getName()] = $defaultValue;
+                    }
                 }
 
                 $this->connection->insert($table_name, $vals);

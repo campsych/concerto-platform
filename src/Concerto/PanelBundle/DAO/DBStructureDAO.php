@@ -68,6 +68,8 @@ class DBStructureDAO
             if (array_key_exists($col["type"], self::$type_defaults)) {
                 $options["default"] = self::$type_defaults[$col["type"]];
             }
+            $options["notnull"] = !$col["nullable"];
+
             $table->addColumn($col["name"], $col["type"], $options);
         }
 
@@ -101,7 +103,7 @@ class DBStructureDAO
         $this->connection->getSchemaManager()->alterTable($tableDiff);
     }
 
-    public function saveColumn($table_name, $column_name, $name, $type)
+    public function saveColumn($table_name, $column_name, $name, $type, $nullable = false)
     {
         $options = array();
         if ($type == "string") {
@@ -110,6 +112,7 @@ class DBStructureDAO
         if (array_key_exists($type, self::$type_defaults)) {
             $options["default"] = self::$type_defaults[$type];
         }
+        $options["notnull"] = !$nullable;
 
         $tableDiff = new TableDiff($table_name);
         $newColumn = new Column($name, Type::getType($type), $options);

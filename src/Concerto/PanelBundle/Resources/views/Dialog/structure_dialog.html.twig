@@ -24,6 +24,15 @@
                     </select>
                 {% endblock %}
             {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'structure.form.field.nullable'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'structure.form.field.nullable.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input type="checkbox" ng-model="object.nullable" ng-true-value="true" ng-false-value="false">
+                {% endblock %}
+            {% endembed %}
         {% endblock %}
     {% endembed %}
 </div>

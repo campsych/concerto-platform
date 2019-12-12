@@ -69,6 +69,21 @@ fieldset > legend {
     color: pink;
 }
 
+.ui-grid-cell-contents {
+    position: relative;
+}
+
+.ui-grid-cell-contents .nullable-checkbox {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: pink;
+}
+
+.ui-grid-cell-contents-null {
+    background-color: pink;
+}
+
 .formFloatingBar {
     position: fixed;
     bottom: 25px;

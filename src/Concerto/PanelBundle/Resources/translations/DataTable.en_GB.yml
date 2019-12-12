@@ -34,11 +34,14 @@ structure:
       name.tooltip: Column name
       type: Type
       type.tooltip: Column type
+      nullable: Nullable
+      nullable.tooltip: Can column value have NULL value
       
   list:
     field:
       name: Name
       type: Type
+      nullable: Nullable
     edit: Edit
     add: Add column
     delete: Delete

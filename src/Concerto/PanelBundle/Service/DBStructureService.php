@@ -90,13 +90,13 @@ class DBStructureService
         return array();
     }
 
-    public function saveColumn($table_name, $column_name, $name, $type)
+    public function saveColumn($table_name, $column_name, $name, $type, $nullable = false)
     {
         $errors = $this->validateColumn($table_name, $column_name, $name);
         if (count($errors) > 0) {
             return $errors;
         }
-        $this->dbStructureDao->saveColumn($table_name, $column_name, $name, $type);
+        $this->dbStructureDao->saveColumn($table_name, $column_name, $name, $type, $nullable);
         return array();
     }
 

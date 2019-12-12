@@ -325,7 +325,13 @@ class DataTableController extends AExportableTabController
         }
 
         try {
-            $errors = $this->service->saveColumn($table_id, $column_name, $request->get("name"), $request->get("type"));
+            $errors = $this->service->saveColumn(
+                $table_id,
+                $column_name,
+                $request->get("name"),
+                $request->get("type"),
+                $request->get("nullable")
+            );
             $errors = $this->trans($errors);
             $response = new Response(json_encode(array("result" => count($errors) > 0 ? 1 : 0, "errors" => $errors)));
         } catch (DAOUnsupportedOperationException $exc) {

@@ -35,11 +35,14 @@ structure:
       name.tooltip: Nazwa kolumny
       type: Typ
       type.tooltip: Typ kolumny
+      nullable: Nullable
+      nullable.tooltip: Czy wartość kolumny może być NULL
       
   list:
     field:
       name: Nazwa
       type: Typ
+      nullable: Nullable
     edit: Edytuj
     add: Dodaj kolumnę
     delete: Usuń
