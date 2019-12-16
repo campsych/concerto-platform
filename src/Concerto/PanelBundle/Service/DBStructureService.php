@@ -48,7 +48,7 @@ class DBStructureService
         if (count($errors) > 0) {
             return $errors;
         }
-        $this->dbStructureDao->createTable($table_name, array(array("name" => "temp", "type" => "text")), array());
+        $this->dbStructureDao->createTable($table_name, array(array("name" => "temp", "type" => "text", "nullable" => false)), array());
         return $errors;
     }
 

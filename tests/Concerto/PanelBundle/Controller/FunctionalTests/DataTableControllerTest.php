@@ -35,7 +35,9 @@ class DataTableControllerTest extends AFunctionalTest
             "description" => "table description",
             "accessibility" => 0
         ));
-        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $errorMsg = $client->getResponse()->isSuccessful() ? "" : $client->getCrawler()->filter("title")->text();
+        $this->assertTrue($client->getResponse()->isSuccessful(), $errorMsg);
         $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(0, $content["result"]);
 
