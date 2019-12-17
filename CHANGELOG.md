@@ -14,6 +14,7 @@
 
 #### Starter content
 
+* added **scoring** node
 * added minAccuracyMinItems stopping rule to **CAT**
 * execution no longer is halted when can't satisfy CB rules in **CAT**
 * added more descriptive error message when parsing responseOptions JSON fails in **CAT**
