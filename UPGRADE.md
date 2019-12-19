@@ -1,6 +1,7 @@
-## 5.0.8
+## 5.0.9
 
 * renamed **cbGroup** column in **CAT** item bank to **trait**
+* **assessment** node replaces **CAT** and **linearTest**
 
 ## 5.0.8
 

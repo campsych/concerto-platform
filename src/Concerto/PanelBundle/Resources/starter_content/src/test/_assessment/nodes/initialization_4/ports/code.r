@@ -35,7 +35,7 @@ getIndicedColumnsSql = function(firstColumnName, num, aliasPrefix) {
 convertFromFlat = function(items, responseColumnsNum) {
   itemsNum = dim(items)[1]
   if(itemsNum == 0) { return(items) }
-  
+
   defaultScore = 0
   defaultPainMannequinGender = "male"
   defaultGracelyScaleShow = "both"
@@ -56,10 +56,11 @@ convertFromFlat = function(items, responseColumnsNum) {
     for(j in 1:responseColumnsNum) {
       scoreMap[[j]] = list(
         score=item[[paste0("responseScore",j)]],
-        value=item[[paste0("responseValue",j)]]
+        value=item[[paste0("responseValue",j)]],
+        trait=item[[paste0("responseTrait",j)]]
       )
     }
-    
+
     responseOptions = list(
       type=item$type,
       optionsRandomOrder=item$optionsRandomOrder,
@@ -69,7 +70,7 @@ convertFromFlat = function(items, responseColumnsNum) {
       scoreMap=scoreMap,
       defaultScore=defaultScore
     )
-    
+
     if(is.null(responseOptions$painMannequinGender)) { 
       responseOptions$painMannequinGender = defaultPainMannequinGender
     }
@@ -212,70 +213,93 @@ FROM {{table}}
   }
 
   if(dim(items)[1] == 0) { stop("Item bank must not be empty!") }
+
+  if(settings$order == "manual") {
+    items = items[order(items$fixedIndex),]
+  }
+  if(settings$order == "random") {
+    items = items[sample(1:dim(items)[1]),]
+  }
+
   return(items)
 }
 
 paramsNum = as.numeric(settings$itemParamsNum)
-items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankFlatTable, settings$itemBankTableExtraFields, paramsNum)
-itemsNum = dim(items)[1]
-
-paramBank = items[, paste0("p", 1:paramsNum), drop=F]
-paramBank = apply(paramBank, 2, as.numeric)
-if(is.vector(paramBank)) { 
-  paramBank = rbind(paramBank)
-}
-
 theta = as.numeric(settings$startingTheta)
 itemsAdministered = NULL
 testTimeStarted = as.numeric(Sys.time())
 totalTimeTaken = 0
-resumedItemIndex = 0
+resumedItemsIds = NULL
+direction = 1
+page = 0
+scores = NULL
+responses = NULL
+
+state = list(
+  testTimeStarted = testTimeStarted,
+  nextItemsIds = NULL,
+  page = 0
+)
+
+items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankFlatTable, settings$itemBankTableExtraFields, paramsNum)
+itemsNum = dim(items)[1]
 
 if(settings$sessionResuming == 1) {
   #get response data
   sessionTable = fromJSON(settings$sessionTable)
+  resumedState = session[[sessionTable$columns$state]]
+  if(!is.na(resumedState)) {
+    state = fromJSON(resumedState)
+    
+    direction = 0
+    page = state$page
 
-  sessionTestTimeStarted = as.numeric(session[[sessionTable$columns$testTimeStarted]])
-  if(sessionTestTimeStarted != 0) {
-    testTimeStarted = sessionTestTimeStarted
-  }
-  resumedItemId = session[[sessionTable$columns$nextItem_id]]
-  resumedItemIndex = as.numeric(rownames(items[items$id == resumedItemId,]))
-  if(length(resumedItemIndex ) == 0) { 
-    resumedItemIndex = 0
-  }
+    sessionTestTimeStarted = as.numeric(state$testTimeStarted)
+    if(sessionTestTimeStarted != 0) {
+      testTimeStarted = sessionTestTimeStarted
+    }
 
-  responseTable = fromJSON(settings$responseBank)
-  responses = concerto.table.query("
+    responseTable = fromJSON(settings$responseBank)
+    responsesRecords = concerto.table.query("
 SELECT id, 
 {{scoreCol}} AS score, 
 {{timeTakenCol}} AS timeTaken,
-{{itemIdCol}} AS item_id
+{{itemIdCol}} AS item_id,
+{{responseCol}} AS response
 FROM {{table}} 
 WHERE {{sessionIdCol}}={{sessionId}}", params=list(
   scoreCol = responseTable$columns$score,
   timeTakenCol = responseTable$columns$timeTaken,
   itemIdCol = responseTable$columns$item_id,
+  responseCol = responseTable$columns$response,
   table = responseTable$table,
   sessionIdCol = responseTable$columns$session_id,
   sessionId = session$id
 ))
 
-  totalTimeTaken = sum(responses[,"timeTaken"])
-  itemsAdministered = as.numeric(rownames(items[items[,"id"] %in% responses[,"item_id"],]))
-  if(length(itemsAdministered) == 0) {
-    itemsAdministered = NULL
+    itemsAnswered = items[items[,"id"] %in% responsesRecords[,"item_id"],]
+    if(dim(itemsAnswered)[1] > 0) {
+      itemsLeft = items[-as.numeric(rownames(itemsAnswered)),]
+      items = rbind(itemsAnswered, itemsLeft)
+    }
+    
+    resumedItemsIds = state$nextItemsIds
+    if(length(resumedItemsIds) == 0) { 
+      resumedItemsIds = NULL
+    }
+    
+    totalTimeTaken = sum(responsesRecords[,"timeTaken"])
+    itemsAdministered = which(items[,"id"] %in% responsesRecords[,"item_id"])
+    if(length(itemsAdministered) == 0) {
+      itemsAdministered = NULL
+    }
+    scores = responsesRecords[,"score"]
+    responses = responsesRecords[,"response"]
   }
-  scores = responses[,"score"]
+}
 
-  #save test time started
-  concerto.table.query("
-UPDATE {{table}} 
-SET {{testTimeStartedCol}}={{testTimeStarted}} 
-WHERE id={{id}}", params=list(
-  table = sessionTable$table,
-  testTimeStartedCol = sessionTable$columns$testTimeStarted,
-  testTimeStarted = testTimeStarted,
-  id = session$id
-))
+paramBank = items[, paste0("p", 1:paramsNum), drop=F]
+paramBank = apply(paramBank, 2, as.numeric)
+if(is.vector(paramBank)) { 
+  paramBank = rbind(paramBank)
 }

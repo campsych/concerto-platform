@@ -6,22 +6,29 @@ isOutOfTime = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullR
   return(F)
 }
 
-getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsAdministered, itemsNum, sem) {
+getBranch = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsNum) {
   outOfTime = isOutOfTime(
     testTimeLimit, 
     testTimeLeft,
     itemTimeLimit, 
     itemTimeFullRequired
   )
-  
+
   if(outOfTime) {
     concerto.log("time out", "test status")
     return("stop")
   }
 
+  maxItems = dim(items)[1]
+  itemNumLimit = as.numeric(settings$itemNumLimit)
+  if(itemNumLimit > 0) { maxItems = min(maxItems, itemNumLimit) }
+  totalPages = ceiling(maxItems / as.numeric(settings$itemsPerPage))
+
   if(itemNumLimit > 0 && length(itemsAdministered) >= itemNumLimit || length(itemsAdministered) >= itemsNum) {
-    concerto.log("maximum items reached", "test status")
-    return("stop")
+    if(direction > 0 && totalPages == page) {
+      concerto.log("maximum items reached", "test status")
+      return("stop")
+    }
   }
 
   if(minAccuracy != 0 && minAccuracy >= sem && minAccuracyMinItems <= length(itemsAdministered)) {
@@ -34,13 +41,10 @@ getBranch = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullReq
 
 .branch = getBranch(
   as.numeric(settings$testTimeLimit),
-  testTimeLeft,
   as.numeric(settings$itemTimeLimit), 
   settings$itemTimeFullRequired == "1", 
   as.numeric(settings$itemNumLimit), 
   as.numeric(settings$minAccuracy), 
-  as.numeric(settings$minAccuracyMinItems), 
-  itemsAdministered, 
-  dim(items)[1], 
-  sem
+  as.numeric(settings$minAccuracyMinItems),
+  dim(items)[1]
 )

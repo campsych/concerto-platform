@@ -1,5 +1,11 @@
 getTemplateParams = function() {
-  templateParams$items = data.frame(itemSafe)
+  canGoBack = if(settings$order != "cat" && settings$canGoBack == "1" && page > 1) { 1 } else { 0 }
+  maxItems = dim(items)[1]
+  itemNumLimit = as.numeric(settings$itemNumLimit)
+  if(itemNumLimit > 0) { maxItems = min(maxItems, itemNumLimit) }
+  totalPages = ceiling(maxItems / as.numeric(settings$itemsPerPage))
+
+  templateParams$items = data.frame(itemsSafe)
   templateParams$responseRequired = settings$responseRequired
   templateParams$responseRequiredAlert = settings$responseRequiredAlert
   templateParams$footer = settings$footer
@@ -7,6 +13,13 @@ getTemplateParams = function() {
   templateParams$logo = settings$logo
   templateParams$nextButtonLabel = settings$nextButtonLabel
   templateParams$title = settings$title
+  
+  templateParams$canGoBack = canGoBack
+  templateParams$responses = responsesSafe
+  if(settings$minAccuracy != 0) {
+    templateParams$page = page
+    templateParams$totalPages = totalPages
+  }
 
   return(templateParams)
 }
@@ -47,7 +60,7 @@ if(!concerto.template.isResponseQueued()) {
   if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModule != "") {
     params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
       params = params,
-      item = item,
+      items = items[itemsIndices,],
       itemsAdministered = itemsAdministered,
       settings=settings
     ))$params
@@ -55,8 +68,24 @@ if(!concerto.template.isResponseQueued()) {
 }
 
 testTimeLeft = getTestTimeLeft(T)
-
 templateTimeLimit = getTemplateTimeLimit(testTimeLeft)
+
+#save state
+if(settings$sessionResuming == 1) {
+  state$nextItemsIds = items[itemsIndices, "id"]
+  state$page = page
+
+  sessionTable = fromJSON(settings$sessionTable)
+  concerto.table.query("
+UPDATE {{table}} 
+SET {{stateCol}}='{{resumeState}}'
+WHERE id={{id}}", params=list(
+  table = sessionTable$table,
+  stateCol = sessionTable$columns$state,
+  resumeState = toJSON(state),
+  id = session$id
+))
+}
 
 templateResponse = concerto.template.show(
   templateId=settings$itemTemplate, 
