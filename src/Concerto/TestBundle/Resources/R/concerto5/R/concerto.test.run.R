@@ -102,7 +102,7 @@ function(testId, params=list(), extraReturns=c()) {
 
         if (dim(test$variables)[1] > 0) {
             for (i in 1 : dim(test$variables)[1]) {
-                if (test$variables[i, "type"] != 1) { next}
+                if (test$variables[i, "type"] != 1) { next }
                 if (exists(test$variables[i, "name"], envir = testenv)) {
                     r[[test$variables[i, "name"]]] <- get(test$variables[i, "name"], envir = testenv)
                 } else if (!is.null(test$variables[i, "value"])) {
@@ -358,16 +358,18 @@ function(testId, params=list(), extraReturns=c()) {
             concerto$flow[[flowIndex]]$nextNode <<- NULL
             r = runNode(node)
         }
-    }
-    if(length(extraReturns) > 0) {
-        for (i in 1 : length(extraReturns)) {
-            name = extraReturns[i]
-            val = c.get(name)
-            if (is.null(r[[name]]) && !is.null(val)) {
-                r[name] = list(val)
+
+        if(length(extraReturns) > 0) {
+            for (i in 1 : length(extraReturns)) {
+                name = extraReturns[i]
+                val = c.get(name)
+                if (is.null(r[[name]]) && !is.null(val)) {
+                    r[name] = list(val)
+                }
             }
         }
     }
+
     concerto$flow[[flowIndex]] <<- NULL
     concerto$flowIndex <<- length(concerto$flow)
 

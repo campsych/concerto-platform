@@ -11,6 +11,7 @@
 * data tables can now scroll horizontally
 * cell editing focus loss fixed
 * fixed list download/upload on column map definer
+* fixed ports value for NULLs
 
 #### Starter content
 
