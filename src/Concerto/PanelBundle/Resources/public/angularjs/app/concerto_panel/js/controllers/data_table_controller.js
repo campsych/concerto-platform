@@ -561,7 +561,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         });
     };
     $scope.importCsv = function () {
-        var modalInstance = $uibModal.open({
+        let modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "import_csv_dialog.html",
             controller: DataTableImportCsvController,
             size: "lg",
@@ -579,6 +579,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         modalInstance.result.then(function (response) {
             $scope.setWorkingCopyObject();
             $scope.fetchAllCollections();
+
+            //below will be called twice if structure changed too - fix it
+            $scope.fetchDataCollection($scope.object.id);
         }, function (dirty) {
             if (dirty === true) {
                 $scope.setWorkingCopyObject();
