@@ -76,7 +76,8 @@ score = switch(scoreType,
                "percentileRanges" = getPercentileRange(),
                "percentileRangesTable" = getPercentileRange(),
                "custom" = eval(parse(text=customScoreFormula)),
-               score
+               "rawScore" = rawScore,
+               rawScore
               )
 
 feedback = NULL

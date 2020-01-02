@@ -143,11 +143,11 @@ FROM {{table}}
     optionsRandomOrderColumn = tableMap$columns$optionsRandomOrder
 
     gracelyScaleShowSql = ""
-    if(!is.null(gracelyScaleShowColumn) && !is.na(gracelyScaleShowColumn)) { gracelyScaleShowSql = "{{gracelyScaleShowColumn}} AS gracelyScaleShow," }
+    if(!is.null(gracelyScaleShowColumn) && !is.na(gracelyScaleShowColumn) && gracelyScaleShowColumn != "") { gracelyScaleShowSql = "{{gracelyScaleShowColumn}} AS gracelyScaleShow," }
     painMannequinGenderSql = ""
-    if(!is.null(painMannequinGenderColumn) && !is.na(painMannequinGenderColumn)) { painMannequinGenderSql = "{{painMannequinGenderColumn}} AS painMannequinGender," }
+    if(!is.null(painMannequinGenderColumn) && !is.na(painMannequinGenderColumn) && painMannequinGenderColumn != "") { painMannequinGenderSql = "{{painMannequinGenderColumn}} AS painMannequinGender," }
     optionsRandomOrderSql = ""
-    if(!is.null(optionsRandomOrderColumn) && !is.na(optionsRandomOrderColumn)) { optionsRandomOrderSql = "{{optionsRandomOrderColumn}} AS optionsRandomOrder," }
+    if(!is.null(optionsRandomOrderColumn) && !is.na(optionsRandomOrderColumn) && optionsRandomOrderColumn != "") { optionsRandomOrderSql = "{{optionsRandomOrderColumn}} AS optionsRandomOrder," }
     extraFieldsSql = getExtraFieldsSql(extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
     responseColumnsNum = getFlatResponseColumnsNum(table, responseValue1Column)

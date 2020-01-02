@@ -10278,7 +10278,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score"}}'
+        value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score","trait":"trait"}}'
         test: 15
         parentVariable: 48
       -
@@ -13035,6 +13035,24 @@ collection:
           -
             class_name: TestWizardParam
             id: 82
+            label: Mean
+            description: ''
+            hideCondition: 'values.scoreType == "percentileRanges" || values.scoreType == "percentileRangesTable" || values.scoreType == "custom" || values.scoreType == "rawScore"'
+            type: 0
+            passableThroughUrl: '0'
+            value: '0'
+            testVariable: 283
+            name: mean
+            wizardStep: 19
+            stepTitle: Score
+            order: 1
+            wizard: 13
+            definition:
+              defvalue: '0'
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 83
             label: 'Percentile Ranges'
             description: ''
             hideCondition: 'values.scoreType != "percentileRanges"'
@@ -13073,7 +13091,7 @@ collection:
                   placeholder: 0
           -
             class_name: TestWizardParam
-            id: 83
+            id: 84
             label: 'Percentile Ranges Table'
             description: ''
             hideCondition: 'values.scoreType != "percentileRangesTable"'
@@ -13103,13 +13121,13 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 84
+            id: 85
             label: 'Score Formula'
             description: ''
             hideCondition: 'values.scoreType != "custom"'
             type: 11
             passableThroughUrl: '0'
-            value: ''
+            value: rawScore
             testVariable: 278
             name: customScoreFormula
             wizardStep: 19
@@ -13117,11 +13135,11 @@ collection:
             order: 1
             wizard: 13
             definition:
-              defvalue: ''
+              defvalue: rawScore
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 85
+            id: 86
             label: 'Score Type'
             description: ''
             hideCondition: ''
@@ -13178,6 +13196,24 @@ collection:
                   value: percentileRangesTable
               defvalue: rawScore
               placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 87
+            label: 'Standard Deviation'
+            description: ''
+            hideCondition: 'values.scoreType == "percentileRanges" || values.scoreType == "percentileRangesTable" || values.scoreType == "custom" || values.scoreType == "rawScore"'
+            type: 0
+            passableThroughUrl: '0'
+            value: '0'
+            testVariable: 290
+            name: sd
+            wizardStep: 19
+            stepTitle: Score
+            order: 1
+            wizard: 13
+            definition:
+              defvalue: '0'
+              placeholder: 0
       -
         class_name: TestWizardStep
         id: 20
@@ -13189,7 +13225,7 @@ collection:
         params:
           -
             class_name: TestWizardParam
-            id: 86
+            id: 88
             label: Ranges
             description: ''
             hideCondition: 'values.feedbackType != "ranges"'
@@ -13228,7 +13264,7 @@ collection:
                   placeholder: 0
           -
             class_name: TestWizardParam
-            id: 87
+            id: 89
             label: 'Ranges (table)'
             description: ''
             hideCondition: 'values.feedbackType != "rangesTable"'
@@ -13258,7 +13294,7 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 88
+            id: 90
             label: Type
             description: ''
             hideCondition: ''
@@ -13305,7 +13341,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: ''
+        value: rawScore
         test: 31
         parentVariable: 278
       -
@@ -13355,7 +13391,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 31
         parentVariable: 283
       -
@@ -13415,7 +13451,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: zScore
+        value: rawScore
         test: 31
         parentVariable: 289
       -
@@ -13425,7 +13461,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: '0'
         test: 31
         parentVariable: 290
     sourceWizard: 13

@@ -9,7 +9,7 @@ getTemplateParams = function() {
   templateParams$instructions = instructions
   templateParams$buttonLabel = buttonLabel
   templateParams$footer = footer
-  
+
   for(name in .dynamicInputs) {
     templateParams[[name]] = get(name)
   }
@@ -23,7 +23,9 @@ response = concerto5:::concerto.template.show(
 )
 
 for(.name in .dynamicReturns) {
-  assign(.name, response[[.name]])
+  if(!is.null(response[[.name]])) {
+    assign(.name, response[[.name]])
+  }
 }
 if(".branch" %in% .dynamicReturns) {
   .branch = response$buttonPressed
