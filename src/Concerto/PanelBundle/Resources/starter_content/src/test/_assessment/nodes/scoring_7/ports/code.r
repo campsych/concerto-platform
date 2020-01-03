@@ -51,7 +51,6 @@ getTraits = function(item, value) {
       sm = responseOptions$scoreMap[[j]]
       if(sm$value == value) {
         responseTrait = trimws(sm$trait)
-        concerto.log(responseTrait, "responseTrait")
 
         if(!is.na(responseTrait) && length(responseTrait) > 0 && responseTrait != "") {
           traits = strsplit(responseTrait,",")[[1]]
@@ -77,7 +76,7 @@ calculateTraitScores = function(itemsAdministered, responses) {
     itemIndex = itemsAdministered[i]
     value = responses[i]
     item = items[itemIndex,]
-
+    score = getScore(item, value)
     traitList = getTraits(item, value)
 
     #sum scores
@@ -132,3 +131,4 @@ if(!is.na(settings$calculateSem) && settings$calculateSem == 1) {
 }
 
 traitScores = calculateTraitScores(itemsAdministered, responses)
+concerto.log(traitScores, "traitScores")

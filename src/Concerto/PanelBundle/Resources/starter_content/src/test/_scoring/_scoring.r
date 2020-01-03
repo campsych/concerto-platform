@@ -1,5 +1,5 @@
 getZ = function() {
-  return((rawScore-mean)/sd)
+  return((as.numeric(rawScore) - as.numeric(mean)) / as.numeric(sd))
 }
 
 getT = function(z) {
@@ -57,8 +57,8 @@ FROM {{table}}"
       range = ranges[i,]
       range$lowerBound = as.numeric(range$lowerBound)
       range$upperBound = as.numeric(range$upperBound)
-      if(!is.na(range$lowerBound) && range$lowerBound > rawScore) { next }
-      if(!is.na(range$upperBound) && range$upperBound <= rawScore) { next }
+      if(!is.na(range$lowerBound) && range$lowerBound > as.numeric(rawScore)) { next }
+      if(!is.na(range$upperBound) && range$upperBound <= as.numeric(rawScore)) { next }
       score = as.numeric(range$score)
     }
   }
@@ -76,8 +76,8 @@ score = switch(scoreType,
                "percentileRanges" = getPercentileRange(),
                "percentileRangesTable" = getPercentileRange(),
                "custom" = eval(parse(text=customScoreFormula)),
-               "rawScore" = rawScore,
-               rawScore
+               "rawScore" = as.numeric(rawScore),
+               as.numeric(rawScore)
               )
 
 feedback = NULL

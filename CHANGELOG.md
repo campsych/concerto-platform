@@ -17,11 +17,13 @@
 
 * added **scoring** node
 * added **assessment** node (replaces **CAT** and **linearTest**)
+* added **saveData** node
 * added minAccuracyMinItems stopping rule to **CAT**
 * execution no longer is halted when can't satisfy CB rules in **CAT**
 * added more descriptive error message when parsing responseOptions JSON fails in **CAT**
 * renamed **cbGroup** column in **CAT** item bank to **trait**
 * default template inserts exposed as wizard params in **CAT**, **form** and **showPage**
+* can now use use dynamic return ports to return values of input ports in **form** and **assessment**
 
 #### Improvements
 
@@ -30,6 +32,7 @@
 * data tables can now be scrolled horizontally
 * removed alert on successful object save
 * flow variable pointer name is visible on port label when its value is different than port variable name
+* ports receiving value from data connection can now use default value if passed value is NULL
 
 ## 5.0.8 (2019-12-03)
 

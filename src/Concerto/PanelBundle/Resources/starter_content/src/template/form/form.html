@@ -11,7 +11,8 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
-			<div class="instructions" ng-bind-html="instructions" ng-if="instructions">
+			<div class="instructions" ng-if="instructions">
+				{{instructions}}
 			</div>
 
 			<form name="form">
@@ -37,7 +38,7 @@
 
 				<div class="question-footer">
 					<button class="main-btn right-btn" id="submitButton" name="submit" ng-disabled="form.$invalid">
-						[[buttonLabel]]
+						{{buttonLabel}}
 					</button>
 				</div>
 			</form>

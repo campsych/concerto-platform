@@ -8,8 +8,8 @@ testRunner.controllerProvider.register("test", function ($scope) {
   $scope.totalPages = testRunner.R.totalPages;
   $scope.pastResponses = testRunner.R.responses;
   $scope.responses = {};
-  $scope.nextButtonLabel = testRunner.R.nextButtonLabel ? testRunner.R.nextButtonLabel : "Next";
-  $scope.backButtonLabel = testRunner.R.backButtonLabel ? testRunner.R.backButtonLabel : "Back";
+  $scope.nextButtonLabel = testRunner.R.nextButtonLabel;
+  $scope.backButtonLabel = testRunner.R.backButtonLabel;
 
   if ($scope.pastResponses) {
     for (var i = 0; i < $scope.pastResponses.length; i++) {

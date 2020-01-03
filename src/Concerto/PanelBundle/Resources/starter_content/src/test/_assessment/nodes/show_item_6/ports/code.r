@@ -16,7 +16,7 @@ getTemplateParams = function() {
   
   templateParams$canGoBack = canGoBack
   templateParams$responses = responsesSafe
-  if(settings$minAccuracy != 0) {
+  if(settings$order != "cat" || settings$minAccuracy == 0) {
     templateParams$page = page
     templateParams$totalPages = totalPages
   }
@@ -62,7 +62,11 @@ if(!concerto.template.isResponseQueued()) {
       params = params,
       items = items[itemsIndices,],
       itemsAdministered = itemsAdministered,
-      settings=settings
+      settings=settings,
+      theta=theta,
+      sem=sem,
+      scores=scores,
+      traitScores=traitScores
     ))$params
   }
 }

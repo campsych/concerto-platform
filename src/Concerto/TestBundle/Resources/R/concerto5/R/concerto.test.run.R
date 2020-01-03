@@ -136,29 +136,41 @@ function(testId, params=list(), extraReturns=c()) {
                     return(pointerValue)
                 }
             } else {
-                port_connected = FALSE
                 for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
                     connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
                     if (!is.na(connection$destinationPort_id) && connection$destinationPort_id == port$id) {
-                        port_connected = TRUE
+                        srcPort = concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]
+                        dstPort = concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]
 
                         #check for getter node
-                        source_node = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
-                        if (isGetterNode(source_node)) {
+                        srcNode = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
+                        if (isGetterNode(srcNode)) {
                             #getters shouldn't be resumable
-                            runNode(source_node)
+                            runNode(srcNode)
                             port = concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]
                             value = port$value
                         }
+
+                        func = paste0("retFunc = function(", srcPort$name, "){ ", connection$returnFunction, " }")
+                        sanitizedCode = concerto.test.sanitizeSource(func)
+                        eval(parse(text = sanitizedCode))
+                        concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(srcPort$value)
+                        value = concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value
+
+                        if (!is.null(value)) {
+                            return(value)
+                        }
+
                         break
                     }
                 }
-
-                if (port_connected) {
-                    return(value)
-                }
             }
 
+            return(getPortDefaultValue(port, inserts))
+        }
+
+        getPortDefaultValue = function(port, inserts = list()) {
+            value = port$value
             if (port$string == 0) {
                 portEnv = new.env()
                 for(insertName in ls(inserts)) {
@@ -293,19 +305,6 @@ function(testId, params=list(), extraReturns=c()) {
                 }
             }
 
-            #values connections
-            return_type = 1
-            for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
-                connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
-                if (connection$sourceNode_id != node$id) { next }
-                if (is.na(connection$sourcePort_id)) { next }
-                if (concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$type != return_type) { next }
-
-                func = paste0("retFunc = function(", concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$name, "){ ", connection$returnFunction, " }")
-                sanitizedCode = concerto.test.sanitizeSource(func)
-                eval(parse(text = sanitizedCode))
-                concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]$value)
-            }
             return(r)
         }
 

@@ -8,7 +8,8 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
-			<div class="instructions" ng-bind-html="instructions" ng-if="instructions">
+			<div class="instructions" ng-if="instructions">
+				{{instructions}}
 			</div>
 
 			<form autocomplete="off" name="form">
@@ -26,19 +27,19 @@
 					</div>
 
 					<div class="form-error" ng-show="form.response.$error.required && form.response.$dirty">
-						[[responseRequiredAlert]]
+						{{responseRequiredAlert}}
 					</div>
 				</div>
 
 				<div class="question-footer">
 					<button class="main-btn left-btn" name="back" ng-show="canGoBack">
-						[[backButtonLabel]]
+						{{backButtonLabel}}
 					</button>
 					<div class="question-page" ng-show="page != null && totalPages != null">
 						Page [[page]] / [[totalPages]]
 					</div>
 					<button class="main-btn right-btn" id="submitButton" name="next" ng-disabled="form.$invalid">
-						[[nextButtonLabel]]
+						{{nextButtonLabel}}
 					</button>
 				</div>
 			</form>
