@@ -18,6 +18,7 @@
 * added **scoring** node
 * added **assessment** node (replaces **CAT** and **linearTest**)
 * added **saveData** node
+* added **finishSession** node
 * added minAccuracyMinItems stopping rule to **CAT**
 * execution no longer is halted when can't satisfy CB rules in **CAT**
 * added more descriptive error message when parsing responseOptions JSON fails in **CAT**

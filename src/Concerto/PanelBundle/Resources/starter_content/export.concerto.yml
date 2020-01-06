@@ -14022,3 +14022,165 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
+  -
+    class_name: Test
+    id: 34
+    name: _finishSession
+    accessibility: 2
+    archived: '0'
+    visibility: 2
+    type: 0
+    code: null
+    description: ''
+    variables:
+      -
+        class_name: TestVariable
+        id: 316
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 34
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 317
+        name: session
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 34
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 318
+        name: session
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 34
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 319
+        name: sessionBankTable
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 34
+        parentVariable: null
+    sourceWizard: null
+    sourceWizardTest: null
+    nodes: {  }
+    nodesConnections: {  }
+    tags: ''
+    groups: ''
+    starterContent: true
+  -
+    class_name: TestWizard
+    id: 15
+    name: finishSession
+    description: ''
+    accessibility: 2
+    archived: '0'
+    steps:
+      -
+        class_name: TestWizardStep
+        id: 22
+        title: Session
+        description: ''
+        orderNum: 0
+        colsNum: 0
+        wizard: 15
+        params:
+          -
+            class_name: TestWizardParam
+            id: 94
+            label: Table
+            description: ''
+            hideCondition: ''
+            type: 12
+            passableThroughUrl: '0'
+            value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
+            testVariable: 319
+            name: sessionBankTable
+            wizardStep: 22
+            stepTitle: Session
+            order: 0
+            wizard: 15
+            definition:
+              cols:
+                -
+                  name: finished
+                  label: Finished
+                  tooltip: ''
+                -
+                  name: updateTime
+                  label: updateTime
+                  tooltip: ''
+              placeholder: 0
+    test: 34
+    groups: ''
+    starterContent: true
+  -
+    class_name: Test
+    id: 35
+    name: finishSession
+    accessibility: 2
+    archived: '0'
+    visibility: 2
+    type: 1
+    code: ''
+    description: ''
+    variables:
+      -
+        class_name: TestVariable
+        id: 320
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 35
+        parentVariable: 316
+      -
+        class_name: TestVariable
+        id: 321
+        name: session
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 35
+        parentVariable: 317
+      -
+        class_name: TestVariable
+        id: 322
+        name: session
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 35
+        parentVariable: 318
+      -
+        class_name: TestVariable
+        id: 323
+        name: sessionBankTable
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
+        test: 35
+        parentVariable: 319
+    sourceWizard: 15
+    sourceWizardTest: 34
+    nodes: {  }
+    nodesConnections: {  }
+    tags: _concerto_core
+    groups: ''
+    starterContent: true
