@@ -16,6 +16,8 @@ getTemplateParams = function() {
   
   templateParams$canGoBack = canGoBack
   templateParams$responses = responsesSafe
+  templateParams$backButtonLabel = settings$backButtonLabel
+  templateParams$showPageInfo = settings$showPageInfo
   if(settings$order != "cat" || settings$minAccuracy == 0) {
     templateParams$page = page
     templateParams$totalPages = totalPages

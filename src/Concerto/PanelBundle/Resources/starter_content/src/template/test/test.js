@@ -10,6 +10,7 @@ testRunner.controllerProvider.register("test", function ($scope) {
   $scope.responses = {};
   $scope.nextButtonLabel = testRunner.R.nextButtonLabel;
   $scope.backButtonLabel = testRunner.R.backButtonLabel;
+  $scope.showPageInfo = testRunner.R.showPageInfo == 1;
 
   if ($scope.pastResponses) {
     for (var i = 0; i < $scope.pastResponses.length; i++) {
