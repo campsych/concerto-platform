@@ -3,6 +3,7 @@
 #### Starter content
 
 * pain mannequin item type selection can now be multiple or single per body part
+* when setting NULL values in dataManipulation - defaults used
 
 #### Improvements
 

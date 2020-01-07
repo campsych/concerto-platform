@@ -2,6 +2,7 @@ getWhereClause = function(whereClause, queryType) {
   if((is.na(whereClause) || whereClause == "") && queryType != "update") {
     .elems = NULL
     for(.name in .dynamicInputs) {
+      if(is.null(get(.name))) { next }
       .elem = concerto.table.insertParams("{{name}}='{{value}}'", list(
         name=.name,
         value=get(.name)
@@ -35,6 +36,7 @@ getSetClause = function(setClause, queryType) {
       .cols = NULL
       .vals = NULL
       for(.name in .dynamicInputs) {
+        if(is.null(get(.name))) { next }
         .cols = c(.cols, .name)
         .val = concerto.table.insertParams("'{{value}}'", list(
           value=get(.name)
@@ -49,6 +51,7 @@ getSetClause = function(setClause, queryType) {
     } else {
       .elems = NULL
       for(.name in .dynamicInputs) {
+        if(is.null(get(.name))) { next }
         .elem = concerto.table.insertParams("{{name}}='{{value}}'", list(
           name=.name,
           value=get(.name)
