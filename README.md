@@ -11,3 +11,4 @@ Quick reference
 * Docker Hub: [https://hub.docker.com/r/campsych/concerto-platform](https://hub.docker.com/r/campsych/concerto-platform)
 * Source code: [https://github.com/campsych/concerto-platform](https://github.com/campsych/concerto-platform)
 * Changelog: [https://github.com/campsych/concerto-platform/blob/master/CHANGELOG.md](https://github.com/campsych/concerto-platform/blob/master/CHANGELOG.md)
+* Upgrade: [https://github.com/campsych/concerto-platform/blob/master/UPGRADE.md](https://github.com/campsych/concerto-platform/blob/master/UPGRADE.md)
