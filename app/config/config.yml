@@ -1,5 +1,5 @@
 parameters:
-    version: "5.0.9"
+    version: "5.0.10"
     available_locales:
         en_GB: english
         zh_CN: 中文

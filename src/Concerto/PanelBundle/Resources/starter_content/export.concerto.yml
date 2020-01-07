@@ -8992,6 +8992,10 @@ collection:
                   name: optionsRandomOrder
                   label: 'Options Random Order'
                   tooltip: Optional.
+                -
+                  name: painMannequinAreaMultiMarks
+                  label: 'Pain Mannequin Allow Multiple Marks for Area'
+                  tooltip: Optional.
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -9068,6 +9072,7 @@ collection:
                             name: type
                             type: 3
                             label: Type
+                            order: 0
                             definition:
                               options:
                                 -
@@ -9092,6 +9097,7 @@ collection:
                             name: optionsRandomOrder
                             type: 4
                             label: 'Options Random Order'
+                            order: 11
                             definition:
                               defvalue: '1'
                               placeholder: 0
@@ -9100,6 +9106,7 @@ collection:
                             name: options
                             type: 10
                             label: Options
+                            order: 10
                             definition:
                               element:
                                 type: 9
@@ -9126,6 +9133,7 @@ collection:
                             name: painMannequinGender
                             type: 3
                             label: 'Mannequin Gender'
+                            order: 20
                             definition:
                               options:
                                 -
@@ -9144,6 +9152,7 @@ collection:
                             name: painMannequinGenderValue
                             type: 0
                             label: 'Mannequin Gender Value'
+                            order: 21
                             definition:
                               defvalue: male
                               placeholder: 0
@@ -9152,6 +9161,7 @@ collection:
                             name: defaultScore
                             type: 0
                             label: 'Default Score'
+                            order: 1
                             definition:
                               defvalue: '0'
                               placeholder: 0
@@ -9159,6 +9169,7 @@ collection:
                             name: scoreMap
                             type: 10
                             label: 'Score Map'
+                            order: 2
                             definition:
                               element:
                                 type: 9
@@ -9189,6 +9200,7 @@ collection:
                             name: gracelyScaleShow
                             type: 3
                             label: Show
+                            order: 30
                             definition:
                               options:
                                 -
@@ -9206,6 +9218,15 @@ collection:
                               defvalue: both
                               placeholder: 0
                             hideCondition: 'parent.type != "gracelyScale"'
+                          -
+                            name: painMannequinAreaMultiMarks
+                            type: 4
+                            label: 'Allow Multiple Marks on Area'
+                            order: 22
+                            definition:
+                              defvalue: '1'
+                              placeholder: 0
+                            hideCondition: 'parent.type != "painMannequin"'
                         element:
                           type: 9
                           definition:
@@ -10433,7 +10454,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1","trait":null}],"gracelyScaleShow":""},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1","trait":null}],"gracelyScaleShow":""},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1","trait":null}],"gracelyScaleShow":""},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"}]'
+        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"}]'
         test: 15
         parentVariable: 27
       -

@@ -324,7 +324,7 @@ testRunner.compileProvider.component('itemPainMannequin', {
 
       if($scope.response.value) {
         if(typeof $scope.response.value === 'string' || $scope.response.value instanceof String) {
-        	$scope.response.value = JSON.parse($scope.response.value);
+          $scope.response.value = JSON.parse($scope.response.value);
         }
       } else {
         $scope.response = {
@@ -339,6 +339,8 @@ testRunner.compileProvider.component('itemPainMannequin', {
       if($scope.gender == "custom") {
         $scope.gender = $scope.item.responseOptions.painMannequinGenderValue;
       }
+
+      $scope.allowAreaMultiMarks = $scope.item.responseOptions.painMannequinAreaMultiMarks == 1;
 
       loadData();
 
@@ -380,6 +382,14 @@ testRunner.compileProvider.component('itemPainMannequin', {
       );
     }
 
+    function noteExist(area, source) {
+      let arr = source === "front" ? $scope.response.value.reportFront : $scope.response.value.reportBack;
+      for(let i=0;i<arr.length;i++) {
+        if(arr[i].area === area) return true;
+      }
+      return false;
+    }
+
     function addNote(timeStamp, top, left, id, source) {
       let area;
       for (let i = 0; i < $scope.bodyParts.length; i++) {
@@ -398,6 +408,10 @@ testRunner.compileProvider.component('itemPainMannequin', {
         x: left,
         y: top,
       };
+
+      if(!$scope.allowAreaMultiMarks && noteExist(area, source)) {
+        return;
+      }
 
       if (source === 'front') {
         $scope.response.value.reportFront.push(mark);
