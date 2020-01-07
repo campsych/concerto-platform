@@ -1,8 +1,12 @@
-## 5.0.9 (in progress)
+## 5.0.10 (in progress)
 
 #### Starter content
 
 * pain mannequin item type selection can now be multiple or single per body part
+
+#### Improvements
+
+* default value for nullable columns is now null
 
 ## 5.0.9 (2020-01-07)
 

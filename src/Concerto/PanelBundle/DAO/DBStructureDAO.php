@@ -65,10 +65,13 @@ class DBStructureDAO
             if ($col["type"] == "string") {
                 $options["length"] = 1024;
             }
-            if (array_key_exists($col["type"], self::$type_defaults)) {
-                $options["default"] = self::$type_defaults[$col["type"]];
-            }
             $options["notnull"] = !$col["nullable"];
+            if ($col["nullable"]) $options["default"] = null;
+            else {
+                if (array_key_exists($col["type"], self::$type_defaults)) {
+                    $options["default"] = self::$type_defaults[$col["type"]];
+                }
+            }
 
             $table->addColumn($col["name"], $col["type"], $options);
         }
@@ -109,10 +112,13 @@ class DBStructureDAO
         if ($type == "string") {
             $options["length"] = 1024;
         }
-        if (array_key_exists($type, self::$type_defaults)) {
-            $options["default"] = self::$type_defaults[$type];
-        }
         $options["notnull"] = !$nullable;
+        if ($nullable) $options["default"] = null;
+        else {
+            if (array_key_exists($type, self::$type_defaults)) {
+                $options["default"] = self::$type_defaults[$type];
+            }
+        }
 
         $tableDiff = new TableDiff($table_name);
         $newColumn = new Column($name, Type::getType($type), $options);
