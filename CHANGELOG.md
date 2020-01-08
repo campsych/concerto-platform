@@ -9,6 +9,10 @@
 
 * default value for nullable columns is now null
 
+#### Fixes
+
+* data tables can now be included in export when referenced in exported test wizard params
+
 ## 5.0.9 (2020-01-07)
 
 #### Features

@@ -424,7 +424,11 @@ class TestWizardParam extends AEntity implements \JsonSerializable
             case 7:
             case 12:
             {
-                if (is_array($val) && array_key_exists("table", $val) && $val["table"]) {
+                if (!is_array($val))
+                    $val = json_decode($val, true);
+                if (!$val)
+                    return;
+                if (array_key_exists("table", $val) && $val["table"]) {
                     if (!array_key_exists("DataTable", $dependencies["ids"]))
                         $dependencies["ids"]["DataTable"] = array();
                     if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
@@ -461,7 +465,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable
                 if (!is_array($val))
                     $val = json_decode($val, true);
                 if (!is_array($val))
-                    break;
+                    return;
                 $has_definition = array_key_exists("definition", $def["element"]);
                 foreach ($val as $row) {
                     self::getParamValueDependencies($row, $has_definition ? $def["element"]["definition"] : array(), $def["element"]["type"], $dependencies);
