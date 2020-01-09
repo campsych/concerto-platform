@@ -308,8 +308,10 @@ class TestRunnerController
         $decodedResult = json_decode($result, true);
         if(array_key_exists("data", $decodedResult) && array_key_exists("cookies", $decodedResult["data"])) {
             $cookies = $decodedResult["data"]["cookies"];
-            foreach ($cookies as $k => $v) {
-                $response->headers->setCookie(new Cookie($k, $v));
+            if(is_array($cookies)) {
+                foreach ($cookies as $k => $v) {
+                    $response->headers->setCookie(new Cookie($k, $v));
+                }
             }
         }
     }

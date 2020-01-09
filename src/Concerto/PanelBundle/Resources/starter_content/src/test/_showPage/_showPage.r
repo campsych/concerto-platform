@@ -16,7 +16,7 @@ getTemplateParams = function() {
 }
 
 numericTimeLimit = as.numeric(timeLimit)
-if(is.na(cookies)) {
+if(is.null(cookies) || is.na(cookies) || cookies == "") {
   cookies = list()
 }
 response = concerto5:::concerto.template.show(
@@ -26,6 +26,8 @@ response = concerto5:::concerto.template.show(
   timeLimit=if(!is.na(numericTimeLimit)) { numericTimeLimit } else { 0 },
   cookies=cookies
 )
+
+cookies = concerto$lastResponse$cookies
 
 for(.name in .dynamicReturns) {
   if(!is.null(response[[.name]])) {

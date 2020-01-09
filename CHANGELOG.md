@@ -4,6 +4,7 @@
 
 * pain mannequin item type selection can now be multiple or single per body part
 * when setting NULL values in dataManipulation - defaults used
+* **showPage** now returns cookies
 
 #### Improvements
 
@@ -12,6 +13,7 @@
 #### Fixes
 
 * data tables can now be included in export when referenced in exported test wizard params
+* cookie input validation fix
 
 ## 5.0.9 (2020-01-07)
 
