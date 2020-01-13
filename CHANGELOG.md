@@ -1,4 +1,4 @@
-## 5.0.10 (in progress)
+## 5.0.10 (2020-01-13)
 
 #### Starter content
 
@@ -15,6 +15,7 @@
 * data tables can now be included in export when referenced in exported test wizard params
 * cookie input validation fix
 * fixed setting column as nullable
+* fixed test runner API endpoints
 
 ## 5.0.9 (2020-01-07)
 

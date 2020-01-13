@@ -49,6 +49,7 @@ class TestRunnerController
             $test_slug,
             $test_name,
             $params,
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT'),
             $debug
@@ -103,6 +104,7 @@ class TestRunnerController
         $result = $this->service->backgroundWorker(
             $session_hash,
             $values,
+            $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
