@@ -9,6 +9,7 @@
 #### Improvements
 
 * default value for nullable columns is now null
+* when importing CSV with empty field - column default value is used
 
 #### Fixes
 

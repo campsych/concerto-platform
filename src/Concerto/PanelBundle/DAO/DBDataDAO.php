@@ -203,6 +203,15 @@ class DBDataDAO
         if ($this->connection->getDriver()->getName() !== "pdo_mysql") {
             $this->insertRow($table_name, $data);
         } else {
+
+            $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
+            foreach ($cols as $col) {
+                $defaultValue = $this->getColumnDefaultValue($col);
+                if ($defaultValue !== false && $data[$col->getName()] === "") {
+                    $data[$col->getName()] = $defaultValue;
+                }
+            }
+
             if ($batch === null) {
                 $batch = array(
                     "insert_template" => 'INSERT INTO ' . $table_name . ' (' . implode(', ', array_keys($data)) . ')  VALUES ',
