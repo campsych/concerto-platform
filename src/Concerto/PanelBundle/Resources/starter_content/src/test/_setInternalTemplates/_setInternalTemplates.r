@@ -5,10 +5,10 @@ for(.name in .dynamicInputs) {
   params[[.name]] = get(.name)
 }
 
-if(!is.na(loaderTemplate)) {
-  concerto.template.loader(
-    templateId=loaderTemplate, 
-    html=loaderTemplateHtml,
-    params=params
-  )
-}
+if(is.na(loaderTemplate) || loaderTemplate == "") { loaderTemplate = -1 }
+
+concerto.template.loader(
+  templateId=loaderTemplate, 
+  html=loaderTemplateHtml,
+  params=params
+)
