@@ -173,9 +173,7 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
         let modalInstance = $uibModal.open({
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_commit_dialog.html",
             controller: GitCommitController,
-            size: "lg",
-            backdrop: 'static',
-            keyboard: false
+            size: "lg"
         });
         modalInstance.result.then(function (userResponse) {
             $http.post(Paths.ADMINISTRATION_GIT_COMMIT, userResponse).then(function (httpResponse) {
@@ -257,8 +255,6 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "git_enable_dialog.html",
             controller: GitEnableController,
             size: "lg",
-            backdrop: 'static',
-            keyboard: false,
             resolve: {
                 exposedSettingsMap: function () {
                     return $scope.exposedSettingsMap;

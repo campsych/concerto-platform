@@ -565,8 +565,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "import_csv_dialog.html",
             controller: DataTableImportCsvController,
             size: "lg",
-            backdrop: 'static',
-            keyboard: false,
             resolve: {
                 object: function () {
                     return $scope.object;

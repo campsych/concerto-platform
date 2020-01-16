@@ -392,8 +392,6 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             controller: ImportController,
             scope: $scope,
             size: "prc-lg",
-            backdrop: 'static',
-            keyboard: false,
             resolve: {
                 importPath: function () {
                     return $scope.importPath;

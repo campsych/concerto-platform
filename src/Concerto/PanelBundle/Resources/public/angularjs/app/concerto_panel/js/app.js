@@ -198,6 +198,9 @@ concertoPanel.config(function ($interpolateProvider) {
         "placement": "auto top",
         "appendToBody": true
     });
+}).config(function ($uibModalProvider) {
+    $uibModalProvider.options.backdrop = 'static';
+    $uibModalProvider.options.keyboard = true;
 });
 
 angular.module('FileManagerApp').config(["fileManagerConfigProvider", function (fileManagerConfigProvider) {
