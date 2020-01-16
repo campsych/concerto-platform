@@ -7,7 +7,7 @@ Table query
     Perform query on Concerto table.
 }
 \usage{
-    concerto.table.query(sql, params, n)
+    concerto.table.query(sql, params, n, connection)
 }
 \arguments{
     \item{sql}{
@@ -18,6 +18,9 @@ Table query
     }
     \item{n}{
         Maximum number of records to retrieve per fetch.
+    }
+    \item{connection}{
+        Connection to use.
     }
 }
 \details{

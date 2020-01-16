@@ -7,7 +7,12 @@
     Gets last inserted record id
 }
 \usage{
-    concerto.table.lastInsertId()
+    concerto.table.lastInsertId(connection)
+}
+\arguments{
+    \item{connection}{
+        Connection to use.
+    }
 }
 \details{
 }

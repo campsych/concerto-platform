@@ -1,3 +1,10 @@
+## 5.0.11 (in progress)
+
+#### Improvements
+
+* when importing CSV with empty field - column default value is used
+* added connection argument to concerto.table.query and concerto.table.lastInsertId 
+
 ## 5.0.10 (2020-01-13)
 
 #### Starter content
@@ -9,7 +16,6 @@
 #### Improvements
 
 * default value for nullable columns is now null
-* when importing CSV with empty field - column default value is used
 
 #### Fixes
 
