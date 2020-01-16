@@ -1,5 +1,9 @@
 ## 5.0.11 (in progress)
 
+#### Starter content
+
+* item exposure for **assessment** node
+
 #### Improvements
 
 * when importing CSV with empty field - column default value is used

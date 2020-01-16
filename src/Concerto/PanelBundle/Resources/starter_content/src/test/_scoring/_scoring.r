@@ -106,7 +106,7 @@ FROM {{table}}"
     ))
   }
 
-  if(dim(ranges)[1] > 0) {
+  if(!is.null(ranges) && dim(ranges)[1] > 0) {
     for(i in 1:dim(ranges)[1]) {
       range = ranges[i,]
       range$lowerBound = as.numeric(range$lowerBound)
