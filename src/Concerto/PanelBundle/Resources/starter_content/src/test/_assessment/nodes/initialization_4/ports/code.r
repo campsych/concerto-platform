@@ -1,5 +1,5 @@
-getFlatResponseColumnsNum = function(tableName, responseValue1ColumnName) {
-  columnPrefix = substring(responseValue1ColumnName, 1, nchar(responseValue1ColumnName) - 1)
+getIndicedColumnsNum = function(tableName, firstColumnName) {
+  columnPrefix = substring(firstColumnName, 1, nchar(firstColumnName) - 1)
 
   columns = concerto.table.query("SHOW COLUMNS FROM {{tableName}} LIKE '{{columnPrefix}}%'", params=list(
     tableName=tableName,
@@ -156,10 +156,10 @@ FROM {{table}}
     if(!is.null(painMannequinAreaMultiMarksColumn) && !is.na(painMannequinAreaMultiMarksColumn) && painMannequinAreaMultiMarksColumn != "") { painMannequinAreaMultiMarksSql = "{{painMannequinAreaMultiMarksColumn}} AS painMannequinAreaMultiMarks," }
     optionsRandomOrderSql = ""
     if(!is.null(optionsRandomOrderColumn) && !is.na(optionsRandomOrderColumn) && optionsRandomOrderColumn != "") { optionsRandomOrderSql = "{{optionsRandomOrderColumn}} AS optionsRandomOrder," }
-    
+
     extraFieldsSql = getExtraFieldsSql(extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
-    responseColumnsNum = getFlatResponseColumnsNum(table, responseValue1Column)
+    responseColumnsNum = getIndicedColumnsNum(table, responseValue1Column)
     responseLabelSql = getIndicedColumnsSql(responseLabel1Column, responseColumnsNum, "responseLabel")
     responseValueSql = getIndicedColumnsSql(responseValue1Column, responseColumnsNum, "responseValue")
     responseScoreSql = getIndicedColumnsSql(responseScore1Column, responseColumnsNum, "responseScore")
@@ -236,7 +236,22 @@ FROM {{table}}
   return(items)
 }
 
-paramsNum = as.numeric(settings$itemParamsNum)
+getParamsNum = function(itemBankType, itemBankTable, itemBankFlatTable) {
+  paramsNum = 9
+
+  if(itemBankType == "table") {
+    tableMap = fromJSON(itemBankTable)
+    paramsNum = getIndicedColumnsNum(tableMap$table, tableMap$columns$p1)
+  }
+
+  if(itemBankType == "flatTable") {
+    tableMap = fromJSON(itemBankFlatTable)
+    paramsNum = getIndicedColumnsNum(tableMap$table, tableMap$columns$p1)
+  }
+
+  return(paramsNum)
+}
+
 theta = as.numeric(settings$startingTheta)
 itemsAdministered = NULL
 testTimeStarted = as.numeric(Sys.time())
@@ -253,6 +268,7 @@ state = list(
   page = 0
 )
 
+paramsNum = getParamsNum(settings$itemBankType, settings$itemBankTable, settings$itemBankFlatTable)
 items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankFlatTable, settings$itemBankTableExtraFields, paramsNum)
 itemsNum = dim(items)[1]
 
@@ -262,7 +278,7 @@ if(settings$sessionResuming == 1) {
   resumedState = session[[sessionTable$columns$state]]
   if(!is.na(resumedState)) {
     state = fromJSON(resumedState)
-    
+
     direction = 0
     page = state$page
 
@@ -294,12 +310,12 @@ WHERE {{sessionIdCol}}={{sessionId}}", params=list(
       itemsLeft = items[-as.numeric(rownames(itemsAnswered)),]
       items = rbind(itemsAnswered, itemsLeft)
     }
-    
+
     resumedItemsIds = state$nextItemsIds
     if(length(resumedItemsIds) == 0) { 
       resumedItemsIds = NULL
     }
-    
+
     totalTimeTaken = sum(responsesRecords[,"timeTaken"])
     itemsAdministered = which(items[,"id"] %in% responsesRecords[,"item_id"])
     if(length(itemsAdministered) == 0) {

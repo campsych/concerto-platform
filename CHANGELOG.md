@@ -3,6 +3,8 @@
 #### Starter content
 
 * item exposure for **assessment** node
+* itemParamsNum no longer required in **assessment** node
+* added nullable flags to **assessment** data tables columns
 
 #### Improvements
 

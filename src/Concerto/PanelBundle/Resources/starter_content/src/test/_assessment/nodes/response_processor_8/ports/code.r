@@ -53,7 +53,7 @@ WHERE id={{id}}
     sql = "
 INSERT INTO {{table}} 
 ({{itemIdColumn}}, {{responseColumn}}, {{scoreColumn}}, {{timeTakenColumn}}, {{sessionIdColumn}}, {{thetaColumn}}, {{semColumn}}, {{traitColumn}}) 
-VALUES ({{itemId}}, '{{responseValue}}', {{score}}, {{timeTaken}}, '{{sessionId}}', {{theta}}, {{sem}}, '{{trait}}')
+VALUES ({{itemId}}, '{{responseValue}}', {{score}}, {{timeTaken}}, '{{sessionId}}', {{theta}}, {{sem}}, IF('{{trait}}' = '', NULL, '{{trait}}'))
 "
   }
 
