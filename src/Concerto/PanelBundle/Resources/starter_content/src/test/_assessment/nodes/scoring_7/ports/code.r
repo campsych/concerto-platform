@@ -1,5 +1,13 @@
 library(catR)
 
+isSkipped = function(item) {
+  skippedTemplateResponse = templateResponse[[paste0("skip",item$id)]]
+  if(settings$canSkipItems == 1 && !is.null(skippedTemplateResponse) && skippedTemplateResponse == 1) {
+    return(T)
+  }
+  return(F)
+}
+
 getScore = function(item, response) {
   defaultScore = 0
   if(!is.null(response) && !is.null(item$responseOptions) && item$responseOptions != "") {
@@ -97,7 +105,12 @@ currentTraits = NULL
 for(i in 1:length(itemsIndices)) {
   item = items[itemsIndices[i],]
   responseRaw = templateResponse[[paste0("r",item$id)]]
-  score = getScore(item, responseRaw)
+  skipped = isSkipped(item)
+  
+  score = NULL
+  if(!skipped) { 
+    score = getScore(item, responseRaw)
+  }
 
   index = which(itemsAdministered==itemsIndices[i])
   if(length(index) > 0) {
@@ -121,12 +134,12 @@ concerto.log(itemsAdministered, "itemsAdministered")
 concerto.log(scores, "scores")
 
 if(!is.na(settings$calculateTheta) && settings$calculateTheta == 1) {
-  theta <- thetaEst(matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), scores, model=settings$model, method=settings$scoringMethod)
+  theta <- thetaEst(matrix(paramBankAdministered, ncol=dim(paramBank)[2], byrow=F), scores, model=settings$model, method=settings$scoringMethod)
   concerto.log(theta, "theta")
 }
 
 if(!is.na(settings$calculateSem) && settings$calculateSem == 1) {
-  sem <- semTheta(theta, matrix(paramBankAdministered, ncol=as.numeric(settings$itemParamsNum), byrow=F), scores, model=settings$model, method=settings$scoringMethod)
+  sem <- semTheta(theta, matrix(paramBankAdministered, ncol=dim(paramBank)[2], byrow=F), scores, model=settings$model, method=settings$scoringMethod)
   concerto.log(sem, "SEM")
 }
 

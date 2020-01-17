@@ -327,11 +327,9 @@ testRunner.compileProvider.component('itemPainMannequin', {
           $scope.response.value = JSON.parse($scope.response.value);
         }
       } else {
-        $scope.response = {
-          value: {
-            reportFront: [],
-            reportBack: []
-          }
+        $scope.response.value = {
+          reportFront: [],
+          reportBack: []
         }
       }
 

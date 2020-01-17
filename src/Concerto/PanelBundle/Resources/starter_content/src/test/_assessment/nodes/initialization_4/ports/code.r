@@ -293,13 +293,15 @@ SELECT id,
 {{scoreCol}} AS score, 
 {{timeTakenCol}} AS timeTaken,
 {{itemIdCol}} AS item_id,
-{{responseCol}} AS response
+{{responseCol}} AS response,
+{{skippedCol}} AS skipped
 FROM {{table}} 
 WHERE {{sessionIdCol}}={{sessionId}}", params=list(
   scoreCol = responseTable$columns$score,
   timeTakenCol = responseTable$columns$timeTaken,
   itemIdCol = responseTable$columns$item_id,
   responseCol = responseTable$columns$response,
+  skippedCol = responseTable$columns$skipped,
   table = responseTable$table,
   sessionIdCol = responseTable$columns$session_id,
   sessionId = session$id

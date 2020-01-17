@@ -26,6 +26,14 @@
 						</src>
 					</div>
 
+					<div ng-show="canSkipItems">
+						<input id="skip[[item.id]]" name="skip[[item.id]]" ng-false-value="0" ng-model="responses['r' + item.id].skipped" ng-true-value="1" type="checkbox" />
+						
+						<label for="skip[[item.id]]">
+							skip item 
+						</label>
+					</div>
+
 					<div class="form-error" ng-show="form.response.$error.required && form.response.$dirty">
 						{{responseRequiredAlert}}
 					</div>

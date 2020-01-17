@@ -5,6 +5,7 @@
 * item exposure for **assessment** node
 * itemParamsNum no longer required in **assessment** node
 * added nullable flags to **assessment** data tables columns
+* assessment items can now be made skippable
 
 #### Improvements
 

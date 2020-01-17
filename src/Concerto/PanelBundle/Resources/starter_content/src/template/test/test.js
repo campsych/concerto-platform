@@ -11,11 +11,15 @@ testRunner.controllerProvider.register("test", function ($scope) {
   $scope.nextButtonLabel = testRunner.R.nextButtonLabel;
   $scope.backButtonLabel = testRunner.R.backButtonLabel;
   $scope.showPageInfo = testRunner.R.showPageInfo == 1;
+  $scope.canSkipItems = testRunner.R.canSkipItems == 1;
 
   if ($scope.pastResponses) {
     for (var i = 0; i < $scope.pastResponses.length; i++) {
       var response = $scope.pastResponses[i];
-      $scope.responses["r" + response.item_id] = typeof response.response === 'object' ? response.response : {value: response.response};
+      $scope.responses["r" + response.item_id] = typeof response.response === 'object' ? response.response : {
+        value: response.response,
+        skipped: 0
+      };
     }
   }
 
@@ -28,7 +32,12 @@ testRunner.controllerProvider.register("test", function ($scope) {
     $scope.items[i] = item;
 
     if (typeof $scope.responses["r" + item.id] === 'undefined') {
-      $scope.responses["r" + item.id] = {};
+      $scope.responses["r" + item.id] = {
+        skipped: 0
+      };
     }
+    testRunner.addExtraControl("skip"+item.id, function() {
+      return $scope.responses["r"+item.id].skipped;
+    });
   }
 });
