@@ -53,24 +53,26 @@ getTraits = function(item, value) {
   }
 
   #response level trait
-  responseOptions = fromJSON(item$responseOptions)
-  if(length(responseOptions$scoreMap) > 0) {
-    for(j in 1:length(responseOptions$scoreMap)) {
-      sm = responseOptions$scoreMap[[j]]
-      if(sm$value == value) {
-        responseTrait = trimws(sm$trait)
+  if(!is.na(item$responseOptions) && !is.null(item$responseOptions) && item$responseOptions != "") {
+    responseOptions = fromJSON(item$responseOptions)
+    if(length(responseOptions$scoreMap) > 0) {
+      for(j in 1:length(responseOptions$scoreMap)) {
+        sm = responseOptions$scoreMap[[j]]
+        if(sm$value == value) {
+          responseTrait = trimws(sm$trait)
 
-        if(!is.na(responseTrait) && length(responseTrait) > 0 && responseTrait != "") {
-          traits = strsplit(responseTrait,",")[[1]]
-          if(length(traits) > 0) {
-            for(k in 1:length(traits)) {
-              trait = trimws(traits[k])
-              if(trait == "") { next }
-              traitList = unique(c(traitList, trait))
+          if(!is.na(responseTrait) && length(responseTrait) > 0 && responseTrait != "") {
+            traits = strsplit(responseTrait,",")[[1]]
+            if(length(traits) > 0) {
+              for(k in 1:length(traits)) {
+                trait = trimws(traits[k])
+                if(trait == "") { next }
+                traitList = unique(c(traitList, trait))
+              }
             }
           }
+          break
         }
-        break
       }
     }
   }
