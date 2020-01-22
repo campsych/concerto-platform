@@ -322,6 +322,8 @@ testRunner.compileProvider.component('itemPainMannequin', {
       $scope.response = this.response;
       $scope.responseRequired = this.responseRequired;
 
+      $scope.allowAreaMultiMarks = $scope.item.responseOptions.painMannequinAreaMultiMarks == 1;
+
       if($scope.response.value) {
         if(typeof $scope.response.value === 'string' || $scope.response.value instanceof String) {
           $scope.response.value = JSON.parse($scope.response.value);
@@ -338,8 +340,6 @@ testRunner.compileProvider.component('itemPainMannequin', {
         $scope.gender = $scope.item.responseOptions.painMannequinGenderValue;
       }
 
-      $scope.allowAreaMultiMarks = $scope.item.responseOptions.painMannequinAreaMultiMarks == 1;
-
       loadData();
 
       testRunner.addExtraControl("r" + $scope.item.id, function () {
@@ -350,6 +350,14 @@ testRunner.compileProvider.component('itemPainMannequin', {
     function loadData() {
       if ($(".i" + $scope.item.id + "-" + $scope.gender + "-svg path").length > 0) {
         setEvents();
+        if(!$scope.allowAreaMultiMarks) {
+          for(let i=0;i<$scope.response.value.reportFront.length;i++) {
+            $scope.onIntensityChange($scope.response.value.reportFront[i]);
+          }
+          for(let i=0;i<$scope.response.value.reportBack.length;i++) {
+            $scope.onIntensityChange($scope.response.value.reportBack[i]);
+          }
+        }
       } else {
         timeout = $timeout(loadData, 100);
       }
@@ -434,8 +442,8 @@ testRunner.compileProvider.component('itemPainMannequin', {
 
     $scope.onIntensityChange = function(mark) {
       if(!$scope.allowAreaMultiMarks) {
-        $("#i"+$scope.item.id+"-"+mark.id)
-          .css({"cssText":"fill-opacity: 1.0 !important; fill: " + $scope.getBgColor(mark.intensity)});
+        let elem = $("#i"+$scope.item.id+"-"+mark.id);
+        elem.css({"cssText":"fill-opacity: 1.0 !important; fill: " + $scope.getBgColor(mark.intensity)});
       }
     }
 
