@@ -381,11 +381,16 @@ testRunner.compileProvider.component('itemPainMannequin', {
     }
 
     function noteExist(area, source) {
+      if(getMarkName(area, source) !== null) return true;
+      else return false;
+    }
+
+    function getMarkName(area, source) {
       let arr = source === "front" ? $scope.response.value.reportFront : $scope.response.value.reportBack;
       for(let i=0;i<arr.length;i++) {
-        if(arr[i].area === area) return true;
+        if(arr[i].area === area) return source + '-' + (i+1);
       }
-      return false;
+      return null;
     }
 
     function addNote(timeStamp, top, left, id, source) {
@@ -408,6 +413,8 @@ testRunner.compileProvider.component('itemPainMannequin', {
       };
 
       if(!$scope.allowAreaMultiMarks && noteExist(area, source)) {
+        $scope.activateMark(getMarkName(area, source));
+        $scope.$apply();
         return;
       }
 
@@ -419,9 +426,17 @@ testRunner.compileProvider.component('itemPainMannequin', {
         $scope.activeMark = 'back-' + $scope.response.value.reportBack.length;
       }
 
+      $scope.onIntensityChange(mark);
       $scope.$apply();
 
       $('.mark-content').draggable({handle: '.mark-handle', containment: 'body'});
+    }
+
+    $scope.onIntensityChange = function(mark) {
+      if(!$scope.allowAreaMultiMarks) {
+        $("#i"+$scope.item.id+"-"+mark.id)
+          .css({"cssText":"fill-opacity: 1.0 !important; fill: " + $scope.getBgColor(mark.intensity)});
+      }
     }
 
     $scope.getBgColor = function (intensity) {
@@ -482,7 +497,8 @@ testRunner.compileProvider.component('itemPainMannequin', {
       }
 
       if (!hasSiblings) {
-        $("#i" + $scope.item.id + '-' + id).removeClass('highlighted');
+        $("#i" + $scope.item.id + '-' + id).removeClass('highlighted')
+          .css({"cssText":""});
       }
     };
   }

@@ -6,6 +6,7 @@
 * itemParamsNum no longer required in **assessment** node
 * added nullable flags to **assessment** data tables columns
 * assessment items can now be made skippable
+* pain mannequin no multi mark selection improvements
 
 #### Improvements
 

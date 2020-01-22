@@ -96,7 +96,7 @@
 			</src>
 
 			<div class="mark" ng-class="{'active': activeMark === 'front-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in response.value.reportFront" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
-				<div class="mark-icon" ng-click="activateMark('front-' + (markIndex + 1))" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
+				<div class="mark-icon" ng-click="activateMark('front-' + (markIndex + 1))" ng-if="allowAreaMultiMarks" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
 				</div>
 
 				<div class="mark-content">
@@ -124,7 +124,7 @@
 						Pain intensity 
 					</label>
 					
-					<input class="mark-range mark-intensity" max="100" min="1" ng-model="mark.intensity" step="1" type="range" />
+					<input class="mark-range mark-intensity" max="100" min="1" ng-change="onIntensityChange(mark)" ng-model="mark.intensity" step="1" type="range" />
 					<textarea ng-model="mark.description" placeholder="Description" rows="6">
 						
 					</textarea>
@@ -224,7 +224,7 @@
 			</src>
 
 			<div class="mark" ng-class="{'active': activeMark === 'back-' + (markIndex + 1)}" ng-repeat="(markIndex, mark) in response.value.reportBack" ng-style="{'top': mark.y + 'px', 'left': mark.x + 'px'}">
-				<div class="mark-icon" ng-click="activateMark('back-' + (markIndex + 1))" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
+				<div class="mark-icon" ng-click="activateMark('back-' + (markIndex + 1))" ng-if="allowAreaMultiMarks" ng-style="{'width': (mark.size - 1) / 2 + 6 + 'px', 'height': (mark.size - 1) / 2 + 6 + 'px', 'background-color': getBgColor(mark.intensity)}">
 				</div>
 
 				<div class="mark-content">
@@ -252,7 +252,7 @@
 						Pain intensity 
 					</label>
 					
-					<input class="mark-range mark-intensity" max="100" min="1" ng-model="mark.intensity" step="1" type="range" />
+					<input class="mark-range mark-intensity" max="100" min="1" ng-change="onIntensityChange(mark)" ng-model="mark.intensity" step="1" type="range" />
 					<textarea ng-model="mark.description" placeholder="Description" rows="6">
 						
 					</textarea>
