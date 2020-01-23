@@ -415,7 +415,7 @@ testRunner.compileProvider.component('itemPainMannequin', {
         description: '',
         id: id.replace('i' + $scope.item.id + '-', ''),
         intensity: 50,
-        size: 50,
+        size: $scope.allowAreaMultiMarks ? 50 : null,
         x: left,
         y: top,
       };

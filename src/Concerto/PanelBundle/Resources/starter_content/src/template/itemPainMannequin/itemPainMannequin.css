@@ -28,6 +28,10 @@
 }
 
 /* SVG */
+path {
+  cursor: pointer;
+}
+
 .st0, .st1 {
     fill: #FF0000;
     fill-opacity: 0;

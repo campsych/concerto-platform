@@ -242,11 +242,11 @@
 
 					<div class="mark-handle">
 					</div>
-					<label>
+					<label ng-if="allowAreaMultiMarks">
 						Area size 
 					</label>
 					
-					<input class="mark-range mark-size" max="100" min="1" ng-model="mark.size" step="1" type="range" />
+					<input class="mark-range mark-size" max="100" min="1" ng-model="mark.size" step="1" type="range" ng-if="allowAreaMultiMarks" />
 					
 					<label>
 						Pain intensity 
