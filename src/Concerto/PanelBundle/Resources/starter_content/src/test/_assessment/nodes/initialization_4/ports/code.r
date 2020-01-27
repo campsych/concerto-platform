@@ -13,8 +13,18 @@ getIndicedColumnsNum = function(tableName, firstColumnName) {
   return(i-1)
 }
 
-getExtraFieldsSql = function(extraFields) {
+getExtraFieldsSql = function(table, extraFields) {
+  columns = concerto.table.query("SHOW COLUMNS FROM {{table}}", params=list(
+    table=table
+  ))[,"Field"]
   extraFields = fromJSON(extraFields)
+  if(length(extraFields) > 0) {
+    for(i in length(extraFields):1) {
+      if(!(extraFields[[i]]$name %in% columns)) {
+        extraFields[[i]] = NULL
+      }
+    }
+  }
   extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
   extraFieldsSql = paste(extraFieldsNames, collapse=", ")  
   if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
@@ -105,7 +115,7 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
 
-    extraFieldsSql = getExtraFieldsSql(extraFields)
+    extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
 
     items = concerto.table.query(
@@ -157,7 +167,7 @@ FROM {{table}}
     optionsRandomOrderSql = ""
     if(!is.null(optionsRandomOrderColumn) && !is.na(optionsRandomOrderColumn) && optionsRandomOrderColumn != "") { optionsRandomOrderSql = "{{optionsRandomOrderColumn}} AS optionsRandomOrder," }
 
-    extraFieldsSql = getExtraFieldsSql(extraFields)
+    extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
     responseColumnsNum = getIndicedColumnsNum(table, responseValue1Column)
     responseLabelSql = getIndicedColumnsSql(responseLabel1Column, responseColumnsNum, "responseLabel")

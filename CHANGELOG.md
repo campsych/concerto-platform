@@ -7,6 +7,7 @@
 * added nullable flags to **assessment** data tables columns
 * assessment items can now be made skippable
 * pain mannequin no multi mark selection improvements
+* extra fields in **assessment** checks if column exist
 
 #### Improvements
 
