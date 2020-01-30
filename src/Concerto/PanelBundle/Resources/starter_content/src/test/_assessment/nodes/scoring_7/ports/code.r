@@ -135,12 +135,14 @@ if(dim(items)[1] > 1) {
 concerto.log(itemsAdministered, "itemsAdministered")
 concerto.log(scores, "scores")
 
-if(!is.na(settings$calculateTheta) && settings$calculateTheta == 1) {
+calculateTheta = !is.na(settings$calculateTheta) && settings$calculateTheta == 1 && length(scores[!is.na(scores)]) > 0
+if(calculateTheta) {
   theta <- thetaEst(matrix(paramBankAdministered, ncol=dim(paramBank)[2], byrow=F), scores, model=settings$model, method=settings$scoringMethod)
   concerto.log(theta, "theta")
 }
 
-if(!is.na(settings$calculateSem) && settings$calculateSem == 1) {
+calculateSem = !is.na(settings$calculateSem) && settings$calculateSem == 1 && length(scores[!is.na(scores)]) > 0
+if(calculateSem) {
   sem <- semTheta(theta, matrix(paramBankAdministered, ncol=dim(paramBank)[2], byrow=F), scores, model=settings$model, method=settings$scoringMethod)
   concerto.log(sem, "SEM")
 }
