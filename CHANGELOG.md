@@ -8,6 +8,8 @@
 * assessment items can now be made skippable
 * pain mannequin no multi mark selection improvements
 * extra fields in **assessment** checks if column exist
+* **assessment** now returns stopReason
+* added stopCheckModule to **assessment**
 
 #### Improvements
 

@@ -109,7 +109,7 @@ for(i in 1:length(itemsIndices)) {
   responseRaw = templateResponse[[paste0("r",item$id)]]
   skipped = isSkipped(item)
   
-  score = NULL
+  score = NA
   if(!skipped) { 
     score = getScore(item, responseRaw)
   }

@@ -6,7 +6,7 @@ isOutOfTime = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullR
   return(F)
 }
 
-getBranch = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsNum) {
+getStopReason = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsNum) {
   outOfTime = isOutOfTime(
     testTimeLimit, 
     testTimeLeft,
@@ -15,8 +15,7 @@ getBranch = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNum
   )
 
   if(outOfTime) {
-    concerto.log("time out", "test status")
-    return("stop")
+    return("timeOut")
   }
 
   maxItems = dim(items)[1]
@@ -26,20 +25,18 @@ getBranch = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNum
 
   if(itemNumLimit > 0 && length(itemsAdministered) >= itemNumLimit || length(itemsAdministered) >= itemsNum) {
     if(direction > 0 && totalPages == page) {
-      concerto.log("maximum items reached", "test status")
-      return("stop")
+      return("maxItems")
     }
   }
 
   if(minAccuracy != 0 && minAccuracy >= sem && minAccuracyMinItems <= length(itemsAdministered)) {
-    concerto.log("minimum accuracy", "test status")
-    return("stop")
+    return("minAccuracy")
   }
-  concerto.log("continue", "test status")
-  return("continue")
+
+  return(NULL)
 }
 
-.branch = getBranch(
+stopReason = getStopReason(
   as.numeric(settings$testTimeLimit),
   as.numeric(settings$itemTimeLimit), 
   settings$itemTimeFullRequired == "1", 
@@ -48,3 +45,25 @@ getBranch = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNum
   as.numeric(settings$minAccuracyMinItems),
   dim(items)[1]
 )
+if(!is.na(settings$stopCheckModule) && settings$stopCheckModule != "") {
+  stopReason = concerto.test.run(settings$stopCheckModule, params=list(
+    stopReason = stopReason,
+    settings = settings,
+    theta = theta,
+    sem = sem,
+    itemsAdministered = itemsAdministered,
+    session = session,
+    responses = responses,
+    scores = scores,
+    items = items,
+    templateResponse = templateResponse
+  ))$stopReason
+}
+
+concerto.log(stopReason, "stopReason")
+
+if(is.null(stopReason)) {
+  .branch = "continue"
+} else {
+  .branch = "stop"
+}
