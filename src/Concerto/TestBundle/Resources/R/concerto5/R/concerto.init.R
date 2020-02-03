@@ -13,16 +13,47 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
         return(result)
     }, envir = .GlobalEnv)
 
-    assign("toJSON", function(x, dataframe = c("rows", "columns", "values"), matrix = c("rowmajor",
-    "columnmajor"), Date = c("ISO8601", "epoch"), POSIXt = c("string",
-    "ISO8601", "epoch", "mongo"), factor = c("string", "integer"),
-    complex = c("string", "list"), raw = c("base64", "hex", "mongo"),
-    null = c("list", "null"), na = c("null", "string"), auto_unbox = TRUE,
-    digits = 4, pretty = FALSE, force = FALSE, ...) {
-        result = jsonlite::toJSON(x, dataframe, matrix, Date, POSIXt, factor, complex, raw, null, na, auto_unbox, digits, pretty, force, ...)
-        result = as.character(result)
-        return(result)
-    }, envir = .GlobalEnv)
+    assign(
+        "toJSON",
+        function(
+            x,
+            dataframe = c("rows", "columns", "values"),
+            matrix = c("rowmajor", "columnmajor"),
+            Date = c("ISO8601", "epoch"),
+            POSIXt = c("string", "ISO8601", "epoch", "mongo"),
+            factor = c("string", "integer"),
+            complex = c("string", "list"),
+            raw = c("base64", "hex", "mongo", "int", "js"),
+            null = c("list", "null"),
+            na = c("null", "string"),
+            auto_unbox = TRUE,
+            digits = 4,
+            pretty = FALSE,
+            force = FALSE,
+            ...
+        ) {
+            result = jsonlite::toJSON(
+                x,
+                dataframe,
+                matrix,
+                Date,
+                POSIXt,
+                factor,
+                complex,
+                raw,
+                null,
+                na,
+                auto_unbox,
+                digits,
+                pretty,
+                force,
+                ...
+            )
+            result = as.character(result)
+            return(result)
+        },
+        envir = .GlobalEnv
+    )
 
     SOURCE_PROCESS <<- 1
     SOURCE_SERVER <<- 2

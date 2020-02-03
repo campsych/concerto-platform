@@ -11,8 +11,8 @@
 \tabular{ll}{
     Package: \tab concerto5\cr
     Type: \tab Package\cr
-    Version: \tab 0.30.9\cr
-    Date: \tab 2020-01-16\cr
+    Version: \tab 0.30.10\cr
+    Date: \tab 2020-02-03\cr
     License: \tab Apache-2.0\cr
 }
 
