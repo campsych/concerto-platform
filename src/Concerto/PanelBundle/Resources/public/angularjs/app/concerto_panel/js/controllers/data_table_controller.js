@@ -102,7 +102,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;
-                    colDef.minWidth = 50;
                     break;
                 case "date":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
@@ -120,7 +119,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                         nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;
-                    colDef.minWidth = 50;
                     break;
                 default:
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
