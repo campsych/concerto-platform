@@ -11,7 +11,6 @@ testRunner.controllerProvider.register("test", function ($scope) {
   $scope.nextButtonLabel = testRunner.R.nextButtonLabel;
   $scope.backButtonLabel = testRunner.R.backButtonLabel;
   $scope.showPageInfo = testRunner.R.showPageInfo == 1;
-  $scope.canSkipItems = testRunner.R.canSkipItems == 1;
 
   if ($scope.pastResponses) {
     for (var i = 0; i < $scope.pastResponses.length; i++) {

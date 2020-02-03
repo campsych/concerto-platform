@@ -200,6 +200,10 @@ collection:
         name: p4
         type: float
         nullable: true
+      -
+        name: skippable
+        type: boolean
+        nullable: true
     groups: ''
     starterContent: true
   -
@@ -310,6 +314,10 @@ collection:
         name: type
         type: string
         nullable: false
+      -
+        name: skippable
+        type: boolean
+        nullable: true
     groups: ''
     starterContent: true
   -
@@ -9747,7 +9755,7 @@ collection:
             hideCondition: 'values.itemBankType != "flatTable"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1"}}'
+            value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable"}}'
             testVariable: 30
             name: itemBankFlatTable
             wizardStep: 2
@@ -9812,6 +9820,10 @@ collection:
                   name: painMannequinAreaMultiMarks
                   label: 'Pain Mannequin Allow Multiple Marks for Area'
                   tooltip: Optional.
+                -
+                  name: skippable
+                  label: Skippable
+                  tooltip: ''
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -10137,6 +10149,12 @@ collection:
                       definition:
                         defvalue: '0'
                         placeholder: 0
+                    -
+                      name: skippable
+                      type: 4
+                      label: Skippable
+                      definition:
+                        placeholder: 0
                   placeholder: 0
           -
             class_name: TestWizardParam
@@ -10223,7 +10241,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait"},"length":0}'
+            value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable"},"length":0}'
             testVariable: 32
             name: itemBankTable
             wizardStep: 2
@@ -10255,6 +10273,10 @@ collection:
                 -
                   name: p1
                   label: 'Item Parameter #1'
+                  tooltip: ''
+                -
+                  name: skippable
+                  label: Skippable
                   tooltip: ''
               placeholder: 0
           -
@@ -10902,6 +10924,7 @@ collection:
             order: 4
             wizard: 2
             definition:
+              defvalue: ''
               placeholder: 0
       -
         class_name: TestWizardStep
@@ -11303,7 +11326,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1"}}'
+        value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable"}}'
         test: 15
         parentVariable: 30
       -
@@ -11313,7 +11336,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math"}]'
+        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0"},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0"},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0"}]'
         test: 15
         parentVariable: 31
       -
@@ -11323,7 +11346,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait"}}'
+        value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable"}}'
         test: 15
         parentVariable: 32
       -

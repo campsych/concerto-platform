@@ -14,7 +14,6 @@ getTemplateParams = function() {
   templateParams$nextButtonLabel = settings$nextButtonLabel
   templateParams$title = settings$title
   
-  templateParams$canSkipItems = settings$canSkipItems
   templateParams$canGoBack = canGoBack
   templateParams$responses = responsesSafe
   templateParams$backButtonLabel = settings$backButtonLabel

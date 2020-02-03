@@ -26,7 +26,7 @@
 						</src>
 					</div>
 
-					<div ng-show="canSkipItems">
+					<div ng-show="item.skippable == 1">
 						<input id="skip[[item.id]]" name="skip[[item.id]]" ng-false-value="0" ng-model="responses['r' + item.id].skipped" ng-true-value="1" type="checkbox" />
 						
 						<label for="skip[[item.id]]">

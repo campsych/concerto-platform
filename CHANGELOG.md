@@ -10,6 +10,7 @@
 * extra fields in **assessment** checks if column exist
 * **assessment** now returns stopReason
 * added stopCheckModule to **assessment**
+* skippable items in **assessment** (item level option)
 
 #### Improvements
 

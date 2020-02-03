@@ -57,18 +57,27 @@ convertFromFlat = function(items, responseColumnsNum) {
 
     options = list()
     for(j in 1:responseColumnsNum) {
+      label = item[[paste0("responseLabel",j)]]
+      value = item[[paste0("responseValue",j)]]
+      
+      if(is.na(label) || is.na(value)) { next }
       options[[j]] = list(
-        label=item[[paste0("responseLabel",j)]],
-        value=item[[paste0("responseValue",j)]]
+        label=label,
+        value=value
       )
     }
 
     scoreMap = list()
     for(j in 1:responseColumnsNum) {
+      score = item[[paste0("responseScore",j)]]
+      value = item[[paste0("responseValue",j)]]
+      trait = item[[paste0("responseTrait",j)]]
+      
+      if(is.na(score) || is.na(value)) { next }
       scoreMap[[j]] = list(
-        score=item[[paste0("responseScore",j)]],
-        value=item[[paste0("responseValue",j)]],
-        trait=item[[paste0("responseTrait",j)]]
+        score=score,
+        value=value,
+        trait=trait
       )
     }
 
@@ -114,6 +123,7 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
+    skippableColumn = tableMap$columns$skippable
 
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
@@ -126,7 +136,8 @@ id,
 {{responseOptionsColumn}} AS responseOptions,
 {{parametersSql}},
 {{traitColumn}} AS trait,
-{{fixedIndexColumn}} AS fixedIndex
+{{fixedIndexColumn}} AS fixedIndex,
+{{skippableColumn}} AS skippable
 {{extraFieldsSql}}
 FROM {{table}}
 ", 
@@ -136,6 +147,7 @@ FROM {{table}}
         parametersSql=parametersSql,
         traitColumn=traitColumn,
         fixedIndexColumn=fixedIndexColumn,
+        skippableColumn=skippableColumn,
         extraFieldsSql=extraFieldsSql,
         table=table
       ))
@@ -149,6 +161,7 @@ FROM {{table}}
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
+    skippableColumn = tableMap$columns$skippable
     responseLabel1Column = tableMap$columns$responseLabel1
     responseValue1Column = tableMap$columns$responseValue1
     responseScore1Column = tableMap$columns$responseScore1
@@ -182,6 +195,7 @@ id,
 {{parametersSql}},
 {{traitColumn}} AS trait,
 {{fixedIndexColumn}} AS fixedIndex,
+{{skippableColumn}} AS skippable,
 {{responseLabelSql}},
 {{responseValueSql}},
 {{responseScoreSql}},
@@ -198,6 +212,7 @@ FROM {{table}}
         parametersSql=parametersSql,
         traitColumn=traitColumn,
         fixedIndexColumn=fixedIndexColumn,
+        skippableColumn=skippableColumn,
         extraFieldsSql=extraFieldsSql,
         responseLabelSql=responseLabelSql,
         responseValueSql=responseValueSql,
@@ -242,6 +257,8 @@ FROM {{table}}
   if(settings$order == "random") {
     items = items[sample(1:dim(items)[1]),]
   }
+  
+  items[is.na(items$skippable), "skippable"] = settings$canSkipItems
 
   return(items)
 }

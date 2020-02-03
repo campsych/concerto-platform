@@ -2,7 +2,7 @@ library(catR)
 
 isSkipped = function(item) {
   skippedTemplateResponse = templateResponse[[paste0("skip",item$id)]]
-  if(settings$canSkipItems == 1 && !is.null(skippedTemplateResponse) && skippedTemplateResponse == 1) {
+  if(item$skippable == 1 && !is.null(skippedTemplateResponse) && skippedTemplateResponse == 1) {
     return(T)
   }
   return(F)
