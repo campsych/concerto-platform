@@ -45,23 +45,23 @@ collection:
       -
         name: en
         type: text
-        nullable: false
+        nullable: true
       -
         name: es
         type: text
-        nullable: false
+        nullable: true
       -
         name: de
         type: text
-        nullable: false
+        nullable: true
       -
         name: fr
         type: text
-        nullable: false
+        nullable: true
       -
         name: zh
         type: text
-        nullable: false
+        nullable: true
     groups: ''
     starterContent: true
   -

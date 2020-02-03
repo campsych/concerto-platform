@@ -13,9 +13,10 @@ if(type == "multiTable") {
   dictionaryTable$table = paste0(substr(dictionaryTable$table, 1, suffixStartIndex), selectedLanguage)
 }
 
-entries = concerto.table.query("SELECT {{keyColumn}} AS entryKey, {{langColumn}} AS trans FROM {{table}}", params=list(
+entries = concerto.table.query("SELECT {{keyColumn}} AS entryKey, IF({{langColumn}} IS NULL, {{defaultLanguage}}, {{langColumn}}) AS trans FROM {{table}}", params=list(
   keyColumn = dictionaryTable$columns$entryKey,
   langColumn = selectedLanguage,
+  defaultLanguage = defaultLanguage,
   table = dictionaryTable$table
 ))
 
