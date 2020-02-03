@@ -12,6 +12,7 @@
 * added stopCheckModule to **assessment**
 * skippable items in **assessment** (item level option)
 * fallback to default language for dictionary entries with NULL translation
+* added extraFields to **finishSession** node
 
 #### Improvements
 

@@ -14959,6 +14959,16 @@ collection:
       -
         class_name: TestVariable
         id: 328
+        name: extraFields
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 34
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 329
         name: out
         type: 2
         description: ''
@@ -14968,7 +14978,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 329
+        id: 330
         name: session
         type: 0
         description: ''
@@ -14978,7 +14988,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 330
+        id: 331
         name: session
         type: 1
         description: ''
@@ -14988,7 +14998,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 331
+        id: 332
         name: sessionBankTable
         type: 0
         description: ''
@@ -15029,7 +15039,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
-            testVariable: 331
+            testVariable: 332
             name: sessionBankTable
             wizardStep: 22
             stepTitle: Session
@@ -15062,29 +15072,29 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 332
+        id: 333
+        name: extraFields
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 35
+        parentVariable: 328
+      -
+        class_name: TestVariable
+        id: 334
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 35
-        parentVariable: 328
-      -
-        class_name: TestVariable
-        id: 333
-        name: session
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 35
         parentVariable: 329
       -
         class_name: TestVariable
-        id: 334
+        id: 335
         name: session
-        type: 1
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15092,14 +15102,24 @@ collection:
         parentVariable: 330
       -
         class_name: TestVariable
-        id: 335
+        id: 336
+        name: session
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 35
+        parentVariable: 331
+      -
+        class_name: TestVariable
+        id: 337
         name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
         test: 35
-        parentVariable: 331
+        parentVariable: 332
     sourceWizard: 15
     sourceWizardTest: 34
     nodes: {  }
