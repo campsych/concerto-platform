@@ -19,6 +19,7 @@
 * when importing CSV with empty field - column default value is used
 * added connection argument to concerto.table.query and concerto.table.lastInsertId 
 * clicking outside of modal in panel no longer closes modal
+* increased  data table's data grid columns min width
 
 ## 5.0.10 (2020-01-13)
 

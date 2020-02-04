@@ -82,7 +82,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 displayName: col.name,
                 enableCellEdit: col.name !== "id",
                 type: "string",
-                minWidth: 100
+                minWidth: 150
             };
 
             if (col.name === "id") {
