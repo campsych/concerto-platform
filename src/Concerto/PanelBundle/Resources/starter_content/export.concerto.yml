@@ -204,6 +204,10 @@ collection:
         name: skippable
         type: boolean
         nullable: true
+      -
+        name: instructions
+        type: text
+        nullable: true
     groups: ''
     starterContent: true
   -
@@ -317,6 +321,10 @@ collection:
       -
         name: skippable
         type: boolean
+        nullable: true
+      -
+        name: instructions
+        type: text
         nullable: true
     groups: ''
     starterContent: true
@@ -9755,7 +9763,7 @@ collection:
             hideCondition: 'values.itemBankType != "flatTable"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable"}}'
+            value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable","instructions":"instructions"}}'
             testVariable: 30
             name: itemBankFlatTable
             wizardStep: 2
@@ -9823,6 +9831,10 @@ collection:
                 -
                   name: skippable
                   label: Skippable
+                  tooltip: ''
+                -
+                  name: instructions
+                  label: Instructions
                   tooltip: ''
               placeholder: 0
           -
@@ -10241,7 +10253,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable"},"length":0}'
+            value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable","instructions":"instructions"},"length":0}'
             testVariable: 32
             name: itemBankTable
             wizardStep: 2
@@ -10277,6 +10289,10 @@ collection:
                 -
                   name: skippable
                   label: Skippable
+                  tooltip: ''
+                -
+                  name: instructions
+                  label: Instructions
                   tooltip: ''
               placeholder: 0
           -
@@ -11326,7 +11342,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable"}}'
+        value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable","instructions":"instructions"}}'
         test: 15
         parentVariable: 30
       -
@@ -11346,7 +11362,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable"}}'
+        value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","a":"a","b":"b","c":"c","d":"d","correct":"correct","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable","instructions":"instructions"}}'
         test: 15
         parentVariable: 32
       -

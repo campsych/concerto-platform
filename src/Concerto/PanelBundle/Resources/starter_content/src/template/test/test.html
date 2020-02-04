@@ -8,12 +8,11 @@
 	{{template:header}}
 	<div class="questions">
 		<div class="container">
-			<div class="instructions" ng-if="instructions">
-				{{instructions}}
-			</div>
-
 			<form autocomplete="off" name="form">
-				<div ng-repeat="item in items">
+				<div ng-repeat="item in items track by $index">
+					<div class="instructions" ng-html="item.instructions" ng-if="item.instructions && ($index == 0 || items[$index-1].instructions != item.instructions)">
+					</div>
+
 					<div class="question-text" ng-html="item.question">
 					</div>
 

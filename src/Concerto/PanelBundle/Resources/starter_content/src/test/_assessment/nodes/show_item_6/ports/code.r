@@ -9,7 +9,6 @@ getTemplateParams = function() {
   templateParams$responseRequired = settings$responseRequired
   templateParams$responseRequiredAlert = settings$responseRequiredAlert
   templateParams$footer = settings$footer
-  templateParams$instructions = settings$instructions
   templateParams$logo = settings$logo
   templateParams$nextButtonLabel = settings$nextButtonLabel
   templateParams$title = settings$title

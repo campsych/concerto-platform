@@ -124,6 +124,7 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
     skippableColumn = tableMap$columns$skippable
+    instructionsColumn = tableMap$columns$instructions
 
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
@@ -137,6 +138,7 @@ id,
 {{parametersSql}},
 {{traitColumn}} AS trait,
 {{fixedIndexColumn}} AS fixedIndex,
+{{instructionsColumn}} AS instructions,
 {{skippableColumn}} AS skippable
 {{extraFieldsSql}}
 FROM {{table}}
@@ -148,6 +150,7 @@ FROM {{table}}
         traitColumn=traitColumn,
         fixedIndexColumn=fixedIndexColumn,
         skippableColumn=skippableColumn,
+        instructionsColumn=instructionsColumn,
         extraFieldsSql=extraFieldsSql,
         table=table
       ))
@@ -162,6 +165,7 @@ FROM {{table}}
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
     skippableColumn = tableMap$columns$skippable
+    instructionsColumn = tableMap$columns$instructions
     responseLabel1Column = tableMap$columns$responseLabel1
     responseValue1Column = tableMap$columns$responseValue1
     responseScore1Column = tableMap$columns$responseScore1
@@ -195,6 +199,7 @@ id,
 {{parametersSql}},
 {{traitColumn}} AS trait,
 {{fixedIndexColumn}} AS fixedIndex,
+{{instructionsColumn}} AS instructions,
 {{skippableColumn}} AS skippable,
 {{responseLabelSql}},
 {{responseValueSql}},
@@ -213,6 +218,7 @@ FROM {{table}}
         traitColumn=traitColumn,
         fixedIndexColumn=fixedIndexColumn,
         skippableColumn=skippableColumn,
+        instructionsColumn=instructionsColumn,
         extraFieldsSql=extraFieldsSql,
         responseLabelSql=responseLabelSql,
         responseValueSql=responseValueSql,
@@ -259,6 +265,7 @@ FROM {{table}}
   }
   
   items[is.na(items$skippable), "skippable"] = settings$canSkipItems
+  items[is.na(items$instructions), "instructions"] = settings$instructions
 
   return(items)
 }
