@@ -16,15 +16,19 @@ getTemplateParams = function() {
 }
 
 numericTimeLimit = as.numeric(timeLimit)
-if(is.null(cookies) || is.na(cookies) || cookies == "") {
+if(!is.list(cookies)) {
   cookies = list()
+}
+if(!is.list(bgWorkers)) {
+  bgWorkers = list()
 }
 response = concerto5:::concerto.template.show(
   template=template, 
   html=if(!is.null(html) && !is.na(html) && html != "") {html} else {""},
   params=getTemplateParams(), 
   timeLimit=if(!is.na(numericTimeLimit)) { numericTimeLimit } else { 0 },
-  cookies=cookies
+  cookies=cookies,
+  bgWorkers=bgWorkers
 )
 
 cookies = concerto$lastResponse$cookies

@@ -18,6 +18,7 @@
 * fallback to default language for dictionary entries with NULL translation
 * added extraFields to **finishSession** node
 * item level instructions for **assessment**
+* bgWorkers exposed as input port in **showPage**
 
 #### Improvements
 
