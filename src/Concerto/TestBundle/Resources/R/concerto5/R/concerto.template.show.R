@@ -34,7 +34,14 @@ concerto.template.show = function(
         concerto$response$templateHtml <<- concerto.template.insertParams(template$html, params, removeMissing = removeMissingParams)
     }
     concerto$session$timeLimit <<- timeLimit
-    concerto$bgWorkers <<- bgWorkers
+
+    workers = list(
+        getTemplate = concerto.worker.getTemplate
+    )
+    for(name in ls(bgWorkers)) {
+        workers[[name]] = bgWorkers[[name]]
+    }
+    concerto$bgWorkers <<- workers
 
     if (length(params) > 0) {
         for (name in ls(params)) {

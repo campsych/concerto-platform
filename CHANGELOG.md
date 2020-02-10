@@ -1,5 +1,9 @@
 ## 5.0.11 (in progress)
 
+#### Features
+
+* added getTemplate background worker
+
 #### Starter content
 
 * item exposure for **assessment** node
@@ -21,6 +25,10 @@
 * added connection argument to concerto.table.query and concerto.table.lastInsertId 
 * clicking outside of modal in panel no longer closes modal
 * increased  data table's data grid columns min width
+
+#### Docker
+
+* session.cookie_secure set to 1 in php.ini 
 
 ## 5.0.10 (2020-01-13)
 

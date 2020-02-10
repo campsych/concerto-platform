@@ -210,7 +210,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
     public function backgroundWorker(TestSession $session, $values, $cookies, $client_ip, $client_browser)
     {
         $session_hash = $session->getHash();
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $values, $client_ip, $client_browser");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         $client = array(
             "ip" => $client_ip,

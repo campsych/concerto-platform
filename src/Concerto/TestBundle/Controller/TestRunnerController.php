@@ -306,9 +306,9 @@ class TestRunnerController
     private function setCookies(&$response, $result)
     {
         $decodedResult = json_decode($result, true);
-        if(array_key_exists("data", $decodedResult) && array_key_exists("cookies", $decodedResult["data"])) {
+        if (array_key_exists("data", $decodedResult) && is_array($decodedResult["data"]) && array_key_exists("cookies", $decodedResult["data"])) {
             $cookies = $decodedResult["data"]["cookies"];
-            if(is_array($cookies)) {
+            if (is_array($cookies)) {
                 foreach ($cookies as $k => $v) {
                     $response->headers->setCookie(new Cookie($k, $v));
                 }
