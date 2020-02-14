@@ -20,8 +20,11 @@
     \item{all}{
         Logical: TRUE if to return list of all variables at specified position
     }
-    \item{posOffset}{
-        Numerical: position offset
+    \item{flowIndexOffset}{
+        Numerical: flow index offset
+    }
+    \item{flowIndex}{
+        Numerical: flow index
     }
 }
 \details{

@@ -1,9 +1,16 @@
-concerto.var.set = c.set = function(name, value, global=F, posOffset = 0){
-    if(global || concerto$flowIndex == 0) {
+concerto.var.set = c.set = function(name, value, global=F, flowIndexOffset = 0, posOffset = 0, flowIndex = NULL){
+    if(posOffset != 0) {
+        flowIndexOffset = posOffset
+        concerto.log("c.set : posOffset argument is deprecated. Use flowIndexOffset argument instead")
+    }
+
+    if(global || (concerto$flowIndex == 0 && is.null(flowIndex))) {
         concerto$globals[name] <<- list(value)
     } else {
-        flowIndex = concerto$flowIndex
-        concerto$flow[[flowIndex + posOffset]]$globals[name] <<- list(value)
+        if(is.null(flowIndex)) {
+            flowIndex = concerto$flowIndex
+        }
+        concerto$flow[[flowIndex + flowIndexOffset]]$globals[name] <<- list(value)
     }
     return(value)
 }

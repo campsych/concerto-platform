@@ -20,8 +20,11 @@
     \item{global}{
         Logical: TRUE to set value in top most position
     }
-    \item{posOffset}{
-        Numerical: position offset
+    \item{flowIndexOffset}{
+        Numerical: flow index offset
+    }
+    \item{flowIndex}{
+        Numerical: flow index
     }
 }
 \details{
