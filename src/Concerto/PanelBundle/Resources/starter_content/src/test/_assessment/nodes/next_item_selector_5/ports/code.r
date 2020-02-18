@@ -37,6 +37,8 @@ getSafeItems = function(items, extraFields) {
         }
       }
       item$responseOptions$options = orderedOptions
+      item$responseOptions$defaultScore = NULL
+      item$responseOptions$scoreMap = NULL
       item$responseOptions = toJSON(item$responseOptions)
     }
 
@@ -74,6 +76,8 @@ WHERE
   ))
   if(dim(responses)[1] > 0) {
     responses[,"score"] = NULL
+    responses[,"sem"] = NULL
+    responses[,"theta"] = NULL
     return(responses)
   }
   return(NULL)

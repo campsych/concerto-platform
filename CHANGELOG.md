@@ -19,6 +19,8 @@
 * added extraFields to **finishSession** node
 * item level instructions for **assessment**
 * bgWorkers exposed as input port in **showPage**
+* added **http** node
+* hidden scoring sensitive **assessment** data on client side
 
 #### Improvements
 

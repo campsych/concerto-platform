@@ -15163,3 +15163,307 @@ collection:
     tags: _concerto_core
     groups: ''
     starterContent: true
+  -
+    class_name: Test
+    id: 36
+    name: _http
+    accessibility: 2
+    archived: '0'
+    visibility: 2
+    type: 0
+    code: null
+    description: ''
+    variables:
+      -
+        class_name: TestVariable
+        id: 340
+        name: .branch
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 341
+        name: failure
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 342
+        name: method
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: GET
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 343
+        name: requestBody
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 344
+        name: requestHeaders
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 345
+        name: responseBody
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 346
+        name: responseHeaders
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 347
+        name: responseStatusCode
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 348
+        name: success
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 349
+        name: url
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 36
+        parentVariable: null
+    sourceWizard: null
+    sourceWizardTest: null
+    nodes: {  }
+    nodesConnections: {  }
+    tags: ''
+    groups: ''
+    starterContent: true
+  -
+    class_name: TestWizard
+    id: 16
+    name: http
+    description: ''
+    accessibility: 2
+    archived: '0'
+    steps:
+      -
+        class_name: TestWizardStep
+        id: 23
+        title: Request
+        description: ''
+        orderNum: 0
+        colsNum: 0
+        wizard: 16
+        params:
+          -
+            class_name: TestWizardParam
+            id: 99
+            label: Method
+            description: ''
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: GET
+            testVariable: 342
+            name: method
+            wizardStep: 23
+            stepTitle: Request
+            order: 0
+            wizard: 16
+            definition:
+              options:
+                -
+                  label: GET
+                  value: GET
+                -
+                  label: POST
+                  value: POST
+                -
+                  label: UPDATE
+                  value: UPDATE
+                -
+                  label: DELETE
+                  value: DELETE
+              defvalue: GET
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 100
+            label: URL
+            description: ''
+            hideCondition: ''
+            type: 0
+            passableThroughUrl: '0'
+            value: ''
+            testVariable: 349
+            name: url
+            wizardStep: 23
+            stepTitle: Request
+            order: 0
+            wizard: 16
+            definition:
+              placeholder: 0
+    test: 36
+    groups: ''
+    starterContent: true
+  -
+    class_name: Test
+    id: 37
+    name: http
+    accessibility: 2
+    archived: '0'
+    visibility: 2
+    type: 1
+    code: ''
+    description: ''
+    variables:
+      -
+        class_name: TestVariable
+        id: 350
+        name: .branch
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 340
+      -
+        class_name: TestVariable
+        id: 351
+        name: failure
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 341
+      -
+        class_name: TestVariable
+        id: 352
+        name: method
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: GET
+        test: 37
+        parentVariable: 342
+      -
+        class_name: TestVariable
+        id: 353
+        name: requestBody
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 343
+      -
+        class_name: TestVariable
+        id: 354
+        name: requestHeaders
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 344
+      -
+        class_name: TestVariable
+        id: 355
+        name: responseBody
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 345
+      -
+        class_name: TestVariable
+        id: 356
+        name: responseHeaders
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 346
+      -
+        class_name: TestVariable
+        id: 357
+        name: responseStatusCode
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 347
+      -
+        class_name: TestVariable
+        id: 358
+        name: success
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 37
+        parentVariable: 348
+      -
+        class_name: TestVariable
+        id: 359
+        name: url
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 37
+        parentVariable: 349
+    sourceWizard: 16
+    sourceWizardTest: 36
+    nodes: {  }
+    nodesConnections: {  }
+    tags: _concerto_core
+    groups: ''
+    starterContent: true
