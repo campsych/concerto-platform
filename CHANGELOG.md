@@ -21,6 +21,7 @@
 * bgWorkers exposed as input port in **showPage**
 * added **http** node
 * hidden scoring sensitive **assessment** data on client side
+* added bodyEncode option to **http** node
 
 #### Improvements
 
@@ -30,6 +31,10 @@
 * increased  data table's data grid columns min width
 * added flowIndex argument to c.get and c.set
 * replaced posOffset argument with flowIndexOffset in c.get and c.set
+
+#### Other
+
+* xml2 R package is now required
 
 ## 5.0.10 (2020-01-13)
 

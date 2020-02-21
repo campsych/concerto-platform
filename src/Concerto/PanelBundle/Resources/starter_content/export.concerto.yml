@@ -15217,6 +15217,16 @@ collection:
       -
         class_name: TestVariable
         id: 344
+        name: requestBodyEncode
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 36
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 345
         name: requestHeaders
         type: 0
         description: ''
@@ -15226,7 +15236,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 345
+        id: 346
         name: responseBody
         type: 1
         description: ''
@@ -15236,7 +15246,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 346
+        id: 347
         name: responseHeaders
         type: 1
         description: ''
@@ -15246,7 +15256,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 347
+        id: 348
         name: responseStatusCode
         type: 1
         description: ''
@@ -15256,7 +15266,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 348
+        id: 349
         name: success
         type: 2
         description: ''
@@ -15266,7 +15276,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 349
+        id: 350
         name: url
         type: 0
         description: ''
@@ -15301,6 +15311,37 @@ collection:
           -
             class_name: TestWizardParam
             id: 99
+            label: 'Body encode'
+            description: ''
+            hideCondition: ''
+            type: 3
+            passableThroughUrl: '0'
+            value: form
+            testVariable: 344
+            name: requestBodyEncode
+            wizardStep: 23
+            stepTitle: Request
+            order: 2
+            wizard: 16
+            definition:
+              options:
+                -
+                  label: multipart/form-data
+                  value: multipart
+                -
+                  label: application/x-www-form-urlencoded
+                  value: form
+                -
+                  label: application/json
+                  value: json
+                -
+                  label: raw
+                  value: raw
+              defvalue: form
+              placeholder: 0
+          -
+            class_name: TestWizardParam
+            id: 100
             label: Method
             description: ''
             hideCondition: ''
@@ -15331,20 +15372,21 @@ collection:
               placeholder: 0
           -
             class_name: TestWizardParam
-            id: 100
+            id: 101
             label: URL
             description: ''
             hideCondition: ''
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 349
+            testVariable: 350
             name: url
             wizardStep: 23
             stepTitle: Request
-            order: 0
+            order: 1
             wizard: 16
             definition:
+              defvalue: ''
               placeholder: 0
     test: 36
     groups: ''
@@ -15362,7 +15404,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 350
+        id: 351
         name: .branch
         type: 1
         description: ''
@@ -15372,7 +15414,7 @@ collection:
         parentVariable: 340
       -
         class_name: TestVariable
-        id: 351
+        id: 352
         name: failure
         type: 2
         description: ''
@@ -15382,7 +15424,7 @@ collection:
         parentVariable: 341
       -
         class_name: TestVariable
-        id: 352
+        id: 353
         name: method
         type: 0
         description: ''
@@ -15392,7 +15434,7 @@ collection:
         parentVariable: 342
       -
         class_name: TestVariable
-        id: 353
+        id: 354
         name: requestBody
         type: 0
         description: ''
@@ -15402,19 +15444,19 @@ collection:
         parentVariable: 343
       -
         class_name: TestVariable
-        id: 354
-        name: requestHeaders
+        id: 355
+        name: requestBodyEncode
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: form
         test: 37
         parentVariable: 344
       -
         class_name: TestVariable
-        id: 355
-        name: responseBody
-        type: 1
+        id: 356
+        name: requestHeaders
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15422,8 +15464,8 @@ collection:
         parentVariable: 345
       -
         class_name: TestVariable
-        id: 356
-        name: responseHeaders
+        id: 357
+        name: responseBody
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -15432,8 +15474,8 @@ collection:
         parentVariable: 346
       -
         class_name: TestVariable
-        id: 357
-        name: responseStatusCode
+        id: 358
+        name: responseHeaders
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -15442,24 +15484,34 @@ collection:
         parentVariable: 347
       -
         class_name: TestVariable
-        id: 358
+        id: 359
+        name: responseStatusCode
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 348
+      -
+        class_name: TestVariable
+        id: 360
         name: success
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 37
-        parentVariable: 348
+        parentVariable: 349
       -
         class_name: TestVariable
-        id: 359
+        id: 361
         name: url
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 37
-        parentVariable: 349
+        parentVariable: 350
     sourceWizard: 16
     sourceWizardTest: 36
     nodes: {  }
