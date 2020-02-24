@@ -31,6 +31,7 @@
 * increased  data table's data grid columns min width
 * added flowIndex argument to c.get and c.set
 * replaced posOffset argument with flowIndexOffset in c.get and c.set
+* ViewTemplate/{id}/content|html|js|css actions responses are now cacheable
 
 #### Other
 

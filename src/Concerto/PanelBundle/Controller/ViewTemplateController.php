@@ -201,7 +201,10 @@ class ViewTemplateController extends AExportableTabController
         if ($content === false) {
             return new Response('', 404);
         }
-        return new Response($content, 200);
+        $response = new Response($content, 200);
+        $response->setSharedMaxAge(60 * 60 * 24);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        return $response;
     }
 
     /**
@@ -218,6 +221,8 @@ class ViewTemplateController extends AExportableTabController
         }
         $response = new Response($content, 200);
         $response->headers->set('Content-Type', 'text/css');
+        $response->setSharedMaxAge(60 * 60 * 24);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
         return $response;
     }
 
@@ -235,6 +240,8 @@ class ViewTemplateController extends AExportableTabController
         }
         $response = new Response($content, 200);
         $response->headers->set('Content-Type', 'text/javascript');
+        $response->setSharedMaxAge(60 * 60 * 24);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
         return $response;
     }
 
@@ -250,6 +257,9 @@ class ViewTemplateController extends AExportableTabController
         if ($content === false) {
             return new Response('', 404);
         }
-        return new Response($content, 200);
+        $response = new Response($content, 200);
+        $response->setSharedMaxAge(60 * 60 * 24);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        return $response;
     }
 }
