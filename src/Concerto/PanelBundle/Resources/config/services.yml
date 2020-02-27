@@ -34,6 +34,10 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    Concerto\PanelBundle\EventSubscriber\ResponseSubscriber:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, priority: -1001 }
+
 #commands
     Concerto\PanelBundle\Command\ConcertoScheduledTaskCommand:
         autoconfigure: false

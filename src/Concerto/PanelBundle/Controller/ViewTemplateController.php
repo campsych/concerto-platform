@@ -19,7 +19,6 @@ class ViewTemplateController extends AExportableTabController
 
     const ENTITY_NAME = "ViewTemplate";
     const EXPORT_FILE_PREFIX = "ViewTemplate";
-    const CACHE_TIME = 60 * 60 * 24;
 
     private $userService;
 
@@ -202,9 +201,7 @@ class ViewTemplateController extends AExportableTabController
         if ($content === false) {
             return new Response('', 404);
         }
-        $response = new Response($content, 200);
-        $response->setMaxAge(self::CACHE_TIME);
-        return $response;
+        return new Response($content, 200);;
     }
 
     /**
@@ -221,7 +218,6 @@ class ViewTemplateController extends AExportableTabController
         }
         $response = new Response($content, 200);
         $response->headers->set('Content-Type', 'text/css');
-        $response->setMaxAge(self::CACHE_TIME);
         return $response;
     }
 
@@ -239,7 +235,6 @@ class ViewTemplateController extends AExportableTabController
         }
         $response = new Response($content, 200);
         $response->headers->set('Content-Type', 'text/javascript');
-        $response->setMaxAge(self::CACHE_TIME);
         return $response;
     }
 
@@ -255,8 +250,6 @@ class ViewTemplateController extends AExportableTabController
         if ($content === false) {
             return new Response('', 404);
         }
-        $response = new Response($content, 200);
-        $response->setMaxAge(self::CACHE_TIME);
-        return $response;
+        return new Response($content, 200);;
     }
 }
