@@ -33,6 +33,11 @@
 * replaced posOffset argument with flowIndexOffset in c.get and c.set
 * ViewTemplate/{id}/content|html|js|css actions responses are now cacheable
 
+#### Fixes
+
+* **assessment** MLWI criterions that required scores vector to be passed for nextItem
+* **assessment** nextItem's randomesque
+
 #### Other
 
 * xml2 R package is now required

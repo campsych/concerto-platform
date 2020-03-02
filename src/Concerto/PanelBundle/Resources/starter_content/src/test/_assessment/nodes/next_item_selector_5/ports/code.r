@@ -18,7 +18,7 @@ getSafeItems = function(items, extraFields) {
     item = as.list(items[i,])
 
     if(!is.null(item$responseOptions) && item$responseOptions != "") {
-      if(is.character(item$responseOptions)) { 
+      if(is.character(item$responseOptions)) {
         item$responseOptions = tryCatch({
           fromJSON(item$responseOptions)
         }, error = function(message) {
@@ -89,7 +89,7 @@ itemsPerPage = as.numeric(settings$itemsPerPage)
 nextPage = as.numeric(prevPage) + as.numeric(direction)
 
 if(length(nextItemsIndices) == 0) {
-  itemsExcluded = itemsAdministered
+  itemsExcluded = NULL
   
   if(settings$order == "cat") {
     itemsExcluded = unique(c(itemsExcluded, which(items$fixedIndex > 0)))
@@ -112,7 +112,6 @@ if(length(nextItemsIndices) == 0) {
       concerto.log(cbControl, "cbControl")
     }
 
-
     for(onPageIndex in 1:itemsPerPage) {
       #fixed indices
       inTestIndex = length(itemsAdministered) + onPageIndex
@@ -122,15 +121,22 @@ if(length(nextItemsIndices) == 0) {
         next
       }
 
-      isAnyItemLeft = itemsNum > length(itemsExcluded)
+      isAnyItemLeft = itemsNum > length(itemsAdministered)
       if(isAnyItemLeft) {
+        nAvailable = NULL
+        for(i in 1:dim(items)[1]) {
+            item = items[i,]
+            available = if(item$fixedIndex > 0) { 0 } else { 1 }
+            nAvailable = c(nAvailable, available)
+        }
+        randomesque = as.numeric(settings$nextItemRandomesque)
 
         result = tryCatch({
-          nextItem(paramBank, model=settings$model, theta=theta, out=itemsExcluded, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=cbGroup, cbControl=cbControl)
+          nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, x=scores, nAvailable=nAvailable, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=randomesque, cbGroup=cbGroup, cbControl=cbControl)
         }, error=function(ex) {
           concerto.log(ex, "potentialy not possible to satisfy CB rule")
           if(!is.null(cbGroup) && !is.null(cbControl)) {
-            return(nextItem(paramBank, model=settings$model, theta=theta, out=itemsExcluded, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=settings$nextItemRandomesque, cbGroup=NULL, cbControl=NULL))
+            return(nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, x=scores, nAvailable=nAvailable, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=randomesque, cbGroup=NULL, cbControl=NULL))
           } else {
             stop(ex)
           }

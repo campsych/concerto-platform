@@ -3872,7 +3872,7 @@ collection:
         id: 5
         title: 'next item selector'
         type: 0
-        posX: 15910
+        posX: 15909
         posY: 15105
         flowTest: 4
         sourceTest: 3
@@ -4161,6 +4161,21 @@ collection:
             name: responsesSafe
             pointer: '1'
             pointerVariable: responsesSafe
+          -
+            class_name: TestNodePort
+            id: 141
+            value: 'NULL'
+            node: 5
+            variable: null
+            variableObject: null
+            string: '0'
+            defaultValue: '0'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: scores
+            pointer: '1'
+            pointerVariable: scores
       -
         class_name: TestNode
         id: 6
@@ -4175,7 +4190,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 141
+            id: 142
             value: null
             node: 6
             variable: 15
@@ -4199,7 +4214,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 142
+            id: 143
             value: null
             node: 6
             variable: 17
@@ -4223,7 +4238,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 143
+            id: 144
             value: '0'
             node: 6
             variable: 16
@@ -4247,7 +4262,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 144
+            id: 145
             value: ''
             node: 6
             variable: null
@@ -4262,7 +4277,7 @@ collection:
             pointerVariable: outOfTime
           -
             class_name: TestNodePort
-            id: 145
+            id: 146
             value: ''
             node: 6
             variable: null
@@ -4277,7 +4292,7 @@ collection:
             pointerVariable: submitted
           -
             class_name: TestNodePort
-            id: 146
+            id: 147
             value: ''
             node: 6
             variable: null
@@ -4292,7 +4307,7 @@ collection:
             pointerVariable: .branch
           -
             class_name: TestNodePort
-            id: 147
+            id: 148
             value: ''
             node: 6
             variable: null
@@ -4307,7 +4322,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 148
+            id: 149
             value: ''
             node: 6
             variable: null
@@ -4322,7 +4337,7 @@ collection:
             pointerVariable: itemSafe
           -
             class_name: TestNodePort
-            id: 149
+            id: 150
             value: ''
             node: 6
             variable: null
@@ -4337,7 +4352,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 150
+            id: 151
             value: c.getDynamicInputs()
             node: 6
             variable: null
@@ -4352,7 +4367,7 @@ collection:
             pointerVariable: templateParams
           -
             class_name: TestNodePort
-            id: 151
+            id: 152
             value: ''
             node: 6
             variable: null
@@ -4367,7 +4382,7 @@ collection:
             pointerVariable: testTimeStarted
           -
             class_name: TestNodePort
-            id: 152
+            id: 153
             value: 'NULL'
             node: 6
             variable: null
@@ -4382,7 +4397,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 153
+            id: 154
             value: ''
             node: 6
             variable: null
@@ -4397,7 +4412,7 @@ collection:
             pointerVariable: testTimeLeft
           -
             class_name: TestNodePort
-            id: 154
+            id: 155
             value: ''
             node: 6
             variable: null
@@ -4412,7 +4427,7 @@ collection:
             pointerVariable: timeTaken
           -
             class_name: TestNodePort
-            id: 155
+            id: 156
             value: '0'
             node: 6
             variable: null
@@ -4421,21 +4436,6 @@ collection:
             defaultValue: '0'
             dynamic: '1'
             type: 0
-            exposed: '1'
-            name: totalTimeTaken
-            pointer: '1'
-            pointerVariable: totalTimeTaken
-          -
-            class_name: TestNodePort
-            id: 156
-            value: ''
-            node: 6
-            variable: null
-            variableObject: null
-            string: '1'
-            defaultValue: '0'
-            dynamic: '1'
-            type: 1
             exposed: '1'
             name: totalTimeTaken
             pointer: '1'
@@ -4450,6 +4450,21 @@ collection:
             string: '1'
             defaultValue: '0'
             dynamic: '1'
+            type: 1
+            exposed: '1'
+            name: totalTimeTaken
+            pointer: '1'
+            pointerVariable: totalTimeTaken
+          -
+            class_name: TestNodePort
+            id: 158
+            value: ''
+            node: 6
+            variable: null
+            variableObject: null
+            string: '1'
+            defaultValue: '0'
+            dynamic: '1'
             type: 0
             exposed: '1'
             name: state
@@ -4457,7 +4472,7 @@ collection:
             pointerVariable: state
           -
             class_name: TestNodePort
-            id: 158
+            id: 159
             value: ''
             node: 6
             variable: null
@@ -4472,7 +4487,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 159
+            id: 160
             value: ''
             node: 6
             variable: null
@@ -4487,7 +4502,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 160
+            id: 161
             value: ''
             node: 6
             variable: null
@@ -4502,7 +4517,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 161
+            id: 162
             value: ''
             node: 6
             variable: null
@@ -4517,7 +4532,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 162
+            id: 163
             value: ''
             node: 6
             variable: null
@@ -4532,7 +4547,7 @@ collection:
             pointerVariable: responsesSafe
           -
             class_name: TestNodePort
-            id: 163
+            id: 164
             value: '0'
             node: 6
             variable: null
@@ -4547,7 +4562,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 164
+            id: 165
             value: '1'
             node: 6
             variable: null
@@ -4562,7 +4577,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 165
+            id: 166
             value: 'NULL'
             node: 6
             variable: null
@@ -4577,7 +4592,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 166
+            id: 167
             value: list()
             node: 6
             variable: null
@@ -4604,7 +4619,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 167
+            id: 168
             value: null
             node: 7
             variable: 15
@@ -4628,7 +4643,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 168
+            id: 169
             value: null
             node: 7
             variable: 17
@@ -4652,7 +4667,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 169
+            id: 170
             value: '0'
             node: 7
             variable: 16
@@ -4676,7 +4691,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 170
+            id: 171
             value: 'NULL'
             node: 7
             variable: null
@@ -4691,7 +4706,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 171
+            id: 172
             value: ''
             node: 7
             variable: null
@@ -4706,7 +4721,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 172
+            id: 173
             value: ''
             node: 7
             variable: null
@@ -4721,7 +4736,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 173
+            id: 174
             value: 'NULL'
             node: 7
             variable: null
@@ -4736,7 +4751,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 174
+            id: 175
             value: ''
             node: 7
             variable: null
@@ -4751,7 +4766,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 175
+            id: 176
             value: ''
             node: 7
             variable: null
@@ -4766,7 +4781,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 176
+            id: 177
             value: ''
             node: 7
             variable: null
@@ -4781,7 +4796,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 177
+            id: 178
             value: ''
             node: 7
             variable: null
@@ -4796,7 +4811,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 178
+            id: 179
             value: ''
             node: 7
             variable: null
@@ -4811,7 +4826,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 179
+            id: 180
             value: ''
             node: 7
             variable: null
@@ -4826,7 +4841,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 180
+            id: 181
             value: ''
             node: 7
             variable: null
@@ -4841,7 +4856,7 @@ collection:
             pointerVariable: currentScores
           -
             class_name: TestNodePort
-            id: 181
+            id: 182
             value: ''
             node: 7
             variable: null
@@ -4856,7 +4871,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 182
+            id: 183
             value: '0'
             node: 7
             variable: null
@@ -4871,7 +4886,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 183
+            id: 184
             value: '1'
             node: 7
             variable: null
@@ -4886,7 +4901,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 184
+            id: 185
             value: ''
             node: 7
             variable: null
@@ -4901,7 +4916,7 @@ collection:
             pointerVariable: traitScores
           -
             class_name: TestNodePort
-            id: 185
+            id: 186
             value: 'NULL'
             node: 7
             variable: null
@@ -4916,7 +4931,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 186
+            id: 187
             value: ''
             node: 7
             variable: null
@@ -4931,7 +4946,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 187
+            id: 188
             value: ''
             node: 7
             variable: null
@@ -4958,7 +4973,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 188
+            id: 189
             value: null
             node: 8
             variable: 15
@@ -4982,7 +4997,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 189
+            id: 190
             value: null
             node: 8
             variable: 17
@@ -5006,7 +5021,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 190
+            id: 191
             value: '0'
             node: 8
             variable: 16
@@ -5030,7 +5045,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 191
+            id: 192
             value: ''
             node: 8
             variable: null
@@ -5045,7 +5060,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 192
+            id: 193
             value: ''
             node: 8
             variable: null
@@ -5060,7 +5075,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 193
+            id: 194
             value: 'NULL'
             node: 8
             variable: null
@@ -5075,7 +5090,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 194
+            id: 195
             value: ''
             node: 8
             variable: null
@@ -5090,7 +5105,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 195
+            id: 196
             value: '1'
             node: 8
             variable: null
@@ -5105,7 +5120,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 196
+            id: 197
             value: ''
             node: 8
             variable: null
@@ -5120,7 +5135,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 197
+            id: 198
             value: ''
             node: 8
             variable: null
@@ -5135,7 +5150,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 198
+            id: 199
             value: '0'
             node: 8
             variable: null
@@ -5150,7 +5165,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 199
+            id: 200
             value: ''
             node: 8
             variable: null
@@ -5165,7 +5180,7 @@ collection:
             pointerVariable: currentScores
           -
             class_name: TestNodePort
-            id: 200
+            id: 201
             value: ''
             node: 8
             variable: null
@@ -5180,7 +5195,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 201
+            id: 202
             value: ''
             node: 8
             variable: null
@@ -5195,7 +5210,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 202
+            id: 203
             value: ''
             node: 8
             variable: null
@@ -5222,7 +5237,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 203
+            id: 204
             value: null
             node: 9
             variable: 15
@@ -5246,7 +5261,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 204
+            id: 205
             value: null
             node: 9
             variable: 17
@@ -5270,7 +5285,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 205
+            id: 206
             value: '0'
             node: 9
             variable: 16
@@ -5294,7 +5309,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 206
+            id: 207
             value: ''
             node: 9
             variable: null
@@ -5309,7 +5324,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 207
+            id: 208
             value: 'NULL'
             node: 9
             variable: null
@@ -5324,7 +5339,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 208
+            id: 209
             value: '1'
             node: 9
             variable: null
@@ -5339,7 +5354,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 209
+            id: 210
             value: ''
             node: 9
             variable: null
@@ -5354,7 +5369,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 210
+            id: 211
             value: ''
             node: 9
             variable: null
@@ -5369,7 +5384,7 @@ collection:
             pointerVariable: continue
           -
             class_name: TestNodePort
-            id: 211
+            id: 212
             value: ''
             node: 9
             variable: null
@@ -5384,7 +5399,7 @@ collection:
             pointerVariable: stop
           -
             class_name: TestNodePort
-            id: 212
+            id: 213
             value: ''
             node: 9
             variable: null
@@ -5399,7 +5414,7 @@ collection:
             pointerVariable: .branch
           -
             class_name: TestNodePort
-            id: 213
+            id: 214
             value: ''
             node: 9
             variable: null
@@ -5414,7 +5429,7 @@ collection:
             pointerVariable: testTimeLeft
           -
             class_name: TestNodePort
-            id: 214
+            id: 215
             value: '1'
             node: 9
             variable: null
@@ -5429,7 +5444,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 215
+            id: 216
             value: ''
             node: 9
             variable: null
@@ -5444,7 +5459,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 216
+            id: 217
             value: ''
             node: 9
             variable: null
@@ -5459,7 +5474,7 @@ collection:
             pointerVariable: stopReason
           -
             class_name: TestNodePort
-            id: 217
+            id: 218
             value: ''
             node: 9
             variable: null
@@ -5474,7 +5489,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 218
+            id: 219
             value: ''
             node: 9
             variable: null
@@ -5489,7 +5504,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 219
+            id: 220
             value: ''
             node: 9
             variable: null
@@ -5504,7 +5519,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 220
+            id: 221
             value: ''
             node: 9
             variable: null
@@ -5519,7 +5534,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 221
+            id: 222
             value: ''
             node: 9
             variable: null
@@ -5546,7 +5561,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 222
+            id: 223
             value: null
             node: 10
             variable: 15
@@ -5570,7 +5585,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 223
+            id: 224
             value: null
             node: 10
             variable: 17
@@ -5594,7 +5609,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 224
+            id: 225
             value: '0'
             node: 10
             variable: 16
@@ -5618,7 +5633,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 225
+            id: 226
             value: ''
             node: 10
             variable: null
@@ -5633,7 +5648,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 226
+            id: 227
             value: ''
             node: 10
             variable: null
@@ -5648,7 +5663,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 227
+            id: 228
             value: ''
             node: 10
             variable: null
@@ -5663,7 +5678,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 228
+            id: 229
             value: ''
             node: 10
             variable: null
@@ -5678,7 +5693,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 229
+            id: 230
             value: ''
             node: 10
             variable: null
@@ -5693,7 +5708,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 230
+            id: 231
             value: ''
             node: 10
             variable: null
@@ -6692,10 +6707,10 @@ collection:
           pointer: '0'
           pointerVariable: nextItemSafe
         destinationNode: 6
-        destinationPort: 148
+        destinationPort: 149
         destinationPortObject:
           class_name: TestNodePort
-          id: 148
+          id: 149
           value: ''
           node: 6
           variable: null
@@ -6788,10 +6803,10 @@ collection:
         id: 24
         flowTest: 4
         sourceNode: 6
-        sourcePort: 144
+        sourcePort: 145
         sourcePortObject:
           class_name: TestNodePort
-          id: 144
+          id: 145
           value: ''
           node: 6
           variable: null
@@ -6815,10 +6830,10 @@ collection:
         id: 25
         flowTest: 4
         sourceNode: 6
-        sourcePort: 145
+        sourcePort: 146
         sourcePortObject:
           class_name: TestNodePort
-          id: 145
+          id: 146
           value: ''
           node: 6
           variable: null
@@ -6842,10 +6857,10 @@ collection:
         id: 26
         flowTest: 4
         sourceNode: 8
-        sourcePort: 190
+        sourcePort: 191
         sourcePortObject:
           class_name: TestNodePort
-          id: 190
+          id: 191
           value: '0'
           node: 8
           variable: 16
@@ -6878,10 +6893,10 @@ collection:
         id: 27
         flowTest: 4
         sourceNode: 9
-        sourcePort: 210
+        sourcePort: 211
         sourcePortObject:
           class_name: TestNodePort
-          id: 210
+          id: 211
           value: ''
           node: 9
           variable: null
@@ -6905,10 +6920,10 @@ collection:
         id: 28
         flowTest: 4
         sourceNode: 9
-        sourcePort: 211
+        sourcePort: 212
         sourcePortObject:
           class_name: TestNodePort
-          id: 211
+          id: 212
           value: ''
           node: 9
           variable: null
@@ -7018,10 +7033,10 @@ collection:
         id: 31
         flowTest: 4
         sourceNode: 7
-        sourcePort: 169
+        sourcePort: 170
         sourcePortObject:
           class_name: TestNodePort
-          id: 169
+          id: 170
           value: '0'
           node: 7
           variable: 16
@@ -8304,10 +8319,10 @@ collection:
         id: 57
         flowTest: 4
         sourceNode: 10
-        sourcePort: 224
+        sourcePort: 225
         sourcePortObject:
           class_name: TestNodePort
-          id: 224
+          id: 225
           value: '0'
           node: 10
           variable: 16
@@ -10629,13 +10644,60 @@ collection:
               options:
                 -
                   label: MFI
+                  order: 0
                   value: MFI
                 -
                   label: bOpt
+                  order: 1
                   value: bOpt
                 -
                   label: random
+                  order: 13
                   value: random
+                -
+                  label: thOpt
+                  order: 2
+                  value: thOpt
+                -
+                  label: MLWI
+                  order: 3
+                  value: MLWI
+                -
+                  label: MPWI
+                  order: 4
+                  value: MPWI
+                -
+                  label: MEI
+                  order: 5
+                  value: MEI
+                -
+                  label: MEPV
+                  order: 6
+                  value: MEPV
+                -
+                  label: progressive
+                  order: 7
+                  value: progressive
+                -
+                  label: proportional
+                  order: 8
+                  value: proportional
+                -
+                  label: KL
+                  order: 9
+                  value: KL
+                -
+                  label: KLP
+                  order: 10
+                  value: KLP
+                -
+                  label: GDI
+                  order: 11
+                  value: GDI
+                -
+                  label: GDIP
+                  order: 12
+                  value: GDIP
               defvalue: MFI
               placeholder: 0
           -
@@ -13408,6 +13470,7 @@ collection:
               <a href="http://www.concertoplatform.com" target="_blank">
               	Concerto Platform
               </a>
+              
             testVariable: 124
             name: footer
             wizardStep: 15
@@ -13420,6 +13483,7 @@ collection:
                 <a href="http://www.concertoplatform.com" target="_blank">
                 	Concerto Platform
                 </a>
+                
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -13597,6 +13661,7 @@ collection:
           <a href="http://www.concertoplatform.com" target="_blank">
           	Concerto Platform
           </a>
+          
         test: 25
         parentVariable: 124
       -
