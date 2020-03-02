@@ -126,7 +126,11 @@ if(length(nextItemsIndices) == 0) {
         nAvailable = NULL
         for(i in 1:dim(items)[1]) {
             item = items[i,]
-            available = if(item$fixedIndex > 0) { 0 } else { 1 }
+            available = if(!is.null(item$fixedIndex) && !is.na(item$fixedIndex) && item$fixedIndex > 0) { 
+              0 
+            } else { 
+              1 
+            }
             nAvailable = c(nAvailable, available)
         }
         randomesque = as.numeric(settings$nextItemRandomesque)
