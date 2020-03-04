@@ -119,15 +119,6 @@ function(testId, params=list(), extraReturns=c()) {
         }
     } else {
         #flow
-        isGetterNode = function(node){
-            if (node$type != 0) return(F)
-            for (port_id in ls(concerto$flow[[flowIndex]]$ports)) {
-                port = concerto$flow[[flowIndex]]$ports[[as.character(port_id)]]
-                if (port$node_id == node$id && port$type == 2) return(F)
-            }
-            return(T)
-        }
-
         evalPortValue = function(port, inserts = list()) {
             value = port$value
             if(port$pointer == 1) {
@@ -144,12 +135,6 @@ function(testId, params=list(), extraReturns=c()) {
 
                         #check for getter node
                         srcNode = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
-                        if (isGetterNode(srcNode)) {
-                            #getters shouldn't be resumable
-                            runNode(srcNode)
-                            port = concerto$flow[[flowIndex]]$ports[[as.character(port$id)]]
-                            value = port$value
-                        }
 
                         func = paste0("retFunc = function(", srcPort$name, "){ ", connection$returnFunction, " }")
                         sanitizedCode = concerto.test.sanitizeSource(func)

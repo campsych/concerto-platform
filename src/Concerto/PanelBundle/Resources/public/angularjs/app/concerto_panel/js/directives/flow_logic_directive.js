@@ -221,17 +221,6 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 }
             };
 
-            scope.isGetterNode = function (node) {
-                if (node.type != 0)
-                    return false;
-                for (var i = 0; i < node.ports.length; i++) {
-                    var port = node.ports[i];
-                    if (port.type == 2)
-                        return false;
-                }
-                return true;
-            };
-
             scope.refreshNode = function (node) {
                 scope.jsPlumbEventsEnabled = false;
                 jsPlumb.setSuspendDrawing(true);
@@ -450,7 +439,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 var rightCount = 0;
 
                 //in port
-                if (node.type != 1 && !scope.isGetterNode(node)) {
+                if (node.type != 1) {
                     var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
                     var overlayElem = $("<div class='portLabel portLabelIn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</div>");
                     $compile(overlayElem)(scope);

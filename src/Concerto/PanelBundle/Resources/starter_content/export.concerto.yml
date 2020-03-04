@@ -12898,7 +12898,27 @@ collection:
     type: 0
     code: null
     description: 'Gets promoted variables values. Use dynamic returns to declare which variables you want to get.'
-    variables: {  }
+    variables:
+      -
+        class_name: TestVariable
+        id: 244
+        name: global
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 19
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 245
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 19
+        parentVariable: null
     sourceWizard: null
     sourceWizardTest: null
     nodes: {  }
@@ -12919,7 +12939,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 244
+        id: 246
         name: .branch
         type: 1
         description: ''
@@ -12929,7 +12949,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 245
+        id: 247
         name: expression
         type: 0
         description: ''
@@ -12939,7 +12959,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 246
+        id: 248
         name: 'false'
         type: 2
         description: ''
@@ -12949,7 +12969,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 247
+        id: 249
         name: 'true'
         type: 2
         description: ''
@@ -13101,7 +13121,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 248
+        id: 250
         name: content
         type: 0
         description: ''
@@ -13111,7 +13131,7 @@ collection:
         parentVariable: 104
       -
         class_name: TestVariable
-        id: 249
+        id: 251
         name: html
         type: 1
         description: ''
@@ -13121,7 +13141,7 @@ collection:
         parentVariable: 105
       -
         class_name: TestVariable
-        id: 250
+        id: 252
         name: layout
         type: 0
         description: ''
@@ -13131,7 +13151,7 @@ collection:
         parentVariable: 106
       -
         class_name: TestVariable
-        id: 251
+        id: 253
         name: layoutHtml
         type: 0
         description: ''
@@ -13141,7 +13161,7 @@ collection:
         parentVariable: 107
       -
         class_name: TestVariable
-        id: 252
+        id: 254
         name: out
         type: 2
         description: ''
@@ -13151,7 +13171,7 @@ collection:
         parentVariable: 108
       -
         class_name: TestVariable
-        id: 253
+        id: 255
         name: params
         type: 0
         description: ''
@@ -13217,7 +13237,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 254
+        id: 256
         name: out
         type: 2
         description: ''
@@ -13227,7 +13247,7 @@ collection:
         parentVariable: 110
       -
         class_name: TestVariable
-        id: 255
+        id: 257
         name: params
         type: 0
         description: ''
@@ -13237,7 +13257,7 @@ collection:
         parentVariable: 111
       -
         class_name: TestVariable
-        id: 256
+        id: 258
         name: results
         type: 1
         description: ''
@@ -13247,7 +13267,7 @@ collection:
         parentVariable: 112
       -
         class_name: TestVariable
-        id: 257
+        id: 259
         name: test
         type: 0
         description: ''
@@ -13275,7 +13295,17 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 258
+        id: 260
+        name: global
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 23
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 261
         name: out
         type: 2
         description: ''
@@ -13359,7 +13389,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 259
+        id: 262
         name: loaderTemplate
         type: 0
         description: ''
@@ -13369,7 +13399,7 @@ collection:
         parentVariable: 114
       -
         class_name: TestVariable
-        id: 260
+        id: 263
         name: loaderTemplateHtml
         type: 0
         description: ''
@@ -13379,7 +13409,7 @@ collection:
         parentVariable: 115
       -
         class_name: TestVariable
-        id: 261
+        id: 264
         name: out
         type: 2
         description: ''
@@ -13389,7 +13419,7 @@ collection:
         parentVariable: 116
       -
         class_name: TestVariable
-        id: 262
+        id: 265
         name: params
         type: 0
         description: ''
@@ -13591,7 +13621,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 263
+        id: 266
         name: .branch
         type: 1
         description: ''
@@ -13601,7 +13631,7 @@ collection:
         parentVariable: 118
       -
         class_name: TestVariable
-        id: 264
+        id: 267
         name: bgWorkers
         type: 0
         description: ''
@@ -13611,7 +13641,7 @@ collection:
         parentVariable: 119
       -
         class_name: TestVariable
-        id: 265
+        id: 268
         name: buttonLabel
         type: 0
         description: ''
@@ -13621,7 +13651,7 @@ collection:
         parentVariable: 120
       -
         class_name: TestVariable
-        id: 266
+        id: 269
         name: content
         type: 0
         description: ''
@@ -13631,7 +13661,7 @@ collection:
         parentVariable: 121
       -
         class_name: TestVariable
-        id: 267
+        id: 270
         name: cookies
         type: 0
         description: ''
@@ -13641,7 +13671,7 @@ collection:
         parentVariable: 122
       -
         class_name: TestVariable
-        id: 268
+        id: 271
         name: cookies
         type: 1
         description: ''
@@ -13651,7 +13681,7 @@ collection:
         parentVariable: 123
       -
         class_name: TestVariable
-        id: 269
+        id: 272
         name: footer
         type: 0
         description: ''
@@ -13666,7 +13696,7 @@ collection:
         parentVariable: 124
       -
         class_name: TestVariable
-        id: 270
+        id: 273
         name: html
         type: 0
         description: ''
@@ -13676,7 +13706,7 @@ collection:
         parentVariable: 125
       -
         class_name: TestVariable
-        id: 271
+        id: 274
         name: logo
         type: 0
         description: ''
@@ -13686,7 +13716,7 @@ collection:
         parentVariable: 126
       -
         class_name: TestVariable
-        id: 272
+        id: 275
         name: out
         type: 2
         description: ''
@@ -13696,7 +13726,7 @@ collection:
         parentVariable: 127
       -
         class_name: TestVariable
-        id: 273
+        id: 276
         name: response
         type: 1
         description: ''
@@ -13706,7 +13736,7 @@ collection:
         parentVariable: 128
       -
         class_name: TestVariable
-        id: 274
+        id: 277
         name: template
         type: 0
         description: ''
@@ -13716,7 +13746,7 @@ collection:
         parentVariable: 129
       -
         class_name: TestVariable
-        id: 275
+        id: 278
         name: templateParams
         type: 0
         description: ''
@@ -13726,7 +13756,7 @@ collection:
         parentVariable: 130
       -
         class_name: TestVariable
-        id: 276
+        id: 279
         name: timeLimit
         type: 0
         description: 'Time limit in seconds.'
@@ -13736,7 +13766,7 @@ collection:
         parentVariable: 131
       -
         class_name: TestVariable
-        id: 277
+        id: 280
         name: title
         type: 0
         description: ''
@@ -13902,7 +13932,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 278
+        id: 281
         name: extraFields
         type: 0
         description: ''
@@ -13912,7 +13942,7 @@ collection:
         parentVariable: 133
       -
         class_name: TestVariable
-        id: 279
+        id: 282
         name: out
         type: 2
         description: ''
@@ -13922,7 +13952,7 @@ collection:
         parentVariable: 134
       -
         class_name: TestVariable
-        id: 280
+        id: 283
         name: preventParallelSessionUsage
         type: 0
         description: ''
@@ -13932,7 +13962,7 @@ collection:
         parentVariable: 135
       -
         class_name: TestVariable
-        id: 281
+        id: 284
         name: restoreState
         type: 0
         description: ''
@@ -13942,7 +13972,7 @@ collection:
         parentVariable: 136
       -
         class_name: TestVariable
-        id: 282
+        id: 285
         name: resumable
         type: 0
         description: ''
@@ -13952,7 +13982,7 @@ collection:
         parentVariable: 137
       -
         class_name: TestVariable
-        id: 283
+        id: 286
         name: resumableExpiration
         type: 0
         description: ''
@@ -13962,7 +13992,7 @@ collection:
         parentVariable: 138
       -
         class_name: TestVariable
-        id: 284
+        id: 287
         name: session
         type: 1
         description: ''
@@ -13972,7 +14002,7 @@ collection:
         parentVariable: 139
       -
         class_name: TestVariable
-        id: 285
+        id: 288
         name: sessionBankTable
         type: 0
         description: ''
@@ -13982,7 +14012,7 @@ collection:
         parentVariable: 140
       -
         class_name: TestVariable
-        id: 286
+        id: 289
         name: user
         type: 0
         description: ''
@@ -14108,7 +14138,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 287
+        id: 290
         name: defaultLanguage
         type: 0
         description: ''
@@ -14118,7 +14148,7 @@ collection:
         parentVariable: 142
       -
         class_name: TestVariable
-        id: 288
+        id: 291
         name: dictionaryTable
         type: 0
         description: ''
@@ -14128,7 +14158,7 @@ collection:
         parentVariable: 143
       -
         class_name: TestVariable
-        id: 289
+        id: 292
         name: language
         type: 0
         description: ''
@@ -14138,7 +14168,7 @@ collection:
         parentVariable: 144
       -
         class_name: TestVariable
-        id: 290
+        id: 293
         name: out
         type: 2
         description: ''
@@ -14148,7 +14178,7 @@ collection:
         parentVariable: 145
       -
         class_name: TestVariable
-        id: 291
+        id: 294
         name: type
         type: 0
         description: ''
@@ -14213,7 +14243,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 292
+        id: 295
         name: code
         type: 0
         description: 'R code to execute'
@@ -14223,7 +14253,7 @@ collection:
         parentVariable: 15
       -
         class_name: TestVariable
-        id: 293
+        id: 296
         name: out
         type: 2
         description: ''
@@ -14233,7 +14263,7 @@ collection:
         parentVariable: 16
       -
         class_name: TestVariable
-        id: 294
+        id: 297
         name: result
         type: 1
         description: ''
@@ -14261,7 +14291,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 295
+        id: 298
         name: out
         type: 2
         description: ''
@@ -14289,7 +14319,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 296
+        id: 299
         name: customScoreFormula
         type: 0
         description: ''
@@ -14299,7 +14329,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 297
+        id: 300
         name: feedback
         type: 1
         description: ''
@@ -14309,7 +14339,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 298
+        id: 301
         name: feedbackRanges
         type: 0
         description: ''
@@ -14319,7 +14349,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 299
+        id: 302
         name: feedbackRangesTable
         type: 0
         description: ''
@@ -14329,7 +14359,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 300
+        id: 303
         name: feedbackType
         type: 0
         description: ''
@@ -14339,7 +14369,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 301
+        id: 304
         name: mean
         type: 0
         description: ''
@@ -14349,7 +14379,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 302
+        id: 305
         name: out
         type: 2
         description: ''
@@ -14359,7 +14389,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 303
+        id: 306
         name: percentileRanges
         type: 0
         description: ''
@@ -14369,7 +14399,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 304
+        id: 307
         name: percentileRangesTable
         type: 0
         description: ''
@@ -14379,7 +14409,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 305
+        id: 308
         name: rawScore
         type: 0
         description: ''
@@ -14389,7 +14419,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 306
+        id: 309
         name: score
         type: 1
         description: ''
@@ -14399,7 +14429,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 307
+        id: 310
         name: scoreType
         type: 0
         description: ''
@@ -14409,7 +14439,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 308
+        id: 311
         name: sd
         type: 0
         description: ''
@@ -14450,7 +14480,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 301
+            testVariable: 304
             name: mean
             wizardStep: 19
             stepTitle: Score
@@ -14468,7 +14498,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 303
+            testVariable: 306
             name: percentileRanges
             wizardStep: 19
             stepTitle: Score
@@ -14507,7 +14537,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"percentileRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","score":"score"}}'
-            testVariable: 304
+            testVariable: 307
             name: percentileRangesTable
             wizardStep: 19
             stepTitle: Score
@@ -14537,7 +14567,7 @@ collection:
             type: 11
             passableThroughUrl: '0'
             value: rawScore
-            testVariable: 296
+            testVariable: 299
             name: customScoreFormula
             wizardStep: 19
             stepTitle: Score
@@ -14555,7 +14585,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: rawScore
-            testVariable: 307
+            testVariable: 310
             name: scoreType
             wizardStep: 19
             stepTitle: Score
@@ -14614,7 +14644,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 308
+            testVariable: 311
             name: sd
             wizardStep: 19
             stepTitle: Score
@@ -14641,7 +14671,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 298
+            testVariable: 301
             name: feedbackRanges
             wizardStep: 20
             stepTitle: Feedback
@@ -14680,7 +14710,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"feedbackRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","feedback":"feedback"}}'
-            testVariable: 299
+            testVariable: 302
             name: feedbackRangesTable
             wizardStep: 20
             stepTitle: Feedback
@@ -14710,7 +14740,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: none
-            testVariable: 300
+            testVariable: 303
             name: feedbackType
             wizardStep: 20
             stepTitle: Feedback
@@ -14745,134 +14775,134 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 309
+        id: 312
         name: customScoreFormula
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: rawScore
         test: 31
-        parentVariable: 296
+        parentVariable: 299
       -
         class_name: TestVariable
-        id: 310
+        id: 313
         name: feedback
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 31
-        parentVariable: 297
+        parentVariable: 300
       -
         class_name: TestVariable
-        id: 311
+        id: 314
         name: feedbackRanges
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[]'
         test: 31
-        parentVariable: 298
+        parentVariable: 301
       -
         class_name: TestVariable
-        id: 312
+        id: 315
         name: feedbackRangesTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"feedbackRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","feedback":"feedback"}}'
         test: 31
-        parentVariable: 299
+        parentVariable: 302
       -
         class_name: TestVariable
-        id: 313
+        id: 316
         name: feedbackType
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: none
         test: 31
-        parentVariable: 300
+        parentVariable: 303
       -
         class_name: TestVariable
-        id: 314
+        id: 317
         name: mean
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 31
-        parentVariable: 301
+        parentVariable: 304
       -
         class_name: TestVariable
-        id: 315
+        id: 318
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 31
-        parentVariable: 302
+        parentVariable: 305
       -
         class_name: TestVariable
-        id: 316
+        id: 319
         name: percentileRanges
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[]'
         test: 31
-        parentVariable: 303
+        parentVariable: 306
       -
         class_name: TestVariable
-        id: 317
+        id: 320
         name: percentileRangesTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"percentileRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","score":"score"}}'
         test: 31
-        parentVariable: 304
+        parentVariable: 307
       -
         class_name: TestVariable
-        id: 318
+        id: 321
         name: rawScore
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 31
-        parentVariable: 305
+        parentVariable: 308
       -
         class_name: TestVariable
-        id: 319
+        id: 322
         name: score
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 31
-        parentVariable: 306
+        parentVariable: 309
       -
         class_name: TestVariable
-        id: 320
+        id: 323
         name: scoreType
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: rawScore
         test: 31
-        parentVariable: 307
+        parentVariable: 310
       -
         class_name: TestVariable
-        id: 321
+        id: 324
         name: sd
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 31
-        parentVariable: 308
+        parentVariable: 311
     sourceWizard: 13
     sourceWizardTest: 30
     nodes: {  }
@@ -14893,7 +14923,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 322
+        id: 325
         name: data
         type: 0
         description: ''
@@ -14903,7 +14933,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 323
+        id: 326
         name: out
         type: 2
         description: ''
@@ -14913,7 +14943,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 324
+        id: 327
         name: session
         type: 0
         description: ''
@@ -14923,7 +14953,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 325
+        id: 328
         name: table
         type: 0
         description: ''
@@ -14964,7 +14994,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"data","columns":{"session_id":"session_id","name":"name","value":"value"}}'
-            testVariable: 325
+            testVariable: 328
             name: table
             wizardStep: 21
             stepTitle: Data
@@ -15001,44 +15031,44 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 326
+        id: 329
         name: data
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 33
-        parentVariable: 322
+        parentVariable: 325
       -
         class_name: TestVariable
-        id: 327
+        id: 330
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 33
-        parentVariable: 323
+        parentVariable: 326
       -
         class_name: TestVariable
-        id: 328
+        id: 331
         name: session
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 33
-        parentVariable: 324
+        parentVariable: 327
       -
         class_name: TestVariable
-        id: 329
+        id: 332
         name: table
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"data","columns":{"session_id":"session_id","name":"name","value":"value"}}'
         test: 33
-        parentVariable: 325
+        parentVariable: 328
     sourceWizard: 14
     sourceWizardTest: 32
     nodes: {  }
@@ -15059,7 +15089,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 330
+        id: 333
         name: extraFields
         type: 0
         description: ''
@@ -15069,7 +15099,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 331
+        id: 334
         name: out
         type: 2
         description: ''
@@ -15079,7 +15109,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 332
+        id: 335
         name: session
         type: 0
         description: ''
@@ -15089,7 +15119,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 333
+        id: 336
         name: session
         type: 1
         description: ''
@@ -15099,7 +15129,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 334
+        id: 337
         name: sessionBankTable
         type: 0
         description: ''
@@ -15140,7 +15170,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
-            testVariable: 334
+            testVariable: 337
             name: sessionBankTable
             wizardStep: 22
             stepTitle: Session
@@ -15173,39 +15203,9 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 335
+        id: 338
         name: extraFields
         type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 35
-        parentVariable: 330
-      -
-        class_name: TestVariable
-        id: 336
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 35
-        parentVariable: 331
-      -
-        class_name: TestVariable
-        id: 337
-        name: session
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 35
-        parentVariable: 332
-      -
-        class_name: TestVariable
-        id: 338
-        name: session
-        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15214,13 +15214,43 @@ collection:
       -
         class_name: TestVariable
         id: 339
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 35
+        parentVariable: 334
+      -
+        class_name: TestVariable
+        id: 340
+        name: session
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 35
+        parentVariable: 335
+      -
+        class_name: TestVariable
+        id: 341
+        name: session
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 35
+        parentVariable: 336
+      -
+        class_name: TestVariable
+        id: 342
         name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
         test: 35
-        parentVariable: 334
+        parentVariable: 337
     sourceWizard: 15
     sourceWizardTest: 34
     nodes: {  }
@@ -15241,7 +15271,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 340
+        id: 343
         name: .branch
         type: 1
         description: ''
@@ -15251,7 +15281,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 341
+        id: 344
         name: failure
         type: 2
         description: ''
@@ -15261,7 +15291,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 342
+        id: 345
         name: method
         type: 0
         description: ''
@@ -15271,7 +15301,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 343
+        id: 346
         name: requestBody
         type: 0
         description: ''
@@ -15281,7 +15311,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 344
+        id: 347
         name: requestBodyEncode
         type: 0
         description: ''
@@ -15291,7 +15321,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 345
+        id: 348
         name: requestHeaders
         type: 0
         description: ''
@@ -15301,7 +15331,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 346
+        id: 349
         name: responseBody
         type: 1
         description: ''
@@ -15311,7 +15341,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 347
+        id: 350
         name: responseHeaders
         type: 1
         description: ''
@@ -15321,7 +15351,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 348
+        id: 351
         name: responseStatusCode
         type: 1
         description: ''
@@ -15331,7 +15361,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 349
+        id: 352
         name: success
         type: 2
         description: ''
@@ -15341,7 +15371,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 350
+        id: 353
         name: url
         type: 0
         description: ''
@@ -15382,7 +15412,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: form
-            testVariable: 344
+            testVariable: 347
             name: requestBodyEncode
             wizardStep: 23
             stepTitle: Request
@@ -15413,7 +15443,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: GET
-            testVariable: 342
+            testVariable: 345
             name: method
             wizardStep: 23
             stepTitle: Request
@@ -15444,7 +15474,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 350
+            testVariable: 353
             name: url
             wizardStep: 23
             stepTitle: Request
@@ -15469,39 +15499,9 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 351
+        id: 354
         name: .branch
         type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 37
-        parentVariable: 340
-      -
-        class_name: TestVariable
-        id: 352
-        name: failure
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 37
-        parentVariable: 341
-      -
-        class_name: TestVariable
-        id: 353
-        name: method
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: GET
-        test: 37
-        parentVariable: 342
-      -
-        class_name: TestVariable
-        id: 354
-        name: requestBody
-        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15510,28 +15510,28 @@ collection:
       -
         class_name: TestVariable
         id: 355
-        name: requestBodyEncode
-        type: 0
+        name: failure
+        type: 2
         description: ''
         passableThroughUrl: '0'
-        value: form
+        value: null
         test: 37
         parentVariable: 344
       -
         class_name: TestVariable
         id: 356
-        name: requestHeaders
+        name: method
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: GET
         test: 37
         parentVariable: 345
       -
         class_name: TestVariable
         id: 357
-        name: responseBody
-        type: 1
+        name: requestBody
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15540,18 +15540,18 @@ collection:
       -
         class_name: TestVariable
         id: 358
-        name: responseHeaders
-        type: 1
+        name: requestBodyEncode
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: form
         test: 37
         parentVariable: 347
       -
         class_name: TestVariable
         id: 359
-        name: responseStatusCode
-        type: 1
+        name: requestHeaders
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15560,23 +15560,53 @@ collection:
       -
         class_name: TestVariable
         id: 360
+        name: responseBody
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 349
+      -
+        class_name: TestVariable
+        id: 361
+        name: responseHeaders
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 350
+      -
+        class_name: TestVariable
+        id: 362
+        name: responseStatusCode
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 351
+      -
+        class_name: TestVariable
+        id: 363
         name: success
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 37
-        parentVariable: 349
+        parentVariable: 352
       -
         class_name: TestVariable
-        id: 361
+        id: 364
         name: url
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 37
-        parentVariable: 350
+        parentVariable: 353
     sourceWizard: 16
     sourceWizardTest: 36
     nodes: {  }
