@@ -12778,7 +12778,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[{"type":"required","value":"","alert":"Answer required!"}],"definition":{"options":null}}]'
+        value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[],"definition":{"options":[]}}]'
         test: 18
         parentVariable: 93
       -
