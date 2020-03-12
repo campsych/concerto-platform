@@ -51,9 +51,12 @@ SELECT id
 FROM {{table}} 
 WHERE {{itemIdColumn}}={{itemId}} AND {{sessionIdColumn}}='{{sessionId}}' 
 LIMIT 1", params=params)
+  responseExist = dim(response)[1] > 0
+  responseId = NULL
 
-  if(dim(response)[1] > 0) {
-    params$id = response[1,"id"]
+  if(responseExist) {
+    responseId = response[1,"id"]
+    params$id = responseId
     sql = "
 UPDATE {{table}} SET
 {{responseColumn}} = '{{responseValue}}',
@@ -92,6 +95,25 @@ IF('{{trait}}' = '', NULL, '{{trait}}'),
   }
 
   concerto.table.query(sql, params)
+  if(!responseExist) {
+    responseId = concerto.table.lastInsertId()
+  }
+  
+  if(!is.na(settings$responseSavedModule) && settings$responseSavedModule != "") {
+    concerto.test.run(settings$responseSavedModule, params=list(
+      settings = settings,
+      id = responseId,
+      response = params,
+      theta = theta,
+      sem = sem,
+      score = score,
+      value = params$responseValue,
+      session = session,
+      item = item,
+      skipped = skipped,
+      timeTaken = params$timeTaken
+    ))
+  }
 }
 
 for(i in 1:length(itemsIndices)) {

@@ -23,6 +23,7 @@
 * hidden scoring sensitive **assessment** data on client side
 * added bodyEncode option to **http** node
 * added D parameter for **assessment**
+* added responseSavedModule to **assessment**
 
 #### Improvements
 
