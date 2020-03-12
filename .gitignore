@@ -30,3 +30,4 @@ var/git/*
 !/src/Concerto/TestBundle/Resources/sessions/.gitkeep
 /src/Concerto/PanelBundle/Resources/export/*
 /src/Concerto/TestBundle/Resources/R/*.log
+/src/Concerto/TestBundle/Resources/R/fifo

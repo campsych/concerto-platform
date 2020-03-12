@@ -1105,6 +1105,16 @@ collection:
       -
         class_name: TestVariable
         id: 42
+        name: itemsAdministered
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 43
         name: itemsPerPage
         type: 0
         description: ''
@@ -1114,7 +1124,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 43
+        id: 44
         name: logo
         type: 0
         description: ''
@@ -1124,7 +1134,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 44
+        id: 45
         name: minAccuracy
         type: 0
         description: ''
@@ -1134,7 +1144,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 45
+        id: 46
         name: minAccuracyMinItems
         type: 0
         description: ''
@@ -1144,7 +1154,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 46
+        id: 47
         name: model
         type: 0
         description: ''
@@ -1154,7 +1164,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 47
+        id: 48
         name: nextButtonLabel
         type: 0
         description: ''
@@ -1164,7 +1174,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 48
+        id: 49
         name: nextItemCriterion
         type: 0
         description: ''
@@ -1174,7 +1184,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 49
+        id: 50
         name: nextItemModule
         type: 0
         description: ''
@@ -1184,7 +1194,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 50
+        id: 51
         name: nextItemRandomesque
         type: 0
         description: ''
@@ -1194,7 +1204,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 51
+        id: 52
         name: order
         type: 0
         description: ''
@@ -1204,7 +1214,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 52
+        id: 53
         name: out
         type: 2
         description: ''
@@ -1214,7 +1224,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 53
+        id: 54
         name: responseBank
         type: 0
         description: ''
@@ -1224,7 +1234,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 54
+        id: 55
         name: responseRequired
         type: 0
         description: ''
@@ -1234,7 +1244,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 55
+        id: 56
         name: responseRequiredAlert
         type: 0
         description: ''
@@ -1244,7 +1254,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 56
+        id: 57
         name: responseSavedModule
         type: 0
         description: ''
@@ -1254,7 +1264,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 57
+        id: 58
         name: responseScoreModule
         type: 0
         description: ''
@@ -1264,7 +1274,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 58
+        id: 59
         name: responseScores
         type: 1
         description: ''
@@ -1274,18 +1284,8 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 59
-        name: scoringMethod
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: BM
-        test: 4
-        parentVariable: null
-      -
-        class_name: TestVariable
         id: 60
-        name: sem
+        name: responses
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -1295,6 +1295,26 @@ collection:
       -
         class_name: TestVariable
         id: 61
+        name: scoringMethod
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: BM
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 62
+        name: sem
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 4
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 63
         name: session
         type: 0
         description: ''
@@ -1304,7 +1324,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 62
+        id: 64
         name: sessionResuming
         type: 0
         description: ''
@@ -1314,7 +1334,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 63
+        id: 65
         name: sessionTable
         type: 0
         description: ''
@@ -1324,7 +1344,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 64
+        id: 66
         name: showPageInfo
         type: 0
         description: ''
@@ -1334,7 +1354,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 65
+        id: 67
         name: startingTheta
         type: 0
         description: ''
@@ -1344,7 +1364,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 66
+        id: 68
         name: stopCheckModule
         type: 0
         description: ''
@@ -1354,7 +1374,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 67
+        id: 69
         name: stopReason
         type: 1
         description: ''
@@ -1364,7 +1384,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 68
+        id: 70
         name: testTimeLeft
         type: 1
         description: ''
@@ -1374,7 +1394,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 69
+        id: 71
         name: testTimeLimit
         type: 0
         description: ''
@@ -1384,7 +1404,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 70
+        id: 72
         name: testTimeLimitOffset
         type: 0
         description: ''
@@ -1394,7 +1414,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 71
+        id: 73
         name: testTimeLimitType
         type: 0
         description: ''
@@ -1404,7 +1424,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 72
+        id: 74
         name: theta
         type: 1
         description: ''
@@ -1414,7 +1434,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 73
+        id: 75
         name: title
         type: 0
         description: ''
@@ -1424,7 +1444,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 74
+        id: 76
         name: totalScore
         type: 1
         description: ''
@@ -1434,7 +1454,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 75
+        id: 77
         name: traitScores
         type: 1
         description: ''
@@ -1534,10 +1554,10 @@ collection:
             id: 4
             value: '0'
             node: 1
-            variable: 69
+            variable: 71
             variableObject:
               class_name: TestVariable
-              id: 69
+              id: 71
               name: testTimeLimit
               type: 0
               description: ''
@@ -1606,10 +1626,10 @@ collection:
             id: 7
             value: '0'
             node: 1
-            variable: 70
+            variable: 72
             variableObject:
               class_name: TestVariable
-              id: 70
+              id: 72
               name: testTimeLimitOffset
               type: 0
               description: ''
@@ -1654,10 +1674,10 @@ collection:
             id: 9
             value: '0'
             node: 1
-            variable: 65
+            variable: 67
             variableObject:
               class_name: TestVariable
-              id: 65
+              id: 67
               name: startingTheta
               type: 0
               description: ''
@@ -1678,10 +1698,10 @@ collection:
             id: 10
             value: MFI
             node: 1
-            variable: 48
+            variable: 49
             variableObject:
               class_name: TestVariable
-              id: 48
+              id: 49
               name: nextItemCriterion
               type: 0
               description: ''
@@ -1702,10 +1722,10 @@ collection:
             id: 11
             value: '1'
             node: 1
-            variable: 50
+            variable: 51
             variableObject:
               class_name: TestVariable
-              id: 50
+              id: 51
               name: nextItemRandomesque
               type: 0
               description: ''
@@ -1726,10 +1746,10 @@ collection:
             id: 12
             value: BM
             node: 1
-            variable: 59
+            variable: 61
             variableObject:
               class_name: TestVariable
-              id: 59
+              id: 61
               name: scoringMethod
               type: 0
               description: ''
@@ -1750,10 +1770,10 @@ collection:
             id: 13
             value: null
             node: 1
-            variable: 53
+            variable: 54
             variableObject:
               class_name: TestVariable
-              id: 53
+              id: 54
               name: responseBank
               type: 0
               description: ''
@@ -1798,10 +1818,10 @@ collection:
             id: 15
             value: null
             node: 1
-            variable: 61
+            variable: 63
             variableObject:
               class_name: TestVariable
-              id: 61
+              id: 63
               name: session
               type: 0
               description: ''
@@ -1846,10 +1866,10 @@ collection:
             id: 17
             value: '1'
             node: 1
-            variable: 44
+            variable: 45
             variableObject:
               class_name: TestVariable
-              id: 44
+              id: 45
               name: minAccuracy
               type: 0
               description: ''
@@ -1870,10 +1890,10 @@ collection:
             id: 18
             value: null
             node: 1
-            variable: 54
+            variable: 55
             variableObject:
               class_name: TestVariable
-              id: 54
+              id: 55
               name: responseRequired
               type: 0
               description: ''
@@ -1894,10 +1914,10 @@ collection:
             id: 19
             value: null
             node: 1
-            variable: 55
+            variable: 56
             variableObject:
               class_name: TestVariable
-              id: 55
+              id: 56
               name: responseRequiredAlert
               type: 0
               description: ''
@@ -1942,10 +1962,10 @@ collection:
             id: 21
             value: null
             node: 1
-            variable: 46
+            variable: 47
             variableObject:
               class_name: TestVariable
-              id: 46
+              id: 47
               name: model
               type: 0
               description: ''
@@ -1966,10 +1986,10 @@ collection:
             id: 22
             value: null
             node: 1
-            variable: 57
+            variable: 58
             variableObject:
               class_name: TestVariable
-              id: 57
+              id: 58
               name: responseScoreModule
               type: 0
               description: ''
@@ -1990,10 +2010,10 @@ collection:
             id: 23
             value: null
             node: 1
-            variable: 49
+            variable: 50
             variableObject:
               class_name: TestVariable
-              id: 49
+              id: 50
               name: nextItemModule
               type: 0
               description: ''
@@ -2062,10 +2082,10 @@ collection:
             id: 26
             value: startedAgo
             node: 1
-            variable: 71
+            variable: 73
             variableObject:
               class_name: TestVariable
-              id: 71
+              id: 73
               name: testTimeLimitType
               type: 0
               description: ''
@@ -2086,10 +2106,10 @@ collection:
             id: 27
             value: '0'
             node: 1
-            variable: 62
+            variable: 64
             variableObject:
               class_name: TestVariable
-              id: 62
+              id: 64
               name: sessionResuming
               type: 0
               description: ''
@@ -2110,10 +2130,10 @@ collection:
             id: 28
             value: null
             node: 1
-            variable: 63
+            variable: 65
             variableObject:
               class_name: TestVariable
-              id: 63
+              id: 65
               name: sessionTable
               type: 0
               description: ''
@@ -2134,10 +2154,10 @@ collection:
             id: 29
             value: '0'
             node: 1
-            variable: 45
+            variable: 46
             variableObject:
               class_name: TestVariable
-              id: 45
+              id: 46
               name: minAccuracyMinItems
               type: 0
               description: ''
@@ -2230,10 +2250,10 @@ collection:
             id: 33
             value: Next
             node: 1
-            variable: 47
+            variable: 48
             variableObject:
               class_name: TestVariable
-              id: 47
+              id: 48
               name: nextButtonLabel
               type: 0
               description: ''
@@ -2254,10 +2274,10 @@ collection:
             id: 34
             value: null
             node: 1
-            variable: 73
+            variable: 75
             variableObject:
               class_name: TestVariable
-              id: 73
+              id: 75
               name: title
               type: 0
               description: ''
@@ -2278,10 +2298,10 @@ collection:
             id: 35
             value: null
             node: 1
-            variable: 43
+            variable: 44
             variableObject:
               class_name: TestVariable
-              id: 43
+              id: 44
               name: logo
               type: 0
               description: ''
@@ -2326,10 +2346,10 @@ collection:
             id: 37
             value: manual
             node: 1
-            variable: 51
+            variable: 52
             variableObject:
               class_name: TestVariable
-              id: 51
+              id: 52
               name: order
               type: 0
               description: ''
@@ -2374,10 +2394,10 @@ collection:
             id: 39
             value: '1'
             node: 1
-            variable: 42
+            variable: 43
             variableObject:
               class_name: TestVariable
-              id: 42
+              id: 43
               name: itemsPerPage
               type: 0
               description: ''
@@ -2470,10 +2490,10 @@ collection:
             id: 43
             value: '1'
             node: 1
-            variable: 64
+            variable: 66
             variableObject:
               class_name: TestVariable
-              id: 64
+              id: 66
               name: showPageInfo
               type: 0
               description: ''
@@ -2590,10 +2610,10 @@ collection:
             id: 48
             value: null
             node: 1
-            variable: 66
+            variable: 68
             variableObject:
               class_name: TestVariable
-              id: 66
+              id: 68
               name: stopCheckModule
               type: 0
               description: ''
@@ -2638,10 +2658,10 @@ collection:
             id: 50
             value: null
             node: 1
-            variable: 56
+            variable: 57
             variableObject:
               class_name: TestVariable
-              id: 56
+              id: 57
               name: responseSavedModule
               type: 0
               description: ''
@@ -2674,10 +2694,10 @@ collection:
             id: 51
             value: '1'
             node: 2
-            variable: 60
+            variable: 62
             variableObject:
               class_name: TestVariable
-              id: 60
+              id: 62
               name: sem
               type: 1
               description: ''
@@ -2698,10 +2718,10 @@ collection:
             id: 52
             value: '0'
             node: 2
-            variable: 72
+            variable: 74
             variableObject:
               class_name: TestVariable
-              id: 72
+              id: 74
               name: theta
               type: 1
               description: ''
@@ -2722,10 +2742,10 @@ collection:
             id: 53
             value: null
             node: 2
-            variable: 68
+            variable: 70
             variableObject:
               class_name: TestVariable
-              id: 68
+              id: 70
               name: testTimeLeft
               type: 1
               description: ''
@@ -2746,10 +2766,10 @@ collection:
             id: 54
             value: null
             node: 2
-            variable: 58
+            variable: 59
             variableObject:
               class_name: TestVariable
-              id: 58
+              id: 59
               name: responseScores
               type: 1
               description: ''
@@ -2770,10 +2790,10 @@ collection:
             id: 55
             value: 'sum(c.get("scores"))'
             node: 2
-            variable: 74
+            variable: 76
             variableObject:
               class_name: TestVariable
-              id: 74
+              id: 76
               name: totalScore
               type: 1
               description: ''
@@ -2794,10 +2814,10 @@ collection:
             id: 56
             value: list()
             node: 2
-            variable: 75
+            variable: 77
             variableObject:
               class_name: TestVariable
-              id: 75
+              id: 77
               name: traitScores
               type: 1
               description: ''
@@ -2818,10 +2838,10 @@ collection:
             id: 57
             value: null
             node: 2
-            variable: 67
+            variable: 69
             variableObject:
               class_name: TestVariable
-              id: 67
+              id: 69
               name: stopReason
               type: 1
               description: ''
@@ -2837,6 +2857,54 @@ collection:
             name: stopReason
             pointer: '1'
             pointerVariable: stopReason
+          -
+            class_name: TestNodePort
+            id: 58
+            value: 'NULL'
+            node: 2
+            variable: 42
+            variableObject:
+              class_name: TestVariable
+              id: 42
+              name: itemsAdministered
+              type: 1
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 4
+              parentVariable: null
+            string: '0'
+            defaultValue: '0'
+            dynamic: '0'
+            type: 0
+            exposed: '0'
+            name: itemsAdministered
+            pointer: '1'
+            pointerVariable: itemsAdministered
+          -
+            class_name: TestNodePort
+            id: 59
+            value: 'NULL'
+            node: 2
+            variable: 60
+            variableObject:
+              class_name: TestVariable
+              id: 60
+              name: responses
+              type: 1
+              description: ''
+              passableThroughUrl: '0'
+              value: null
+              test: 4
+              parentVariable: null
+            string: '0'
+            defaultValue: '0'
+            dynamic: '0'
+            type: 0
+            exposed: '0'
+            name: responses
+            pointer: '1'
+            pointerVariable: responses
       -
         class_name: TestNode
         id: 3
@@ -2851,7 +2919,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 58
+            id: 60
             value: null
             node: 3
             variable: 14
@@ -2875,7 +2943,7 @@ collection:
             pointerVariable: sourceList
           -
             class_name: TestNodePort
-            id: 59
+            id: 61
             value: null
             node: 3
             variable: 13
@@ -2899,7 +2967,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 60
+            id: 62
             value: '0'
             node: 3
             variable: 12
@@ -2923,7 +2991,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 61
+            id: 63
             value: ''
             node: 3
             variable: null
@@ -2938,7 +3006,7 @@ collection:
             pointerVariable: contentBalancing
           -
             class_name: TestNodePort
-            id: 62
+            id: 64
             value: ''
             node: 3
             variable: null
@@ -2953,7 +3021,7 @@ collection:
             pointerVariable: itemBankItems
           -
             class_name: TestNodePort
-            id: 63
+            id: 65
             value: ''
             node: 3
             variable: null
@@ -2968,7 +3036,7 @@ collection:
             pointerVariable: itemBankTable
           -
             class_name: TestNodePort
-            id: 64
+            id: 66
             value: ''
             node: 3
             variable: null
@@ -2983,7 +3051,7 @@ collection:
             pointerVariable: itemBankType
           -
             class_name: TestNodePort
-            id: 65
+            id: 67
             value: ''
             node: 3
             variable: null
@@ -2998,7 +3066,7 @@ collection:
             pointerVariable: itemNumLimit
           -
             class_name: TestNodePort
-            id: 66
+            id: 68
             value: ''
             node: 3
             variable: null
@@ -3013,7 +3081,7 @@ collection:
             pointerVariable: itemTemplate
           -
             class_name: TestNodePort
-            id: 67
+            id: 69
             value: ''
             node: 3
             variable: null
@@ -3028,7 +3096,7 @@ collection:
             pointerVariable: itemTimeFullRequired
           -
             class_name: TestNodePort
-            id: 68
+            id: 70
             value: ''
             node: 3
             variable: null
@@ -3043,7 +3111,7 @@ collection:
             pointerVariable: itemTimeLimit
           -
             class_name: TestNodePort
-            id: 69
+            id: 71
             value: ''
             node: 3
             variable: null
@@ -3058,7 +3126,7 @@ collection:
             pointerVariable: minAccuracy
           -
             class_name: TestNodePort
-            id: 70
+            id: 72
             value: ''
             node: 3
             variable: null
@@ -3073,7 +3141,7 @@ collection:
             pointerVariable: nextItemCriterion
           -
             class_name: TestNodePort
-            id: 71
+            id: 73
             value: ''
             node: 3
             variable: null
@@ -3088,7 +3156,7 @@ collection:
             pointerVariable: nextItemRandomesque
           -
             class_name: TestNodePort
-            id: 72
+            id: 74
             value: ''
             node: 3
             variable: null
@@ -3103,7 +3171,7 @@ collection:
             pointerVariable: responseBank
           -
             class_name: TestNodePort
-            id: 73
+            id: 75
             value: ''
             node: 3
             variable: null
@@ -3118,7 +3186,7 @@ collection:
             pointerVariable: scoringMethod
           -
             class_name: TestNodePort
-            id: 74
+            id: 76
             value: ''
             node: 3
             variable: null
@@ -3133,7 +3201,7 @@ collection:
             pointerVariable: startingTheta
           -
             class_name: TestNodePort
-            id: 75
+            id: 77
             value: ''
             node: 3
             variable: null
@@ -3148,7 +3216,7 @@ collection:
             pointerVariable: testTimeLimit
           -
             class_name: TestNodePort
-            id: 76
+            id: 78
             value: ''
             node: 3
             variable: null
@@ -3163,7 +3231,7 @@ collection:
             pointerVariable: testTimeLimitOffset
           -
             class_name: TestNodePort
-            id: 77
+            id: 79
             value: ''
             node: 3
             variable: null
@@ -3178,7 +3246,7 @@ collection:
             pointerVariable: responseRequired
           -
             class_name: TestNodePort
-            id: 78
+            id: 80
             value: ''
             node: 3
             variable: null
@@ -3193,7 +3261,7 @@ collection:
             pointerVariable: responseRequiredAlert
           -
             class_name: TestNodePort
-            id: 79
+            id: 81
             value: ''
             node: 3
             variable: null
@@ -3208,7 +3276,7 @@ collection:
             pointerVariable: itemTemplateParamsModule
           -
             class_name: TestNodePort
-            id: 80
+            id: 82
             value: 'NULL'
             node: 3
             variable: null
@@ -3223,7 +3291,7 @@ collection:
             pointerVariable: model
           -
             class_name: TestNodePort
-            id: 81
+            id: 83
             value: ''
             node: 3
             variable: null
@@ -3238,7 +3306,7 @@ collection:
             pointerVariable: responseCatValueModule
           -
             class_name: TestNodePort
-            id: 82
+            id: 84
             value: ''
             node: 3
             variable: null
@@ -3253,7 +3321,7 @@ collection:
             pointerVariable: nextItemModule
           -
             class_name: TestNodePort
-            id: 83
+            id: 85
             value: ''
             node: 3
             variable: null
@@ -3268,7 +3336,7 @@ collection:
             pointerVariable: itemBankTableExtraFields
           -
             class_name: TestNodePort
-            id: 84
+            id: 86
             value: ''
             node: 3
             variable: null
@@ -3283,7 +3351,7 @@ collection:
             pointerVariable: itemBankFilterModule
           -
             class_name: TestNodePort
-            id: 85
+            id: 87
             value: c.getDynamicInputs()
             node: 3
             variable: null
@@ -3298,7 +3366,7 @@ collection:
             pointerVariable: dynamicInputs
           -
             class_name: TestNodePort
-            id: 86
+            id: 88
             value: ''
             node: 3
             variable: null
@@ -3313,7 +3381,7 @@ collection:
             pointerVariable: testTimeLimitType
           -
             class_name: TestNodePort
-            id: 87
+            id: 89
             value: ''
             node: 3
             variable: null
@@ -3328,7 +3396,7 @@ collection:
             pointerVariable: sessionResuming
           -
             class_name: TestNodePort
-            id: 88
+            id: 90
             value: ''
             node: 3
             variable: null
@@ -3343,7 +3411,7 @@ collection:
             pointerVariable: sessionTable
           -
             class_name: TestNodePort
-            id: 89
+            id: 91
             value: ''
             node: 3
             variable: null
@@ -3358,7 +3426,7 @@ collection:
             pointerVariable: minAccuracyMinItems
           -
             class_name: TestNodePort
-            id: 90
+            id: 92
             value: ''
             node: 3
             variable: null
@@ -3373,7 +3441,7 @@ collection:
             pointerVariable: itemBankFlatTable
           -
             class_name: TestNodePort
-            id: 91
+            id: 93
             value: ''
             node: 3
             variable: null
@@ -3388,7 +3456,7 @@ collection:
             pointerVariable: itemTemplateHtml
           -
             class_name: TestNodePort
-            id: 92
+            id: 94
             value: ''
             node: 3
             variable: null
@@ -3403,7 +3471,7 @@ collection:
             pointerVariable: templateInstructions
           -
             class_name: TestNodePort
-            id: 93
+            id: 95
             value: ''
             node: 3
             variable: null
@@ -3418,7 +3486,7 @@ collection:
             pointerVariable: templateLogo
           -
             class_name: TestNodePort
-            id: 94
+            id: 96
             value: ''
             node: 3
             variable: null
@@ -3433,7 +3501,7 @@ collection:
             pointerVariable: templateNextButtonLabel
           -
             class_name: TestNodePort
-            id: 95
+            id: 97
             value: ''
             node: 3
             variable: null
@@ -3448,7 +3516,7 @@ collection:
             pointerVariable: templateTitle
           -
             class_name: TestNodePort
-            id: 96
+            id: 98
             value: ''
             node: 3
             variable: null
@@ -3463,7 +3531,7 @@ collection:
             pointerVariable: templateFooter
           -
             class_name: TestNodePort
-            id: 97
+            id: 99
             value: ''
             node: 3
             variable: null
@@ -3478,7 +3546,7 @@ collection:
             pointerVariable: calculateSem
           -
             class_name: TestNodePort
-            id: 98
+            id: 100
             value: ''
             node: 3
             variable: null
@@ -3493,7 +3561,7 @@ collection:
             pointerVariable: calculateTheta
           -
             class_name: TestNodePort
-            id: 99
+            id: 101
             value: ''
             node: 3
             variable: null
@@ -3508,7 +3576,7 @@ collection:
             pointerVariable: canGoBack
           -
             class_name: TestNodePort
-            id: 100
+            id: 102
             value: ''
             node: 3
             variable: null
@@ -3523,7 +3591,7 @@ collection:
             pointerVariable: itemsPerPage
           -
             class_name: TestNodePort
-            id: 101
+            id: 103
             value: ''
             node: 3
             variable: null
@@ -3538,7 +3606,7 @@ collection:
             pointerVariable: order
           -
             class_name: TestNodePort
-            id: 102
+            id: 104
             value: ''
             node: 3
             variable: null
@@ -3553,7 +3621,7 @@ collection:
             pointerVariable: backButtonLabel
           -
             class_name: TestNodePort
-            id: 103
+            id: 105
             value: ''
             node: 3
             variable: null
@@ -3568,7 +3636,7 @@ collection:
             pointerVariable: showPageInfo
           -
             class_name: TestNodePort
-            id: 104
+            id: 106
             value: ''
             node: 3
             variable: null
@@ -3583,7 +3651,7 @@ collection:
             pointerVariable: exposureLimit
           -
             class_name: TestNodePort
-            id: 105
+            id: 107
             value: ''
             node: 3
             variable: null
@@ -3598,7 +3666,7 @@ collection:
             pointerVariable: exposureMaxItems
           -
             class_name: TestNodePort
-            id: 106
+            id: 108
             value: ''
             node: 3
             variable: null
@@ -3613,7 +3681,7 @@ collection:
             pointerVariable: exposureMinSessions
           -
             class_name: TestNodePort
-            id: 107
+            id: 109
             value: ''
             node: 3
             variable: null
@@ -3628,7 +3696,7 @@ collection:
             pointerVariable: canSkipItems
           -
             class_name: TestNodePort
-            id: 108
+            id: 110
             value: ''
             node: 3
             variable: null
@@ -3643,7 +3711,7 @@ collection:
             pointerVariable: stopCheckModule
           -
             class_name: TestNodePort
-            id: 109
+            id: 111
             value: ''
             node: 3
             variable: null
@@ -3658,7 +3726,7 @@ collection:
             pointerVariable: d
           -
             class_name: TestNodePort
-            id: 110
+            id: 112
             value: ''
             node: 3
             variable: null
@@ -3685,7 +3753,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 111
+            id: 113
             value: null
             node: 4
             variable: 15
@@ -3709,7 +3777,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 112
+            id: 114
             value: null
             node: 4
             variable: 17
@@ -3733,7 +3801,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 113
+            id: 115
             value: '0'
             node: 4
             variable: 16
@@ -3757,7 +3825,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 114
+            id: 116
             value: ''
             node: 4
             variable: null
@@ -3772,7 +3840,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 115
+            id: 117
             value: ''
             node: 4
             variable: null
@@ -3787,7 +3855,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 116
+            id: 118
             value: ''
             node: 4
             variable: null
@@ -3802,7 +3870,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 117
+            id: 119
             value: ''
             node: 4
             variable: null
@@ -3817,7 +3885,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 118
+            id: 120
             value: ''
             node: 4
             variable: null
@@ -3832,7 +3900,7 @@ collection:
             pointerVariable: testTimeStarted
           -
             class_name: TestNodePort
-            id: 119
+            id: 121
             value: ''
             node: 4
             variable: null
@@ -3847,7 +3915,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 120
+            id: 122
             value: ''
             node: 4
             variable: null
@@ -3862,7 +3930,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 121
+            id: 123
             value: ''
             node: 4
             variable: null
@@ -3877,7 +3945,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 122
+            id: 124
             value: ''
             node: 4
             variable: null
@@ -3892,7 +3960,7 @@ collection:
             pointerVariable: totalTimeTaken
           -
             class_name: TestNodePort
-            id: 123
+            id: 125
             value: ''
             node: 4
             variable: null
@@ -3907,7 +3975,7 @@ collection:
             pointerVariable: resumedItemsIds
           -
             class_name: TestNodePort
-            id: 124
+            id: 126
             value: ''
             node: 4
             variable: null
@@ -3922,7 +3990,7 @@ collection:
             pointerVariable: state
           -
             class_name: TestNodePort
-            id: 125
+            id: 127
             value: ''
             node: 4
             variable: null
@@ -3937,7 +4005,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 126
+            id: 128
             value: ''
             node: 4
             variable: null
@@ -3952,7 +4020,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 127
+            id: 129
             value: ''
             node: 4
             variable: null
@@ -3979,7 +4047,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 128
+            id: 130
             value: null
             node: 5
             variable: 15
@@ -4003,7 +4071,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 129
+            id: 131
             value: null
             node: 5
             variable: 17
@@ -4027,7 +4095,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 130
+            id: 132
             value: '0'
             node: 5
             variable: 16
@@ -4051,7 +4119,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 131
+            id: 133
             value: ''
             node: 5
             variable: null
@@ -4066,7 +4134,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 132
+            id: 134
             value: 'NULL'
             node: 5
             variable: null
@@ -4081,7 +4149,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 133
+            id: 135
             value: ''
             node: 5
             variable: null
@@ -4096,7 +4164,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 134
+            id: 136
             value: ''
             node: 5
             variable: null
@@ -4111,7 +4179,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 135
+            id: 137
             value: '0'
             node: 5
             variable: null
@@ -4126,7 +4194,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 136
+            id: 138
             value: ''
             node: 5
             variable: null
@@ -4141,7 +4209,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 137
+            id: 139
             value: ''
             node: 5
             variable: null
@@ -4156,7 +4224,7 @@ collection:
             pointerVariable: nextItemSafe
           -
             class_name: TestNodePort
-            id: 138
+            id: 140
             value: ''
             node: 5
             variable: null
@@ -4171,7 +4239,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 139
+            id: 141
             value: 'NULL'
             node: 5
             variable: null
@@ -4186,7 +4254,7 @@ collection:
             pointerVariable: resumedItemsIds
           -
             class_name: TestNodePort
-            id: 140
+            id: 142
             value: ''
             node: 5
             variable: null
@@ -4201,7 +4269,7 @@ collection:
             pointerVariable: resumedItemsIds
           -
             class_name: TestNodePort
-            id: 141
+            id: 143
             value: '1'
             node: 5
             variable: null
@@ -4216,7 +4284,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 142
+            id: 144
             value: '0'
             node: 5
             variable: null
@@ -4231,7 +4299,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 143
+            id: 145
             value: ''
             node: 5
             variable: null
@@ -4246,7 +4314,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 144
+            id: 146
             value: ''
             node: 5
             variable: null
@@ -4261,7 +4329,7 @@ collection:
             pointerVariable: responsesSafe
           -
             class_name: TestNodePort
-            id: 145
+            id: 147
             value: 'NULL'
             node: 5
             variable: null
@@ -4288,7 +4356,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 146
+            id: 148
             value: null
             node: 6
             variable: 15
@@ -4312,7 +4380,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 147
+            id: 149
             value: null
             node: 6
             variable: 17
@@ -4336,7 +4404,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 148
+            id: 150
             value: '0'
             node: 6
             variable: 16
@@ -4360,7 +4428,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 149
+            id: 151
             value: ''
             node: 6
             variable: null
@@ -4375,7 +4443,7 @@ collection:
             pointerVariable: outOfTime
           -
             class_name: TestNodePort
-            id: 150
+            id: 152
             value: ''
             node: 6
             variable: null
@@ -4390,7 +4458,7 @@ collection:
             pointerVariable: submitted
           -
             class_name: TestNodePort
-            id: 151
+            id: 153
             value: ''
             node: 6
             variable: null
@@ -4405,7 +4473,7 @@ collection:
             pointerVariable: .branch
           -
             class_name: TestNodePort
-            id: 152
+            id: 154
             value: ''
             node: 6
             variable: null
@@ -4420,7 +4488,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 153
+            id: 155
             value: ''
             node: 6
             variable: null
@@ -4435,7 +4503,7 @@ collection:
             pointerVariable: itemSafe
           -
             class_name: TestNodePort
-            id: 154
+            id: 156
             value: ''
             node: 6
             variable: null
@@ -4450,7 +4518,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 155
+            id: 157
             value: c.getDynamicInputs()
             node: 6
             variable: null
@@ -4465,7 +4533,7 @@ collection:
             pointerVariable: templateParams
           -
             class_name: TestNodePort
-            id: 156
+            id: 158
             value: ''
             node: 6
             variable: null
@@ -4480,7 +4548,7 @@ collection:
             pointerVariable: testTimeStarted
           -
             class_name: TestNodePort
-            id: 157
+            id: 159
             value: 'NULL'
             node: 6
             variable: null
@@ -4495,7 +4563,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 158
+            id: 160
             value: ''
             node: 6
             variable: null
@@ -4510,7 +4578,7 @@ collection:
             pointerVariable: testTimeLeft
           -
             class_name: TestNodePort
-            id: 159
+            id: 161
             value: ''
             node: 6
             variable: null
@@ -4525,7 +4593,7 @@ collection:
             pointerVariable: timeTaken
           -
             class_name: TestNodePort
-            id: 160
+            id: 162
             value: '0'
             node: 6
             variable: null
@@ -4540,7 +4608,7 @@ collection:
             pointerVariable: totalTimeTaken
           -
             class_name: TestNodePort
-            id: 161
+            id: 163
             value: ''
             node: 6
             variable: null
@@ -4555,7 +4623,7 @@ collection:
             pointerVariable: totalTimeTaken
           -
             class_name: TestNodePort
-            id: 162
+            id: 164
             value: ''
             node: 6
             variable: null
@@ -4570,7 +4638,7 @@ collection:
             pointerVariable: state
           -
             class_name: TestNodePort
-            id: 163
+            id: 165
             value: ''
             node: 6
             variable: null
@@ -4585,7 +4653,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 164
+            id: 166
             value: ''
             node: 6
             variable: null
@@ -4600,7 +4668,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 165
+            id: 167
             value: ''
             node: 6
             variable: null
@@ -4615,7 +4683,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 166
+            id: 168
             value: ''
             node: 6
             variable: null
@@ -4630,7 +4698,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 167
+            id: 169
             value: ''
             node: 6
             variable: null
@@ -4645,7 +4713,7 @@ collection:
             pointerVariable: responsesSafe
           -
             class_name: TestNodePort
-            id: 168
+            id: 170
             value: '0'
             node: 6
             variable: null
@@ -4660,7 +4728,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 169
+            id: 171
             value: '1'
             node: 6
             variable: null
@@ -4675,7 +4743,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 170
+            id: 172
             value: 'NULL'
             node: 6
             variable: null
@@ -4690,7 +4758,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 171
+            id: 173
             value: list()
             node: 6
             variable: null
@@ -4717,7 +4785,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 172
+            id: 174
             value: null
             node: 7
             variable: 15
@@ -4741,7 +4809,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 173
+            id: 175
             value: null
             node: 7
             variable: 17
@@ -4765,7 +4833,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 174
+            id: 176
             value: '0'
             node: 7
             variable: 16
@@ -4789,7 +4857,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 175
+            id: 177
             value: 'NULL'
             node: 7
             variable: null
@@ -4804,7 +4872,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 176
+            id: 178
             value: ''
             node: 7
             variable: null
@@ -4819,7 +4887,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 177
+            id: 179
             value: ''
             node: 7
             variable: null
@@ -4834,7 +4902,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 178
+            id: 180
             value: 'NULL'
             node: 7
             variable: null
@@ -4849,7 +4917,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 179
+            id: 181
             value: ''
             node: 7
             variable: null
@@ -4864,7 +4932,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 180
+            id: 182
             value: ''
             node: 7
             variable: null
@@ -4879,7 +4947,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 181
+            id: 183
             value: ''
             node: 7
             variable: null
@@ -4894,7 +4962,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 182
+            id: 184
             value: ''
             node: 7
             variable: null
@@ -4909,7 +4977,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 183
+            id: 185
             value: ''
             node: 7
             variable: null
@@ -4924,7 +4992,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 184
+            id: 186
             value: ''
             node: 7
             variable: null
@@ -4939,7 +5007,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 185
+            id: 187
             value: ''
             node: 7
             variable: null
@@ -4954,7 +5022,7 @@ collection:
             pointerVariable: currentScores
           -
             class_name: TestNodePort
-            id: 186
+            id: 188
             value: ''
             node: 7
             variable: null
@@ -4969,7 +5037,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 187
+            id: 189
             value: '0'
             node: 7
             variable: null
@@ -4984,7 +5052,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 188
+            id: 190
             value: '1'
             node: 7
             variable: null
@@ -4999,7 +5067,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 189
+            id: 191
             value: ''
             node: 7
             variable: null
@@ -5014,7 +5082,7 @@ collection:
             pointerVariable: traitScores
           -
             class_name: TestNodePort
-            id: 190
+            id: 192
             value: 'NULL'
             node: 7
             variable: null
@@ -5029,7 +5097,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 191
+            id: 193
             value: ''
             node: 7
             variable: null
@@ -5044,7 +5112,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 192
+            id: 194
             value: ''
             node: 7
             variable: null
@@ -5059,7 +5127,7 @@ collection:
             pointerVariable: currentTraits
           -
             class_name: TestNodePort
-            id: 193
+            id: 195
             value: ''
             node: 7
             variable: null
@@ -5074,7 +5142,7 @@ collection:
             pointerVariable: prevTheta
           -
             class_name: TestNodePort
-            id: 194
+            id: 196
             value: ''
             node: 7
             variable: null
@@ -5101,7 +5169,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 195
+            id: 197
             value: null
             node: 8
             variable: 15
@@ -5125,7 +5193,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 196
+            id: 198
             value: null
             node: 8
             variable: 17
@@ -5149,7 +5217,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 197
+            id: 199
             value: '0'
             node: 8
             variable: 16
@@ -5173,7 +5241,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 198
+            id: 200
             value: ''
             node: 8
             variable: null
@@ -5188,7 +5256,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 199
+            id: 201
             value: ''
             node: 8
             variable: null
@@ -5203,7 +5271,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 200
+            id: 202
             value: 'NULL'
             node: 8
             variable: null
@@ -5218,7 +5286,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 201
+            id: 203
             value: ''
             node: 8
             variable: null
@@ -5233,7 +5301,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 202
+            id: 204
             value: '1'
             node: 8
             variable: null
@@ -5248,7 +5316,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 203
+            id: 205
             value: ''
             node: 8
             variable: null
@@ -5263,7 +5331,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 204
+            id: 206
             value: ''
             node: 8
             variable: null
@@ -5278,7 +5346,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 205
+            id: 207
             value: '0'
             node: 8
             variable: null
@@ -5293,7 +5361,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 206
+            id: 208
             value: ''
             node: 8
             variable: null
@@ -5308,7 +5376,7 @@ collection:
             pointerVariable: currentScores
           -
             class_name: TestNodePort
-            id: 207
+            id: 209
             value: ''
             node: 8
             variable: null
@@ -5323,7 +5391,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 208
+            id: 210
             value: ''
             node: 8
             variable: null
@@ -5338,7 +5406,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 209
+            id: 211
             value: ''
             node: 8
             variable: null
@@ -5353,7 +5421,7 @@ collection:
             pointerVariable: currentTraits
           -
             class_name: TestNodePort
-            id: 210
+            id: 212
             value: ''
             node: 8
             variable: null
@@ -5368,7 +5436,7 @@ collection:
             pointerVariable: prevTheta
           -
             class_name: TestNodePort
-            id: 211
+            id: 213
             value: ''
             node: 8
             variable: null
@@ -5395,7 +5463,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 212
+            id: 214
             value: null
             node: 9
             variable: 15
@@ -5419,7 +5487,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 213
+            id: 215
             value: null
             node: 9
             variable: 17
@@ -5443,7 +5511,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 214
+            id: 216
             value: '0'
             node: 9
             variable: 16
@@ -5467,7 +5535,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 215
+            id: 217
             value: ''
             node: 9
             variable: null
@@ -5482,7 +5550,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 216
+            id: 218
             value: 'NULL'
             node: 9
             variable: null
@@ -5497,7 +5565,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 217
+            id: 219
             value: '1'
             node: 9
             variable: null
@@ -5512,7 +5580,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 218
+            id: 220
             value: ''
             node: 9
             variable: null
@@ -5527,7 +5595,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 219
+            id: 221
             value: ''
             node: 9
             variable: null
@@ -5542,7 +5610,7 @@ collection:
             pointerVariable: continue
           -
             class_name: TestNodePort
-            id: 220
+            id: 222
             value: ''
             node: 9
             variable: null
@@ -5557,7 +5625,7 @@ collection:
             pointerVariable: stop
           -
             class_name: TestNodePort
-            id: 221
+            id: 223
             value: ''
             node: 9
             variable: null
@@ -5572,7 +5640,7 @@ collection:
             pointerVariable: .branch
           -
             class_name: TestNodePort
-            id: 222
+            id: 224
             value: ''
             node: 9
             variable: null
@@ -5587,7 +5655,7 @@ collection:
             pointerVariable: testTimeLeft
           -
             class_name: TestNodePort
-            id: 223
+            id: 225
             value: '1'
             node: 9
             variable: null
@@ -5602,7 +5670,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 224
+            id: 226
             value: ''
             node: 9
             variable: null
@@ -5617,7 +5685,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 225
+            id: 227
             value: ''
             node: 9
             variable: null
@@ -5632,7 +5700,7 @@ collection:
             pointerVariable: stopReason
           -
             class_name: TestNodePort
-            id: 226
+            id: 228
             value: ''
             node: 9
             variable: null
@@ -5647,7 +5715,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 227
+            id: 229
             value: ''
             node: 9
             variable: null
@@ -5662,7 +5730,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 228
+            id: 230
             value: ''
             node: 9
             variable: null
@@ -5677,7 +5745,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 229
+            id: 231
             value: ''
             node: 9
             variable: null
@@ -5692,7 +5760,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 230
+            id: 232
             value: ''
             node: 9
             variable: null
@@ -5719,7 +5787,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 231
+            id: 233
             value: null
             node: 10
             variable: 15
@@ -5743,7 +5811,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 232
+            id: 234
             value: null
             node: 10
             variable: 17
@@ -5767,7 +5835,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 233
+            id: 235
             value: '0'
             node: 10
             variable: 16
@@ -5791,7 +5859,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 234
+            id: 236
             value: ''
             node: 10
             variable: null
@@ -5806,7 +5874,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 235
+            id: 237
             value: ''
             node: 10
             variable: null
@@ -5821,7 +5889,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 236
+            id: 238
             value: ''
             node: 10
             variable: null
@@ -5836,7 +5904,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 237
+            id: 239
             value: ''
             node: 10
             variable: null
@@ -5851,7 +5919,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 238
+            id: 240
             value: ''
             node: 10
             variable: null
@@ -5866,7 +5934,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 239
+            id: 241
             value: ''
             node: 10
             variable: null
@@ -5924,10 +5992,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 62
+        destinationPort: 64
         destinationPortObject:
           class_name: TestNodePort
-          id: 62
+          id: 64
           value: ''
           node: 3
           variable: null
@@ -5974,10 +6042,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 63
+        destinationPort: 65
         destinationPortObject:
           class_name: TestNodePort
-          id: 63
+          id: 65
           value: ''
           node: 3
           variable: null
@@ -6024,10 +6092,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 64
+        destinationPort: 66
         destinationPortObject:
           class_name: TestNodePort
-          id: 64
+          id: 66
           value: ''
           node: 3
           variable: null
@@ -6074,10 +6142,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 61
+        destinationPort: 63
         destinationPortObject:
           class_name: TestNodePort
-          id: 61
+          id: 63
           value: ''
           node: 3
           variable: null
@@ -6104,10 +6172,10 @@ collection:
           id: 9
           value: '0'
           node: 1
-          variable: 65
+          variable: 67
           variableObject:
             class_name: TestVariable
-            id: 65
+            id: 67
             name: startingTheta
             type: 0
             description: ''
@@ -6124,10 +6192,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 74
+        destinationPort: 76
         destinationPortObject:
           class_name: TestNodePort
-          id: 74
+          id: 76
           value: ''
           node: 3
           variable: null
@@ -6154,10 +6222,10 @@ collection:
           id: 4
           value: '0'
           node: 1
-          variable: 69
+          variable: 71
           variableObject:
             class_name: TestVariable
-            id: 69
+            id: 71
             name: testTimeLimit
             type: 0
             description: ''
@@ -6174,10 +6242,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 75
+        destinationPort: 77
         destinationPortObject:
           class_name: TestNodePort
-          id: 75
+          id: 77
           value: ''
           node: 3
           variable: null
@@ -6204,10 +6272,10 @@ collection:
           id: 7
           value: '0'
           node: 1
-          variable: 70
+          variable: 72
           variableObject:
             class_name: TestVariable
-            id: 70
+            id: 72
             name: testTimeLimitOffset
             type: 0
             description: ''
@@ -6224,10 +6292,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 76
+        destinationPort: 78
         destinationPortObject:
           class_name: TestNodePort
-          id: 76
+          id: 78
           value: ''
           node: 3
           variable: null
@@ -6274,10 +6342,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 65
+        destinationPort: 67
         destinationPortObject:
           class_name: TestNodePort
-          id: 65
+          id: 67
           value: ''
           node: 3
           variable: null
@@ -6324,10 +6392,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 66
+        destinationPort: 68
         destinationPortObject:
           class_name: TestNodePort
-          id: 66
+          id: 68
           value: ''
           node: 3
           variable: null
@@ -6374,10 +6442,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 67
+        destinationPort: 69
         destinationPortObject:
           class_name: TestNodePort
-          id: 67
+          id: 69
           value: ''
           node: 3
           variable: null
@@ -6424,10 +6492,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 68
+        destinationPort: 70
         destinationPortObject:
           class_name: TestNodePort
-          id: 68
+          id: 70
           value: ''
           node: 3
           variable: null
@@ -6454,10 +6522,10 @@ collection:
           id: 17
           value: '1'
           node: 1
-          variable: 44
+          variable: 45
           variableObject:
             class_name: TestVariable
-            id: 44
+            id: 45
             name: minAccuracy
             type: 0
             description: ''
@@ -6474,10 +6542,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 69
+        destinationPort: 71
         destinationPortObject:
           class_name: TestNodePort
-          id: 69
+          id: 71
           value: ''
           node: 3
           variable: null
@@ -6504,10 +6572,10 @@ collection:
           id: 10
           value: MFI
           node: 1
-          variable: 48
+          variable: 49
           variableObject:
             class_name: TestVariable
-            id: 48
+            id: 49
             name: nextItemCriterion
             type: 0
             description: ''
@@ -6524,10 +6592,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 70
+        destinationPort: 72
         destinationPortObject:
           class_name: TestNodePort
-          id: 70
+          id: 72
           value: ''
           node: 3
           variable: null
@@ -6554,10 +6622,10 @@ collection:
           id: 11
           value: '1'
           node: 1
-          variable: 50
+          variable: 51
           variableObject:
             class_name: TestVariable
-            id: 50
+            id: 51
             name: nextItemRandomesque
             type: 0
             description: ''
@@ -6574,10 +6642,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 71
+        destinationPort: 73
         destinationPortObject:
           class_name: TestNodePort
-          id: 71
+          id: 73
           value: ''
           node: 3
           variable: null
@@ -6604,10 +6672,10 @@ collection:
           id: 13
           value: null
           node: 1
-          variable: 53
+          variable: 54
           variableObject:
             class_name: TestVariable
-            id: 53
+            id: 54
             name: responseBank
             type: 0
             description: ''
@@ -6624,10 +6692,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 72
+        destinationPort: 74
         destinationPortObject:
           class_name: TestNodePort
-          id: 72
+          id: 74
           value: ''
           node: 3
           variable: null
@@ -6654,10 +6722,10 @@ collection:
           id: 12
           value: BM
           node: 1
-          variable: 59
+          variable: 61
           variableObject:
             class_name: TestVariable
-            id: 59
+            id: 61
             name: scoringMethod
             type: 0
             description: ''
@@ -6674,10 +6742,10 @@ collection:
           pointer: '0'
           pointerVariable: ''
         destinationNode: 3
-        destinationPort: 73
+        destinationPort: 75
         destinationPortObject:
           class_name: TestNodePort
-          id: 73
+          id: 75
           value: ''
           node: 3
           variable: null
@@ -6704,10 +6772,10 @@ collection:
           id: 18
           value: null
           node: 1
-          variable: 54
+          variable: 55
           variableObject:
             class_name: TestVariable
-            id: 54
+            id: 55
             name: responseRequired
             type: 0
             description: ''
@@ -6724,10 +6792,10 @@ collection:
           pointer: '0'
           pointerVariable: responseRequired
         destinationNode: 3
-        destinationPort: 77
+        destinationPort: 79
         destinationPortObject:
           class_name: TestNodePort
-          id: 77
+          id: 79
           value: ''
           node: 3
           variable: null
@@ -6754,10 +6822,10 @@ collection:
           id: 19
           value: null
           node: 1
-          variable: 55
+          variable: 56
           variableObject:
             class_name: TestVariable
-            id: 55
+            id: 56
             name: responseRequiredAlert
             type: 0
             description: ''
@@ -6774,10 +6842,10 @@ collection:
           pointer: '0'
           pointerVariable: responseRequiredAlert
         destinationNode: 3
-        destinationPort: 78
+        destinationPort: 80
         destinationPortObject:
           class_name: TestNodePort
-          id: 78
+          id: 80
           value: ''
           node: 3
           variable: null
@@ -6824,10 +6892,10 @@ collection:
           pointer: '0'
           pointerVariable: itemTemplateParamsModule
         destinationNode: 3
-        destinationPort: 79
+        destinationPort: 81
         destinationPortObject:
           class_name: TestNodePort
-          id: 79
+          id: 81
           value: ''
           node: 3
           variable: null
@@ -6848,10 +6916,10 @@ collection:
         id: 21
         flowTest: 4
         sourceNode: 5
-        sourcePort: 137
+        sourcePort: 139
         sourcePortObject:
           class_name: TestNodePort
-          id: 137
+          id: 139
           value: ''
           node: 5
           variable: null
@@ -6865,10 +6933,10 @@ collection:
           pointer: '0'
           pointerVariable: nextItemSafe
         destinationNode: 6
-        destinationPort: 153
+        destinationPort: 155
         destinationPortObject:
           class_name: TestNodePort
-          id: 153
+          id: 155
           value: ''
           node: 6
           variable: null
@@ -6889,10 +6957,10 @@ collection:
         id: 22
         flowTest: 4
         sourceNode: 4
-        sourcePort: 113
+        sourcePort: 115
         sourcePortObject:
           class_name: TestNodePort
-          id: 113
+          id: 115
           value: '0'
           node: 4
           variable: 16
@@ -6925,10 +6993,10 @@ collection:
         id: 23
         flowTest: 4
         sourceNode: 5
-        sourcePort: 130
+        sourcePort: 132
         sourcePortObject:
           class_name: TestNodePort
-          id: 130
+          id: 132
           value: '0'
           node: 5
           variable: 16
@@ -6961,10 +7029,10 @@ collection:
         id: 24
         flowTest: 4
         sourceNode: 6
-        sourcePort: 149
+        sourcePort: 151
         sourcePortObject:
           class_name: TestNodePort
-          id: 149
+          id: 151
           value: ''
           node: 6
           variable: null
@@ -6988,10 +7056,10 @@ collection:
         id: 25
         flowTest: 4
         sourceNode: 6
-        sourcePort: 150
+        sourcePort: 152
         sourcePortObject:
           class_name: TestNodePort
-          id: 150
+          id: 152
           value: ''
           node: 6
           variable: null
@@ -7015,10 +7083,10 @@ collection:
         id: 26
         flowTest: 4
         sourceNode: 8
-        sourcePort: 197
+        sourcePort: 199
         sourcePortObject:
           class_name: TestNodePort
-          id: 197
+          id: 199
           value: '0'
           node: 8
           variable: 16
@@ -7051,10 +7119,10 @@ collection:
         id: 27
         flowTest: 4
         sourceNode: 9
-        sourcePort: 219
+        sourcePort: 221
         sourcePortObject:
           class_name: TestNodePort
-          id: 219
+          id: 221
           value: ''
           node: 9
           variable: null
@@ -7078,10 +7146,10 @@ collection:
         id: 28
         flowTest: 4
         sourceNode: 9
-        sourcePort: 220
+        sourcePort: 222
         sourcePortObject:
           class_name: TestNodePort
-          id: 220
+          id: 222
           value: ''
           node: 9
           variable: null
@@ -7105,10 +7173,10 @@ collection:
         id: 29
         flowTest: 4
         sourceNode: 3
-        sourcePort: 60
+        sourcePort: 62
         sourcePortObject:
           class_name: TestNodePort
-          id: 60
+          id: 62
           value: '0'
           node: 3
           variable: 12
@@ -7147,10 +7215,10 @@ collection:
           id: 21
           value: null
           node: 1
-          variable: 46
+          variable: 47
           variableObject:
             class_name: TestVariable
-            id: 46
+            id: 47
             name: model
             type: 0
             description: ''
@@ -7167,10 +7235,10 @@ collection:
           pointer: '0'
           pointerVariable: model
         destinationNode: 3
-        destinationPort: 80
+        destinationPort: 82
         destinationPortObject:
           class_name: TestNodePort
-          id: 80
+          id: 82
           value: 'NULL'
           node: 3
           variable: null
@@ -7191,10 +7259,10 @@ collection:
         id: 31
         flowTest: 4
         sourceNode: 7
-        sourcePort: 174
+        sourcePort: 176
         sourcePortObject:
           class_name: TestNodePort
-          id: 174
+          id: 176
           value: '0'
           node: 7
           variable: 16
@@ -7233,10 +7301,10 @@ collection:
           id: 22
           value: null
           node: 1
-          variable: 57
+          variable: 58
           variableObject:
             class_name: TestVariable
-            id: 57
+            id: 58
             name: responseScoreModule
             type: 0
             description: ''
@@ -7253,10 +7321,10 @@ collection:
           pointer: '0'
           pointerVariable: responseCatValueModule
         destinationNode: 3
-        destinationPort: 81
+        destinationPort: 83
         destinationPortObject:
           class_name: TestNodePort
-          id: 81
+          id: 83
           value: ''
           node: 3
           variable: null
@@ -7283,10 +7351,10 @@ collection:
           id: 23
           value: null
           node: 1
-          variable: 49
+          variable: 50
           variableObject:
             class_name: TestVariable
-            id: 49
+            id: 50
             name: nextItemModule
             type: 0
             description: ''
@@ -7303,10 +7371,10 @@ collection:
           pointer: '0'
           pointerVariable: nextItemModule
         destinationNode: 3
-        destinationPort: 82
+        destinationPort: 84
         destinationPortObject:
           class_name: TestNodePort
-          id: 82
+          id: 84
           value: ''
           node: 3
           variable: null
@@ -7353,10 +7421,10 @@ collection:
           pointer: '0'
           pointerVariable: itemBankExtraFields
         destinationNode: 3
-        destinationPort: 83
+        destinationPort: 85
         destinationPortObject:
           class_name: TestNodePort
-          id: 83
+          id: 85
           value: ''
           node: 3
           variable: null
@@ -7403,10 +7471,10 @@ collection:
           pointer: '0'
           pointerVariable: itemBankFilterModule
         destinationNode: 3
-        destinationPort: 84
+        destinationPort: 86
         destinationPortObject:
           class_name: TestNodePort
-          id: 84
+          id: 86
           value: ''
           node: 3
           variable: null
@@ -7433,10 +7501,10 @@ collection:
           id: 26
           value: startedAgo
           node: 1
-          variable: 71
+          variable: 73
           variableObject:
             class_name: TestVariable
-            id: 71
+            id: 73
             name: testTimeLimitType
             type: 0
             description: ''
@@ -7453,10 +7521,10 @@ collection:
           pointer: '0'
           pointerVariable: testTimeLimitType
         destinationNode: 3
-        destinationPort: 86
+        destinationPort: 88
         destinationPortObject:
           class_name: TestNodePort
-          id: 86
+          id: 88
           value: ''
           node: 3
           variable: null
@@ -7483,10 +7551,10 @@ collection:
           id: 27
           value: '0'
           node: 1
-          variable: 62
+          variable: 64
           variableObject:
             class_name: TestVariable
-            id: 62
+            id: 64
             name: sessionResuming
             type: 0
             description: ''
@@ -7503,10 +7571,10 @@ collection:
           pointer: '0'
           pointerVariable: sessionResuming
         destinationNode: 3
-        destinationPort: 87
+        destinationPort: 89
         destinationPortObject:
           class_name: TestNodePort
-          id: 87
+          id: 89
           value: ''
           node: 3
           variable: null
@@ -7533,10 +7601,10 @@ collection:
           id: 28
           value: null
           node: 1
-          variable: 63
+          variable: 65
           variableObject:
             class_name: TestVariable
-            id: 63
+            id: 65
             name: sessionTable
             type: 0
             description: ''
@@ -7553,10 +7621,10 @@ collection:
           pointer: '0'
           pointerVariable: sessionTable
         destinationNode: 3
-        destinationPort: 88
+        destinationPort: 90
         destinationPortObject:
           class_name: TestNodePort
-          id: 88
+          id: 90
           value: ''
           node: 3
           variable: null
@@ -7583,10 +7651,10 @@ collection:
           id: 29
           value: '0'
           node: 1
-          variable: 45
+          variable: 46
           variableObject:
             class_name: TestVariable
-            id: 45
+            id: 46
             name: minAccuracyMinItems
             type: 0
             description: ''
@@ -7603,10 +7671,10 @@ collection:
           pointer: '0'
           pointerVariable: minAccuracyMinItems
         destinationNode: 3
-        destinationPort: 89
+        destinationPort: 91
         destinationPortObject:
           class_name: TestNodePort
-          id: 89
+          id: 91
           value: ''
           node: 3
           variable: null
@@ -7653,10 +7721,10 @@ collection:
           pointer: '0'
           pointerVariable: itemBankFlatTable
         destinationNode: 3
-        destinationPort: 90
+        destinationPort: 92
         destinationPortObject:
           class_name: TestNodePort
-          id: 90
+          id: 92
           value: ''
           node: 3
           variable: null
@@ -7703,10 +7771,10 @@ collection:
           pointer: '0'
           pointerVariable: itemTemplateHtml
         destinationNode: 3
-        destinationPort: 91
+        destinationPort: 93
         destinationPortObject:
           class_name: TestNodePort
-          id: 91
+          id: 93
           value: ''
           node: 3
           variable: null
@@ -7753,10 +7821,10 @@ collection:
           pointer: '0'
           pointerVariable: templateFooter
         destinationNode: 3
-        destinationPort: 96
+        destinationPort: 98
         destinationPortObject:
           class_name: TestNodePort
-          id: 96
+          id: 98
           value: ''
           node: 3
           variable: null
@@ -7803,10 +7871,10 @@ collection:
           pointer: '0'
           pointerVariable: templateInstructions
         destinationNode: 3
-        destinationPort: 92
+        destinationPort: 94
         destinationPortObject:
           class_name: TestNodePort
-          id: 92
+          id: 94
           value: ''
           node: 3
           variable: null
@@ -7833,10 +7901,10 @@ collection:
           id: 35
           value: null
           node: 1
-          variable: 43
+          variable: 44
           variableObject:
             class_name: TestVariable
-            id: 43
+            id: 44
             name: logo
             type: 0
             description: ''
@@ -7853,10 +7921,10 @@ collection:
           pointer: '0'
           pointerVariable: templateLogo
         destinationNode: 3
-        destinationPort: 93
+        destinationPort: 95
         destinationPortObject:
           class_name: TestNodePort
-          id: 93
+          id: 95
           value: ''
           node: 3
           variable: null
@@ -7883,10 +7951,10 @@ collection:
           id: 33
           value: Next
           node: 1
-          variable: 47
+          variable: 48
           variableObject:
             class_name: TestVariable
-            id: 47
+            id: 48
             name: nextButtonLabel
             type: 0
             description: ''
@@ -7903,10 +7971,10 @@ collection:
           pointer: '0'
           pointerVariable: templateNextButtonLabel
         destinationNode: 3
-        destinationPort: 94
+        destinationPort: 96
         destinationPortObject:
           class_name: TestNodePort
-          id: 94
+          id: 96
           value: ''
           node: 3
           variable: null
@@ -7933,10 +8001,10 @@ collection:
           id: 34
           value: null
           node: 1
-          variable: 73
+          variable: 75
           variableObject:
             class_name: TestVariable
-            id: 73
+            id: 75
             name: title
             type: 0
             description: ''
@@ -7953,10 +8021,10 @@ collection:
           pointer: '0'
           pointerVariable: templateTitle
         destinationNode: 3
-        destinationPort: 95
+        destinationPort: 97
         destinationPortObject:
           class_name: TestNodePort
-          id: 95
+          id: 97
           value: ''
           node: 3
           variable: null
@@ -8003,10 +8071,10 @@ collection:
           pointer: '0'
           pointerVariable: calculateSem
         destinationNode: 3
-        destinationPort: 97
+        destinationPort: 99
         destinationPortObject:
           class_name: TestNodePort
-          id: 97
+          id: 99
           value: ''
           node: 3
           variable: null
@@ -8053,10 +8121,10 @@ collection:
           pointer: '0'
           pointerVariable: calculateTheta
         destinationNode: 3
-        destinationPort: 98
+        destinationPort: 100
         destinationPortObject:
           class_name: TestNodePort
-          id: 98
+          id: 100
           value: ''
           node: 3
           variable: null
@@ -8103,10 +8171,10 @@ collection:
           pointer: '0'
           pointerVariable: canGoBack
         destinationNode: 3
-        destinationPort: 99
+        destinationPort: 101
         destinationPortObject:
           class_name: TestNodePort
-          id: 99
+          id: 101
           value: ''
           node: 3
           variable: null
@@ -8133,10 +8201,10 @@ collection:
           id: 39
           value: '1'
           node: 1
-          variable: 42
+          variable: 43
           variableObject:
             class_name: TestVariable
-            id: 42
+            id: 43
             name: itemsPerPage
             type: 0
             description: ''
@@ -8153,10 +8221,10 @@ collection:
           pointer: '0'
           pointerVariable: itemsPerPage
         destinationNode: 3
-        destinationPort: 100
+        destinationPort: 102
         destinationPortObject:
           class_name: TestNodePort
-          id: 100
+          id: 102
           value: ''
           node: 3
           variable: null
@@ -8183,10 +8251,10 @@ collection:
           id: 37
           value: manual
           node: 1
-          variable: 51
+          variable: 52
           variableObject:
             class_name: TestVariable
-            id: 51
+            id: 52
             name: order
             type: 0
             description: ''
@@ -8203,10 +8271,10 @@ collection:
           pointer: '0'
           pointerVariable: order
         destinationNode: 3
-        destinationPort: 101
+        destinationPort: 103
         destinationPortObject:
           class_name: TestNodePort
-          id: 101
+          id: 103
           value: ''
           node: 3
           variable: null
@@ -8253,10 +8321,10 @@ collection:
           pointer: '0'
           pointerVariable: backButtonLabel
         destinationNode: 3
-        destinationPort: 102
+        destinationPort: 104
         destinationPortObject:
           class_name: TestNodePort
-          id: 102
+          id: 104
           value: ''
           node: 3
           variable: null
@@ -8283,10 +8351,10 @@ collection:
           id: 43
           value: '1'
           node: 1
-          variable: 64
+          variable: 66
           variableObject:
             class_name: TestVariable
-            id: 64
+            id: 66
             name: showPageInfo
             type: 0
             description: ''
@@ -8303,10 +8371,10 @@ collection:
           pointer: '0'
           pointerVariable: showPageInfo
         destinationNode: 3
-        destinationPort: 103
+        destinationPort: 105
         destinationPortObject:
           class_name: TestNodePort
-          id: 103
+          id: 105
           value: ''
           node: 3
           variable: null
@@ -8353,10 +8421,10 @@ collection:
           pointer: '0'
           pointerVariable: exposureLimit
         destinationNode: 3
-        destinationPort: 104
+        destinationPort: 106
         destinationPortObject:
           class_name: TestNodePort
-          id: 104
+          id: 106
           value: ''
           node: 3
           variable: null
@@ -8403,10 +8471,10 @@ collection:
           pointer: '0'
           pointerVariable: exposureMaxItems
         destinationNode: 3
-        destinationPort: 105
+        destinationPort: 107
         destinationPortObject:
           class_name: TestNodePort
-          id: 105
+          id: 107
           value: ''
           node: 3
           variable: null
@@ -8453,10 +8521,10 @@ collection:
           pointer: '0'
           pointerVariable: exposureMinSessions
         destinationNode: 3
-        destinationPort: 106
+        destinationPort: 108
         destinationPortObject:
           class_name: TestNodePort
-          id: 106
+          id: 108
           value: ''
           node: 3
           variable: null
@@ -8477,10 +8545,10 @@ collection:
         id: 57
         flowTest: 4
         sourceNode: 10
-        sourcePort: 233
+        sourcePort: 235
         sourcePortObject:
           class_name: TestNodePort
-          id: 233
+          id: 235
           value: '0'
           node: 10
           variable: 16
@@ -8539,10 +8607,10 @@ collection:
           pointer: '0'
           pointerVariable: canSkipItems
         destinationNode: 3
-        destinationPort: 107
+        destinationPort: 109
         destinationPortObject:
           class_name: TestNodePort
-          id: 107
+          id: 109
           value: ''
           node: 3
           variable: null
@@ -8569,10 +8637,10 @@ collection:
           id: 48
           value: null
           node: 1
-          variable: 66
+          variable: 68
           variableObject:
             class_name: TestVariable
-            id: 66
+            id: 68
             name: stopCheckModule
             type: 0
             description: ''
@@ -8589,10 +8657,10 @@ collection:
           pointer: '0'
           pointerVariable: stopCheckModule
         destinationNode: 3
-        destinationPort: 108
+        destinationPort: 110
         destinationPortObject:
           class_name: TestNodePort
-          id: 108
+          id: 110
           value: ''
           node: 3
           variable: null
@@ -8639,10 +8707,10 @@ collection:
           pointer: '0'
           pointerVariable: d
         destinationNode: 3
-        destinationPort: 109
+        destinationPort: 111
         destinationPortObject:
           class_name: TestNodePort
-          id: 109
+          id: 111
           value: ''
           node: 3
           variable: null
@@ -8669,10 +8737,10 @@ collection:
           id: 50
           value: null
           node: 1
-          variable: 56
+          variable: 57
           variableObject:
             class_name: TestVariable
-            id: 56
+            id: 57
             name: responseSavedModule
             type: 0
             description: ''
@@ -8689,10 +8757,10 @@ collection:
           pointer: '0'
           pointerVariable: responseSavedModule
         destinationNode: 3
-        destinationPort: 110
+        destinationPort: 112
         destinationPortObject:
           class_name: TestNodePort
-          id: 110
+          id: 112
           value: ''
           node: 3
           variable: null
@@ -8724,7 +8792,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 76
+        id: 78
         name: .branch
         type: 1
         description: ''
@@ -8734,7 +8802,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 77
+        id: 79
         name: created
         type: 2
         description: ''
@@ -8744,7 +8812,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 78
+        id: 80
         name: enabled
         type: 0
         description: ''
@@ -8754,7 +8822,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 79
+        id: 81
         name: extraFields
         type: 0
         description: ''
@@ -8764,7 +8832,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 80
+        id: 82
         name: login
         type: 0
         description: ''
@@ -8774,7 +8842,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 81
+        id: 83
         name: loginAlreadyExist
         type: 2
         description: ''
@@ -8784,7 +8852,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 82
+        id: 84
         name: password
         type: 0
         description: ''
@@ -8794,7 +8862,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 83
+        id: 85
         name: user
         type: 1
         description: ''
@@ -8804,7 +8872,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 84
+        id: 86
         name: userBankEncryption
         type: 0
         description: ''
@@ -8814,7 +8882,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 85
+        id: 87
         name: userBankTable
         type: 0
         description: ''
@@ -8842,7 +8910,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 86
+        id: 88
         name: insertId
         type: 1
         description: ''
@@ -8852,7 +8920,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 87
+        id: 89
         name: out
         type: 2
         description: ''
@@ -8862,7 +8930,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 88
+        id: 90
         name: queryString
         type: 0
         description: ''
@@ -8872,7 +8940,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 89
+        id: 91
         name: queryType
         type: 0
         description: ''
@@ -8882,7 +8950,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 90
+        id: 92
         name: result
         type: 1
         description: ''
@@ -8892,7 +8960,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 91
+        id: 93
         name: setClause
         type: 0
         description: ''
@@ -8902,7 +8970,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 92
+        id: 94
         name: table
         type: 0
         description: ''
@@ -8912,7 +8980,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 93
+        id: 95
         name: whereClause
         type: 0
         description: ''
@@ -8940,7 +9008,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 94
+        id: 96
         name: buttonLabel
         type: 0
         description: ''
@@ -8950,7 +9018,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 95
+        id: 97
         name: fields
         type: 0
         description: ''
@@ -8960,7 +9028,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 96
+        id: 98
         name: footer
         type: 0
         description: ''
@@ -8970,7 +9038,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 97
+        id: 99
         name: initialValues
         type: 0
         description: ''
@@ -8980,7 +9048,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 98
+        id: 100
         name: instructions
         type: 0
         description: ''
@@ -8990,7 +9058,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 99
+        id: 101
         name: logo
         type: 0
         description: ''
@@ -9000,7 +9068,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 100
+        id: 102
         name: out
         type: 2
         description: ''
@@ -9010,7 +9078,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 101
+        id: 103
         name: response
         type: 1
         description: ''
@@ -9020,7 +9088,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 102
+        id: 104
         name: template
         type: 0
         description: ''
@@ -9030,7 +9098,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 103
+        id: 105
         name: templateHtml
         type: 0
         description: ''
@@ -9040,7 +9108,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 104
+        id: 106
         name: templateParams
         type: 0
         description: ''
@@ -9050,7 +9118,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 105
+        id: 107
         name: title
         type: 0
         description: ''
@@ -9078,7 +9146,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 106
+        id: 108
         name: content
         type: 0
         description: ''
@@ -9088,7 +9156,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 107
+        id: 109
         name: html
         type: 1
         description: ''
@@ -9098,7 +9166,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 108
+        id: 110
         name: layout
         type: 0
         description: ''
@@ -9108,7 +9176,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 109
+        id: 111
         name: layoutHtml
         type: 0
         description: ''
@@ -9118,7 +9186,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 110
+        id: 112
         name: out
         type: 2
         description: ''
@@ -9128,7 +9196,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 111
+        id: 113
         name: params
         type: 0
         description: ''
@@ -9156,7 +9224,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 112
+        id: 114
         name: out
         type: 2
         description: ''
@@ -9166,7 +9234,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 113
+        id: 115
         name: params
         type: 0
         description: ''
@@ -9176,7 +9244,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 114
+        id: 116
         name: results
         type: 1
         description: ''
@@ -9186,7 +9254,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 115
+        id: 117
         name: test
         type: 0
         description: ''
@@ -9214,7 +9282,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 116
+        id: 118
         name: loaderTemplate
         type: 0
         description: ''
@@ -9224,7 +9292,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 117
+        id: 119
         name: loaderTemplateHtml
         type: 0
         description: ''
@@ -9234,7 +9302,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 118
+        id: 120
         name: out
         type: 2
         description: ''
@@ -9244,7 +9312,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 119
+        id: 121
         name: params
         type: 0
         description: ''
@@ -9272,7 +9340,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 120
+        id: 122
         name: .branch
         type: 1
         description: ''
@@ -9282,7 +9350,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 121
+        id: 123
         name: bgWorkers
         type: 0
         description: ''
@@ -9292,7 +9360,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 122
+        id: 124
         name: buttonLabel
         type: 0
         description: ''
@@ -9302,7 +9370,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 123
+        id: 125
         name: content
         type: 0
         description: ''
@@ -9312,28 +9380,8 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 124
-        name: cookies
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 11
-        parentVariable: null
-      -
-        class_name: TestVariable
-        id: 125
-        name: cookies
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 11
-        parentVariable: null
-      -
-        class_name: TestVariable
         id: 126
-        name: footer
+        name: cookies
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9343,8 +9391,8 @@ collection:
       -
         class_name: TestVariable
         id: 127
-        name: html
-        type: 0
+        name: cookies
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -9353,7 +9401,7 @@ collection:
       -
         class_name: TestVariable
         id: 128
-        name: logo
+        name: footer
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -9363,6 +9411,26 @@ collection:
       -
         class_name: TestVariable
         id: 129
+        name: html
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 11
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 130
+        name: logo
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 11
+        parentVariable: null
+      -
+        class_name: TestVariable
+        id: 131
         name: out
         type: 2
         description: ''
@@ -9372,7 +9440,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 130
+        id: 132
         name: response
         type: 1
         description: ''
@@ -9382,7 +9450,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 131
+        id: 133
         name: template
         type: 0
         description: ''
@@ -9392,7 +9460,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 132
+        id: 134
         name: templateParams
         type: 0
         description: ''
@@ -9402,7 +9470,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 133
+        id: 135
         name: timeLimit
         type: 0
         description: ''
@@ -9412,7 +9480,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 134
+        id: 136
         name: title
         type: 0
         description: ''
@@ -9440,7 +9508,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 135
+        id: 137
         name: extraFields
         type: 0
         description: ''
@@ -9450,7 +9518,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 136
+        id: 138
         name: out
         type: 2
         description: ''
@@ -9460,7 +9528,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 137
+        id: 139
         name: preventParallelSessionUsage
         type: 0
         description: ''
@@ -9470,7 +9538,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 138
+        id: 140
         name: restoreState
         type: 0
         description: ''
@@ -9480,7 +9548,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 139
+        id: 141
         name: resumable
         type: 0
         description: ''
@@ -9490,7 +9558,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 140
+        id: 142
         name: resumableExpiration
         type: 0
         description: ''
@@ -9500,7 +9568,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 141
+        id: 143
         name: session
         type: 1
         description: ''
@@ -9510,7 +9578,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 142
+        id: 144
         name: sessionBankTable
         type: 0
         description: ''
@@ -9520,7 +9588,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 143
+        id: 145
         name: user
         type: 0
         description: ''
@@ -9548,7 +9616,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 144
+        id: 146
         name: defaultLanguage
         type: 0
         description: ''
@@ -9558,7 +9626,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 145
+        id: 147
         name: dictionaryTable
         type: 0
         description: ''
@@ -9568,7 +9636,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 146
+        id: 148
         name: language
         type: 0
         description: ''
@@ -9578,7 +9646,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 147
+        id: 149
         name: out
         type: 2
         description: ''
@@ -9588,7 +9656,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 148
+        id: 150
         name: type
         type: 0
         description: ''
@@ -9816,7 +9884,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 149
+        id: 151
         name: .branch
         type: 1
         description: ''
@@ -9826,7 +9894,7 @@ collection:
         parentVariable: 1
       -
         class_name: TestVariable
-        id: 150
+        id: 152
         name: authorized
         type: 2
         description: ''
@@ -9836,7 +9904,7 @@ collection:
         parentVariable: 2
       -
         class_name: TestVariable
-        id: 151
+        id: 153
         name: login
         type: 0
         description: ''
@@ -9846,7 +9914,7 @@ collection:
         parentVariable: 3
       -
         class_name: TestVariable
-        id: 152
+        id: 154
         name: password
         type: 0
         description: ''
@@ -9856,7 +9924,7 @@ collection:
         parentVariable: 4
       -
         class_name: TestVariable
-        id: 153
+        id: 155
         name: resultCode
         type: 1
         description: ''
@@ -9866,7 +9934,7 @@ collection:
         parentVariable: 5
       -
         class_name: TestVariable
-        id: 154
+        id: 156
         name: unauthorized
         type: 2
         description: ''
@@ -9876,7 +9944,7 @@ collection:
         parentVariable: 6
       -
         class_name: TestVariable
-        id: 155
+        id: 157
         name: user
         type: 1
         description: ''
@@ -9886,7 +9954,7 @@ collection:
         parentVariable: 7
       -
         class_name: TestVariable
-        id: 156
+        id: 158
         name: userBankEncryption
         type: 0
         description: ''
@@ -9896,7 +9964,7 @@ collection:
         parentVariable: 8
       -
         class_name: TestVariable
-        id: 157
+        id: 159
         name: userBankList
         type: 0
         description: ''
@@ -9906,7 +9974,7 @@ collection:
         parentVariable: 9
       -
         class_name: TestVariable
-        id: 158
+        id: 160
         name: userBankTable
         type: 0
         description: ''
@@ -9916,7 +9984,7 @@ collection:
         parentVariable: 10
       -
         class_name: TestVariable
-        id: 159
+        id: 161
         name: userBankType
         type: 0
         description: ''
@@ -10460,7 +10528,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 42
+            testVariable: 43
             name: itemsPerPage
             wizardStep: 2
             stepTitle: Items
@@ -10507,7 +10575,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: manual
-            testVariable: 51
+            testVariable: 52
             name: order
             wizardStep: 2
             stepTitle: Items
@@ -10687,7 +10755,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 69
+            testVariable: 71
             name: testTimeLimit
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10705,7 +10773,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 44
+            testVariable: 45
             name: minAccuracy
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10723,7 +10791,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 45
+            testVariable: 46
             name: minAccuracyMinItems
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10759,7 +10827,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: startedAgo
-            testVariable: 71
+            testVariable: 73
             name: testTimeLimitType
             wizardStep: 3
             stepTitle: 'Stopping Rules'
@@ -10870,7 +10938,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: dichotomous
-            testVariable: 46
+            testVariable: 47
             name: model
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10910,7 +10978,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: MFI
-            testVariable: 48
+            testVariable: 49
             name: nextItemCriterion
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -10985,7 +11053,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 50
+            testVariable: 51
             name: nextItemRandomesque
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -11003,7 +11071,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: BM
-            testVariable: 59
+            testVariable: 61
             name: scoringMethod
             wizardStep: 4
             stepTitle: 'CAT Options'
@@ -11079,7 +11147,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 54
+            testVariable: 55
             name: responseRequired
             wizardStep: 5
             stepTitle: Responses
@@ -11097,7 +11165,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","score":"score","timeTaken":"timeTaken","session_id":"session_id","theta":"theta","sem":"sem","response":"response","trait":"trait","skipped":"skipped"}}'
-            testVariable: 53
+            testVariable: 54
             name: responseBank
             wizardStep: 5
             stepTitle: Responses
@@ -11245,7 +11313,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 49
+            testVariable: 50
             name: nextItemModule
             wizardStep: 6
             stepTitle: Modules
@@ -11263,7 +11331,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 56
+            testVariable: 57
             name: responseSavedModule
             wizardStep: 6
             stepTitle: Modules
@@ -11280,7 +11348,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 57
+            testVariable: 58
             name: responseScoreModule
             wizardStep: 6
             stepTitle: Modules
@@ -11298,7 +11366,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 66
+            testVariable: 68
             name: stopCheckModule
             wizardStep: 6
             stepTitle: Modules
@@ -11331,7 +11399,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 62
+            testVariable: 64
             name: sessionResuming
             wizardStep: 7
             stepTitle: Session
@@ -11349,7 +11417,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"sessions","columns":{"state":"state"}}'
-            testVariable: 63
+            testVariable: 65
             name: sessionTable
             wizardStep: 7
             stepTitle: Session
@@ -11480,7 +11548,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 43
+            testVariable: 44
             name: logo
             wizardStep: 8
             stepTitle: Templates
@@ -11498,7 +11566,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: Next
-            testVariable: 47
+            testVariable: 48
             name: nextButtonLabel
             wizardStep: 8
             stepTitle: Templates
@@ -11516,7 +11584,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: 'Please answer all items on this page'
-            testVariable: 55
+            testVariable: 56
             name: responseRequiredAlert
             wizardStep: 8
             stepTitle: Templates
@@ -11534,7 +11602,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 64
+            testVariable: 66
             name: showPageInfo
             wizardStep: 8
             stepTitle: Templates
@@ -11552,7 +11620,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 73
+            testVariable: 75
             name: title
             wizardStep: 8
             stepTitle: Templates
@@ -11577,7 +11645,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 160
+        id: 162
         name: backButtonLabel
         type: 0
         description: ''
@@ -11587,7 +11655,7 @@ collection:
         parentVariable: 18
       -
         class_name: TestVariable
-        id: 161
+        id: 163
         name: calculateSem
         type: 0
         description: ''
@@ -11597,7 +11665,7 @@ collection:
         parentVariable: 19
       -
         class_name: TestVariable
-        id: 162
+        id: 164
         name: calculateTheta
         type: 0
         description: ''
@@ -11607,7 +11675,7 @@ collection:
         parentVariable: 20
       -
         class_name: TestVariable
-        id: 163
+        id: 165
         name: canGoBack
         type: 0
         description: ''
@@ -11617,7 +11685,7 @@ collection:
         parentVariable: 21
       -
         class_name: TestVariable
-        id: 164
+        id: 166
         name: canSkipItems
         type: 0
         description: ''
@@ -11627,7 +11695,7 @@ collection:
         parentVariable: 22
       -
         class_name: TestVariable
-        id: 165
+        id: 167
         name: contentBalancing
         type: 0
         description: ''
@@ -11637,7 +11705,7 @@ collection:
         parentVariable: 23
       -
         class_name: TestVariable
-        id: 166
+        id: 168
         name: d
         type: 0
         description: ''
@@ -11647,7 +11715,7 @@ collection:
         parentVariable: 24
       -
         class_name: TestVariable
-        id: 167
+        id: 169
         name: exposureLimit
         type: 0
         description: ''
@@ -11657,7 +11725,7 @@ collection:
         parentVariable: 25
       -
         class_name: TestVariable
-        id: 168
+        id: 170
         name: exposureMaxItems
         type: 0
         description: ''
@@ -11667,7 +11735,7 @@ collection:
         parentVariable: 26
       -
         class_name: TestVariable
-        id: 169
+        id: 171
         name: exposureMinSessions
         type: 0
         description: ''
@@ -11677,7 +11745,7 @@ collection:
         parentVariable: 27
       -
         class_name: TestVariable
-        id: 170
+        id: 172
         name: footer
         type: 0
         description: ''
@@ -11692,7 +11760,7 @@ collection:
         parentVariable: 28
       -
         class_name: TestVariable
-        id: 171
+        id: 173
         name: instructions
         type: 0
         description: ''
@@ -11702,7 +11770,7 @@ collection:
         parentVariable: 29
       -
         class_name: TestVariable
-        id: 172
+        id: 174
         name: itemBankFilterModule
         type: 0
         description: ''
@@ -11712,7 +11780,7 @@ collection:
         parentVariable: 30
       -
         class_name: TestVariable
-        id: 173
+        id: 175
         name: itemBankFlatTable
         type: 0
         description: ''
@@ -11722,7 +11790,7 @@ collection:
         parentVariable: 31
       -
         class_name: TestVariable
-        id: 174
+        id: 176
         name: itemBankItems
         type: 0
         description: ''
@@ -11732,7 +11800,7 @@ collection:
         parentVariable: 32
       -
         class_name: TestVariable
-        id: 175
+        id: 177
         name: itemBankTable
         type: 0
         description: ''
@@ -11742,7 +11810,7 @@ collection:
         parentVariable: 33
       -
         class_name: TestVariable
-        id: 176
+        id: 178
         name: itemBankTableExtraFields
         type: 0
         description: ''
@@ -11752,7 +11820,7 @@ collection:
         parentVariable: 34
       -
         class_name: TestVariable
-        id: 177
+        id: 179
         name: itemBankType
         type: 0
         description: ''
@@ -11762,7 +11830,7 @@ collection:
         parentVariable: 35
       -
         class_name: TestVariable
-        id: 178
+        id: 180
         name: itemNumLimit
         type: 0
         description: ''
@@ -11772,7 +11840,7 @@ collection:
         parentVariable: 36
       -
         class_name: TestVariable
-        id: 179
+        id: 181
         name: itemTemplate
         type: 0
         description: ''
@@ -11782,7 +11850,7 @@ collection:
         parentVariable: 37
       -
         class_name: TestVariable
-        id: 180
+        id: 182
         name: itemTemplateHtml
         type: 0
         description: ''
@@ -11792,7 +11860,7 @@ collection:
         parentVariable: 38
       -
         class_name: TestVariable
-        id: 181
+        id: 183
         name: itemTemplateParamsModule
         type: 0
         description: ''
@@ -11802,7 +11870,7 @@ collection:
         parentVariable: 39
       -
         class_name: TestVariable
-        id: 182
+        id: 184
         name: itemTimeFullRequired
         type: 0
         description: ''
@@ -11812,7 +11880,7 @@ collection:
         parentVariable: 40
       -
         class_name: TestVariable
-        id: 183
+        id: 185
         name: itemTimeLimit
         type: 0
         description: ''
@@ -11822,38 +11890,38 @@ collection:
         parentVariable: 41
       -
         class_name: TestVariable
-        id: 184
+        id: 186
+        name: itemsAdministered
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 15
+        parentVariable: 42
+      -
+        class_name: TestVariable
+        id: 187
         name: itemsPerPage
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '1'
         test: 15
-        parentVariable: 42
+        parentVariable: 43
       -
         class_name: TestVariable
-        id: 185
+        id: 188
         name: logo
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 15
-        parentVariable: 43
-      -
-        class_name: TestVariable
-        id: 186
-        name: minAccuracy
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 15
         parentVariable: 44
       -
         class_name: TestVariable
-        id: 187
-        name: minAccuracyMinItems
+        id: 189
+        name: minAccuracy
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -11862,118 +11930,118 @@ collection:
         parentVariable: 45
       -
         class_name: TestVariable
-        id: 188
+        id: 190
+        name: minAccuracyMinItems
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 15
+        parentVariable: 46
+      -
+        class_name: TestVariable
+        id: 191
         name: model
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: dichotomous
         test: 15
-        parentVariable: 46
+        parentVariable: 47
       -
         class_name: TestVariable
-        id: 189
+        id: 192
         name: nextButtonLabel
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: Next
         test: 15
-        parentVariable: 47
+        parentVariable: 48
       -
         class_name: TestVariable
-        id: 190
+        id: 193
         name: nextItemCriterion
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: MFI
         test: 15
-        parentVariable: 48
+        parentVariable: 49
       -
         class_name: TestVariable
-        id: 191
+        id: 194
         name: nextItemModule
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 15
-        parentVariable: 49
+        parentVariable: 50
       -
         class_name: TestVariable
-        id: 192
+        id: 195
         name: nextItemRandomesque
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '1'
         test: 15
-        parentVariable: 50
+        parentVariable: 51
       -
         class_name: TestVariable
-        id: 193
+        id: 196
         name: order
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: manual
         test: 15
-        parentVariable: 51
+        parentVariable: 52
       -
         class_name: TestVariable
-        id: 194
+        id: 197
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 52
+        parentVariable: 53
       -
         class_name: TestVariable
-        id: 195
+        id: 198
         name: responseBank
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score","trait":"trait","skipped":"skipped"}}'
         test: 15
-        parentVariable: 53
+        parentVariable: 54
       -
         class_name: TestVariable
-        id: 196
+        id: 199
         name: responseRequired
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 54
+        parentVariable: 55
       -
         class_name: TestVariable
-        id: 197
+        id: 200
         name: responseRequiredAlert
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: 'Response required!'
         test: 15
-        parentVariable: 55
-      -
-        class_name: TestVariable
-        id: 198
-        name: responseSavedModule
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: ''
-        test: 15
         parentVariable: 56
       -
         class_name: TestVariable
-        id: 199
-        name: responseScoreModule
+        id: 201
+        name: responseSavedModule
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -11982,28 +12050,28 @@ collection:
         parentVariable: 57
       -
         class_name: TestVariable
-        id: 200
+        id: 202
+        name: responseScoreModule
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 15
+        parentVariable: 58
+      -
+        class_name: TestVariable
+        id: 203
         name: responseScores
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 15
-        parentVariable: 58
-      -
-        class_name: TestVariable
-        id: 201
-        name: scoringMethod
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: BM
-        test: 15
         parentVariable: 59
       -
         class_name: TestVariable
-        id: 202
-        name: sem
+        id: 204
+        name: responses
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -12012,138 +12080,138 @@ collection:
         parentVariable: 60
       -
         class_name: TestVariable
-        id: 203
+        id: 205
+        name: scoringMethod
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: BM
+        test: 15
+        parentVariable: 61
+      -
+        class_name: TestVariable
+        id: 206
+        name: sem
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 15
+        parentVariable: 62
+      -
+        class_name: TestVariable
+        id: 207
         name: session
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 15
-        parentVariable: 61
+        parentVariable: 63
       -
         class_name: TestVariable
-        id: 204
+        id: 208
         name: sessionResuming
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 62
+        parentVariable: 64
       -
         class_name: TestVariable
-        id: 205
+        id: 209
         name: sessionTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"sessions","columns":{"state":"state"}}'
         test: 15
-        parentVariable: 63
+        parentVariable: 65
       -
         class_name: TestVariable
-        id: 206
+        id: 210
         name: showPageInfo
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '1'
         test: 15
-        parentVariable: 64
+        parentVariable: 66
       -
         class_name: TestVariable
-        id: 207
+        id: 211
         name: startingTheta
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 65
+        parentVariable: 67
       -
         class_name: TestVariable
-        id: 208
+        id: 212
         name: stopCheckModule
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 15
-        parentVariable: 66
+        parentVariable: 68
       -
         class_name: TestVariable
-        id: 209
+        id: 213
         name: stopReason
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 15
-        parentVariable: 67
+        parentVariable: 69
       -
         class_name: TestVariable
-        id: 210
+        id: 214
         name: testTimeLeft
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 15
-        parentVariable: 68
+        parentVariable: 70
       -
         class_name: TestVariable
-        id: 211
+        id: 215
         name: testTimeLimit
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 69
+        parentVariable: 71
       -
         class_name: TestVariable
-        id: 212
+        id: 216
         name: testTimeLimitOffset
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 15
-        parentVariable: 70
+        parentVariable: 72
       -
         class_name: TestVariable
-        id: 213
+        id: 217
         name: testTimeLimitType
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: startedAgo
         test: 15
-        parentVariable: 71
-      -
-        class_name: TestVariable
-        id: 214
-        name: theta
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 15
-        parentVariable: 72
-      -
-        class_name: TestVariable
-        id: 215
-        name: title
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: ''
-        test: 15
         parentVariable: 73
       -
         class_name: TestVariable
-        id: 216
-        name: totalScore
+        id: 218
+        name: theta
         type: 1
         description: ''
         passableThroughUrl: '0'
@@ -12152,14 +12220,34 @@ collection:
         parentVariable: 74
       -
         class_name: TestVariable
-        id: 217
+        id: 219
+        name: title
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 15
+        parentVariable: 75
+      -
+        class_name: TestVariable
+        id: 220
+        name: totalScore
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 15
+        parentVariable: 76
+      -
+        class_name: TestVariable
+        id: 221
         name: traitScores
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 15
-        parentVariable: 75
+        parentVariable: 77
     sourceWizard: 2
     sourceWizardTest: 4
     nodes: {  }
@@ -12207,7 +12295,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: plain
-            testVariable: 84
+            testVariable: 86
             name: userBankEncryption
             wizardStep: 9
             stepTitle: 'User Bank'
@@ -12262,7 +12350,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 85
+            testVariable: 87
             name: userBankTable
             wizardStep: 9
             stepTitle: 'User Bank'
@@ -12303,59 +12391,39 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 218
+        id: 222
         name: .branch
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 16
-        parentVariable: 76
+        parentVariable: 78
       -
         class_name: TestVariable
-        id: 219
+        id: 223
         name: created
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 16
-        parentVariable: 77
+        parentVariable: 79
       -
         class_name: TestVariable
-        id: 220
+        id: 224
         name: enabled
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '1'
         test: 16
-        parentVariable: 78
-      -
-        class_name: TestVariable
-        id: 221
-        name: extraFields
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 16
-        parentVariable: 79
-      -
-        class_name: TestVariable
-        id: 222
-        name: login
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 16
         parentVariable: 80
       -
         class_name: TestVariable
-        id: 223
-        name: loginAlreadyExist
-        type: 2
+        id: 225
+        name: extraFields
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12363,8 +12431,8 @@ collection:
         parentVariable: 81
       -
         class_name: TestVariable
-        id: 224
-        name: password
+        id: 226
+        name: login
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -12373,9 +12441,9 @@ collection:
         parentVariable: 82
       -
         class_name: TestVariable
-        id: 225
-        name: user
-        type: 1
+        id: 227
+        name: loginAlreadyExist
+        type: 2
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12383,24 +12451,44 @@ collection:
         parentVariable: 83
       -
         class_name: TestVariable
-        id: 226
+        id: 228
+        name: password
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 16
+        parentVariable: 84
+      -
+        class_name: TestVariable
+        id: 229
+        name: user
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 16
+        parentVariable: 85
+      -
+        class_name: TestVariable
+        id: 230
         name: userBankEncryption
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: plain
         test: 16
-        parentVariable: 84
+        parentVariable: 86
       -
         class_name: TestVariable
-        id: 227
+        id: 231
         name: userBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"users","columns":{"id":"id","login":"login","password":"password","enabled":"enabled"}}'
         test: 16
-        parentVariable: 85
+        parentVariable: 87
     sourceWizard: 3
     sourceWizardTest: 5
     nodes: {  }
@@ -12434,7 +12522,7 @@ collection:
             type: 1
             passableThroughUrl: '0'
             value: ''
-            testVariable: 88
+            testVariable: 90
             name: queryString
             wizardStep: 10
             stepTitle: Data
@@ -12462,7 +12550,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: select
-            testVariable: 89
+            testVariable: 91
             name: queryType
             wizardStep: 10
             stepTitle: Data
@@ -12558,7 +12646,7 @@ collection:
             type: 1
             passableThroughUrl: '0'
             value: ''
-            testVariable: 91
+            testVariable: 93
             name: setClause
             wizardStep: 10
             stepTitle: Data
@@ -12576,7 +12664,7 @@ collection:
             type: 6
             passableThroughUrl: '0'
             value: ''
-            testVariable: 92
+            testVariable: 94
             name: table
             wizardStep: 10
             stepTitle: Data
@@ -12658,7 +12746,7 @@ collection:
             type: 1
             passableThroughUrl: '0'
             value: ''
-            testVariable: 93
+            testVariable: 95
             name: whereClause
             wizardStep: 10
             stepTitle: Data
@@ -12683,29 +12771,9 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 228
+        id: 232
         name: insertId
         type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 17
-        parentVariable: 86
-      -
-        class_name: TestVariable
-        id: 229
-        name: out
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: '0'
-        test: 17
-        parentVariable: 87
-      -
-        class_name: TestVariable
-        id: 230
-        name: queryString
-        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12713,19 +12781,19 @@ collection:
         parentVariable: 88
       -
         class_name: TestVariable
-        id: 231
-        name: queryType
-        type: 0
+        id: 233
+        name: out
+        type: 2
         description: ''
         passableThroughUrl: '0'
-        value: select
+        value: '0'
         test: 17
         parentVariable: 89
       -
         class_name: TestVariable
-        id: 232
-        name: result
-        type: 1
+        id: 234
+        name: queryString
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12733,19 +12801,19 @@ collection:
         parentVariable: 90
       -
         class_name: TestVariable
-        id: 233
-        name: setClause
+        id: 235
+        name: queryType
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: select
         test: 17
         parentVariable: 91
       -
         class_name: TestVariable
-        id: 234
-        name: table
-        type: 0
+        id: 236
+        name: result
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -12753,14 +12821,34 @@ collection:
         parentVariable: 92
       -
         class_name: TestVariable
-        id: 235
-        name: whereClause
+        id: 237
+        name: setClause
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 17
         parentVariable: 93
+      -
+        class_name: TestVariable
+        id: 238
+        name: table
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 17
+        parentVariable: 94
+      -
+        class_name: TestVariable
+        id: 239
+        name: whereClause
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 17
+        parentVariable: 95
     sourceWizard: 4
     sourceWizardTest: 6
     nodes: {  }
@@ -12794,7 +12882,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: Next
-            testVariable: 94
+            testVariable: 96
             name: buttonLabel
             wizardStep: 11
             stepTitle: Form
@@ -12812,7 +12900,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 95
+            testVariable: 97
             name: fields
             wizardStep: 11
             stepTitle: Form
@@ -12964,7 +13052,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: 'Created with <a href="http://www.concertoplatform.com" target="_blank">Concerto Platform</a>'
-            testVariable: 96
+            testVariable: 98
             name: footer
             wizardStep: 11
             stepTitle: Form
@@ -12982,7 +13070,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 98
+            testVariable: 100
             name: instructions
             wizardStep: 11
             stepTitle: Form
@@ -12999,7 +13087,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 99
+            testVariable: 101
             name: logo
             wizardStep: 11
             stepTitle: Form
@@ -13016,7 +13104,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: form
-            testVariable: 102
+            testVariable: 104
             name: template
             wizardStep: 11
             stepTitle: Form
@@ -13034,7 +13122,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 103
+            testVariable: 105
             name: templateHtml
             wizardStep: 11
             stepTitle: Form
@@ -13052,7 +13140,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 105
+            testVariable: 107
             name: title
             wizardStep: 11
             stepTitle: Form
@@ -13076,48 +13164,28 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 236
+        id: 240
         name: buttonLabel
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: Next
         test: 18
-        parentVariable: 94
+        parentVariable: 96
       -
         class_name: TestVariable
-        id: 237
+        id: 241
         name: fields
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[],"definition":{"options":[]}}]'
         test: 18
-        parentVariable: 95
-      -
-        class_name: TestVariable
-        id: 238
-        name: footer
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: ''
-        test: 18
-        parentVariable: 96
-      -
-        class_name: TestVariable
-        id: 239
-        name: initialValues
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 18
         parentVariable: 97
       -
         class_name: TestVariable
-        id: 240
-        name: instructions
+        id: 242
+        name: footer
         type: 0
         description: ''
         passableThroughUrl: '0'
@@ -13126,74 +13194,94 @@ collection:
         parentVariable: 98
       -
         class_name: TestVariable
-        id: 241
+        id: 243
+        name: initialValues
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 18
+        parentVariable: 99
+      -
+        class_name: TestVariable
+        id: 244
+        name: instructions
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: ''
+        test: 18
+        parentVariable: 100
+      -
+        class_name: TestVariable
+        id: 245
         name: logo
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 18
-        parentVariable: 99
+        parentVariable: 101
       -
         class_name: TestVariable
-        id: 242
+        id: 246
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 18
-        parentVariable: 100
+        parentVariable: 102
       -
         class_name: TestVariable
-        id: 243
+        id: 247
         name: response
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 18
-        parentVariable: 101
+        parentVariable: 103
       -
         class_name: TestVariable
-        id: 244
+        id: 248
         name: template
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: form
         test: 18
-        parentVariable: 102
+        parentVariable: 104
       -
         class_name: TestVariable
-        id: 245
+        id: 249
         name: templateHtml
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 18
-        parentVariable: 103
+        parentVariable: 105
       -
         class_name: TestVariable
-        id: 246
+        id: 250
         name: templateParams
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 18
-        parentVariable: 104
+        parentVariable: 106
       -
         class_name: TestVariable
-        id: 247
+        id: 251
         name: title
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 18
-        parentVariable: 105
+        parentVariable: 107
     sourceWizard: 5
     sourceWizardTest: 7
     nodes: {  }
@@ -13214,7 +13302,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 248
+        id: 252
         name: global
         type: 0
         description: ''
@@ -13224,7 +13312,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 249
+        id: 253
         name: out
         type: 2
         description: ''
@@ -13252,7 +13340,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 250
+        id: 254
         name: .branch
         type: 1
         description: ''
@@ -13262,7 +13350,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 251
+        id: 255
         name: expression
         type: 0
         description: ''
@@ -13272,7 +13360,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 252
+        id: 256
         name: 'false'
         type: 2
         description: ''
@@ -13282,7 +13370,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 253
+        id: 257
         name: 'true'
         type: 2
         description: ''
@@ -13348,7 +13436,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 106
+            testVariable: 108
             name: content
             wizardStep: 12
             stepTitle: Templates
@@ -13391,7 +13479,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 109
+            testVariable: 111
             name: layoutHtml
             wizardStep: 12
             stepTitle: Templates
@@ -13409,7 +13497,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: ''
-            testVariable: 108
+            testVariable: 110
             name: layout
             wizardStep: 12
             stepTitle: Templates
@@ -13434,39 +13522,19 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 254
+        id: 258
         name: content
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[]'
         test: 21
-        parentVariable: 106
-      -
-        class_name: TestVariable
-        id: 255
-        name: html
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 21
-        parentVariable: 107
-      -
-        class_name: TestVariable
-        id: 256
-        name: layout
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 21
         parentVariable: 108
       -
         class_name: TestVariable
-        id: 257
-        name: layoutHtml
-        type: 0
+        id: 259
+        name: html
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -13474,24 +13542,44 @@ collection:
         parentVariable: 109
       -
         class_name: TestVariable
-        id: 258
-        name: out
-        type: 2
+        id: 260
+        name: layout
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '0'
+        value: null
         test: 21
         parentVariable: 110
       -
         class_name: TestVariable
-        id: 259
-        name: params
+        id: 261
+        name: layoutHtml
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 21
         parentVariable: 111
+      -
+        class_name: TestVariable
+        id: 262
+        name: out
+        type: 2
+        description: ''
+        passableThroughUrl: '0'
+        value: '0'
+        test: 21
+        parentVariable: 112
+      -
+        class_name: TestVariable
+        id: 263
+        name: params
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 21
+        parentVariable: 113
     sourceWizard: 6
     sourceWizardTest: 8
     nodes: {  }
@@ -13525,7 +13613,7 @@ collection:
             type: 8
             passableThroughUrl: '0'
             value: ''
-            testVariable: 115
+            testVariable: 117
             name: test
             wizardStep: 13
             stepTitle: Test
@@ -13550,44 +13638,44 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 260
+        id: 264
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 22
-        parentVariable: 112
+        parentVariable: 114
       -
         class_name: TestVariable
-        id: 261
+        id: 265
         name: params
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 22
-        parentVariable: 113
+        parentVariable: 115
       -
         class_name: TestVariable
-        id: 262
+        id: 266
         name: results
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 22
-        parentVariable: 114
+        parentVariable: 116
       -
         class_name: TestVariable
-        id: 263
+        id: 267
         name: test
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 22
-        parentVariable: 115
+        parentVariable: 117
     sourceWizard: 7
     sourceWizardTest: 9
     nodes: {  }
@@ -13608,7 +13696,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 264
+        id: 268
         name: global
         type: 0
         description: ''
@@ -13618,7 +13706,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 265
+        id: 269
         name: out
         type: 2
         description: ''
@@ -13659,7 +13747,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: loader
-            testVariable: 116
+            testVariable: 118
             name: loaderTemplate
             wizardStep: 14
             stepTitle: 'Internal Templates'
@@ -13677,7 +13765,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 117
+            testVariable: 119
             name: loaderTemplateHtml
             wizardStep: 14
             stepTitle: 'Internal Templates'
@@ -13702,44 +13790,44 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 266
+        id: 270
         name: loaderTemplate
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 24
-        parentVariable: 116
+        parentVariable: 118
       -
         class_name: TestVariable
-        id: 267
+        id: 271
         name: loaderTemplateHtml
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 24
-        parentVariable: 117
+        parentVariable: 119
       -
         class_name: TestVariable
-        id: 268
+        id: 272
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 24
-        parentVariable: 118
+        parentVariable: 120
       -
         class_name: TestVariable
-        id: 269
+        id: 273
         name: params
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 24
-        parentVariable: 119
+        parentVariable: 121
     sourceWizard: 8
     sourceWizardTest: 10
     nodes: {  }
@@ -13773,7 +13861,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: Next
-            testVariable: 122
+            testVariable: 124
             name: buttonLabel
             wizardStep: 15
             stepTitle: Template
@@ -13791,7 +13879,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 123
+            testVariable: 125
             name: content
             wizardStep: 15
             stepTitle: Template
@@ -13814,7 +13902,7 @@ collection:
               	Concerto Platform
               </a>
               
-            testVariable: 126
+            testVariable: 128
             name: footer
             wizardStep: 15
             stepTitle: Template
@@ -13837,7 +13925,7 @@ collection:
             type: 2
             passableThroughUrl: '0'
             value: ''
-            testVariable: 127
+            testVariable: 129
             name: html
             wizardStep: 15
             stepTitle: Template
@@ -13855,7 +13943,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 128
+            testVariable: 130
             name: logo
             wizardStep: 15
             stepTitle: Template
@@ -13873,7 +13961,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 133
+            testVariable: 135
             name: timeLimit
             wizardStep: 15
             stepTitle: Template
@@ -13891,7 +13979,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 134
+            testVariable: 136
             name: title
             wizardStep: 15
             stepTitle: Template
@@ -13909,7 +13997,7 @@ collection:
             type: 5
             passableThroughUrl: '0'
             value: page
-            testVariable: 131
+            testVariable: 133
             name: template
             wizardStep: 15
             stepTitle: Template
@@ -13934,67 +14022,67 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 270
+        id: 274
         name: .branch
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 25
-        parentVariable: 120
+        parentVariable: 122
       -
         class_name: TestVariable
-        id: 271
+        id: 275
         name: bgWorkers
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 25
-        parentVariable: 121
+        parentVariable: 123
       -
         class_name: TestVariable
-        id: 272
+        id: 276
         name: buttonLabel
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: Next
         test: 25
-        parentVariable: 122
+        parentVariable: 124
       -
         class_name: TestVariable
-        id: 273
+        id: 277
         name: content
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 25
-        parentVariable: 123
+        parentVariable: 125
       -
         class_name: TestVariable
-        id: 274
+        id: 278
         name: cookies
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 25
-        parentVariable: 124
+        parentVariable: 126
       -
         class_name: TestVariable
-        id: 275
+        id: 279
         name: cookies
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 25
-        parentVariable: 125
+        parentVariable: 127
       -
         class_name: TestVariable
-        id: 276
+        id: 280
         name: footer
         type: 0
         description: ''
@@ -14006,62 +14094,42 @@ collection:
           </a>
           
         test: 25
-        parentVariable: 126
+        parentVariable: 128
       -
         class_name: TestVariable
-        id: 277
+        id: 281
         name: html
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 25
-        parentVariable: 127
+        parentVariable: 129
       -
         class_name: TestVariable
-        id: 278
+        id: 282
         name: logo
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 25
-        parentVariable: 128
+        parentVariable: 130
       -
         class_name: TestVariable
-        id: 279
+        id: 283
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 25
-        parentVariable: 129
-      -
-        class_name: TestVariable
-        id: 280
-        name: response
-        type: 1
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 25
-        parentVariable: 130
-      -
-        class_name: TestVariable
-        id: 281
-        name: template
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 25
         parentVariable: 131
       -
         class_name: TestVariable
-        id: 282
-        name: templateParams
-        type: 0
+        id: 284
+        name: response
+        type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -14069,24 +14137,44 @@ collection:
         parentVariable: 132
       -
         class_name: TestVariable
-        id: 283
+        id: 285
+        name: template
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 25
+        parentVariable: 133
+      -
+        class_name: TestVariable
+        id: 286
+        name: templateParams
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 25
+        parentVariable: 134
+      -
+        class_name: TestVariable
+        id: 287
         name: timeLimit
         type: 0
         description: 'Time limit in seconds.'
         passableThroughUrl: '0'
         value: '0'
         test: 25
-        parentVariable: 133
+        parentVariable: 135
       -
         class_name: TestVariable
-        id: 284
+        id: 288
         name: title
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 25
-        parentVariable: 134
+        parentVariable: 136
     sourceWizard: 9
     sourceWizardTest: 11
     nodes: {  }
@@ -14120,7 +14208,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 137
+            testVariable: 139
             name: preventParallelSessionUsage
             wizardStep: 16
             stepTitle: Session
@@ -14138,7 +14226,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '1'
-            testVariable: 138
+            testVariable: 140
             name: restoreState
             wizardStep: 16
             stepTitle: Session
@@ -14156,7 +14244,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 140
+            testVariable: 142
             name: resumableExpiration
             wizardStep: 16
             stepTitle: Session
@@ -14174,7 +14262,7 @@ collection:
             type: 4
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 139
+            testVariable: 141
             name: resumable
             wizardStep: 16
             stepTitle: Session
@@ -14192,7 +14280,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 142
+            testVariable: 144
             name: sessionBankTable
             wizardStep: 16
             stepTitle: Session
@@ -14245,94 +14333,94 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 285
+        id: 289
         name: extraFields
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 26
-        parentVariable: 135
+        parentVariable: 137
       -
         class_name: TestVariable
-        id: 286
+        id: 290
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 26
-        parentVariable: 136
+        parentVariable: 138
       -
         class_name: TestVariable
-        id: 287
+        id: 291
         name: preventParallelSessionUsage
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '1'
         test: 26
-        parentVariable: 137
+        parentVariable: 139
       -
         class_name: TestVariable
-        id: 288
+        id: 292
         name: restoreState
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '1'
         test: 26
-        parentVariable: 138
+        parentVariable: 140
       -
         class_name: TestVariable
-        id: 289
+        id: 293
         name: resumable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 26
-        parentVariable: 139
+        parentVariable: 141
       -
         class_name: TestVariable
-        id: 290
+        id: 294
         name: resumableExpiration
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 26
-        parentVariable: 140
+        parentVariable: 142
       -
         class_name: TestVariable
-        id: 291
+        id: 295
         name: session
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 26
-        parentVariable: 141
+        parentVariable: 143
       -
         class_name: TestVariable
-        id: 292
+        id: 296
         name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"sessions","columns":{"id":"id","internal_id":"internal_id","user_id":"user_id","test_id":"test_id","updateTime":"updateTime","finished":"finished","startedTime":"startedTime"}}'
         test: 26
-        parentVariable: 142
+        parentVariable: 144
       -
         class_name: TestVariable
-        id: 293
+        id: 297
         name: user
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 26
-        parentVariable: 143
+        parentVariable: 145
     sourceWizard: 10
     sourceWizardTest: 12
     nodes: {  }
@@ -14366,7 +14454,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: en
-            testVariable: 144
+            testVariable: 146
             name: defaultLanguage
             wizardStep: 17
             stepTitle: Dictionary
@@ -14384,7 +14472,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 145
+            testVariable: 147
             name: dictionaryTable
             wizardStep: 17
             stepTitle: Dictionary
@@ -14417,7 +14505,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: multiColumn
-            testVariable: 148
+            testVariable: 150
             name: type
             wizardStep: 17
             stepTitle: Dictionary
@@ -14451,54 +14539,54 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 294
+        id: 298
         name: defaultLanguage
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: en
         test: 27
-        parentVariable: 144
+        parentVariable: 146
       -
         class_name: TestVariable
-        id: 295
+        id: 299
         name: dictionaryTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"translationDictionary","columns":{"id":"id","entryKey":"entryKey"}}'
         test: 27
-        parentVariable: 145
+        parentVariable: 147
       -
         class_name: TestVariable
-        id: 296
+        id: 300
         name: language
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 27
-        parentVariable: 146
+        parentVariable: 148
       -
         class_name: TestVariable
-        id: 297
+        id: 301
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 27
-        parentVariable: 147
+        parentVariable: 149
       -
         class_name: TestVariable
-        id: 298
+        id: 302
         name: type
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: multiColumn
         test: 27
-        parentVariable: 148
+        parentVariable: 150
     sourceWizard: 11
     sourceWizardTest: 13
     nodes: {  }
@@ -14556,7 +14644,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 299
+        id: 303
         name: code
         type: 0
         description: 'R code to execute'
@@ -14566,7 +14654,7 @@ collection:
         parentVariable: 15
       -
         class_name: TestVariable
-        id: 300
+        id: 304
         name: out
         type: 2
         description: ''
@@ -14576,7 +14664,7 @@ collection:
         parentVariable: 16
       -
         class_name: TestVariable
-        id: 301
+        id: 305
         name: result
         type: 1
         description: ''
@@ -14604,7 +14692,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 302
+        id: 306
         name: out
         type: 2
         description: ''
@@ -14632,7 +14720,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 303
+        id: 307
         name: customScoreFormula
         type: 0
         description: ''
@@ -14642,7 +14730,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 304
+        id: 308
         name: feedback
         type: 1
         description: ''
@@ -14652,7 +14740,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 305
+        id: 309
         name: feedbackRanges
         type: 0
         description: ''
@@ -14662,7 +14750,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 306
+        id: 310
         name: feedbackRangesTable
         type: 0
         description: ''
@@ -14672,7 +14760,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 307
+        id: 311
         name: feedbackType
         type: 0
         description: ''
@@ -14682,7 +14770,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 308
+        id: 312
         name: mean
         type: 0
         description: ''
@@ -14692,7 +14780,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 309
+        id: 313
         name: out
         type: 2
         description: ''
@@ -14702,7 +14790,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 310
+        id: 314
         name: percentileRanges
         type: 0
         description: ''
@@ -14712,7 +14800,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 311
+        id: 315
         name: percentileRangesTable
         type: 0
         description: ''
@@ -14722,7 +14810,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 312
+        id: 316
         name: rawScore
         type: 0
         description: ''
@@ -14732,7 +14820,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 313
+        id: 317
         name: score
         type: 1
         description: ''
@@ -14742,7 +14830,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 314
+        id: 318
         name: scoreType
         type: 0
         description: ''
@@ -14752,7 +14840,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 315
+        id: 319
         name: sd
         type: 0
         description: ''
@@ -14793,7 +14881,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 308
+            testVariable: 312
             name: mean
             wizardStep: 19
             stepTitle: Score
@@ -14811,7 +14899,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 310
+            testVariable: 314
             name: percentileRanges
             wizardStep: 19
             stepTitle: Score
@@ -14850,7 +14938,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"percentileRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","score":"score"}}'
-            testVariable: 311
+            testVariable: 315
             name: percentileRangesTable
             wizardStep: 19
             stepTitle: Score
@@ -14880,7 +14968,7 @@ collection:
             type: 11
             passableThroughUrl: '0'
             value: rawScore
-            testVariable: 303
+            testVariable: 307
             name: customScoreFormula
             wizardStep: 19
             stepTitle: Score
@@ -14898,7 +14986,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: rawScore
-            testVariable: 314
+            testVariable: 318
             name: scoreType
             wizardStep: 19
             stepTitle: Score
@@ -14957,7 +15045,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: '0'
-            testVariable: 315
+            testVariable: 319
             name: sd
             wizardStep: 19
             stepTitle: Score
@@ -14984,7 +15072,7 @@ collection:
             type: 10
             passableThroughUrl: '0'
             value: '[]'
-            testVariable: 305
+            testVariable: 309
             name: feedbackRanges
             wizardStep: 20
             stepTitle: Feedback
@@ -15023,7 +15111,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"feedbackRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","feedback":"feedback"}}'
-            testVariable: 306
+            testVariable: 310
             name: feedbackRangesTable
             wizardStep: 20
             stepTitle: Feedback
@@ -15053,7 +15141,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: none
-            testVariable: 307
+            testVariable: 311
             name: feedbackType
             wizardStep: 20
             stepTitle: Feedback
@@ -15088,134 +15176,134 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 316
+        id: 320
         name: customScoreFormula
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: rawScore
         test: 31
-        parentVariable: 303
+        parentVariable: 307
       -
         class_name: TestVariable
-        id: 317
+        id: 321
         name: feedback
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 31
-        parentVariable: 304
+        parentVariable: 308
       -
         class_name: TestVariable
-        id: 318
+        id: 322
         name: feedbackRanges
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[]'
         test: 31
-        parentVariable: 305
+        parentVariable: 309
       -
         class_name: TestVariable
-        id: 319
+        id: 323
         name: feedbackRangesTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"feedbackRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","feedback":"feedback"}}'
         test: 31
-        parentVariable: 306
+        parentVariable: 310
       -
         class_name: TestVariable
-        id: 320
+        id: 324
         name: feedbackType
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: none
         test: 31
-        parentVariable: 307
+        parentVariable: 311
       -
         class_name: TestVariable
-        id: 321
+        id: 325
         name: mean
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 31
-        parentVariable: 308
+        parentVariable: 312
       -
         class_name: TestVariable
-        id: 322
+        id: 326
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 31
-        parentVariable: 309
+        parentVariable: 313
       -
         class_name: TestVariable
-        id: 323
+        id: 327
         name: percentileRanges
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '[]'
         test: 31
-        parentVariable: 310
+        parentVariable: 314
       -
         class_name: TestVariable
-        id: 324
+        id: 328
         name: percentileRangesTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"percentileRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","score":"score"}}'
         test: 31
-        parentVariable: 311
+        parentVariable: 315
       -
         class_name: TestVariable
-        id: 325
+        id: 329
         name: rawScore
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 31
-        parentVariable: 312
+        parentVariable: 316
       -
         class_name: TestVariable
-        id: 326
+        id: 330
         name: score
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 31
-        parentVariable: 313
+        parentVariable: 317
       -
         class_name: TestVariable
-        id: 327
+        id: 331
         name: scoreType
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: rawScore
         test: 31
-        parentVariable: 314
+        parentVariable: 318
       -
         class_name: TestVariable
-        id: 328
+        id: 332
         name: sd
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 31
-        parentVariable: 315
+        parentVariable: 319
     sourceWizard: 13
     sourceWizardTest: 30
     nodes: {  }
@@ -15236,7 +15324,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 329
+        id: 333
         name: data
         type: 0
         description: ''
@@ -15246,7 +15334,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 330
+        id: 334
         name: out
         type: 2
         description: ''
@@ -15256,7 +15344,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 331
+        id: 335
         name: session
         type: 0
         description: ''
@@ -15266,7 +15354,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 332
+        id: 336
         name: table
         type: 0
         description: ''
@@ -15307,7 +15395,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"data","columns":{"session_id":"session_id","name":"name","value":"value"}}'
-            testVariable: 332
+            testVariable: 336
             name: table
             wizardStep: 21
             stepTitle: Data
@@ -15344,44 +15432,44 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 333
+        id: 337
         name: data
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 33
-        parentVariable: 329
+        parentVariable: 333
       -
         class_name: TestVariable
-        id: 334
+        id: 338
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 33
-        parentVariable: 330
+        parentVariable: 334
       -
         class_name: TestVariable
-        id: 335
+        id: 339
         name: session
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 33
-        parentVariable: 331
+        parentVariable: 335
       -
         class_name: TestVariable
-        id: 336
+        id: 340
         name: table
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"data","columns":{"session_id":"session_id","name":"name","value":"value"}}'
         test: 33
-        parentVariable: 332
+        parentVariable: 336
     sourceWizard: 14
     sourceWizardTest: 32
     nodes: {  }
@@ -15402,7 +15490,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 337
+        id: 341
         name: extraFields
         type: 0
         description: ''
@@ -15412,7 +15500,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 338
+        id: 342
         name: out
         type: 2
         description: ''
@@ -15422,7 +15510,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 339
+        id: 343
         name: session
         type: 0
         description: ''
@@ -15432,7 +15520,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 340
+        id: 344
         name: session
         type: 1
         description: ''
@@ -15442,7 +15530,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 341
+        id: 345
         name: sessionBankTable
         type: 0
         description: ''
@@ -15483,7 +15571,7 @@ collection:
             type: 12
             passableThroughUrl: '0'
             value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
-            testVariable: 341
+            testVariable: 345
             name: sessionBankTable
             wizardStep: 22
             stepTitle: Session
@@ -15516,54 +15604,54 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 342
+        id: 346
         name: extraFields
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 35
-        parentVariable: 337
+        parentVariable: 341
       -
         class_name: TestVariable
-        id: 343
+        id: 347
         name: out
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 35
-        parentVariable: 338
+        parentVariable: 342
       -
         class_name: TestVariable
-        id: 344
+        id: 348
         name: session
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 35
-        parentVariable: 339
+        parentVariable: 343
       -
         class_name: TestVariable
-        id: 345
+        id: 349
         name: session
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 35
-        parentVariable: 340
+        parentVariable: 344
       -
         class_name: TestVariable
-        id: 346
+        id: 350
         name: sessionBankTable
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
         test: 35
-        parentVariable: 341
+        parentVariable: 345
     sourceWizard: 15
     sourceWizardTest: 34
     nodes: {  }
@@ -15584,7 +15672,7 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 347
+        id: 351
         name: .branch
         type: 1
         description: ''
@@ -15594,7 +15682,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 348
+        id: 352
         name: failure
         type: 2
         description: ''
@@ -15604,7 +15692,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 349
+        id: 353
         name: method
         type: 0
         description: ''
@@ -15614,7 +15702,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 350
+        id: 354
         name: requestBody
         type: 0
         description: ''
@@ -15624,7 +15712,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 351
+        id: 355
         name: requestBodyEncode
         type: 0
         description: ''
@@ -15634,7 +15722,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 352
+        id: 356
         name: requestHeaders
         type: 0
         description: ''
@@ -15644,7 +15732,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 353
+        id: 357
         name: responseBody
         type: 1
         description: ''
@@ -15654,7 +15742,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 354
+        id: 358
         name: responseHeaders
         type: 1
         description: ''
@@ -15664,7 +15752,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 355
+        id: 359
         name: responseStatusCode
         type: 1
         description: ''
@@ -15674,7 +15762,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 356
+        id: 360
         name: success
         type: 2
         description: ''
@@ -15684,7 +15772,7 @@ collection:
         parentVariable: null
       -
         class_name: TestVariable
-        id: 357
+        id: 361
         name: url
         type: 0
         description: ''
@@ -15725,7 +15813,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: form
-            testVariable: 351
+            testVariable: 355
             name: requestBodyEncode
             wizardStep: 23
             stepTitle: Request
@@ -15756,7 +15844,7 @@ collection:
             type: 3
             passableThroughUrl: '0'
             value: GET
-            testVariable: 349
+            testVariable: 353
             name: method
             wizardStep: 23
             stepTitle: Request
@@ -15787,7 +15875,7 @@ collection:
             type: 0
             passableThroughUrl: '0'
             value: ''
-            testVariable: 357
+            testVariable: 361
             name: url
             wizardStep: 23
             stepTitle: Request
@@ -15812,59 +15900,19 @@ collection:
     variables:
       -
         class_name: TestVariable
-        id: 358
+        id: 362
         name: .branch
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 37
-        parentVariable: 347
-      -
-        class_name: TestVariable
-        id: 359
-        name: failure
-        type: 2
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 37
-        parentVariable: 348
-      -
-        class_name: TestVariable
-        id: 360
-        name: method
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: GET
-        test: 37
-        parentVariable: 349
-      -
-        class_name: TestVariable
-        id: 361
-        name: requestBody
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: null
-        test: 37
-        parentVariable: 350
-      -
-        class_name: TestVariable
-        id: 362
-        name: requestBodyEncode
-        type: 0
-        description: ''
-        passableThroughUrl: '0'
-        value: form
-        test: 37
         parentVariable: 351
       -
         class_name: TestVariable
         id: 363
-        name: requestHeaders
-        type: 0
+        name: failure
+        type: 2
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15873,18 +15921,18 @@ collection:
       -
         class_name: TestVariable
         id: 364
-        name: responseBody
-        type: 1
+        name: method
+        type: 0
         description: ''
         passableThroughUrl: '0'
-        value: null
+        value: GET
         test: 37
         parentVariable: 353
       -
         class_name: TestVariable
         id: 365
-        name: responseHeaders
-        type: 1
+        name: requestBody
+        type: 0
         description: ''
         passableThroughUrl: '0'
         value: null
@@ -15893,33 +15941,73 @@ collection:
       -
         class_name: TestVariable
         id: 366
+        name: requestBodyEncode
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: form
+        test: 37
+        parentVariable: 355
+      -
+        class_name: TestVariable
+        id: 367
+        name: requestHeaders
+        type: 0
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 356
+      -
+        class_name: TestVariable
+        id: 368
+        name: responseBody
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 357
+      -
+        class_name: TestVariable
+        id: 369
+        name: responseHeaders
+        type: 1
+        description: ''
+        passableThroughUrl: '0'
+        value: null
+        test: 37
+        parentVariable: 358
+      -
+        class_name: TestVariable
+        id: 370
         name: responseStatusCode
         type: 1
         description: ''
         passableThroughUrl: '0'
         value: null
         test: 37
-        parentVariable: 355
+        parentVariable: 359
       -
         class_name: TestVariable
-        id: 367
+        id: 371
         name: success
         type: 2
         description: ''
         passableThroughUrl: '0'
         value: '0'
         test: 37
-        parentVariable: 356
+        parentVariable: 360
       -
         class_name: TestVariable
-        id: 368
+        id: 372
         name: url
         type: 0
         description: ''
         passableThroughUrl: '0'
         value: ''
         test: 37
-        parentVariable: 357
+        parentVariable: 361
     sourceWizard: 16
     sourceWizardTest: 36
     nodes: {  }
