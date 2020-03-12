@@ -134,13 +134,14 @@ if(length(nextItemsIndices) == 0) {
             nAvailable = c(nAvailable, available)
         }
         randomesque = as.numeric(settings$nextItemRandomesque)
+        d = as.numeric(settings$d)
 
         result = tryCatch({
-          nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, x=scores, nAvailable=nAvailable, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=randomesque, cbGroup=cbGroup, cbControl=cbControl)
+          nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, x=scores, nAvailable=nAvailable, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=randomesque, D=d, cbGroup=cbGroup, cbControl=cbControl)
         }, error=function(ex) {
           concerto.log(ex, "potentialy not possible to satisfy CB rule")
           if(!is.null(cbGroup) && !is.null(cbControl)) {
-            return(nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, x=scores, nAvailable=nAvailable, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=randomesque, cbGroup=NULL, cbControl=NULL))
+            return(nextItem(paramBank, model=settings$model, theta=theta, out=itemsAdministered, x=scores, nAvailable=nAvailable, criterion=settings$nextItemCriterion, method=settings$scoringMethod, randomesque=randomesque, D=d, cbGroup=NULL, cbControl=NULL))
           } else {
             stop(ex)
           }
