@@ -136,6 +136,8 @@ concerto.log(itemsAdministered, "itemsAdministered")
 concerto.log(scores, "scores")
 
 d = as.numeric(settings$d)
+prevTheta = theta
+prevSem = sem
 
 calculateTheta = !is.na(settings$calculateTheta) && settings$calculateTheta == 1 && length(scores[!is.na(scores)]) > 0
 if(calculateTheta) {
