@@ -12,7 +12,7 @@ getTemplateParams = function() {
   templateParams$logo = settings$logo
   templateParams$nextButtonLabel = settings$nextButtonLabel
   templateParams$title = settings$title
-  
+
   templateParams$canGoBack = canGoBack
   templateParams$responses = responsesSafe
   templateParams$backButtonLabel = settings$backButtonLabel
@@ -56,20 +56,18 @@ getTemplateTimeLimit = function(testTimeLimit) {
   return(limit)
 }
 
-if(!concerto.template.isResponseQueued()) {
-  params = getTemplateParams()
-  if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModule != "") {
-    params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
-      params = params,
-      items = items[itemsIndices,],
-      itemsAdministered = itemsAdministered,
-      settings=settings,
-      theta=theta,
-      sem=sem,
-      scores=scores,
-      traitScores=traitScores
-    ))$params
-  }
+params = getTemplateParams()
+if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModule != "") {
+  params = concerto.test.run(settings$itemTemplateParamsModule, params=list(
+    params = params,
+    items = items[itemsIndices,],
+    itemsAdministered = itemsAdministered,
+    settings=settings,
+    theta=theta,
+    sem=sem,
+    scores=scores,
+    traitScores=traitScores
+  ))$params
 }
 
 testTimeLeft = getTestTimeLeft(T)
@@ -99,12 +97,12 @@ templateResponse = concerto.template.show(
   timeLimit=templateTimeLimit
 )
 if(!is.na(settings$templateResponseModule) && settings$templateResponseModule != "") {
-    templateResponse = concerto.test.run(settings$templateResponseModule, params=list(
-      settings = settings,
-      params = params,
-      templateResponse = templateResponse
-    ))$templateResponse
-  }
+  templateResponse = concerto.test.run(settings$templateResponseModule, params=list(
+    settings = settings,
+    params = params,
+    templateResponse = templateResponse
+  ))$templateResponse
+}
 
 timeTaken = as.numeric(templateResponse$timeTaken)
 totalTimeTaken = totalTimeTaken + timeTaken
