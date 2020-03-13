@@ -42,6 +42,7 @@
 * **assessment** MLWI criterions that required scores vector to be passed for nextItem
 * **assessment** nextItem's randomesque
 * fixed editing of default **form** field
+* response scores are not exposed to template when using flat table in **assessment**
 
 #### Other
 

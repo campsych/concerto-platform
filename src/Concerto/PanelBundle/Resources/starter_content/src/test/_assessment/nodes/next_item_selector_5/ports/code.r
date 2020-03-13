@@ -16,6 +16,14 @@ getSafeItems = function(items, extraFields) {
 
   for(i in 1:dim(items)[1]) {
     item = as.list(items[i,])
+    
+    scoreColName = "responseScore1"
+    scoreColIndex = 1
+    while(scoreColName %in% ls(item)) {
+      item[[scoreColName]] = NULL
+      scoreColIndex = scoreColIndex + 1
+      scoreColName = paste0("responseScore", scoreColIndex)
+    }
 
     if(!is.null(item$responseOptions) && item$responseOptions != "") {
       if(is.character(item$responseOptions)) {
