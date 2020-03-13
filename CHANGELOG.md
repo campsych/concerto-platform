@@ -25,6 +25,7 @@
 * added D parameter for **assessment**
 * added responseSavedModule to **assessment**
 * added itemsAdministered and responses to **assessment** return variables
+* added templateResponseModule to **assessment**
 
 #### Improvements
 

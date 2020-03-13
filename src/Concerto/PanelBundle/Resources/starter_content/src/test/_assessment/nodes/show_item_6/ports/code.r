@@ -98,6 +98,13 @@ templateResponse = concerto.template.show(
   params=params, 
   timeLimit=templateTimeLimit
 )
+if(!is.na(settings$templateResponseModule) && settings$templateResponseModule != "") {
+    templateResponse = concerto.test.run(settings$templateResponseModule, params=list(
+      settings = settings,
+      params = params,
+      templateResponse = templateResponse
+    ))$templateResponse
+  }
 
 timeTaken = as.numeric(templateResponse$timeTaken)
 totalTimeTaken = totalTimeTaken + timeTaken
