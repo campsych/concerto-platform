@@ -1,4 +1,4 @@
-## 5.0.11 (in progress)
+## 5.0.11 (2020-03-19)
 
 #### Features
 
@@ -36,6 +36,7 @@
 * added flowIndex argument to c.get and c.set
 * replaced posOffset argument with flowIndexOffset in c.get and c.set
 * ViewTemplate/{id}/content|html|js|css actions responses are now cacheable
+* if there's no dynamic branch with the same name as button pressed on showPage node, use default out node
 
 #### Fixes
 

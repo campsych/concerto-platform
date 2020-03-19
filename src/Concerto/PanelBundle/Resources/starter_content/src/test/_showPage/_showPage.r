@@ -38,6 +38,8 @@ for(.name in .dynamicReturns) {
     assign(.name, response[[.name]])
   }
 }
-if(length(.dynamicBranches) > 0) {
+if(response$buttonPressed %in% .dynamicBranches) {
   .branch = response$buttonPressed
+} else {
+  .branch = "out"
 }
