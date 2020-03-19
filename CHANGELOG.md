@@ -45,6 +45,7 @@
 * response scores are not exposed to template when using flat table in **assessment**
 * import fix
 * better Windows OS detection
+* fixed default port values on import
 
 #### Other
 

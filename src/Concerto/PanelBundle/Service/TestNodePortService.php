@@ -159,13 +159,13 @@ class TestNodePortService extends ASectionService
                         $updateNeeded = true;
                     }
 
-                    $changeValue = $port->hasDefaultValue() && $port->getValue() != $variable->getValue();
+                    $changeValue = $port->hasDefaultValue() && $port->getValue() !== $variable->getValue();
                     if ($changeValue) {
                         $port->setValue($variable->getValue());
                         $updateNeeded = true;
                     }
 
-                    $changeName = $port->getName() != $variable->getName();
+                    $changeName = $port->getName() !== $variable->getName();
                     if ($changeName) {
                         $port->setName($variable->getName());
                         $updateNeeded = true;

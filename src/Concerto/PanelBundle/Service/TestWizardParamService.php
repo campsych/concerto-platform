@@ -315,7 +315,6 @@ class TestWizardParamService extends ASectionService
         // do not use update here or it will do infinite loop
         $this->repository->save($newParam, $flush);
 
-
         //resulting tests variables update
         foreach ($newParam->getWizard()->getResultingTests() as $test) {
             foreach ($test->getVariables() as $var) {
@@ -334,7 +333,6 @@ class TestWizardParamService extends ASectionService
                     $this->testVariableService->update($var, $flush);
 
                     // ports update
-
                     $nodes = $var->getTest()->getSourceForNodes();
                     foreach ($nodes as $node) {
                         $ports = $node->getPorts();
