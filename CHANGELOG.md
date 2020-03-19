@@ -44,6 +44,7 @@
 * fixed editing of default **form** field
 * response scores are not exposed to template when using flat table in **assessment**
 * import fix
+* better Windows OS detection
 
 #### Other
 

@@ -33,6 +33,9 @@ use Symfony\Component\Process\Process;
 
 class AdministrationService
 {
+    const OS_WIN = 0;
+    const OS_LINUX = 1;
+
     private $settingsRepository;
     private $messagesRepository;
     private $configSettings;
@@ -90,6 +93,13 @@ class AdministrationService
         $this->viewTemplateRepository = $viewTemplateRepository;
         $this->testSessionRepository = $testSessionRepository;
         $this->securityTokenStorage = $securityTokenStorage;
+    }
+
+    public static function getOS()
+    {
+        $isWindows = preg_match('/^(windows|win32|winnt|cygwin)/i', PHP_OS);
+        if ($isWindows) return self::OS_WIN;
+        return self::OS_LINUX;
     }
 
     public function insertSessionLimitMessage(TestSession $session)
@@ -425,8 +435,7 @@ class AdministrationService
 
     public function packageStatus(&$output)
     {
-        //check if not Windows OS
-        if (strpos(strtolower(PHP_OS), "win") !== false) {
+        if (self::getOS() == self::OS_WIN) {
             $output = "Windows OS is not supported by this command!";
             return false;
         }

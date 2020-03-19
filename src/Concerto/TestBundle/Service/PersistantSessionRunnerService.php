@@ -37,7 +37,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
 
         $client = array();
 
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, null, null, null, $port);
         } else {
             $success = $this->startStandaloneProcess($client, null, null, null, $port);
@@ -79,7 +79,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         );
 
         $success = false;
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, $session_hash, $request, $max_exec_time);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, $request, $max_exec_time);

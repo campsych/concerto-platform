@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\AdministrationService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\PanelService;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +36,7 @@ class DialogController
         return $this->genericWindowAction(
             'r_documentation_generation_help.html', array(
                 'root_dir' => $this->rootDir,
-                'is_win' => preg_match('/^(windows|win32|winnt|cygwin)/i', PHP_OS)
+                'is_win' => AdministrationService::getOS() == AdministrationService::OS_WIN
             )
         );
     }

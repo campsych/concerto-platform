@@ -37,7 +37,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
 
         $client = array();
 
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, null, null, null, $port);
         } else {
             $success = $this->startStandaloneProcess($client, null, null, null, $port);
@@ -78,7 +78,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "cookies" => $cookies
         );
 
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, $session_hash, $request, $max_exec_time);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, $request, $max_exec_time);
@@ -128,7 +128,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "cookies" => $cookies
         );
 
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, $session_hash, $request, $max_exec_time);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, $request, $max_exec_time);
@@ -178,7 +178,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "cookies" => $cookies
         );
 
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, $session_hash, $request);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, $request);
@@ -228,7 +228,7 @@ class SerializedSessionRunnerService extends ASessionRunnerService
             "cookies" => $cookies
         );
 
-        if ($this->getOS() == self::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
+        if (AdministrationService::getOS() == AdministrationService::OS_LINUX && $this->testRunnerSettings["session_forking"] == "true") {
             $success = $this->startChildProcess($client, $session_hash, $response);
         } else {
             $success = $this->startStandaloneProcess($client, $session_hash, $response);

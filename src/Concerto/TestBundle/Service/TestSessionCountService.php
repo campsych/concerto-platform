@@ -3,6 +3,7 @@
 namespace Concerto\TestBundle\Service;
 
 use Concerto\PanelBundle\Repository\TestSessionRepository;
+use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\TestBundle\Entity\TestSessionCount;
 use Concerto\TestBundle\Repository\TestSessionCountRepository;
 
@@ -17,16 +18,6 @@ class TestSessionCountService
         $this->sessionCountRepo = $sessionCountRepo;
         $this->sessionRepo = $sessionRepo;
         $this->administration = $administration;
-    }
-
-    //@TODO proper OS detection
-    public function getOS()
-    {
-        if (strpos(strtolower(PHP_OS), "win") !== false) {
-            return ASessionRunnerService::OS_WIN;
-        } else {
-            return ASessionRunnerService::OS_LINUX;
-        }
     }
 
     public function save(TestSessionCount $entity)
@@ -53,8 +44,9 @@ class TestSessionCountService
         return $this->sessionRepo->getActiveSessionsCount($this->administration["internal"]["session_count_idle_limit"]);
     }
 
-    public function getCurrentLocalCount() {
-        if ($this->getOS() !== ASessionRunnerService::OS_LINUX)
+    public function getCurrentLocalCount()
+    {
+        if (AdministrationService::getOS() !== AdministrationService::OS_LINUX)
             return false;
 
         $sum = 0;

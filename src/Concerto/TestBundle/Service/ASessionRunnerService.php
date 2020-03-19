@@ -13,8 +13,6 @@ use Symfony\Component\Process\Process;
 abstract class ASessionRunnerService
 {
     const WRITER_TIMEOUT = 30;
-    const OS_WIN = 0;
-    const OS_LINUX = 1;
 
     protected $logger;
     protected $testRunnerSettings;
@@ -110,16 +108,6 @@ abstract class ASessionRunnerService
             }
         }
         return $path;
-    }
-
-    //@TODO proper OS detection
-    public function getOS()
-    {
-        if (strpos(strtolower(PHP_OS), "win") !== false) {
-            return self::OS_WIN;
-        } else {
-            return self::OS_LINUX;
-        }
     }
 
     public function escapeWindowsArg($arg)
@@ -348,8 +336,8 @@ abstract class ASessionRunnerService
         $request = json_encode($request ? $request : array());
         $rout = $this->getROutputFilePath($session_hash);
 
-        switch ($this->getOS()) {
-            case self::OS_LINUX:
+        switch (AdministrationService::getOS()) {
+            case AdministrationService::OS_LINUX:
                 return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
                     . "'$ini_path' "
                     . "'$database_connection' "
