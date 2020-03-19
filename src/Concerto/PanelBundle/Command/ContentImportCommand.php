@@ -121,13 +121,12 @@ class ContentImportCommand extends Command
                 $this->output->writeln("importing " . $f->getFileName() . " failed!");
                 $this->output->writeln("content importing failed!");
                 foreach ($errorMessages as $errorMessage) {
-                    $this->output->writeln($errorMessages);
+                    $this->output->writeln($errorMessage);
                 }
                 return false;
             }
+            $this->output->writeln("imported " . $f->getFileName() . " successfully");
         }
-
-        $this->output->writeln("imported " . $f->getFileName() . " successfully");
         return true;
     }
 

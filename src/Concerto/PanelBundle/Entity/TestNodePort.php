@@ -26,6 +26,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
     private $node;
 
     /**
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="ports")
      */
     private $variable;
@@ -121,7 +122,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
 
     public function __toString()
     {
-        return "TestNodePort (name:" . $this->getName() . ")";
+        return "TestNodePort (#". $this->getId() . ", name:" . $this->getName() . ")";
     }
 
     public function getOwner()

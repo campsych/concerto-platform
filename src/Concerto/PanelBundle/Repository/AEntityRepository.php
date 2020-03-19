@@ -21,9 +21,11 @@ abstract class AEntityRepository extends EntityRepository {
     public function save($entities, $flush = true) {
         if (is_array($entities)) {
             foreach ($entities as $entity) {
+                if(!$entity->getId()) $flush = true;
                 $this->getEntityManager()->persist($entity);
             }
         } else {
+            if(!$entities->getId()) $flush = true;
             $this->getEntityManager()->persist($entities);
             if ($flush)
                 $this->getEntityManager()->flush($entities);
