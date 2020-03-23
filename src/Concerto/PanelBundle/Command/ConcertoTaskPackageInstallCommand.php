@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Concerto\PanelBundle\Entity\ScheduledTask;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Templating\EngineInterface;
 
 class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
@@ -50,11 +51,11 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
         if ($method == 0) {
             $lib = $r_lib_path ? ", lib='$r_lib_path'" : "";
 
-            $cmd = "($rscript_exec_path -e \"install.packages(" . escapeshellarg($name) . ", repos=" . escapeshellarg($mirror) . $lib . ")\"";
+            $cmd = "$rscript_exec_path -e \"install.packages(" . escapeshellarg($name) . ", repos=" . escapeshellarg($mirror) . $lib . ")\"";
         } else {
             $lib = $r_lib_path ? "-l $r_lib_path " : "";
 
-            $cmd = "(wget -O /tmp/concerto_r_package " . escapeshellarg($url) . " ";
+            $cmd = "wget -O /tmp/concerto_r_package " . escapeshellarg($url) . " ";
             $cmd .= "&& $r_exec_path CMD INSTALL /tmp/concerto_r_package " . $lib;
         }
         return $cmd;
@@ -93,6 +94,10 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
     {
         $cmd = $this->getCommand($task);
         $proc = new Process($cmd);
-        return $proc->run();
+        $result = $proc->run();
+        $output->writeln($proc->getOutput());
+        $error = $proc->getErrorOutput();
+        if ($error) $output->writeln($error);
+        return $result;
     }
 }

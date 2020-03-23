@@ -1,3 +1,9 @@
+## 5.0.12 (in progress)
+
+#### Fixes
+
+* fixed R package installation scheduled tasks
+
 ## 5.0.11 (2020-03-19)
 
 #### Features
