@@ -10,3 +10,4 @@ form:
 
 'Bad credentials.': Wrong login or password!
 'User account is disabled.': User is archived!
+'User account is locked.': User account is temporary locked!

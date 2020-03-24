@@ -10,3 +10,4 @@ form:
 
 'Bad credentials.': Zły login lub hasło!
 'User account is disabled.': Użytkownik jest zarchiwizowany!
+'User account is locked.': Użytkownik został tymczosowo zablokowany!
