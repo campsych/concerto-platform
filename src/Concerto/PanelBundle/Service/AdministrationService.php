@@ -250,6 +250,22 @@ class AdministrationService
         return $enabled == "1";
     }
 
+    public function isFailedAuthLockEnabled()
+    {
+        $streak = $this->getFailedAuthLockStreak();
+        $time = $this->getFailedAuthLockTime();
+
+        return $streak && $time;
+    }
+
+    public function getFailedAuthLockStreak() {
+        return $this->getSettingValue("failed_auth_lock_streak");
+    }
+
+    public function getFailedAuthLockTime() {
+        return $this->getSettingValue("failed_auth_lock_time");
+    }
+
     public function getSettingValueForTestName($name, $slug, $key)
     {
         $test = null;

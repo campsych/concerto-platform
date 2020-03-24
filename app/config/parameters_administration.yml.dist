@@ -20,6 +20,8 @@ parameters:
     env(CONCERTO_GIT_PASSWORD): ""
     env(CONCERTO_GIT_PASSWORD_OVERRIDABLE): true
     env(CONCERTO_GIT_REPOSITORY_PATH): ''
+    env(CONCERTO_FAILED_AUTH_LOCK_TIME): 300
+    env(CONCERTO_FAILED_AUTH_LOCK_STREAK): 3
     administration:
         exposed:
             session_limit: "%env(CONCERTO_SESSION_LIMIT)%" #0 for none
@@ -51,3 +53,5 @@ parameters:
             editable_starter_content: false
             session_files_expiration: 7 #days
             session_count_idle_limit: 1800 #secs
+            failed_auth_lock_time: "%env(CONCERTO_FAILED_AUTH_LOCK_TIME)%"
+            failed_auth_lock_streak: "%env(CONCERTO_FAILED_AUTH_LOCK_STREAK)%"

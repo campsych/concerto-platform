@@ -1,5 +1,9 @@
 ## 5.0.12 (in progress)
 
+#### Features
+
+* admin panel login brute force prevention
+
 #### Fixes
 
 * fixed R package installation scheduled tasks

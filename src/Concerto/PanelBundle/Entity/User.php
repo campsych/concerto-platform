@@ -18,13 +18,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable, EquatableInterface
 {
-
     const ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN";
     const ROLE_TEST = "ROLE_TEST";
     const ROLE_TABLE = "ROLE_TABLE";
     const ROLE_TEMPLATE = "ROLE_TEMPLATE";
     const ROLE_WIZARD = "ROLE_WIZARD";
     const ROLE_FILE = "ROLE_FILE";
+
+    const LOCK_DURATION = 60 * 5;
+    const LOCK_STREAK = 3;
 
     /**
      * @var string
@@ -71,6 +73,18 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     private $roles;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    private $failedAuthenticationStreak;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lockedUntil;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -79,6 +93,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
 
         $this->roles = new ArrayCollection();
         $this->salt = md5(uniqid(null, true));
+        $this->failedAuthenticationStreak = 0;
     }
 
     /**
@@ -259,13 +274,13 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     /**
      * Checks if the user has role
      *
-     * @param string $role
+     * @param string $roleName
      * @return boolean
      */
-    public function hasRoleName($role_name)
+    public function hasRoleName($roleName)
     {
         foreach ($this->roles as $role) {
-            if ($role->getName() == $role_name)
+            if ($role->getName() == $roleName)
                 return true;
         }
         return false;
@@ -289,7 +304,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
 
     public function isAccountNonLocked()
     {
-        return true;
+        return $this->lockedUntil === null || time() > $this->lockedUntil->getTimestamp();
     }
 
     public function isCredentialsNonExpired()
@@ -300,6 +315,40 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     public function isEnabled()
     {
         return !$this->archived;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getLockedUntil()
+    {
+        return $this->lockedUntil;
+    }
+
+    /**
+     * @param \DateTime|null $lockedUntil
+     * @return User
+     */
+    public function setLockedUntil($lockedUntil)
+    {
+        $this->lockedUntil = $lockedUntil;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFailedAuthenticationStreak() {
+        return $this->failedAuthenticationStreak;
+    }
+
+    /**
+     * @param int $streak
+     * @return User
+     */
+    public function setFailedAuthenticationStreak($streak) {
+        $this->failedAuthenticationStreak = $streak;
+        return $this;
     }
 
     public function __toString()
