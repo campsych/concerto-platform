@@ -174,7 +174,7 @@ FROM {{table}}
     fixedIndexColumn = tableMap$columns$fixedIndex
     
     instructionsColumn = tableMap$columns$instructions
-    if(!is.null(instructionsColumn) && !is.na(instructionsColumn) && instructionsColumn != "") {
+    if(is.null(instructionsColumn) || is.na(instructionsColumn) || instructionsColumn == "") {
       instructionsColumn = "NULL"
     }
     
