@@ -7,6 +7,7 @@
 #### Fixes
 
 * fixed R package installation scheduled tasks
+* fixed file picker URL
 
 ## 5.0.11 (2020-03-19)
 
