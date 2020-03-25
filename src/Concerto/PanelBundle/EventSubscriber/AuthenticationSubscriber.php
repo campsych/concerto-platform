@@ -55,7 +55,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface
     {
         /** @var User $user */
         $user = $event->getAuthenticationToken()->getUser();
-        if ($user->getFailedAuthenticationStreak() > 0) {
+        if (is_a($user, User::class) && $user->getFailedAuthenticationStreak() > 0) {
             $user->setFailedAuthenticationStreak(0);
             $this->userRepository->save($user);
         }
