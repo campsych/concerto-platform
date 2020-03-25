@@ -23,6 +23,8 @@ saveResponse = function(score, trait, item, skipped) {
     return(NULL)
   }
 
+  hasSkippedColumn = !is.null(responseBank$columns$skipped) && !is.na(responseBank$columns$skipped) && responseBank$columns$skipped != ""
+
   params = list(
     table = responseBank$table,
     sessionIdColumn = responseBank$columns$session_id,
@@ -64,41 +66,50 @@ UPDATE {{table}} SET
 {{timeTakenColumn}} = {{timeTaken}},
 {{thetaColumn}} = {{theta}},
 {{semColumn}} = {{sem}},
-{{traitColumn}} = IF('{{trait}}' = '', NULL, '{{trait}}'),
-{{skippedColumn}} = {{skipped}}
-WHERE id={{id}}"
+{{traitColumn}} = IF('{{trait}}' = '', NULL, '{{trait}}')"
+    if(hasSkippedColumn) {
+      sql = paste0(sql, ",{{skippedColumn}} = {{skipped}} ")
+    }
+    sql = paste0(sql, "
+WHERE id={{id}}")
   } else {
     sql = "
 INSERT INTO {{table}} 
 (
-{{itemIdColumn}}, 
-{{responseColumn}}, 
-{{scoreColumn}}, 
-{{timeTakenColumn}}, 
-{{sessionIdColumn}}, 
-{{thetaColumn}}, 
-{{semColumn}}, 
-{{traitColumn}},
-{{skippedColumn}}
+{{itemIdColumn}}
+,{{responseColumn}}
+,{{scoreColumn}}
+,{{timeTakenColumn}}
+,{{sessionIdColumn}}
+,{{thetaColumn}}
+,{{semColumn}}
+,{{traitColumn}}"
+    if(hasSkippedColumn) {
+      sql = paste0(sql, ",{{skippedColumn}}")
+    }
+    sql = paste0(sql, "
 ) 
 VALUES (
-{{itemId}}, 
-'{{responseValue}}', 
-IF('{{score}}' = '', NULL, '{{score}}'), 
-{{timeTaken}}, 
-'{{sessionId}}', 
-{{theta}}, 
-{{sem}}, 
-IF('{{trait}}' = '', NULL, '{{trait}}'),
-{{skipped}}
-)"
+{{itemId}}
+,'{{responseValue}}'
+,IF('{{score}}' = '', NULL, '{{score}}')
+,{{timeTaken}}
+,'{{sessionId}}'
+,{{theta}}
+,{{sem}}
+,IF('{{trait}}' = '', NULL, '{{trait}}')")
+    if(hasSkippedColumn) {
+      sql = paste0(sql, ",{{skipped}}")
+    }
+    sql = paste0(sql, "
+)")
   }
 
   concerto.table.query(sql, params)
   if(!responseExist) {
     responseId = concerto.table.lastInsertId()
   }
-  
+
   if(!is.na(settings$responseSavedModule) && settings$responseSavedModule != "") {
     concerto.test.run(settings$responseSavedModule, params=list(
       settings = settings,

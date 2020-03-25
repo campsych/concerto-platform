@@ -1,4 +1,4 @@
-version: 5.0.11
+version: 5.0.12
 collection:
   -
     class_name: DataTable
@@ -10281,11 +10281,11 @@ collection:
                 -
                   name: skippable
                   label: Skippable
-                  tooltip: ''
+                  tooltip: Optional.
                 -
                   name: instructions
                   label: Instructions
-                  tooltip: ''
+                  tooltip: Optional.
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -10739,11 +10739,11 @@ collection:
                 -
                   name: skippable
                   label: Skippable
-                  tooltip: ''
+                  tooltip: Optional.
                 -
                   name: instructions
                   label: Instructions
-                  tooltip: ''
+                  tooltip: Optional.
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -11311,7 +11311,7 @@ collection:
                 -
                   name: skipped
                   label: Skipped
-                  tooltip: ''
+                  tooltip: Optional.
               placeholder: 0
       -
         class_name: TestWizardStep

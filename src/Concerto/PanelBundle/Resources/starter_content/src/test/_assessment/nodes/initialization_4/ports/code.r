@@ -92,16 +92,16 @@ convertFromFlat = function(items, responseColumnsNum) {
       defaultScore=defaultScore
     )
 
-    if(is.null(responseOptions$painMannequinGender)) { 
+    if(is.null(responseOptions$painMannequinGender) || is.na(responseOptions$painMannequinGender)) { 
       responseOptions$painMannequinGender = defaultPainMannequinGender
     }
-    if(is.null(responseOptions$painMannequinAreaMultiMarks)) { 
+    if(is.null(responseOptions$painMannequinAreaMultiMarks) || is.na(responseOptions$painMannequinAreaMultiMarks)) { 
       responseOptions$painMannequinAreaMultiMarks = defaultPainMannequinAreaMultiMarks
     }
-    if(is.null(responseOptions$gracelyScaleShow)) { 
+    if(is.null(responseOptions$gracelyScaleShow) || is.na(responseOptions$gracelyScaleShow)) { 
       responseOptions$gracelyScaleShow = defaultGracelyScaleShow
     }
-    if(is.null(responseOptions$optionsRandomOrder)) { 
+    if(is.null(responseOptions$optionsRandomOrder) || is.na(responseOptions$optionsRandomOrder)) { 
       responseOptions$optionsRandomOrder = defaultOptionsRandomOrder
     }
 
@@ -123,9 +123,17 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
-    skippableColumn = tableMap$columns$skippable
+    
     instructionsColumn = tableMap$columns$instructions
-
+    if(is.null(instructionsColumn) || is.na(instructionsColumn) || instructionsColumn == "") {
+      instructionsColumn = "NULL"
+    }
+    
+    skippableColumn = tableMap$columns$skippable
+    if(is.null(skippableColumn) || is.na(skippableColumn) || skippableColumn == "") {
+      skippableColumn = "NULL"
+    }
+    
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
 
@@ -164,25 +172,41 @@ FROM {{table}}
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
-    skippableColumn = tableMap$columns$skippable
+    
     instructionsColumn = tableMap$columns$instructions
+    if(!is.null(instructionsColumn) && !is.na(instructionsColumn) && instructionsColumn != "") {
+      instructionsColumn = "NULL"
+    }
+    
+    skippableColumn = tableMap$columns$skippable
+    if(is.null(skippableColumn) || is.na(skippableColumn) || skippableColumn == "") {
+      skippableColumn = "NULL"
+    }
+    
     responseLabel1Column = tableMap$columns$responseLabel1
     responseValue1Column = tableMap$columns$responseValue1
     responseScore1Column = tableMap$columns$responseScore1
     typeColumn = tableMap$columns$type
+    
     gracelyScaleShowColumn = tableMap$columns$gracelyScaleShow
+    if(is.null(gracelyScaleShowColumn) || is.na(gracelyScaleShowColumn) || gracelyScaleShowColumn == "") {
+      gracelyScaleShowColumn = "NULL"
+    }
+    
     painMannequinGenderColumn = tableMap$columns$painMannequinGender
+    if(is.null(painMannequinGenderColumn) || is.na(painMannequinGenderColumn) || painMannequinGenderColumn == "") {
+      painMannequinGenderColumn = "NULL"
+    }
+    
     painMannequinAreaMultiMarksColumn = tableMap$columns$painMannequinAreaMultiMarks
+    if(is.null(painMannequinAreaMultiMarksColumn) || is.na(painMannequinAreaMultiMarksColumn) || painMannequinAreaMultiMarksColumn == "") {
+      painMannequinAreaMultiMarksColumn = "NULL"
+    }
+    
     optionsRandomOrderColumn = tableMap$columns$optionsRandomOrder
-
-    gracelyScaleShowSql = ""
-    if(!is.null(gracelyScaleShowColumn) && !is.na(gracelyScaleShowColumn) && gracelyScaleShowColumn != "") { gracelyScaleShowSql = "{{gracelyScaleShowColumn}} AS gracelyScaleShow," }
-    painMannequinGenderSql = ""
-    if(!is.null(painMannequinGenderColumn) && !is.na(painMannequinGenderColumn) && painMannequinGenderColumn != "") { painMannequinGenderSql = "{{painMannequinGenderColumn}} AS painMannequinGender," }
-    painMannequinAreaMultiMarksSql = ""
-    if(!is.null(painMannequinAreaMultiMarksColumn) && !is.na(painMannequinAreaMultiMarksColumn) && painMannequinAreaMultiMarksColumn != "") { painMannequinAreaMultiMarksSql = "{{painMannequinAreaMultiMarksColumn}} AS painMannequinAreaMultiMarks," }
-    optionsRandomOrderSql = ""
-    if(!is.null(optionsRandomOrderColumn) && !is.na(optionsRandomOrderColumn) && optionsRandomOrderColumn != "") { optionsRandomOrderSql = "{{optionsRandomOrderColumn}} AS optionsRandomOrder," }
+    if(is.null(optionsRandomOrderColumn) || is.na(optionsRandomOrderColumn) || optionsRandomOrderColumn == "") {
+      optionsRandomOrderColumn = "NULL"
+    }
 
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
@@ -204,10 +228,10 @@ id,
 {{responseLabelSql}},
 {{responseValueSql}},
 {{responseScoreSql}},
-{{gracelyScaleShowSql}}
-{{painMannequinGenderSql}}
-{{painMannequinAreaMultiMarksSql}}
-{{optionsRandomOrderSql}}
+{{gracelyScaleShowColumn}} AS gracelyScaleShow,
+{{painMannequinGenderColumn}} AS painMannequinGender,
+{{painMannequinAreaMultiMarksColumn}} AS painMannequinAreaMultiMarks,
+{{optionsRandomOrderColumn}} AS optionsRandomOrder,
 {{extraFieldsSql}}
 {{typeColumn}} AS type
 FROM {{table}}
@@ -224,13 +248,9 @@ FROM {{table}}
         responseValueSql=responseValueSql,
         responseScoreSql=responseScoreSql,
         typeColumn=typeColumn,
-        gracelyScaleShowSql=gracelyScaleShowSql,
         gracelyScaleShowColumn=gracelyScaleShowColumn,
-        painMannequinGenderSql=painMannequinGenderSql,
         painMannequinGenderColumn=painMannequinGenderColumn,
-        painMannequinAreaMultiMarksSql=painMannequinAreaMultiMarksSql,
         painMannequinAreaMultiMarksColumn=painMannequinAreaMultiMarksColumn,
-        optionsRandomOrderSql=optionsRandomOrderSql,
         optionsRandomOrderColumn=optionsRandomOrderColumn,
         table=table
       ))

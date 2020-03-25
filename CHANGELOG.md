@@ -9,6 +9,12 @@
 * fixed R package installation scheduled tasks
 * fixed file picker URL
 
+#### Starter content
+
+* assessmentItems::skippable column is optional now
+* assessmentItems::instructions column is optional now
+* assessmentResponses::skipped column is optional now
+
 ## 5.0.11 (2020-03-19)
 
 #### Features
