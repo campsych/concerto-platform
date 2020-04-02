@@ -284,8 +284,9 @@ FROM {{table}}
     items = items[sample(1:dim(items)[1]),]
   }
   
-  items[is.na(items$skippable), "skippable"] = settings$canSkipItems
-  items[is.na(items$instructions), "instructions"] = settings$instructions
+  items[is.null(items$skippable) | is.na(items$skippable), "skippable"] = settings$canSkipItems
+  items[is.null(items$instructions) | is.na(items$instructions) | items$instructions == "", "instructions"] = settings$instructions
+  concerto.log(items)
 
   return(items)
 }
