@@ -262,10 +262,11 @@ FROM {{table}}
     if(length(itemBankItems) > 0) {
       for(i in 1:length(itemBankItems)) {
         itemBankItems[[i]]$responseOptions = as.character(toJSON(itemBankItems[[i]]$responseOptions)) #response options don't fit into flat table, so turn them back to JSON.
+        itemBankItems[[i]][sapply(itemBankItems[[i]], is.null)] <- NA
         items = rbind(items, data.frame(itemBankItems[[i]], stringsAsFactors=F))
       }
     }
-  } 
+  }
 
   if(!is.na(settings$itemBankFilterModule) && settings$itemBankFilterModule != "") {
     items = concerto.test.run(settings$itemBankFilterModule, params=list(
