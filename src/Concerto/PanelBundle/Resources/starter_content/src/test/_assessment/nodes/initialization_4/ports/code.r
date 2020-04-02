@@ -59,7 +59,7 @@ convertFromFlat = function(items, responseColumnsNum) {
     for(j in 1:responseColumnsNum) {
       label = item[[paste0("responseLabel",j)]]
       value = item[[paste0("responseValue",j)]]
-      
+
       if(is.na(label) || is.na(value)) { next }
       options[[j]] = list(
         label=label,
@@ -72,7 +72,7 @@ convertFromFlat = function(items, responseColumnsNum) {
       score = item[[paste0("responseScore",j)]]
       value = item[[paste0("responseValue",j)]]
       trait = item[[paste0("responseTrait",j)]]
-      
+
       if(is.na(score) || is.na(value)) { next }
       scoreMap[[j]] = list(
         score=score,
@@ -123,17 +123,17 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
-    
+
     instructionsColumn = tableMap$columns$instructions
     if(is.null(instructionsColumn) || is.na(instructionsColumn) || instructionsColumn == "") {
       instructionsColumn = "NULL"
     }
-    
+
     skippableColumn = tableMap$columns$skippable
     if(is.null(skippableColumn) || is.na(skippableColumn) || skippableColumn == "") {
       skippableColumn = "NULL"
     }
-    
+
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
 
@@ -172,37 +172,37 @@ FROM {{table}}
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
-    
+
     instructionsColumn = tableMap$columns$instructions
     if(is.null(instructionsColumn) || is.na(instructionsColumn) || instructionsColumn == "") {
       instructionsColumn = "NULL"
     }
-    
+
     skippableColumn = tableMap$columns$skippable
     if(is.null(skippableColumn) || is.na(skippableColumn) || skippableColumn == "") {
       skippableColumn = "NULL"
     }
-    
+
     responseLabel1Column = tableMap$columns$responseLabel1
     responseValue1Column = tableMap$columns$responseValue1
     responseScore1Column = tableMap$columns$responseScore1
     typeColumn = tableMap$columns$type
-    
+
     gracelyScaleShowColumn = tableMap$columns$gracelyScaleShow
     if(is.null(gracelyScaleShowColumn) || is.na(gracelyScaleShowColumn) || gracelyScaleShowColumn == "") {
       gracelyScaleShowColumn = "NULL"
     }
-    
+
     painMannequinGenderColumn = tableMap$columns$painMannequinGender
     if(is.null(painMannequinGenderColumn) || is.na(painMannequinGenderColumn) || painMannequinGenderColumn == "") {
       painMannequinGenderColumn = "NULL"
     }
-    
+
     painMannequinAreaMultiMarksColumn = tableMap$columns$painMannequinAreaMultiMarks
     if(is.null(painMannequinAreaMultiMarksColumn) || is.na(painMannequinAreaMultiMarksColumn) || painMannequinAreaMultiMarksColumn == "") {
       painMannequinAreaMultiMarksColumn = "NULL"
     }
-    
+
     optionsRandomOrderColumn = tableMap$columns$optionsRandomOrder
     if(is.null(optionsRandomOrderColumn) || is.na(optionsRandomOrderColumn) || optionsRandomOrderColumn == "") {
       optionsRandomOrderColumn = "NULL"
@@ -283,9 +283,17 @@ FROM {{table}}
   if(settings$order == "random") {
     items = items[sample(1:dim(items)[1]),]
   }
-  
-  items[is.null(items$skippable) | is.na(items$skippable), "skippable"] = settings$canSkipItems
-  items[is.null(items$instructions) | is.na(items$instructions) | items$instructions == "", "instructions"] = settings$instructions
+
+  if("skippable" %in% colnames(items)) {
+    items[is.null(items$skippable) | is.na(items$skippable), "skippable"] = settings$canSkipItems
+  } else {
+    items$skippable = settings$canSkipItems
+  }
+  if("instructions" %in% colnames(items)) {
+    items[is.null(items$instructions) | is.na(items$instructions) | items$instructions == "", "instructions"] = settings$instructions
+  } else {
+    items$instructions = settings$instructions
+  }
   concerto.log(items)
 
   return(items)
