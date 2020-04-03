@@ -671,7 +671,6 @@ class Test extends ATopEntity implements \JsonSerializable
         for ($i = 0; $i < count($arr["variables"]); $i++) {
             $arr["variables"][$i] = TestVariable::getArrayHash($arr["variables"][$i]);
         }
-        unset($arr["logs"]);
         unset($arr["slug"]);
         unset($arr["sourceWizard"]);
         unset($arr["sourceWizardTest"]);
@@ -721,7 +720,6 @@ class Test extends ATopEntity implements \JsonSerializable
             "slug" => $this->slug,
             "description" => $this->description,
             "variables" => self::jsonSerializeArray($variables, $dependencies, $normalizedIdsMap),
-            "logs" => $this->logs->toArray(),
             "sourceWizard" => $this->sourceWizard != null ? $this->sourceWizard->getId() : null,
             "sourceWizardName" => $this->sourceWizard != null ? $this->sourceWizard->getName() : null,
             "sourceWizardTest" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getId() : null,

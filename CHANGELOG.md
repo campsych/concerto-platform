@@ -8,6 +8,7 @@
 
 * fixed R package installation scheduled tasks
 * fixed file picker URL
+* test error logs are no longer loaded automatically on test edit
 
 #### Starter content
 

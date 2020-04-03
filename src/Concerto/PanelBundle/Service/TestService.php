@@ -194,7 +194,6 @@ class TestService extends AExportableSectionService
     public function convertToExportable($array, $instruction = null, $secure = true)
     {
         $array = parent::convertToExportable($array, $instruction, $secure);
-        unset($array["logs"]);
         unset($array["slug"]);
         unset($array["steps"]);
         unset($array["sourceWizardName"]);
