@@ -628,6 +628,19 @@ collection:
     groups: ''
     starterContent: true
   -
+    class_name: ViewTemplate
+    id: 18
+    name: inputSlider
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: null
+    js: null
+    html: null
+    groups: ''
+    starterContent: true
+  -
     class_name: Test
     id: 1
     name: _authorizeUser
@@ -13032,7 +13045,7 @@ collection:
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
-            value: '[]'
+            value: '[{"name":"","label":"","type":"slider","validation":[],"definition":{"options":[],"sliderStep":"1"}}]'
             testVariable: 98
             name: fields
             wizardStep: 11
@@ -13090,6 +13103,10 @@ collection:
                             label: Date
                             order: 1
                             value: date
+                          -
+                            label: Slider
+                            order: 7
+                            value: slider
                         defvalue: singleLine
                         placeholder: 0
                     -
@@ -13173,8 +13190,17 @@ collection:
                                         placeholder: 0
                                   placeholder: 0
                               placeholder: 0
+                            hideCondition: 'grandParent.type != "select"'
+                          -
+                            name: sliderStep
+                            type: 0
+                            label: 'Slider step'
+                            definition:
+                              defvalue: '1'
+                              placeholder: 0
+                            hideCondition: 'grandParent.type != "slider"'
                         placeholder: 0
-                      hideCondition: 'parent.type != "select"'
+                      hideCondition: 'parent.type != "select" && parent.type != "slider"'
                   placeholder: 0
           -
             class_name: TestWizardParam
@@ -13210,6 +13236,7 @@ collection:
             order: 12
             wizard: 5
             definition:
+              defvalue: ''
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -13227,6 +13254,7 @@ collection:
             order: 11
             wizard: 5
             definition:
+              defvalue: ''
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -13280,6 +13308,7 @@ collection:
             order: 10
             wizard: 5
             definition:
+              defvalue: ''
               placeholder: 0
     test: 7
     groups: ''
@@ -13312,7 +13341,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[],"definition":{"options":[]}}]'
+        value: '[{"name":"name","label":"What''s your name?","type":"singleLine","validation":[],"definition":{"options":[],"sliderStep":null}}]'
         test: 18
         parentVariable: 98
       -

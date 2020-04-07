@@ -6,6 +6,7 @@
 	{{template:inputSelect,css=FALSE,html=FALSE}}
 	{{template:inputPassword,css=FALSE,html=FALSE}}
 	{{template:inputDate,css=FALSE,html=FALSE}}
+	{{template:inputSlider,css=FALSE,html=FALSE}}
 </src>
 <div class="body" ng-controller="form">
 	{{template:header}}
@@ -27,6 +28,7 @@
 								<input-select field="field" ng-switch-when="select" values="values"></input-select>
 								<input-password field="field" ng-switch-when="password" values="values"></input-password>
 								<input-date field="field" ng-switch-when="date" values="values"></input-date>
+								<input-slider field="field" ng-switch-when="slider" values="values"></input-slider>
 							</src>
 						</div>
 

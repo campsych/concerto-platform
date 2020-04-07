@@ -1,0 +1,7 @@
+<div class="form-label">
+	[[field.label]] 
+	<span ng-if="getValidator('required')">
+		* 
+	</span>
+</div>
+<input max="[[getValidator('max').value]]" min="[[getValidator('min').value]]" name="[[field.name]]" ng-model="values[field.name]" ng-required="getValidator('required')" type="range" title="[[ values[field.name] ]]" />

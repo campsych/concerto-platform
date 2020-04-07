@@ -1,4 +1,4 @@
-## 5.0.12 (in progress)
+## 5.0.12 (2020-04-07)
 
 #### Features
 
@@ -10,8 +10,13 @@
 * fixed file picker URL
 * test error logs are no longer loaded automatically on test edit
 
+#### Improvements
+
+* added grandParent helper variable for wizard params hide conditions
+
 #### Starter content
 
+* added slider input type for **form** node
 * assessmentItems::skippable column is optional now
 * assessmentItems::instructions column is optional now
 * assessmentResponses::skipped column is optional now

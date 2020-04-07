@@ -6,6 +6,7 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
             output: "=",
             values: "=",
             parent: "=",
+            grandParent: "=",
             wizardObject: "=",
             underList: "=",
             editable: "="
@@ -44,8 +45,8 @@ angular.module('concertoPanel').directive('wizardParamSetter', ["$compile", "$te
                 scope.summary = scope.testWizardParamService.getSetterSummary(scope.param, scope.output);
             };
 
-            scope.getParamSetterCellTemplate = function (param, parent, output) {
-                let cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" under-list="true" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject" editable="grid.appScope.editable"></wizard-param-setter>';
+            scope.getParamSetterCellTemplate = function (param, parent, grandParent, output) {
+                let cell = '<wizard-param-setter param="' + param + '" parent="' + parent + '" grand-parent="'+ grandParent +'" output="' + output + '" mode="grid" wizard-mode="' + scope.wizardMode + '" under-list="true" values="grid.appScope.values" wizard-object="grid.appScope.wizardObject" editable="grid.appScope.editable"></wizard-param-setter>';
                 return cell;
             };
 

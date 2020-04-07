@@ -3,7 +3,7 @@
 
 {% block content %}
     <!-- mode: dialog/outer/grid -->
-    <div ng-if="testWizardParamService.isParamVisible(param, parent, values)" ng-class="{'bs-callout': mode == 'outer', 'bs-callout-warning': mode == 'outer'}">
+    <div ng-if="testWizardParamService.isParamVisible(param, parent, grandParent, values)" ng-class="{'bs-callout': mode == 'outer', 'bs-callout-warning': mode == 'outer'}">
         <h4 ng-bind="param.label" class="carouselParamHeader" ng-if="mode == 'outer'"></h4>
         <p ng-bind-html="param.description | trustedHtml" ng-if="mode == 'outer'"></p>
 

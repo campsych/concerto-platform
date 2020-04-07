@@ -70,7 +70,7 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         enableCellEditOnFocus: false
     };
 
-    $scope.getColumnDefs = function (obj, param, parent, output, isGroupField) {
+    $scope.getColumnDefs = function (obj, param, parent, grandParent, output, isGroupField) {
         if (!obj)
             return [];
         if (!isGroupField && obj.type == 9) {
@@ -80,8 +80,9 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
                 let field = fields[i];
                 let param = "grid.appScope.param.definition.element.definition.fields[" + i + "]";
                 let parent = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
+                let grandParent = "grid.appScope.parent";
                 let output = "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]." + field.name;
-                let add = $scope.getColumnDefs(field, param, parent, output, true);
+                let add = $scope.getColumnDefs(field, param, parent, grandParent, output, true);
                 for (let j = 0; j < add.length; j++) {
                     cols.push(add[j]);
                 }
@@ -96,7 +97,7 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
             name: isGroupField ? obj.name : "value",
             cellTemplate:
                 "<div class='ui-grid-cell-contents'>" +
-                $scope.getParamSetterCellTemplate(param, parent, output) +
+                $scope.getParamSetterCellTemplate(param, parent, grandParent, output) +
                 "</div>"
         }];
     };
@@ -105,8 +106,9 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         let defs = [];
         let param = "grid.appScope.param.definition.element";
         let parent = "grid.appScope.output";
+        let grandParent = "grid.appScope.parent";
         let output = TestWizardParam.isSimpleType($scope.param.definition.element.type) ? "grid.appScope.output[grid.appScope.output.indexOf(row.entity)].value" : "grid.appScope.output[grid.appScope.output.indexOf(row.entity)]";
-        let cd = $scope.getColumnDefs($scope.param.definition.element, param, parent, output, false);
+        let cd = $scope.getColumnDefs($scope.param.definition.element, param, parent, grandParent, output, false);
         for (let i = 0; i < cd.length; i++) {
             defs.push(cd[i]);
         }

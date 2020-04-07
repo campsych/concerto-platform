@@ -360,7 +360,7 @@ concertoPanel.service('TestWizardParam', ["$filter",
             return true;
         };
 
-        this.isParamVisible = function (param, parent, values) {
+        this.isParamVisible = function (param, parent, grandParent, values) {
             try {
                 if (!param.hideCondition || param.hideCondition === undefined) {
                     return true;
