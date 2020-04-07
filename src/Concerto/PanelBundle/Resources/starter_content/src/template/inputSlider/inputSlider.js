@@ -8,8 +8,6 @@ testRunner.compileProvider.component('inputSlider', {
     this.$onInit = function() {
       $scope.field = this.field;
       $scope.values = this.values;
-      
-      console.log($scope.getValidator('max').value);
     };
 
     $scope.getValidator = function (type) {
