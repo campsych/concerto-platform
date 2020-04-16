@@ -10,9 +10,4 @@ use Concerto\PanelBundle\Entity\Test;
 class TestNodeRepository extends AEntityRepository
 {
 
-    public function deleteByTest(Test $test)
-    {
-        $this->delete($test->getNodes()->toArray());
-    }
-
 }

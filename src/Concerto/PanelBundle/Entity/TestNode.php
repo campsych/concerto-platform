@@ -49,7 +49,7 @@ class TestNode extends AEntity implements \JsonSerializable
     private $flowTest;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Test")
+     * @ORM\ManyToOne(targetEntity="Test", inversedBy="sourceForNodes")
      */
     private $sourceTest;
 
@@ -80,6 +80,8 @@ class TestNode extends AEntity implements \JsonSerializable
         $this->posX = 0;
         $this->posY = 0;
         $this->ports = new ArrayCollection();
+        $this->sourceForConnections = new ArrayCollection();
+        $this->destinationForConnections = new ArrayCollection();
     }
 
     /**
@@ -416,4 +418,17 @@ class TestNode extends AEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        $this->getFlowTest()->removeNode($this);
+        $this->getSourceTest()->removeSourceForNodes($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if (!$this->getFlowTest()->getNodes()->contains($this)) $this->getFlowTest()->addNode($this);
+        if (!$this->getSourceTest()->getSourceForNodes()->contains($this)) $this->getSourceTest()->addSourceForNodes($this);
+    }
 }

@@ -287,4 +287,15 @@ class TestWizardStep extends AEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        $this->getWizard()->removeStep($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if (!$this->getWizard()->getSteps()->contains($this)) $this->getWizard()->addStep($this);
+    }
 }

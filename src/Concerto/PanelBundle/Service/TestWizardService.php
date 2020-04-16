@@ -87,7 +87,8 @@ class TestWizardService extends AExportableSectionService
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function update(TestWizard $object, $flush = true) {
+    private function update(TestWizard $object, $flush = true)
+    {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
@@ -203,10 +204,10 @@ class TestWizardService extends AExportableSectionService
                     break;
                 }
             }
-            if (!$found) $this->testWizardStepService->delete($currentStep->getId());
+            if (!$found) {
+                $this->repository->delete($currentStep);
+            }
         }
-
-        //params should be cleared automatically
     }
 
     protected function importNew($new_name, $obj, &$map, &$queue, $test)

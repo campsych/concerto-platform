@@ -139,7 +139,7 @@ class TestNodePortService extends ASectionService
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
     {
-        $nodes = $this->testNodeRepository->findBySourceTest($variable->getTest());
+        $nodes = $variable->getTest()->getSourceForNodes();
 
         foreach ($nodes as $node) {
             $ports = $node->getPorts();
@@ -187,7 +187,6 @@ class TestNodePortService extends ASectionService
                 }
                 $exposed = $variable->getType() == 2;
                 $result = $this->save(0, $node, $variable, true, $variable->getValue(), true, null, false, $exposed, null, null, null, $flush);
-                $node->addPort($result["object"]);
             }
         }
     }
@@ -248,10 +247,8 @@ class TestNodePortService extends ASectionService
             "id" => $exported_parent_id
         ), $instructions);
         $result = array();
-        $src_ent = $this->findConversionSource($obj, $map);
-        if ($parent_instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert(null, $src_ent, $obj, $map, $renames, $queue, $node, $variable);
-        } else if ($parent_instruction["action"] == 2 && $src_ent) {
+        $src_ent = null; //port should never be converted
+        if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNodePort"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
@@ -417,7 +414,7 @@ class TestNodePortService extends ASectionService
 
     public function addDynamic(TestNode $node, $name, $type)
     {
-        $result = $this->save(
+        return $this->save(
             0,
             $node,
             null,
@@ -431,7 +428,6 @@ class TestNodePortService extends ASectionService
             null,
             null
         );
-        return $result;
     }
 
     public function hide($id)

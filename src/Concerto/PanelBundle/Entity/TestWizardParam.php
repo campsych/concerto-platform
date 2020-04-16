@@ -89,7 +89,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable
     /**
      *
      * @var array
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      */
     private $definition;
 
@@ -523,4 +523,19 @@ class TestWizardParam extends AEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        $this->getVariable()->removeParam($this);
+        $this->getWizard()->removeParam($this);
+        $this->getStep()->removeParam($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if (!$this->getVariable()->getParams()->contains($this)) $this->getVariable()->addParam($this);
+        if (!$this->getWizard()->getParams()->contains($this)) $this->getWizard()->addParam($this);
+        if (!$this->getStep()->getParams()->contains($this)) $this->getStep()->addParam($this);
+    }
 }

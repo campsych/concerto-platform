@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -65,21 +66,28 @@ class TestVariable extends AEntity implements \JsonSerializable
     private $parentVariable;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="parentVariable", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="parentVariable", cascade={"remove"}, orphanRemoval=true)
      */
     private $childVariables;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestWizardParam", mappedBy="variable", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestWizardParam", mappedBy="variable", cascade={"remove"}, orphanRemoval=true)
      */
     private $params;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="variable", cascade={"remove"}, orphanRemoval=true)
+     */
+    private $ports;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->description = "";
+        $this->childVariables = new ArrayCollection();
         $this->params = new ArrayCollection();
+        $this->ports = new ArrayCollection();
     }
 
     public function __toString()
@@ -319,6 +327,39 @@ class TestVariable extends AEntity implements \JsonSerializable
         return $this->childVariables;
     }
 
+    /**
+     * Add port
+     *
+     * @param TestNodePort $port
+     * @return TestVariable
+     */
+    public function addPort(TestNodePort $port)
+    {
+        $this->ports[] = $port;
+
+        return $this;
+    }
+
+    /**
+     * Remove port
+     *
+     * @param TestNodePort $port
+     */
+    public function removePort(TestNodePort $port)
+    {
+        $this->ports->removeElement($port);
+    }
+
+    /**
+     * Get ports
+     *
+     * @return Collection
+     */
+    public function getPorts()
+    {
+        return $this->ports;
+    }
+
     public function getAccessibility()
     {
         return $this->getTest()->getAccessibility();
@@ -392,4 +433,17 @@ class TestVariable extends AEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        if ($this->getParentVariable()) $this->getParentVariable()->removeChildVariable($this);
+        $this->getTest()->removeVariable($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if ($this->getParentVariable() && !$this->getParentVariable()->getChildVariables()->contains($this)) $this->getParentVariable()->addChildVariable($this);
+        if (!$this->getTest()->getVariables()->contains($this)) $this->getTest()->addVariable($this);
+    }
 }

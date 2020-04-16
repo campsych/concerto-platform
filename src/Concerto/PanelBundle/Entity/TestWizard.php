@@ -38,18 +38,18 @@ class TestWizard extends ATopEntity implements \JsonSerializable
     private $test;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestWizardParam", mappedBy="wizard", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestWizardParam", mappedBy="wizard", cascade={"remove"}, orphanRemoval=true)
      */
     private $params;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestWizardStep", mappedBy="wizard", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestWizardStep", mappedBy="wizard", cascade={"remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"orderNum" = "ASC"})
      */
     private $steps;
 
     /**
-     * @ORM\OneToMany(targetEntity="Test", mappedBy="sourceWizard")
+     * @ORM\OneToMany(targetEntity="Test", mappedBy="sourceWizard", cascade={"remove"}, orphanRemoval=true)
      */
     private $resultingTests;
 
@@ -372,4 +372,15 @@ class TestWizard extends ATopEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        $this->getTest()->removeWizards($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if (!$this->getTest()->getWizards()->contains($this)) $this->getTest()->addWizard($this);
+    }
 }

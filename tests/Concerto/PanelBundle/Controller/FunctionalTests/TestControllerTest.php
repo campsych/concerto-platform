@@ -260,6 +260,7 @@ class TestControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+        $this->assertCount(2, self::$repository->findAll());
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
@@ -304,7 +305,6 @@ class TestControllerTest extends AFunctionalTest
                 "lockedBy" => null,
                 "directLockBy" => null
             )), json_decode($client->getResponse()->getContent(), true));
-        $this->assertCount(2, self::$repository->findAll());
     }
 
     public function testSaveActionRename()

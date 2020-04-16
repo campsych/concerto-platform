@@ -4,6 +4,7 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\DataTable;
 use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Concerto\PanelBundle\Repository\TestWizardParamRepository;
@@ -329,6 +330,7 @@ class TestWizardParamService extends ASectionService
         //resulting tests variables update
         foreach ($newParam->getWizard()->getResultingTests() as $test) {
             foreach ($test->getVariables() as $var) {
+                /** @var TestVariable $var */
                 $pvar = $var->getParentVariable();
                 if ($pvar !== null && $newParam->getVariable()->getId() == $pvar->getId()) {
                     $dstVal = $var->getValue();
@@ -344,7 +346,7 @@ class TestWizardParamService extends ASectionService
                     $this->testVariableService->update($var, $flush);
 
                     // ports update
-                    $nodes = $this->testNodeRepository->findBySourceTest($var->getTest());
+                    $nodes = $var->getTest()->getSourceForNodes();
                     foreach ($nodes as $node) {
                         $ports = $node->getPorts();
                         foreach ($ports as $port) {

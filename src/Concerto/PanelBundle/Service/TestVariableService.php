@@ -56,7 +56,12 @@ class TestVariableService extends ASectionService
 
     public function getBranches($test_id)
     {
-        return $this->authorizeCollection($this->repository->findByTestAndType($test_id, 2));
+        /** @var Test $test */
+        $test = $this->testRepository->find($test_id);
+        $variables = $test->getVariables()->filter(function (TestVariable $variable) {
+            return $variable->getType() === 2;
+        });
+        return $this->authorizeCollection($variables);
     }
 
     public function saveCollection($serializedVariables, Test $test, $flush = true)
@@ -197,13 +202,6 @@ class TestVariableService extends ASectionService
             array_push($result, array("object" => $object, "errors" => array()));
         }
         return $result;
-    }
-
-    public function deleteAll($test_id, $type)
-    {
-        $test = parent::authorizeObject($this->testRepository->find($test_id));
-        if ($test)
-            $this->repository->deleteByTestAndType($test_id, $type);
     }
 
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)

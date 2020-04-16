@@ -117,7 +117,6 @@ class TestNodeService extends ASectionService
                 if (!$port) {
                     $exposed = $var->getType() == 2;
                     $result = $this->testNodePortService->save(0, $node, $var, "1", $var->getValue(), "1", null, false, $exposed, null, null, null, $flush);
-                    $node->addPort($result["object"]);
                 }
             }
         }
@@ -174,7 +173,7 @@ class TestNodeService extends ASectionService
             "id" => $obj["flowTest"]
         ), $instructions);
         $result = array();
-        $src_ent = $this->findConversionSource($obj, $map);
+        $src_ent = null; //node should never be converted
         if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNode"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
@@ -186,17 +185,9 @@ class TestNodeService extends ASectionService
         return $result;
     }
 
-    /* TODO: improve it, curretly it's not 100% reliable (for nodes with same position) */
     protected function findConversionSource($obj, $map)
     {
-        $ent = $this->repository->findOneBy(array(
-            "posX" => $obj["posX"],
-            "posY" => $obj["posY"],
-            "flowTest" => $map["Test"]["id" . $obj["flowTest"]]
-        ));
-        if (!$ent)
-            return null;
-        return $this->get($ent->getId());
+        return null;
     }
 
     protected function importNew($new_name, $obj, &$map, &$queue, $flowTest, $sourceTest)

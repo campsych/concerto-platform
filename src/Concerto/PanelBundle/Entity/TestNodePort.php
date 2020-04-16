@@ -21,22 +21,14 @@ class TestNodePort extends AEntity implements \JsonSerializable
 {
 
     /**
-     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="TestNode", inversedBy="ports")
      */
     private $node;
 
     /**
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     * @ORM\ManyToOne(targetEntity="TestVariable")
+     * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="ports")
      */
     private $variable;
-
-    /**
-     * @var string
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $value;
 
     /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="sourcePort", cascade={"remove"}, orphanRemoval=true)
@@ -47,6 +39,12 @@ class TestNodePort extends AEntity implements \JsonSerializable
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="destinationPort", cascade={"remove"}, orphanRemoval=true)
      */
     private $destinationForConnections;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $value;
 
     /**
      *
@@ -115,15 +113,15 @@ class TestNodePort extends AEntity implements \JsonSerializable
         $this->defaultValue = true;
         $this->dynamic = false;
         $this->exposed = false;
-        $this->sourceForConnections = new ArrayCollection();
-        $this->destinationForConnections = new ArrayCollection();
         $this->pointer = false;
         $this->pointerVariable = "";
+        $this->sourceForConnections = new ArrayCollection();
+        $this->destinationForConnections = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return "TestNodePort (#". $this->getId() . ", name:" . $this->getName() . ")";
+        return "TestNodePort (#" . $this->getId() . ", name:" . $this->getName() . ")";
     }
 
     public function getOwner()
@@ -198,72 +196,6 @@ class TestNodePort extends AEntity implements \JsonSerializable
     public function getVariable()
     {
         return $this->variable;
-    }
-
-    /**
-     * Add source for connection
-     *
-     * @param TestNodeConnection $connection
-     * @return TestNodePort
-     */
-    public function addSourceForConnection(TestNodeConnection $connection)
-    {
-        $this->sourceForConnections[] = $connection;
-
-        return $this;
-    }
-
-    /**
-     * Remove source for connection
-     *
-     * @param TestNodeConnection $connection
-     */
-    public function removeSourceForConnection(TestNodeConnection $connection)
-    {
-        $this->sourceForConnections->removeElement($connection);
-    }
-
-    /**
-     * Get source for connections
-     *
-     * @return ArrayCollection
-     */
-    public function getSourceForConnections()
-    {
-        return $this->sourceForConnections;
-    }
-
-    /**
-     * Add destination for connection
-     *
-     * @param TestNodeConnection $connection
-     * @return TestNodePort
-     */
-    public function addDestinationForConnection(TestNodeConnection $connection)
-    {
-        $this->destinationForConnections[] = $connection;
-
-        return $this;
-    }
-
-    /**
-     * Remove destination for connection
-     *
-     * @param TestNodeConnection $connection
-     */
-    public function removeDestinationForConnection(TestNodeConnection $connection)
-    {
-        $this->destinationForConnections->removeElement($connection);
-    }
-
-    /**
-     * Get destination for connections
-     *
-     * @return ArrayCollection
-     */
-    public function getDestinationForConnections()
-    {
-        return $this->destinationForConnections;
     }
 
     /**
@@ -441,6 +373,72 @@ class TestNodePort extends AEntity implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Add connection where port is source
+     *
+     * @param TestNodeConnection $connection
+     * @return TestNodePort
+     */
+    public function addSourceForConnections(TestNodeConnection $connection)
+    {
+        $this->sourceForConnections[] = $connection;
+
+        return $this;
+    }
+
+    /**
+     * Remove connection where port is source
+     *
+     * @param TestNodeConnection $connection
+     */
+    public function removeSourceForConnections(TestNodeConnection $connection)
+    {
+        $this->sourceForConnections->removeElement($connection);
+    }
+
+    /**
+     * Get connections where port is source
+     *
+     * @return ArrayCollection
+     */
+    public function getSourceForConnections()
+    {
+        return $this->sourceForConnections;
+    }
+
+    /**
+     * Add connection where port is destination
+     *
+     * @param TestNodeConnection $connection
+     * @return TestNodePort
+     */
+    public function addDestinationForConnections(TestNodeConnection $connection)
+    {
+        $this->destinationForConnections[] = $connection;
+
+        return $this;
+    }
+
+    /**
+     * Remove connection where port is destination
+     *
+     * @param TestNodeConnection $connection
+     */
+    public function removeDestinationForConnections(TestNodeConnection $connection)
+    {
+        $this->destinationForConnections->removeElement($connection);
+    }
+
+    /**
+     * Get connections where port is destination
+     *
+     * @return ArrayCollection
+     */
+    public function getDestinationForConnections()
+    {
+        return $this->destinationForConnections;
+    }
+
     public function getAccessibility()
     {
         return $this->getNode()->getFlowTest()->getAccessibility();
@@ -517,4 +515,17 @@ class TestNodePort extends AEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        $this->getNode()->removePort($this);
+        if ($this->getVariable()) $this->getVariable()->removePort($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if (!$this->getNode()->getPorts()->contains($this)) $this->getNode()->addPort($this);
+        if ($this->getVariable() && !$this->getVariable()->getPorts()->contains($this)) $this->getVariable()->addPort($this);
+    }
 }

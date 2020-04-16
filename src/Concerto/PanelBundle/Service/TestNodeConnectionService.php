@@ -24,8 +24,18 @@ class TestNodeConnectionService extends ASectionService
     private $testRepository;
     private $testNodeRepository;
     private $testNodePortRepository;
+    private $testNodeConnectionRepository;
 
-    public function __construct(TestNodeConnectionRepository $repository, ValidatorInterface $validator, TestRepository $testRepository, TestNodeRepository $testNodeRepository, TestNodePortRepository $testNodePortRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(
+        TestNodeConnectionRepository $repository,
+        ValidatorInterface $validator,
+        TestRepository $testRepository,
+        TestNodeRepository $testNodeRepository,
+        TestNodePortRepository $testNodePortRepository,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TokenStorageInterface $securityTokenStorage,
+        TestNodeConnectionRepository $testNodeConnectionRepository
+    )
     {
         parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
@@ -33,6 +43,7 @@ class TestNodeConnectionService extends ASectionService
         $this->testRepository = $testRepository;
         $this->testNodeRepository = $testNodeRepository;
         $this->testNodePortRepository = $testNodePortRepository;
+        $this->testNodeConnectionRepository = $testNodeConnectionRepository;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -106,10 +117,9 @@ class TestNodeConnectionService extends ASectionService
 
     public function updateDefaultReturnFunctions(TestNodePort $sourcePort)
     {
-        $connections = $this->repository->findBy(array(
-            "sourcePort" => $sourcePort,
-            "defaultReturnFunction" => true
-        ));
+        $connections = $sourcePort->getSourceForConnections()->filter(function (TestNodeConnection $connection) {
+            return $connection->hasDefaultReturnFunction();
+        });
 
         foreach ($connections as $connection) {
             $connection->setReturnFunction($sourcePort->getName());
@@ -169,14 +179,14 @@ class TestNodeConnectionService extends ASectionService
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
     {
-        $ports = $this->testNodePortRepository->findByVariable($variable);
-        foreach ($ports as $port) {
-            $connections = $port->getSourceForConnections();
-            foreach ($connections as $connection) {
-                if ($connection->getReturnFunction() != $variable->getName() && $connection->hasDefaultReturnFunction()) {
-                    $connection->setReturnFunction($variable->getName());
-                    $this->update($connection, $flush);
-                }
+        $connections = $variable->getTest()->getNodesConnections()->filter(function (TestNodeConnection $connection, TestVariable $variable) {
+            return $connection->getSourcePort() && $connection->getSourcePort()->getVariable() && $connection->getSourcePort()->getVariable()->getId() === $variable->getId();
+        });
+
+        foreach ($connections as $connection) {
+            if ($connection->getReturnFunction() != $variable->getName() && $connection->hasDefaultReturnFunction()) {
+                $connection->setReturnFunction($variable->getName());
+                $this->update($connection, $flush);
             }
         }
     }
@@ -233,7 +243,7 @@ class TestNodeConnectionService extends ASectionService
             "id" => $obj["flowTest"]
         ), $instructions);
         $result = array();
-        $src_ent = $this->findConversionSource($obj, $map);
+        $src_ent = null; //connection should never be converted
         if ($parent_instruction["action"] == 2 && $src_ent) {
             $map["TestNodeConnection"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);

@@ -22,7 +22,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
 
     /**
      * @ORM\ManyToOne(targetEntity="TestNode", inversedBy="sourceForConnections")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $sourceNode;
 
@@ -33,7 +32,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
 
     /**
      * @ORM\ManyToOne(targetEntity="TestNode", inversedBy="destinationForConnections")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $destinationNode;
 
@@ -323,4 +321,23 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        $this->getSourceNode()->removeSourceForConnection($this);
+        if ($this->getSourcePort()) $this->getSourcePort()->removeSourceForConnections($this);
+        $this->getDestinationNode()->removeDestinationForConnection($this);
+        if ($this->getDestinationPort()) $this->getDestinationPort()->removeDestinationForConnections($this);
+        $this->getFlowTest()->removeNodeConnection($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if (!$this->getSourceNode()->getSourceForConnections()->contains($this)) $this->getSourceNode()->addSourceForConnection($this);
+        if ($this->getSourcePort() && !$this->getSourcePort()->getSourceForConnections()->contains($this)) $this->getSourcePort()->removeSourceForConnections($this);
+        if (!$this->getDestinationNode()->getDestinationForConnections()->contains($this)) $this->getDestinationNode()->addDestinationForConnection($this);
+        if ($this->getDestinationPort() && !$this->getDestinationPort()->getDestinationForConnections()->contains($this)) $this->getDestinationPort()->removeDestinationForConnections($this);
+        if (!$this->getFlowTest()->getNodesConnections()->contains($this)) $this->getFlowTest()->addNodeConnection($this);
+    }
 }

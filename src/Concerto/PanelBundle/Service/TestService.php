@@ -3,6 +3,7 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
@@ -141,15 +142,12 @@ class TestService extends AExportableSectionService
         }
         if ($isNew && count($this->testVariableService->getBranches($test->getId())) == 0) {
             $result = $this->testVariableService->save(0, "out", 2, "", false, 0, $test, null, $flush);
-            $test->addVariable($result["object"]);
         }
         $this->updateDependentTests($test, $flush);
 
         if ($test->getType() == Test::TYPE_FLOW && $isNew) {
-            $result = $this->testNodeService->save(0, 1, 15000, 15000, $test, $test, "", $flush);
-            $test->addNode($result["object"]);
-            $result = $this->testNodeService->save(0, 2, 15500, 15100, $test, $test, "", $flush);
-            $test->addNode($result["object"]);
+            $this->testNodeService->save(0, 1, 15000, 15000, $test, $test, "", $flush);
+            $this->testNodeService->save(0, 2, 15500, 15100, $test, $test, "", $flush);
         }
 
         if (!$isNew && $oldName != $test->getName()) {
@@ -258,6 +256,7 @@ class TestService extends AExportableSectionService
     private function cleanConvert(Test $entity, $importArray)
     {
         foreach ($entity->getVariables() as $currentVariable) {
+            /** @var TestVariable $currentVariable */
             $found = false;
             foreach ($importArray["variables"] as $importVariable) {
                 if ($currentVariable->getName() == $importVariable["name"] && $currentVariable->getType() == $importVariable["type"]) {
@@ -265,7 +264,9 @@ class TestService extends AExportableSectionService
                     break;
                 }
             }
-            if (!$found) $this->testVariableService->delete($currentVariable->getId());
+            if (!$found) {
+                $this->repository->delete($currentVariable);
+            }
         }
     }
 
@@ -350,6 +351,7 @@ class TestService extends AExportableSectionService
     private function removeAllNodes(Test $test)
     {
         $this->repository->removeAllNodes($test);
+        $this->repository->save($test);
     }
 
     public function addFlowNode($type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false)

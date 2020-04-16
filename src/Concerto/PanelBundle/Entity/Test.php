@@ -53,17 +53,17 @@ class Test extends ATopEntity implements \JsonSerializable
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestSessionLog", mappedBy="test", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestSessionLog", mappedBy="test", cascade={"remove"}, orphanRemoval=true)
      */
     private $logs;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="test", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="test", cascade={"remove"}, orphanRemoval=true)
      */
     private $variables;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestWizard", mappedBy="test")
+     * @ORM\OneToMany(targetEntity="TestWizard", mappedBy="test", cascade={"remove"}, orphanRemoval=true)
      */
     private $wizards;
 
@@ -74,7 +74,7 @@ class Test extends ATopEntity implements \JsonSerializable
     private $code;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestSession", mappedBy="test", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestSession", mappedBy="test", cascade={"remove"}, orphanRemoval=true)
      */
     private $sessions;
 
@@ -82,6 +82,11 @@ class Test extends ATopEntity implements \JsonSerializable
      * @ORM\OneToMany(targetEntity="TestNode", mappedBy="flowTest", cascade={"remove"}, orphanRemoval=true)
      */
     private $nodes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TestNode", mappedBy="sourceTest", cascade={"remove"}, orphanRemoval=true)
+     */
+    private $sourceForNodes;
 
     /**
      * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="flowTest", cascade={"remove"}, orphanRemoval=true)
@@ -127,6 +132,7 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->wizards = new ArrayCollection();
         $this->nodes = new ArrayCollection();
         $this->nodesConnections = new ArrayCollection();
+        $this->sourceForNodes = new ArrayCollection();
         $this->description = "";
         $this->slug = md5(mt_rand() . uniqid(true));
         $this->sourceWizard = null;
@@ -474,6 +480,39 @@ class Test extends ATopEntity implements \JsonSerializable
     }
 
     /**
+     * Add node that this test is source for
+     *
+     * @param TestNode $node
+     * @return Test
+     */
+    public function addSourceForNodes(TestNode $node)
+    {
+        $this->sourceForNodes[] = $node;
+
+        return $this;
+    }
+
+    /**
+     * Remove node that this test is source for
+     *
+     * @param TestNode $node
+     */
+    public function removeSourceForNodes(TestNode $node)
+    {
+        $this->sourceForNodes->removeElement($node);
+    }
+
+    /**
+     * Get nodes that this test is source for
+     *
+     * @return ArrayCollection
+     */
+    public function getSourceForNodes()
+    {
+        return $this->sourceForNodes;
+    }
+
+    /**
      * Add node connection
      *
      * @param TestNodeConnection $connection
@@ -671,7 +710,7 @@ class Test extends ATopEntity implements \JsonSerializable
         $variables = $this->variables->toArray();
         usort($variables, function ($a, $b) {
             $compareResult = strcmp($a->getName(), $b->getName());
-            if($compareResult !== 0) return $compareResult;
+            if ($compareResult !== 0) return $compareResult;
             return strcmp($a->getType(), $b->getType());
         });
 
@@ -714,4 +753,15 @@ class Test extends ATopEntity implements \JsonSerializable
         return $serialized;
     }
 
+    /** @ORM\PreRemove */
+    public function preRemove()
+    {
+        if ($this->getSourceWizard()) $this->getSourceWizard()->removeResultingTest($this);
+    }
+
+    /** @ORM\PrePersist */
+    public function prePersist()
+    {
+        if ($this->getSourceWizard() && !$this->getSourceWizard()->getResultingTests()->contains($this)) $this->getSourceWizard()->addResultingTest($this);
+    }
 }

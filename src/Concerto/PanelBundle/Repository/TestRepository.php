@@ -46,6 +46,5 @@ class TestRepository extends AEntityRepository
     {
         $test->clearNodesConnections();
         $test->clearNodes();
-        $this->getEntityManager()->persist($test);
     }
 }
