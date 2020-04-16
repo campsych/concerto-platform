@@ -124,7 +124,6 @@ class TestService extends AExportableSectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $object->setUpdated();
         $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
@@ -287,7 +286,6 @@ class TestService extends AExportableSectionService
         $ent->setSourceWizard($wizard);
         $ent->setTags($obj["tags"]);
         $ent->setOwner($user);
-        $ent->setUpdated();
         $ent->setUpdatedBy($user);
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);

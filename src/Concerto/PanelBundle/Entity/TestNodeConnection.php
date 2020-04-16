@@ -10,6 +10,7 @@ use Concerto\PanelBundle\Entity\TestNodePort;
 /**
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodeConnectionRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestNodeConnection extends AEntity implements \JsonSerializable
 {

@@ -92,7 +92,6 @@ class TestWizardService extends AExportableSectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $object->setUpdated();
         $object->setUpdatedBy($user);
         $this->repository->save($object, $flush);
     }

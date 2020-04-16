@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\ViewTemplateRepository")
  * @UniqueEntity(fields="name", message="validate.table.name.unique")
+ * @ORM\HasLifecycleCallbacks
  */
 class ViewTemplate extends ATopEntity implements \JsonSerializable
 {

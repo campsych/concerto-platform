@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestWizardStepRepository")
  * @UniqueEntity(fields={"wizard","title"}, message="validate.test.wizards.steps.unique")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestWizardStep extends AEntity implements \JsonSerializable
 {

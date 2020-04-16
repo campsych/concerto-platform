@@ -11,6 +11,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodeRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestNode extends AEntity implements \JsonSerializable
 {

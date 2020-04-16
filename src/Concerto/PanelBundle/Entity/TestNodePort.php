@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodePortRepository")
  * @UniqueEntity(fields={"node","type","name"}, message="validate.test.ports.unique")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestNodePort extends AEntity implements \JsonSerializable
 {

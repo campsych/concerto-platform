@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 /**
  * @ORM\Table(uniqueConstraints={@UniqueConstraint(name="hash_idx", columns={"hash"})})
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestSession extends AEntity {
 

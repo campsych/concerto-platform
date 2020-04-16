@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\UserRepository")
  * @UniqueEntity(fields="username", message="validate.user.username.unique")
  * @UniqueEntity(fields="email", message="validate.user.email.unique")
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable, EquatableInterface
 {

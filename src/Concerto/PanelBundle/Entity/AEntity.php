@@ -66,16 +66,6 @@ abstract class AEntity
     }
 
     /**
-     * Set updated
-     */
-    public function setUpdated()
-    {
-        $this->updated = new DateTime("now");
-
-        return $this;
-    }
-
-    /**
      * Get updated
      *
      * @return DateTime
@@ -145,6 +135,12 @@ abstract class AEntity
     public function getLockBy()
     {
         return null;
+    }
+
+    /** @ORM\PreUpdate() */
+    public function preUpdate()
+    {
+        $this->updated = new DateTime("now");
     }
 
     public static function reserveDependency(&$dependencies, $class, $id)

@@ -116,7 +116,6 @@ class TestWizardParamService extends ASectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $object->setUpdated();
         $object->setUpdatedBy($user);
         $this->repository->save($object);
         $this->onObjectSaved($object, $originalObject, $flush);
@@ -255,7 +254,7 @@ class TestWizardParamService extends ASectionService
         $ent = $src_ent;
         $ent->setDescription($obj["description"]);
         $ent->setLabel($obj["label"]);
-        $ent->setPassableThroughUrl($obj["passableThroughUrl"]);
+        $ent->setPassableThroughUrl($obj["passableThroughUrl"] == 1);
         $ent->setStep($step);
         $ent->setOrder($obj["order"]);
         $ent->setType($obj["type"]);
@@ -317,7 +316,6 @@ class TestWizardParamService extends ASectionService
             $val = json_encode($val);
         }
         $newParam->setValue($val);
-        $newParam->setUpdated();
 
         $user = null;
         $token = $this->securityTokenStorage->getToken();

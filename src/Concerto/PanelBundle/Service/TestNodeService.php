@@ -79,7 +79,6 @@ class TestNodeService extends ASectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $object->setUpdated();
         $object->setUpdatedBy($user);
         $this->repository->save($object, $flush);
         $this->onObjectSaved($object, $flush);
@@ -212,7 +211,6 @@ class TestNodeService extends ASectionService
         $ent->setPosY($obj["posY"]);
         $ent->setSourceTest($sourceTest);
         $ent->setType($obj["type"]);
-        $ent->setUpdated();
         $ent->setUpdatedBy($user);
         if (array_key_exists("title", $obj))
             $ent->setTitle($obj["title"]);

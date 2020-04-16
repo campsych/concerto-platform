@@ -8,6 +8,7 @@ use Concerto\PanelBundle\Entity\Test;
 /**
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionLogRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestSessionLog extends AEntity implements \JsonSerializable {
 

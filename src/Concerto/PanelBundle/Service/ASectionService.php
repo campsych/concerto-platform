@@ -107,7 +107,6 @@ abstract class ASectionService
         if ($object) {
             $isLocked = $object->getDirectLockBy() !== null;
             $object->setDirectLockBy($isLocked ? null : $user);
-            $object->setUpdated();
             $object->setUpdatedBy($user);
             $this->repository->save($object);
             return true;

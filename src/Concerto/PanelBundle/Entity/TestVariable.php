@@ -11,6 +11,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestVariableRepository")
  * @UniqueEntity(fields={"name","type","test"}, message="validate.test.variables.unique")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestVariable extends AEntity implements \JsonSerializable
 {

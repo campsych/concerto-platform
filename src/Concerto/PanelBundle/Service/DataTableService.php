@@ -102,7 +102,6 @@ class DataTableService extends AExportableSectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $obj->setUpdated();
         $obj->setUpdatedBy($user);
         $isNew = $obj->getId() === null;
         $this->repository->save($obj, $flush);

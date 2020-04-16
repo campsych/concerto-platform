@@ -11,6 +11,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestWizardRepository")
  * @UniqueEntity(fields="name", message="validate.test.wizards.name.unique")
+ * @ORM\HasLifecycleCallbacks
  */
 class TestWizard extends ATopEntity implements \JsonSerializable
 {
