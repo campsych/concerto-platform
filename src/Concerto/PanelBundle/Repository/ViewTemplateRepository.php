@@ -9,11 +9,6 @@ use Concerto\PanelBundle\Repository\AEntityRepository;
  */
 class ViewTemplateRepository extends AEntityRepository
 {
-    public function findOneByName($name)
-    {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:ViewTemplate")->findOneBy(array("name" => $name));
-    }
-
     public function findDirectlyLocked()
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select("vt")->from("Concerto\PanelBundle\Entity\ViewTemplate", "vt")->where("vt.directLockBy IS NOT NULL");

@@ -21,13 +21,4 @@ class TestSessionLogRepository extends AEntityRepository {
         $builder->where("tsl.created > :tslc")->setParameter("tslc", $dt);
         return $builder->getQuery()->execute();
     }
-
-    public function findByTest($test_id) {
-    
-        $builder = $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestSessionLog")->createQueryBuilder( 'tsl' );
-        $builder->where("tsl.test = :ti")->setParameter("ti", $test_id);
-        
-        return $builder->getQuery()->execute();
-    
-    }
 } 

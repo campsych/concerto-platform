@@ -4,67 +4,69 @@ namespace Concerto\PanelBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-abstract class AEntityRepository extends EntityRepository {
+abstract class AEntityRepository extends EntityRepository
+{
 
-    public function refresh($entity) {
+    public function refresh($entity)
+    {
         $this->getEntityManager()->refresh($entity);
     }
 
-    public function flush() {
+    public function flush()
+    {
         $this->getEntityManager()->flush();
     }
 
-    public function clear() {
+    public function clear()
+    {
         $this->getEntityManager()->clear();
     }
 
-    public function save($entities, $flush = true) {
+    public function save($entities, $flush = true)
+    {
         if (is_array($entities)) {
             foreach ($entities as $entity) {
-                if(!$entity->getId()) $flush = true;
+                if (!$entity->getId()) $flush = true;
                 $this->getEntityManager()->persist($entity);
             }
         } else {
-            if(!$entities->getId()) $flush = true;
+            if (!$entities->getId()) $flush = true;
             $this->getEntityManager()->persist($entities);
-            if ($flush)
-                $this->getEntityManager()->flush($entities);
-            return;
         }
-        if ($flush)
-            $this->getEntityManager()->flush();
+        if ($flush) $this->getEntityManager()->flush($entities);
     }
 
-    public function delete($entities, $flush = true) {
+    public function delete($entities, $flush = true)
+    {
+        $flush = true;
         if (is_array($entities)) {
             foreach ($entities as $entity) {
                 $this->getEntityManager()->remove($entity);
             }
         } else {
             $this->getEntityManager()->remove($entities);
-            if ($flush)
-                $this->getEntityManager()->flush($entities);
-            return;
         }
-        if ($flush)
-            $this->getEntityManager()->flush();
+        if ($flush) $this->getEntityManager()->flush($entities);
     }
 
-    public function deleteById($object_ids, $flush = true) {
+    public function deleteById($object_ids, $flush = true)
+    {
+        $flush = true;
         foreach ($object_ids as $object_id) {
             $entity = $this->find($object_id);
             $this->getEntityManager()->remove($entity);
         }
-        if ($flush)
-            $this->getEntityManager()->flush();
+        if ($flush)  $this->getEntityManager()->flush($entity);
     }
 
-    public function deleteAll($flush = true) {
-        foreach ($this->findAll() as $object) {
-            $this->getEntityManager()->remove($object);
+    public function deleteAll($flush = true)
+    {
+        $flush = true;
+        $entities = $this->findAll();
+        foreach ($entities as $entity) {
+            $this->getEntityManager()->remove($entity);
         }
-        if ($flush)
-            $this->getEntityManager()->flush();
+        if ($flush) $this->getEntityManager()->flush($entities);
     }
 
 }

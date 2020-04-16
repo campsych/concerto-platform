@@ -59,7 +59,7 @@ class TestVariable extends AEntity implements \JsonSerializable
 
     /**
      * @ORM\JoinColumn(name="parentVariable_id", referencedColumnName="id", nullable=true)
-     * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="childVariables", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="childVariables")
      */
     private $parentVariable;
 
@@ -73,17 +73,11 @@ class TestVariable extends AEntity implements \JsonSerializable
      */
     private $params;
 
-    /**
-     * @ORM\OneToMany(targetEntity="TestNodePort", mappedBy="variable", cascade={"remove", "persist"})
-     */
-    private $ports;
-
     public function __construct()
     {
         parent::__construct();
 
         $this->description = "";
-        $this->ports = new ArrayCollection();
         $this->params = new ArrayCollection();
     }
 
@@ -322,39 +316,6 @@ class TestVariable extends AEntity implements \JsonSerializable
     public function getChildVariables()
     {
         return $this->childVariables;
-    }
-
-    /**
-     * Add test node port
-     *
-     * @param TestNodePort $port
-     * @return TestVariable
-     */
-    public function addPort(TestNodePort $port)
-    {
-        $this->ports[] = $port;
-
-        return $this;
-    }
-
-    /**
-     * Remove test node port
-     *
-     * @param TestNodePort $port
-     */
-    public function removePort(TestNodePort $port)
-    {
-        $this->ports->removeElement($port);
-    }
-
-    /**
-     * Get test node ports
-     *
-     * @return Collection
-     */
-    public function getPorts()
-    {
-        return $this->ports;
     }
 
     public function getAccessibility()

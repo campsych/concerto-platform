@@ -57,7 +57,7 @@ class Test extends ATopEntity implements \JsonSerializable
     private $logs;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="test", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="TestVariable", mappedBy="test", cascade={"remove"})
      */
     private $variables;
 
@@ -78,19 +78,14 @@ class Test extends ATopEntity implements \JsonSerializable
     private $sessions;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestNode", mappedBy="flowTest", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestNode", mappedBy="flowTest", cascade={"remove"}, orphanRemoval=true)
      */
     private $nodes;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="flowTest", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TestNodeConnection", mappedBy="flowTest", cascade={"remove"}, orphanRemoval=true)
      */
     private $nodesConnections;
-
-    /**
-     * @ORM\OneToMany(targetEntity="TestNode", mappedBy="sourceTest", cascade={"remove"})
-     */
-    private $sourceForNodes;
 
     /**
      * @var TestWizard
@@ -131,7 +126,6 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->wizards = new ArrayCollection();
         $this->nodes = new ArrayCollection();
         $this->nodesConnections = new ArrayCollection();
-        $this->sourceForNodes = new ArrayCollection();
         $this->description = "";
         $this->slug = md5(mt_rand() . uniqid(true));
         $this->sourceWizard = null;
@@ -501,6 +495,11 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->nodesConnections->removeElement($connection);
     }
 
+    public function clearNodesConnections()
+    {
+        $this->nodesConnections->clear();
+    }
+
     /**
      * Get nodes connections
      *
@@ -509,39 +508,6 @@ class Test extends ATopEntity implements \JsonSerializable
     public function getNodesConnections()
     {
         return $this->nodesConnections;
-    }
-
-    /**
-     * Add source for node
-     *
-     * @param TestNode $node
-     * @return Test
-     */
-    public function addSourceForNode(TestNode $node)
-    {
-        $this->sourceForNodes[] = $node;
-
-        return $this;
-    }
-
-    /**
-     * Remove source for node
-     *
-     * @param TestNode $node
-     */
-    public function removeSourceForNode(TestNode $node)
-    {
-        $this->sourceForNodes->removeElement($node);
-    }
-
-    /**
-     * Get source for nodes
-     *
-     * @return ArrayCollection
-     */
-    public function getSourceForNodes()
-    {
-        return $this->sourceForNodes;
     }
 
     /**

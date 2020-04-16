@@ -10,21 +10,6 @@ use Concerto\PanelBundle\Entity\Test;
 class TestRepository extends AEntityRepository
 {
 
-    public function findOneByName($name)
-    {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->findOneBy(array("name" => $name));
-    }
-
-    public function findByVisibility($visibility)
-    {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->findBy(array("visibility" => $visibility));
-    }
-
-    public function findOneBySlug($slug)
-    {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->findOneBy(array("slug" => $slug));
-    }
-
     public function findRunnableBySlug($slug)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.slug = :slug")->andWhere("t.visibility != " . Test::VISIBILITY_SUBTEST)->setParameter("slug", $slug);
@@ -55,5 +40,12 @@ class TestRepository extends AEntityRepository
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.directLockBy IS NOT NULL");
         return $qb->getQuery()->getResult();
+    }
+
+    public function removeAllNodes(Test $test)
+    {
+        $test->clearNodesConnections();
+        $test->clearNodes();
+        $this->getEntityManager()->persist($test);
     }
 }

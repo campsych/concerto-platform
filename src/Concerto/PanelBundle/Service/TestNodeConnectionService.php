@@ -170,7 +170,7 @@ class TestNodeConnectionService extends ASectionService
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
     {
-        $ports = $variable->getPorts();
+        $ports = $this->testNodePortRepository->findByVariable($variable);
         foreach ($ports as $port) {
             $connections = $port->getSourceForConnections();
             foreach ($connections as $connection) {

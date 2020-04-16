@@ -95,13 +95,8 @@ class ViewTemplateService extends AExportableSectionService
 
         $isRenamed = !$isNew && $oldName !== $object->getName();
         if ($isRenamed) {
-            $this->onObjectRenamed($object, $oldName);
+            $this->testWizardParamService->onObjectRename($object, $oldName);
         }
-    }
-
-    private function onObjectRenamed(ViewTemplate $object, $oldName)
-    {
-        $this->testWizardParamService->onObjectRename($object, $oldName);
     }
 
     public function delete($object_ids, $secure = true)

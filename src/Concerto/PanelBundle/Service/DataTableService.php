@@ -109,13 +109,8 @@ class DataTableService extends AExportableSectionService
 
         $isRenamed = !$isNew && $oldName !== null && $oldName !== $obj->getName();
         if ($isRenamed) {
-            $this->onObjectRenamed($obj, $oldName);
+            $this->testWizardParamService->onObjectRename($obj, $oldName);
         }
-    }
-
-    private function onObjectRenamed(DataTable $object, $oldName)
-    {
-        $this->testWizardParamService->onObjectRename($object, $oldName);
     }
 
     public function convertToExportable($array, $instruction = null, $secure = true)

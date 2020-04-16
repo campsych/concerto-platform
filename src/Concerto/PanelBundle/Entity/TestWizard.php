@@ -330,6 +330,11 @@ class TestWizard extends ATopEntity implements \JsonSerializable
         return sha1($json);
     }
 
+    public function __toString()
+    {
+        return "TestWizard (#" . $this->getId() . ", name:" . $this->getName() . ")";
+    }
+
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
         if (self::isDependencyReserved($dependencies, "TestWizard", $this->id))

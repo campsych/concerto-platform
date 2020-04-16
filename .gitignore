@@ -29,5 +29,7 @@ var/git/*
 /src/Concerto/TestBundle/Resources/sessions/*
 !/src/Concerto/TestBundle/Resources/sessions/.gitkeep
 /src/Concerto/PanelBundle/Resources/export/*
+/src/Concerto/PanelBundle/Resources/import/*
 /src/Concerto/TestBundle/Resources/R/*.log
 /src/Concerto/TestBundle/Resources/R/fifo
+/import

@@ -2,18 +2,17 @@
 
 namespace Concerto\PanelBundle\Repository;
 
+use Concerto\PanelBundle\Entity\Test;
+
 /**
  * TestNodeRepository
  */
-class TestNodeRepository extends AEntityRepository {
+class TestNodeRepository extends AEntityRepository
+{
 
-    public function findByFlowTest($flowTest) {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestNode")->findBy(array("flowTest" => $flowTest));
-    }
-
-    public function deleteByTest($test) {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->delete("Concerto\PanelBundle\Entity\TestNode", "tn")->where("tn.flowTest = :ft")->setParameter("ft", $test)->getQuery()->execute();
+    public function deleteByTest(Test $test)
+    {
+        $this->delete($test->getNodes()->toArray());
     }
 
 }

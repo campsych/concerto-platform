@@ -346,14 +346,12 @@ class TestService extends AExportableSectionService
 
     protected function onConverted($new_ent, $old_ent)
     {
-        $this->removeAllNodes($old_ent);
+        $this->removeAllNodes($new_ent);
     }
 
     private function removeAllNodes(Test $test)
     {
-        if ($test->getNodes()->count() > 0)
-            $this->testNodeConnectionService->repository->deleteByTest($test);
-        $this->testNodeService->repository->deleteByTest($test);
+        $this->repository->removeAllNodes($test);
     }
 
     public function addFlowNode($type, $posX, $posY, Test $flowTest, Test $sourceTest, $title, $return_collections = false)

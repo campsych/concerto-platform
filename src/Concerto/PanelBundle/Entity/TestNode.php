@@ -48,7 +48,7 @@ class TestNode extends AEntity implements \JsonSerializable
     private $flowTest;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Test", inversedBy="sourceForNodes")
+     * @ORM\ManyToOne(targetEntity="Test")
      */
     private $sourceTest;
 

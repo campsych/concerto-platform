@@ -36,7 +36,7 @@ class TestWizardStepService extends ASectionService
 
     public function getByTestWizard($wizard_id)
     {
-        return $this->authorizeCollection($this->repository->findByTestWizard($wizard_id));
+        return $this->authorizeCollection($this->repository->findByWizard($wizard_id));
     }
 
     public function save($object_id, $title, $description, $order, $wizard)

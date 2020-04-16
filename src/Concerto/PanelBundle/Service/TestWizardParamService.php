@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\DataTable;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\ViewTemplate;
+use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Concerto\PanelBundle\Repository\TestWizardParamRepository;
 use Concerto\PanelBundle\Entity\TestWizardParam;
 use Psr\Log\LoggerInterface;
@@ -25,9 +26,20 @@ class TestWizardParamService extends ASectionService
     private $testWizardRepository;
     private $testWizardStepRepository;
     private $testNodePortService;
+    private $testNodeRepository;
     private $logger;
 
-    public function __construct(TestWizardParamRepository $repository, ValidatorInterface $validator, TestVariableService $testVariableService, TestWizardRepository $testWizardRepository, TestWizardStepRepository $testWizardStepRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TestNodePortService $testNodePortService, LoggerInterface $logger, TokenStorageInterface $securityTokenStorage)
+    public function __construct(
+        TestWizardParamRepository $repository,
+        ValidatorInterface $validator,
+        TestVariableService $testVariableService,
+        TestWizardRepository $testWizardRepository,
+        TestWizardStepRepository $testWizardStepRepository,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TestNodePortService $testNodePortService,
+        LoggerInterface $logger,
+        TokenStorageInterface $securityTokenStorage,
+        TestNodeRepository $testNodeRepository)
     {
         parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
 
@@ -37,6 +49,7 @@ class TestWizardParamService extends ASectionService
         $this->testWizardStepRepository = $testWizardStepRepository;
         $this->testNodePortService = $testNodePortService;
         $this->logger = $logger;
+        $this->testNodeRepository = $testNodeRepository;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -50,7 +63,7 @@ class TestWizardParamService extends ASectionService
 
     public function getByTestWizard($wizard_id)
     {
-        return $this->authorizeCollection($this->repository->findByTestWizard($wizard_id));
+        return $this->authorizeCollection($this->repository->findByWizard($wizard_id));
     }
 
     public function getByTestWizardAndType($wizard_id, $type)
@@ -333,7 +346,7 @@ class TestWizardParamService extends ASectionService
                     $this->testVariableService->update($var, $flush);
 
                     // ports update
-                    $nodes = $var->getTest()->getSourceForNodes();
+                    $nodes = $this->testNodeRepository->findBySourceTest($var->getTest());
                     foreach ($nodes as $node) {
                         $ports = $node->getPorts();
                         foreach ($ports as $port) {

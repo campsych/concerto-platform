@@ -27,7 +27,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
 
     /**
      * @ORM\JoinColumn(onDelete="CASCADE")
-     * @ORM\ManyToOne(targetEntity="TestVariable", inversedBy="ports")
+     * @ORM\ManyToOne(targetEntity="TestVariable")
      */
     private $variable;
 

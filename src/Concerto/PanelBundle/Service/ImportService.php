@@ -220,6 +220,7 @@ class ImportService
     {
         $this->map = array();
         $this->renames = array();
+        $this->entityManager->clear();
     }
 
     public function importFromFile($file, $instructions, $unlink = true, &$errorMessages = null)

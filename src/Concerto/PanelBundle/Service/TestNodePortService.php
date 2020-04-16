@@ -140,7 +140,8 @@ class TestNodePortService extends ASectionService
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
     {
-        $nodes = $variable->getTest()->getSourceForNodes();
+        $nodes = $this->testNodeRepository->findBySourceTest($variable->getTest());
+
         foreach ($nodes as $node) {
             $ports = $node->getPorts();
             $found = false;
