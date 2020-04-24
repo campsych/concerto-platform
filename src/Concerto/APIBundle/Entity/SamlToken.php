@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AccessToken
  *
- * @ORM\Table(indexes={@ORM\Index(name="hash_idx", columns={"hash"})})
+ * @ORM\Table(indexes={@ORM\Index(name="saml_token_hash_idx", columns={"hash"})})
  * @ORM\Entity(repositoryClass="Concerto\APIBundle\Repository\SamlTokenRepository")
  */
 class SamlToken

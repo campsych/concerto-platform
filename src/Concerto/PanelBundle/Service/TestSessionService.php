@@ -188,7 +188,6 @@ class TestSessionService
 
         $session->setClientIp($client_ip);
         $session->setClientBrowser($client_browser);
-        $session->setUpdated();
         $this->testSessionRepository->save($session);
 
         $response = $this->sessionRunnerService->submit($session, $values, $cookies, $client_ip, $client_browser);
@@ -219,7 +218,6 @@ class TestSessionService
 
         $session->setClientIp($client_ip);
         $session->setClientBrowser($client_browser);
-        $session->setUpdated();
         $this->testSessionRepository->save($session);
 
         $response = $this->sessionRunnerService->backgroundWorker($session, $values, $cookies, $client_ip, $client_browser);
