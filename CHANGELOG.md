@@ -3,6 +3,7 @@
 #### Fixes
 
 * import fixes
+* renamed SamlToken hash_idx to saml_token_hash_idx for PostgreSQL compatibility
 
 ## 5.0.12 (2020-04-07)
 
