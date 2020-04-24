@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic: Creates a single EC2 instance running Concerto with MySQL database together.
-  **WARNING** You may be billed for the AWS resources used if you create a stack from this template.
-
+  concerto-ec2-basic (2020-04-24): Standalone Concerto, everything on one instance, no TLS
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -12,6 +10,8 @@ Metadata:
           - ConcertoVersion
           - ConcertoPassword
           - ConcertoContentURL
+          - ConcertoSessionLimit
+          - ConcertoTimezone
       - Label:
           default: Web
         Parameters:
@@ -24,8 +24,8 @@ Metadata:
       - Label:
           default: Network
         Parameters:
-          - CIDR
-          - CIDRA
+          - VPC
+          - SubnetA
     ParameterLabels:
       ConcertoVersion:
         default: Tag
@@ -33,14 +33,20 @@ Metadata:
         default: Password
       ConcertoContentURL:
         default: URL
+      ConcertoSessionLimit:
+        default: Session limit
+      ConcertoTimezone:
+        default: Timezone
       KeyName:
         default: Key pair
       WebServerInstanceType:
         default: Instance type
       DBPassword:
         default: Password
-      CIDRA:
-        default: CIDR for Subnet A
+      VPC:
+        default: VPC
+      SubnetA:
+        default: Subnet
 
 Parameters:
   ConcertoVersion:
@@ -57,6 +63,14 @@ Parameters:
     Description: URL with Concerto content backup to preload (optional).
     Type: String
     Default: .
+  ConcertoSessionLimit:
+    Description: How many concurrent sessions to allow (unlimited if not set).
+    Type: Number
+    Default: 10
+  ConcertoTimezone:
+    Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    Type: String
+    Default: Europe/London
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
@@ -67,9 +81,13 @@ Parameters:
     Default: t2.micro
     AllowedValues:
       - t2.micro
+      - t3.micro
       - t2.small
+      - t3.small
       - t2.medium
+      - t3.medium
       - t2.large
+      - t3.large
     ConstraintDescription: must be a valid EC2 instance type.
   DBPassword:
     Description: Database admin account password (recommended to generate a random one, different than Concerto's)
@@ -77,22 +95,12 @@ Parameters:
     NoEcho: true
     MinLength: 8
     ConstraintDescription: min. 8 characters
-  CIDR:
-    Description: The private IP address range to be used for VPC
-    Type: String
-    MinLength: 9
-    MaxLength: 18
-    Default: 10.10.0.0/16
-    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  CIDRA:
-    Description: Address range within the VPC to be used for the subnet
-    Type: String
-    MinLength: 9
-    MaxLength: 18
-    Default: 10.10.0.0/24
-    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  VPC:
+    Type: AWS::EC2::VPC::Id
+    Description: Existing VPC
+  SubnetA:
+    Description: Existing subnet
+    Type: AWS::EC2::Subnet::Id
 
 Mappings:
   RegionMap:
@@ -130,140 +138,11 @@ Mappings:
       ami: ami-0669a96e355eac82f
 
 Resources:
-  VPC:
-    Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: !Ref CIDR
-      Tags:
-        - Key: Name
-          Value: !Ref AWS::StackName
-  SubnetA:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      CidrBlock: !Ref CIDRA
-      Tags:
-        - Key: Name
-          Value: !Ref AWS::StackName
-  InternetGateway:
-    Type: AWS::EC2::InternetGateway
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Ref AWS::StackName
-  AttachGateway:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
-      VpcId: !Ref VPC
-      InternetGatewayId: !Ref InternetGateway
-  RouteTable:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: !Ref AWS::StackName
-  Route:
-    Type: AWS::EC2::Route
-    DependsOn: AttachGateway
-    Properties:
-      RouteTableId: !Ref RouteTable
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref InternetGateway
-  SubnetRouteTableAssociation:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref SubnetA
-      RouteTableId: !Ref RouteTable
-  NetworkAcl:
-    Type: AWS::EC2::NetworkAcl
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: !Ref AWS::StackName
-  InboundHTTPNetworkAclEntry:
-    Type: AWS::EC2::NetworkAclEntry
-    Properties:
-      NetworkAclId: !Ref NetworkAcl
-      RuleNumber: 100
-      Protocol: 6
-      RuleAction: allow
-      Egress: false
-      CidrBlock: 0.0.0.0/0
-      PortRange:
-        From: 80
-        To: 80
-  InboundSSHNetworkAclEntry:
-    Type: AWS::EC2::NetworkAclEntry
-    Properties:
-      NetworkAclId: !Ref NetworkAcl
-      RuleNumber: 101
-      Protocol: 6
-      RuleAction: allow
-      Egress: false
-      CidrBlock: 0.0.0.0/0
-      PortRange:
-        From: 22
-        To: 22
-  InboundResponsePortsNetworkAclEntry:
-    Type: AWS::EC2::NetworkAclEntry
-    Properties:
-      NetworkAclId: !Ref NetworkAcl
-      RuleNumber: 102
-      Protocol: 6
-      RuleAction: allow
-      Egress: false
-      CidrBlock: 0.0.0.0/0
-      PortRange:
-        From: 1024
-        To: 65535
-  OutBoundHTTPNetworkAclEntry:
-    Type: AWS::EC2::NetworkAclEntry
-    Properties:
-      NetworkAclId: !Ref NetworkAcl
-      RuleNumber: 100
-      Protocol: 6
-      RuleAction: allow
-      Egress: true
-      CidrBlock: 0.0.0.0/0
-      PortRange:
-        From: 80
-        To: 80
-  OutBoundHTTPSNetworkAclEntry:
-    Type: AWS::EC2::NetworkAclEntry
-    Properties:
-      NetworkAclId: !Ref NetworkAcl
-      RuleNumber: 101
-      Protocol: 6
-      RuleAction: allow
-      Egress: true
-      CidrBlock: 0.0.0.0/0
-      PortRange:
-        From: 443
-        To: 443
-  OutBoundResponsePortsNetworkAclEntry:
-    Type: AWS::EC2::NetworkAclEntry
-    Properties:
-      NetworkAclId: !Ref NetworkAcl
-      RuleNumber: 102
-      Protocol: 6
-      RuleAction: allow
-      Egress: true
-      CidrBlock: 0.0.0.0/0
-      PortRange:
-        From: 1024
-        To: 65535
-  SubnetNetworkAclAssociation:
-    Type: AWS::EC2::SubnetNetworkAclAssociation
-    Properties:
-      SubnetId: !Ref SubnetA
-      NetworkAclId: !Ref NetworkAcl
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       VpcId: !Ref VPC
-      GroupDescription: Allow ingress via SSH, HTTP ports
+      GroupDescription: Allow ingress via SSH, HTTP, HTTPS ports
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
@@ -273,11 +152,19 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
       Tags:
         - Key: Name
           Value: !Ref AWS::StackName
   WebServerInstance:
     Type: AWS::EC2::Instance
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT15M
     Metadata:
       AWS::CloudFormation::Init:
         configSets:
@@ -343,23 +230,44 @@ Resources:
                 enabled: true
                 ensureRunning: true
         concerto:
+          files:
+            /home/concerto/docker-compose.yml:
+              content: !Sub |
+                version: '3'
+                services:
+                  database:
+                    image: mysql:5.7
+                    container_name: database
+                    restart: unless-stopped
+                    volumes:
+                      - ./data/mysql:/var/lib/mysql
+                    environment:
+                      - MYSQL_DATABASE=concerto
+                      - MYSQL_USER=concerto
+                      - MYSQL_PASSWORD=${DBPassword}
+                      - MYSQL_ROOT_PASSWORD=${DBPassword}
+                      - TZ=${ConcertoTimezone}
+
+                  concerto:
+                    image: campsych/concerto-platform:${ConcertoVersion}
+                    container_name: concerto
+                    restart: unless-stopped
+                    volumes:
+                      - ./data/concerto:/data
+                    ports:
+                      - "80:80"
+                    environment:
+                      - CONCERTO_PASSWORD=${ConcertoPassword}
+                      - CONCERTO_CONTENT_URL=${ConcertoContentURL}
+                      - CONCERTO_PLATFORM_URL=/
+                      - CONCERTO_GIT_REPOSITORY_PATH=/data/git
+                      - CONCERTO_SESSION_LIMIT=${ConcertoSessionLimit}
+                      - DB_HOST=database
+                      - DB_PASSWORD=${DBPassword}
+                      - TZ=${ConcertoTimezone}
           commands:
-            01_dir:
-              command: mkdir -p /home/concerto
-            02_download:
-              command: curl -s https://raw.githubusercontent.com/campsych/concerto-platform/master/deploy/docker-compose/docker-compose.yml > docker-compose.yml
-              cwd: /home/concerto
-            03_config:
-              command: !Sub |
-                sed -ri 's/^(.*image:\s*campsych\/concerto-platform).*$/\1:${ConcertoVersion}/' docker-compose.yml
-                sed -ri 's/^(.*MYSQL_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
-                sed -ri 's/^(.*MYSQL_ROOT_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
-                sed -ri 's/^(.*DB_PASSWORD\s*=).*$/\1${DBPassword}/' docker-compose.yml
-                sed -ri 's/^(.*CONCERTO_PASSWORD\s*=).*$/\1${ConcertoPassword}/' docker-compose.yml
-                sed -ri 's~^(.*CONCERTO_CONTENT_URL\s*=).*$~\1${ConcertoContentURL}~' docker-compose.yml
-              cwd: /home/concerto
-            04_start:
-              command: /usr/local/bin/docker-compose up -d --force-recreate concerto database
+            start:
+              command: /usr/local/bin/docker-compose up -d --remove-orphans --force-recreate
               cwd: /home/concerto
     Properties:
       ImageId: !FindInMap
