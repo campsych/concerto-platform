@@ -64,7 +64,6 @@ class SamlService
     {
         $auth = new Auth($this->settings);
         $settings = $auth->getSettings();
-        Utils::setProxyVars();
         $metadata = $settings->getSPMetadata();
         $errors = $settings->validateMetadata($metadata);
         if (!empty($errors)) return false;
