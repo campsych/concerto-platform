@@ -725,12 +725,13 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             };
 
             scope.getPortTooltip = function (portId) {
-                var port = scope.collectionService.getPort(portId);
-                var description = "";
-                if (port.variableObject) {
-                    description = port.variableObject.description;
+                let port = scope.collectionService.getPort(portId);
+                let description = "";
+                if (port.variable) {
+                    let variable = scope.collectionService.getVariable(port.variable);
+                    description = variable.description;
                 }
-                var tooltip = port.name;
+                let tooltip = port.name;
                 if (port.pointer == 1) {
                     tooltip += port.type == 0 ? " <- " : " -> ";
                     tooltip += "<b>" + port.pointerVariable + "</b>";
@@ -948,9 +949,10 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             };
 
             scope.editConnectionCode = function (connection) {
-                var oldValue = connection.returnFunction;
-                var title = connection.sourcePortObject.name + "->" + connection.destinationPortObject.name;
-                var modalInstance = $uibModal.open({
+                let oldValue = connection.returnFunction;
+                let sourcePort = scope.collectionService.getPort(concertoConnection.sourcePort);
+                let title = sourcePort.name + "->" + sourcePort.name;
+                let modalInstance = $uibModal.open({
                     templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "connection_return_function_dialog.html",
                     controller: ConnectionReturnFunctionController,
                     scope: scope,
@@ -1311,6 +1313,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
             };
 
             scope.connect = function (concertoConnection) {
+                let sourcePort = scope.collectionService.getPort(concertoConnection.sourcePort);
+
                 jsPlumb.connect({
                     uuids: [
                         "node" + concertoConnection.sourceNode + "-ep" + (concertoConnection.sourcePort ? concertoConnection.sourcePort : "_out"),
@@ -1321,8 +1325,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     },
                     paintStyle: {
                         dashstyle: "dot",
-                        strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.type : 2),
-                        lineWidth: scope.getConnectionLineWidth(concertoConnection.sourcePortObject ? concertoConnection.sourcePortObject.type : 2)
+                        strokeStyle: scope.getConnectionStrokeStyle(concertoConnection.automatic, sourcePort ? sourcePort.type : 2),
+                        lineWidth: scope.getConnectionLineWidth(sourcePort ? sourcePort.type : 2)
                     }
                 });
             };

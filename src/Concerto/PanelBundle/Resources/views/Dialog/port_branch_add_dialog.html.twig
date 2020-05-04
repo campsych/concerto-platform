@@ -15,7 +15,7 @@
                         <div class="port-list-container">
                             <div class="port-list-element" ng-repeat="port in node.ports | filter:{ type: 2, dynamic: 0 }">
                                 <input type="checkbox" ng-model="port.exposed" ng-true-value='"1"' ng-false-value='"0"' ng-disabled="!editable || isPortConnected(port)" />
-                                {% verbatim %}{{port.variableObject.name}}{% endverbatim %}
+                                {% verbatim %}{{testCollectionService.getVariable(port.variable).name}}{% endverbatim %}
                             </div>
                         </div>
                         <div style="clear: left;"></div>

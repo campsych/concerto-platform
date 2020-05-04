@@ -3,8 +3,8 @@
     <div class="modal-body">
         {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
             {% trans_default_domain "Test" %}
-            {% block legend %}{% verbatim %}{{ object.variableObject.name}}{% endverbatim %}{% endblock %}
-            {% block legend_tooltip %}{% verbatim %}{{object.variableObject.description}}{% endverbatim %}{% endblock %}
+            {% block legend %}{% verbatim %}{{variable.name}}{% endverbatim %}{% endblock %}
+            {% block legend_tooltip %}{% verbatim %}{{variable.description}}{% endverbatim %}{% endblock %}
             {% block description %}{% endblock %}
             {% block elements %}
                 {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}

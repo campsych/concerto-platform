@@ -279,17 +279,7 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
 
     public static function getArrayHash($arr)
     {
-        unset($arr["id"]);
-        unset($arr["flowTest"]);
-        unset($arr["sourceNode"]);
-        unset($arr["sourcePort"]);
-        $arr["sourcePortObject"] = $arr["sourcePortObject"] ? TestNodePort::getArrayHash($arr["sourcePortObject"]) : null;
-        unset($arr["destinationNode"]);
-        unset($arr["destinationPort"]);
-        $arr["destinationPortObject"] = $arr["destinationPortObject"] ? TestNodePort::getArrayHash($arr["destinationPortObject"]) : null;
-
-        $json = json_encode($arr);
-        return sha1($json);
+        return null;
     }
 
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
@@ -300,10 +290,8 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
             "flowTest" => $this->flowTest->getId(),
             "sourceNode" => $this->sourceNode->getId(),
             "sourcePort" => $this->sourcePort ? $this->sourcePort->getId() : null,
-            "sourcePortObject" => $this->sourcePort ? $this->sourcePort->jsonSerialize($dependencies, $normalizedIdsMap) : null,
             "destinationNode" => $this->destinationNode->getId(),
             "destinationPort" => $this->destinationPort ? $this->destinationPort->getId() : null,
-            "destinationPortObject" => $this->destinationPort ? $this->destinationPort->jsonSerialize($dependencies, $normalizedIdsMap) : null,
             "returnFunction" => $this->returnFunction,
             "automatic" => $this->automatic ? "1" : "0",
             "defaultReturnFunction" => $this->defaultReturnFunction ? "1" : "0"

@@ -219,18 +219,12 @@ class TestNodeConnectionService extends ASectionService
             if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["sourcePort"], $map["TestNodePort"])) {
                 $sourcePort = $map["TestNodePort"]["id" . $obj["sourcePort"]];
             }
-            if (!$sourcePort) {
-                array_push($pre_queue, $obj["sourcePortObject"]);
-            }
         }
 
         $destinationPort = null;
         if ($obj["destinationPort"]) {
             if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["destinationPort"], $map["TestNodePort"])) {
                 $destinationPort = $map["TestNodePort"]["id" . $obj["destinationPort"]];
-            }
-            if (!$destinationPort) {
-                array_push($pre_queue, $obj["destinationPortObject"]);
             }
         }
 

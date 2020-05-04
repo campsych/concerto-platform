@@ -225,9 +225,6 @@ class TestNodePortService extends ASectionService
             if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["variable"], $map["TestVariable"])) {
                 $variable = $map["TestVariable"]["id" . $obj["variable"]];
             }
-            if (!$variable) {
-                array_push($pre_queue, $obj["variableObject"]);
-            }
         }
 
         if (count($pre_queue) > 0) {
