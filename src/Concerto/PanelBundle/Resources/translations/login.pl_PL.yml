@@ -8,6 +8,6 @@ form:
     password.tooltip: Proszę podać swoje hasło
   button.login: Zaloguj
 
-'Bad credentials.': Zły login lub hasło!
-'User account is disabled.': Użytkownik jest zarchiwizowany!
-'User account is locked.': Użytkownik został tymczosowo zablokowany!
+'Bad credentials.': Zły login lub hasło.
+'User account is disabled.': Użytkownik jest zarchiwizowany.
+'User account is locked.': Zbyt dużo nie udanych prób logowania. Użytkownik został tymczosowo zablokowany.

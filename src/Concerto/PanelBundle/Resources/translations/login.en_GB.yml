@@ -8,6 +8,6 @@ form:
     password.tooltip: Please enter your password
   button.login: Log in
 
-'Bad credentials.': Wrong login or password!
-'User account is disabled.': User is archived!
-'User account is locked.': User account is temporary locked!
+'Bad credentials.': Wrong login or password.
+'User account is disabled.': User is archived.
+'User account is locked.': Too many failed login attempts. User account is temporary locked.
