@@ -17,31 +17,8 @@ abstract class AEntity
      */
     protected $id;
 
-    /**
-     *
-     * @var DateTime
-     * @ORM\Column(type="datetime")
-     */
-    protected $updated;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    protected $updatedBy;
-
-    /**
-     *
-     * @var DateTime
-     * @ORM\Column(type="datetime")
-     */
-    protected $created;
-
     public function __construct()
     {
-        $this->created = new DateTime("now");
-        $this->updated = new DateTime("now");
-        $this->updatedBy = "-";
     }
 
     /**
@@ -66,67 +43,17 @@ abstract class AEntity
     }
 
     /**
-     * Get updated
-     *
-     * @return DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    /**
-     * Set updated by
-     * @param User|string|null $user
      * @return ATopEntity
      */
-    public function setUpdatedBy($user)
+    public function getTopEntity()
     {
-        $name = "-";
-        if (is_a($user, User::class)) {
-            $name = $user->getUsername();
-        }
-        $this->updatedBy = $name;
-
         return $this;
     }
 
-    /**
-     * Get updated by
-     *
-     * @return string
-     */
-    public function getUpdatedBy()
+    public function updateTopEntity(User $user = null)
     {
-        return $this->updatedBy;
-    }
-
-    /**
-     * Get created
-     *
-     * @return DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Get updated time, includes child objects
-     * @return DateTime
-     */
-    public function getDeepUpdated()
-    {
-        return $this->updated;
-    }
-
-    /**
-     * Get updated by, includes child objects
-     * @return string
-     */
-    public function getDeepUpdatedBy()
-    {
-        return $this->updatedBy;
+        $this->getTopEntity()->setUpdated(new DateTime("now"));
+        $this->getTopEntity()->setUpdatedBy($user);
     }
 
     /**
@@ -140,7 +67,7 @@ abstract class AEntity
     /** @ORM\PreUpdate() */
     public function preUpdate()
     {
-        $this->updated = new DateTime("now");
+        $this->getTopEntity()->setUpdated(new DateTime("now"));
     }
 
     public static function reserveDependency(&$dependencies, $class, $id)

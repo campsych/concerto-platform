@@ -64,28 +64,6 @@ class TestVariableService extends ASectionService
         return $this->authorizeCollection($variables);
     }
 
-    public function saveCollection($serializedVariables, Test $test, $flush = true)
-    {
-        $result = array("errors" => array());
-        if (!$serializedVariables)
-            return $result;
-        $variables = json_decode($serializedVariables, true);
-
-        for ($i = 0; $i < count($variables); $i++) {
-            $var = $variables[$i];
-            $parentVariable = null;
-            if ($var["parentVariable"])
-                $parentVariable = $this->repository->find($var["parentVariable"]);
-            $r = $this->save($var["id"], $var["name"], $var["type"], $var["description"], $var["passableThroughUrl"], array_key_exists("value", $var) ? $var["value"] : null, $test, $parentVariable, $flush);
-            if (count($r["errors"]) > 0) {
-                for ($a = 0; $a < count($r["errors"]); $a++) {
-                    array_push($result["errors"], $r["errors"][$a]);
-                }
-            }
-        }
-        return $result;
-    }
-
     public function save($object_id, $name, $type, $description, $passableThroughUrl, $value, $test, $parentVariable = null, $flush = true)
     {
         $errors = array();
@@ -121,7 +99,6 @@ class TestVariableService extends ASectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
         $this->onObjectSaved($object, $isNew, $flush);

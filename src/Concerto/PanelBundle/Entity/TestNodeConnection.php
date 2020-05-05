@@ -272,6 +272,11 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
         return false;
     }
 
+    public function getTopEntity()
+    {
+        return $this->getFlowTest();
+    }
+
     public function getLockBy()
     {
         return $this->getFlowTest()->getLockBy();

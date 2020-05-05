@@ -61,7 +61,7 @@ class TestService extends AExportableSectionService
         return $object;
     }
 
-    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables)
+    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -104,10 +104,10 @@ class TestService extends AExportableSectionService
             $object->setSlug($urlslug . '-' . $slug_postfix++);
         }
 
-        return $this->resave($object, $old_name, $serializedVariables, $errors);
+        return $this->resave($object, $old_name, $errors);
     }
 
-    private function resave(Test $object, $oldName, $serializedVariables = null, $errors = array(), $flush = true)
+    private function resave(Test $object, $oldName, $errors = array(), $flush = true)
     {
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -115,11 +115,11 @@ class TestService extends AExportableSectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->update($object, $oldName, $serializedVariables, $flush);
+        $this->update($object, $oldName, $flush);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function update(Test $object, $oldName = null, $serializedVariables = null, $flush = true)
+    private function update(Test $object, $oldName = null, $flush = true)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -128,16 +128,14 @@ class TestService extends AExportableSectionService
         $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $oldName, $isNew, $serializedVariables, $flush);
+        $this->onObjectSaved($object, $oldName, $isNew, $flush);
     }
 
-    private function onObjectSaved($test, $oldName, $isNew, $serializedVariables, $flush = true)
+    private function onObjectSaved($test, $oldName, $isNew, $flush = true)
     {
         if ($test->getSourceWizard() != null) {
             if ($isNew) {
                 $this->testVariableService->createVariablesFromSourceTest($test, $flush);
-            } else {
-                $this->testVariableService->saveCollection($serializedVariables, $test, $flush);
             }
         }
         if ($isNew && count($this->testVariableService->getBranches($test->getId())) == 0) {
@@ -161,7 +159,7 @@ class TestService extends AExportableSectionService
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave($test, $test->getName(), null, array(), $flush);
+            $data = $this->resave($test, $test->getName(), array(), $flush);
             array_push($result, $data);
         }
         return $result;

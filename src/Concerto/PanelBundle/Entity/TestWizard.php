@@ -275,47 +275,6 @@ class TestWizard extends ATopEntity implements \JsonSerializable
         return $this->owner;
     }
 
-    public function getDeepUpdated()
-    {
-        $max = $this->updated;
-        foreach ($this->params as $param) {
-            $max = max($max, $param->getDeepUpdated());
-        }
-        foreach ($this->steps as $step) {
-            $max = max($max, $step->getDeepUpdated());
-        }
-        return $max;
-    }
-
-    public function getDeepUpdatedBy()
-    {
-        $updatedBy = $this->updatedBy;
-        $max = $this->updated;
-        foreach ($this->getParams() as $param) {
-            $val = $param->getDeepUpdated();
-            $max = max($max, $val);
-            if ($val == $max) {
-                $updatedBy = $param->getDeepUpdatedBy();
-            }
-        }
-        foreach ($this->steps as $step) {
-            $val = $step->getDeepUpdated();
-            $max = max($max, $val);
-            if ($val == $max) {
-                $updatedBy = $step->getDeepUpdatedBy();
-            }
-        }
-        return $updatedBy;
-    }
-
-    public function getLockBy()
-    {
-        $lockedBy = parent::getLockBy();
-        if ($lockedBy) return $lockedBy;
-
-        return $this->getTest()->getLockBy();
-    }
-
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);
@@ -354,8 +313,8 @@ class TestWizard extends ATopEntity implements \JsonSerializable
             "steps" => self::jsonSerializeArray($this->steps->toArray(), $dependencies, $normalizedIdsMap),
             "test" => $this->getTest()->getId(),
             "testName" => $this->getTest()->getName(),
-            "updatedOn" => $this->getDeepUpdated()->getTimestamp(),
-            "updatedBy" => $this->getDeepUpdatedBy(),
+            "updatedOn" => $this->getUpdated()->getTimestamp(),
+            "updatedBy" => $this->getUpdatedBy(),
             "lockedBy" => $this->getLockBy() ? $this->getLockBy()->getId() : null,
             "directLockBy" => $this->getDirectLockBy() ? $this->getDirectLockBy()->getId() : null,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,

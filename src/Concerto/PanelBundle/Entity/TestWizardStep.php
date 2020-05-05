@@ -259,6 +259,11 @@ class TestWizardStep extends AEntity implements \JsonSerializable
         return sha1($json);
     }
 
+    public function getTopEntity()
+    {
+        return $this->getWizard();
+    }
+
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
         //sorting for prettier diffs

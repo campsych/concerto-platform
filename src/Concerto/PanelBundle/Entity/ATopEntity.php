@@ -14,6 +14,26 @@ abstract class ATopEntity extends AEntity
 
     /**
      *
+     * @var DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $updatedBy;
+
+    /**
+     *
+     * @var DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     *
      * @var integer
      * @ORM\Column(type="integer")
      */
@@ -57,11 +77,72 @@ abstract class ATopEntity extends AEntity
     {
         parent::__construct();
 
+        $this->created = new DateTime("now");
+        $this->updated = new DateTime("now");
+        $this->updatedBy = "-";
         $this->accessibility = self::ACCESS_PRIVATE;
         $this->groups = "";
         $this->archived = false;
         $this->starterContent = false;
         $this->tags = "";
+    }
+
+    /**
+     * Get updated
+     *
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param DateTime $updated
+     * @return ATopEntity
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Set updated by
+     * @param User|string|null $user
+     * @return ATopEntity
+     */
+    public function setUpdatedBy($user)
+    {
+        $name = "-";
+        if (is_a($user, User::class)) {
+            $name = $user->getUsername();
+        }
+        $this->updatedBy = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get updated by
+     *
+     * @return string
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * Get created
+     *
+     * @return DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**

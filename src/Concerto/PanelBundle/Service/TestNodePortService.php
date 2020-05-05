@@ -131,7 +131,6 @@ class TestNodePortService extends ASectionService
         $token = $this->securityTokenStorage->getToken();
         if ($token !== null) $user = $token->getUser();
 
-        $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
         $this->onObjectSaved($object, $isNew);

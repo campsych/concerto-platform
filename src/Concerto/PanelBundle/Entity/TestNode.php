@@ -319,7 +319,7 @@ class TestNode extends AEntity implements \JsonSerializable
     /**
      * Get destination for connections
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getDestinationForConnections()
     {
@@ -331,27 +331,9 @@ class TestNode extends AEntity implements \JsonSerializable
         return $this->getFlowTest()->getAccessibility();
     }
 
-    public function getDeepUpdated()
+    public function getTopEntity()
     {
-        $max = $this->updated;
-        foreach ($this->ports as $port) {
-            $max = max($max, $port->getDeepUpdated());
-        }
-        return $max;
-    }
-
-    public function getDeepUpdatedBy()
-    {
-        $updatedBy = $this->updatedBy;
-        $max = $this->updated;
-        foreach ($this->ports as $port) {
-            $val = $port->getDeepUpdated();
-            $max = max($max, $val);
-            if ($val == $max) {
-                $updatedBy = $port->getDeepUpdatedBy();
-            }
-        }
-        return $updatedBy;
+        return $this->getFlowTest();
     }
 
     public function getLockBy()
@@ -387,7 +369,7 @@ class TestNode extends AEntity implements \JsonSerializable
 
     public function __toString()
     {
-        return "TestNode (title:" . ($this->getTitle() ? $this->getTitle() : $this->getSourceTest()->getName()) . ")";
+        return "TestNode (#" + $this->getId() . ", title:" . ($this->getTitle() ? $this->getTitle() : $this->getSourceTest()->getName()) . ")";
     }
 
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)

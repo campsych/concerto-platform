@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Service;
 
+use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Repository\AEntityRepository;
 use Concerto\PanelBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -80,6 +81,22 @@ abstract class AExportableSectionService extends ASectionService
         unset($arr["directLockBy"]);
         unset($arr["lockedBy"]);
         return $arr;
+    }
+
+    public function toggleLock($object_id)
+    {
+        /** @var User $user */
+        $user = $this->securityTokenStorage->getToken()->getUser();
+        /** @var ATopEntity $object */
+        $object = $this->get($object_id);
+        if ($object) {
+            $isLocked = $object->getDirectLockBy() !== null;
+            $object->setDirectLockBy($isLocked ? null : $user);
+            $object->setUpdatedBy($user);
+            $this->repository->save($object);
+            return true;
+        }
+        return false;
     }
 
 }

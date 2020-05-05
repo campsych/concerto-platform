@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Concerto\PanelBundle\Entity\Test;
 
@@ -10,11 +11,33 @@ use Concerto\PanelBundle\Entity\Test;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionLogRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class TestSessionLog extends AEntity implements \JsonSerializable {
+class TestSessionLog implements \JsonSerializable {
 
     const TYPE_SYSTEM = 2;
     const TYPE_R = 1;
     const TYPE_JS = 0;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     *
+     * @var DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updated;
+
+    /**
+     *
+     * @var DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $created;
 
     /**
      *
@@ -49,13 +72,68 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
      */
     private $test;
 
-    public function __construct() {
-        parent::__construct();
-        
+    public function __construct()
+    {
+        $this->created = new DateTime("now");
+        $this->updated = new DateTime("now");
         $this->message = "";
     }
-    
-    public function getOwner() {
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set id
+     * @param integer $id
+     * @return TestSessionLog;
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param DateTime $updated
+     * @return TestSessionLog
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getOwner()
+    {
         return $this->getTest()->getOwner();
     }
 
@@ -65,7 +143,8 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
      * @param string $ip
      * @return TestSessionLog
      */
-    public function setIp($ip) {
+    public function setIp($ip)
+    {
         $this->ip = $ip;
 
         return $this;
@@ -74,9 +153,10 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
     /**
      * Get ip
      *
-     * @return string 
+     * @return string
      */
-    public function getIp() {
+    public function getIp()
+    {
         return $this->ip;
     }
 
@@ -86,7 +166,8 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
      * @param string $browser
      * @return TestSessionLog
      */
-    public function setBrowser($browser) {
+    public function setBrowser($browser)
+    {
         $this->browser = $browser;
 
         return $this;
@@ -95,9 +176,10 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
     /**
      * Get browser
      *
-     * @return string 
+     * @return string
      */
-    public function getBrowser() {
+    public function getBrowser()
+    {
         return $this->browser;
     }
 
@@ -107,8 +189,9 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
      * @param string $message
      * @return TestSessionLog
      */
-    public function setMessage($message) {
-        if($message == null) $message = "";
+    public function setMessage($message)
+    {
+        if ($message == null) $message = "";
         $this->message = $message;
 
         return $this;
@@ -117,9 +200,10 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
@@ -129,7 +213,8 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
      * @param integer $type
      * @return TestSessionLog
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
 
         return $this;
@@ -138,9 +223,10 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -150,7 +236,8 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
      * @param Test $test
      * @return TestSessionLog
      */
-    public function setTest(Test $test = null) {
+    public function setTest(Test $test = null)
+    {
         $this->test = $test;
 
         return $this;
@@ -159,17 +246,20 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
     /**
      * Get test
      *
-     * @return Test 
+     * @return Test
      */
-    public function getTest() {
+    public function getTest()
+    {
         return $this->test;
     }
-    
-    public function getAccessibility() {
+
+    public function getAccessibility()
+    {
         return $this->getTest()->getAccessibility();
     }
 
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getTest()->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {
@@ -181,11 +271,19 @@ class TestSessionLog extends AEntity implements \JsonSerializable {
         return false;
     }
 
-    public function jsonSerialize(&$dependencies = array()) {
+    /** @ORM\PreUpdate() */
+    public function preUpdate()
+    {
+        $this->setUpdated(new DateTime("now"));
+    }
+
+    public function jsonSerialize(&$dependencies = array())
+    {
         return array(
             "class_name" => "TestSessionLog",
             "id" => $this->getId(),
             "created" => $this->getCreated()->format("Y-m-d H:i:s"),
+            "updated" => $this->getUpdated()->format("Y-m-d H:i:s"),
             "browser" => $this->getBrowser(),
             "ip" => $this->getIp(),
             "message" => $this->getMessage(),

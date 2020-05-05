@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\TestService;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +58,17 @@ class TestController extends AExportableTabController
      */
     public function collectionAction($format = "json")
     {
-        return parent::collectionAction($format);
+        $collection = $this->service->getAll();
+        foreach ($collection as $test) {
+            /**
+             * @var Test $test
+             */
+            $test->clearNodes();
+            $test->clearNodesConnections();
+        }
+        return $this->templating->renderResponse("ConcertoPanelBundle::collection.$format.twig", array(
+            'collection' => $collection
+        ));
     }
 
     /**
@@ -108,8 +119,7 @@ class TestController extends AExportableTabController
             $request->get("type"),
             $request->get("code"),
             $this->testWizardService->get($request->get("sourceWizard"), false),
-            $request->get("slug"),
-            $request->get("serializedVariables")
+            $request->get("slug")
         );
         return $this->getSaveResponse($result);
     }

@@ -17,19 +17,21 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
         });
     };
 
-    collectionService.fetchNodesCollection = function (id, callback) {
-        let test = this.get(id);
-        $http({
-            url: Paths.TEST_FLOW_NODE_COLLECTION.pf(id),
-            method: "GET"
-        }).then(function (httpResponse) {
-            if (httpResponse.data.content) {
-                test.nodes = httpResponse.data.content;
-            } else {
-                test.nodes = httpResponse.data;
-            }
-            if (callback)
-                callback.call(this);
+    collectionService.fetchNodesCollection = function (id) {
+        let service = this;
+        return new Promise((resolve, reject) => {
+            let test = service.get(id);
+            $http({
+                url: Paths.TEST_FLOW_NODE_COLLECTION.pf(id),
+                method: "GET"
+            }).then(function (httpResponse) {
+                if (httpResponse.data.content) {
+                    test.nodes = httpResponse.data.content;
+                } else {
+                    test.nodes = httpResponse.data;
+                }
+                resolve(test.nodes);
+            });
         });
     };
 
@@ -89,19 +91,21 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
         return null;
     };
 
-    collectionService.fetchNodesConnectionCollection = function (id, callback) {
-        let test = this.get(id);
-        $http({
-            url: Paths.TEST_FLOW_CONNECTION_COLLECTION.pf(id),
-            method: "GET"
-        }).then(function (httpResponse) {
-            if (httpResponse.data.content) {
-                test.nodesConnections = httpResponse.data.content;
-            } else {
-                test.nodesConnections = httpResponse.data;
-            }
-            if (callback)
-                callback.call(this);
+    collectionService.fetchNodesConnectionCollection = function (id) {
+        let service = this;
+        return new Promise((resolve, reject) => {
+            let test = service.get(id);
+            $http({
+                url: Paths.TEST_FLOW_CONNECTION_COLLECTION.pf(id),
+                method: "GET"
+            }).then(function (httpResponse) {
+                if (httpResponse.data.content) {
+                    test.nodesConnections = httpResponse.data.content;
+                } else {
+                    test.nodesConnections = httpResponse.data;
+                }
+                resolve(test.nodesConnections);
+            });
         });
     };
 
@@ -112,6 +116,17 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
                 let connection = test.nodesConnections[j];
                 if (connection.id == connectionId)
                     return connection;
+            }
+        }
+        return null;
+    };
+
+    collectionService.getVariable = function (id) {
+        for (let i = 0; i < this.collection.length; i++) {
+            let test = this.collection[i];
+            for (let j = 0; j < test.variables.length; j++) {
+                let variable = test.variables[j];
+                if (variable.id == id) return variable;
             }
         }
         return null;

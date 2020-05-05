@@ -491,6 +491,11 @@ class TestWizardParam extends AEntity implements \JsonSerializable
         return "TestWizardParam (#" . $this->getId() . ", label:" . $this->getLabel() . ")";
     }
 
+    public function getTopEntity()
+    {
+        return $this->getWizard();
+    }
+
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
         self::getParamValueDependencies($this->value, $this->definition, $this->type, $dependencies);

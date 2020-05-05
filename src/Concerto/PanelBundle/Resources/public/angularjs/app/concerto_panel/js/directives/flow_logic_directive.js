@@ -1605,8 +1605,15 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                 if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
                     scope.initialized = false;
-                    if (scope.object.nodes.length > 0 && !scope.refreshing) {
-                        scope.refreshFlow();
+
+                    if (!scope.refreshing) {
+                        TestCollectionService.fetchNodesCollection(scope.object.id).then(nodes => {
+                            if (nodes.length > 0) {
+                                TestCollectionService.fetchNodesConnectionCollection(scope.object.id).then(connections => {
+                                    scope.refreshFlow();
+                                });
+                            }
+                        });
                     }
                 }
             });

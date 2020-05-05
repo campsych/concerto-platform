@@ -6,6 +6,10 @@ use Doctrine\ORM\EntityRepository;
 
 abstract class AEntityRepository extends EntityRepository
 {
+    public function persist($entities)
+    {
+        $this->getEntityManager()->persist($entities);
+    }
 
     public function refresh($entity)
     {
@@ -56,7 +60,7 @@ abstract class AEntityRepository extends EntityRepository
             $entity = $this->find($object_id);
             $this->getEntityManager()->remove($entity);
         }
-        if ($flush)  $this->getEntityManager()->flush($entity);
+        if ($flush) $this->getEntityManager()->flush($entity);
     }
 
     public function deleteAll($flush = true)

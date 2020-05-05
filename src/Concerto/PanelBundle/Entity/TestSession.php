@@ -4,15 +4,38 @@ namespace Concerto\PanelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use DateTime;
 
 /**
  * @ORM\Table(uniqueConstraints={@UniqueConstraint(name="hash_idx", columns={"hash"})})
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class TestSession extends AEntity {
+class TestSession {
 
     const STATUS_RUNNING = 0;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     *
+     * @var DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated;
+
+    /**
+     *
+     * @var DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
 
     /**
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="sessions")
@@ -74,11 +97,64 @@ class TestSession extends AEntity {
     private $debug;
 
     public function __construct() {
-        parent::__construct();
-
+        $this->created = new DateTime("now");
+        $this->updated = new DateTime("now");
         $this->status = self::STATUS_RUNNING;
         $this->timeLimit = 0;
         $this->submitterPort = 0;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set id
+     * @param integer $id
+     * @return TestSession;
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param DateTime $updated
+     * @return TestSession
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     public function getOwner() {

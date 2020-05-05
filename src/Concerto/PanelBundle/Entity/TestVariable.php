@@ -388,6 +388,11 @@ class TestVariable extends AEntity implements \JsonSerializable
         return $this->getTest()->getLockBy();
     }
 
+    public function getTopEntity()
+    {
+        return $this->getTest();
+    }
+
     public static function getArrayHash($arr)
     {
         unset($arr["id"]);

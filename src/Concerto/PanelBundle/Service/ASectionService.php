@@ -89,29 +89,13 @@ abstract class ASectionService
                     $errorMessages = ["validate.locked"];
                     return false;
                 }
-                if ($object->getDeepUpdated()->getTimestamp() > $timestamp && $object->getDeepUpdatedBy() != $user->getUsername()) {
+                if ($object->getTopEntity()->getUpdated()->getTimestamp() > $timestamp && $object->getTopEntity()->getUpdatedBy() != $user->getUsername()) {
                     $errorMessages = ["validate.outdated"];
                     return false;
                 }
             }
         }
         return true;
-    }
-
-    public function toggleLock($object_id)
-    {
-        /** @var User $user */
-        $user = $this->securityTokenStorage->getToken()->getUser();
-        /** @var ATopEntity $object */
-        $object = $this->get($object_id);
-        if ($object) {
-            $isLocked = $object->getDirectLockBy() !== null;
-            $object->setDirectLockBy($isLocked ? null : $user);
-            $object->setUpdatedBy($user);
-            $this->repository->save($object);
-            return true;
-        }
-        return false;
     }
 
     public abstract function delete($object_ids, $secure = true);

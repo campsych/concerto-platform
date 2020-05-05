@@ -391,11 +391,12 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         }
     };
     if (RDocumentation.functionIndex === null) {
-        $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').then(function (httpResponse) {
+        $http.get(RDocumentation.rCacheDirectory + 'functionIndex.json').then(httpResponse => {
             if (httpResponse.data !== null) {
                 RDocumentation.functionIndex = httpResponse.data;
                 $scope.codeOptions.hintOptions.functionIndex = httpResponse.data;
             }
+        }, httpFailureResponse => {
         });
     } else {
         $scope.codeOptions.hintOptions.functionIndex = RDocumentation.functionIndex;
@@ -630,7 +631,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         delete obj.nodes;
         delete obj.nodesConnections;
         delete obj.steps;
-        obj.serializedVariables = angular.toJson(obj.variables);
         delete obj.variables;
         return obj;
     };
