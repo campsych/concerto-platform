@@ -61,7 +61,8 @@ class TestSessionLogControllerTest extends AFunctionalTest {
                 "message" => "error",
                 "type" => TestSessionLog::TYPE_R,
                 "test_id" => 1,
-                "created" => $log->getCreated()->format("Y-m-d H:i:s")
+                "created" => $log->getCreated()->format("Y-m-d H:i:s"),
+                "updated" => $log->getUpdated()->format("Y-m-d H:i:s")
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));

@@ -131,59 +131,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
                 "destinationPort" => 3,
                 "returnFunction" => "response",
                 "defaultReturnFunction" => "0",
-                "automatic" => "0",
-                "sourcePortObject" => array(
-                    "class_name" => "TestNodePort",
-                    "id" => 1,
-                    "value" => null,
-                    "node" => 3,
-                    "string" => "1",
-                    "defaultValue" => "1",
-                    "dynamic" => '0',
-                    "type" => 1,
-                    "exposed" => '0',
-                    "name" => "response",
-                    "pointer" => "0",
-                    "pointerVariable" => "response",
-                    "variable" => 4,
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 4,
-                        "name" => "response",
-                        "type" => 1,
-                        "description" => "",
-                        "passableThroughUrl" => '0',
-                        "value" => null,
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
-                ),
-                "destinationPortObject" => array(
-                    "class_name" => "TestNodePort",
-                    "id" => 3,
-                    "value" => null,
-                    "node" => 4,
-                    "string" => "1",
-                    "defaultValue" => "1",
-                    "dynamic" => '0',
-                    "type" => 0,
-                    "exposed" => '0',
-                    "name" => "params",
-                    "pointer" => "0",
-                    "pointerVariable" => "params",
-                    "variable" => 5,
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 5,
-                        "name" => "params",
-                        "type" => 0,
-                        "description" => "",
-                        "passableThroughUrl" => '0',
-                        "value" => null,
-                        "test" => 3,
-                        "parentVariable" => null
-                    )
-                )
+                "automatic" => "0"
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -227,9 +175,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
             "destinationPort" => null,
             "returnFunction" => "",
             "defaultReturnFunction" => "0",
-            "automatic" => "0",
-            "sourcePortObject" => null,
-            "destinationPortObject" => null,
+            "automatic" => "0"
         );
 
         $this->assertEquals(array(
@@ -265,59 +211,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
             "destinationPort" => 3,
             "returnFunction" => "zzz",
             "defaultReturnFunction" => "0",
-            "automatic" => "0",
-            "sourcePortObject" => array(
-                "class_name" => "TestNodePort",
-                "id" => 1,
-                "value" => null,
-                "node" => 3,
-                "string" => "1",
-                "defaultValue" => "1",
-                "dynamic" => '0',
-                "type" => 1,
-                "exposed" => '0',
-                "name" => "response",
-                "pointer" => '0',
-                "pointerVariable" => 'response',
-                "variable" => 4,
-                "variableObject" => array(
-                    "class_name" => "TestVariable",
-                    "id" => 4,
-                    "name" => "response",
-                    "type" => 1,
-                    "description" => "",
-                    "passableThroughUrl" => '0',
-                    "value" => null,
-                    "test" => 2,
-                    "parentVariable" => null
-                )
-            ),
-            "destinationPortObject" => array(
-                "class_name" => "TestNodePort",
-                "id" => 3,
-                "value" => null,
-                "node" => 4,
-                "string" => "1",
-                "defaultValue" => "1",
-                "dynamic" => '0',
-                "type" => 0,
-                "exposed" => '0',
-                "name" => "params",
-                "pointer" => '0',
-                "pointerVariable" => 'params',
-                "variable" => 5,
-                "variableObject" => array(
-                    "class_name" => "TestVariable",
-                    "id" => 5,
-                    "name" => "params",
-                    "type" => 0,
-                    "description" => "",
-                    "passableThroughUrl" => '0',
-                    "value" => null,
-                    "test" => 3,
-                    "parentVariable" => null
-                )
-            )
+            "automatic" => "0"
         );
 
         $this->assertEquals(array(

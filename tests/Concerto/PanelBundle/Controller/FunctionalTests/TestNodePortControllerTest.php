@@ -79,18 +79,7 @@ class TestNodePortControllerTest extends AFunctionalTest {
                 "pointer" => '0',
                 "pointerVariable" => 'out',
                 "variable" => 2,
-                "value" => "0",
-                "variableObject" => array(
-                    "class_name" => "TestVariable",
-                    "id" => 2,
-                    "name" => "out",
-                    "type" => 2,
-                    "description" => "",
-                    "passableThroughUrl" => "0",
-                    "value" => '0',
-                    "test" => 2,
-                    "parentVariable" => null
-                )
+                "value" => "0"
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -136,18 +125,7 @@ class TestNodePortControllerTest extends AFunctionalTest {
             "pointer" => '0',
             "pointerVariable" => 'out',
             "variable" => 2,
-            "value" => "1",
-            "variableObject" => array(
-                "class_name" => "TestVariable",
-                "id" => 2,
-                "name" => "out",
-                "type" => 2,
-                "description" => "",
-                "passableThroughUrl" => "0",
-                "value" => '0',
-                "test" => 2,
-                "parentVariable" => null
-            )
+            "value" => "1"
         );
 
         $this->assertEquals(array(

@@ -135,18 +135,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "pointer" => '0',
                         "pointerVariable" => 'params',
                         "variable" => 4,
-                        "value" => null,
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 4,
-                            "name" => "params",
-                            "type" => 0,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => null,
-                            "test" => 2,
-                            "parentVariable" => null
-                        )
+                        "value" => null
                     ),
                     array(
                         "class_name" => "TestNodePort",
@@ -161,18 +150,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "pointer" => '0',
                         "pointerVariable" => 'response',
                         "variable" => 3,
-                        "value" => null,
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 3,
-                            "name" => "response",
-                            "type" => 1,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => null,
-                            "test" => 2,
-                            "parentVariable" => null
-                        )
+                        "value" => null
                     ),
                     array(
                         "class_name" => "TestNodePort",
@@ -187,18 +165,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "pointer" => '0',
                         "pointerVariable" => 'out',
                         "variable" => 2,
-                        "value" => "0",
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 2,
-                            "name" => "out",
-                            "type" => 2,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => '0',
-                            "test" => 2,
-                            "parentVariable" => null
-                        )
+                        "value" => "0"
                     )
                 )
             )
@@ -263,18 +230,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "pointer" => '0',
                         "pointerVariable" => 'params',
                         "variable" => 4,
-                        "value" => null,
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 4,
-                            "name" => "params",
-                            "type" => 0,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => null,
-                            "test" => 2,
-                            "parentVariable" => null
-                        )
+                        "value" => null
                     ),
                     array(
                         "class_name" => "TestNodePort",
@@ -289,18 +245,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "pointer" => '0',
                         "pointerVariable" => 'response',
                         "variable" => 3,
-                        "value" => null,
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 3,
-                            "name" => "response",
-                            "type" => 1,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => null,
-                            "test" => 2,
-                            "parentVariable" => null
-                        )
+                        "value" => null
                     ),
                     array(
                         "class_name" => "TestNodePort",
@@ -315,18 +260,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                         "pointer" => '0',
                         "pointerVariable" => 'out',
                         "variable" => 2,
-                        "value" => "0",
-                        "variableObject" => array(
-                            "class_name" => "TestVariable",
-                            "id" => 2,
-                            "name" => "out",
-                            "type" => 2,
-                            "description" => "",
-                            "passableThroughUrl" => "0",
-                            "value" => '0',
-                            "test" => 2,
-                            "parentVariable" => null
-                        )
+                        "value" => "0"
                     )
                 )
             )
@@ -389,18 +323,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "pointer" => '0',
                     "pointerVariable" => 'params',
                     "variable" => 4,
-                    "value" => null,
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 4,
-                        "name" => "params",
-                        "type" => 0,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => null,
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
+                    "value" => null
                 ),
                 array(
                     "class_name" => "TestNodePort",
@@ -415,18 +338,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "pointer" => '0',
                     "pointerVariable" => 'response',
                     "variable" => 3,
-                    "value" => null,
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 3,
-                        "name" => "response",
-                        "type" => 1,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => null,
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
+                    "value" => null
                 ),
                 array(
                     "class_name" => "TestNodePort",
@@ -441,18 +353,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "pointer" => '0',
                     "pointerVariable" => 'out',
                     "variable" => 2,
-                    "value" => "0",
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 2,
-                        "name" => "out",
-                        "type" => 2,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => '0',
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
+                    "value" => "0"
                 )
             )
         );
@@ -504,18 +405,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "pointer" => '0',
                     "pointerVariable" => 'params',
                     "variable" => 4,
-                    "value" => null,
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 4,
-                        "name" => "params",
-                        "type" => 0,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => null,
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
+                    "value" => null
                 ),
                 array(
                     "class_name" => "TestNodePort",
@@ -530,18 +420,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "pointer" => '0',
                     "pointerVariable" => 'response',
                     "variable" => 3,
-                    "value" => null,
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 3,
-                        "name" => "response",
-                        "type" => 1,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => null,
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
+                    "value" => null
                 ),
                 array(
                     "class_name" => "TestNodePort",
@@ -556,18 +435,7 @@ class TestNodeControllerTest extends AFunctionalTest {
                     "pointer" => '0',
                     "pointerVariable" => 'out',
                     "variable" => 2,
-                    "value" => "0",
-                    "variableObject" => array(
-                        "class_name" => "TestVariable",
-                        "id" => 2,
-                        "name" => "out",
-                        "type" => 2,
-                        "description" => "",
-                        "passableThroughUrl" => "0",
-                        "value" => '0',
-                        "test" => 2,
-                        "parentVariable" => null
-                    )
+                    "value" => "0"
                 )
             )
         );
