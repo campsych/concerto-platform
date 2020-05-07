@@ -354,16 +354,16 @@ class TestNode extends AEntity implements \JsonSerializable
         return false;
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        unset($arr["id"]);
-        unset($arr["flowTest"]);
-        unset($arr["sourceTest"]);
-        for ($i = 0; $i < count($arr["ports"]); $i++) {
-            $arr["ports"][$i] = TestNodePort::getArrayHash($arr["ports"][$i]);
-        }
-
-        $json = json_encode($arr);
+        $json = json_encode(array(
+            "title" => $this->getTitle(),
+            "type" => $this->getType(),
+            "posX" => $this->getPosX(),
+            "posY" => $this->getPosY(),
+            "sourceTestName" => $this->sourceTest->getName(),
+            "ports" => AEntity::getEntityCollectionHash($this->getPorts())
+        ));
         return sha1($json);
     }
 

@@ -605,27 +605,17 @@ class Test extends ATopEntity implements \JsonSerializable
         return $this->owner;
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        unset($arr["id"]);
-        unset($arr["updatedOn"]);
-        unset($arr["updatedBy"]);
-        unset($arr["owner"]);
-        for ($i = 0; $i < count($arr["variables"]); $i++) {
-            $arr["variables"][$i] = TestVariable::getArrayHash($arr["variables"][$i]);
-        }
-        unset($arr["slug"]);
-        unset($arr["sourceWizard"]);
-        unset($arr["sourceWizardTest"]);
-        unset($arr["steps"]);
-        for ($i = 0; $i < count($arr["nodes"]); $i++) {
-            $arr["nodes"][$i] = TestNode::getArrayHash($arr["nodes"][$i]);
-        }
-        for ($i = 0; $i < count($arr["nodesConnections"]); $i++) {
-            $arr["nodesConnections"][$i] = TestNodeConnection::getArrayHash($arr["nodesConnections"][$i]);
-        }
-
-        $json = json_encode($arr);
+        $json = json_encode(array(
+            "name" => $this->getName(),
+            "description" => $this->getDescription(),
+            "type" => $this->getType(),
+            "code" => $this->getCode(),
+            "variables" => AEntity::getEntityCollectionHash($this->getVariables()),
+            "nodes" => AEntity::getEntityCollectionHash($this->getNodes()),
+            "nodesConnections" => AEntity::getEntityCollectionHash($this->getNodesConnections())
+        ));
         return sha1($json);
     }
 

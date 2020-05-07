@@ -282,9 +282,16 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
         return $this->getFlowTest()->getLockBy();
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        return null;
+        $json = json_encode(array(
+            "sourcePort" => $this->getSourcePort() ? $this->getSourcePort()->getEntityHash() : null,
+            "destinationPort" => $this->getDestinationPort() ? $this->getDestinationPort()->getEntityHash() : null,
+            "returnFunction" => $this->getReturnFunction(),
+            "automatic" => $this->isAutomatic(),
+            "defaultReturnFunction" => $this->hasDefaultReturnFunction()
+        ));
+        return sha1($json);
     }
 
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)

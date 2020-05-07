@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\UserRepository")
  * @UniqueEntity(fields="username", message="validate.user.username.unique")
  * @UniqueEntity(fields="email", message="validate.user.email.unique")
- * @ORM\HasLifecycleCallbacks
  */
 class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable, EquatableInterface
 {
@@ -339,7 +338,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     /**
      * @return int
      */
-    public function getFailedAuthenticationStreak() {
+    public function getFailedAuthenticationStreak()
+    {
         return $this->failedAuthenticationStreak;
     }
 
@@ -347,7 +347,8 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
      * @param int $streak
      * @return User
      */
-    public function setFailedAuthenticationStreak($streak) {
+    public function setFailedAuthenticationStreak($streak)
+    {
         $this->failedAuthenticationStreak = $streak;
         return $this;
     }
@@ -377,6 +378,11 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
         }
 
         return true;
+    }
+
+    public function getEntityHash()
+    {
+        return null;
     }
 
     public function jsonSerialize(&$dependencies = array())

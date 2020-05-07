@@ -393,13 +393,15 @@ class TestVariable extends AEntity implements \JsonSerializable
         return $this->getTest();
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        unset($arr["id"]);
-        unset($arr["test"]);
-        unset($arr["parentVariable"]);
-
-        $json = json_encode($arr);
+        $json = json_encode(array(
+            "name" => $this->getName(),
+            "type" => $this->getType(),
+            "description" => $this->getDescription(),
+            "passableThroughUrl" => $this->isPassableThroughUrl(),
+            "value" => $this->getValue()
+        ));
         return sha1($json);
     }
 

@@ -137,13 +137,13 @@ class DataTable extends ATopEntity implements \JsonSerializable
         return $this->owner;
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        unset($arr["id"]);
-        unset($arr["updatedOn"]);
-        unset($arr["updatedBy"]);
-        unset($arr["owner"]);
-        $json = json_encode($arr);
+        $json = json_encode(array(
+            "name" => $this->getName(),
+            "description" => $this->getDescription(),
+            "columns" => $this->getColumns()
+        ));
         return sha1($json);
     }
 

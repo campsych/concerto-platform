@@ -3,6 +3,7 @@
 namespace Concerto\PanelBundle\Entity;
 
 use Concerto\PanelBundle\Entity\User;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
@@ -118,9 +119,20 @@ abstract class AEntity
         return $normalizedIdsMap[$class][$id];
     }
 
+    public static function getEntityCollectionHash(Collection $collection)
+    {
+        $result = "";
+        foreach ($collection as $entity) {
+            $result .= $entity->getEntityHash();
+        }
+        return $result;
+    }
+
     public abstract function getOwner();
 
     public abstract function getAccessibility();
 
     public abstract function hasAnyFromGroup($other_groups);
+
+    public abstract function getEntityHash();
 }

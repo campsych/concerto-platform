@@ -275,18 +275,14 @@ class TestWizard extends ATopEntity implements \JsonSerializable
         return $this->owner;
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        unset($arr["id"]);
-        unset($arr["updatedOn"]);
-        unset($arr["updatedBy"]);
-        unset($arr["owner"]);
-        for ($i = 0; $i < count($arr["steps"]); $i++) {
-            $arr["steps"][$i] = TestWizardStep::getArrayHash($arr["steps"][$i]);
-        }
-        unset($arr["test"]);
-
-        $json = json_encode($arr);
+        $json = json_encode(array(
+            "name" => $this->getName(),
+            "description" => $this->getDescription(),
+            "steps" => AEntity::getEntityCollectionHash($this->getSteps()),
+            "testName" => $this->getTest()->getName()
+        ));
         return sha1($json);
     }
 

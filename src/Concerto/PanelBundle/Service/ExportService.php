@@ -98,9 +98,8 @@ class ExportService
         foreach ($collection as $elem) {
             $export_elem = $elem;
             $elem_service = $this->serviceMap[$elem["class_name"]];
-            $elem_class = "\\Concerto\\PanelBundle\\Entity\\" . $elem["class_name"];
             if ($addHash) {
-                $export_elem["hash"] = $elem_class::getArrayHash($elem);
+                $export_elem["hash"] = $elem_service->repository->find($elem["id"])->getEntityHash();
             }
 
             $elemInstruction = null;

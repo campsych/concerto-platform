@@ -467,9 +467,20 @@ class TestNodePort extends AEntity implements \JsonSerializable
         return $this->getNode()->getTopEntity();
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        return null;
+        $json = json_encode(array(
+            "value" => $this->getValue(),
+            "string" => $this->isString(),
+            "defaultValue" => $this->hasDefaultValue(),
+            "dynamic" => $this->isDynamic(),
+            "type" => $this->getType(),
+            "exposed" => $this->isExposed(),
+            "name" => $this->getName(),
+            "pointer" => $this->isPointer(),
+            "pointerVariable" => $this->getPointerVariable()
+        ));
+        return sha1($json);
     }
 
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)

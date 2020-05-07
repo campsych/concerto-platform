@@ -247,15 +247,14 @@ class TestWizardStep extends AEntity implements \JsonSerializable
         return $this->getWizard()->getLockBy();
     }
 
-    public static function getArrayHash($arr)
+    public function getEntityHash()
     {
-        unset($arr["id"]);
-        unset($arr["wizard"]);
-        for ($i = 0; $i < count($arr["params"]); $i++) {
-            $arr["params"][$i] = TestWizardParam::getArrayHash($arr["params"][$i]);
-        }
-
-        $json = json_encode($arr);
+        $json = json_encode(array(
+            "title" => $this->getTitle(),
+            "description" => $this->getDescription(),
+            "orderNum" => $this->getOrderNum(),
+            "params" => AEntity::getEntityCollectionHash($this->getParams())
+        ));
         return sha1($json);
     }
 

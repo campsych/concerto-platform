@@ -386,17 +386,6 @@ class TestWizardParam extends AEntity implements \JsonSerializable
         return $this->getWizard()->getLockBy();
     }
 
-    public static function getArrayHash($arr)
-    {
-        unset($arr["id"]);
-        unset($arr["testVariable"]);
-        unset($arr["wizardStep"]);
-        unset($arr["wizard"]);
-
-        $json = json_encode($arr);
-        return sha1($json);
-    }
-
     public static function getParamValueDependencies($val, $def, $type, &$dependencies = array())
     {
         if (!array_key_exists("ids", $dependencies))
@@ -484,6 +473,22 @@ class TestWizardParam extends AEntity implements \JsonSerializable
                 break;
             }
         }
+    }
+
+    public function getEntityHash()
+    {
+        $json = json_encode(array(
+            "label" => $this->getLabel(),
+            "description" => $this->getDescription(),
+            "hideCondition" => $this->getHideCondition(),
+            "type" => $this->getType(),
+            "passableThroughUrl" => $this->isPassableThroughUrl(),
+            "value" => $this->getValue(),
+            "name" => $this->getVariable()->getName(),
+            "order" => $this->getOrder(),
+            "definition" => $this->getDefinition()
+        ));
+        return sha1($json);
     }
 
     public function __toString()

@@ -162,9 +162,7 @@ class ImportService
 
             $can_ignore = false;
             if ($existing_entity != null) {
-                $existing_entity_array = $existing_entity->jsonSerialize();
-                $class = "\\Concerto\\PanelBundle\\Entity\\" . $existing_entity_array["class_name"];
-                $existing_entity_hash = $class::getArrayHash($existing_entity_array);
+                $existing_entity_hash = $existing_entity->getEntityHash();
 
                 //same hash
                 if (array_key_exists("hash", $imported_object) && $existing_entity_hash == $imported_object["hash"])
