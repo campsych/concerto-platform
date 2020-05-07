@@ -5,6 +5,8 @@
 * import fixes
 * renamed SamlToken hash_idx to saml_token_hash_idx for PostgreSQL compatibility
 * SAML metadata endpoint fix
+* reduced memory consumption on collection fetches
+* improved import comparison hashing
 
 ## 5.0.12 (2020-04-07)
 
