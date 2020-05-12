@@ -7,6 +7,7 @@
 * SAML metadata endpoint fix
 * concerto.saml.getAuthenticatedUser fix for serialized session runner service
 * reduced memory consumption on collection fetches
+* item bank extra fields can now be set for flat item bank table
 
 #### Improvements
 
