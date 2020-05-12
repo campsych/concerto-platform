@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic-tls (2020-04-24): Standalone Concerto, everything on one instance, not monitored
+  concerto-ec2-basic-tls (2020-05-11): Standalone Concerto, everything on one instance, not monitored
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -330,7 +330,6 @@ Resources:
       ResourceSignal:
         Count: 1
         Timeout: PT15M
-    Metadata:
       AWS::CloudFormation::Init:
         configSets:
           default:
@@ -418,8 +417,8 @@ Resources:
                     listen 443 ssl http2;
                     server_name ${DomainName};
 
-                    ssl_certificate /etc/letsencrypt/live/${DomainName}/fullchain.pem;
-                    ssl_certificate_key /etc/letsencrypt/live/${DomainName}/privkey.pem;
+                    ssl_certificate /etc/letsencrypt/dummy/${DomainName}/fullchain.pem;
+                    ssl_certificate_key /etc/letsencrypt/dummy/${DomainName}/privkey.pem;
                     ssl_protocols TLSv1.2 TLSv1.3;
                     ssl_prefer_server_ciphers on;
                     ssl_dhparam /etc/letsencrypt/dhparam.pem;
@@ -441,7 +440,7 @@ Resources:
           commands:
             01_mkdir:
               command: !Sub |
-                mkdir -p /home/concerto/data/certbot/conf/live/${DomainName}
+                mkdir -p /home/concerto/data/certbot/conf/dummy/${DomainName}
             02_dhparam:
               command: >-
                 if [[ ! -e dhparam.pem ]]; then
@@ -453,7 +452,7 @@ Resources:
                 if [[ ! -e fullchain.pem ]]; then
                   openssl req -x509 -nodes -newkey rsa:1024 -days 7 -keyout privkey.pem -out fullchain.pem -subj '/CN=${DomainName}';
                 fi
-              cwd: !Sub /home/concerto/data/certbot/conf/live/${DomainName}
+              cwd: !Sub /home/concerto/data/certbot/conf/dummy/${DomainName}
         concerto:
           files:
             /home/concerto/docker-compose.yml:
@@ -507,9 +506,10 @@ Resources:
                     container_name: certbot
                     restart: unless-stopped
                     volumes:
+                      - ./data/nginx:/etc/nginx/conf.d
                       - ./data/certbot/conf:/etc/letsencrypt
                       - ./data/certbot/www:/var/www/certbot
-                    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot certonly --non-interactive --webroot -w /var/www/certbot --email ${Email} -d ${DomainName} --agree-tos || true; sleep 15m & wait $${!!}; done;'"
+                    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot certonly --non-interactive --webroot -w /var/www/certbot --email ${Email} -d ${DomainName} --agree-tos --deploy-hook \"sed -i s/dummy/live/g /etc/nginx/conf.d/app.conf\" || true; sleep 15m & wait $${!!}; done;'"
           commands:
             start:
               command: /usr/local/bin/docker-compose up -d --remove-orphans --force-recreate
