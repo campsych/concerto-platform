@@ -1,9 +1,9 @@
-function PortAddController($scope, $uibModalInstance, $http, testCollectionService, node, connections, editable) {
+function PortAddController($scope, $uibModalInstance, $http, TestCollectionService, node, connections, editable) {
   $scope.node = node;
   $scope.connections = connections;
   $scope.editable = editable;
   $scope.dynamicInputName = "";
-  $scope.testCollectionService = testCollectionService;
+  $scope.testCollectionService = TestCollectionService;
 
   $scope.isPortConnected = function (port) {
     for (var i = 0; i <connections.length; i++) {

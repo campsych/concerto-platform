@@ -1,10 +1,10 @@
-function PortValueEditController($scope, $uibModalInstance, $timeout, $http, testCollectionService, RDocumentation, object, editable) {
+function PortValueEditController($scope, $uibModalInstance, $timeout, $http, TestCollectionService, RDocumentation, object, editable) {
   $scope.object = object;
   $scope.editable = editable;
   $scope.removable = $scope.canRemovePort($scope.collectionService.getNode(object.node), object);
   $scope.connected = $scope.isPortConnected(object);
   $scope.canBePointer = !$scope.connected || object.type == 1;
-  $scope.variable = testCollectionService.getVariable($scope.object.variable);
+  $scope.variable = TestCollectionService.getVariable($scope.object.variable);
 
   $scope.codeOptions = {
     lineWrapping: true,
