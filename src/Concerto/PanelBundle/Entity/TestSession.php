@@ -115,17 +115,6 @@ class TestSession {
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return TestSession;
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * Get updated
      *
      * @return DateTime

@@ -52,17 +52,6 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return Role;
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * @see RoleInterface
      */
     public function getRole()

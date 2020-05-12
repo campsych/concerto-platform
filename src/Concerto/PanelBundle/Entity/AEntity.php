@@ -33,17 +33,6 @@ abstract class AEntity
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return AEntity;
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * @return ATopEntity
      */
     public function getTopEntity()

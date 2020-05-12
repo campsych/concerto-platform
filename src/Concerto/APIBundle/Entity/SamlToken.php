@@ -27,7 +27,7 @@ class SamlToken
     private $attributes;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $nameId;
 
@@ -50,6 +50,16 @@ class SamlToken
     {
         $this->revoked = false;
         $this->generateHash();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     private function generateHash()

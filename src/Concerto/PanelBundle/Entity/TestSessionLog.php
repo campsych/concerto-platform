@@ -90,17 +90,6 @@ class TestSessionLog implements \JsonSerializable {
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return TestSessionLog;
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * Get updated
      *
      * @return DateTime

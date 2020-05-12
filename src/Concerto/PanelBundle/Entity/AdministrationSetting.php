@@ -49,16 +49,6 @@ class AdministrationSetting implements \JsonSerializable {
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return AdministrationSetting;
-     */
-    public function setId($id) {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * Set key
      *
      * @param string $skey

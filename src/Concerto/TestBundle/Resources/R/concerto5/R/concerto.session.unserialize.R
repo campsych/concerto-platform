@@ -24,7 +24,11 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto$lastSubmitTime <<- prevConcerto$lastSubmitTime
     concerto$lastKeepAliveTime <<- prevConcerto$lastKeepAliveTime
     concerto$bgWorkers <<- prevConcerto$bgWorkers
-    concerto$lastResponse <<- prevConcerto$lastResponse
+    if(!is.null(response)) {
+        concerto$lastResponse <<- response
+    } else {
+        concerto$lastResponse <<- prevConcerto$lastResponse
+    }
     concerto$skipTemplateOnResume <<- prevConcerto$skipTemplateOnResume
     concerto$events <<- prevConcerto$events
 

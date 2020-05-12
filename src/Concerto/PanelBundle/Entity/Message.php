@@ -70,17 +70,6 @@ class Message implements \JsonSerializable
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return Message
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * Set time
      *
      * @param DateTime $time

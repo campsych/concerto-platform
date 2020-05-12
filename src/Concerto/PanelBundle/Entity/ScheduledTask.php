@@ -101,17 +101,6 @@ class ScheduledTask implements \JsonSerializable
     }
 
     /**
-     * Set id
-     * @param integer $id
-     * @return ScheduledTask
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * Get created time
      *
      * @return DateTime
