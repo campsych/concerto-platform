@@ -4,6 +4,12 @@ namespace Concerto\PanelBundle\EventSubscriber;
 
 use Concerto\PanelBundle\Entity\AEntity;
 use Concerto\PanelBundle\Entity\ATopEntity;
+use Concerto\PanelBundle\Entity\TestNode;
+use Concerto\PanelBundle\Entity\TestNodeConnection;
+use Concerto\PanelBundle\Entity\TestNodePort;
+use Concerto\PanelBundle\Entity\TestVariable;
+use Concerto\PanelBundle\Entity\TestWizardParam;
+use Concerto\PanelBundle\Entity\TestWizardStep;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -47,8 +53,8 @@ class EntitySubscriber implements EventSubscriber
             $entitiesToFlush = [];
             foreach ($this->topEntitiesToUpdate as $topEntity) {
                 if ($entityManager->contains($topEntity)) {
-                    array_push($entitiesToFlush, $topEntity);
                     $topEntity->updateTopEntity($user);
+                    array_push($entitiesToFlush, $topEntity);
                 }
             }
             $this->topEntitiesToUpdate = [];
@@ -75,9 +81,10 @@ class EntitySubscriber implements EventSubscriber
             $entity instanceof TestNodePort ||
             $entity instanceof TestVariable ||
             $entity instanceof TestWizardParam ||
-            $entity instanceof TestWizardParamStep;
+            $entity instanceof TestWizardStep;
 
         if ($childEntity && !in_array($entity->getTopEntity(), $this->topEntitiesToUpdate)) {
+
             array_push($this->topEntitiesToUpdate, $entity->getTopEntity());
         }
     }
