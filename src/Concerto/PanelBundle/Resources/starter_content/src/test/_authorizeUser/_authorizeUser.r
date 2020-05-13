@@ -36,7 +36,7 @@ AND {{enabledColumn}}=1
       resultCode <<- 1
       return(NULL)
     }
-    return(user[1,])
+    return(as.list(user[1,]))
   }
 }
 
