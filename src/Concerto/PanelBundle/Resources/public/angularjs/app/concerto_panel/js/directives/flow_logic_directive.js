@@ -917,7 +917,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 "pointerVariable": object.pointerVariable
                             }).then(function (httpResponse) {
                                 if (httpResponse.data.result === 0) {
-                                    scope.collectionService.fetchNodesConnectionCollection(scope.object.id, function () {
+                                    scope.collectionService.fetchNodesConnectionCollection(scope.object.id).then(connections => {
                                         scope.refreshNode(scope.collectionService.getNode(object.node));
                                     });
                                 } else {
