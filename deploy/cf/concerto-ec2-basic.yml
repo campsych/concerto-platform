@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic (2020-04-24): Standalone Concerto, everything on one instance, no TLS
+  concerto-ec2-basic (2020-05-15): Standalone Concerto, everything on one instance, no TLS
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -12,6 +12,7 @@ Metadata:
           - ConcertoContentURL
           - ConcertoSessionLimit
           - ConcertoTimezone
+          - ConcertoStorage
       - Label:
           default: Web
         Parameters:
@@ -37,6 +38,8 @@ Metadata:
         default: Session limit
       ConcertoTimezone:
         default: Timezone
+      ConcertoStorage:
+        default: Storage
       KeyName:
         default: Key pair
       WebServerInstanceType:
@@ -69,6 +72,13 @@ Parameters:
     Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
     Type: String
     Default: Europe/London
+  ConcertoStorage:
+    Default: 8
+    Description: The size of the storage volume (Gb)
+    Type: Number
+    MinValue: 8
+    MaxValue: 1024
+    ConstraintDescription: must be between 8 and 1024Gb.
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
@@ -313,6 +323,7 @@ Resources:
                 [main]
                 stack=${AWS::StackId}
                 region=${AWS::Region}
+                interval=1
               mode: 000400
               owner: root
               group: root
@@ -413,10 +424,15 @@ Resources:
         Fn::Base64: !Sub |
           #!/usr/bin/env bash
           yum update --security -y
-          yum -y install aws-cfn-bootstrap
+          yum update aws-cfn-bootstrap -y
           amazon-linux-extras install -y docker
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource WebServerInstance --region ${AWS::Region}
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackId} --resource WebServerInstance --region ${AWS::Region}
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            DeleteOnTermination: false
+            VolumeSize: !Ref ConcertoStorage
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeleteOnTermination: true
