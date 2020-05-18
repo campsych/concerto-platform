@@ -28,6 +28,8 @@ abstract class AEntityRepository extends EntityRepository
 
     public function save($entities, $flush = true)
     {
+        //@TODO: get rid of $flush argument
+        $flush = true;
         if (is_array($entities)) {
             foreach ($entities as $entity) {
                 if (!$entity->getId()) $flush = true;
@@ -42,6 +44,7 @@ abstract class AEntityRepository extends EntityRepository
 
     public function delete($entities, $flush = true)
     {
+        //@TODO: get rid of $flush argument
         $flush = true;
         if (is_array($entities)) {
             foreach ($entities as $entity) {
@@ -55,6 +58,7 @@ abstract class AEntityRepository extends EntityRepository
 
     public function deleteById($object_ids, $flush = true)
     {
+        //@TODO: get rid of $flush argument
         $flush = true;
         foreach ($object_ids as $object_id) {
             $entity = $this->find($object_id);
@@ -65,6 +69,7 @@ abstract class AEntityRepository extends EntityRepository
 
     public function deleteAll($flush = true)
     {
+        //@TODO: get rid of $flush argument
         $flush = true;
         $entities = $this->findAll();
         foreach ($entities as $entity) {

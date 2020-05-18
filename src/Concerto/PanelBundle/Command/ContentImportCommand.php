@@ -77,7 +77,6 @@ class ContentImportCommand extends Command
         $finder->files()->in($dir)->name($pattern);
 
         foreach ($finder as $f) {
-            $this->importService->reset();
             $this->output->writeln("importing " . $f->getFileName() . "...");
 
             $instructions = $this->importService->getPreImportStatusFromFile($f->getRealpath(), $errorMessages);
