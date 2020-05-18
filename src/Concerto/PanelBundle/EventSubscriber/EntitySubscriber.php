@@ -84,7 +84,6 @@ class EntitySubscriber implements EventSubscriber
             $entity instanceof TestWizardStep;
 
         if ($childEntity && !in_array($entity->getTopEntity(), $this->topEntitiesToUpdate)) {
-
             array_push($this->topEntitiesToUpdate, $entity->getTopEntity());
         }
     }

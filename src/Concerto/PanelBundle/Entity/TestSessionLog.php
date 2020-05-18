@@ -69,6 +69,7 @@ class TestSessionLog implements \JsonSerializable {
 
     /**
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="logs")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $test;
 

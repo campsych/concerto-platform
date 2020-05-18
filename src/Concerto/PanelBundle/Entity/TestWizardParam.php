@@ -56,7 +56,6 @@ class TestWizardParam extends AEntity implements \JsonSerializable
 
     /**
      * @Assert\NotNull(message="validate.test.wizards.params.step.null")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="TestWizardStep", inversedBy="params")
      */
     private $step;
