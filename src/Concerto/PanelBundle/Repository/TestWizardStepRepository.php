@@ -8,7 +8,6 @@ namespace Concerto\PanelBundle\Repository;
 class TestWizardStepRepository extends AEntityRepository {
 
     public function deleteByTestWizard($wizard_id) {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->delete("Concerto\PanelBundle\Entity\TestWizardStep", "tsl")->where("tsl.wizard = :ti")->setParameter("ti", $wizard_id)->getQuery()->execute();
+        $this->delete($this->findBy(array("wizard" => $wizard_id)));
     }
 }
