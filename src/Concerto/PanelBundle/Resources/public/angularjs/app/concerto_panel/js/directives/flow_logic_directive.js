@@ -950,7 +950,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
             scope.editConnectionCode = function (connection) {
                 let oldValue = connection.returnFunction;
-                let sourcePort = scope.collectionService.getPort(concertoConnection.sourcePort);
+                let sourcePort = scope.collectionService.getPort(connection.sourcePort);
                 let title = sourcePort.name + "->" + sourcePort.name;
                 let modalInstance = $uibModal.open({
                     templateUrl: Paths.DIALOG_TEMPLATE_ROOT + "connection_return_function_dialog.html",
