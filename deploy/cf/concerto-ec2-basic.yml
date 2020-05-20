@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic (2020-05-15): Standalone Concerto, everything on one instance, no TLS
+  concerto-ec2-basic (2020-05-20): Standalone Concerto, everything on one instance, no TLS
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -366,7 +366,7 @@ Resources:
               command: usermod -a -G docker ec2-user
             02_docker_compose:
               command: |
-                curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
+                curl -L https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
                 chmod +x /usr/local/bin/docker-compose
           services:
             sysvinit:
