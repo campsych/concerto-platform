@@ -233,7 +233,6 @@ class TestController extends AExportableTabController
             $request->get("destinationNode"),
             $request->get("destinationPort") ? $request->get("destinationPort") : null,
             $request->get("returnFunction"),
-            false,
             $request->get("default") == "1",
             false);
         return $this->getSaveResponse($result);

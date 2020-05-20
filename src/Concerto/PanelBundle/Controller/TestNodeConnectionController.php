@@ -106,7 +106,6 @@ class TestNodeConnectionController extends ASectionController
             $this->testNodeService->get($request->get("destinationNode")),
             $destinationPort ? $this->testPortService->get($destinationPort) : null,
             $request->get("returnFunction"),
-            false,
             $request->get("default") === "1");
         return $this->getSaveResponse($result);
     }

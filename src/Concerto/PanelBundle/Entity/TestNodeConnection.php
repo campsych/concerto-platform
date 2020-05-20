@@ -54,20 +54,12 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
     private $defaultReturnFunction;
 
     /**
-     *
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
-    private $automatic;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->automatic = false;
         $this->returnFunction = "";
     }
 
@@ -215,26 +207,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
     }
 
     /**
-     * Is automatic?
-     *
-     * @return boolean
-     */
-    public function isAutomatic()
-    {
-        return $this->automatic;
-    }
-
-    /**
-     * Set automatic.
-     *
-     * @param boolean $automatic
-     */
-    public function setAutomatic($automatic)
-    {
-        $this->automatic = $automatic;
-    }
-
-    /**
      * Returns true if connection has default return function.
      *
      * @return boolean
@@ -288,7 +260,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
             "sourcePort" => $this->getSourcePort() ? $this->getSourcePort()->getEntityHash() : null,
             "destinationPort" => $this->getDestinationPort() ? $this->getDestinationPort()->getEntityHash() : null,
             "returnFunction" => $this->getReturnFunction(),
-            "automatic" => $this->isAutomatic(),
             "defaultReturnFunction" => $this->hasDefaultReturnFunction()
         ));
         return sha1($json);
@@ -305,7 +276,6 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
             "destinationNode" => $this->destinationNode->getId(),
             "destinationPort" => $this->destinationPort ? $this->destinationPort->getId() : null,
             "returnFunction" => $this->returnFunction,
-            "automatic" => $this->automatic ? "1" : "0",
             "defaultReturnFunction" => $this->defaultReturnFunction ? "1" : "0"
         );
 

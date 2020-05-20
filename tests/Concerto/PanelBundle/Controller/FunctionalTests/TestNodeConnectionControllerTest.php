@@ -130,8 +130,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
                 "destinationNode" => 4,
                 "destinationPort" => 3,
                 "returnFunction" => "response",
-                "defaultReturnFunction" => "0",
-                "automatic" => "0"
+                "defaultReturnFunction" => "0"
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -174,8 +173,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
             "destinationNode" => 4,
             "destinationPort" => null,
             "returnFunction" => "",
-            "defaultReturnFunction" => "0",
-            "automatic" => "0"
+            "defaultReturnFunction" => "0"
         );
 
         $this->assertEquals(array(
@@ -210,8 +208,7 @@ class TestNodeConnectionControllerTest extends AFunctionalTest
             "destinationNode" => 4,
             "destinationPort" => 3,
             "returnFunction" => "zzz",
-            "defaultReturnFunction" => "0",
-            "automatic" => "0"
+            "defaultReturnFunction" => "0"
         );
 
         $this->assertEquals(array(

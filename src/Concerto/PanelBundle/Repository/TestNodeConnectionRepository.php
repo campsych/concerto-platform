@@ -19,13 +19,4 @@ class TestNodeConnectionRepository extends AEntityRepository
     {
         return $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestNodeConnection")->findBy(array("sourceNode" => $sourceNode, "destinationNode" => $destinationNode));
     }
-
-    public function deleteAutomatic($sourceNode, $destinationNode)
-    {
-        $this->delete($this->findBy(array(
-            "sourceNode" => $sourceNode,
-            "destinationNode" => $destinationNode,
-            "automatic" => true
-        )));
-    }
 }

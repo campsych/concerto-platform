@@ -60,7 +60,7 @@ class TestNodeConnectionService extends ASectionService
         return $this->authorizeCollection($this->repository->findByFlowTest($test_id));
     }
 
-    public function save($object_id, Test $flowTest, TestNode $sourceNode, $sourcePort, TestNode $destinationNode, $destinationPort, $returnFunction, $automatic, $default)
+    public function save($object_id, Test $flowTest, TestNode $sourceNode, $sourcePort, TestNode $destinationNode, $destinationPort, $returnFunction, $default)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -82,7 +82,6 @@ class TestNodeConnectionService extends ASectionService
         } else {
             $object->setReturnFunction($returnFunction);
         }
-        $object->setAutomatic($automatic);
 
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -97,9 +96,6 @@ class TestNodeConnectionService extends ASectionService
 
     private function onObjectSaved(TestNodeConnection $object, $isNew)
     {
-        if ($isNew) {
-            $this->addSameInputReturnConnection($object);
-        }
     }
 
     private function update(TestNodeConnection $object, $flush = true)
@@ -126,35 +122,6 @@ class TestNodeConnectionService extends ASectionService
         }
     }
 
-    private function isPairEligibleForAutoConnection(TestNodePort $src, TestNodePort $dst)
-    {
-        if ($src->getType() != 1 || $dst->getType() != 0) return false;
-        if ($src->getName() != $dst->getName()) return false;
-        if ($src->getNode()->getType() == 0 && !$src->isDynamic() && !$src->isExposed()) return false;
-        if ($dst->getNode()->getType() == 0 && !$dst->isDynamic() && !$dst->isExposed()) return false;
-        if ($dst->isPointer()) return false;
-        return true;
-    }
-
-    private function addSameInputReturnConnection(TestNodeConnection $object)
-    {
-        if (!$object->getSourcePort() || $object->getSourcePort()->getType() == 2) {
-            $srcNode = $object->getSourceNode();
-            $dstNode = $object->getDestinationNode();
-
-            foreach ($srcNode->getPorts() as $srcPort) {
-                if ($srcPort->getType() == 1) {
-                    foreach ($dstNode->getPorts() as $dstPort) {
-                        if ($this->isPairEligibleForAutoConnection($srcPort, $dstPort)) {
-                            $this->save(0, $object->getFlowTest(), $srcNode, $srcPort, $dstNode, $dstPort, $srcPort->getName(), true, true);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public function delete($object_ids, $secure = true)
     {
         $object_ids = explode(",", $object_ids);
@@ -173,7 +140,6 @@ class TestNodeConnectionService extends ASectionService
 
     public function onObjectDeleted(TestNodeConnection $object)
     {
-        $this->repository->deleteAutomatic($object->getSourceNode(), $object->getDestinationNode());
     }
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
@@ -268,7 +234,6 @@ class TestNodeConnectionService extends ASectionService
         $ent->setReturnFunction($obj["returnFunction"]);
         $ent->setSourceNode($sourceNode);
         $ent->setSourcePort($sourcePort);
-        $ent->setAutomatic($obj["automatic"] == "1");
         if (array_key_exists("defaultReturnFunction", $obj))
             $ent->setDefaultReturnFunction($obj["defaultReturnFunction"]);
         else

@@ -371,13 +371,13 @@ class TestService extends AExportableSectionService
         }
     }
 
-    public function addFlowConnection(Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default, $return_collections = false)
+    public function addFlowConnection(Test $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $default, $return_collections = false)
     {
         $sourceNode = $this->testNodeService->get($sourceNode);
         $sourcePort = $this->testNodePortService->get($sourcePort);
         $destinationNode = $this->testNodeService->get($destinationNode);
         $destinationPort = $this->testNodePortService->get($destinationPort);
-        $result = $this->testNodeConnectionService->save(0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $automatic, $default);
+        $result = $this->testNodeConnectionService->save(0, $flowTest, $sourceNode, $sourcePort, $destinationNode, $destinationPort, $returnFunction, $default);
         if ($return_collections) {
             $result["collections"] = $this->getFlowCollections($flowTest->getId());
         } else {
@@ -464,7 +464,7 @@ class TestService extends AExportableSectionService
                 }
             }
 
-            $connection_result = $this->addFlowConnection($flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->isAutomatic(), $copied_connection->hasDefaultReturnFunction(), false);
+            $connection_result = $this->addFlowConnection($flowTest, $source_node, $source_port, $destination_node, $destination_port, $copied_connection->getReturnFunction(), $copied_connection->hasDefaultReturnFunction(), false);
             $new_connection = $connection_result["object"];
             array_push($result["collections"]["newNodesConnections"], $new_connection);
         }
