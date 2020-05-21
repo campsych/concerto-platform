@@ -56,10 +56,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 platformUrl: "/",
                 testSlug: null,
                 testName: null,
-                hash: null,
                 keepAliveInterval: 0
             }, scope.options);
             testRunner.settings.platformUrl = internalSettings.platformUrl;
+            testRunner.sessionHash = null;
             var timeLimit = 0;
             var timer = 0;
             var timerId;
@@ -97,7 +97,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             });
 
             scope.logClientSideError = function (error) {
-                $http.post(internalSettings.platformUrl + "test/session/" + lastResponse.hash + "/log", {
+                $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/log", {
                     error: error
                 });
                 console.error(error);
@@ -133,7 +133,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             function startKeepAlive(lastResponse) {
                 if (internalSettings.keepAliveInterval > 0) {
                     keepAliveTimerPromise = $interval(function () {
-                        $http.post(internalSettings.platformUrl + "test/session/" + lastResponse.hash + "/keepalive", {}).then(function (httpResponse) {
+                        $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/keepalive", {}).then(function (httpResponse) {
                             if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || httpResponse.data.code !== RESPONSE_KEEPALIVE_CHECKIN)
                                 $interval.cancel(keepAliveTimerPromise);
                         });
@@ -183,7 +183,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         switch (lastResponse.code) {
                             case RESPONSE_VIEW_TEMPLATE:
                             case RESPONSE_VIEW_FINAL_TEMPLATE: {
-                                internalSettings.hash = httpResponse.data.hash;
+                                testRunner.sessionHash = httpResponse.data.hash;
                                 timeLimit = httpResponse.data.timeLimit;
                                 updateLoader(httpResponse.data.data);
                                 break;
@@ -224,7 +224,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }
                 values["bgWorker"] = name;
 
-                $http.post(internalSettings.platformUrl + "test/session/" + internalSettings.hash + "/worker", {
+                $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/worker", {
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -290,7 +290,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (passedVals) {
                     angular.merge(values, passedVals);
                 }
-                $http.post(internalSettings.platformUrl + "test/session/" + internalSettings.hash + "/submit", {
+                $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/submit", {
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -310,7 +310,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         switch (lastResponse.code) {
                             case RESPONSE_VIEW_TEMPLATE:
                             case RESPONSE_VIEW_FINAL_TEMPLATE: {
-                                internalSettings.hash = httpResponse.data.hash;
+                                testRunner.sessionHash = httpResponse.data.hash;
                                 timeLimit = httpResponse.data.timeLimit;
                                 updateLoader(httpResponse.data.data);
                                 break;
@@ -562,7 +562,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 $window.removeEventListener(name, callback);
             };
             scope.queueUpload = function (name, file) {
-                scope.fileUploader.url = internalSettings.platformUrl + "test/session/" + internalSettings.hash + "/upload";
+                scope.fileUploader.url = internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/upload";
                 scope.fileUploader.formData = [{
                     name: name
                 }];
