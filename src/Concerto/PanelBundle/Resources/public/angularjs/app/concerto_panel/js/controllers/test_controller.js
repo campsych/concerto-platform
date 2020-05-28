@@ -631,6 +631,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         delete obj.nodes;
         delete obj.nodesConnections;
         delete obj.steps;
+        obj.serializedVariables = angular.toJson(obj.variables);
         delete obj.variables;
         return obj;
     };

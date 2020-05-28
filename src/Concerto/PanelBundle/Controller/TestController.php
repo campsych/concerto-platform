@@ -119,7 +119,8 @@ class TestController extends AExportableTabController
             $request->get("type"),
             $request->get("code"),
             $this->testWizardService->get($request->get("sourceWizard"), false),
-            $request->get("slug")
+            $request->get("slug"),
+            $request->get("serializedVariables")
         );
         return $this->getSaveResponse($result);
     }
