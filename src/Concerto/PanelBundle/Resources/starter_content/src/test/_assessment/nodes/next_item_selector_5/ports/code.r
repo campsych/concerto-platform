@@ -16,7 +16,9 @@ getSafeItems = function(items, extraFields) {
 
   for(i in 1:dim(items)[1]) {
     item = as.list(items[i,])
-    
+
+    concerto.log(item, "ITEM")
+
     scoreColName = "responseScore1"
     scoreColIndex = 1
     while(scoreColName %in% ls(item)) {
@@ -34,7 +36,10 @@ getSafeItems = function(items, extraFields) {
           stop(paste0("item #", item$id, " contains invalid JSON in responseOptions field"))
         })
       }
-      responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == "1"
+      responseOptionsRandomOrder = 0
+      if(!is.null(item$responseOptions$optionsRandomOrder)) {
+        responseOptionsRandomOrder = item$responseOptions$optionsRandomOrder == 1
+      }
       orderedOptions = c()
 
       if(length(item$responseOptions$options) > 0) {
@@ -64,7 +69,7 @@ getSafeItems = function(items, extraFields) {
 
 getSafePastResponses = function(nextItems) {
   responseBank = fromJSON(settings$responseBank)
-  if(is.null(responseBank$table)) {
+  if(is.null(responseBank$table) || responseBank$table == "") {
     concerto.log("no response bank defined")
     return(NULL)
   }
@@ -98,13 +103,14 @@ nextPage = as.numeric(prevPage) + as.numeric(direction)
 
 if(length(nextItemsIndices) == 0) {
   itemsExcluded = NULL
-  
+
+  cbGroup = NULL
+  cbControl = NULL
+
   if(settings$order == "cat") {
     itemsExcluded = unique(c(itemsExcluded, which(items$fixedIndex > 0)))
 
     #content balancing
-    cbGroup = NULL
-    cbControl = NULL
     cbProps = fromJSON(settings$contentBalancing)
     concerto.log(cbProps, "cbProps")
     if(length(cbProps) > 0) {
@@ -133,13 +139,13 @@ if(length(nextItemsIndices) == 0) {
       if(isAnyItemLeft) {
         nAvailable = NULL
         for(i in 1:dim(items)[1]) {
-            item = items[i,]
-            available = if(!is.null(item$fixedIndex) && !is.na(item$fixedIndex) && item$fixedIndex > 0) { 
-              0 
-            } else { 
-              1 
-            }
-            nAvailable = c(nAvailable, available)
+          item = items[i,]
+          available = if(!is.null(item$fixedIndex) && !is.na(item$fixedIndex) && item$fixedIndex > 0) { 
+            0 
+          } else { 
+            1 
+          }
+          nAvailable = c(nAvailable, available)
         }
         randomesque = as.numeric(settings$nextItemRandomesque)
         d = as.numeric(settings$d)
@@ -170,6 +176,7 @@ if(length(nextItemsIndices) == 0) {
       nextItemsIndices=nextItemsIndices,
       settings = settings,
       theta = theta,
+      traitScores = traitScores,
       itemsAdministered=itemsAdministered,
       itemsExcluded=itemsExcluded,
       cbGroup=cbGroup,
@@ -180,9 +187,16 @@ if(length(nextItemsIndices) == 0) {
   }
 }
 
+.branch = "continue"
 concerto.log(nextItemsIndices, "nextItemsIndices")
-nextItems = items[nextItemsIndices,]
-concerto.log(nextItems, "next items")
-nextItemsSafe = getSafeItems(nextItems, settings$itemBankTableExtraFields)
-responsesSafe = getSafePastResponses(nextItems)
-resumedItemsIds = NULL
+
+if(length(nextItemsIndices) > 0) {
+  nextItems = items[nextItemsIndices,]
+  concerto.log(nextItems, "next items")
+  nextItemsSafe = getSafeItems(nextItems, settings$itemBankTableExtraFields)
+  responsesSafe = getSafePastResponses(nextItems)
+  resumedItemsIds = NULL
+} else {
+  .branch = "stop"
+  concerto.log("empty set of next items - stopping")
+}

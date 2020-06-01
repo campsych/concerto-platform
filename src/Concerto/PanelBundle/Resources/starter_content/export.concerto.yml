@@ -3375,7 +3375,7 @@ collection:
         id: 5
         title: 'next item selector'
         type: 0
-        posX: 15909
+        posX: 15907
         posY: 15105
         flowTest: 4
         sourceTest: 3
@@ -3420,7 +3420,7 @@ collection:
             defaultValue: '1'
             dynamic: '0'
             type: 2
-            exposed: '1'
+            exposed: '0'
             name: out
             pointer: '0'
             pointerVariable: out
@@ -3634,6 +3634,62 @@ collection:
             name: scores
             pointer: '1'
             pointerVariable: scores
+          -
+            class_name: TestNodePort
+            id: 150
+            value: list()
+            node: 5
+            variable: null
+            string: '0'
+            defaultValue: '0'
+            dynamic: '1'
+            type: 0
+            exposed: '1'
+            name: traitScores
+            pointer: '1'
+            pointerVariable: traitScores
+          -
+            class_name: TestNodePort
+            id: 151
+            value: ''
+            node: 5
+            variable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 1
+            exposed: '1'
+            name: .branch
+            pointer: '0'
+            pointerVariable: .branch
+          -
+            class_name: TestNodePort
+            id: 152
+            value: ''
+            node: 5
+            variable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 2
+            exposed: '1'
+            name: continue
+            pointer: '0'
+            pointerVariable: continue
+          -
+            class_name: TestNodePort
+            id: 153
+            value: ''
+            node: 5
+            variable: null
+            string: '1'
+            defaultValue: '1'
+            dynamic: '1'
+            type: 2
+            exposed: '1'
+            name: stop
+            pointer: '0'
+            pointerVariable: stop
       -
         class_name: TestNode
         id: 6
@@ -3648,7 +3704,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 150
+            id: 154
             value: null
             node: 6
             variable: 15
@@ -3662,7 +3718,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 151
+            id: 155
             value: null
             node: 6
             variable: 17
@@ -3676,7 +3732,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 152
+            id: 156
             value: '0'
             node: 6
             variable: 16
@@ -3690,7 +3746,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 153
+            id: 157
             value: ''
             node: 6
             variable: null
@@ -3704,7 +3760,7 @@ collection:
             pointerVariable: outOfTime
           -
             class_name: TestNodePort
-            id: 154
+            id: 158
             value: ''
             node: 6
             variable: null
@@ -3718,7 +3774,7 @@ collection:
             pointerVariable: submitted
           -
             class_name: TestNodePort
-            id: 155
+            id: 159
             value: ''
             node: 6
             variable: null
@@ -3732,7 +3788,7 @@ collection:
             pointerVariable: .branch
           -
             class_name: TestNodePort
-            id: 156
+            id: 160
             value: ''
             node: 6
             variable: null
@@ -3746,7 +3802,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 157
+            id: 161
             value: ''
             node: 6
             variable: null
@@ -3760,7 +3816,7 @@ collection:
             pointerVariable: itemSafe
           -
             class_name: TestNodePort
-            id: 158
+            id: 162
             value: ''
             node: 6
             variable: null
@@ -3774,7 +3830,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 159
+            id: 163
             value: c.getDynamicInputs()
             node: 6
             variable: null
@@ -3788,7 +3844,7 @@ collection:
             pointerVariable: templateParams
           -
             class_name: TestNodePort
-            id: 160
+            id: 164
             value: ''
             node: 6
             variable: null
@@ -3802,7 +3858,7 @@ collection:
             pointerVariable: testTimeStarted
           -
             class_name: TestNodePort
-            id: 161
+            id: 165
             value: 'NULL'
             node: 6
             variable: null
@@ -3816,7 +3872,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 162
+            id: 166
             value: ''
             node: 6
             variable: null
@@ -3830,7 +3886,7 @@ collection:
             pointerVariable: testTimeLeft
           -
             class_name: TestNodePort
-            id: 163
+            id: 167
             value: ''
             node: 6
             variable: null
@@ -3844,7 +3900,7 @@ collection:
             pointerVariable: timeTaken
           -
             class_name: TestNodePort
-            id: 164
+            id: 168
             value: '0'
             node: 6
             variable: null
@@ -3858,7 +3914,7 @@ collection:
             pointerVariable: totalTimeTaken
           -
             class_name: TestNodePort
-            id: 165
+            id: 169
             value: ''
             node: 6
             variable: null
@@ -3872,7 +3928,7 @@ collection:
             pointerVariable: totalTimeTaken
           -
             class_name: TestNodePort
-            id: 166
+            id: 170
             value: ''
             node: 6
             variable: null
@@ -3886,7 +3942,7 @@ collection:
             pointerVariable: state
           -
             class_name: TestNodePort
-            id: 167
+            id: 171
             value: ''
             node: 6
             variable: null
@@ -3900,7 +3956,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 168
+            id: 172
             value: ''
             node: 6
             variable: null
@@ -3914,7 +3970,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 169
+            id: 173
             value: ''
             node: 6
             variable: null
@@ -3928,7 +3984,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 170
+            id: 174
             value: ''
             node: 6
             variable: null
@@ -3942,7 +3998,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 171
+            id: 175
             value: ''
             node: 6
             variable: null
@@ -3956,7 +4012,7 @@ collection:
             pointerVariable: responsesSafe
           -
             class_name: TestNodePort
-            id: 172
+            id: 176
             value: '0'
             node: 6
             variable: null
@@ -3970,7 +4026,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 173
+            id: 177
             value: '1'
             node: 6
             variable: null
@@ -3984,7 +4040,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 174
+            id: 178
             value: 'NULL'
             node: 6
             variable: null
@@ -3998,7 +4054,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 175
+            id: 179
             value: list()
             node: 6
             variable: null
@@ -4024,7 +4080,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 176
+            id: 180
             value: null
             node: 7
             variable: 15
@@ -4038,7 +4094,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 177
+            id: 181
             value: null
             node: 7
             variable: 17
@@ -4052,7 +4108,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 178
+            id: 182
             value: '0'
             node: 7
             variable: 16
@@ -4066,7 +4122,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 179
+            id: 183
             value: 'NULL'
             node: 7
             variable: null
@@ -4080,7 +4136,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 180
+            id: 184
             value: ''
             node: 7
             variable: null
@@ -4094,7 +4150,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 181
+            id: 185
             value: ''
             node: 7
             variable: null
@@ -4108,7 +4164,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 182
+            id: 186
             value: 'NULL'
             node: 7
             variable: null
@@ -4122,7 +4178,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 183
+            id: 187
             value: ''
             node: 7
             variable: null
@@ -4136,7 +4192,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 184
+            id: 188
             value: ''
             node: 7
             variable: null
@@ -4150,7 +4206,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 185
+            id: 189
             value: ''
             node: 7
             variable: null
@@ -4164,7 +4220,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 186
+            id: 190
             value: ''
             node: 7
             variable: null
@@ -4178,7 +4234,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 187
+            id: 191
             value: ''
             node: 7
             variable: null
@@ -4192,7 +4248,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 188
+            id: 192
             value: ''
             node: 7
             variable: null
@@ -4206,7 +4262,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 189
+            id: 193
             value: ''
             node: 7
             variable: null
@@ -4220,7 +4276,7 @@ collection:
             pointerVariable: currentScores
           -
             class_name: TestNodePort
-            id: 190
+            id: 194
             value: ''
             node: 7
             variable: null
@@ -4234,7 +4290,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 191
+            id: 195
             value: '0'
             node: 7
             variable: null
@@ -4248,7 +4304,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 192
+            id: 196
             value: '1'
             node: 7
             variable: null
@@ -4262,7 +4318,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 193
+            id: 197
             value: ''
             node: 7
             variable: null
@@ -4276,7 +4332,7 @@ collection:
             pointerVariable: traitScores
           -
             class_name: TestNodePort
-            id: 194
+            id: 198
             value: 'NULL'
             node: 7
             variable: null
@@ -4290,7 +4346,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 195
+            id: 199
             value: ''
             node: 7
             variable: null
@@ -4304,7 +4360,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 196
+            id: 200
             value: ''
             node: 7
             variable: null
@@ -4318,7 +4374,7 @@ collection:
             pointerVariable: currentTraits
           -
             class_name: TestNodePort
-            id: 197
+            id: 201
             value: ''
             node: 7
             variable: null
@@ -4332,7 +4388,7 @@ collection:
             pointerVariable: prevTheta
           -
             class_name: TestNodePort
-            id: 198
+            id: 202
             value: ''
             node: 7
             variable: null
@@ -4349,7 +4405,7 @@ collection:
         id: 8
         title: 'response processor'
         type: 0
-        posX: 17124
+        posX: 17125
         posY: 15120
         flowTest: 4
         sourceTest: 3
@@ -4358,7 +4414,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 199
+            id: 203
             value: null
             node: 8
             variable: 15
@@ -4372,7 +4428,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 200
+            id: 204
             value: null
             node: 8
             variable: 17
@@ -4386,7 +4442,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 201
+            id: 205
             value: '0'
             node: 8
             variable: 16
@@ -4400,7 +4456,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 202
+            id: 206
             value: ''
             node: 8
             variable: null
@@ -4414,7 +4470,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 203
+            id: 207
             value: ''
             node: 8
             variable: null
@@ -4428,7 +4484,7 @@ collection:
             pointerVariable: itemsIndices
           -
             class_name: TestNodePort
-            id: 204
+            id: 208
             value: 'NULL'
             node: 8
             variable: null
@@ -4442,7 +4498,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 205
+            id: 209
             value: ''
             node: 8
             variable: null
@@ -4456,7 +4512,7 @@ collection:
             pointerVariable: templateResponse
           -
             class_name: TestNodePort
-            id: 206
+            id: 210
             value: '1'
             node: 8
             variable: null
@@ -4470,7 +4526,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 207
+            id: 211
             value: ''
             node: 8
             variable: null
@@ -4484,7 +4540,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 208
+            id: 212
             value: ''
             node: 8
             variable: null
@@ -4498,7 +4554,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 209
+            id: 213
             value: '0'
             node: 8
             variable: null
@@ -4512,7 +4568,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 210
+            id: 214
             value: ''
             node: 8
             variable: null
@@ -4526,7 +4582,7 @@ collection:
             pointerVariable: currentScores
           -
             class_name: TestNodePort
-            id: 211
+            id: 215
             value: ''
             node: 8
             variable: null
@@ -4540,7 +4596,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 212
+            id: 216
             value: ''
             node: 8
             variable: null
@@ -4554,7 +4610,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 213
+            id: 217
             value: ''
             node: 8
             variable: null
@@ -4568,7 +4624,7 @@ collection:
             pointerVariable: currentTraits
           -
             class_name: TestNodePort
-            id: 214
+            id: 218
             value: ''
             node: 8
             variable: null
@@ -4582,7 +4638,7 @@ collection:
             pointerVariable: prevTheta
           -
             class_name: TestNodePort
-            id: 215
+            id: 219
             value: ''
             node: 8
             variable: null
@@ -4608,7 +4664,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 216
+            id: 220
             value: null
             node: 9
             variable: 15
@@ -4622,7 +4678,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 217
+            id: 221
             value: null
             node: 9
             variable: 17
@@ -4636,7 +4692,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 218
+            id: 222
             value: '0'
             node: 9
             variable: 16
@@ -4650,7 +4706,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 219
+            id: 223
             value: ''
             node: 9
             variable: null
@@ -4664,7 +4720,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 220
+            id: 224
             value: 'NULL'
             node: 9
             variable: null
@@ -4678,7 +4734,7 @@ collection:
             pointerVariable: itemsAdministered
           -
             class_name: TestNodePort
-            id: 221
+            id: 225
             value: '1'
             node: 9
             variable: null
@@ -4692,7 +4748,7 @@ collection:
             pointerVariable: sem
           -
             class_name: TestNodePort
-            id: 222
+            id: 226
             value: ''
             node: 9
             variable: null
@@ -4706,7 +4762,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 223
+            id: 227
             value: ''
             node: 9
             variable: null
@@ -4720,7 +4776,7 @@ collection:
             pointerVariable: continue
           -
             class_name: TestNodePort
-            id: 224
+            id: 228
             value: ''
             node: 9
             variable: null
@@ -4734,7 +4790,7 @@ collection:
             pointerVariable: stop
           -
             class_name: TestNodePort
-            id: 225
+            id: 229
             value: ''
             node: 9
             variable: null
@@ -4748,7 +4804,7 @@ collection:
             pointerVariable: .branch
           -
             class_name: TestNodePort
-            id: 226
+            id: 230
             value: ''
             node: 9
             variable: null
@@ -4762,7 +4818,7 @@ collection:
             pointerVariable: testTimeLeft
           -
             class_name: TestNodePort
-            id: 227
+            id: 231
             value: '1'
             node: 9
             variable: null
@@ -4776,7 +4832,7 @@ collection:
             pointerVariable: direction
           -
             class_name: TestNodePort
-            id: 228
+            id: 232
             value: ''
             node: 9
             variable: null
@@ -4790,7 +4846,7 @@ collection:
             pointerVariable: page
           -
             class_name: TestNodePort
-            id: 229
+            id: 233
             value: ''
             node: 9
             variable: null
@@ -4804,7 +4860,7 @@ collection:
             pointerVariable: stopReason
           -
             class_name: TestNodePort
-            id: 230
+            id: 234
             value: ''
             node: 9
             variable: null
@@ -4818,7 +4874,7 @@ collection:
             pointerVariable: theta
           -
             class_name: TestNodePort
-            id: 231
+            id: 235
             value: ''
             node: 9
             variable: null
@@ -4832,7 +4888,7 @@ collection:
             pointerVariable: session
           -
             class_name: TestNodePort
-            id: 232
+            id: 236
             value: ''
             node: 9
             variable: null
@@ -4846,7 +4902,7 @@ collection:
             pointerVariable: responses
           -
             class_name: TestNodePort
-            id: 233
+            id: 237
             value: ''
             node: 9
             variable: null
@@ -4860,7 +4916,7 @@ collection:
             pointerVariable: scores
           -
             class_name: TestNodePort
-            id: 234
+            id: 238
             value: ''
             node: 9
             variable: null
@@ -4886,7 +4942,7 @@ collection:
         ports:
           -
             class_name: TestNodePort
-            id: 235
+            id: 239
             value: null
             node: 10
             variable: 15
@@ -4900,7 +4956,7 @@ collection:
             pointerVariable: code
           -
             class_name: TestNodePort
-            id: 236
+            id: 240
             value: null
             node: 10
             variable: 17
@@ -4914,7 +4970,7 @@ collection:
             pointerVariable: result
           -
             class_name: TestNodePort
-            id: 237
+            id: 241
             value: '0'
             node: 10
             variable: 16
@@ -4928,7 +4984,7 @@ collection:
             pointerVariable: out
           -
             class_name: TestNodePort
-            id: 238
+            id: 242
             value: ''
             node: 10
             variable: null
@@ -4942,7 +4998,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 239
+            id: 243
             value: ''
             node: 10
             variable: null
@@ -4956,7 +5012,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 240
+            id: 244
             value: ''
             node: 10
             variable: null
@@ -4970,7 +5026,7 @@ collection:
             pointerVariable: settings
           -
             class_name: TestNodePort
-            id: 241
+            id: 245
             value: ''
             node: 10
             variable: null
@@ -4984,7 +5040,7 @@ collection:
             pointerVariable: items
           -
             class_name: TestNodePort
-            id: 242
+            id: 246
             value: ''
             node: 10
             variable: null
@@ -4998,7 +5054,7 @@ collection:
             pointerVariable: paramBank
           -
             class_name: TestNodePort
-            id: 243
+            id: 247
             value: ''
             node: 10
             variable: null
@@ -5020,7 +5076,6 @@ collection:
         destinationNode: 3
         destinationPort: null
         returnFunction: ''
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5031,7 +5086,6 @@ collection:
         destinationNode: 3
         destinationPort: 65
         returnFunction: itemBankItems
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5042,7 +5096,6 @@ collection:
         destinationNode: 3
         destinationPort: 66
         returnFunction: itemBankTable
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5053,7 +5106,6 @@ collection:
         destinationNode: 3
         destinationPort: 67
         returnFunction: itemBankType
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5064,7 +5116,6 @@ collection:
         destinationNode: 3
         destinationPort: 64
         returnFunction: contentBalancing
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5075,7 +5126,6 @@ collection:
         destinationNode: 3
         destinationPort: 77
         returnFunction: startingTheta
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5086,7 +5136,6 @@ collection:
         destinationNode: 3
         destinationPort: 78
         returnFunction: testTimeLimit
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5097,7 +5146,6 @@ collection:
         destinationNode: 3
         destinationPort: 79
         returnFunction: testTimeLimitOffset
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5108,7 +5156,6 @@ collection:
         destinationNode: 3
         destinationPort: 68
         returnFunction: itemNumLimit
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5119,7 +5166,6 @@ collection:
         destinationNode: 3
         destinationPort: 69
         returnFunction: itemTemplate
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5130,7 +5176,6 @@ collection:
         destinationNode: 3
         destinationPort: 70
         returnFunction: itemTimeFullRequired
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5141,7 +5186,6 @@ collection:
         destinationNode: 3
         destinationPort: 71
         returnFunction: itemTimeLimit
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5152,7 +5196,6 @@ collection:
         destinationNode: 3
         destinationPort: 72
         returnFunction: minAccuracy
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5163,7 +5206,6 @@ collection:
         destinationNode: 3
         destinationPort: 73
         returnFunction: nextItemCriterion
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5174,7 +5216,6 @@ collection:
         destinationNode: 3
         destinationPort: 74
         returnFunction: nextItemRandomesque
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5185,7 +5226,6 @@ collection:
         destinationNode: 3
         destinationPort: 75
         returnFunction: responseBank
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5196,7 +5236,6 @@ collection:
         destinationNode: 3
         destinationPort: 76
         returnFunction: scoringMethod
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5207,7 +5246,6 @@ collection:
         destinationNode: 3
         destinationPort: 80
         returnFunction: responseRequired
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5218,7 +5256,6 @@ collection:
         destinationNode: 3
         destinationPort: 81
         returnFunction: responseRequiredAlert
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5229,7 +5266,6 @@ collection:
         destinationNode: 3
         destinationPort: 82
         returnFunction: itemTemplateParamsModule
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5238,9 +5274,8 @@ collection:
         sourceNode: 5
         sourcePort: 141
         destinationNode: 6
-        destinationPort: 157
+        destinationPort: 161
         returnFunction: nextItemsSafe
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
@@ -5251,447 +5286,416 @@ collection:
         destinationNode: 10
         destinationPort: null
         returnFunction: out
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 23
         flowTest: 4
-        sourceNode: 5
-        sourcePort: 134
-        destinationNode: 6
+        sourceNode: 6
+        sourcePort: 157
+        destinationNode: 7
         destinationPort: null
-        returnFunction: out
-        automatic: '0'
+        returnFunction: outOfTime
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 24
         flowTest: 4
         sourceNode: 6
-        sourcePort: 153
+        sourcePort: 158
         destinationNode: 7
         destinationPort: null
-        returnFunction: outOfTime
-        automatic: '0'
+        returnFunction: submitted
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 25
         flowTest: 4
-        sourceNode: 6
-        sourcePort: 154
-        destinationNode: 7
+        sourceNode: 8
+        sourcePort: 205
+        destinationNode: 9
         destinationPort: null
-        returnFunction: submitted
-        automatic: '0'
+        returnFunction: out
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 26
         flowTest: 4
-        sourceNode: 8
-        sourcePort: 201
-        destinationNode: 9
+        sourceNode: 9
+        sourcePort: 227
+        destinationNode: 5
         destinationPort: null
-        returnFunction: out
-        automatic: '0'
+        returnFunction: continue
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 27
         flowTest: 4
         sourceNode: 9
-        sourcePort: 223
-        destinationNode: 5
+        sourcePort: 228
+        destinationNode: 2
         destinationPort: null
-        returnFunction: continue
-        automatic: '0'
+        returnFunction: stop
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 28
-        flowTest: 4
-        sourceNode: 9
-        sourcePort: 224
-        destinationNode: 2
-        destinationPort: null
-        returnFunction: stop
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 29
         flowTest: 4
         sourceNode: 3
         sourcePort: 63
         destinationNode: 4
         destinationPort: null
         returnFunction: out
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 30
+        id: 29
         flowTest: 4
         sourceNode: 1
         sourcePort: 21
         destinationNode: 3
         destinationPort: 83
         returnFunction: 'if(model == "dichotomous") { NULL } else { model }'
-        automatic: '0'
         defaultReturnFunction: '0'
       -
         class_name: TestNodeConnection
-        id: 31
+        id: 30
         flowTest: 4
         sourceNode: 7
-        sourcePort: 178
+        sourcePort: 182
         destinationNode: 8
         destinationPort: null
         returnFunction: out
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 32
+        id: 31
         flowTest: 4
         sourceNode: 1
         sourcePort: 22
         destinationNode: 3
         destinationPort: 84
         returnFunction: responseScoreModule
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 33
+        id: 32
         flowTest: 4
         sourceNode: 1
         sourcePort: 23
         destinationNode: 3
         destinationPort: 85
         returnFunction: nextItemModule
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 34
+        id: 33
         flowTest: 4
         sourceNode: 1
         sourcePort: 24
         destinationNode: 3
         destinationPort: 86
         returnFunction: itemBankTableExtraFields
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 35
+        id: 34
         flowTest: 4
         sourceNode: 1
         sourcePort: 25
         destinationNode: 3
         destinationPort: 87
         returnFunction: itemBankFilterModule
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 36
+        id: 35
         flowTest: 4
         sourceNode: 1
         sourcePort: 26
         destinationNode: 3
         destinationPort: 89
         returnFunction: testTimeLimitType
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 37
+        id: 36
         flowTest: 4
         sourceNode: 1
         sourcePort: 27
         destinationNode: 3
         destinationPort: 90
         returnFunction: sessionResuming
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 38
+        id: 37
         flowTest: 4
         sourceNode: 1
         sourcePort: 28
         destinationNode: 3
         destinationPort: 91
         returnFunction: sessionTable
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 39
+        id: 38
         flowTest: 4
         sourceNode: 1
         sourcePort: 29
         destinationNode: 3
         destinationPort: 92
         returnFunction: minAccuracyMinItems
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 40
+        id: 39
         flowTest: 4
         sourceNode: 1
         sourcePort: 30
         destinationNode: 3
         destinationPort: 93
         returnFunction: itemBankFlatTable
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 41
+        id: 40
         flowTest: 4
         sourceNode: 1
         sourcePort: 31
         destinationNode: 3
         destinationPort: 94
         returnFunction: itemTemplateHtml
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 42
+        id: 41
         flowTest: 4
         sourceNode: 1
         sourcePort: 36
         destinationNode: 3
         destinationPort: 99
         returnFunction: footer
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 43
+        id: 42
         flowTest: 4
         sourceNode: 1
         sourcePort: 32
         destinationNode: 3
         destinationPort: 95
         returnFunction: instructions
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 44
+        id: 43
         flowTest: 4
         sourceNode: 1
         sourcePort: 35
         destinationNode: 3
         destinationPort: 96
         returnFunction: logo
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 45
+        id: 44
         flowTest: 4
         sourceNode: 1
         sourcePort: 33
         destinationNode: 3
         destinationPort: 97
         returnFunction: nextButtonLabel
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 46
+        id: 45
         flowTest: 4
         sourceNode: 1
         sourcePort: 34
         destinationNode: 3
         destinationPort: 98
         returnFunction: title
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 47
+        id: 46
         flowTest: 4
         sourceNode: 1
         sourcePort: 41
         destinationNode: 3
         destinationPort: 100
         returnFunction: calculateSem
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 48
+        id: 47
         flowTest: 4
         sourceNode: 1
         sourcePort: 40
         destinationNode: 3
         destinationPort: 101
         returnFunction: calculateTheta
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 49
+        id: 48
         flowTest: 4
         sourceNode: 1
         sourcePort: 38
         destinationNode: 3
         destinationPort: 102
         returnFunction: canGoBack
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 50
+        id: 49
         flowTest: 4
         sourceNode: 1
         sourcePort: 39
         destinationNode: 3
         destinationPort: 103
         returnFunction: itemsPerPage
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 51
+        id: 50
         flowTest: 4
         sourceNode: 1
         sourcePort: 37
         destinationNode: 3
         destinationPort: 104
         returnFunction: order
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 52
+        id: 51
         flowTest: 4
         sourceNode: 1
         sourcePort: 42
         destinationNode: 3
         destinationPort: 105
         returnFunction: backButtonLabel
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 53
+        id: 52
         flowTest: 4
         sourceNode: 1
         sourcePort: 43
         destinationNode: 3
         destinationPort: 106
         returnFunction: showPageInfo
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 54
+        id: 53
         flowTest: 4
         sourceNode: 1
         sourcePort: 45
         destinationNode: 3
         destinationPort: 107
         returnFunction: exposureLimit
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 55
+        id: 54
         flowTest: 4
         sourceNode: 1
         sourcePort: 44
         destinationNode: 3
         destinationPort: 108
         returnFunction: exposureMaxItems
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 56
+        id: 55
         flowTest: 4
         sourceNode: 1
         sourcePort: 46
         destinationNode: 3
         destinationPort: 109
         returnFunction: exposureMinSessions
-        automatic: '0'
+        defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 56
+        flowTest: 4
+        sourceNode: 10
+        sourcePort: 241
+        destinationNode: 5
+        destinationPort: null
+        returnFunction: out
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
         id: 57
-        flowTest: 4
-        sourceNode: 10
-        sourcePort: 237
-        destinationNode: 5
-        destinationPort: null
-        returnFunction: out
-        automatic: '0'
-        defaultReturnFunction: '1'
-      -
-        class_name: TestNodeConnection
-        id: 58
         flowTest: 4
         sourceNode: 1
         sourcePort: 47
         destinationNode: 3
         destinationPort: 110
         returnFunction: canSkipItems
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 59
+        id: 58
         flowTest: 4
         sourceNode: 1
         sourcePort: 48
         destinationNode: 3
         destinationPort: 111
         returnFunction: stopCheckModule
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 60
+        id: 59
         flowTest: 4
         sourceNode: 1
         sourcePort: 49
         destinationNode: 3
         destinationPort: 112
         returnFunction: d
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 61
+        id: 60
         flowTest: 4
         sourceNode: 1
         sourcePort: 50
         destinationNode: 3
         destinationPort: 113
         returnFunction: responseSavedModule
-        automatic: '0'
         defaultReturnFunction: '1'
       -
         class_name: TestNodeConnection
-        id: 62
+        id: 61
         flowTest: 4
         sourceNode: 1
         sourcePort: 51
         destinationNode: 3
         destinationPort: 114
         returnFunction: templateResponseModule
-        automatic: '0'
+        defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 62
+        flowTest: 4
+        sourceNode: 5
+        sourcePort: 152
+        destinationNode: 6
+        destinationPort: null
+        returnFunction: continue
+        defaultReturnFunction: '1'
+      -
+        class_name: TestNodeConnection
+        id: 63
+        flowTest: 4
+        sourceNode: 5
+        sourcePort: 153
+        destinationNode: 2
+        destinationPort: null
+        returnFunction: stop
         defaultReturnFunction: '1'
     tags: ''
     groups: ''
@@ -7031,7 +7035,7 @@ collection:
             hideCondition: 'values.itemBankType != "flatTable"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentFlatItems","columns":{"id":"id","question":"question","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","responseLabel1":"responseLabel1","responseValue1":"responseValue1","responseScore1":"responseScore1","type":"type","gracelyScaleShow":"","painMannequinGender":"","optionsRandomOrder":"","trait":"trait","responseTrait1":"responseTrait1","skippable":"skippable","instructions":"instructions"}}'
+            value: '[]'
             testVariable: 31
             name: itemBankFlatTable
             wizardStep: 2
@@ -7527,7 +7531,7 @@ collection:
             hideCondition: 'values.itemBankType != "table"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentItems","columns":{"id":"id","question":"question","responseOptions":"responseOptions","cbGroup":"cbGroup","fixedIndex":"fixedIndex","p1":"p1","p2":"p2","p3":"p3","p4":"p4","p5":"p5","p6":"p6","p7":"p7","p8":"p8","p9":"p9","trait":"trait","skippable":"skippable","instructions":"instructions"},"length":0}'
+            value: '[]'
             testVariable: 33
             name: itemBankTable
             wizardStep: 2
@@ -8087,7 +8091,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","score":"score","timeTaken":"timeTaken","session_id":"session_id","theta":"theta","sem":"sem","response":"response","trait":"trait","skipped":"skipped"}}'
+            value: '[]'
             testVariable: 54
             name: responseBank
             wizardStep: 5
@@ -8357,7 +8361,7 @@ collection:
             hideCondition: 'values.sessionResuming == 0'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"sessions","columns":{"state":"state"}}'
+            value: '[]'
             testVariable: 65
             name: sessionTable
             wizardStep: 7
@@ -9850,7 +9854,7 @@ collection:
             hideCondition: ''
             type: 10
             passableThroughUrl: '0'
-            value: '[{"name":"","label":"","type":"slider","validation":[],"definition":{"options":[],"sliderStep":"1"}}]'
+            value: '[]'
             testVariable: 98
             name: fields
             wizardStep: 11
@@ -11904,7 +11908,7 @@ collection:
             hideCondition: 'values.scoreType != "percentileRangesTable"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"percentileRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","score":"score"}}'
+            value: '[]'
             testVariable: 317
             name: percentileRangesTable
             wizardStep: 19
@@ -12077,7 +12081,7 @@ collection:
             hideCondition: 'values.feedbackType != "rangesTable"'
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"feedbackRanges","columns":{"lowerBound":"lowerBound","upperBound":"upperBound","feedback":"feedback"}}'
+            value: '[]'
             testVariable: 312
             name: feedbackRangesTable
             wizardStep: 20
@@ -12361,7 +12365,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"data","columns":{"session_id":"session_id","name":"name","value":"value"}}'
+            value: '[]'
             testVariable: 338
             name: table
             wizardStep: 21
@@ -12537,7 +12541,7 @@ collection:
             hideCondition: ''
             type: 12
             passableThroughUrl: '0'
-            value: '{"table":"sessions","columns":{"finished":"finished","updateTime":"updateTime"}}'
+            value: '[]'
             testVariable: 347
             name: sessionBankTable
             wizardStep: 22

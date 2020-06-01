@@ -14,6 +14,7 @@
 
 * improved import comparison hashing
 * sessionHash property exposed in testRunner javascript object
+* assessment node fixes/improvements
 
 ## 5.0.12 (2020-04-07)
 

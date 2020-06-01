@@ -19,7 +19,6 @@ isSkipped = function(item) {
 saveResponse = function(score, trait, item, skipped) {
   responseBank = fromJSON(settings$responseBank)
   if(!is.character(responseBank$table) || nchar(responseBank$table) == 0) {
-    concerto.log("no response bank defined, skipping response saving")
     return(NULL)
   }
 

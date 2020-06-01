@@ -76,7 +76,7 @@ getTraits = function(item, value) {
       }
     }
   }
-  
+
   return(paste(sort(traitList), collapse=","))
 }
 
@@ -108,7 +108,7 @@ for(i in 1:length(itemsIndices)) {
   item = items[itemsIndices[i],]
   responseRaw = templateResponse[[paste0("r",item$id)]]
   skipped = isSkipped(item)
-  
+
   score = NA
   if(!skipped) { 
     score = getScore(item, responseRaw)
@@ -139,15 +139,23 @@ d = as.numeric(settings$d)
 prevTheta = theta
 prevSem = sem
 
-calculateTheta = !is.na(settings$calculateTheta) && settings$calculateTheta == 1 && length(scores[!is.na(scores)]) > 0
+validParamBankAdministered = paramBankAdministered
+validScores = scores
+invalidIndices = which(is.na(paramBankAdministered[,1]))
+if(length(invalidIndices) > 0) {
+  validParamBankAdministered = paramBankAdministered[-invalidIndices,]
+  validScores = scores[-invalidIndices]
+}
+
+calculateTheta = !is.na(settings$calculateTheta) && settings$calculateTheta == 1 && length(validScores[!is.na(validScores)]) > 0 && dim(validParamBankAdministered)[1] > 0
 if(calculateTheta) {
-  theta <- thetaEst(matrix(paramBankAdministered, ncol=dim(paramBank)[2], byrow=F), scores, model=settings$model, method=settings$scoringMethod, D=d)
+  theta <- thetaEst(matrix(validParamBankAdministered, ncol=dim(paramBank)[2], byrow=F), validScores, model=settings$model, method=settings$scoringMethod, D=d)
   concerto.log(theta, "theta")
 }
 
-calculateSem = !is.na(settings$calculateSem) && settings$calculateSem == 1 && length(scores[!is.na(scores)]) > 0
+calculateSem = !is.na(settings$calculateSem) && settings$calculateSem == 1 && length(validScores[!is.na(validScores)]) > 0 && dim(validParamBankAdministered)[1] > 0
 if(calculateSem) {
-  sem <- semTheta(theta, matrix(paramBankAdministered, ncol=dim(paramBank)[2], byrow=F), scores, model=settings$model, method=settings$scoringMethod, D=d)
+  sem <- semTheta(theta, matrix(validParamBankAdministered, ncol=dim(paramBank)[2], byrow=F), validScores, model=settings$model, method=settings$scoringMethod, D=d)
   concerto.log(sem, "SEM")
 }
 
