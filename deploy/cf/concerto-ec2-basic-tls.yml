@@ -340,6 +340,7 @@ Resources:
       ResourceSignal:
         Count: 1
         Timeout: PT15M
+    Metadata:
       AWS::CloudFormation::Init:
         configSets:
           default:
