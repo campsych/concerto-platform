@@ -1,6 +1,9 @@
 concerto.table.get <-
-function(tableId, cache=F){
+function(tableId, cache=NULL){
 
+  if(is.null(cache)) {
+    cache = concerto$cacheEnabled
+  }
   if(!is.null(concerto$cache$tables[[as.character(tableId)]])) {
     return(concerto$cache$tables[[as.character(tableId)]])
   }

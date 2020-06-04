@@ -1,4 +1,8 @@
-concerto.test.get = function(testId, cache=F, includeSubObjects=F){
+concerto.test.get = function(testId, cache=NULL, includeSubObjects=F){
+  if(is.null(cache)) {
+    cache = concerto$cacheEnabled
+  }
+
   test = concerto$cache$tests[[as.character(testId)]]
   if(!is.null(test)) {
     if(includeSubObjects && is.null(test$variables)) {
@@ -8,6 +12,8 @@ concerto.test.get = function(testId, cache=F, includeSubObjects=F){
         test$connections <- concerto5:::concerto.test.getConnections(test$id)
         test$ports <- concerto5:::concerto.test.getPorts(test$id)
       }
+      concerto$cache$tests[[as.character(test$id)]] <<- test
+      concerto$cache$tests[[test$name]] <<- test
     }
     return(test)
   }

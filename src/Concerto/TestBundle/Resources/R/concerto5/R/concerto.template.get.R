@@ -1,5 +1,8 @@
-concerto.template.get = function(templateId, cache=F){
+concerto.template.get = function(templateId, cache=NULL){
 
+  if(is.null(cache)) {
+    cache = concerto$cacheEnabled
+  }
   if(!is.null(concerto$cache$templates[[as.character(templateId)]])) {
     return(concerto$cache$templates[[as.character(templateId)]])
   }

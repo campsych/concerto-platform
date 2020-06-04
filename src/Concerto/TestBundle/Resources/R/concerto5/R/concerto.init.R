@@ -80,6 +80,7 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
 
     concerto <<- list()
     concerto$cache <<- list(tests=list(), templates=list(), tables=list())
+    concerto$cacheEnabled <<- T
     concerto$globals <<- list()
     concerto$templateParams <<- list()
     concerto$flow <<- list()
