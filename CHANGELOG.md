@@ -17,6 +17,10 @@
 * assessment node fixes/improvements
 * concerto objects caching enabled for test session
 
+#### Starter content
+
+* assessment node outputs traitSem and traitTheta
+
 ## 5.0.12 (2020-04-07)
 
 #### Features

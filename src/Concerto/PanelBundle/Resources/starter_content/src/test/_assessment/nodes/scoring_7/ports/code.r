@@ -9,10 +9,12 @@ isSkipped = function(item) {
 }
 
 getScore = function(item, response) {
-  defaultScore = 0
-  if(!is.null(response) && !is.null(item$responseOptions) && item$responseOptions != "") {
+  defaultScore = if(is.na(response)) { NA } else { 0 }
+  
+  if(!is.null(response) && !is.na(response) && !is.null(item$responseOptions) && item$responseOptions != "") {
     responseOptions = fromJSON(item$responseOptions)
     defaultScore = responseOptions$defaultScore
+    if(is.null(defaultScore)) { defaultScore = NA }
     if(length(responseOptions$scoreMap) > 0) {
       for(i in 1:length(responseOptions$scoreMap)) {
         sm = responseOptions$scoreMap[[i]]
@@ -53,7 +55,7 @@ getTraits = function(item, value) {
   }
 
   #response level trait
-  if(!is.na(item$responseOptions) && !is.null(item$responseOptions) && item$responseOptions != "") {
+  if(!is.null(value) && !is.na(value) && !is.na(item$responseOptions) && !is.null(item$responseOptions) && item$responseOptions != "") {
     responseOptions = fromJSON(item$responseOptions)
     if(length(responseOptions$scoreMap) > 0) {
       for(j in 1:length(responseOptions$scoreMap)) {
@@ -102,8 +104,76 @@ calculateTraitScores = function(itemsAdministered, responses) {
   return(traitScores)
 }
 
+getItemsTraits = function(itemsAdministered) {
+  traits = list()
+  if(length(itemsAdministered) > 0) {
+    for(i in 1:length(itemsAdministered)) {
+      itemIndex = itemsAdministered[i]
+      value = responses[i]
+      item = items[itemIndex,]
+      itemTraits = getTraits(item, value)
+      traits[[i]] = itemTraits
+    }
+  }
+  return(traits)
+}
+
+calculateTheta = function(trait, itemsAdministered, responses, scores, itemTraits) {
+  d = as.numeric(settings$d)
+  selectedScores = NULL
+  selectedParamBank = NULL
+
+  for(i in 1:length(itemsAdministered)) {
+    itemIndex = itemsAdministered[i]
+    traits = itemTraits[i]
+    if(is.null(trait) || trait %in% traits) {
+      validParams = !is.na(paramBank[itemIndex,1])
+      if(validParams) {
+        selectedScores = c(selectedScores, scores[i])
+        selectedParamBank = rbind(selectedParamBank, paramBank[itemIndex,])
+      }
+    }
+  }
+
+  if(is.null(selectedParamBank)) { return(NULL) } 
+  theta = thetaEst(matrix(selectedParamBank, ncol=dim(paramBank)[2], byrow=F), selectedScores, model=settings$model, method=settings$scoringMethod, D=d)
+  concerto.log(theta, paste0("theta ", trait))
+  return(theta)
+}
+
+calculateSem = function(trait, theta, itemsAdministered, responses, scores, itemTraits) {
+  d = as.numeric(settings$d)
+  selectedScores = NULL
+  selectedParamBank = NULL
+
+  for(i in 1:length(itemsAdministered)) {
+    itemIndex = itemsAdministered[i]
+    traits = itemTraits[i]
+    if(is.null(trait) || trait %in% traits) {
+      validParams = !is.na(paramBank[itemIndex,1])
+      if(validParams) {
+        selectedScores = c(selectedScores, scores[i])
+        selectedParamBank = rbind(selectedParamBank, paramBank[itemIndex,])
+      }
+    }
+  }
+
+  if(is.null(selectedParamBank)) { return(NULL) } 
+  sem = semTheta(theta, matrix(selectedParamBank, ncol=dim(paramBank)[2], byrow=F), selectedScores, model=settings$model, method=settings$scoringMethod, D=d)
+  concerto.log(sem, paste0("SEM ", trait))
+  return(sem)
+}
+
 currentScores = NULL
 currentTraits = NULL
+prevSem = sem
+prevTheta = theta
+traitTheta = list()
+traitSem = list()
+
+itemsAdministered = unique(c(itemsAdministered, itemsIndices))
+itemTraits = getItemsTraits(itemsAdministered)
+allTraits = unlist(unique(itemTraits))
 for(i in 1:length(itemsIndices)) {
   item = items[itemsIndices[i],]
   responseRaw = templateResponse[[paste0("r",item$id)]]
@@ -114,49 +184,34 @@ for(i in 1:length(itemsIndices)) {
     score = getScore(item, responseRaw)
   }
 
-  index = which(itemsAdministered==itemsIndices[i])
-  if(length(index) > 0) {
-    scores[index] = score
-    responses[index] = responseRaw
-  } else {
-    scores = c(scores, score)
-    responses = c(responses, responseRaw)
-  }
+  index = which(itemsAdministered == itemsIndices[i])
+  scores[index] = score
+  responses[index] = responseRaw
+
   currentScores = c(currentScores, score)
   currentTraits = c(currentTraits, getTraits(item, responseRaw))
 }
 
-itemsAdministered = unique(c(itemsAdministered, itemsIndices))
-paramBankAdministered = paramBank
-if(dim(items)[1] > 1) {
-  paramBankAdministered = paramBank[itemsAdministered,]
+shouldCalculateTheta = !is.na(settings$calculateTheta) && settings$calculateTheta == 1
+shouldCalculateSem = !is.na(settings$calculateSem) && settings$calculateSem == 1
+if(length(allTraits) > 0) {
+  for(i in 1:length(allTraits)) {
+    trait = allTraits[i]
+    if(shouldCalculateTheta) {
+      theta = calculateTheta(trait, itemsAdministered, responses, scores, itemTraits)
+    }
+    traitTheta[trait] = theta
+    if(shouldCalculateSem) {
+      traitSem[trait] = calculateSem(trait, theta, itemsAdministered, responses, scores, itemTraits)
+    }
+  }
 }
 
-concerto.log(itemsAdministered, "itemsAdministered")
-concerto.log(scores, "scores")
-
-d = as.numeric(settings$d)
-prevTheta = theta
-prevSem = sem
-
-validParamBankAdministered = paramBankAdministered
-validScores = scores
-invalidIndices = which(is.na(paramBankAdministered[,1]))
-if(length(invalidIndices) > 0) {
-  validParamBankAdministered = paramBankAdministered[-invalidIndices,]
-  validScores = scores[-invalidIndices]
+if(shouldCalculateTheta) {
+  theta = calculateTheta(NULL, itemsAdministered, responses, scores, itemTraits)
 }
-
-calculateTheta = !is.na(settings$calculateTheta) && settings$calculateTheta == 1 && length(validScores[!is.na(validScores)]) > 0 && dim(validParamBankAdministered)[1] > 0
-if(calculateTheta) {
-  theta <- thetaEst(matrix(validParamBankAdministered, ncol=dim(paramBank)[2], byrow=F), validScores, model=settings$model, method=settings$scoringMethod, D=d)
-  concerto.log(theta, "theta")
-}
-
-calculateSem = !is.na(settings$calculateSem) && settings$calculateSem == 1 && length(validScores[!is.na(validScores)]) > 0 && dim(validParamBankAdministered)[1] > 0
-if(calculateSem) {
-  sem <- semTheta(theta, matrix(validParamBankAdministered, ncol=dim(paramBank)[2], byrow=F), validScores, model=settings$model, method=settings$scoringMethod, D=d)
-  concerto.log(sem, "SEM")
+if(shouldCalculateSem) {
+  sem = calculateSem(NULL, theta, itemsAdministered, responses, scores, itemTraits)
 }
 
 traitScores = calculateTraitScores(itemsAdministered, responses)
