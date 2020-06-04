@@ -9,7 +9,8 @@ isSkipped = function(item) {
 }
 
 getScore = function(item, response) {
-  defaultScore = if(is.na(response)) { NA } else { 0 }
+  concerto.log(response)
+  defaultScore = if(is.null(response) || is.na(response)) { NA } else { 0 }
   
   if(!is.null(response) && !is.na(response) && !is.null(item$responseOptions) && item$responseOptions != "") {
     responseOptions = fromJSON(item$responseOptions)
@@ -177,6 +178,7 @@ allTraits = unlist(unique(itemTraits))
 for(i in 1:length(itemsIndices)) {
   item = items[itemsIndices[i],]
   responseRaw = templateResponse[[paste0("r",item$id)]]
+  if(is.null(responseRaw)) { responseRaw = NA }
   skipped = isSkipped(item)
 
   score = NA
