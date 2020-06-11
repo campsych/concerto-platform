@@ -7,48 +7,19 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
         Sys.setlocale("LC_ALL","English")
     }
 
-    assign("fromJSON", function(txt, simplifyVector = FALSE, simplifyDataFrame = simplifyVector,
-    simplifyMatrix = simplifyVector, flatten = FALSE, ...){
-        result = jsonlite::fromJSON(txt, simplifyVector, simplifyDataFrame, simplifyMatrix, flatten, ...)
-        return(result)
-    }, envir = .GlobalEnv)
+    assign(
+        "fromJSON",
+        function(txt, simplifyVector = FALSE, ...) {
+            result = jsonlite::fromJSON(txt, simplifyVector = simplifyVector, ...)
+            return(result)
+        },
+        envir = .GlobalEnv
+    )
 
     assign(
         "toJSON",
-        function(
-            x,
-            dataframe = c("rows", "columns", "values"),
-            matrix = c("rowmajor", "columnmajor"),
-            Date = c("ISO8601", "epoch"),
-            POSIXt = c("string", "ISO8601", "epoch", "mongo"),
-            factor = c("string", "integer"),
-            complex = c("string", "list"),
-            raw = c("base64", "hex", "mongo", "int", "js"),
-            null = c("list", "null"),
-            na = c("null", "string"),
-            auto_unbox = TRUE,
-            digits = 4,
-            pretty = FALSE,
-            force = FALSE,
-            ...
-        ) {
-            result = jsonlite::toJSON(
-                x,
-                dataframe,
-                matrix,
-                Date,
-                POSIXt,
-                factor,
-                complex,
-                raw,
-                null,
-                na,
-                auto_unbox,
-                digits,
-                pretty,
-                force,
-                ...
-            )
+        function(x, auto_unbox = TRUE, ...) {
+            result = jsonlite::toJSON(x, auto_unbox = auto_unbox, ...)
             result = as.character(result)
             return(result)
         },

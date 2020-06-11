@@ -16,6 +16,7 @@
 * sessionHash property exposed in testRunner javascript object
 * assessment node fixes/improvements
 * concerto objects caching enabled for test session
+* more flexible toJSON, fromJSON assignment
 
 #### Starter content
 
