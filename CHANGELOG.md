@@ -9,6 +9,7 @@
 * reduced memory consumption on collection fetches
 * item bank extra fields can now be set for flat item bank table
 * removed automatic data connections
+* fixed mutlitable dictionary language fallback
 
 #### Improvements
 
