@@ -144,7 +144,7 @@ class TestNodeConnectionService extends ASectionService
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
     {
-        $connections = $variable->getTest()->getNodesConnections()->filter(function (TestNodeConnection $connection, TestVariable $variable) {
+        $connections = $variable->getTest()->getNodesConnections()->filter(function (TestNodeConnection $connection) use ($variable) {
             return $connection->getSourcePort() && $connection->getSourcePort()->getVariable() && $connection->getSourcePort()->getVariable()->getId() === $variable->getId();
         });
 
