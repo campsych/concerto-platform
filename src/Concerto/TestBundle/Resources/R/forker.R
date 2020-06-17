@@ -31,7 +31,17 @@ while (T) {
         next
     }
     con = fifo(fpath, blocking=TRUE, open="rt")
-    response = readLines(con, warn = FALSE, n = 1, ok = FALSE)
+    response = readLines(con, warn = FALSE, n = 1, ok = TRUE)
+    close(con)
+    rm(con)
+    unlink(fpath)
+    rm(fpath)
+
+    if(length(response) == 0) {
+        concerto.log(response, "invalid request")
+        next
+    }
+
     response = tryCatch({
         fromJSON(response)
     }, error = function(e) {
@@ -39,10 +49,6 @@ while (T) {
         message(response)
         q("no", 1)
     })
-    close(con)
-    rm(con)
-    unlink(fpath)
-    rm(fpath)
 
     if(is.null(response$rLogPath)) response$rLogPath = "/dev/null"
 

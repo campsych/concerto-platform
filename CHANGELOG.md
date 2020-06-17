@@ -10,6 +10,7 @@
 * item bank extra fields can now be set for flat item bank table
 * removed automatic data connections
 * fixed mutlitable dictionary language fallback
+* forker won't terminate when empty request read anymore
 
 #### Improvements
 
