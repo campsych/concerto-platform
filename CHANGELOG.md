@@ -11,6 +11,7 @@
 * removed automatic data connections
 * fixed mutlitable dictionary language fallback
 * forker won't terminate when empty request read anymore
+* most recent data connection is used when multiple data connections attached to input port
 
 #### Improvements
 

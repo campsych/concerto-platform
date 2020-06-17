@@ -127,26 +127,31 @@ function(testId, params=list(), extraReturns=c()) {
                     return(pointerValue)
                 }
             } else {
+                latestDataConnection = NULL
+                latestDataConnectionExecIndex = 0
                 for (connection_id in ls(concerto$flow[[flowIndex]]$connections)) {
                     connection = concerto$flow[[flowIndex]]$connections[[as.character(connection_id)]]
                     if (!is.na(connection$destinationPort_id) && connection$destinationPort_id == port$id) {
-                        srcPort = concerto$flow[[flowIndex]]$ports[[as.character(connection$sourcePort_id)]]
-                        dstPort = concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]
-
-                        #check for getter node
-                        srcNode = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
-
-                        func = paste0("retFunc = function(", srcPort$name, "){ ", connection$returnFunction, " }")
-                        sanitizedCode = concerto.test.sanitizeSource(func)
-                        eval(parse(text = sanitizedCode))
-                        concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value <<- retFunc(srcPort$value)
-                        value = concerto$flow[[flowIndex]]$ports[[as.character(connection$destinationPort_id)]]$value
-
-                        if (!is.null(value)) {
-                            return(value)
+                        sourceNode = concerto$flow[[flowIndex]]$nodes[[as.character(connection$sourceNode_id)]]
+                        if(!is.null(sourceNode$execIndex) && sourceNode$execIndex > latestDataConnectionExecIndex) {
+                            latestDataConnection = connection
+                            latestDataConnectionExecIndex = sourceNode$execIndex
                         }
+                    }
+                }
 
-                        break
+                if(!is.null(latestDataConnection)) {
+                    srcPort = concerto$flow[[flowIndex]]$ports[[as.character(latestDataConnection$sourcePort_id)]]
+                    dstPort = concerto$flow[[flowIndex]]$ports[[as.character(latestDataConnection$destinationPort_id)]]
+
+                    func = paste0("retFunc = function(", srcPort$name, "){ ", latestDataConnection$returnFunction, " }")
+                    sanitizedCode = concerto.test.sanitizeSource(func)
+                    eval(parse(text = sanitizedCode))
+                    concerto$flow[[flowIndex]]$ports[[as.character(latestDataConnection$destinationPort_id)]]$value <<- retFunc(srcPort$value)
+                    value = concerto$flow[[flowIndex]]$ports[[as.character(latestDataConnection$destinationPort_id)]]$value
+
+                    if (!is.null(value)) {
+                        return(value)
                     }
                 }
             }
@@ -170,6 +175,14 @@ function(testId, params=list(), extraReturns=c()) {
         }
 
         runNode = function(node){
+            currentExecIndex = concerto$flow[[flowIndex]]$execIndex
+            if(is.null(currentExecIndex)) {
+                concerto$flow[[flowIndex]]$execIndex <<- 1
+            } else {
+                concerto$flow[[flowIndex]]$execIndex <<- concerto$flow[[flowIndex]]$execIndex + 1
+            }
+            concerto$flow[[flowIndex]]$nodes[[as.character(node$id)]]$execIndex <<- concerto$flow[[flowIndex]]$execIndex
+
             r = list()
 
             #PARAMS
