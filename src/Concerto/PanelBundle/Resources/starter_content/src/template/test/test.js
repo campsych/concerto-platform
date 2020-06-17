@@ -16,7 +16,7 @@ testRunner.controllerProvider.register("test", function ($scope) {
       var response = $scope.pastResponses[i];
       $scope.responses["r" + response.item_id] = typeof response.response === 'object' ? response.response : {
         value: response.response,
-        skipped: 0
+        skipped: response.skipped
       };
     }
   }

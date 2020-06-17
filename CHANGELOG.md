@@ -21,7 +21,8 @@
 
 #### Starter content
 
-* assessment node outputs traitSem and traitTheta
+* **assessment** node outputs traitSem and traitTheta
+* **assessment** node now keeps track of past responses even when responses are not saved to data table
 
 ## 5.0.12 (2020-04-07)
 

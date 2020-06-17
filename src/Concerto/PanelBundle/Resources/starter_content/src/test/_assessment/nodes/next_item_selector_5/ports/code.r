@@ -67,31 +67,46 @@ getSafeItems = function(items, extraFields) {
   return(safeItems)
 }
 
-getSafePastResponses = function(nextItems) {
+getSafePastResponses = function(nextItems, nextItemsIndices) {
   responseBank = fromJSON(settings$responseBank)
   if(is.null(responseBank$table) || responseBank$table == "") {
     concerto.log("no response bank defined")
-    return(NULL)
+
+    pastResponses = NULL
+    for(nextItemIndex in nextItemsIndices) {
+      responseIndex = which(nextItemIndex == itemsAdministered)
+	  if(length(responseIndex) > 0) {
+        pastResponses = rbind(pastResponses, data.frame(
+          item_id = items[nextItemIndex, "id"],
+          response = responses[responseIndex],
+          skipped = 0
+        ))
+      }
+    }
+    return(pastResponses)
   }
 
   sql = "
-SELECT * FROM {{table}}
+SELECT 
+{{itemIdColumn}} AS item_id,
+{{responseColumn}} AS response,
+{{skippedColumn}} AS skipped
+FROM {{table}}
 WHERE 
 {{sessionIdColumn}}='{{sessionId}}' AND
 {{itemIdColumn}} IN ({{itemIds}})
 "
-  responses = concerto.table.query(sql, list(
+  pastResponses = concerto.table.query(sql, list(
     table=responseBank$table,
+    responseColumn=responseBank$columns$response,
+    skippedColumn=responseBank$columns$skipped,
     sessionIdColumn=responseBank$columns$session_id,
     sessionId=getSessionId(session),
     itemIdColumn=responseBank$columns$item_id,
     itemIds=paste(nextItems[,"id"], collapse=",")
   ))
-  if(dim(responses)[1] > 0) {
-    responses[,"score"] = NULL
-    responses[,"sem"] = NULL
-    responses[,"theta"] = NULL
-    return(responses)
+  if(dim(pastResponses)[1] > 0) {
+    return(pastResponses)
   }
   return(NULL)
 }
@@ -182,7 +197,10 @@ if(length(nextItemsIndices) == 0) {
       cbGroup=cbGroup,
       cbControl=cbControl,
       session=session,
-      items=items
+      items=items,
+      nextPage=nextPage,
+      prevPage=prevPage,
+      direction=direction
     ))$nextItemsIndices
   }
 }
@@ -194,7 +212,7 @@ if(length(nextItemsIndices) > 0) {
   nextItems = items[nextItemsIndices,]
   concerto.log(nextItems, "next items")
   nextItemsSafe = getSafeItems(nextItems, settings$itemBankTableExtraFields)
-  responsesSafe = getSafePastResponses(nextItems)
+  responsesSafe = getSafePastResponses(nextItems, nextItemsIndices)
   resumedItemsIds = NULL
 } else {
   .branch = "stop"
