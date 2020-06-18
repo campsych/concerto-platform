@@ -39,6 +39,7 @@ class StartForkerCommand extends Command
         $publicDir = $this->sessionRunnerService->getPublicDirPath();
         $connection = json_encode($this->sessionRunnerService->getConnection());
         $platformUrl = $this->sessionRunnerService->getPlatformUrl();
+        $appUrl = $this->sessionRunnerService->getAppUrl();
         $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         $maxIdleTime = $this->testRunnerSettings["max_idle_time"];
         $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
@@ -48,6 +49,7 @@ class StartForkerCommand extends Command
             . "'$fifoPath' "
             . "'$publicDir' "
             . "'$platformUrl' "
+            . "'$appUrl' "
             . "'$connection' "
             . "$maxExecTime "
             . "$maxIdleTime "

@@ -53,12 +53,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var internalSettings = angular.extend({
                 debug: false,
                 params: null,
-                platformUrl: "/",
+                platformUrl: "",
+                appUrl: "",
                 testSlug: null,
                 testName: null,
                 keepAliveInterval: 0
             }, scope.options);
             testRunner.settings.platformUrl = internalSettings.platformUrl;
+            testRunner.settings.appUrl = internalSettings.appUrl;
             testRunner.sessionHash = null;
             var timeLimit = 0;
             var timer = 0;
@@ -97,7 +99,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             });
 
             scope.logClientSideError = function (error) {
-                $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/log", {
+                $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/log", {
                     error: error
                 });
                 console.error(error);
@@ -133,7 +135,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             function startKeepAlive(lastResponse) {
                 if (internalSettings.keepAliveInterval > 0) {
                     keepAliveTimerPromise = $interval(function () {
-                        $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/keepalive", {}).then(function (httpResponse) {
+                        $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/keepalive", {}).then(function (httpResponse) {
                             if (displayState !== DISPLAY_VIEW_SHOWN || lastResponse == null || lastResponse.code !== RESPONSE_VIEW_TEMPLATE || httpResponse.data.code !== RESPONSE_KEEPALIVE_CHECKIN)
                                 $interval.cancel(keepAliveTimerPromise);
                         });
@@ -156,18 +158,18 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 let path = "";
                 if (internalSettings.debug) {
                     if (internalSettings.existingSessionHash !== null) {
-                        path = internalSettings.platformUrl + "admin/test/session/" + internalSettings.existingSessionHash + "/resume/debug";
+                        path = internalSettings.appUrl + "/admin/test/session/" + internalSettings.existingSessionHash + "/resume/debug";
                     } else {
-                        path = internalSettings.platformUrl + "admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
+                        path = internalSettings.appUrl + "/admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
                     }
                 } else {
                     if (internalSettings.existingSessionHash !== null) {
-                        path = internalSettings.platformUrl + "test/session/" + internalSettings.existingSessionHash + "/resume";
+                        path = internalSettings.appUrl + "/test/session/" + internalSettings.existingSessionHash + "/resume";
                     } else {
                         if (internalSettings.testName !== null) {
-                            path = internalSettings.platformUrl + "test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
+                            path = internalSettings.appUrl + "/test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
                         } else {
-                            path = internalSettings.platformUrl + "test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
+                            path = internalSettings.appUrl + "/test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
                         }
                     }
                 }
@@ -224,7 +226,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }
                 values["bgWorker"] = name;
 
-                $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/worker", {
+                $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/worker", {
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -290,7 +292,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (passedVals) {
                     angular.merge(values, passedVals);
                 }
-                $http.post(internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/submit", {
+                $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/submit", {
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -562,7 +564,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 $window.removeEventListener(name, callback);
             };
             scope.queueUpload = function (name, file) {
-                scope.fileUploader.url = internalSettings.platformUrl + "test/session/" + testRunner.sessionHash + "/upload";
+                scope.fileUploader.url = internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/upload";
                 scope.fileUploader.formData = [{
                     name: name
                 }];

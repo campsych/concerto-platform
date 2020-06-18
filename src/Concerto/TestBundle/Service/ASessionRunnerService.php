@@ -22,8 +22,9 @@ abstract class ASessionRunnerService
     protected $administrationService;
     protected $testSessionRepository;
     protected $runnerType = -1;
+    protected $environment;
 
-    public function __construct(LoggerInterface $logger, $testRunnerSettings, $root, RegistryInterface $doctrine, TestSessionCountService $testSessionCountService, AdministrationService $administrationService, TestSessionRepository $testSessionRepository)
+    public function __construct($environment, LoggerInterface $logger, $testRunnerSettings, $root, RegistryInterface $doctrine, TestSessionCountService $testSessionCountService, AdministrationService $administrationService, TestSessionRepository $testSessionRepository)
     {
         $this->logger = $logger;
         $this->testRunnerSettings = $testRunnerSettings;
@@ -32,6 +33,7 @@ abstract class ASessionRunnerService
         $this->testSessionCountService = $testSessionCountService;
         $this->administrationService = $administrationService;
         $this->testSessionRepository = $testSessionRepository;
+        $this->environment = $environment;
     }
 
     abstract public function startNew(TestSession $session, $params, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
@@ -91,8 +93,13 @@ abstract class ASessionRunnerService
 
     public function getPlatformUrl()
     {
-        $url = $this->testRunnerSettings["platform_url"];
-        if (strrpos($url, "/") !== strlen($url) - 1) $url .= "/";
+        return rtrim($this->testRunnerSettings["platform_url"], "/");
+    }
+
+    public function getAppUrl()
+    {
+        $url = rtrim($this->testRunnerSettings["platform_url"], "/");
+        if ($this->environment === "dev") $url .= "/app_dev.php";
         return $url;
     }
 
@@ -331,7 +338,8 @@ abstract class ASessionRunnerService
         $database_connection = json_encode($this->getConnection());
         $working_directory = $this->getWorkingDirPath($session_hash);
         $public_directory = $this->getPublicDirPath();
-        $platform_url = $this->getPlatformUrl();
+        $platformUrl = $this->getPlatformUrl();
+        $appUrl = $this->getAppUrl();
         $client = json_encode($client);
         $request = json_encode($request ? $request : array());
         $rout = $this->getROutputFilePath($session_hash);
@@ -345,7 +353,8 @@ abstract class ASessionRunnerService
                     . "'$session_hash' "
                     . "'$working_directory' "
                     . "'$public_directory' "
-                    . "'$platform_url' "
+                    . "'$platformUrl' "
+                    . "'$appUrl' "
                     . "'$max_exec_time' "
                     . "'$max_idle_time' "
                     . "'$keep_alive_tolerance_time' "
@@ -363,7 +372,8 @@ abstract class ASessionRunnerService
                     . $session_hash . " "
                     . "\"" . $this->escapeWindowsArg($working_directory) . "\" "
                     . "\"" . $this->escapeWindowsArg($public_directory) . "\" "
-                    . "$platform_url "
+                    . "$platformUrl "
+                    . "$appUrl "
                     . "$max_exec_time "
                     . "$max_idle_time "
                     . "$keep_alive_tolerance_time "

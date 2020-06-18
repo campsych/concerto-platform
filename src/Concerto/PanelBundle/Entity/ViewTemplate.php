@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Entity;
 
+use Concerto\PanelBundle\Entity\Test;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -57,6 +58,12 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable
      * @ORM\Column(type="text")
      */
     private $html;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Test", mappedBy="baseTemplate")
+     */
+    private $baseTemplateForTests;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -214,8 +221,42 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable
     }
 
     /**
+     * Add test that uses template as base
+     *
+     * @param Test $test
+     * @return ViewTemplate
+     */
+    public function addBaseTemplateForTest(Test $test)
+    {
+        $this->baseTemplateForTests[] = $test;
+
+        return $this;
+    }
+
+    /**
+     * Remove test that uses template as base
+     *
+     * @param ViewTemplate $template
+     */
+    public function removeBaseTemplateForTest(ViewTemplate $template)
+    {
+        $this->baseTemplateForTests->removeElement($template);
+    }
+
+    /**
+     * Get tests that uses template as base
+     *
+     * @return ArrayCollection
+     */
+    public function getBaseTemplateForTests()
+    {
+        return $this->baseTemplateForTests;
+    }
+
+    /**
      * Set owner
      * @param User $user
+     * @return ViewTemplate
      */
     public function setOwner($user)
     {

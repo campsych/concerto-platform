@@ -76,7 +76,8 @@ class HomeControllerTest extends AFunctionalTest {
                 "tags" => "",
                 "steps" => array(),
                 "lockedBy" => null,
-                "directLockBy" => null
+                "directLockBy" => null,
+                "baseTemplate" => null
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));

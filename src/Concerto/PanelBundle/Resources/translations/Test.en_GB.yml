@@ -41,6 +41,15 @@ list:
     slug: URL name
     wizard: Wizard
     wizard.source: Source test
+
+templates:
+  fieldset:
+    legend: Templates
+    legend.tooltip: Templates
+  fields:
+    base_template: Base template
+    base_template.tooltip: Skeleton template that will be used when launching this test
+    base_template.none: <none selected>
     
 variables:
     form:

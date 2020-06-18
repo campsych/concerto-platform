@@ -92,7 +92,8 @@ class TestControllerTest extends AFunctionalTest
                 "tags" => "",
                 "steps" => array(),
                 "lockedBy" => null,
-                "directLockBy" => null
+                "directLockBy" => null,
+                "baseTemplate" => null
             )
         );
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
@@ -191,7 +192,8 @@ class TestControllerTest extends AFunctionalTest
             ),
             'nodes' => array(),
             'nodesConnections' => array(),
-            "tags" => ""
+            "tags" => "",
+            "baseTemplate" => null
         )), $content["collection"]);
     }
 
@@ -303,7 +305,8 @@ class TestControllerTest extends AFunctionalTest
                 "tags" => "",
                 "steps" => array(),
                 "lockedBy" => null,
-                "directLockBy" => null
+                "directLockBy" => null,
+                "baseTemplate" => null
             )), json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -363,7 +366,8 @@ class TestControllerTest extends AFunctionalTest
                 "tags" => "",
                 "steps" => array(),
                 "lockedBy" => null,
-                "directLockBy" => null
+                "directLockBy" => null,
+                "baseTemplate" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -428,7 +432,8 @@ class TestControllerTest extends AFunctionalTest
                 "tags" => "",
                 "steps" => array(),
                 "lockedBy" => null,
-                "directLockBy" => null
+                "directLockBy" => null,
+                "baseTemplate" => null
             )), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(1, self::$repository->findAll());
     }
@@ -487,7 +492,8 @@ class TestControllerTest extends AFunctionalTest
                 "tags" => "",
                 "steps" => array(),
                 "lockedBy" => null,
-                "directLockBy" => null
+                "directLockBy" => null,
+                "baseTemplate" => null
             )
         ), json_decode($client->getResponse()->getContent(), true));
         $this->assertCount(2, self::$repository->findAll());

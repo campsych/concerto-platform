@@ -1,4 +1,4 @@
-concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
+concerto.init = function(connectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
     options(digits.secs = 6)
     if(Sys.info()['sysname'] != "Windows") {
         options(encoding='UTF-8')
@@ -63,7 +63,8 @@ concerto.init = function(connectionParams, publicDir, platformUrl, maxExecTime, 
 
     concerto$publicDir <<- publicDir
     concerto$platformUrl <<- platformUrl
-    concerto$mediaUrl <<- gsub("app_dev.php", "/", paste0(platformUrl, "bundles/concertopanel/files/"))
+    concerto$appUrl <<- appUrl
+    concerto$mediaUrl <<- paste0(platformUrl, "/bundles/concertopanel/files")
     concerto$maxExecTime <<- maxExecTime
     concerto$maxIdleTime <<- maxIdleTime
     concerto$keepAliveToleranceTime <<- keepAliveToleranceTime

@@ -1,4 +1,4 @@
 concerto.session.getResumeUrl = function(){
-    url = paste0(concerto$platformUrl, "test/session/", concerto$session$hash)
+    url = paste0(concerto$appUrl, "/test/session/", concerto$session$hash)
     return(url)
 }

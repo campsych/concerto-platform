@@ -2,6 +2,7 @@
 
 namespace Concerto\TestBundle\Controller;
 
+use Concerto\TestBundle\Service\ASessionRunnerService;
 use Concerto\TestBundle\Service\TestRunnerService;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Templating\EngineInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Twig\Environment;
+use Twig\Extension\EscaperExtension;
+use Twig\Loader\ArrayLoader;
 
 class TestRunnerController
 {
@@ -20,14 +24,16 @@ class TestRunnerController
     private $logger;
     private $testRunnerSettings;
     private $environment;
+    private $sessionRunnerService;
 
-    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $testRunnerSettings)
+    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $testRunnerSettings, ASessionRunnerService $sessionRunnerService)
     {
         $this->templating = $templating;
         $this->testRunnerService = $testRunnerService;
         $this->logger = $logger;
         $this->testRunnerSettings = $testRunnerSettings;
         $this->environment = $environment;
+        $this->sessionRunnerService = $sessionRunnerService;
     }
 
     /**
@@ -64,11 +70,15 @@ class TestRunnerController
             $params[$k] = $request->query->get($k);
         }
         $params = json_encode($params);
-
         $browser_valid = $this->testRunnerService->isBrowserValid($request->headers->get('User-Agent'));
+        $baseTemplate = $this->testRunnerService->getBaseTemplateContent($test_slug, $test_name);
 
-        $response = $this->templating->renderResponse("ConcertoTestBundle::index.html.twig", array(
-            "platform_url" => $this->testRunnerSettings["platform_url"],
+        $platformUrl = $this->sessionRunnerService->getPlatformUrl();
+        $appUrl = $this->sessionRunnerService->getAppUrl();
+
+        $responseParams = array(
+            "platform_url" => $platformUrl,
+            "app_url" => $appUrl,
             "test_name" => $test_name,
             "test_slug" => $test_slug,
             "params" => addcslashes($params, "'"),
@@ -76,8 +86,22 @@ class TestRunnerController
             "debug" => $debug,
             "browser_valid" => $browser_valid,
             "existing_session_hash" => $existing_session_hash
-        ));
-        return $response;
+        );
+
+        $template = "ConcertoTestBundle::index.html.twig";
+        if ($baseTemplate) {
+            $loader = new ArrayLoader([
+                "baseTemplate.html.twig" => $baseTemplate
+            ]);
+            $twig = new Environment($loader);
+            $escaper = $twig->getExtension(EscaperExtension::class);
+            $escaper->setDefaultStrategy(false);
+            $bodyContent = $this->templating->render("@ConcertoTest/test_body.html.twig", $responseParams);
+            $responseParams["content"] = $bodyContent;
+
+            $template = $twig->createTemplate($baseTemplate);
+        }
+        return $this->templating->renderResponse($template, $responseParams);
     }
 
     /**

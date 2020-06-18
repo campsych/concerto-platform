@@ -4,6 +4,7 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestVariable;
+use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
@@ -61,7 +62,7 @@ class TestService extends AExportableSectionService
         return $object;
     }
 
-    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables)
+    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables, $baseTemplate)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -94,6 +95,7 @@ class TestService extends AExportableSectionService
             $object->setCode($code);
         }
         $object->setSourceWizard($sourceWizard);
+        $object->setBaseTemplate($baseTemplate);
 
         $urlslug = (trim((string)$urlslug) !== '') ? $this->slugifier->slugify($urlslug) : sha1(rand(0, 9999999));
 
@@ -224,6 +226,21 @@ class TestService extends AExportableSectionService
             }
         }
 
+        $baseTemplate = null;
+        if (array_key_exists("baseTemplate", $obj) && $obj["baseTemplate"]) {
+            if (array_key_exists("ViewTemplate", $map) && array_key_exists("id" . $obj["baseTemplate"], $map["ViewTemplate"])) {
+                $baseTemplate = $map["ViewTemplate"]["id" . $obj["baseTemplate"]];
+            }
+            if (!$baseTemplate) {
+                foreach ($queue as $elem) {
+                    if ($elem["class_name"] == "ViewTemplate" && $elem["id"] == $obj["baseTemplate"]) {
+                        array_push($pre_queue, $elem);
+                        break;
+                    }
+                }
+            }
+        }
+
         if (count($pre_queue) > 0) {
             return array("pre_queue" => $pre_queue);
         }
@@ -238,13 +255,13 @@ class TestService extends AExportableSectionService
         $result = array();
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
-            $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue, $wizard);
+            $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue, $wizard, $baseTemplate);
             if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["Test"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
-            $result = $this->importNew($new_name, $obj, $map, $queue, $wizard);
+            $result = $this->importNew($new_name, $obj, $map, $queue, $wizard, $baseTemplate);
 
         array_splice($queue, 1, 0, $obj["nodesConnections"]);
         array_splice($queue, 1, 0, $obj["nodes"]);
@@ -270,7 +287,7 @@ class TestService extends AExportableSectionService
         }
     }
 
-    protected function importNew($new_name, $obj, &$map, &$queue, $wizard)
+    protected function importNew($new_name, $obj, &$map, &$queue, $wizard, $baseTemplate)
     {
         $starter_content = $obj["name"] == $new_name ? $obj["starterContent"] : false;
 
@@ -290,6 +307,7 @@ class TestService extends AExportableSectionService
         $ent->setUpdatedBy($user);
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
+        $ent->setBaseTemplate($baseTemplate);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -309,7 +327,7 @@ class TestService extends AExportableSectionService
         return $this->get($obj["name"]);
     }
 
-    protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $wizard)
+    protected function importConvert($new_name, $src_ent, $obj, &$map, &$queue, $wizard, $baseTemplate)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -327,6 +345,7 @@ class TestService extends AExportableSectionService
         $ent->setOwner($user);
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
+        $ent->setBaseTemplate($baseTemplate);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -484,4 +503,22 @@ class TestService extends AExportableSectionService
         return $result;
     }
 
+    public function getBaseTemplateContent($test_slug = null, $test_name = null)
+    {
+        /** @var Test $test */
+        /** @var ViewTemplate $template */
+
+        $test = null;
+        if ($test_name !== null) {
+            $test = $this->repository->findRunnableByName($test_name);
+        } else {
+            $test = $this->repository->findRunnableBySlug($test_slug);
+        }
+        if (!$test) return null;
+
+        $template = $test->getBaseTemplate();
+        if (!$template) return null;
+
+        return $template->getHtml();
+    }
 }

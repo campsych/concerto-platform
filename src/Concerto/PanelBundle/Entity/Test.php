@@ -121,6 +121,13 @@ class Test extends ATopEntity implements \JsonSerializable
     private $configOverride;
 
     /**
+     * @var ViewTemplate
+     * @ORM\ManyToOne(targetEntity="ViewTemplate", inversedBy="baseTemplateForTests")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $baseTemplate;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -584,6 +591,29 @@ class Test extends ATopEntity implements \JsonSerializable
     }
 
     /**
+     * Set base template
+     *
+     * @param ViewTemplate $template
+     * @return Test
+     */
+    public function setBaseTemplate($template)
+    {
+        $this->baseTemplate = $template;
+
+        return $this;
+    }
+
+    /**
+     * Get base template
+     *
+     * @return ViewTemplate
+     */
+    public function getBaseTemplate()
+    {
+        return $this->baseTemplate;
+    }
+
+    /**
      * Set owner
      * @param User $user
      * @return Test
@@ -664,6 +694,7 @@ class Test extends ATopEntity implements \JsonSerializable
             "directLockBy" => $this->getDirectLockBy() ? $this->getDirectLockBy()->getId() : null,
             "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies, $normalizedIdsMap),
             "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies, $normalizedIdsMap),
+            "baseTemplate" => $this->baseTemplate != null ? $this->baseTemplate->getId() : null,
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
@@ -684,11 +715,13 @@ class Test extends ATopEntity implements \JsonSerializable
     public function preRemove()
     {
         if ($this->getSourceWizard()) $this->getSourceWizard()->removeResultingTest($this);
+        if ($this->getBaseTemplate()) $this->getBaseTemplate()->removeBaseTemplateForTest($this);
     }
 
     /** @ORM\PrePersist */
     public function prePersist()
     {
         if ($this->getSourceWizard() && !$this->getSourceWizard()->getResultingTests()->contains($this)) $this->getSourceWizard()->addResultingTest($this);
+        if ($this->getBaseTemplate() && !$this->getBaseTemplate()->getBaseTemplateForTests()->contains($this)) $this->getBaseTemplate()->addBaseTemplateForTest($this);
     }
 }

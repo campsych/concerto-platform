@@ -1,0 +1,17 @@
+{% extends "::base_include.html.twig" %}
+{% set class_name = "Test" %}
+{% trans_default_domain "Test" %}
+
+{% block content %}
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain "Test" %}
+        {% block label %}{{ 'templates.fields.base_template'|trans }}{% endblock %}
+        {% block tooltip %}{{ 'templates.fields.base_template.tooltip'|trans }}{% endblock %}
+        {% block control %}
+            <select ng-model="object.baseTemplate"
+                    style="width:100%;" ng-options="template.id as template.name for template in viewTemplateCollectionService.collection | filter : {'archived':'!1'} | orderBy: 'name'" class='form-control'>
+                <option value="">{{ "templates.fields.base_template.none"|trans }}</option>
+            </select>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

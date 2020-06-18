@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Controller;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\TestService;
+use Concerto\PanelBundle\Service\ViewTemplateService;
 use Symfony\Component\HttpFoundation\Response;
 use Concerto\PanelBundle\Service\TestWizardService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -28,8 +29,9 @@ class TestController extends AExportableTabController
 
     private $testWizardService;
     private $userService;
+    private $viewTemplateService;
 
-    public function __construct($environment, EngineInterface $templating, TestService $service, TranslatorInterface $translator, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService)
+    public function __construct($environment, EngineInterface $templating, TestService $service, TranslatorInterface $translator, TestWizardService $testWizardService, ImportService $importService, ExportService $exportService, UserService $userService, FileService $fileService, ViewTemplateService $viewTemplateService)
     {
         parent::__construct($environment, $templating, $service, $translator, $importService, $exportService, $fileService);
 
@@ -38,6 +40,7 @@ class TestController extends AExportableTabController
 
         $this->testWizardService = $testWizardService;
         $this->userService = $userService;
+        $this->viewTemplateService = $viewTemplateService;
     }
 
     /**
@@ -120,7 +123,8 @@ class TestController extends AExportableTabController
             $request->get("code"),
             $this->testWizardService->get($request->get("sourceWizard"), false),
             $request->get("slug"),
-            $request->get("serializedVariables")
+            $request->get("serializedVariables"),
+            $this->viewTemplateService->get($request->get("baseTemplate"), false)
         );
         return $this->getSaveResponse($result);
     }

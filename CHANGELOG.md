@@ -1,5 +1,9 @@
 ## 5.0.13 (in progress)
 
+#### Features
+
+* base template override for each launchable test
+
 #### Fixes
 
 * import fixes
@@ -20,6 +24,7 @@
 * assessment node fixes/improvements
 * concerto objects caching enabled for test session
 * more flexible toJSON, fromJSON assignment
+* platform_url config setting doesn't have to end with / now
 
 #### Starter content
 

@@ -41,6 +41,15 @@ list:
     slug: Nazwa URL
     wizard: Wizard
     wizard.source: Źródłowy test
+
+templates:
+  fieldset:
+    legend: Szablony
+    legend.tooltip: Szablony
+  fields:
+    base_template: Bazowy szablon
+    base_template.tooltip: Bazowy szablon, który będzie użyty gdy ten test zostanie uruchomiony
+    base_template.none: <nie wybrano>
     
 variables:
     form:
