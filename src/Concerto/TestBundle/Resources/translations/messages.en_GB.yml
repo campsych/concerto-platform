@@ -3,7 +3,7 @@ ignition.ip: "IP:"
 ignition.browser: "Browser:"
 ignition.time: "Time:"
 ignition.browser.notsupported: Your browser version is not supported. Please upgrade your browser to Internet Explorer 9 or above, or switch to an alternative browser such as Chrome or Firefox.
-ignition.browser.potentionallynotsupported: If this message will not disappear in a moment, you might need to use other browser.
+ignition.browser.potentiallynotsupported: If this message will not disappear in a moment, you might need to use other browser.
 default.template:
     test_error: Test problem encountered. Execution halted.
     server_error: Server problem encountered. Execution halted.

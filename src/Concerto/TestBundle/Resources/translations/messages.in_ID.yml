@@ -3,7 +3,7 @@ ignition.ip: "IP:"
 ignition.browser: "Mesin Penjelajah:"
 ignition.time: "Waktu:"
 ignition.browser.notsupported: Versi Mesin Perambah Anda tidak sesuai untuk Tes ini. Silakan perbaharui ke versi terkini atau gunakan alternatif lain seperti Chrome atau Firefox.
-ignition.browser.potentionallynotsupported: Jika pesan ini tidak hilang sendiri setelah beberapa waktu, Anda harus menggunakan Mesin Perambah lain.
+ignition.browser.potentiallynotsupported: Jika pesan ini tidak hilang sendiri setelah beberapa waktu, Anda harus menggunakan Mesin Perambah lain.
 default.template:
     finished: Test Anda sudah selesai.
     loading: Mohon menunggu...

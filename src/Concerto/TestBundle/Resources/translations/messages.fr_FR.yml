@@ -3,7 +3,7 @@ ignition.ip: "IP:"
 ignition.browser: "Navigateur:"
 ignition.time: "Temps:"
 ignition.browser.notsupported: La version de votre navigateur n\'est pas supportée. Merci de bien vouloir mettre à jour votre navigateur vers Internet Explorer 9 ou plus, ou de changer pour un navigateur alternatif comme Chrome ou Firefox.
-ignition.browser.potentionallynotsupported: Si ce message ne disparaît pas dans un moment, vous devriez utiliser un autre navigateur.
+ignition.browser.potentiallynotsupported: Si ce message ne disparaît pas dans un moment, vous devriez utiliser un autre navigateur.
 default.template:
     finished: Test fini.
     loading: Merci de patienter...

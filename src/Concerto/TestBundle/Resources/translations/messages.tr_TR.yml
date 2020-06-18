@@ -3,7 +3,7 @@ ignition.ip: "IP:"
 ignition.browser: "Tarayıcı:"
 ignition.time: "Süre:"
 ignition.browser.notsupported: Tarayıcı sürümünüz destek vermiyor. Lütfen tarayıcınızı Internet Explorer 9 ve üzeri bir versiyona güncelleyiniz veya Chrome yada Firefox gibi farklı bir tarayıcı kullanınız.
-ignition.browser.potentionallynotsupported: Bu mesaj kısa bir süre içinde silinmezse farklı bir tarayıcı kullanınız.
+ignition.browser.potentiallynotsupported: Bu mesaj kısa bir süre içinde silinmezse farklı bir tarayıcı kullanınız.
 default.template:
     finished: Test tamamlandı
     loading: Lütfen bekleyin…

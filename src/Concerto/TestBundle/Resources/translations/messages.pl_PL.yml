@@ -3,7 +3,7 @@ ignition.ip: "IP:"
 ignition.browser: "Przeglądarka:"
 ignition.time: "Czas:"
 ignition.browser.notsupported: Wersja twojej przeglądarki nie jest wspierana. Zaktualizuj Internet Explorer do wersji 9 lub wyższej, albo przejdź na alternatywne przeglądarki jak Chrome czy Firefox.
-ignition.browser.potentionallynotsupported: Jeśli ta wiadomość nie zniknie po chwili, być może będzie trzeba użyć innej przeglądarki.
+ignition.browser.potentiallynotsupported: Jeśli ta wiadomość nie zniknie po chwili, być może będzie trzeba użyć innej przeglądarki.
 default.template:
     test_error: Napotkano problem w teście. Wykonanie wstrzymane.
     server_error: Napotkano problem serwera. Wykonanie wstrzymane.
