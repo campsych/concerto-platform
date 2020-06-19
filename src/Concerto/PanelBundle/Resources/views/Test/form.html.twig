@@ -111,7 +111,7 @@
     {% endblock %}
 
     {% block sections %}
-        <uib-accordion-group is-open="tabAccordion.templates.open" ng-show="object.type != 1">
+        <uib-accordion-group is-open="tabAccordion.templates.open" ng-show="object.visibility != 2">
             <uib-accordion-heading>
                 <i class="glyphicon glyphicon-info-sign" uib-tooltip-html="'{{ 'templates.fieldset.legend.tooltip'|trans }}'"></i>
                 {{ 'templates.fieldset.legend'|trans }}

@@ -3,7 +3,6 @@
 namespace Concerto\TestBundle\Command;
 
 use Concerto\TestBundle\Service\ASessionRunnerService;
-use Concerto\TestBundle\Service\SerializedSessionRunnerService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

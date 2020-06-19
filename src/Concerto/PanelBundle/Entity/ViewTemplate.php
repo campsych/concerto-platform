@@ -236,11 +236,11 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable
     /**
      * Remove test that uses template as base
      *
-     * @param ViewTemplate $template
+     * @param Test $test
      */
-    public function removeBaseTemplateForTest(ViewTemplate $template)
+    public function removeBaseTemplateForTest(Test $test)
     {
-        $this->baseTemplateForTests->removeElement($template);
+        $this->baseTemplateForTests->removeElement($test);
     }
 
     /**

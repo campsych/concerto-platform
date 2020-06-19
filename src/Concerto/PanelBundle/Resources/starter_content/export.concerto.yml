@@ -641,6 +641,19 @@ collection:
     groups: ''
     starterContent: true
   -
+    class_name: ViewTemplate
+    id: 19
+    name: base
+    description: ''
+    accessibility: 2
+    archived: '0'
+    head: ''
+    css: ''
+    js: ''
+    html: null
+    groups: ''
+    starterContent: true
+  -
     class_name: Test
     id: 1
     name: _authorizeUser
@@ -765,6 +778,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -813,6 +827,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -861,6 +876,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -5811,6 +5827,7 @@ collection:
         destinationPort: null
         returnFunction: stop
         defaultReturnFunction: '1'
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -5929,6 +5946,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6027,6 +6045,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6165,6 +6184,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6243,6 +6263,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6301,6 +6322,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6359,6 +6381,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6527,6 +6550,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6635,6 +6659,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -6703,6 +6728,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -7031,6 +7057,7 @@ collection:
     sourceWizardTest: 1
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -9351,6 +9378,7 @@ collection:
     sourceWizardTest: 4
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -9592,6 +9620,7 @@ collection:
     sourceWizardTest: 5
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -9952,6 +9981,7 @@ collection:
     sourceWizardTest: 6
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10401,6 +10431,7 @@ collection:
     sourceWizardTest: 7
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10439,6 +10470,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10497,6 +10529,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10699,6 +10732,7 @@ collection:
     sourceWizardTest: 8
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10795,6 +10829,7 @@ collection:
     sourceWizardTest: 9
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10833,6 +10868,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -10947,6 +10983,7 @@ collection:
     sourceWizardTest: 10
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -11294,6 +11331,7 @@ collection:
     sourceWizardTest: 11
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -11540,6 +11578,7 @@ collection:
     sourceWizardTest: 12
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -11706,6 +11745,7 @@ collection:
     sourceWizardTest: 13
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -11791,6 +11831,7 @@ collection:
     sourceWizardTest: 3
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -11819,6 +11860,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -11967,6 +12009,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -12423,6 +12466,7 @@ collection:
     sourceWizardTest: 30
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -12481,6 +12525,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -12589,6 +12634,7 @@ collection:
     sourceWizardTest: 32
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -12657,6 +12703,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -12771,6 +12818,7 @@ collection:
     sourceWizardTest: 34
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
@@ -12899,6 +12947,7 @@ collection:
     sourceWizardTest: null
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: ''
     groups: ''
     starterContent: true
@@ -13127,6 +13176,7 @@ collection:
     sourceWizardTest: 36
     nodes: {  }
     nodesConnections: {  }
+    baseTemplate: null
     tags: _concerto_core
     groups: ''
     starterContent: true
