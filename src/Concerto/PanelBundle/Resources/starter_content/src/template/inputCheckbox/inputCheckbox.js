@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('inputCheckbox', {
-  templateUrl: testRunner.settings.platformUrl + "ViewTemplate/inputCheckbox/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/inputCheckbox/content?css=1,html=1",
   bindings: {
     field: '=',
     values: '='

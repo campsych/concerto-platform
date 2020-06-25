@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('itemOptions', {
-  templateUrl: testRunner.settings.platformUrl + "ViewTemplate/itemOptions/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemOptions/content?css=1,html=1",
   bindings: {
     item: '=',
     response: '=',

@@ -5,7 +5,7 @@ testRunner.filterProvider.register('reverse', function () {
 });
 
 testRunner.compileProvider.component('itemGracelyScale', {
-  templateUrl: testRunner.settings.platformUrl + "ViewTemplate/itemGracelyScale/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemGracelyScale/content?css=1,html=1",
   bindings: {
     item: '=',
     response: '=',

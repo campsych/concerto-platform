@@ -1,7 +1,7 @@
 <div class="form-label">
-	[[field.label]]
+	[[field.label]] 
 	<span ng-if="getValidator('required')">
-		*
+		* 
 	</span>
 </div>
 <textarea name="[[field.name]]" ng-maxlength="getValidator('maxlength').value" ng-minlength="getValidator('minlength').value" ng-model="values[field.name]" ng-pattern="getValidator('pattern').value" ng-required="getValidator('required')" rows="5">
