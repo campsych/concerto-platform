@@ -26,7 +26,7 @@ getExtraFieldsSql = function(table, extraFields) {
     }
   }
   extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
-  extraFieldsSql = paste(extraFieldsNames, collapse=", ")  
+  extraFieldsSql = paste(extraFieldsNames, collapse=", ")
   if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
   return(extraFieldsSql)
 }
@@ -232,8 +232,8 @@ id,
 {{painMannequinGenderColumn}} AS painMannequinGender,
 {{painMannequinAreaMultiMarksColumn}} AS painMannequinAreaMultiMarks,
 {{optionsRandomOrderColumn}} AS optionsRandomOrder,
-{{extraFieldsSql}}
 {{typeColumn}} AS type
+{{extraFieldsSql}}
 FROM {{table}}
 ", 
       list(
