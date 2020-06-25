@@ -13,7 +13,7 @@
     "angular-cookies": "1.7.8",
     "angular-file-upload": "2.5.x",
     "html5-boilerplate": "5.2.x",
-    "jquery": "3.4.x",
+    "jquery": "3.5.x",
     "jquery-ui": "1.12.x"
   }
 }

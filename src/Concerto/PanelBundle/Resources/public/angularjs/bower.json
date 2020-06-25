@@ -20,7 +20,7 @@
         "ckeditor": "ckeditor#full/4.11.2",
         "angular-file-upload": "2.5.x",
         "jquery.metadata": "*",
-        "jquery": "3.4.x",
+        "jquery": "3.5.x",
         "jquery-ui": "1.12.x",
         "angular-ui-grid": "4.8.x",
         "jquery.migrate": "1.2.x",
