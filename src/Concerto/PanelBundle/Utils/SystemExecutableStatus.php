@@ -75,7 +75,7 @@ class SystemExecutableStatus implements StatusCheckReport {
             $errors[] = "Command {$this->command} returned error code {$this->return_code} when executed. Please make sure that it's installed, added to your system path, and working correctly.";
 
         // no point to distract the user about version, if execution returned error
-        if (empty($erros) && !$this->isVersionOk()
+        if (empty($errors) && !$this->isVersionOk()
         ) {
             if (is_null($this->detected_version))
                 $errors[] = "Concerto was unable to detect version of required {$this->command} executable. Please verify that its installation and configuration are correct.";
