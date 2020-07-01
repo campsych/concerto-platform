@@ -623,7 +623,7 @@ Resources:
             03_dummy_certs:
               command: !Sub >-
                 if [[ ! -e fullchain.pem ]]; then
-                  openssl req -x509 -nodes -newkey rsa:1024 -days 7 -keyout privkey.pem -out fullchain.pem -subj '/CN=${DomainName}';
+                  openssl req -x509 -nodes -newkey rsa:4096 -days 7 -keyout privkey.pem -out fullchain.pem -subj '/CN=${DomainName}';
                 fi
               cwd: !Sub /home/concerto/data/certbot/conf/dummy/${DomainName}
         concerto:
