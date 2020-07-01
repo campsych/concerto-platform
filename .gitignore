@@ -23,6 +23,7 @@ var/git/*
 /app/config/parameters_uio.yml
 /app/config/parameters_saml.yml
 /.idea
+/.scannerwork
 *.iml
 /.web-server-pid
 /deploy/docker-compose/data
