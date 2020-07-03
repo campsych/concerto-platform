@@ -295,7 +295,6 @@ FROM {{table}}
   } else {
     items$instructions = settings$instructions
   }
-  concerto.log(items)
 
   return(items)
 }
