@@ -26,6 +26,7 @@
 * concerto objects caching enabled for test session
 * more flexible toJSON, fromJSON assignment
 * platform_url config setting doesn't have to end with / now
+* overridable response.isValid() in each assessment's item type template
 
 #### Starter content
 

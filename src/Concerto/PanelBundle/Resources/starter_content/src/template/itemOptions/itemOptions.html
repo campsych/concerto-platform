@@ -1,5 +1,5 @@
 <div class="question-choices" ng-class="responseOptionsStyle">
-	<input name="r[[item.id]]" ng-model="response.value" ng-required="responseRequired && response.skipped == 0" style="display: none;" />
+	<input name="r[[item.id]]" ng-model="response.value" style="display: none;" />
 	<div class="question-choice" ng-class="{'selected': option.value == response.value}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
 		<div ng-html="option.label">
 		</div>

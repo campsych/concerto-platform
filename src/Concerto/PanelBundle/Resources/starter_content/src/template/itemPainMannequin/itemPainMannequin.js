@@ -321,6 +321,10 @@ testRunner.compileProvider.component('itemPainMannequin', {
       $scope.item = this.item;
       $scope.response = this.response;
       $scope.responseRequired = this.responseRequired;
+      
+      $scope.response.isValid = function() {
+        return this.value.reportFront.length > 0 || this.value.reportBack.length > 0;
+      }
 
       $scope.allowAreaMultiMarks = $scope.item.responseOptions.painMannequinAreaMultiMarks == 1;
 

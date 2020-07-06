@@ -3,7 +3,7 @@ testRunner.compileProvider.component('itemOptions', {
   bindings: {
     item: '=',
     response: '=',
-    responseRequired: "<"
+    responseRequired: '<'
   },
   controller: function controller($scope) {
     this.$onInit = function() {
