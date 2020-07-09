@@ -1,3 +1,7 @@
+## 5.0.13
+
+* js **testRunner.platformUrl** no longer ends with slash character
+
 ## 5.0.9
 
 * renamed **cbGroup** column in **CAT** item bank to **trait**
