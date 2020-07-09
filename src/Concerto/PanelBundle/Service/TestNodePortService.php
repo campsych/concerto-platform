@@ -242,93 +242,12 @@ class TestNodePortService extends ASectionService
             "class_name" => "Test",
             "id" => $exported_parent_id
         ), $instructions);
-        $result = array();
-        $src_ent = null; //port should never be converted
-        if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestNodePort"]["id" . $obj["id"]] = $src_ent;
-            $result = array("errors" => null, "entity" => $src_ent);
-        } else
-            $result = $this->importNew(null, $obj, $map, $renames, $queue, $node, $variable);
-        return $result;
-    }
 
-    protected function importConvert($new_name, $src_ent, $obj, &$map, $renames, &$queue, $node, $variable)
-    {
-        $old_ent = clone $src_ent;
-        $ent = $src_ent;
-        $ent->setNode($node);
-        $ent->setValue($obj["value"]);
-        $ent->setVariable($variable);
-        $ent->setDefaultValue($obj["defaultValue"] == "1");
-        $ent->setString($obj["string"] == "1");
-        $ent->setDynamic($obj["dynamic"] == "1");
-        $ent->setType($obj["type"]);
-        $ent->setExposed($obj["exposed"] == "1");
-        $ent->setName($obj["name"]);
-        if (array_key_exists("pointer", $obj)) {
-            $ent->setPointer($obj["pointer"]);
-        } else {
-            $ent->setPointer($ent->getName());
+        //port should never be converted
+        if ($parent_instruction["action"] == 0 || $parent_instruction["action"] == 1) { //new or convert
+            return $this->importNew(null, $obj, $map, $renames, $queue, $node, $variable);
         }
-        if (array_key_exists("pointerVariable", $obj)) {
-            $ent->setPointerVariable($obj["pointerVariable"]);
-        }
-
-        if ($variable) {
-            if ($test = $variable->getTest()) {
-                $wizard = $test->getSourceWizard();
-                $parentVariable = $variable->getParentVariable();
-                if ($wizard && $parentVariable) {
-                    foreach ($wizard->getParams() as $param) {
-                        if ($param->getVariable()->getId() === $parentVariable->getId()) {
-                            $val = $ent->getValue();
-                            foreach ($renames as $class => $renameMap) {
-                                foreach ($renameMap as $oldName => $newName) {
-                                    $moded = TestWizardParamService::modifyPropertiesOnRename($newName, $class, $oldName, $param->getType(), $param->getDefinition(), $val, true);
-                                    if ($moded) {
-                                        $ent->setValue($val);
-                                    }
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        $ent_errors = $this->validator->validate($ent);
-        $ent_errors_msg = array();
-        foreach ($ent_errors as $err) {
-            array_push($ent_errors_msg, $err->getMessage());
-        }
-        if (count($ent_errors_msg) > 0) {
-            return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
-        }
-        $this->update($ent, false);
-        $map["TestNodePort"]["id" . $obj["id"]] = $ent;
-        return array("errors" => null, "entity" => $ent);
-    }
-
-    protected function findConversionSource($obj, $map)
-    {
-        $node = $map["TestNode"]["id" . $obj["node"]];
-        $variable = null;
-        if ($obj["variable"] != null) {
-            $variable = $map["TestVariable"]["id" . $obj["variable"]];
-        }
-
-        $ent = $this->repository->findOneBy(array(
-            "node" => $node,
-            "variable" => $variable,
-            "dynamic" => $obj["dynamic"],
-            "type" => $obj["type"],
-            "name" => $obj["name"]
-        ));
-        if (!$ent) {
-            return null;
-        }
-        return $this->get($ent->getId());
+        return null;
     }
 
     protected function importNew($new_name, $obj, &$map, $renames, &$queue, $node, $variable)

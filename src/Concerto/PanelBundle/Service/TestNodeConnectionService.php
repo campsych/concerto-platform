@@ -201,28 +201,12 @@ class TestNodeConnectionService extends ASectionService
             "class_name" => "Test",
             "id" => $obj["flowTest"]
         ), $instructions);
-        $result = array();
-        $src_ent = null; //connection should never be converted
-        if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestNodeConnection"]["id" . $obj["id"]] = $src_ent;
-            $result = array("errors" => null, "entity" => $src_ent);
-        } else
-            $result = $this->importNew(null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
-        return $result;
-    }
 
-    protected function findConversionSource($obj, $map)
-    {
-        $sourcePortId = null;
-        if ($obj["sourcePort"])
-            $sourcePortId = $map["TestNodePort"]["id" . $obj["sourcePort"]]->getId();
-        $destinationPortId = null;
-        if ($obj["destinationPort"])
-            $destinationPortId = $map["TestNodePort"]["id" . $obj["destinationPort"]]->getId();
-        $ent = $this->repository->findByPorts($sourcePortId, $destinationPortId);
-        if (!$ent)
-            return null;
-        return $this->get($ent->getId());
+        //connection should never be converted
+        if ($parent_instruction["action"] == 0 || $parent_instruction["action"] == 1) { //new or convert
+            return $this->importNew(null, $obj, $map, $queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode);
+        }
+        return null;
     }
 
     protected function importNew($new_name, $obj, &$map, &$queue, $destinationNode, $destinationPort, $flowTest, $sourcePort, $sourceNode)

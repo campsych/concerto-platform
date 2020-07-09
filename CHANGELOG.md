@@ -17,6 +17,7 @@
 * forker won't terminate when empty request read anymore
 * most recent data connection is used when multiple data connections attached to input port
 * fixed extraFields for flat item banks in assessment node
+* fixed flow elements duplication on copy
 
 #### Improvements
 

@@ -263,8 +263,10 @@ class TestService extends AExportableSectionService
         } else
             $result = $this->importNew($new_name, $obj, $map, $queue, $wizard, $baseTemplate);
 
-        array_splice($queue, 1, 0, $obj["nodesConnections"]);
-        array_splice($queue, 1, 0, $obj["nodes"]);
+        if ($instruction["action"] != 2) {
+            array_splice($queue, 1, 0, $obj["nodesConnections"]);
+            array_splice($queue, 1, 0, $obj["nodes"]);
+        }
         array_splice($queue, 1, 0, $obj["variables"]);
 
         return $result;

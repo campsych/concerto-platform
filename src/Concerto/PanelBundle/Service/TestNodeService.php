@@ -171,21 +171,14 @@ class TestNodeService extends ASectionService
             "class_name" => "Test",
             "id" => $obj["flowTest"]
         ), $instructions);
-        $result = array();
-        $src_ent = null; //node should never be converted
-        if ($parent_instruction["action"] == 2 && $src_ent) {
-            $map["TestNode"]["id" . $obj["id"]] = $src_ent;
-            $result = array("errors" => null, "entity" => $src_ent);
-        } else
+
+        //node should never be converted
+        if ($parent_instruction["action"] == 0 || $parent_instruction["action"] == 1) { //new or convert
             $result = $this->importNew(null, $obj, $map, $queue, $flowTest, $sourceTest);
 
-        array_splice($queue, 1, 0, $obj["ports"]);
-
-        return $result;
-    }
-
-    protected function findConversionSource($obj, $map)
-    {
+            array_splice($queue, 1, 0, $obj["ports"]);
+            return $result;
+        }
         return null;
     }
 
