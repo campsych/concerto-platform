@@ -663,6 +663,9 @@ class Test extends ATopEntity implements \JsonSerializable
         if ($this->sourceWizard != null)
             $this->sourceWizard->jsonSerialize($dependencies, $normalizedIdsMap);
 
+        if ($this->baseTemplate != null)
+            $this->baseTemplate->jsonSerialize($dependencies, $normalizedIdsMap);
+
         //sorting for prettier diffs
         $variables = $this->variables->toArray();
         usort($variables, function ($a, $b) {

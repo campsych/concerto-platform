@@ -1,3 +1,9 @@
+## 5.0.14 (in progress)
+
+#### Fixes
+
+* test base view template is now properly included in export
+
 ## 5.0.13 (2020-07-09)
 
 #### Features
