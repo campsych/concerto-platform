@@ -99,7 +99,7 @@ class ExportService
             $export_elem = $elem;
             $elem_service = $this->serviceMap[$elem["class_name"]];
             if ($addHash) {
-                $export_elem["hash"] = $elem_service->repository->find($elem["id"])->getEntityHash();
+                $export_elem["hash"] = $elem_service->repository->findOneByName($elem["name"])->getEntityHash();
             }
 
             $elemInstruction = null;

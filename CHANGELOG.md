@@ -3,6 +3,7 @@
 #### Fixes
 
 * test base view template is now properly included in export
+* export fix
 
 ## 5.0.13 (2020-07-09)
 
