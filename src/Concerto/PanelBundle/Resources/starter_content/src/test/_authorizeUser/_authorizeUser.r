@@ -1,7 +1,25 @@
 library(digest)
 
 resultCode = 0
-getUserByLogin = function(login) {
+
+getColumnMap = function() {
+  map = list(
+    table=NULL,
+    columns=list(
+      login="login",
+      password="password",
+      enabled="enabled"
+    )
+  )
+  
+  if(userBankType == "table") {
+    map = fromJSON(userBankTable)
+  }
+  
+  return(map)
+}
+
+getUserByLogin = function(login, columnMap) {
   if(userBankType == "direct") {
     userList = fromJSON(userBankList)
     if(length(userList) == 0) {
@@ -18,7 +36,6 @@ getUserByLogin = function(login) {
     resultCode <<- 1
     return(NULL)
   } else {
-    tableMap = fromJSON(userBankTable)
     sql = "
 SELECT * 
 FROM {{table}} 
@@ -27,9 +44,9 @@ WHERE
 AND {{enabledColumn}}=1
 "
     user = concerto.table.query(sql, params=list(
-      table=tableMap$table,
-      loginColumn=tableMap$columns$login,
-      enabledColumn=tableMap$columns$enabled,
+      table=columnMap$table,
+      loginColumn=columnMap$columns$login,
+      enabledColumn=columnMap$columns$enabled,
       login=login
     ))
     if(dim(user)[1] == 0) {
@@ -49,20 +66,21 @@ checkPassword = function(rawPassword, encryptedPassword, encryption) {
   return(digest(rawPassword, encryption, serialize=F) == encryptedPassword)
 }
 
-authorizeUser = function(login, password) {
-  user = getUserByLogin(login)
+authorizeUser = function(login, password, columnMap) {
+  user = getUserByLogin(login, columnMap)
   concerto.log(login, "login checked")
   concerto.log(password, "password checked")
   concerto.log(user, "user checked for password")
-  
-  if(!is.null(user) && checkPassword(password, user$password, userBankEncryption)) {
+
+  if(!is.null(user) && checkPassword(password, user[[columnMap$columns$password]], userBankEncryption)) {
     return(user)
   }
   resultCode <<- 1
   return(NULL)
 }
 
-user = authorizeUser(login, password)
+columnMap = getColumnMap()
+user = authorizeUser(login, password, columnMap)
 if(is.null(user)) {
   concerto.log(paste0("user ",login," unauthorized"), title="authorization result")
   .branch = "unauthorized"

@@ -4,6 +4,7 @@
 
 * test base view template is now properly included in export
 * export fix
+* fixed **authorizeUser** node password column mapping
 
 ## 5.0.13 (2020-07-09)
 
