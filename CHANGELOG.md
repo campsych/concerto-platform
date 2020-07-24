@@ -1,10 +1,11 @@
-## 5.0.14 (in progress)
+## 5.0.14 (2020-07-24)
 
 #### Fixes
 
 * test base view template is now properly included in export
 * export fix
 * fixed **authorizeUser** node password column mapping
+* **assessment** node fixes and improvements (item skipping, aggregated trait scores)
 
 ## 5.0.13 (2020-07-09)
 

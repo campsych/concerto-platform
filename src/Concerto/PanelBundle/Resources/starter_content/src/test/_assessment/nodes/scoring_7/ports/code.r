@@ -9,9 +9,8 @@ isSkipped = function(item) {
 }
 
 getScore = function(item, response) {
-  concerto.log(response)
   defaultScore = if(is.null(response) || is.na(response)) { NA } else { 0 }
-  
+
   if(!is.null(response) && !is.na(response) && !is.null(item$responseOptions) && item$responseOptions != "") {
     responseOptions = fromJSON(item$responseOptions)
     defaultScore = responseOptions$defaultScore
@@ -80,16 +79,18 @@ getTraits = function(item, value) {
     }
   }
 
+  if(length(traitList) == 0) { return(NULL) }
   return(paste(sort(traitList), collapse=","))
 }
 
-calculateTraitScores = function(itemsAdministered, responses) {
+calculateTraitScores = function(itemsAdministered, responses, scores) {
   traitScores = list()
   for(i in 1:length(itemsAdministered)) {
     itemIndex = itemsAdministered[i]
     value = responses[i]
     item = items[itemIndex,]
-    score = getScore(item, value)
+    score = scores[i]
+    if(is.na(score)) { score = 0 }
     traitList = getTraits(item, value)
 
     #sum scores
@@ -137,8 +138,8 @@ calculateTheta = function(trait, itemsAdministered, responses, scores, itemTrait
   }
 
   if(is.null(selectedParamBank)) { return(NULL) } 
+  if(all(is.na(selectedScores))) { return(NULL) }
   theta = thetaEst(matrix(selectedParamBank, ncol=dim(paramBank)[2], byrow=F), selectedScores, model=settings$model, method=settings$scoringMethod, D=d)
-  concerto.log(theta, paste0("theta ", trait))
   return(theta)
 }
 
@@ -160,8 +161,8 @@ calculateSem = function(trait, theta, itemsAdministered, responses, scores, item
   }
 
   if(is.null(selectedParamBank)) { return(NULL) } 
+  if(all(is.na(selectedScores))) { return(NULL) }
   sem = semTheta(theta, matrix(selectedParamBank, ncol=dim(paramBank)[2], byrow=F), selectedScores, model=settings$model, method=settings$scoringMethod, D=d)
-  concerto.log(sem, paste0("SEM ", trait))
   return(sem)
 }
 
@@ -199,22 +200,46 @@ shouldCalculateSem = !is.na(settings$calculateSem) && settings$calculateSem == 1
 if(length(allTraits) > 0) {
   for(i in 1:length(allTraits)) {
     trait = allTraits[i]
+
     if(shouldCalculateTheta) {
-      theta = calculateTheta(trait, itemsAdministered, responses, scores, itemTraits)
+      if(!trait %in% ls(traitTheta)) {
+        traitTheta[[trait]] = as.numeric(settings$startingTheta)
+      }
+      newTheta = calculateTheta(trait, itemsAdministered, responses, scores, itemTraits)
+      if(!is.null(newTheta)) {
+        traitTheta[[trait]] = newTheta
+      }
     }
-    traitTheta[trait] = theta
+
     if(shouldCalculateSem) {
-      traitSem[trait] = calculateSem(trait, theta, itemsAdministered, responses, scores, itemTraits)
+      if(!trait %in% ls(traitSem)) {
+        traitSem[[trait]] = 1
+      }
+      newSem = calculateSem(trait, traitTheta[[trait]], itemsAdministered, responses, scores, itemTraits)
+      if(!is.null(newSem)) {
+        traitSem[[trait]] = newSem
+      }
     }
   }
 }
 
 if(shouldCalculateTheta) {
-  theta = calculateTheta(NULL, itemsAdministered, responses, scores, itemTraits)
+  newTheta = calculateTheta(NULL, itemsAdministered, responses, scores, itemTraits)
+  if(!is.null(newTheta)) {
+    theta = newTheta
+  }
 }
 if(shouldCalculateSem) {
-  sem = calculateSem(NULL, theta, itemsAdministered, responses, scores, itemTraits)
+  newSem = calculateSem(NULL, theta, itemsAdministered, responses, scores, itemTraits)
+  if(!is.null(newSem)) {
+    sem = newSem
+  }
 }
 
-traitScores = calculateTraitScores(itemsAdministered, responses)
+traitScores = calculateTraitScores(itemsAdministered, responses, scores)
+
+concerto.log(theta, "theta")
+concerto.log(sem, "sem")
 concerto.log(traitScores, "traitScores")
+concerto.log(traitTheta, "traitTheta")
+concerto.log(traitSem, "traitTheta")
