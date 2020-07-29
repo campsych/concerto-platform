@@ -67,7 +67,7 @@ class DBDataDAO
 
         foreach ($f["filters"] as $k => $v) {
             if (!$v) continue;
-            $builder->andWhere("d.$k LIKE :filter")->setParameter('filter', '%' . $v . '%');
+            $builder->andWhere("d.$k LIKE :$k")->setParameter($k, '%' . $v . '%');
         }
         foreach ($f["sorting"] as $sort) {
             $builder->addOrderBy("d." . $sort["name"], $sort["dir"]);
@@ -85,7 +85,7 @@ class DBDataDAO
 
             foreach ($f["filters"] as $k => $v) {
                 if (!$v) continue;
-                $builder->andWhere("d.$k LIKE :filter")->setParameter('filter', '%' . $v . '%');
+                $builder->andWhere("d.$k LIKE :$k")->setParameter($k, '%' . $v . '%');
             }
         }
 

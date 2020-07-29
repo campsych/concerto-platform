@@ -1,3 +1,9 @@
+## 5.0.15 (in progress)
+
+#### Fixes
+
+* fixed multiple column grid filters for data table data
+
 ## 5.0.14 (2020-07-24)
 
 #### Fixes
