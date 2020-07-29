@@ -4,6 +4,10 @@
 
 * fixed multiple column grid filters for data table data
 
+#### Improvements
+
+* persistent filters for top objects
+
 ## 5.0.14 (2020-07-24)
 
 #### Fixes

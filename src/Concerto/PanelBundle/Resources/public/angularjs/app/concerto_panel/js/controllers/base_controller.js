@@ -244,7 +244,22 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         ],
         onRegisterApi: function (gridApi) {
             gridApi.grid.registerRowsProcessor($scope.filterByStarterContent, 200);
+            gridApi.core.on.filterChanged($scope, function () {
+                for (let i = 0; i < gridApi.grid.columns.length; i++) {
+                    let filters = $scope.gridFilters[$scope.tabStateName];
+                    filters[i] = gridApi.grid.columns[i].filters[0].term;
+                }
+            });
             $scope.collectionGridApi = gridApi;
+
+            $timeout(function () {
+                let filters = $scope.gridFilters[$scope.tabStateName];
+                if (typeof filters !== 'undefined') {
+                    for (let i = 0; i < gridApi.grid.columns.length; i++) {
+                        gridApi.grid.columns[i].filters[0].term = filters[i];
+                    }
+                }
+            });
         }
     };
 

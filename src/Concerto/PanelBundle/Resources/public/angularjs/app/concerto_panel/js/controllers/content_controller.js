@@ -15,6 +15,14 @@ function ContentController($scope, $state, $location) {
         name: "administration"
     }];
 
+    $scope.gridFilters = {
+        tests: [],
+        templates: [],
+        tables: [],
+        wizards: [],
+        users: []
+    };
+
     $scope.tab = {
         activeIndex: -1
     };
