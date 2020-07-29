@@ -1,21 +1,22 @@
 concerto.table.insertParams <-
-function(sql,params=list()){
-  matches <- unlist(regmatches(sql,gregexpr("\\{\\{[^\\}\\}]*\\}\\}",sql)))
-  while(length(matches)>0){
+function(sql, params = list(), connection = NULL){
+  if(is.null(connection)) { connection = concerto$connection }
+  matches <- unlist(regmatches(sql, gregexpr("\\{\\{[^\\}\\}]*\\}\\}", sql)))
+  while(length(matches) > 0){
     index <- 1
-    while(index<=length(matches)){
-      name <- gsub("\\{\\{","",matches[index])
-      name <- gsub("\\}\\}","",name)
+    while(index <= length(matches)){
+      name <- gsub("\\{\\{", "", matches[index])
+      name <- gsub("\\}\\}", "", name)
       if(!is.null(params[[name]]) && !is.na(params[[name]])){
-        value <- dbEscapeStrings(concerto$connection,toString(params[[name]]))
-        sql <- gsub(matches[index],value,sql, fixed=TRUE)
+        value <- dbEscapeStrings(connection, toString(params[[name]]))
+        sql <- gsub(matches[index], value, sql, fixed=TRUE)
       }
       else {
-        sql <- gsub(matches[index],"",sql, fixed=TRUE)
+        sql <- gsub(matches[index], "", sql, fixed=TRUE)
       }
-      index=index+1
+      index = index + 1
     }
-    matches <- unlist(regmatches(sql,gregexpr("\\{\\{[^\\}\\}]*\\}\\}",sql)))
+    matches <- unlist(regmatches(sql, gregexpr("\\{\\{[^\\}\\}]*\\}\\}", sql)))
   }
   return(sql)
 }

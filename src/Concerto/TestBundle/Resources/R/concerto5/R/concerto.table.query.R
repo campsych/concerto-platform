@@ -2,7 +2,7 @@ concerto.table.query <-
 function(sql, params=list(), n=-1, connection = NULL){
   if(is.null(connection)) { connection = concerto$connection }
   sql <- gsub("^\\s+|\\s+$", "", sql)
-  sql <- concerto.table.insertParams(sql, params)
+  sql <- concerto.table.insertParams(sql, params, connection)
 
   concerto.log(sql)
 

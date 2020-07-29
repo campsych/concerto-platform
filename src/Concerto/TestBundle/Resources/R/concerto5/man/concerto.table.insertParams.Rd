@@ -7,7 +7,7 @@
     Fills SQL code with given parameters.
 }
 \usage{
-    concerto.table.insertParams(sql, params = list())
+    concerto.table.insertParams(sql, params, connection)
 }
 \arguments{
     \item{sql}{
@@ -15,6 +15,9 @@
     }
     \item{params}{
         Named list with parameters.
+    }
+    \item{connection}{
+        Connection to use.
     }
 }
 \details{
