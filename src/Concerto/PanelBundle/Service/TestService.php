@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\ViewTemplate;
+use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
@@ -420,6 +421,8 @@ class TestService extends AExportableSectionService
 
     public function pasteNodes(Test $flowTest, $nodes, $return_collections = false)
     {
+        /** @var TestNodePort $newPort */
+
         $node_map = array();
         $result = array(
             "errors" => array(),
@@ -427,19 +430,41 @@ class TestService extends AExportableSectionService
         );
         foreach ($nodes as $node) {
             $node_result = $this->addFlowNode($node["type"], $node["posX"], $node["posY"], $flowTest, $this->get($node["sourceTest"]), $node["title"], false);
-            $new_node = $node_result["object"];
-            array_push($result["collections"]["newNodes"], $new_node);
-            $node_map["id" . $node["id"]] = $new_node->getId();
+            $newNode = $node_result["object"];
+            array_push($result["collections"]["newNodes"], $newNode);
+            $node_map["id" . $node["id"]] = $newNode->getId();
 
-            foreach ($node["ports"] as $src_port) {
-                foreach ($new_node->getPorts() as $dest_port) {
-                    if ($src_port["variable"] !== null && $src_port["variable"] == $dest_port->getVariable()->getId()) {
-                        $dest_port->setValue($src_port["value"]);
-                        $dest_port->setString($src_port["string"]);
-                        $dest_port->setDefaultValue($src_port["defaultValue"]);
-                        $this->testNodePortService->update($dest_port);
+            foreach ($node["ports"] as $srcPort) {
+                $found = false;
+                foreach ($newNode->getPorts() as $newPort) {
+                    if ($srcPort["variable"] !== null && $srcPort["variable"] == $newPort->getVariable()->getId()) {
+                        $newPort->setDefaultValue($srcPort["defaultValue"]);
+                        $newPort->setValue($srcPort["value"]);
+                        $newPort->setString($srcPort["string"]);
+                        $newPort->setExposed($srcPort["exposed"]);
+                        $newPort->setPointer($srcPort["pointer"]);
+                        $newPort->setPointerVariable($srcPort["pointerVariable"]);
+                        $this->testNodePortService->update($newPort);
+                        $found = true;
                         break;
                     }
+                }
+
+                if (!$found) {
+                    $this->testNodePortService->save(
+                        0,
+                        $newNode,
+                        $srcPort["variable"],
+                        $srcPort["defaultValue"],
+                        $srcPort["value"],
+                        $srcPort["string"],
+                        $srcPort["type"],
+                        $srcPort["dynamic"],
+                        $srcPort["exposed"],
+                        $srcPort["name"],
+                        $srcPort["pointer"],
+                        $srcPort["pointerVariable"]
+                    );
                 }
             }
         }

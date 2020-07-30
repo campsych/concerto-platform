@@ -1,9 +1,10 @@
-## 5.0.15 (in progress)
+## 5.0.15 (2020-07-30)
 
 #### Fixes
 
 * fixed multiple column grid filters for data table data
 * base template import/export fix
+* dynamic ports and pointers are now carried over when pasting nodes
 
 #### Improvements
 
