@@ -707,7 +707,7 @@ class Test extends ATopEntity implements \JsonSerializable
         if ($normalizedIdsMap !== null) {
             $serialized["id"] = self::normalizeId("Test", $serialized["id"], $normalizedIdsMap);
             $serialized["sourceWizard"] = self::normalizeId("TestWizard", $serialized["sourceWizard"], $normalizedIdsMap);
-            $serialized["sourceWizardTest"] = self::normalizeId("Test", $serialized["sourceWizardTest"], $normalizedIdsMap);
+            $serialized["baseTemplate"] = self::normalizeId("ViewTemplate", $serialized["baseTemplate"], $normalizedIdsMap);
         }
 
         self::addDependency($dependencies, $serialized);
