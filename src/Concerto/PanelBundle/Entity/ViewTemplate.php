@@ -3,6 +3,7 @@
 namespace Concerto\PanelBundle\Entity;
 
 use Concerto\PanelBundle\Entity\Test;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -80,6 +81,7 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable
         $this->css = "";
         $this->js = "";
         $this->html = "";
+        $this->baseTemplateForTests = new ArrayCollection();
     }
 
     /**

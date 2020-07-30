@@ -3,6 +3,7 @@
 #### Fixes
 
 * fixed multiple column grid filters for data table data
+* test import fix (uninitialised ViewTemplate::baseTemplateForTests array)
 
 #### Improvements
 
