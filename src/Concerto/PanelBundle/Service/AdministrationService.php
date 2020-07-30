@@ -204,7 +204,7 @@ class AdministrationService
             $map[$k] = (string)$v;
         }
         foreach ($this->settingsRepository->findAllExposed() as $setting) {
-            if (array_key_exists($setting->getKey() . "_overridable", $map) && !$map[$setting->getKey() . "_overridable"]) {
+            if (array_key_exists($setting->getKey() . "_overridable", $map) && $map[$setting->getKey() . "_overridable"] === "false") {
                 continue;
             }
             $map[$setting->getKey()] = $setting->getValue();
@@ -363,7 +363,7 @@ class AdministrationService
         foreach ($map as $k => $v) {
             if (strpos($k, "_overridable") !== false)
                 continue;
-            if (array_key_exists($k . "_overridable", $this->configSettings) && $this->configSettings[$k . "_overridable"] === "0")
+            if (array_key_exists($k . "_overridable", $this->configSettings) && $this->configSettings[$k . "_overridable"] === "false")
                 continue;
             $setting = $this->settingsRepository->findKey($k);
             if ($setting) {

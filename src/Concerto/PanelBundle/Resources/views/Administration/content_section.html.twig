@@ -54,7 +54,7 @@
                             {% block label %}{{ 'content.url'|trans }}{% endblock %}
                             {% block tooltip %}{{ 'content.url.tooltip'|trans }}{% endblock %}
                             {% block control %}
-                                <input ng-disabled="!exposedSettingsMap.content_url_overridable" type="text" ng-model="exposedSettingsMap.content_url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
+                                <input ng-disabled="exposedSettingsMap.content_url_overridable === 'false'" type="text" ng-model="exposedSettingsMap.content_url" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }'/>
                             {% endblock %}
                         {% endembed %}
 
@@ -76,7 +76,7 @@
                             {% block label %}{{ "content.transfer_options"|trans }}{% endblock %}
                             {% block tooltip %}{{ "content.transfer_options.tooltip"|trans }}{% endblock %}
                             {% block control %}
-                                <textarea ng-disabled="!exposedSettingsMap.content_transfer_options_overridable" ng-model="exposedSettingsMap.content_transfer_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
+                                <textarea ng-disabled="exposedSettingsMap.content_transfer_options_overridable === 'false'" ng-model="exposedSettingsMap.content_transfer_options" style="width:100%; resize: vertical;" class='form-control' ng-model-options='{ updateOn: "blur" }'></textarea>
                             {% endblock %}
                         {% endembed %}
 

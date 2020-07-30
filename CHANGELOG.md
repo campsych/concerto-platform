@@ -5,6 +5,7 @@
 * fixed multiple column grid filters for data table data
 * base template import/export fix
 * dynamic ports and pointers are now carried over when pasting nodes
+* fixed overridable flags for administration settings
 
 #### Improvements
 

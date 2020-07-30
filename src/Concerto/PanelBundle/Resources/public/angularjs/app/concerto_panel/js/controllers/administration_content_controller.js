@@ -349,11 +349,11 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 
     $scope.canEnableGit = function () {
-        return $scope.exposedSettingsMap.git_enabled_overridable && !$scope.isOngoingGitTask();
+        return $scope.exposedSettingsMap.git_enabled_overridable === "true" && !$scope.isOngoingGitTask();
     };
 
     $scope.canDisableGit = function () {
-        return $scope.exposedSettingsMap.git_enabled_overridable && !$scope.isOngoingGitTask();
+        return $scope.exposedSettingsMap.git_enabled_overridable === "true" && !$scope.isOngoingGitTask();
     };
 }
 

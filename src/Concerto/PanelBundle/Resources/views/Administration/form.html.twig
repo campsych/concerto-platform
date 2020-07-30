@@ -14,7 +14,7 @@
         {% block label %}{{ 'form.settings.api_enabled'|trans }}{% endblock %}
         {% block tooltip %}{{ 'form.settings.api_enabled.tooltip'|trans }}{% endblock %}
         {% block control %}
-            <input type="checkbox" ng-disabled="!exposedSettingsMap.api_enabled_overridable" ng-model="exposedSettingsMap.api_enabled" ng-true-value="'1'" ng-false-value="'0'">
+            <input type="checkbox" ng-disabled="exposedSettingsMap.api_enabled_overridable === 'false'" ng-model="exposedSettingsMap.api_enabled" ng-true-value="'1'" ng-false-value="'0'">
         {% endblock %}
     {% endembed %}
 
@@ -23,7 +23,7 @@
         {% block label %}{{ 'form.settings.session_limit'|trans }}{% endblock %}
         {% block tooltip %}{{'form.settings.session_limit.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <input ng-disabled="!exposedSettingsMap.session_limit_overridable" type="text" ng-model="exposedSettingsMap.session_limit" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
+            <input ng-disabled="exposedSettingsMap.session_limit_overridable === 'false'" type="text" ng-model="exposedSettingsMap.session_limit" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
         {% endblock %}
     {% endembed %}
 
@@ -32,7 +32,7 @@
         {% block label %}{{ 'form.settings.session_runner_service'|trans }}{% endblock %}
         {% block tooltip %}{{'form.settings.session_runner_service.tooltip'|trans}}{% endblock %}
         {% block control %}
-            <select ng-disabled="!exposedSettingsMap.session_runner_service_overridable" ng-model="exposedSettingsMap.session_runner_service" style="width:100%;" class='form-control'>
+            <select ng-disabled="exposedSettingsMap.session_runner_service_overridable === 'false'" ng-model="exposedSettingsMap.session_runner_service" style="width:100%;" class='form-control'>
                 <option value="PersistantSessionRunnerService">Persistent</option>
                 <option value="SerializedSessionRunnerService">Serialized</option>
             </select>
