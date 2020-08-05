@@ -71,6 +71,11 @@ services:
         arguments:
             $version: "%version%"
 
+    Concerto\PanelBundle\Command\ConcertoSetupCommand:
+        arguments:
+            $projectDir: "%kernel.project_dir%"
+            $keyPass: "%env(CONCERTO_KEY_PASS)%"
+
 #repositories
     Concerto\PanelBundle\Repository\AdministrationSettingRepository:
         factory: doctrine.orm.entity_manager:getRepository

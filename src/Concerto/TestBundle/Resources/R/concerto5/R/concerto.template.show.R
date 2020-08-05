@@ -8,7 +8,9 @@ concerto.template.show = function(
     removeMissingParams=T,
     bgWorkers=list(),
     skipOnResume=F,
-    cookies=list()
+    cookies=list(),
+    protectedFilesAccess=F,
+    sessionFilesAccess=F
 ) {
     concerto$skipTemplateOnResume <<- skipOnResume
     if (! is.null(concerto$queuedResponse)) {
@@ -20,6 +22,8 @@ concerto.template.show = function(
     if (! is.list(params)) stop("'params' must be a list!")
     if (templateId == -1 && html == "") stop("templateId or html must be declared")
 
+    concerto$response$protectedFilesAccess <<- protectedFilesAccess
+    concerto$response$sessionFilesAccess <<- sessionFilesAccess
     if (html != "") {
         concerto$response$templateHead <<- concerto.template.insertParams(head, params, removeMissing = removeMissingParams)
         concerto$response$templateHtml <<- concerto.template.insertParams(html, params, removeMissing = removeMissingParams)

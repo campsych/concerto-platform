@@ -12,6 +12,10 @@ server {
         deny all;
     }
 
+    location ~ ^/files/(protected|session)/ {
+        rewrite ^/(.*)$ /app.php/$1 last;
+    }
+
     location / {
         try_files $uri @rewriteapp;
     }

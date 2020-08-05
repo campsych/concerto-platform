@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
 
             new Concerto\PanelBundle\ConcertoPanelBundle(),
             new Concerto\TestBundle\ConcertoTestBundle(),

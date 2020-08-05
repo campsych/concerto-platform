@@ -38,6 +38,12 @@
     \item{cookies}{
         Named list containing cookies to set
     }
+    \item{protectedFilesAccess}{
+        Grant access to protected files
+    }
+    \item{sessionFilesAccess}{
+        Grant access to session files
+    }
 }
 \details{
 }

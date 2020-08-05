@@ -1,5 +1,5 @@
 parameters:
-    version: "5.0.15"
+    version: "5.0.16"
     available_locales:
         en_GB: english
         zh_CN: 中文
@@ -89,3 +89,9 @@ jms_serializer:
     property_naming:
         separator:  _
         lower_case: true
+
+lexik_jwt_authentication:
+    secret_key: '%kernel.project_dir%/app/config/jwt/private.pem'
+    public_key: '%kernel.project_dir%/app/config/jwt/public.pem'
+    pass_phrase: '%env(CONCERTO_KEY_PASS)%'
+    token_ttl: 3600

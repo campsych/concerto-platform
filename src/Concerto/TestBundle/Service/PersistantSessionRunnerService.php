@@ -12,11 +12,11 @@ use Symfony\Component\Process\Process;
 
 class PersistantSessionRunnerService extends ASessionRunnerService
 {
-    public function __construct($environment, LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root)
+    public function __construct($environment, LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $projectDir)
     {
         $this->runnerType = 0;
 
-        parent::__construct($environment, $logger, $testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
+        parent::__construct($environment, $logger, $testRunnerSettings, $projectDir, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
     }
 
     public function healthCheck()

@@ -28,7 +28,9 @@ response = concerto5:::concerto.template.show(
   params=getTemplateParams(), 
   timeLimit=if(!is.na(numericTimeLimit)) { numericTimeLimit } else { 0 },
   cookies=cookies,
-  bgWorkers=bgWorkers
+  bgWorkers=bgWorkers,
+  protectedFilesAccess=protectedFilesAccess == 1,
+  sessionFilesAccess=sessionFilesAccess == 1
 )
 
 cookies = concerto$lastResponse$cookies

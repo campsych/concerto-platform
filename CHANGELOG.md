@@ -1,3 +1,15 @@
+## 5.0.16 (in progress)
+
+#### Features
+
+* protected global files
+* protected session files
+* JWT token for session ownership and protected global/session file access
+
+#### Starter content
+
+* added **protectedFilesAccess** and **sessionFilesAccess** as input for **showPage** node
+
 ## 5.0.15 (2020-07-30)
 
 #### Fixes

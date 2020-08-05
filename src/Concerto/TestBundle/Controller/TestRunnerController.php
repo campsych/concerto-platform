@@ -4,6 +4,10 @@ namespace Concerto\TestBundle\Controller;
 
 use Concerto\TestBundle\Service\ASessionRunnerService;
 use Concerto\TestBundle\Service\TestRunnerService;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,20 +24,24 @@ use Twig\Loader\ArrayLoader;
 class TestRunnerController
 {
     private $templating;
+    private $projectDir;
     private $testRunnerService;
     private $logger;
     private $testRunnerSettings;
     private $environment;
     private $sessionRunnerService;
+    private $jwtEncoder;
 
-    public function __construct($environment, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $testRunnerSettings, ASessionRunnerService $sessionRunnerService)
+    public function __construct($environment, $projectDir, EngineInterface $templating, TestRunnerService $testRunnerService, LoggerInterface $logger, $testRunnerSettings, ASessionRunnerService $sessionRunnerService, JWTEncoderInterface $encoder)
     {
         $this->templating = $templating;
         $this->testRunnerService = $testRunnerService;
         $this->logger = $logger;
         $this->testRunnerSettings = $testRunnerSettings;
         $this->environment = $environment;
+        $this->projectDir = $projectDir;
         $this->sessionRunnerService = $sessionRunnerService;
+        $this->jwtEncoder = $encoder;
     }
 
     /**
@@ -45,8 +53,8 @@ class TestRunnerController
      * @Route("/test_n/{test_name}/{params}", name="test_runner_test_start_name", defaults={"test_slug":null,"params":"{}"})
      * @param Request $request
      * @param SessionInterface $session
-     * @param string $test_slug
-     * @param string $test_name
+     * @param string|null $test_slug
+     * @param string|null $test_name
      * @param string $params
      * @param boolean $debug
      * @param string|null $existing_session_hash
@@ -144,6 +152,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -172,6 +181,8 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $debug");
 
+        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+
         $result = $this->testRunnerService->resumeSession(
             $session_hash,
             $request->cookies->all(),
@@ -181,6 +192,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -207,6 +219,8 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
+        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+
         $result = $this->testRunnerService->submitToSession(
             $session_hash,
             $request->get("values"),
@@ -216,6 +230,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -231,6 +246,8 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
+        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+
         $result = $this->testRunnerService->backgroundWorker(
             $session_hash,
             $request->get("values"),
@@ -240,6 +257,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -254,6 +272,8 @@ class TestRunnerController
     public function killSessionAction(Request $request, $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
+
+        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
 
         $result = $this->testRunnerService->killSession(
             $session_hash,
@@ -276,6 +296,8 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
+        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+
         $result = $this->testRunnerService->keepAliveSession(
             $session_hash,
             $request->getClientIp(),
@@ -297,6 +319,8 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
+        if (!$this->checkAuthorizationCookie($request, $session_hash, false, true)) return new Response("", 403);
+
         $result = $this->testRunnerService->uploadFile(
             $session_hash,
             $request->files,
@@ -309,6 +333,41 @@ class TestRunnerController
     }
 
     /**
+     * @Route("/files/protected/{name}", name="files_protected", methods={"GET"})
+     * @param Request $request
+     * @param string $name
+     * @return BinaryFileResponse | Response
+     *
+     */
+    public function getProtectedFile(Request $request, $name)
+    {
+        if (!$this->checkAuthorizationCookie($request, null, true)) return new Response("", 403);
+
+        $file = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/public/files/protected/$name";
+        if (is_file($file) && realpath($file) === $file) return new BinaryFileResponse($file);
+
+        return new Response("", 404);
+    }
+
+    /**
+     * @Route("/files/session/{name}", name="files_session", methods={"GET"})
+     * @param Request $request
+     * @param string $name
+     * @return BinaryFileResponse | Response
+     *
+     */
+    public function getSessionFile(Request $request, $name)
+    {
+        $sessionHash = $this->getSessionHashFromAuthorizationCookie($request);
+        if (!$this->checkAuthorizationCookie($request, $sessionHash, false, true)) return new Response("", 403);
+
+        $file = $this->sessionRunnerService->getWorkingDirPath($sessionHash) . "files/$name";
+        if (is_file($file) && realpath($file) === $file) return new BinaryFileResponse($file);
+
+        return new Response("", 404);
+    }
+
+    /**
      * @Route("/test/session/{session_hash}/log", name="test_runner_log_error", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
@@ -316,6 +375,8 @@ class TestRunnerController
      */
     public function logErrorAction(Request $request, $session_hash)
     {
+        if (!$this->checkAuthorizationCookie($request, null, true, false)) return new Response("", 403);
+
         $result = $this->testRunnerService->logError(
             $session_hash,
             $request->get("error"),
@@ -325,6 +386,61 @@ class TestRunnerController
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    private function setAuthorizationCookie(&$response, $result)
+    {
+        $protectedFilesAccess = false;
+        $sessionFilesAccess = false;
+        $sessionHash = null;
+
+        $decodedResult = json_decode($result, true);
+        $sessionHash = $decodedResult["hash"];
+        if (array_key_exists("data", $decodedResult) && is_array($decodedResult["data"])) {
+            if (array_key_exists("protectedFilesAccess", $decodedResult["data"]) && $decodedResult["data"]["protectedFilesAccess"] === true) $protectedFilesAccess = true;
+            if (array_key_exists("sessionFilesAccess", $decodedResult["data"]) && $decodedResult["data"]["sessionFilesAccess"] === true) $sessionFilesAccess = true;
+        }
+
+        $token = null;
+        try {
+            $token = $this->jwtEncoder->encode([
+                "sessionHash" => $sessionHash,
+                "protectedFilesAccess" => $protectedFilesAccess,
+                "sessionFilesAccess" => $sessionFilesAccess,
+                "expiry" => time() + 3600
+            ]);
+        } catch (JWTEncodeFailureException $e) {
+            return false;
+        }
+
+        $response->headers->setCookie(new Cookie("concertoSession", $token));
+        return true;
+    }
+
+    private function checkAuthorizationCookie(Request $request, $sessionHash = null, $protectedFilesAccess = false, $sessionFilesAccess = false)
+    {
+        $token = null;
+        try {
+            $token = $this->jwtEncoder->decode($request->cookies->get("concertoSession"));
+        } catch (JWTDecodeFailureException $e) {
+            return false;
+        }
+        if ($sessionHash !== null && $token["sessionHash"] !== $sessionHash) return false;
+        if ($protectedFilesAccess === true && $token["protectedFilesAccess"] !== true) return false;
+        if ($sessionFilesAccess === true && $token["sessionFilesAccess"] !== true) return false;
+        if (time() > $token["expiry"]) return false;
+        return true;
+    }
+
+    private function getSessionHashFromAuthorizationCookie(Request $request)
+    {
+        $token = null;
+        try {
+            $token = $this->jwtEncoder->decode($request->cookies->get("concertoSession"));
+        } catch (JWTDecodeFailureException $e) {
+            return null;
+        }
+        return $token["sessionHash"];
     }
 
     private function setCookies(&$response, $result)

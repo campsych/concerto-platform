@@ -28,6 +28,7 @@ services:
     Concerto\TestBundle\Controller\TestRunnerController:
         arguments:
             $environment: "%kernel.environment%"
+            $projectDir: "%kernel.project_dir%"
             $testRunnerSettings: "%test_runner_settings%"
         public: true
 
@@ -40,14 +41,14 @@ services:
         public: true
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
-            $root: "%kernel.root_dir%"
+            $projectDir: "%kernel.project_dir%"
             $environment: "%kernel.environment%"
 
     Concerto\TestBundle\Service\SerializedSessionRunnerService:
         public: true
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
-            $root: "%kernel.root_dir%"
+            $projectDir: "%kernel.project_dir%"
             $environment: "%kernel.environment%"
 
     Concerto\TestBundle\Service\ASessionRunnerService:

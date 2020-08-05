@@ -16,7 +16,7 @@ abstract class ASessionRunnerService
 
     protected $logger;
     protected $testRunnerSettings;
-    protected $root;
+    protected $projectDir;
     protected $doctrine;
     protected $testSessionCountService;
     protected $administrationService;
@@ -24,11 +24,11 @@ abstract class ASessionRunnerService
     protected $runnerType = -1;
     protected $environment;
 
-    public function __construct($environment, LoggerInterface $logger, $testRunnerSettings, $root, RegistryInterface $doctrine, TestSessionCountService $testSessionCountService, AdministrationService $administrationService, TestSessionRepository $testSessionRepository)
+    public function __construct($environment, LoggerInterface $logger, $testRunnerSettings, $projectDir, RegistryInterface $doctrine, TestSessionCountService $testSessionCountService, AdministrationService $administrationService, TestSessionRepository $testSessionRepository)
     {
         $this->logger = $logger;
         $this->testRunnerSettings = $testRunnerSettings;
-        $this->root = $root;
+        $this->projectDir = $projectDir;
         $this->doctrine = $doctrine;
         $this->testSessionCountService = $testSessionCountService;
         $this->administrationService = $administrationService;
@@ -77,18 +77,18 @@ abstract class ASessionRunnerService
 
     public function getRDir()
     {
-        return realpath($this->root . "/../src/Concerto/TestBundle/Resources/R") . "/";
+        return realpath($this->projectDir . "/src/Concerto/TestBundle/Resources/R") . "/";
     }
 
     public function getROutputFilePath($session_hash)
     {
         if ($session_hash === null) return null;
-        return realpath($this->root . "/../var/logs") . "/$session_hash.log";
+        return realpath($this->projectDir . "/var/logs") . "/$session_hash.log";
     }
 
     public function getPublicDirPath()
     {
-        return realpath($this->root . "/../src/Concerto/PanelBundle/Resources/public/files") . "/";
+        return realpath($this->projectDir . "/src/Concerto/PanelBundle/Resources/public/files") . "/";
     }
 
     public function getPlatformUrl()
@@ -107,11 +107,12 @@ abstract class ASessionRunnerService
     {
         $path = null;
         if ($session_hash === null) {
-            $path = $this->root . "/../src/Concerto/TestBundle/Resources/sessions/";
+            $path = $this->projectDir . "/src/Concerto/TestBundle/Resources/sessions/";
         } else {
-            $path = $this->root . "/../src/Concerto/TestBundle/Resources/sessions/$session_hash/";
+            $path = $this->projectDir . "/src/Concerto/TestBundle/Resources/sessions/$session_hash/";
             if ($create && !file_exists($path)) {
                 mkdir($path, 0755, true);
+                mkdir($path . "files", 0755, true);
             }
         }
         return $path;

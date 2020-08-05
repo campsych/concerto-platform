@@ -34,7 +34,8 @@
     "symfony/monolog-bundle": "^3.1.0",
     "symfony/polyfill-apcu": "^1.0",
     "symfony/symfony": "3.4.*",
-    "twig/twig": "2.6.*"
+    "twig/twig": "2.9.*",
+    "lexik/jwt-authentication-bundle": "2.8.*"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^3.0"

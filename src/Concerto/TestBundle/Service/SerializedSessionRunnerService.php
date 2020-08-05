@@ -12,11 +12,11 @@ use Symfony\Component\Process\Process;
 
 class SerializedSessionRunnerService extends ASessionRunnerService
 {
-    public function __construct($environment, LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $root)
+    public function __construct($environment, LoggerInterface $logger, TestSessionRepository $testSessionRepository, AdministrationService $administrationService, TestSessionCountService $testSessionCountService, RegistryInterface $doctrine, $testRunnerSettings, $projectDir)
     {
         $this->runnerType = 1;
 
-        parent::__construct($environment, $logger, $testRunnerSettings, $root, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
+        parent::__construct($environment, $logger, $testRunnerSettings, $projectDir, $doctrine, $testSessionCountService, $administrationService, $testSessionRepository);
     }
 
     public function healthCheck()

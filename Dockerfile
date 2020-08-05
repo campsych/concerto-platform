@@ -30,6 +30,7 @@ ENV CONCERTO_BEHIND_PROXY=false
 ENV CONCERTO_CONTENT_IMPORT_AT_START=true
 ENV CONCERTO_FAILED_AUTH_LOCK_TIME=300
 ENV CONCERTO_FAILED_AUTH_LOCK_STREAK=3
+ENV CONCERTO_KEY_PASS=changeme
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
@@ -109,6 +110,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && mkdir -p /data/git \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
+ && ln -sf /app/concerto/src/Concerto/PanelBundle/Resources/public/files /app/concerto/web \
  && chown www-data:www-data /data/sessions \
  && chown -R www-data:www-data /data/files \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \

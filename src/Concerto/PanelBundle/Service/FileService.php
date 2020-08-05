@@ -332,7 +332,7 @@ class FileService
 
     public function getSessionUploadDirectory($hash)
     {
-        return dirname(__FILE__) . "/../../TestBundle/" . ($this->environment === "test" ? ("../../../tests/") : "") . "Resources/sessions/$hash/";
+        return dirname(__FILE__) . "/../../TestBundle/" . ($this->environment === "test" ? ("../../../tests/") : "") . "Resources/sessions/$hash/files/";
     }
 
     private function parsePerms($perms)
