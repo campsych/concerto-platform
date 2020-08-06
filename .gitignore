@@ -23,6 +23,7 @@ var/git/*
 /app/config/parameters_test_runner.yml
 /app/config/parameters_uio.yml
 /app/config/parameters_saml.yml
+/app/config/jwt/*.pem
 /.idea
 /.scannerwork
 *.iml

@@ -80,15 +80,6 @@ fos_oauth_server:
     access_token_class:  Concerto\APIBundle\Entity\AccessToken
     refresh_token_class: Concerto\APIBundle\Entity\RefreshToken
     auth_code_class:     Concerto\APIBundle\Entity\AuthCode
-    
-jms_serializer:
-    handlers:
-        datetime:
-            default_format: "c" # ISO8601
-            default_timezone: "UTC" # defaults to whatever timezone set in php.ini or via date_default_timezone_set
-    property_naming:
-        separator:  _
-        lower_case: true
 
 lexik_jwt_authentication:
     secret_key: '%kernel.project_dir%/app/config/jwt/private.pem'
