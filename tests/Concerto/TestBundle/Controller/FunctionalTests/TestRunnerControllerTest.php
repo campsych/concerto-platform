@@ -47,24 +47,13 @@ class TestRunnerControllerTest extends AFunctionalTest {
         self::$entityManager->flush();
     }
 
-    public function testSubmitActionNotExistantSession() {
+    public function testSubmitNotAuthorizedSession() {
         $client = self::createClient();
         $client->setServerParameter("REMOTE_ADDR", "192.168.0.1");
         $client->request("POST", "/test/session/abc123/submit", array(
             "test_node_hash" => "someHash"
         ));
-        $fail_msg = "";
-        if (!$client->getResponse()->isSuccessful()) {
-            $crawler = $client->getCrawler();
-            $fail_msg = $crawler->filter("title")->text();
-        }
-        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
-
-        $expected = array(
-            "source" => TestSessionService::SOURCE_PANEL_NODE,
-            "code" => TestSessionService::RESPONSE_ERROR
-        );
-        $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
 }

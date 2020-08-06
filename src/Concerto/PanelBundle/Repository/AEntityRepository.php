@@ -39,7 +39,7 @@ abstract class AEntityRepository extends EntityRepository
             if (!$entities->getId()) $flush = true;
             $this->getEntityManager()->persist($entities);
         }
-        if ($flush) $this->getEntityManager()->flush($entities);
+        if ($flush) $this->getEntityManager()->flush();
     }
 
     public function delete($entities, $flush = true)
@@ -53,7 +53,7 @@ abstract class AEntityRepository extends EntityRepository
         } else {
             $this->getEntityManager()->remove($entities);
         }
-        if ($flush) $this->getEntityManager()->flush($entities);
+        if ($flush) $this->getEntityManager()->flush();
     }
 
     public function deleteById($object_ids, $flush = true)
@@ -64,7 +64,7 @@ abstract class AEntityRepository extends EntityRepository
             $entity = $this->find($object_id);
             $this->getEntityManager()->remove($entity);
         }
-        if ($flush) $this->getEntityManager()->flush($entity);
+        if ($flush) $this->getEntityManager()->flush();
     }
 
     public function deleteAll($flush = true)
@@ -75,7 +75,7 @@ abstract class AEntityRepository extends EntityRepository
         foreach ($entities as $entity) {
             $this->getEntityManager()->remove($entity);
         }
-        if ($flush) $this->getEntityManager()->flush($entities);
+        if ($flush) $this->getEntityManager()->flush();
     }
 
 }

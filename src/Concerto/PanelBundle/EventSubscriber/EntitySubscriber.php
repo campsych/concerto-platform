@@ -59,7 +59,7 @@ class EntitySubscriber implements EventSubscriber
             }
             $this->topEntitiesToUpdate = [];
             if (!empty($entitiesToFlush)) {
-                $entityManager->flush($entitiesToFlush);
+                $entityManager->flush();
             }
         }
     }
