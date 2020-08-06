@@ -83,12 +83,14 @@ class DataTableControllerTest extends AFunctionalTest
                     array(
                         'name' => 'id',
                         'type' => 'bigint',
-                        'nullable' => false
+                        'nullable' => false,
+                        'length' => ''
                     ),
                     array(
                         'name' => 'temp',
                         'type' => 'text',
-                        'nullable' => false
+                        'nullable' => false,
+                        'length' => ''
                     )
                 ),
                 "accessibility" => 0,
@@ -178,8 +180,18 @@ class DataTableControllerTest extends AFunctionalTest
             "starterContent" => false,
             "groups" => "",
             'columns' => array(
-                array('name' => 'id', 'type' => 'bigint', 'nullable' => false),
-                array('name' => 'temp', 'type' => 'text', 'nullable' => false)
+                array(
+                    'name' => 'id',
+                    'type' => 'bigint',
+                    'nullable' => false,
+                    'length' => ''
+                ),
+                array(
+                    'name' => 'temp',
+                    'type' => 'text',
+                    'nullable' => false,
+                    'length' => ''
+                )
             ))), $content["collection"]);
     }
 
@@ -403,8 +415,18 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
-            array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "temp", "type" => "text", "nullable" => false)
+            array(
+                "name" => "id",
+                "type" => "bigint",
+                "nullable" => false,
+                'length' => ''
+            ),
+            array(
+                "name" => "temp",
+                "type" => "text",
+                "nullable" => false,
+                'length' => ''
+            )
         ), json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -468,7 +490,12 @@ class DataTableControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/DataTable/1/columns/collection");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(array("name" => "id", "type" => "bigint", "nullable" => false)), json_decode($client->getResponse()->getContent(), true));
+        $this->assertEquals(array(array(
+            "name" => "id",
+            "type" => "bigint",
+            "nullable" => false,
+            'length' => ''
+        )), json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testDeleteRowAction()
@@ -516,9 +543,24 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
-            array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "temp", "type" => "text", "nullable" => false),
-            array("name" => "new_col", "type" => "text", "nullable" => false)
+            array(
+                "name" => "id",
+                "type" => "bigint",
+                "nullable" => false,
+                'length' => ''
+            ),
+            array(
+                "name" => "temp",
+                "type" => "text",
+                "nullable" => false,
+                'length' => ''
+            ),
+            array(
+                "name" => "new_col",
+                "type" => "text",
+                "nullable" => false,
+                'length' => ''
+            )
         ), json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -542,8 +584,18 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
-            array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "temp", "type" => "string", "nullable" => false)
+            array(
+                "name" => "id",
+                "type" => "bigint",
+                "nullable" => false,
+                'length' => ''
+            ),
+            array(
+                "name" => "temp",
+                "type" => "string",
+                "nullable" => false,
+                'length' => '1024'
+            )
         ), json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -563,8 +615,18 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
-            array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "temp", "type" => "text", "nullable" => false)
+            array(
+                "name" => "id",
+                "type" => "bigint",
+                "nullable" => false,
+                'length' => ''
+            ),
+            array(
+                "name" => "temp",
+                "type" => "text",
+                "nullable" => false,
+                'length' => ''
+            )
         ), json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -593,8 +655,18 @@ class DataTableControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertEquals(array(
-            array("name" => "id", "type" => "bigint", "nullable" => false),
-            array("name" => "new_temp", "type" => "string", "nullable" => false)
+            array(
+                "name" => "id",
+                "type" => "bigint",
+                "nullable" => false,
+                'length' => ''
+            ),
+            array(
+                "name" => "new_temp",
+                "type" => "string",
+                "nullable" => false,
+                'length' => '1024'
+            )
         ), json_decode($client->getResponse()->getContent(), true));
     }
 

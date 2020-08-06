@@ -147,7 +147,10 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         if (newStructure.length === oldStructure.length) {
             let same = true;
             for (let i = 0; i < newStructure.length; i++) {
-                if (newStructure[i].name !== oldStructure[i].name) {
+                if (
+                    newStructure[i].name !== oldStructure[i].name ||
+                    newStructure[i].length !== oldStructure[i].length
+                ) {
                     same = false;
                     break;
                 }
@@ -194,6 +197,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }, {
                 displayName: Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_TYPE,
                 field: "type"
+            }, {
+                displayName: Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_LENGTH,
+                field: "length"
             }, {
                 displayName: Trans.DATA_TABLE_STRUCTURE_LIST_FIELD_NULLABLE,
                 field: "nullable",

@@ -12,10 +12,8 @@ use Psr\Log\LoggerInterface;
 
 class DBStructureDAO
 {
-    const SQLCODE_COLUMN_CANNOT_BE_CAST_AUTOMATICALLY = '42804';
-
     // keys are doctrine types, rather than SQL or PHP ones
-    private static $type_defaults = array(
+    private static $typeDefaultValues = [
         'smallint' => 0,
         'bigint' => 0,
         'integer' => 0,
@@ -26,7 +24,16 @@ class DBStructureDAO
         'datetime' => "20000101",
         'text' => "",
         'string' => ""
-    );
+    ];
+    private static $typeDefaultLengths = [
+        'string' => 1024 //must leave at at least 1024, otherwise older imports will truncate data
+    ];
+    private static $typeDefaultPrecisions = [
+        'decimal' => 10
+    ];
+    private static $typeDefaultScales = [
+        'decimal' => 2
+    ];
 
     private $connection;
     private $logger;
@@ -61,17 +68,16 @@ class DBStructureDAO
             if ($col["name"] == "id") {
                 continue;
             }
-            $options = array();
-            if ($col["type"] == "string") {
-                $options["length"] = 1024;
-            }
+            $options = [];
+            $lengthString = "";
+            if(array_key_exists("length", $col)) $lengthString = $col["length"];
+            if (array_key_exists($col["type"], self::$typeDefaultLengths)) $options["length"] = self::$typeDefaultLengths[$col["type"]];
+            if (array_key_exists($col["type"], self::$typeDefaultPrecisions)) $options["precision"] = self::$typeDefaultPrecisions[$col["type"]];
+            if (array_key_exists($col["type"], self::$typeDefaultScales)) $options["scale"] = self::$typeDefaultScales[$col["type"]];
             $options["notnull"] = !$col["nullable"];
             if ($col["nullable"]) $options["default"] = null;
-            else {
-                if (array_key_exists($col["type"], self::$type_defaults)) {
-                    $options["default"] = self::$type_defaults[$col["type"]];
-                }
-            }
+            else if (array_key_exists($col["type"], self::$typeDefaultValues)) $options["default"] = self::$typeDefaultValues[$col["type"]];
+            $this->applyLengthStringToColumnOptions($col["type"], $lengthString, $options);
 
             $table->addColumn($col["name"], $col["type"], $options);
         }
@@ -106,19 +112,16 @@ class DBStructureDAO
         $this->connection->getSchemaManager()->alterTable($tableDiff);
     }
 
-    public function saveColumn($table_name, $column_name, $name, $type, $nullable = false)
+    public function saveColumn($table_name, $column_name, $name, $type, $lengthString = "", $nullable = false)
     {
         $options = array();
-        if ($type == "string") {
-            $options["length"] = 1024;
-        }
+        if (array_key_exists($type, self::$typeDefaultLengths)) $options["length"] = self::$typeDefaultLengths[$type];
+        if (array_key_exists($type, self::$typeDefaultPrecisions)) $options["precision"] = self::$typeDefaultPrecisions[$type];
+        if (array_key_exists($type, self::$typeDefaultScales)) $options["scale"] = self::$typeDefaultScales[$type];
         $options["notnull"] = !$nullable;
         if ($nullable) $options["default"] = null;
-        else {
-            if (array_key_exists($type, self::$type_defaults)) {
-                $options["default"] = self::$type_defaults[$type];
-            }
-        }
+        else if (array_key_exists($type, self::$typeDefaultValues)) $options["default"] = self::$typeDefaultValues[$type];
+        $this->applyLengthStringToColumnOptions($type, $lengthString, $options);
 
         $tableDiff = new TableDiff($table_name);
         $newColumn = new Column($name, Type::getType($type), $options);
@@ -159,4 +162,35 @@ class DBStructureDAO
         return $this->connection->getSchemaManager()->listTableNames();
     }
 
+    public function getLengthString(Column $column)
+    {
+        switch ($column->getType()->getName()) {
+            case "string":
+                return $column->getLength();
+            case "decimal":
+                return $column->getPrecision() . "," . $column->getScale();
+        }
+        return "";
+    }
+
+    public function applyLengthStringToColumnOptions($type, $string, &$options)
+    {
+        $string = trim($string);
+        switch ($type) {
+            case "string":
+                if (is_numeric($string)) $options["length"] = $string;
+                break;
+            case "decimal":
+                $elems = explode(",", $string);
+                if (count($elems) > 0) {
+                    $precision = trim($elems[0]);
+                    if (is_numeric($precision)) $options["precision"] = $precision;
+                }
+                if (count($elems) > 1) {
+                    $scale = trim($elems[1]);
+                    if (is_numeric($scale)) $options["scale"] = $scale;
+                }
+                break;
+        }
+    }
 }

@@ -34,6 +34,8 @@ structure:
       name.tooltip: Column name
       type: Type
       type.tooltip: Column type
+      length: Length
+      length.tooltip: Length and precision
       nullable: Nullable
       nullable.tooltip: Can column value have NULL value
       
@@ -41,6 +43,7 @@ structure:
     field:
       name: Name
       type: Type
+      length: Length
       nullable: Nullable
     edit: Edit
     add: Add column

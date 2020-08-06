@@ -27,6 +27,15 @@
 
             {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
                 {% trans_default_domain "DataTable" %}
+                {% block label %}{{ 'structure.form.field.length'|trans }}{% endblock%}
+                {% block tooltip %}{{ 'structure.form.field.length.tooltip'|trans }}{% endblock%}
+                {% block control %}
+                    <input type="text" ng-model="object.length" style="width:100%;" class='form-control' ng-model-options='{ updateOn: "blur" }' />
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                {% trans_default_domain "DataTable" %}
                 {% block label %}{{ 'structure.form.field.nullable'|trans }}{% endblock%}
                 {% block tooltip %}{{ 'structure.form.field.nullable.tooltip'|trans }}{% endblock%}
                 {% block control %}

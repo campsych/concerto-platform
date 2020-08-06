@@ -330,6 +330,7 @@ class DataTableController extends AExportableTabController
                 $column_name,
                 $request->get("name"),
                 $request->get("type"),
+                $request->get("length"),
                 $request->get("nullable") === "true"
             );
             $errors = $this->trans($errors);

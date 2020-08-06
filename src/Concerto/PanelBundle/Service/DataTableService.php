@@ -291,12 +291,12 @@ class DataTableService extends AExportableSectionService
         }
     }
 
-    public function saveColumn($object_id, $column_name, $new_name, $new_type, $nullable = false)
+    public function saveColumn($object_id, $column_name, $new_name, $new_type, $new_length = "", $nullable = false)
     {
         $object = $this->get($object_id);
         if ($object != null) {
             $this->update($object);
-            return $this->dbStructureService->saveColumn($object->getName(), $column_name, $new_name, $new_type, $nullable);
+            return $this->dbStructureService->saveColumn($object->getName(), $column_name, $new_name, $new_type, $new_length, $nullable);
         } else {
             return array();
         }
@@ -563,17 +563,19 @@ class DataTableService extends AExportableSectionService
         foreach ($new_columns as $new_col) {
             if ($new_col["name"] == "id") continue;
             $found = false;
+            $lengthString = "";
+            if (array_key_exists("length", $new_col)) $lengthString = $new_col["length"];
             foreach ($old_columns as $old_col) {
                 if ($old_col["name"] == $new_col["name"]) {
                     $found = true;
-                    $db_errors = $this->dbStructureService->saveColumn($new_name, $old_col["name"], $new_col["name"], $new_col["type"], $new_col["nullable"]);
+                    $db_errors = $this->dbStructureService->saveColumn($new_name, $old_col["name"], $new_col["name"], $new_col["type"], $lengthString, $new_col["nullable"]);
                     if (count($db_errors) > 0)
                         return array("errors" => $db_errors, "entity" => null, "source" => $obj);
                     break;
                 }
             }
             if (!$found) {
-                $db_errors = $this->dbStructureService->saveColumn($new_name, "0", $new_col["name"], $new_col["type"], $new_col["nullable"]);
+                $db_errors = $this->dbStructureService->saveColumn($new_name, "0", $new_col["name"], $new_col["type"], $lengthString, $new_col["nullable"]);
                 if (count($db_errors) > 0)
                     return array("errors" => $db_errors, "entity" => null, "source" => $obj);
             }

@@ -35,6 +35,8 @@ structure:
       name.tooltip: Nazwa kolumny
       type: Typ
       type.tooltip: Typ kolumny
+      length: Długość
+      length.tooltip: Długość i precyzja
       nullable: Nullable
       nullable.tooltip: Czy wartość kolumny może być NULL
       
@@ -42,6 +44,7 @@ structure:
     field:
       name: Nazwa
       type: Typ
+      length: Długość
       nullable: Nullable
     edit: Edytuj
     add: Dodaj kolumnę

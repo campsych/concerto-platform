@@ -3,11 +3,11 @@
 namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\DAO\DBStructureDAO;
+use Doctrine\DBAL\Schema\Column;
 use Psr\Log\LoggerInterface;
 
 class DBStructureService
 {
-
     private $dbStructureDao;
     private $logger;
 
@@ -67,7 +67,12 @@ class DBStructureService
         $result = array();
         $cols = $this->dbStructureDao->getColumns($table_name);
         foreach ($cols as $col) {
-            array_push($result, array("name" => $col->getName(), "type" => $col->getType()->getName(), "nullable" => !$col->getNotnull()));
+            array_push($result, [
+                "name" => $col->getName(),
+                "type" => $col->getType()->getName(),
+                "nullable" => !$col->getNotnull(),
+                "length" => $this->dbStructureDao->getLengthString($col)
+            ]);
         }
         return $result;
     }
@@ -78,7 +83,12 @@ class DBStructureService
         $cols = $this->dbStructureDao->getColumns($table_name);
         foreach ($cols as $col) {
             if ($column_name == $col->getName()) {
-                return array("name" => $col->getName(), "type" => $col->getType()->getName(), "nullable" => !$col->getNotnull());
+                return [
+                    "name" => $col->getName(),
+                    "type" => $col->getType()->getName(),
+                    "nullable" => !$col->getNotnull(),
+                    "length" => $this->dbStructureDao->getLengthString($col)
+                ];
             }
         }
         return $result;
@@ -90,13 +100,13 @@ class DBStructureService
         return array();
     }
 
-    public function saveColumn($table_name, $column_name, $name, $type, $nullable = false)
+    public function saveColumn($table_name, $column_name, $name, $type, $lengthString = "", $nullable = false)
     {
         $errors = $this->validateColumn($table_name, $column_name, $name);
         if (count($errors) > 0) {
             return $errors;
         }
-        $this->dbStructureDao->saveColumn($table_name, $column_name, $name, $type, $nullable);
+        $this->dbStructureDao->saveColumn($table_name, $column_name, $name, $type, $lengthString, $nullable);
         return array();
     }
 
