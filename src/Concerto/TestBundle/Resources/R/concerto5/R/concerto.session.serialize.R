@@ -2,7 +2,12 @@ concerto.session.serialize <- function(){
     concerto.log(concerto$sessionFile, "serializing session...")
 
     serialized = serialize(concerto, NULL)
-    writeBin(serialized, concerto$sessionFile)
+
+    if(concerto$sessionStorage == "redis") {
+        concerto$redis$SET(concerto$session$hash, serialized)
+    } else {
+        writeBin(serialized, concerto$sessionFile)
+    }
 
     concerto.log("session serialized")
 }

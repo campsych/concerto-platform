@@ -14,7 +14,24 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, max
         concerto$maxExecTime <<- maxExecTime
     }
 
-    concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+    concerto$connection <<- concerto.db.connect(
+        concerto$dbConnectionParams$driver,
+        concerto$dbConnectionParams$username,
+        concerto$dbConnectionParams$password,
+        concerto$dbConnectionParams$dbname,
+        concerto$dbConnectionParams$host,
+        concerto$dbConnectionParams$unix_socket,
+        concerto$dbConnectionParams$port
+    )
+
+    if(concerto$sessionStorage == "redis") {
+        concerto$redisConnection <<- concerto.redis.connect(
+            host = concerto$redisConnectionParams$host,
+            port = concerto$redisConnectionParams$port,
+            password = concerto$redisConnectionParams$password
+        )
+    }
+
     concerto["session"] <<- list(NULL)
     if(!is.null(concerto$sessionHash)) {
         concerto$session <<- as.list(concerto5:::concerto.session.get(concerto$sessionHash))

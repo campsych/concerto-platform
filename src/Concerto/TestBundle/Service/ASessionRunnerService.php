@@ -50,7 +50,7 @@ abstract class ASessionRunnerService
 
     abstract public function healthCheck();
 
-    public function getConnection()
+    public function getDbConnectionParams()
     {
         $con = $this->doctrine->getConnection($this->testRunnerSettings["connection"]);
         $con_array = array(
@@ -73,6 +73,15 @@ abstract class ASessionRunnerService
             $con_array["unix_socket"] = $params["unix_socket"];
         }
         return $con_array;
+    }
+
+    public function getRedisConnectionParams()
+    {
+        return [
+            "host" => $this->testRunnerSettings["redis_host"],
+            "port" => $this->testRunnerSettings["redis_port"],
+            "password" => $this->testRunnerSettings["redis_pass"]
+        ];
     }
 
     public function getRDir()
@@ -329,86 +338,47 @@ abstract class ASessionRunnerService
         return true;
     }
 
-    protected function getCommand($client, $session_hash, $request, $max_exec_time, $initial_port)
+    protected function getCommand($session_hash)
     {
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $ini_path = $this->getRDir() . "standalone.R";
-        $max_exec_time = $max_exec_time === null ? $this->testRunnerSettings["max_execution_time"] : $max_exec_time;
-        $max_idle_time = $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time");
-        $keep_alive_tolerance_time = $this->testRunnerSettings["keep_alive_tolerance_time"];
-        $database_connection = json_encode($this->getConnection());
-        $working_directory = $this->getWorkingDirPath($session_hash);
-        $public_directory = $this->getPublicDirPath();
-        $platformUrl = $this->getPlatformUrl();
-        $appUrl = $this->getAppUrl();
-        $client = json_encode($client);
-        $request = json_encode($request ? $request : array());
         $rout = $this->getROutputFilePath($session_hash);
 
         switch (AdministrationService::getOS()) {
             case AdministrationService::OS_LINUX:
-                return "nohup " . $rscript_exec . " --no-save --no-restore --quiet "
-                    . "'$ini_path' "
-                    . "'$database_connection' "
-                    . "'$client' "
-                    . "'$session_hash' "
-                    . "'$working_directory' "
-                    . "'$public_directory' "
-                    . "'$platformUrl' "
-                    . "'$appUrl' "
-                    . "'$max_exec_time' "
-                    . "'$max_idle_time' "
-                    . "'$keep_alive_tolerance_time' "
-                    . "'$request' "
-                    . "'$initial_port' "
-                    . $this->runnerType . " "
+                return "nohup $rscript_exec --no-save --no-restore --quiet '$ini_path' "
                     . ($rout ? ("> '" . $rout . "' ") : "")
                     . "2>&1 & echo $!";
             default:
-                return "start cmd /C \""
-                    . "\"" . $this->escapeWindowsArg($rscript_exec) . "\" --no-save --no-restore --quiet "
-                    . "\"" . $this->escapeWindowsArg($ini_path) . "\" "
-                    . "\"" . $this->escapeWindowsArg($database_connection) . "\" "
-                    . "\"" . $this->escapeWindowsArg($client) . "\" "
-                    . $session_hash . " "
-                    . "\"" . $this->escapeWindowsArg($working_directory) . "\" "
-                    . "\"" . $this->escapeWindowsArg($public_directory) . "\" "
-                    . "$platformUrl "
-                    . "$appUrl "
-                    . "$max_exec_time "
-                    . "$max_idle_time "
-                    . "$keep_alive_tolerance_time "
-                    . "\"" . $this->escapeWindowsArg($request) . "\" "
-                    . "$initial_port "
-                    . $this->runnerType . " "
+                return "start cmd /C \"\"{$this->escapeWindowsArg($rscript_exec)}\" --no-save --no-restore --quiet \"{$this->escapeWindowsArg($ini_path)}\" "
                     . ($rout ? ("> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
                     . "2>&1\"";
         }
     }
 
-    protected function startChildProcess($client, $session_hash, $request = null, $max_exec_time = null, $initial_port = null)
+    protected function startChildProcess($client, $sessionHash, $request = null, $maxExecTime = null, $initialPort = null)
     {
-        if ($max_exec_time === null) {
-            $max_exec_time = $this->testRunnerSettings["max_execution_time"];
+        if ($maxExecTime === null) {
+            $maxExecTime = $this->testRunnerSettings["max_execution_time"];
         }
 
-        $rout = $this->getROutputFilePath($session_hash);
+        $workingDir = $this->getWorkingDirPath($sessionHash);
+        $maxIdleTime = $this->administrationService->getSettingValueForSessionHash($sessionHash, "max_idle_time");
+        $rout = $this->getROutputFilePath($sessionHash);
 
-        $response = json_encode(array(
-            "workingDir" => realpath($this->getWorkingDirPath($session_hash)) . "/",
-            "maxExecTime" => $max_exec_time,
-            "maxIdleTime" => $this->administrationService->getSettingValueForSessionHash($session_hash, "max_idle_time"),
-            "keepAliveToleranceTime" => $this->testRunnerSettings["keep_alive_tolerance_time"],
+        $response = json_encode([
+            "workingDir" => $workingDir,
+            "maxExecTime" => $maxExecTime,
+            "maxIdleTime" => $maxIdleTime,
             "client" => $client,
-            "connection" => $this->getConnection(),
-            "sessionId" => $session_hash,
+            "sessionId" => $sessionHash,
             "rLogPath" => $rout,
             "response" => $request,
-            "initialPort" => $initial_port,
+            "initialPort" => $initialPort,
             "runnerType" => $this->runnerType
-        ));
+        ]);
 
-        $path = $this->getFifoDir() . ($session_hash ? $session_hash : uniqid("hc", true)) . ".fifo";
+        $path = $this->getFifoDir() . ($sessionHash ? $sessionHash : uniqid("hc", true)) . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
@@ -430,20 +400,46 @@ abstract class ASessionRunnerService
         return $success;
     }
 
-    protected function startStandaloneProcess($client, $session_hash, $request = null, $max_exec_time = null, $initial_port = null)
+    protected function startStandaloneProcess($client, $sessionHash, $request = null, $maxExecTime = null, $initialPort = null)
     {
-        $cmd = $this->getCommand($client, $session_hash, $request, $max_exec_time, $initial_port);
+        $cmd = $this->getCommand($sessionHash);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $cmd");
+
+        $dbConnection = json_encode($this->getDbConnectionParams());
+        $maxExecTime = $maxExecTime === null ? $this->testRunnerSettings["max_execution_time"] : $maxExecTime;
+        $maxIdleTime = $this->administrationService->getSettingValueForSessionHash($sessionHash, "max_idle_time");
+        $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
+        $workingDir = $this->getWorkingDirPath($sessionHash);
+        $publicDir = $this->getPublicDirPath();
+        $platformUrl = $this->getPlatformUrl();
+        $appUrl = $this->getAppUrl();
+        $client = json_encode($client);
+        $request = json_encode($request ? $request : array());
+        $sessionStorage = $this->testRunnerSettings["session_storage"];
+        $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
 
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
 
         $env = array(
+            "CONCERTO_R_APP_URL" => $appUrl,
+            "CONCERTO_R_CLIENT" => $client,
+            "CONCERTO_R_DB_CONNECTION" => $dbConnection,
+            "CONCERTO_R_MAX_EXEC_TIME" => $maxExecTime,
+            "CONCERTO_R_MAX_IDLE_TIME" => $maxIdleTime,
+            "CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME" => $keepAliveToleranceTime,
+            "CONCERTO_R_PLATFORM_URL" => $platformUrl,
+            "CONCERTO_R_INITIAL_PORT" => $initialPort,
+            "CONCERTO_R_PUBLIC_DIR" => $publicDir,
+            "CONCERTO_R_REDIS_CONNECTION" => $redisConnection,
+            "CONCERTO_R_REQUEST" => $request,
+            "CONCERTO_R_RUNNER_TYPE" => $this->runnerType,
+            "CONCERTO_R_SESSION_HASH" => $sessionHash,
+            "CONCERTO_R_SESSION_STORAGE" => $sessionStorage,
+            "CONCERTO_R_WORKING_DIR" => $workingDir,
             "R_GC_MEM_GROW" => 0
         );
-        if ($this->testRunnerSettings["r_environ_path"] != null) {
-            $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
-        }
+        if ($this->testRunnerSettings["r_environ_path"] != null) $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];
         $process->setEnv($env);
         $process->mustRun();
         return true;

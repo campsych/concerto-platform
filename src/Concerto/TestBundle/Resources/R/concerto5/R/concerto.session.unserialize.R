@@ -1,21 +1,30 @@
 concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto.log("unserializing session...")
 
-    sessionFileName = concerto$sessionFile
-    if(!is.null(hash)) {
-        sessionFileName = gsub(concerto$session$hash, hash, sessionFileName)
+    prevConcerto = NULL
+    if(concerto$sessionStorage == "redis") {
+        redisBinarySession = concerto$redis$GET(concerto$session$hash)
+        prevConcerto = NULL
+        if(!is.null(redisBinarySession)) {
+            prevConcerto = unserialize(concerto$redis$GET(concerto$session$hash))
+        } else {
+            return(F)
+        }
+    } else {
+        sessionFileName = concerto$sessionFile
+        if(!is.null(hash)) {
+            sessionFileName = gsub(concerto$session$hash, hash, sessionFileName)
+        }
+        if(!file.exists(sessionFileName)) {
+            concerto.log(sessionFileName, "session file not found")
+            return(F)
+        }
+        concerto.log(sessionFileName)
+
+        con = file(sessionFileName, open="rb")
+        prevConcerto = unserialize(con)
+        close(con)
     }
-
-    if(!file.exists(sessionFileName)) {
-        concerto.log(sessionFileName, "session file not found")
-        return(F)
-    }
-
-    concerto.log(sessionFileName)
-
-    con = file(sessionFileName, open="rb")
-    prevConcerto = unserialize(con)
-    close(con)
 
     concerto$cache <<- prevConcerto$cache
     concerto$globals <<- prevConcerto$globals

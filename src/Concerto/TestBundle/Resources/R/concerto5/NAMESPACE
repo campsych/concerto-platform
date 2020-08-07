@@ -1,6 +1,7 @@
 import("session")
 import("httr")
 export(
+    concerto.db.connect,
     concerto.event.add,
     concerto.event.fire,
     concerto.event.remove,
@@ -8,6 +9,7 @@ export(
     concerto.file.getUrl,
     concerto.list.merge,
     concerto.log,
+    concerto.redis.connect,
     concerto.saml.getAuthenticatedUser,
     concerto.session.getResumeUrl,
     concerto.table.get,

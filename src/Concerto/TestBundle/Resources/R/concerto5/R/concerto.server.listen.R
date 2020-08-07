@@ -23,13 +23,43 @@ concerto.server.listen = function(skipOnResume=F){
             currentTime = as.numeric(Sys.time())
             if(concerto$maxIdleTime > 0 && currentTime - concerto$lastSubmitTime > concerto$maxIdleTime) {
                 concerto.log("idle timeout")
-                concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+                concerto$connection <<- concerto.db.connect(
+                    concerto$dbConnectionParams$driver,
+                    concerto$dbConnectionParams$username,
+                    concerto$dbConnectionParams$password,
+                    concerto$dbConnectionParams$dbname,
+                    concerto$dbConnectionParams$host,
+                    concerto$dbConnectionParams$unix_socket,
+                    concerto$dbConnectionParams$port
+                )
+                if(concerto$sessionStorage == "redis") {
+                    concerto$redisConnection <<- concerto.redis.connect(
+                        host = concerto$redisConnectionParams$host,
+                        port = concerto$redisConnectionParams$port,
+                        password = concerto$redisConnectionParams$password
+                    )
+                }
                 concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
                 concerto5:::concerto.session.stop(STATUS_STOPPED)
             }
             if(concerto$keepAliveToleranceTime > 0 && currentTime - concerto$lastKeepAliveTime > concerto$keepAliveToleranceTime) {
                 concerto.log("keep alive timeout")
-                concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+                concerto$connection <<- concerto.db.connect(
+                    concerto$dbConnectionParams$driver,
+                    concerto$dbConnectionParams$username,
+                    concerto$dbConnectionParams$password,
+                    concerto$dbConnectionParams$dbname,
+                    concerto$dbConnectionParams$host,
+                    concerto$dbConnectionParams$unix_socket,
+                    concerto$dbConnectionParams$port
+                )
+                if(concerto$sessionStorage == "redis") {
+                    concerto$redisConnection <<- concerto.redis.connect(
+                        host = concerto$redisConnectionParams$host,
+                        port = concerto$redisConnectionParams$port,
+                        password = concerto$redisConnectionParams$password
+                    )
+                }
                 concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
                 concerto5:::concerto.session.stop(STATUS_STOPPED)
             }
@@ -48,7 +78,22 @@ concerto.server.listen = function(skipOnResume=F){
 
         concerto.log(response, "received response")
 
-        concerto$connection <<- concerto5:::concerto.db.connect(concerto$connectionParams$driver, concerto$connectionParams$username, concerto$connectionParams$password, concerto$connectionParams$dbname, concerto$connectionParams$host, concerto$connectionParams$unix_socket, concerto$connectionParams$port)
+        concerto$connection <<- concerto.db.connect(
+            concerto$dbConnectionParams$driver,
+            concerto$dbConnectionParams$username,
+            concerto$dbConnectionParams$password,
+            concerto$dbConnectionParams$dbname,
+            concerto$dbConnectionParams$host,
+            concerto$dbConnectionParams$unix_socket,
+            concerto$dbConnectionParams$port
+        )
+        if(concerto$sessionStorage == "redis") {
+            concerto$redisConnection <<- concerto.redis.connect(
+                host = concerto$redisConnectionParams$host,
+                port = concerto$redisConnectionParams$port,
+                password = concerto$redisConnectionParams$password
+            )
+        }
         concerto$session <<- as.list(concerto.session.get(concerto$session$hash))
 
         concerto.log("listened to server")

@@ -1,20 +1,38 @@
 require(concerto5)
 
+ENV_CONCERTO_R_APP_URL = System.getenv("CONCERTO_R_APP_URL")
+ENV_CONCERTO_R_CLIENT = System.getenv("CONCERTO_R_CLIENT")
+ENV_CONCERTO_R_DB_CONNECTION = System.getenv("CONCERTO_R_DB_CONNECTION")
+ENV_CONCERTO_R_INITIAL_PORT = System.getenv("CONCERTO_R_INITIAL_PORT")
+ENV_CONCERTO_R_MAX_EXEC_TIME = System.getenv("CONCERTO_R_MAX_EXEC_TIME")
+ENV_CONCERTO_R_MAX_IDLE_TIME = System.getenv("CONCERTO_R_MAX_IDLE_TIME")
+ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME = System.getenv("CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME")
+ENV_CONCERTO_R_PLATFORM_URL = System.getenv("CONCERTO_R_PLATFORM_URL")
+ENV_CONCERTO_R_PUBLIC_DIR = System.getenv("CONCERTO_R_PUBLIC_DIR")
+ENV_CONCERTO_R_REDIS_CONNECTION = System.getenv("CONCERTO_R_REDIS_CONNECTION")
+ENV_CONCERTO_R_REQUEST = System.getenv("CONCERTO_R_REQUEST")
+ENV_CONCERTO_R_RUNNER_TYPE = System.getenv("CONCERTO_R_RUNNER_TYPE")
+ENV_CONCERTO_R_SESSION_HASH = System.getenv("CONCERTO_R_SESSION_HASH")
+ENV_CONCERTO_R_SESSION_STORAGE = System.getenv("CONCERTO_R_SESSION_STORAGE")
+ENV_CONCERTO_R_WORKING_DIR = System.getenv("CONCERTO_R_WORKING_DIR")
+
 concerto5:::concerto.init(
-    connectionParams = fromJSON(commandArgs(TRUE)[1]),
-    publicDir = commandArgs(TRUE)[5],
-    platformUrl = commandArgs(TRUE)[6],
-    appUrl = commandArgs(TRUE)[7],
-    maxExecTime = as.numeric(commandArgs(TRUE)[8]),
-    maxIdleTime = as.numeric(commandArgs(TRUE)[9]),
-    keepAliveToleranceTime = as.numeric(commandArgs(TRUE)[10])
+    dbConnectionParams = ENV_CONCERTO_R_DB_CONNECTION,
+    publicDir = ENV_CONCERTO_R_PUBLIC_DIR,
+    platformUrl = ENV_CONCERTO_R_PLATFORM_URL,
+    appUrl = ENV_CONCERTO_R_APP_URL,
+    maxExecTime = ENV_CONCERTO_R_MAX_EXEC_TIME,
+    maxIdleTime = ENV_CONCERTO_R_MAX_IDLE_TIME,
+    keepAliveToleranceTime = ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME,
+    sessionStorage = ENV_CONCERTO_R_SESSION_STORAGE,
+    redisConnectionParams = ENV_CONCERTO_R_REDIS_CONNECTION
 )
 
 concerto5:::concerto.run(
-    workingDir = commandArgs(TRUE)[4],
-    client = fromJSON(commandArgs(TRUE)[2]),
-    sessionHash = commandArgs(TRUE)[3],
-    initialPort = commandArgs(TRUE)[12],
-    runnerType = commandArgs(TRUE)[13],
-    response = fromJSON(commandArgs(TRUE)[11])
+    workingDir = ENV_CONCERTO_R_WORKING_DIR,
+    client = fromJSON(ENV_CONCERTO_R_CLIENT),
+    sessionHash = ENV_CONCERTO_R_SESSION_HASH,
+    initialPort = ENV_CONCERTO_R_INITIAL_PORT,
+    runnerType = ENV_CONCERTO_R_RUNNER_TYPE,
+    response = fromJSON(ENV_CONCERTO_R_REQUEST)
 )

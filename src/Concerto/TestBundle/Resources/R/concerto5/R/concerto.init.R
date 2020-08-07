@@ -1,4 +1,4 @@
-concerto.init = function(connectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime){
+concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams){
     options(digits.secs = 6)
     if(Sys.info()['sysname'] != "Windows") {
         options(encoding='UTF-8')
@@ -70,7 +70,9 @@ concerto.init = function(connectionParams, publicDir, platformUrl, appUrl, maxEx
     concerto$keepAliveToleranceTime <<- keepAliveToleranceTime
     concerto$lastSubmitTime <<- as.numeric(Sys.time())
     concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
-    concerto$connectionParams <<- connectionParams
+    concerto$dbConnectionParams <<- dbConnectionParams
+    concerto$sessionStorage <<- sessionStorage
+    concerto$redisConnectionParams <<- redisConnectionParams
 
     concerto$events <<- list(
         onBeforeTemplateShow=NULL,

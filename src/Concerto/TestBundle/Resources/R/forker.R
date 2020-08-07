@@ -1,28 +1,45 @@
 require(concerto5)
 require(parallel)
 
+ENV_CONCERTO_R_APP_URL = System.getenv("CONCERTO_R_APP_URL")
+ENV_CONCERTO_R_DB_CONNECTION = System.getenv("CONCERTO_R_DB_CONNECTION")
+ENV_CONCERTO_R_FIFO_PATH = System.getenv("CONCERTO_R_FIFO_PATH")
+ENV_CONCERTO_R_MAX_EXEC_TIME = System.getenv("CONCERTO_R_MAX_EXEC_TIME")
+ENV_CONCERTO_R_MAX_IDLE_TIME = System.getenv("CONCERTO_R_MAX_IDLE_TIME")
+ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME = System.getenv("CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME")
+ENV_CONCERTO_R_PLATFORM_URL = System.getenv("CONCERTO_R_PLATFORM_URL")
+ENV_CONCERTO_R_PUBLIC_DIR = System.getenv("CONCERTO_R_PUBLIC_DIR")
+ENV_CONCERTO_R_REDIS_CONNECTION = System.getenv("CONCERTO_R_REDIS_CONNECTION")
+ENV_CONCERTO_R_SESSION_STORAGE = System.getenv("CONCERTO_R_SESSION_STORAGE")
+
 concerto5:::concerto.init(
-    connectionParams = fromJSON(commandArgs(TRUE)[5]),
-    publicDir = commandArgs(TRUE)[2],
-    platformUrl = commandArgs(TRUE)[3],
-    appUrl = commandArgs(TRUE)[4],
-    maxExecTime = as.numeric(commandArgs(TRUE)[6]),
-    maxIdleTime = as.numeric(commandArgs(TRUE)[7]),
-    keepAliveToleranceTime = as.numeric(commandArgs(TRUE)[8])
+    dbConnectionParams = fromJSON(ENV_CONCERTO_R_DB_CONNECTION),
+    publicDir = ENV_CONCERTO_R_PUBLIC_DIR,
+    platformUrl = ENV_CONCERTO_R_PLATFORM_URL,
+    appUrl = ENV_CONCERTO_R_APP_URL,
+    maxExecTime = as.numeric(ENV_CONCERTO_R_MAX_EXEC_TIME),
+    maxIdleTime = as.numeric(ENV_CONCERTO_R_MAX_IDLE_TIME),
+    keepAliveToleranceTime = as.numeric(ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME),
+    sessionStorage = ENV_CONCERTO_SESSION_STORAGE,
+    redisConnectionParams = fromJSON(ENV_CONCERTO_REDIS_CONNECTION)
 )
 
-switch(concerto$connectionParams$driver,
+switch(concerto$dbConnectionParams$driver,
     pdo_mysql = require("RMySQL"),
     pdo_sqlsrv = require("RSQLServer")
 )
 
+switch(ENV_CONCERTO_R_SESSION_STORAGE,
+    redis = require("redux")
+)
+
 concerto.log("starting forker listener")
 queue = c()
-unlink(paste0(commandArgs(TRUE)[1],"*.fifo"))
+unlink(paste0(ENV_CONCERTO_R_FIFO_PATH,"*.fifo"))
 while (T) {
     fpath = ""
     if(length(queue) == 0) {
-        queue = list.files(commandArgs(TRUE)[1], full.names=TRUE)
+        queue = list.files(ENV_CONCERTO_R_FIFO_PATH, full.names=TRUE)
     }
     if(length(queue) > 0) {
         fpath = queue[1]

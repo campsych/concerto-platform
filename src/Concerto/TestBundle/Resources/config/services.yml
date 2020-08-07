@@ -63,6 +63,7 @@ services:
     Concerto\TestBundle\Command\StartForkerCommand:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"
+            $projectDir: "%kernel.project_dir%"
 
 #event subscribers
     Concerto\PanelBundle\EventSubscriber\LocaleSubscriber:

@@ -31,6 +31,11 @@ ENV CONCERTO_CONTENT_IMPORT_AT_START=true
 ENV CONCERTO_FAILED_AUTH_LOCK_TIME=300
 ENV CONCERTO_FAILED_AUTH_LOCK_STREAK=3
 ENV CONCERTO_KEY_PASS=changeme
+#CONCERTO_SESSION_STORAGE=[filesystem|redis]
+ENV CONCERTO_SESSION_STORAGE=filesystem
+ENV CONCERTO_REDIS_HOST=redis
+ENV CONCERTO_REDIS_PORT=6379
+ENV CONCERTO_REDIS_PASS=""
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
@@ -63,6 +68,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     gettext \
     git \
     libcurl4-openssl-dev \
+    libhiredis-dev \
     libmariadbclient-dev \
     libxml2-dev \
     libssl-dev \
@@ -80,7 +86,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
- && Rscript -e "install.packages(c('session','RMySQL','jsonlite','catR','digest','rjson','httr','xml2'), repos='$CRAN_MIRROR')" \
+ && Rscript -e "install.packages(c('catR','digest','httr','jsonlite','redux','rjson','RMySQL','session','xml2'), repos='$CRAN_MIRROR')" \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
