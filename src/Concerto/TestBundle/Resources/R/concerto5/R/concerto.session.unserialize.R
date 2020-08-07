@@ -3,10 +3,10 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
 
     prevConcerto = NULL
     if(concerto$sessionStorage == "redis") {
-        redisBinarySession = concerto$redis$GET(concerto$session$hash)
+        redisBinarySession = concerto$redisConnection$GET(concerto$session$hash)
         prevConcerto = NULL
         if(!is.null(redisBinarySession)) {
-            prevConcerto = unserialize(concerto$redis$GET(concerto$session$hash))
+            prevConcerto = unserialize(redisBinarySession)
         } else {
             return(F)
         }

@@ -4,7 +4,7 @@ concerto.session.serialize <- function(){
     serialized = serialize(concerto, NULL)
 
     if(concerto$sessionStorage == "redis") {
-        concerto$redis$SET(concerto$session$hash, serialized)
+        concerto$redisConnection$SET(concerto$session$hash, serialized)
     } else {
         writeBin(serialized, concerto$sessionFile)
     }
