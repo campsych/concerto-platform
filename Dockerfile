@@ -121,6 +121,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data /data/files \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
+ && chown www-data:www-data /app/concerto/app/config/jwt/private.pem /app/concerto/app/config/jwt/public.pem \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
     then php bin/console concerto:content:import --env=prod --sc; \
     fi \

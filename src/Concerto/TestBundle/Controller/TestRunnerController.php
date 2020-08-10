@@ -107,7 +107,8 @@ class TestRunnerController
             $bodyContent = $this->templating->render("@ConcertoTest/test_body.html.twig", $responseParams);
             $responseParams["content"] = $bodyContent;
 
-            $template = $twig->createTemplate($baseTemplate);
+            $template = $twig->createTemplate($baseTemplate)->render($responseParams);
+            return new Response($template);
         }
         return $this->templating->renderResponse($template, $responseParams);
     }
