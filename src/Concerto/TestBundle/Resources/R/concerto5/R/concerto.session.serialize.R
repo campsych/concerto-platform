@@ -1,5 +1,5 @@
 concerto.session.serialize <- function(){
-    concerto.log(concerto$sessionFile, "serializing session...")
+    concerto.log("serializing session...")
 
     serialized = serialize(concerto, NULL)
 

@@ -1,9 +1,9 @@
 parameters:
     env(CONCERTO_PLATFORM_URL): /
     env(CONCERTO_SESSION_STORAGE): filesystem
-    env(CONCERTO_REDIS_HOST): redis
-    env(CONCERTO_REDIS_PORT): 6379
-    env(CONCERTO_REDIS_PASS): ""
+    env(REDIS_HOST): redis
+    env(REDIS_PORT): 6379
+    env(REDIS_PASS): ""
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
@@ -17,6 +17,6 @@ parameters:
         connection: local
         platform_url: "%env(CONCERTO_PLATFORM_URL)%"
         session_storage: "%env(CONCERTO_SESSION_STORAGE)%"
-        redis_host: "%env(CONCERTO_REDIS_HOST)%"
-        redis_port: "%env(CONCERTO_REDIS_PORT)%"
-        redis_pass: "%env(CONCERTO_REDIS_PASS)%"
+        redis_host: "%env(REDIS_HOST)%"
+        redis_port: "%env(REDIS_PORT)%"
+        redis_pass: "%env(REDIS_PASS)%"
