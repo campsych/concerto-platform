@@ -375,4 +375,10 @@ class TestSession {
         }
         return false;
     }
+
+    /** @ORM\PreUpdate() */
+    public function preUpdate()
+    {
+        $this->setUpdated(new DateTime("now"));
+    }
 }

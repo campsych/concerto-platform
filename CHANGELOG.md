@@ -12,6 +12,10 @@
 
 * added **protectedFilesAccess** and **sessionFilesAccess** as input for **showPage** node
 
+#### Fixes
+
+* fixed server side timer
+
 ## 5.0.15 (2020-07-30)
 
 #### Fixes
