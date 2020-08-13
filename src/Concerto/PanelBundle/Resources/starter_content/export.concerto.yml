@@ -12,18 +12,22 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: login
         type: string
         nullable: false
+        length: 1024
       -
         name: password
         type: string
         nullable: false
+        length: 1024
       -
         name: enabled
         type: boolean
         nullable: false
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -38,30 +42,37 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: entryKey
         type: string
         nullable: false
+        length: 1024
       -
         name: en
         type: text
         nullable: true
+        length: ''
       -
         name: es
         type: text
         nullable: true
+        length: ''
       -
         name: de
         type: text
         nullable: true
+        length: ''
       -
         name: fr
         type: text
         nullable: true
+        length: ''
       -
         name: zh
         type: text
         nullable: true
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -76,34 +87,42 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: internal_id
         type: bigint
         nullable: false
+        length: ''
       -
         name: test_id
         type: bigint
         nullable: false
+        length: ''
       -
         name: user_id
         type: bigint
         nullable: false
+        length: ''
       -
         name: startedTime
         type: datetime
         nullable: false
+        length: ''
       -
         name: updateTime
         type: datetime
         nullable: false
+        length: ''
       -
         name: finished
         type: boolean
         nullable: false
+        length: ''
       -
         name: state
         type: text
         nullable: true
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -118,42 +137,52 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: item_id
         type: bigint
         nullable: false
+        length: ''
       -
         name: response
         type: string
         nullable: false
+        length: 1024
       -
         name: score
         type: float
         nullable: true
+        length: ''
       -
         name: timeTaken
         type: float
         nullable: false
+        length: ''
       -
         name: session_id
         type: string
         nullable: false
+        length: 1024
       -
         name: theta
         type: float
         nullable: false
+        length: ''
       -
         name: sem
         type: float
         nullable: false
+        length: ''
       -
         name: trait
         type: string
         nullable: true
+        length: 1024
       -
         name: skipped
         type: boolean
         nullable: false
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -168,46 +197,57 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: fixedIndex
         type: integer
         nullable: true
+        length: ''
       -
         name: trait
         type: string
         nullable: true
+        length: 1024
       -
         name: question
         type: text
         nullable: false
+        length: ''
       -
         name: responseOptions
         type: text
         nullable: false
+        length: ''
       -
         name: p1
         type: float
         nullable: true
+        length: ''
       -
         name: p2
         type: float
         nullable: true
+        length: ''
       -
         name: p3
         type: float
         nullable: true
+        length: ''
       -
         name: p4
         type: float
         nullable: true
+        length: ''
       -
         name: skippable
         type: boolean
         nullable: true
+        length: ''
       -
         name: instructions
         type: text
         nullable: true
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -222,110 +262,137 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: fixedIndex
         type: integer
         nullable: true
+        length: ''
       -
         name: trait
         type: string
         nullable: true
+        length: 1024
       -
         name: question
         type: text
         nullable: false
+        length: ''
       -
         name: p1
         type: float
         nullable: true
+        length: ''
       -
         name: p2
         type: float
         nullable: true
+        length: ''
       -
         name: p3
         type: float
         nullable: true
+        length: ''
       -
         name: p4
         type: float
         nullable: true
+        length: ''
       -
         name: responseLabel1
         type: string
         nullable: true
+        length: 1024
       -
         name: responseValue1
         type: string
         nullable: true
+        length: 1024
       -
         name: responseScore1
         type: float
         nullable: true
+        length: ''
       -
         name: responseTrait1
         type: string
         nullable: true
+        length: 1024
       -
         name: responseLabel2
         type: string
         nullable: true
+        length: 1024
       -
         name: responseValue2
         type: string
         nullable: true
+        length: 1024
       -
         name: responseScore2
         type: float
         nullable: true
+        length: ''
       -
         name: responseTrait2
         type: string
         nullable: true
+        length: 1024
       -
         name: responseLabel3
         type: string
         nullable: true
+        length: 1024
       -
         name: responseValue3
         type: string
         nullable: true
+        length: 1024
       -
         name: responseScore3
         type: float
         nullable: true
+        length: ''
       -
         name: responseTrait3
         type: string
         nullable: true
+        length: 1024
       -
         name: responseLabel4
         type: string
         nullable: true
+        length: 1024
       -
         name: responseValue4
         type: string
         nullable: true
+        length: 1024
       -
         name: responseScore4
         type: float
         nullable: true
+        length: ''
       -
         name: responseTrait4
         type: string
         nullable: true
+        length: 1024
       -
         name: type
         type: string
         nullable: false
+        length: 1024
       -
         name: skippable
         type: boolean
         nullable: true
+        length: ''
       -
         name: instructions
         type: text
         nullable: true
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -340,18 +407,22 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: lowerBound
         type: float
         nullable: true
+        length: ''
       -
         name: upperBound
         type: float
         nullable: true
+        length: ''
       -
         name: feedback
         type: text
         nullable: false
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -366,18 +437,22 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: lowerBound
         type: float
         nullable: true
+        length: ''
       -
         name: upperBound
         type: float
         nullable: true
+        length: ''
       -
         name: score
         type: float
         nullable: true
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -392,18 +467,22 @@ collection:
         name: id
         type: bigint
         nullable: false
+        length: ''
       -
         name: name
         type: string
         nullable: true
+        length: 1024
       -
         name: value
         type: text
         nullable: false
+        length: ''
       -
         name: session_id
         type: string
         nullable: true
+        length: 1024
     groups: ''
     starterContent: true
   -
@@ -3798,7 +3877,7 @@ collection:
         title: 'show item'
         type: 0
         posX: 16317
-        posY: 15109
+        posY: 15113
         flowTest: 4
         sourceTest: 3
         sourceTestName: _eval

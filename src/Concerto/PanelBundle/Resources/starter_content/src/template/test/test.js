@@ -46,7 +46,7 @@ testRunner.controllerProvider.register("test", function ($scope) {
     }
     
     $scope.responses["r" + item.id].isValid = function() {
-      return this.value;
+      return typeof this.value !== 'undefined' && this.value !== null && this.value !== ""; 
     }
     
     testRunner.addExtraControl("skip"+item.id, function() {

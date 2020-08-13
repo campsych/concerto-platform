@@ -6,7 +6,7 @@ getTemplateParams = function() {
   totalPages = ceiling(maxItems / as.numeric(settings$itemsPerPage))
 
   templateParams$items = data.frame(itemsSafe)
-  templateParams$responseRequired = settings$responseRequired
+  templateParams$responseRequired = as.numeric(settings$responseRequired)
   templateParams$responseRequiredAlert = settings$responseRequiredAlert
   templateParams$footer = settings$footer
   templateParams$logo = settings$logo
@@ -16,7 +16,7 @@ getTemplateParams = function() {
   templateParams$canGoBack = canGoBack
   templateParams$responses = responsesSafe
   templateParams$backButtonLabel = settings$backButtonLabel
-  templateParams$showPageInfo = settings$showPageInfo
+  templateParams$showPageInfo = as.numeric(settings$showPageInfo)
   if(settings$order != "cat" || settings$minAccuracy == 0) {
     templateParams$page = page
     templateParams$totalPages = totalPages
@@ -96,6 +96,7 @@ templateResponse = concerto.template.show(
   params=params, 
   timeLimit=templateTimeLimit
 )
+
 if(!is.na(settings$templateResponseModule) && settings$templateResponseModule != "") {
   templateResponse = concerto.test.run(settings$templateResponseModule, params=list(
     settings = settings,
