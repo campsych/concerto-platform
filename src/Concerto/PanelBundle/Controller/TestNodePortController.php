@@ -146,9 +146,7 @@ class TestNodePortController extends ASectionController
             return $response;
         }
 
-        $this->service->hide(
-            $object_id
-        );
+        $this->service->hide($object_id);
         $response = new Response(json_encode(array("result" => 0)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

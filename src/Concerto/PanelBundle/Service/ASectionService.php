@@ -89,7 +89,7 @@ abstract class ASectionService
                     $errorMessages = ["validate.locked"];
                     return false;
                 }
-                if ($object->getTopEntity()->getUpdated()->getTimestamp() > $timestamp && $object->getTopEntity()->getUpdatedBy() != $user->getUsername()) {
+                if ($object->getTopEntity()->getUpdated()->getTimestamp() > $timestamp) {
                     $errorMessages = ["validate.outdated"];
                     return false;
                 }
