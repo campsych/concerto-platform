@@ -1,4 +1,4 @@
-concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams){
+concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams, sessionFilesExpiration){
     options(digits.secs = 6)
     if(Sys.info()['sysname'] != "Windows") {
         options(encoding='UTF-8')
@@ -73,6 +73,7 @@ concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, max
     concerto$dbConnectionParams <<- dbConnectionParams
     concerto$sessionStorage <<- sessionStorage
     concerto$redisConnectionParams <<- redisConnectionParams
+    concerto$sessionFilesExpiration <<- sessionFilesExpiration
 
     concerto$events <<- list(
         onBeforeTemplateShow=NULL,

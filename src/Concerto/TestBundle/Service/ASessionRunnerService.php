@@ -417,6 +417,7 @@ abstract class ASessionRunnerService
         $request = json_encode($request ? $request : array());
         $sessionStorage = $this->testRunnerSettings["session_storage"];
         $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
+        $sessionFilesExpiration = $this->administrationService->getSettingValue("session_files_expiration");
 
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
@@ -437,6 +438,7 @@ abstract class ASessionRunnerService
             "CONCERTO_R_SESSION_HASH" => $sessionHash,
             "CONCERTO_R_SESSION_STORAGE" => $sessionStorage,
             "CONCERTO_R_WORKING_DIR" => $workingDir,
+            "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
             "R_GC_MEM_GROW" => 0
         );
         if ($this->testRunnerSettings["r_environ_path"] != null) $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];

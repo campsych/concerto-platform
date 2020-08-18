@@ -2,6 +2,7 @@
 
 namespace Concerto\TestBundle\Command;
 
+use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\TestBundle\Service\ASessionRunnerService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -16,8 +17,9 @@ class StartForkerCommand extends Command
     private $doctrine;
     private $sessionRunnerService;
     private $projectDir;
+    private $administrationService;
 
-    public function __construct($testRunnerSettings, RegistryInterface $doctrine, ASessionRunnerService $sessionRunnerService, $projectDir)
+    public function __construct($testRunnerSettings, RegistryInterface $doctrine, ASessionRunnerService $sessionRunnerService, $projectDir, AdministrationService $administrationService)
     {
         parent::__construct();
 
@@ -25,6 +27,7 @@ class StartForkerCommand extends Command
         $this->testRunnerSettings = $testRunnerSettings;
         $this->sessionRunnerService = $sessionRunnerService;
         $this->projectDir = $projectDir;
+        $this->administrationService = $administrationService;
     }
 
     protected function configure()
@@ -54,6 +57,7 @@ class StartForkerCommand extends Command
         $keepAliveToleranceTime = $this->testRunnerSettings["keep_alive_tolerance_time"];
         $sessionStorage = $this->testRunnerSettings["session_storage"];
         $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
+        $sessionFilesExpiration = $this->administrationService->getSettingValue("session_files_expiration");
 
         $cmd = $this->getCommand();
         $process = new Process($cmd);
@@ -69,6 +73,7 @@ class StartForkerCommand extends Command
             "CONCERTO_R_PUBLIC_DIR" => $publicDir,
             "CONCERTO_R_REDIS_CONNECTION" => $redisConnection,
             "CONCERTO_R_SESSION_STORAGE" => $sessionStorage,
+            "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
             "R_GC_MEM_GROW" => 0
         ];
         if ($this->testRunnerSettings["r_environ_path"] != null) $env["R_ENVIRON"] = $this->testRunnerSettings["r_environ_path"];

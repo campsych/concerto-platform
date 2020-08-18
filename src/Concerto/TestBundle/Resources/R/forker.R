@@ -11,6 +11,7 @@ ENV_CONCERTO_R_PLATFORM_URL = Sys.getenv("CONCERTO_R_PLATFORM_URL")
 ENV_CONCERTO_R_PUBLIC_DIR = Sys.getenv("CONCERTO_R_PUBLIC_DIR")
 ENV_CONCERTO_R_REDIS_CONNECTION = Sys.getenv("CONCERTO_R_REDIS_CONNECTION")
 ENV_CONCERTO_R_SESSION_STORAGE = Sys.getenv("CONCERTO_R_SESSION_STORAGE")
+ENV_CONCERTO_R_SESSION_FILES_EXPIRATION = Sys.getenv("CONCERTO_R_SESSION_FILES_EXPIRATION")
 
 concerto5:::concerto.init(
     dbConnectionParams = fromJSON(ENV_CONCERTO_R_DB_CONNECTION),
@@ -21,7 +22,8 @@ concerto5:::concerto.init(
     maxIdleTime = as.numeric(ENV_CONCERTO_R_MAX_IDLE_TIME),
     keepAliveToleranceTime = as.numeric(ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME),
     sessionStorage = ENV_CONCERTO_R_SESSION_STORAGE,
-    redisConnectionParams = fromJSON(ENV_CONCERTO_R_REDIS_CONNECTION)
+    redisConnectionParams = fromJSON(ENV_CONCERTO_R_REDIS_CONNECTION),
+    sessionFilesExpiration = ENV_CONCERTO_R_SESSION_FILES_EXPIRATION
 )
 
 switch(concerto$dbConnectionParams$driver,
