@@ -22,6 +22,8 @@ parameters:
     env(CONCERTO_GIT_REPOSITORY_PATH): ''
     env(CONCERTO_FAILED_AUTH_LOCK_TIME): 300
     env(CONCERTO_FAILED_AUTH_LOCK_STREAK): 3
+    env(CONCERTO_SESSION_FILES_EXPIRATION): 7
+    env(CONCERTO_SESSION_LOG_LEVEL): 1
     administration:
         exposed:
             session_limit: "%env(CONCERTO_SESSION_LIMIT)%" #0 for none
@@ -51,7 +53,8 @@ parameters:
             git_repository_path: "%env(CONCERTO_GIT_REPOSITORY_PATH)%"
             r_lib_path: null
             editable_starter_content: false
-            session_files_expiration: 7 #days
+            session_files_expiration: '%env(CONCERTO_SESSION_FILES_EXPIRATION)%'
+            session_log_level: '%env(CONCERTO_SESSION_LOG_LEVEL)%'
             session_count_idle_limit: 1800 #secs
             failed_auth_lock_time: "%env(CONCERTO_FAILED_AUTH_LOCK_TIME)%"
             failed_auth_lock_streak: "%env(CONCERTO_FAILED_AUTH_LOCK_STREAK)%"

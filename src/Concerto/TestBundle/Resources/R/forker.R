@@ -12,6 +12,7 @@ ENV_CONCERTO_R_PUBLIC_DIR = Sys.getenv("CONCERTO_R_PUBLIC_DIR")
 ENV_CONCERTO_R_REDIS_CONNECTION = Sys.getenv("CONCERTO_R_REDIS_CONNECTION")
 ENV_CONCERTO_R_SESSION_STORAGE = Sys.getenv("CONCERTO_R_SESSION_STORAGE")
 ENV_CONCERTO_R_SESSION_FILES_EXPIRATION = Sys.getenv("CONCERTO_R_SESSION_FILES_EXPIRATION")
+ENV_CONCERTO_R_SESSION_LOG_LEVEL = as.numeric(Sys.getenv("CONCERTO_R_SESSION_LOG_LEVEL"))
 
 concerto5:::concerto.init(
     dbConnectionParams = fromJSON(ENV_CONCERTO_R_DB_CONNECTION),
@@ -73,11 +74,17 @@ while (T) {
     if(is.null(response$rLogPath)) response$rLogPath = "/dev/null"
 
     mcparallel({
-        sinkFile <- file(response$rLogPath, open = "at")
-        sink(file = sinkFile, append = TRUE, type = "output", split = FALSE)
-        sink(file = sinkFile, append = TRUE, type = "message", split = FALSE)
+        if(ENV_CONCERTO_R_SESSION_LOG_LEVEL > 0) {
+            sinkFile <- file(response$rLogPath, open = "at")
+            sink(file = sinkFile, append = TRUE, type = "output", split = FALSE)
+            sink(file = sinkFile, append = TRUE, type = "message", split = FALSE)
+            rm(sinkFile)
+        } else {
+            nullFile <- file("/dev/null", open = "at") #UNIX only
+            sink(file = nullFile, append = TRUE, type = "output", split = FALSE)
+            sink(file = nullFile, append = TRUE, type = "message", split = FALSE)
+        }
         rm(queue)
-        rm(sinkFile)
 
         concerto$lastSubmitTime <- as.numeric(Sys.time())
         concerto$lastKeepAliveTime <- as.numeric(Sys.time())

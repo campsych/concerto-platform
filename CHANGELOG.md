@@ -7,6 +7,7 @@
 * JWT token for session ownership and protected global/session file access
 * data table column length can be set from panel (length of string, precision and scale for decimal)
 * redis integration for session storage
+* session logs level
 
 #### Starter content
 

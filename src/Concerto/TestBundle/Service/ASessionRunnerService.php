@@ -343,17 +343,25 @@ abstract class ASessionRunnerService
         $rscript_exec = $this->testRunnerSettings["rscript_exec"];
         $ini_path = $this->getRDir() . "standalone.R";
         $rout = $this->getROutputFilePath($session_hash);
+        $sessionLogLevel = (int)$this->administrationService->getSettingValue("session_log_level");
 
+        $cmd = null;
         switch (AdministrationService::getOS()) {
             case AdministrationService::OS_LINUX:
-                return "nohup $rscript_exec --no-save --no-restore --quiet '$ini_path' "
-                    . ($rout ? ("> '" . $rout . "' ") : "")
-                    . "2>&1 & echo $!";
+                $cmd = "nohup $rscript_exec --no-save --no-restore --quiet '$ini_path' ";
+                if ($sessionLogLevel > 0) {
+                    $cmd .= ($rout ? ("> '" . $rout . "' 2>&1 ") : "");
+                }
+                $cmd .= "& echo $!";
+                break;
             default:
-                return "start cmd /C \"\"{$this->escapeWindowsArg($rscript_exec)}\" --no-save --no-restore --quiet \"{$this->escapeWindowsArg($ini_path)}\" "
-                    . ($rout ? ("> \"" . $this->escapeWindowsArg($rout) . "\" ") : "")
-                    . "2>&1\"";
+                $cmd = "start cmd /C \"\"{$this->escapeWindowsArg($rscript_exec)}\" --no-save --no-restore --quiet \"{$this->escapeWindowsArg($ini_path)}\" ";
+                if ($sessionLogLevel > 0) {
+                    $cmd .= ($rout ? ("> \"" . $this->escapeWindowsArg($rout) . "\" 2>&1\" ") : "");
+                }
+                break;
         }
+        return $cmd;
     }
 
     protected function startChildProcess($client, $sessionHash, $request = null, $maxExecTime = null, $initialPort = null)
