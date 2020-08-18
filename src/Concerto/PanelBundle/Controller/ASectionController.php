@@ -26,8 +26,7 @@ abstract class ASectionController
     protected function getSaveResponse($result)
     {
         $result["errors"] = $this->trans($result["errors"]);
-        if (count($result["errors"]) > 0) $result["result"] = 1;
-        else $result["result"] = 0;
+        $result["result"] = count($result["errors"]) > 0 ? 1 : 0;
 
         $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
