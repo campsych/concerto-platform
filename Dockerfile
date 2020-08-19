@@ -44,9 +44,7 @@ ENV DB_NAME=concerto
 ENV DB_USER=concerto
 ENV DB_PASSWORD=changeme
 ENV NGINX_PORT=80
-ENV NGINX_HEADERS \
-add_header X-Frame-Options sameorigin always;\
-add_header X-Content-Type-Options nosniff always;
+ENV NGINX_HEADERS="add_header X-Frame-Options sameorigin always;\nadd_header X-Content-Type-Options nosniff always;"
 ENV PHP_FPM_PM=dynamic
 ENV PHP_FPM_PM_MAX_CHILDREN=30
 ENV PHP_FPM_PM_START_SERVERS=10
