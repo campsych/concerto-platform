@@ -44,6 +44,7 @@ ENV DB_NAME=concerto
 ENV DB_USER=concerto
 ENV DB_PASSWORD=changeme
 ENV NGINX_PORT=80
+ENV NGINX_X_FRAME_OPTIONS=sameorigin
 ENV PHP_FPM_PM=dynamic
 ENV PHP_FPM_PM_MAX_CHILDREN=30
 ENV PHP_FPM_PM_START_SERVERS=10
@@ -138,7 +139,7 @@ CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.s
  && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
  && chown -R www-data:www-data /data/git \
  && cron \
- && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" > /etc/nginx/sites-available/concerto.conf \
+ && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_x_frame_options}}/$NGINX_X_FRAME_OPTIONS/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=prod  \
  && /etc/init.d/php7.2-fpm start \

@@ -5,7 +5,7 @@ server {
     root /app/concerto/web;
     client_max_body_size 50M;
 
-    add_header X-Frame-Options sameorigin always;
+    add_header X-Frame-Options {{nginx_x_frame_options}} always;
     add_header X-Content-Type-Options nosniff always;
 
     location ~ /(\.|web\.config) {
