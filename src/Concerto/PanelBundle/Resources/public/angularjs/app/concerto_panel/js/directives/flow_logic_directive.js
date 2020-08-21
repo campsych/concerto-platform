@@ -930,6 +930,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 if (httpResponse.data.result === 0) {
                                     scope.collectionService.fetchNodesConnectionCollection(scope.object.id).then(connections => {
                                         scope.refreshNode(scope.collectionService.getNode(object.node));
+                                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
                                     });
                                 } else {
                                     port.name = oldPort.name;
@@ -1390,7 +1391,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 $compile(overlayElem)(scope);
                                 return overlayElem;
                             },
-                            location: 0.5,
+                            location: 0.75,
                             id: "overlayConnection" + params.concertoConnection.id
                         }]);
                 } else if (!params.sourcePort || params.sourcePort.type == 2) {
