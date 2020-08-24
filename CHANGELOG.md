@@ -14,6 +14,7 @@
 * added **protectedFilesAccess** and **sessionFilesAccess** as input for **showPage** node
 * fixed validation of **assessment** node response with value 0
 * restored legacy validation for **assessment** node item types: open, options
+* *http* node now also takes status code into consideration when evaluating branch
 
 #### Fixes
 

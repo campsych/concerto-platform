@@ -27,9 +27,14 @@ concerto.log(response$status_code, "status code")
 concerto.log(content(response), "response content")
 
 .branch = "failure"
+responseStatusCode = NULL
+responseBody = NULL
+responseHeaders = NULL
 if(!is.null(response)) {
-  .branch = "success"
   responseStatusCode = response$status_code
   responseBody = content(response)
   responseHeaders = headers(response)
+  if(responseStatusCode < 400) {
+    .branch = "success"
+  }
 }
