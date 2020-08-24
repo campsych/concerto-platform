@@ -366,6 +366,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             if (httpResponse.data.result === 0) {
                                 node.ports.push(httpResponse.data.object);
                                 scope.refreshNode(node);
+                                scope.object.updatedOn = Math.floor(Date.now() / 1000);
                             } else {
                                 DialogsService.alertDialog(
                                     Trans.TEST_FLOW_DIALOG_NODE_INPUT_ADD_TITLE,
