@@ -7,6 +7,7 @@ use Concerto\TestBundle\Service\TestRunnerService;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -334,7 +335,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/files/protected/{name}", name="files_protected", methods={"GET"})
+     * @Route("/files/protected/{name}", name="files_protected", methods={"GET"}, requirements={"name"=".+"})
      * @param Request $request
      * @param string $name
      * @return BinaryFileResponse | Response
@@ -344,14 +345,16 @@ class TestRunnerController
     {
         if (!$this->checkAuthorizationCookie($request, null, true)) return new Response("", 403);
 
-        $file = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/public/files/protected/$name";
-        if (is_file($file) && realpath($file) === $file) return new BinaryFileResponse($file);
+        $dir = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/public/files/protected";
+        $realDir = realpath($dir);
+        $file = "$realDir/$name";
+        if (is_file($file) && realpath($file) === "$realDir/$name") return new BinaryFileResponse($file);
 
         return new Response("", 404);
     }
 
     /**
-     * @Route("/files/session/{name}", name="files_session", methods={"GET"})
+     * @Route("/files/session/{name}", name="files_session", methods={"GET"}, requirements={"name"=".+"})
      * @param Request $request
      * @param string $name
      * @return BinaryFileResponse | Response
@@ -362,8 +365,10 @@ class TestRunnerController
         $sessionHash = $this->getSessionHashFromAuthorizationCookie($request);
         if (!$this->checkAuthorizationCookie($request, $sessionHash, false, true)) return new Response("", 403);
 
-        $file = $this->sessionRunnerService->getWorkingDirPath($sessionHash) . "files/$name";
-        if (is_file($file) && realpath($file) === $file) return new BinaryFileResponse($file);
+        $dir = $this->sessionRunnerService->getWorkingDirPath($sessionHash) . "files";
+        $realDir = realpath($dir);
+        $file = "$realDir/$name";
+        if (is_file($file) && realpath($file) === "$realDir/$name") return new BinaryFileResponse($file);
 
         return new Response("", 404);
     }
