@@ -429,6 +429,7 @@ abstract class ASessionRunnerService
 
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
+        $process->inheritEnvironmentVariables(true);
 
         $env = array(
             "CONCERTO_R_APP_URL" => $appUrl,

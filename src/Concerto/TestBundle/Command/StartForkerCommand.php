@@ -62,6 +62,7 @@ class StartForkerCommand extends Command
 
         $cmd = $this->getCommand();
         $process = new Process($cmd);
+        $process->inheritEnvironmentVariables(true);
 
         $env = [
             "CONCERTO_R_APP_URL" => $appUrl,
