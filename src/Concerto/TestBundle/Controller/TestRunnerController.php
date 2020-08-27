@@ -109,6 +109,7 @@ class TestRunnerController
             $responseParams["content"] = $bodyContent;
 
             $template = $twig->createTemplate($baseTemplate)->render($responseParams);
+            $template = str_replace(["<src>", "</src>"], "", trim($template));
             return new Response($template);
         }
         return $this->templating->renderResponse($template, $responseParams);
@@ -259,7 +260,6 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
-        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;

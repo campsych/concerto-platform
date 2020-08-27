@@ -24,6 +24,7 @@
 
 * fixed server side timer
 * no longer possible to modify outdated object, even when the same user is responsible for both modifications
+* base template insertion fix
 
 ## 5.0.15 (2020-07-30)
 
