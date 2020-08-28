@@ -366,6 +366,10 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             objectTimestamp: $scope.object.updatedOn
         }).then(function (httpResponse) {
             switch (httpResponse.data.result) {
+                case BaseController.RESULT_OK: {
+                    $scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                    break;
+                }
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     DialogsService.alertDialog(
                         Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
