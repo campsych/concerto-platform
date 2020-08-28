@@ -5,7 +5,7 @@ server {
     root /app/concerto/web;
     client_max_body_size 50M;
 
-    {{nginx_headers}}
+    {{nginx_server_conf}}
 
     location ~ /(\.|web\.config) {
         deny all;
