@@ -626,7 +626,8 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.getPersistObject = function () {
-        var obj = angular.copy($scope.object);
+        let obj = angular.copy($scope.object);
+        obj.objectTimestamp = $scope.object.updatedOn;
         delete obj.logs;
         delete obj.nodes;
         delete obj.nodesConnections;

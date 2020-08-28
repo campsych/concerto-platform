@@ -349,7 +349,9 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
     };
 
     $scope.getPersistObject = function () {
-        return $scope.object;
+        let obj = angular.copy($scope.object);
+        obj.objectTimestamp = $scope.object.updatedOn;
+        return obj;
     };
 
     $scope.persist = function (modalInstance) {

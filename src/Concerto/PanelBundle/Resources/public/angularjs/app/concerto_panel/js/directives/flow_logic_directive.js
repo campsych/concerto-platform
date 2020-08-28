@@ -361,7 +361,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     } else {
                         //adding dynamic input node
                         $http.post(Paths.TEST_FLOW_PORT_ADD_DYNAMIC.pf(nodeId, type), {
-                            "name": response.name
+                            name: response.name,
+                            objectTimestamp: scope.object.updatedOn
                         }).then(function (httpResponse) {
                             if (httpResponse.data.result === 0) {
                                 node.ports.push(httpResponse.data.object);
@@ -914,19 +915,20 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 modalInstance.result.then(function (response) {
                     switch (response.action) {
                         case "save": {
-                            var object = response.object;
+                            let object = response.object;
                             $http.post(Paths.TEST_FLOW_PORT_SAVE.pf(object.id), {
-                                "node": object.node,
-                                "variable": object.variable,
-                                "value": object.value,
-                                "string": object.string,
-                                "default": object.defaultValue,
-                                "type": object.type,
-                                "dynamic": object.dynamic,
-                                "exposed": object.exposed,
-                                "name": object.name,
-                                "pointer": object.pointer,
-                                "pointerVariable": object.pointerVariable
+                                node: object.node,
+                                variable: object.variable,
+                                value: object.value,
+                                string: object.string,
+                                default: object.defaultValue,
+                                type: object.type,
+                                dynamic: object.dynamic,
+                                exposed: object.exposed,
+                                name: object.name,
+                                pointer: object.pointer,
+                                pointerVariable: object.pointerVariable,
+                                objectTimestamp: scope.object.updatedOn
                             }).then(function (httpResponse) {
                                 if (httpResponse.data.result === 0) {
                                     scope.collectionService.fetchNodesConnectionCollection(scope.object.id).then(connections => {

@@ -448,7 +448,8 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
     };
 
     $scope.getPersistObject = function () {
-        var obj = angular.copy($scope.object);
+        let obj = angular.copy($scope.object);
+        obj.objectTimestamp = $scope.object.updatedOn;
         obj.serializedSteps = angular.toJson($scope.steps);
         delete obj.steps;
         return obj;
