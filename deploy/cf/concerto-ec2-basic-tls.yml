@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic-tls (2020-07-01): Standalone Concerto, everything on one instance, not monitored
+  concerto-ec2-basic-tls (2020-09-01): Standalone Concerto, everything on one instance, not monitored
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -73,7 +73,7 @@ Parameters:
   ConcertoSessionLimit:
     Description: How many concurrent sessions to allow (unlimited if not set).
     Type: Number
-    Default: 10
+    Default: 100
   ConcertoTimezone:
     Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
     Type: String
@@ -139,37 +139,56 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1:
-      ami: ami-0de53d8956e8dcf80
+      ami: ami-0b898040803850657
     us-east-2:
-      ami: ami-02bcbb802e03574ba
+      ami: ami-0d8f6eb4f641ef691
     us-west-1:
-      ami: ami-0019ef04ac50be30f
+      ami: ami-056ee704806822732
     us-west-2:
-      ami: ami-061392db613a6357b
+      ami: ami-082b5a644766e0e6f
     eu-west-1:
-      ami: ami-07683a44e80cd32c5
+      ami: ami-0bbc25e23a7640b9b
     eu-west-2:
-      ami: ami-09ead922c1dad67e4
+      ami: ami-0d8e27447ec2c8410
     eu-west-3:
-      ami: ami-0451ae4fd8dd178f7
+      ami: ami-0adcddd3324248c4c
     eu-central-1:
-      ami: ami-09def150731bdbcc2
+      ami: ami-0cc293023f983ed53
     eu-north-1:
-      ami: ami-d16fe6af
+      ami: ami-3f36be41
+    ap-east-1:
+      ami: ami-570c7726
     ap-northeast-1:
-      ami: ami-0f9ae750e8274075b
+      ami: ami-0c3fd0f5d33134a76
     ap-northeast-2:
-      ami: ami-047f7b46bd6dd5d84
+      ami: ami-095ca789e0549777d
     ap-southeast-1:
-      ami: ami-0b419c3a4b01d1859
+      ami: ami-01f7527546b557442
     ap-southeast-2:
-      ami: ami-04481c741a0311bbb
+      ami: ami-0dc96254d5535925f
     ap-south-1:
-      ami: ami-0889b8a448de4fc44
+      ami: ami-0d2692b6acea72ee6
     ca-central-1:
-      ami: ami-03338e1f67dae0168
+      ami: ami-0d4ae09ec9361d8ac
     sa-east-1:
-      ami: ami-0669a96e355eac82f
+      ami: ami-058943e7d9b9cabfb
+  InstanceTypeMap:
+    t2.micro:
+      MaxChildren: 5
+    t3.micro:
+      MaxChildren: 5
+    t2.small:
+      MaxChildren: 20
+    t3.small:
+      MaxChildren: 20
+    t2.medium:
+      MaxChildren: 50
+    t3.medium:
+      MaxChildren: 50
+    t2.large:
+      MaxChildren: 100
+    t3.large:
+      MaxChildren: 100
 
 Resources:
   VPC:
@@ -612,8 +631,7 @@ Resources:
                 }
           commands:
             01_mkdir:
-              command: !Sub |
-                mkdir -p /home/concerto/data/certbot/conf/dummy/${DomainName}
+              command: !Sub mkdir -p /home/concerto/data/certbot/conf/dummy/${DomainName}
             02_dhparam:
               command: >-
                 if [[ ! -e dhparam.pem ]]; then
@@ -629,59 +647,66 @@ Resources:
         concerto:
           files:
             /home/concerto/docker-compose.yml:
-              content: !Sub |
-                version: '3'
-                services:
-                  database:
-                    image: mysql:5.7
-                    container_name: database
-                    restart: unless-stopped
-                    volumes:
-                      - ./data/mysql:/var/lib/mysql
-                    environment:
-                      - MYSQL_DATABASE=concerto
-                      - MYSQL_USER=concerto
-                      - MYSQL_PASSWORD=${DBPassword}
-                      - MYSQL_ROOT_PASSWORD=${DBPassword}
-                      - TZ=${ConcertoTimezone}
+              content: !Sub
+                - |
+                  version: '3'
+                  services:
+                    database:
+                      image: mysql:5.7
+                      container_name: database
+                      restart: unless-stopped
+                      volumes:
+                        - ./data/mysql:/var/lib/mysql
+                      environment:
+                        - MYSQL_DATABASE=concerto
+                        - MYSQL_USER=concerto
+                        - MYSQL_PASSWORD=${DBPassword}
+                        - MYSQL_ROOT_PASSWORD=${DBPassword}
+                        - TZ=${ConcertoTimezone}
 
-                  concerto:
-                    image: campsych/concerto-platform:${ConcertoVersion}
-                    container_name: concerto
-                    restart: unless-stopped
-                    volumes:
-                      - ./data/concerto:/data
-                    environment:
-                      - CONCERTO_PASSWORD=${ConcertoPassword}
-                      - CONCERTO_CONTENT_URL=${ConcertoContentURL}
-                      - CONCERTO_PLATFORM_URL=/
-                      - CONCERTO_GIT_REPOSITORY_PATH=/data/git
-                      - CONCERTO_SESSION_LIMIT=${ConcertoSessionLimit}
-                      - DB_HOST=database
-                      - DB_PASSWORD=${DBPassword}
-                      - TZ=${ConcertoTimezone}
+                    concerto:
+                      image: campsych/concerto-platform:${ConcertoVersion}
+                      container_name: concerto
+                      restart: unless-stopped
+                      volumes:
+                        - ./data/concerto:/data
+                      environment:
+                        - CONCERTO_PASSWORD=${ConcertoPassword}
+                        - CONCERTO_CONTENT_URL=${ConcertoContentURL}
+                        - CONCERTO_PLATFORM_URL=/
+                        - CONCERTO_GIT_REPOSITORY_PATH=/data/git
+                        - CONCERTO_SESSION_LIMIT=${ConcertoSessionLimit}
+                        - DB_HOST=database
+                        - DB_PASSWORD=${DBPassword}
+                        - PHP_FPM_PM=static
+                        - PHP_FPM_PM_MAX_CHILDREN=${MaxChildren}
+                        - TZ=${ConcertoTimezone}
 
-                  nginx:
-                    image: nginx
-                    container_name: nginx
-                    restart: unless-stopped
-                    volumes:
-                      - ./data/nginx:/etc/nginx/conf.d
-                      - ./data/certbot/conf:/etc/letsencrypt
-                      - ./data/certbot/www:/var/www/certbot
-                    ports:
-                      - "80:80"
-                      - "443:443"
-                    command: "/bin/sh -c 'trap exit TERM; while :; do sleep 15m & wait $${!!}; if [ -d \"/etc/letsencrypt/live/${DomainName}\" ]; then sed -i s/dummy/live/g /etc/nginx/conf.d/app.conf; fi; nginx -s reload; done & nginx -g \"daemon off;\"'"
+                    nginx:
+                      image: nginx
+                      container_name: nginx
+                      restart: unless-stopped
+                      volumes:
+                        - ./data/nginx:/etc/nginx/conf.d
+                        - ./data/certbot/conf:/etc/letsencrypt
+                        - ./data/certbot/www:/var/www/certbot
+                      ports:
+                        - "80:80"
+                        - "443:443"
+                      command: "/bin/sh -c 'trap exit TERM; while :; do if $$(find /etc/letsencrypt/live/${DomainName}/fullchain.pem -mmin -20); then sed -i s/dummy/live/g /etc/nginx/conf.d/app.conf; nginx -s reload; fi; sleep 15m & wait $${!!}; done & nginx -g \"daemon off;\"'"
 
-                  certbot:
-                    image: certbot/certbot
-                    container_name: certbot
-                    restart: unless-stopped
-                    volumes:
-                      - ./data/certbot/conf:/etc/letsencrypt
-                      - ./data/certbot/www:/var/www/certbot
-                    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot certonly --non-interactive --webroot -w /var/www/certbot --email ${Email} -d ${DomainName} --agree-tos || true; sleep 15m & wait $${!!}; done;'"
+                    certbot:
+                      image: certbot/certbot
+                      container_name: certbot
+                      restart: unless-stopped
+                      volumes:
+                        - ./data/certbot/conf:/etc/letsencrypt
+                        - ./data/certbot/www:/var/www/certbot
+                      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot certonly --non-interactive --webroot -w /var/www/certbot --email ${Email} -d ${DomainName} --agree-tos || true; sleep 15m & wait $${!!}; done;'"
+                - MaxChildren: !FindInMap
+                    - InstanceTypeMap
+                    - !Ref WebServerInstanceType
+                    - MaxChildren
           commands:
             start:
               command: /usr/local/bin/docker-compose up -d --remove-orphans --force-recreate
