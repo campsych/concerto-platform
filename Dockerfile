@@ -114,7 +114,11 @@ EXPOSE 80 9000
 WORKDIR /app/concerto
 HEALTHCHECK --interval=1m --start-period=1m CMD curl -f http://localhost/api/check/health || exit 1
 
-CMD printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
+CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
+    then export CONCERTO_COOKIES_SECURE_PHP=1; \
+    else export CONCERTO_COOKIES_SECURE_PHP=0; \
+    fi \
+ && printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
  && mkdir -p /data/files \
  && mkdir -p /data/sessions \
  && mkdir -p /data/git \
