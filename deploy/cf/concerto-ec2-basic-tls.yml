@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic-tls (2020-09-01): Standalone Concerto, everything on one instance, not monitored
+  concerto-ec2-basic-tls (2020-09-02): Standalone Concerto, everything on one instance
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -57,7 +57,7 @@ Metadata:
 
 Parameters:
   ConcertoVersion:
-    Description: Concerto version to use. Can be any tag from https://github.com/campsych/concerto-platform, defaults to latest stable.
+    Description: Concerto version to use. Can be any tag from https://github.com/campsych/concerto-platform
     Type: String
     Default: 5.0
   ConcertoPassword:
@@ -67,15 +67,15 @@ Parameters:
     MinLength: 8
     ConstraintDescription: min. 8 characters.
   ConcertoContentURL:
-    Description: URL with Concerto content backup to preload (optional).
+    Description: URL with Concerto content backup to preload (defaults to starter content)
     Type: String
     Default: .
   ConcertoSessionLimit:
-    Description: How many concurrent sessions to allow (unlimited if not set).
+    Description: How many concurrent sessions to allow (unlimited if 0 or not set)
     Type: Number
-    Default: 100
+    Default: 0
   ConcertoTimezone:
-    Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
     Type: String
     Default: Europe/London
   ConcertoStorage:
@@ -84,23 +84,23 @@ Parameters:
     Type: Number
     MinValue: 8
     MaxValue: 1024
-    ConstraintDescription: must be between 8 and 1024Gb.
+    ConstraintDescription: must be between 8 and 1024Gb
   DomainName:
     Description: The domain name to be used for Concerto, you need to own it
     Type: String
     AllowedPattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]
-    ConstraintDescription: must be a valid domain name.
+    ConstraintDescription: must be a valid domain name
   Email:
     Description: Your email to be used with Lets Encrypt CA
     Type: String
     AllowedPattern: ([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)
-    ConstraintDescription: must be a valid email.
+    ConstraintDescription: must be a valid email
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
-    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+    ConstraintDescription: must be the name of an existing EC2 KeyPair
   WebServerInstanceType:
-    Description: Web server instance type.
+    Description: Web server instance type
     Type: String
     Default: t2.micro
     AllowedValues:
@@ -112,7 +112,7 @@ Parameters:
       - t3.medium
       - t2.large
       - t3.large
-    ConstraintDescription: must be a valid EC2 instance type.
+    ConstraintDescription: must be a valid EC2 instance type
   DBPassword:
     Description: Database admin account password (recommended to generate a random one, different than Concerto's)
     Type: String
@@ -126,7 +126,7 @@ Parameters:
     MaxLength: 18
     Default: 10.10.0.0/16
     AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x
   CIDRA:
     Description: Address range within the VPC to be used for the subnet
     Type: String
@@ -134,7 +134,7 @@ Parameters:
     MaxLength: 18
     Default: 10.10.0.0/24
     AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x
 
 Mappings:
   RegionMap:

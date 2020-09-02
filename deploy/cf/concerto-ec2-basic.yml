@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  concerto-ec2-basic (2020-09-01): Standalone Concerto, everything on one instance, no TLS
+  concerto-ec2-basic (2020-09-02): Standalone Concerto, everything on one instance, no TLS
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -51,7 +51,7 @@ Metadata:
 
 Parameters:
   ConcertoVersion:
-    Description: Concerto version to use. Can be any tag from https://github.com/campsych/concerto-platform, defaults to latest stable.
+    Description: Concerto version to use. Can be any tag from https://github.com/campsych/concerto-platform
     Type: String
     Default: 5.0
   ConcertoPassword:
@@ -61,15 +61,15 @@ Parameters:
     MinLength: 8
     ConstraintDescription: min. 8 characters.
   ConcertoContentURL:
-    Description: URL with Concerto content backup to preload (optional).
+    Description: URL with Concerto content backup to preload (optional)
     Type: String
     Default: .
   ConcertoSessionLimit:
-    Description: How many concurrent sessions to allow (unlimited if not set).
+    Description: How many concurrent sessions to allow (unlimited if 0 or not set)
     Type: Number
-    Default: 100
+    Default: 0
   ConcertoTimezone:
-    Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
     Type: String
     Default: Europe/London
   ConcertoStorage:
@@ -82,9 +82,9 @@ Parameters:
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
-    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+    ConstraintDescription: must be the name of an existing EC2 KeyPair
   WebServerInstanceType:
-    Description: Web server instance type.
+    Description: Web server instance type
     Type: String
     Default: t2.micro
     AllowedValues:
@@ -96,7 +96,7 @@ Parameters:
       - t3.medium
       - t2.large
       - t3.large
-    ConstraintDescription: must be a valid EC2 instance type.
+    ConstraintDescription: must be a valid EC2 instance type
   DBPassword:
     Description: Database admin account password (recommended to generate a random one, different than Concerto's)
     Type: String
@@ -110,7 +110,7 @@ Parameters:
     MaxLength: 18
     Default: 10.10.0.0/16
     AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x
   CIDRA:
     Description: Address range within the VPC to be used for the subnet
     Type: String
@@ -118,7 +118,7 @@ Parameters:
     MaxLength: 18
     Default: 10.10.0.0/24
     AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x
 
 Mappings:
   RegionMap:
@@ -476,6 +476,9 @@ Outputs:
       - http://${PublicIp}/admin
       - PublicIp: !GetAtt WebServerInstance.PublicIp
     Description: Concerto administration panel URL
+  ServerIP:
+    Value: !GetAtt WebServerInstance.PublicIp
+    Description: IP address to point your domain to (i.e. with A record)
   ConcertoVersion:
     Value: !Ref ConcertoVersion
     Description: Concerto version being used
