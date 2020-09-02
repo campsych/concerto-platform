@@ -1,3 +1,9 @@
+## 5.0.17 (in progress)
+
+#### Features
+
+* added **CONCERTO_COOKIES_SECURE** and **CONCERTO_COOKIES_SAME_SITE** config options exposed through env variables
+
 ## 5.0.16 (2020-08-28)
 
 #### Features

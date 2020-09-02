@@ -419,7 +419,18 @@ class TestRunnerController
             return false;
         }
 
-        $response->headers->setCookie(new Cookie("concertoSession", $token));
+        $cookie = new Cookie(
+            "concertoSession",
+            $token,
+            0,
+            '/',
+            null,
+            $this->testRunnerSettings["cookies_secure"] === "true",
+            true,
+            false,
+            $this->testRunnerSettings["cookies_same_site"] ? $this->testRunnerSettings["cookies_same_site"] : null
+        );
+        $response->headers->setCookie($cookie);
         return true;
     }
 
@@ -449,14 +460,25 @@ class TestRunnerController
         return $token["sessionHash"];
     }
 
-    private function setCookies(&$response, $result)
+    private function setCookies(Response &$response, $result)
     {
         $decodedResult = json_decode($result, true);
         if (array_key_exists("data", $decodedResult) && is_array($decodedResult["data"]) && array_key_exists("cookies", $decodedResult["data"])) {
             $cookies = $decodedResult["data"]["cookies"];
             if (is_array($cookies)) {
                 foreach ($cookies as $k => $v) {
-                    $response->headers->setCookie(new Cookie($k, $v));
+                    $cookie = new Cookie(
+                        $k,
+                        $v,
+                        0,
+                        '/',
+                        null,
+                        $this->testRunnerSettings["cookies_secure"] === "true",
+                        true,
+                        false,
+                        $this->testRunnerSettings["cookies_same_site"] ? $this->testRunnerSettings["cookies_same_site"] : null
+                    );
+                    $response->headers->setCookie($cookie);
                 }
             }
         }

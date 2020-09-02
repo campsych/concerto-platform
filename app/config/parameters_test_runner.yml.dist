@@ -1,6 +1,8 @@
 parameters:
     env(CONCERTO_PLATFORM_URL): /
     env(CONCERTO_SESSION_STORAGE): filesystem
+    env(CONCERTO_COOKIES_SAME_SITE): ""
+    env(CONCERTO_COOKIES_SECURE): false
     env(REDIS_HOST): redis
     env(REDIS_PORT): 6379
     env(REDIS_PASS): ""
@@ -20,3 +22,5 @@ parameters:
         redis_host: "%env(REDIS_HOST)%"
         redis_port: "%env(REDIS_PORT)%"
         redis_pass: "%env(REDIS_PASS)%"
+        cookies_same_site: '%env(CONCERTO_COOKIES_SAME_SITE)%'
+        cookies_secure: '%env(CONCERTO_COOKIES_SECURE)%'
