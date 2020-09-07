@@ -260,6 +260,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->extendAuthorizationCookie($response, $request);
         $this->setCookies($response, $result);
 
         return $response;
@@ -307,6 +308,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->extendAuthorizationCookie($response, $request);
 
         return $response;
     }
@@ -330,6 +332,7 @@ class TestRunnerController
         );
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json');
+        $this->extendAuthorizationCookie($response, $request);
 
         return $response;
     }
@@ -415,6 +418,38 @@ class TestRunnerController
                 "sessionFilesAccess" => $sessionFilesAccess,
                 "expiry" => time() + 3600
             ]);
+        } catch (JWTEncodeFailureException $e) {
+            return false;
+        }
+
+        $cookie = new Cookie(
+            "concertoSession",
+            $token,
+            0,
+            '/',
+            null,
+            $this->testRunnerSettings["cookies_secure"] === "true",
+            true,
+            false,
+            $this->testRunnerSettings["cookies_same_site"] ? $this->testRunnerSettings["cookies_same_site"] : null
+        );
+        $response->headers->setCookie($cookie);
+        return true;
+    }
+
+    private function extendAuthorizationCookie(Response &$response, Request $request)
+    {
+        $decodedToken = null;
+        try {
+            $decodedToken = $this->jwtEncoder->decode($request->cookies->get("concertoSession"));
+        } catch (JWTDecodeFailureException $e) {
+            return false;
+        }
+
+        $decodedToken["expiry"] = time() + 3600;
+
+        try {
+            $token = $this->jwtEncoder->encode($decodedToken);
         } catch (JWTEncodeFailureException $e) {
             return false;
         }

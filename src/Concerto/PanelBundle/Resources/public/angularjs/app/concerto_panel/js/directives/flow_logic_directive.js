@@ -941,6 +941,12 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     port.string = oldPort.string;
                                     port.pointer = oldPort.pointer;
                                     port.pointerVariable = oldPort.pointerVariable;
+
+                                    DialogsService.alertDialog(
+                                        Trans.DIALOG_TITLE_SAVE,
+                                        httpResponse.data.errors.join("<br/>"),
+                                        "danger"
+                                    );
                                 }
                             });
                             break;
