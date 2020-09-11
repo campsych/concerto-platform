@@ -5,7 +5,7 @@ testRunner.controller('testRunnerController', [
     function ($scope, $compile) {
 
         $scope.concertoOptions = {};
-        $scope.init = function (platform_url, appUrl, testSlug, testName, params, debug, keepAliveInterval, existingSessionHash) {
+        $scope.init = function (platform_url, appUrl, testSlug, testName, params, debug, keepAliveInterval, keepAliveTolerance, existingSessionHash) {
 
             $scope.concertoOptions = angular.extend($scope.concertoOptions, {
                 platformUrl: platform_url,
@@ -15,6 +15,7 @@ testRunner.controller('testRunnerController', [
                 params: params,
                 debug: debug,
                 keepAliveInterval: keepAliveInterval,
+                keepAliveTolerance: keepAliveTolerance,
                 existingSessionHash: existingSessionHash
             });
         };

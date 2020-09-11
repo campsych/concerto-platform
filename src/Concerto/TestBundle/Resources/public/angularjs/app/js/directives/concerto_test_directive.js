@@ -57,7 +57,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 appUrl: "",
                 testSlug: null,
                 testName: null,
-                keepAliveInterval: 0
+                keepAliveInterval: 0,
+                keepAliveTolerance: 0
             }, scope.options);
             testRunner.settings.platformUrl = internalSettings.platformUrl;
             testRunner.settings.appUrl = internalSettings.appUrl;
@@ -69,6 +70,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var retryTimer = 0;
             var retryTimerId;
             var keepAliveTimerPromise;
+            var lastSuccessfulKeepAliveTime;
             var displayState = DISPLAY_UNKNOWN;
             var isViewReady = false;
             var lastResponseTime = 0;
@@ -135,10 +137,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function startKeepAlive() {
                 if (internalSettings.keepAliveInterval > 0) {
+                    if (lastSuccessfulKeepAliveTime === null) lastSuccessfulKeepAliveTime = new Date();
                     keepAliveTimerPromise = $interval(function () {
                         $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/keepalive", {}).then(
                             function success(httpResponse) {
-                                if (httpResponse.data.code !== RESPONSE_KEEPALIVE_CHECKIN) {
+                                if (httpResponse.data.code === RESPONSE_KEEPALIVE_CHECKIN) {
+                                    lastSuccessfulKeepAliveTime = new Date();
+                                } else {
                                     removeSubmitEvents();
                                     clearTimer();
                                     hideView();
@@ -147,11 +152,17 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                 }
                             },
                             function error(httpResponse) {
-                                removeSubmitEvents();
-                                clearTimer();
-                                hideView();
+                                if (internalSettings.keepAliveTolerance > 0) {
+                                    let stop = httpResponse.status >= 400;
+                                    let lastSuccessfulCheckinAgo = (new Date().getTime() - lastSuccessfulKeepAliveTime.getTime()) / 1000;
+                                    if (stop || lastSuccessfulCheckinAgo > internalSettings.keepAliveTolerance) {
+                                        removeSubmitEvents();
+                                        clearTimer();
+                                        hideView();
 
-                                handleHttpError(httpResponse);
+                                        handleHttpError(httpResponse);
+                                    }
+                                }
                             });
                     }, internalSettings.keepAliveInterval * 1000);
                 }
@@ -227,7 +238,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }
             }
 
-            scope.runWorker = function (name, passedVals, successCallback) {
+            scope.runWorker = function (name, passedVals, successCallback, stopOnNetworkError) {
+                if (typeof (stopOnNetworkError) === 'undefined') stopOnNetworkError = false;
                 var values = getControlsValues();
                 if (passedVals) {
                     angular.merge(values, passedVals);
@@ -254,11 +266,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         }
                     },
                     function error(httpResult) {
-                        removeSubmitEvents();
-                        clearTimer();
-                        hideView();
+                        let stop = httpResult.status >= 400;
+                        if (stop || stopOnNetworkError) {
+                            removeSubmitEvents();
+                            clearTimer();
+                            hideView();
 
-                        handleHttpError(httpResult);
+                            handleHttpError(httpResult);
+                        }
                     }
                 );
             };
@@ -305,9 +320,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function handleHttpError(httpResponse) {
                 stopped = true;
-                if (httpResponse.status >= 500 && httpResponse.status < 600) {
+                if (httpResponse.status >= 500) {
                     scope.html = testRunner.settings.serverErrorHtml;
-                } else if (httpResponse.status >= 400 && httpResponse.status < 500) {
+                } else {
                     scope.html = testRunner.settings.clientErrorHtml;
                 }
             }

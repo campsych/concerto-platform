@@ -17,6 +17,7 @@
     '{{ params }}',
     {% if debug %}true{% else %}false{% endif %},
     {{ keep_alive_interval }},
+    {{ keep_alive_tolerance }},
     {% if existing_session_hash %} '{{ existing_session_hash }}' {% else %} null {% endif %}
 )">
 <div class="center">

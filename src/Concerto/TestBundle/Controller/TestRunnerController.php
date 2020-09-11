@@ -92,6 +92,7 @@ class TestRunnerController
             "test_slug" => $test_slug,
             "params" => addcslashes($params, "'"),
             "keep_alive_interval" => $this->testRunnerSettings["keep_alive_interval_time"],
+            "keep_alive_tolerance" => $this->testRunnerSettings["keep_alive_tolerance_time"],
             "debug" => $debug,
             "browser_valid" => $browser_valid,
             "existing_session_hash" => $existing_session_hash
@@ -416,7 +417,7 @@ class TestRunnerController
                 "sessionHash" => $sessionHash,
                 "protectedFilesAccess" => $protectedFilesAccess,
                 "sessionFilesAccess" => $sessionFilesAccess,
-                "expiry" => time() + 3600
+                "expiry" => time() + intval($this->testRunnerSettings["session_cookie_expiry_time"])
             ]);
         } catch (JWTEncodeFailureException $e) {
             return false;
@@ -446,7 +447,7 @@ class TestRunnerController
             return false;
         }
 
-        $decodedToken["expiry"] = time() + 3600;
+        $decodedToken["expiry"] = time() + intval($this->testRunnerSettings["session_cookie_expiry_time"]);
 
         try {
             $token = $this->jwtEncoder->encode($decodedToken);

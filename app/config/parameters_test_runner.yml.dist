@@ -6,11 +6,14 @@ parameters:
     env(REDIS_HOST): redis
     env(REDIS_PORT): 6379
     env(REDIS_PASS): ""
+    env(CONCERTO_KEEP_ALIVE_INTERVAL_TIME): 900
+    env(CONCERTO_KEEP_ALIVE_TOLERANCE_TIME): 0
+    env(CONCERTO_SESSION_COOKIE_EXPIRY_TIME): 7200
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
-        keep_alive_interval_time: 60 #0 for none
-        keep_alive_tolerance_time: 130
+        keep_alive_interval_time: '%env(CONCERTO_KEEP_ALIVE_INTERVAL_TIME)%'
+        keep_alive_tolerance_time: '%env(CONCERTO_KEEP_ALIVE_TOLERANCE_TIME)%'
         r_environ_path: null
         php_exec: php
         rscript_exec: Rscript
@@ -24,3 +27,4 @@ parameters:
         redis_pass: "%env(REDIS_PASS)%"
         cookies_same_site: '%env(CONCERTO_COOKIES_SAME_SITE)%'
         cookies_secure: '%env(CONCERTO_COOKIES_SECURE)%'
+        session_cookie_expiry_time: '%env(CONCERTO_SESSION_COOKIE_EXPIRY_TIME)%'
