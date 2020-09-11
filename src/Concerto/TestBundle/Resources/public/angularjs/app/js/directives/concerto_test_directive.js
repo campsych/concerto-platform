@@ -152,16 +152,17 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                 }
                             },
                             function error(httpResponse) {
-                                if (internalSettings.keepAliveTolerance > 0) {
-                                    let stop = httpResponse.status >= 400;
+                                let stop = httpResponse.status >= 400;
+                                if (!stop && internalSettings.keepAliveTolerance > 0) {
                                     let lastSuccessfulCheckinAgo = (new Date().getTime() - lastSuccessfulKeepAliveTime.getTime()) / 1000;
-                                    if (stop || lastSuccessfulCheckinAgo > internalSettings.keepAliveTolerance) {
-                                        removeSubmitEvents();
-                                        clearTimer();
-                                        hideView();
+                                    if (lastSuccessfulCheckinAgo > internalSettings.keepAliveTolerance) stop = true;
+                                }
+                                if (stop) {
+                                    removeSubmitEvents();
+                                    clearTimer();
+                                    hideView();
 
-                                        handleHttpError(httpResponse);
-                                    }
+                                    handleHttpError(httpResponse);
                                 }
                             });
                     }, internalSettings.keepAliveInterval * 1000);
