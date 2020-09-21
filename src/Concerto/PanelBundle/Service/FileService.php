@@ -91,7 +91,7 @@ class FileService
         $oldPath = $this->getPublicUploadDirectory() . $item;
         $newPath = $this->getPublicUploadDirectory() . $newItemPath;
         if (!file_exists($oldPath)) {
-            $errror = 'file_not_found';
+            $error = 'file_not_found';
             return false;
         }
         $success = rename($oldPath, $newPath);
