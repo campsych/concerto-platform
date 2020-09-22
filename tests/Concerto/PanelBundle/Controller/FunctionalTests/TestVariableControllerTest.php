@@ -6,16 +6,19 @@ use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
-class TestVariableControllerTest extends AFunctionalTest {
+class TestVariableControllerTest extends AFunctionalTest
+{
 
     private static $repository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:TestVariable");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -53,7 +56,8 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
     }
 
-    public function testCollectionByTestAction() {
+    public function testCollectionByTestAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestVariable/Test/1/collection');
@@ -96,7 +100,8 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testParametersCollectionAction() {
+    public function testParametersCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestVariable/Test/1/parameters/collection');
@@ -117,7 +122,8 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testReturnsCollectionAction() {
+    public function testReturnsCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestVariable/Test/1/returns/collection');
@@ -138,7 +144,8 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testBranchesCollectionAction() {
+    public function testBranchesCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestVariable/Test/1/branches/collection');
@@ -159,7 +166,8 @@ class TestVariableControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
         $client->request("POST", "/admin/TestVariable/-1/save", array(
             "name" => "param2",
@@ -171,10 +179,13 @@ class TestVariableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 0,
-            "errors" => array(),
-            "object" => array(
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
+            "errors" => [],
+            "object" => [
                 "class_name" => "TestVariable",
                 "id" => 4,
                 "name" => "param2",
@@ -184,11 +195,13 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "value" => "123",
                 "passableThroughUrl" => "0",
                 "parentVariable" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            ]
+        ], $decodedResponse);
         $this->assertCount(4, self::$repository->findAll());
     }
 
-    public function testSaveActionRename() {
+    public function testSaveActionRename()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestVariable/1/save", array(
@@ -201,10 +214,13 @@ class TestVariableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 0,
-            "errors" => array(),
-            "object" => array(
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
+            "errors" => [],
+            "object" => [
                 "class_name" => "TestVariable",
                 "id" => 1,
                 "name" => "param3",
@@ -214,11 +230,13 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "value" => "123",
                 "passableThroughUrl" => "0",
                 "parentVariable" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            ]
+        ], $decodedResponse);
         $this->assertCount(3, self::$repository->findAll());
     }
 
-    public function testSaveActionSameName() {
+    public function testSaveActionSameName()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestVariable/3/save", array(
@@ -231,10 +249,13 @@ class TestVariableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 0,
-            "errors" => array(),
-            "object" => array(
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
+            "errors" => [],
+            "object" => [
                 "class_name" => "TestVariable",
                 "id" => 3,
                 "name" => "param",
@@ -244,11 +265,13 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "value" => "123",
                 "passableThroughUrl" => "0",
                 "parentVariable" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            ]
+        ], $decodedResponse);
         $this->assertCount(3, self::$repository->findAll());
     }
 
-    public function testSaveActionNameAlreadyExists() {
+    public function testSaveActionNameAlreadyExists()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
@@ -261,10 +284,13 @@ class TestVariableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 0,
-            "errors" => array(),
-            "object" => array(
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
+            "errors" => [],
+            "object" => [
                 "class_name" => "TestVariable",
                 "id" => 4,
                 "name" => "new_param",
@@ -274,7 +300,8 @@ class TestVariableControllerTest extends AFunctionalTest {
                 "value" => "123",
                 "passableThroughUrl" => "0",
                 "parentVariable" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            ]
+        ], $decodedResponse);
         $this->assertCount(4, self::$repository->findAll());
 
         $client->request("POST", "/admin/TestVariable/3/save", array(
@@ -287,11 +314,14 @@ class TestVariableControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 1,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => null,
             "errors" => array("Variable with that name and type already is assigned to the test")
-                ), json_decode($client->getResponse()->getContent(), true));
+        ], $decodedResponse);
         $this->assertCount(4, self::$repository->findAll());
     }
 

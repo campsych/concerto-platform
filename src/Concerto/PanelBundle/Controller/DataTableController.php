@@ -264,7 +264,10 @@ class DataTableController extends AExportableTabController
         }
 
         $this->service->deleteRows($table_id, $row_ids);
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -304,7 +307,10 @@ class DataTableController extends AExportableTabController
         }
 
         $this->service->deleteAll($table_id);
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -357,7 +363,10 @@ class DataTableController extends AExportableTabController
         }
 
         $this->service->insertRow($table_id);
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -379,7 +388,10 @@ class DataTableController extends AExportableTabController
         }
 
         $this->service->updateRow($table_id, $row_id, $request->get("values"), $prefixed == 1);
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -457,7 +469,10 @@ class DataTableController extends AExportableTabController
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

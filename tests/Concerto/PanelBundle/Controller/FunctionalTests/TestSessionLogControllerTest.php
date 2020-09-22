@@ -7,18 +7,21 @@ use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestSessionLog;
 
-class TestSessionLogControllerTest extends AFunctionalTest {
+class TestSessionLogControllerTest extends AFunctionalTest
+{
 
     private static $repository;
     private static $testRepository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:TestSessionLog");
         self::$testRepository = static::$entityManager->getRepository("ConcertoPanelBundle:Test");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -45,7 +48,8 @@ class TestSessionLogControllerTest extends AFunctionalTest {
         self::$entityManager->flush();
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $log = self::$repository->find(1);
@@ -72,25 +76,36 @@ class TestSessionLogControllerTest extends AFunctionalTest {
         $this->assertCount(0, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestSessionLog/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
     }
 
-    public function testClearAction() {
+    public function testClearAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestSessionLog/Test/1/clear");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0
+        ], $decodedResponse);
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);

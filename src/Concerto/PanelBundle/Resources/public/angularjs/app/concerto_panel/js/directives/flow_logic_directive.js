@@ -294,7 +294,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 }
                                 var node = scope.collectionService.getNode(port.node);
                                 scope.refreshNode(node);
-                                scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             } else {
                                 DialogsService.alertDialog(
                                     title,
@@ -349,7 +349,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             objectTimestamp: scope.object.updatedOn
                         }).then(function (httpResponse) {
                             if (httpResponse.data.result === 0) {
-                                scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             } else {
                                 DialogsService.alertDialog(
                                     Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
@@ -367,7 +367,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             if (httpResponse.data.result === 0) {
                                 node.ports.push(httpResponse.data.object);
                                 scope.refreshNode(node);
-                                scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             } else {
                                 DialogsService.alertDialog(
                                     Trans.TEST_FLOW_DIALOG_NODE_INPUT_ADD_TITLE,
@@ -689,7 +689,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     if (httpResponse.data.result === 0) {
                                         node.posX = x;
                                         node.posY = y;
-                                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                                     } else {
                                         DialogsService.alertDialog(
                                             Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
@@ -705,7 +705,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                     objectTimestamp: scope.object.updatedOn
                                 }).then(function (httpResponse) {
                                     if (httpResponse.data.result === 0) {
-                                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                                     } else {
                                         DialogsService.alertDialog(
                                             Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
@@ -790,7 +790,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                     objectTimestamp: scope.object.updatedOn
                 }).then(function (httpResponse) {
                     if (httpResponse.data.result === 0) {
-                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     } else {
                         DialogsService.alertDialog(
                             Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
@@ -831,7 +831,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         objectTimestamp: scope.object.updatedOn
                     }).then(function (httpResponse) {
                         if (httpResponse.data.result === 0) {
-                            scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                            scope.object.updatedOn = httpResponse.data.objectTimestamp;
                         } else {
                             DialogsService.alertDialog(
                                 Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
@@ -880,7 +880,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (httpResponse.data.result === 0) {
                             node.title = httpResponse.data.object.title;
                             scope.refreshNode(node);
-                            scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                            scope.object.updatedOn = httpResponse.data.objectTimestamp;
                         } else {
                             DialogsService.alertDialog(
                                 Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE_TITLE,
@@ -933,7 +933,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 if (httpResponse.data.result === 0) {
                                     scope.collectionService.fetchNodesConnectionCollection(scope.object.id).then(connections => {
                                         scope.refreshNode(scope.collectionService.getNode(object.node));
-                                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                                     });
                                 } else {
                                     port.name = oldPort.name;
@@ -1011,7 +1011,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }).then(function (httpResponse) {
                                 if (httpResponse.data.result === 0) {
                                     connection.returnFunction = httpResponse.data.object.returnFunction
-                                    scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                    scope.object.updatedOn = httpResponse.data.objectTimestamp;
                                 } else {
                                     DialogsService.alertDialog(
                                         title,
@@ -1056,7 +1056,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (sourceTest && sourceTest.sourceWizard) {
                             scope.editNodeWizard(httpResponse.data.object, sourceTest);
                         }
-                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     } else {
                         DialogsService.alertDialog(
                             Trans.TEST_FLOW_DIALOG_NODE_EDIT_TITLE,
@@ -1152,7 +1152,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             scope.object.nodesConnections.push(connection);
                         }
                         scope.refreshConnections(nodeIds);
-                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     } else {
                         DialogsService.alertDialog(
                             "Pasting nodes",
@@ -1198,7 +1198,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         scope.object.nodesConnections.splice(i, 1);
                                     }
                                 }
-                                scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             } else {
                                 DialogsService.alertDialog(
                                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_TITLE,
@@ -1246,7 +1246,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                         }
                                     }
                                 }
-                                scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                                scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             } else {
                                 DialogsService.alertDialog(
                                     Trans.TEST_FLOW_DIALOG_NODE_REMOVE_SELECTION_TITLE,
@@ -1286,7 +1286,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                             }
                         }
                         scope.refreshConnections([params.sourceNode.id, params.targetNode.id]);
-                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     } else {
                         DialogsService.alertDialog(
                             Trans.TEST_FLOW_DIALOG_CONNECTION_EDIT_TITLE,
@@ -1329,7 +1329,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 break;
                             }
                         }
-                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     } else {
                         DialogsService.alertDialog(
                             Trans.TEST_FLOW_DIALOG_CONNECTION_EDIT_TITLE,
@@ -1461,7 +1461,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                                 scope.refreshConnections([connection.sourceNode, connection.destinationNode], false);
                             }
                         }
-                        scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                        scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     } else {
                         DialogsService.alertDialog(
                             Trans.DIALOG_TITLE_DELETE,

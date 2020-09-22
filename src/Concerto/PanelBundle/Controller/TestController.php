@@ -259,7 +259,10 @@ class TestController extends AExportableTabController
         $nodes = json_decode($request->get("nodes"), true);
         $this->service->moveFlowNode($nodes);
 
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

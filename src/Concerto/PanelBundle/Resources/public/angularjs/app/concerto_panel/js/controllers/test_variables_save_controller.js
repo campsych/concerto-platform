@@ -44,6 +44,7 @@ function TestVariablesSaveController($scope, $uibModalInstance, $http, object, t
         ).then(function (httpResponse) {
             switch (httpResponse.data.result) {
                 case BaseController.RESULT_OK: {
+                    // no need to update timestamp as collection will be refreshed
                     if (addModalDialog != null) {
                         addModalDialog.close($scope.object);
                     }

@@ -341,6 +341,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             objectTimestamp: $scope.object.updatedOn
         }).then(function (httpResponse) {
             if (httpResponse.data.result == 0) {
+                $scope.object.updatedOn = httpResponse.data.objectTimestamp;
                 $scope.fetchDataCollection($scope.object.id);
             } else {
                 DialogsService.alertDialog(
@@ -367,7 +368,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }).then(function (httpResponse) {
             switch (httpResponse.data.result) {
                 case BaseController.RESULT_OK: {
-                    $scope.object.updatedOn = Math.floor(Date.now() / 1000);
+                    $scope.object.updatedOn = httpResponse.data.objectTimestamp;
                     break;
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
@@ -394,6 +395,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 }).then(function (httpResponse) {
                     switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
+                            $scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             $scope.fetchDataCollection($scope.object.id);
                             break;
                         }
@@ -433,6 +435,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 }).then(function (httpResponse) {
                     switch (httpResponse.data.result) {
                         case BaseController.RESULT_OK: {
+                            $scope.object.updatedOn = httpResponse.data.objectTimestamp;
                             $scope.fetchDataCollection($scope.object.id);
                             break;
                         }

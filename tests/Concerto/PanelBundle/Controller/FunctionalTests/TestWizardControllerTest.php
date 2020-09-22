@@ -6,20 +6,23 @@ use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
-class TestWizardControllerTest extends AFunctionalTest {
+class TestWizardControllerTest extends AFunctionalTest
+{
 
     private static $repository;
     private static $wizardParamsRepository;
     private static $wizardStepsRepository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:TestWizard");
         self::$wizardParamsRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestWizardParam");
         self::$wizardStepsRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestWizardStep");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -82,7 +85,8 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestWizard/collection');
@@ -141,7 +145,8 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testFormActionNew() {
+    public function testFormActionNew()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/TestWizard/form/add");
@@ -149,7 +154,8 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
     }
 
-    public function testFormActionEdit() {
+    public function testFormActionEdit()
+    {
         $client = self::createLoggedClient();
 
         $crawler = $client->request("POST", "/admin/TestWizard/form/edit");
@@ -157,19 +163,26 @@ class TestWizardControllerTest extends AFunctionalTest {
         $this->assertGreaterThan(0, $crawler->filter("input[type='text'][ng-model='object.name']")->count());
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizard/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
         $this->assertCount(0, self::$wizardStepsRepository->findAll());
         $this->assertCount(0, self::$wizardParamsRepository->findAll());
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizard/-1/save", array(
@@ -180,8 +193,11 @@ class TestWizardControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizard",
@@ -195,16 +211,17 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "starterContent" => false,
                 "owner" => null,
                 "groups" => "",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testSaveActionRename() {
+    public function testSaveActionRename()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizard/1/save", array(
@@ -215,8 +232,11 @@ class TestWizardControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizard",
@@ -259,16 +279,17 @@ class TestWizardControllerTest extends AFunctionalTest {
                 ),
                 "test" => 1,
                 "testName" => "test2",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionSameName() {
+    public function testSaveActionSameName()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizard/1/save", array(
@@ -279,8 +300,11 @@ class TestWizardControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizard",
@@ -323,16 +347,17 @@ class TestWizardControllerTest extends AFunctionalTest {
                 ),
                 "test" => 1,
                 "testName" => "test2",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionNameAlreadyExists() {
+    public function testSaveActionNameAlreadyExists()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizard/-1/save", array(
@@ -343,8 +368,11 @@ class TestWizardControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizard",
@@ -354,7 +382,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "steps" => array(),
                 "test" => 1,
                 "testName" => "test2",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -363,7 +391,7 @@ class TestWizardControllerTest extends AFunctionalTest {
                 "groups" => "",
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
 
         $client->request("POST", "/admin/TestWizard/2/save", array(
@@ -374,11 +402,14 @@ class TestWizardControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 1,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => null,
             "errors" => array("This name already exists in the system")
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 

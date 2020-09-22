@@ -382,7 +382,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                         }
                         break;
                     }
-                    case BaseController.RESULT_VALIDATION_FAILED: {
+                    default: {
                         $scope.object.validationErrors = httpResponse.data.errors;
                         $(".modal").animate({scrollTop: 0}, "slow");
                         break;

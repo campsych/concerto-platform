@@ -6,18 +6,21 @@ use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
-class TestNodeControllerTest extends AFunctionalTest {
+class TestNodeControllerTest extends AFunctionalTest
+{
 
     private static $repository;
     private static $portRepository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNode");
         self::$portRepository = static::$entityManager->getRepository("ConcertoPanelBundle:TestNodePort");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -78,7 +81,8 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestNode/collection');
@@ -173,7 +177,8 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testCollectionByFlowTestAction() {
+    public function testCollectionByFlowTestAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestNode/flow/1/collection');
@@ -273,18 +278,25 @@ class TestNodeControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestNode/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
         $this->assertCount(3, self::$portRepository->findAll());
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestNode/-1/save", array(
@@ -358,15 +370,18 @@ class TestNodeControllerTest extends AFunctionalTest {
             )
         );
 
-        $this->assertEquals(array(
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => $expected
-                ), json_decode($client->getResponse()->getContent(), true));
+        ], $decodedResponse);
         $this->assertCount(4, self::$repository->findAll());
     }
 
-    public function testSaveActionEdit() {
+    public function testSaveActionEdit()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestNode/3/save", array(
@@ -440,11 +455,13 @@ class TestNodeControllerTest extends AFunctionalTest {
             )
         );
 
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => $expected
-                ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(3, self::$repository->findAll());
     }
 

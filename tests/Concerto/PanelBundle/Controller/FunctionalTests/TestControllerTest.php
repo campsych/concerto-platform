@@ -130,7 +130,12 @@ class TestControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/Test/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
         $this->assertCount(0, self::$varRepository->findAll());
     }
@@ -263,9 +268,12 @@ class TestControllerTest extends AFunctionalTest
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
         $this->assertCount(2, self::$repository->findAll());
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "Test",
                 "id" => 2,
@@ -278,9 +286,9 @@ class TestControllerTest extends AFunctionalTest
                 'sourceWizardName' => null,
                 'sourceWizardTest' => null,
                 'sourceWizardTestName' => null,
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => 'admin',
-                "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
+                "slug" => $decodedResponse["object"]['slug'],
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -307,7 +315,7 @@ class TestControllerTest extends AFunctionalTest
                 "lockedBy" => null,
                 "directLockBy" => null,
                 "baseTemplate" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
     }
 
     public function testSaveActionRename()
@@ -324,9 +332,12 @@ class TestControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "Test",
                 "id" => 1,
@@ -339,9 +350,9 @@ class TestControllerTest extends AFunctionalTest
                 'sourceWizardName' => null,
                 'sourceWizardTest' => null,
                 'sourceWizardTestName' => null,
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => 'admin',
-                "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
+                "slug" => $decodedResponse["object"]['slug'],
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -368,7 +379,7 @@ class TestControllerTest extends AFunctionalTest
                 "lockedBy" => null,
                 "directLockBy" => null,
                 "baseTemplate" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -390,9 +401,12 @@ class TestControllerTest extends AFunctionalTest
         }
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "Test",
                 "id" => 1,
@@ -405,9 +419,9 @@ class TestControllerTest extends AFunctionalTest
                 'sourceWizardName' => null,
                 'sourceWizardTest' => null,
                 'sourceWizardTestName' => null,
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => 'admin',
-                "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
+                "slug" => $decodedResponse["object"]['slug'],
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -434,7 +448,7 @@ class TestControllerTest extends AFunctionalTest
                 "lockedBy" => null,
                 "directLockBy" => null,
                 "baseTemplate" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -450,9 +464,12 @@ class TestControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "Test",
                 "id" => 2,
@@ -465,9 +482,9 @@ class TestControllerTest extends AFunctionalTest
                 'sourceWizardName' => null,
                 'sourceWizardTest' => null,
                 'sourceWizardTestName' => null,
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => 'admin',
-                "slug" => json_decode($client->getResponse()->getContent(), true)["object"]['slug'],
+                "slug" => $decodedResponse["object"]['slug'],
                 "type" => Test::TYPE_CODE,
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "archived" => "0",
@@ -495,7 +512,7 @@ class TestControllerTest extends AFunctionalTest
                 "directLockBy" => null,
                 "baseTemplate" => null
             )
-        ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
 
         $client->request("POST", "/admin/Test/1/save", array(
@@ -505,11 +522,14 @@ class TestControllerTest extends AFunctionalTest
             "code" => "code"));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 1,
             "object" => null,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array("This name already exists in the system")
-        ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 

@@ -116,7 +116,10 @@ class TestNodeController extends ASectionController
         $this->service->exposePorts(
             json_decode($request->get("exposedPorts"), true)
         );
-        $response = new Response(json_encode(array("result" => 0)));
+        $response = new Response(json_encode([
+            "result" => 0,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -143,11 +146,12 @@ class TestNodeController extends ASectionController
         );
 
         $errors = $this->trans($result["errors"]);
-        $response = new Response(json_encode(array(
+        $response = new Response(json_encode([
             "result" => count($errors) > 0 ? 1 : 0,
             "object" => $result["object"],
-            "errors" => $errors
-        )));
+            "errors" => $errors,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

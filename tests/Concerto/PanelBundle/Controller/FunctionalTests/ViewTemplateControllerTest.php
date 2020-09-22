@@ -93,7 +93,12 @@ class ViewTemplateControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/ViewTemplate/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
     }
 
@@ -207,8 +212,11 @@ class ViewTemplateControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "ViewTemplate",
@@ -219,7 +227,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "html" => "",
                 "css" => "",
                 "js" => "",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
@@ -228,7 +236,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 
@@ -247,8 +255,11 @@ class ViewTemplateControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "ViewTemplate",
@@ -259,7 +270,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "html" => "html",
                 "css" => "css",
                 "js" => "js",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
@@ -268,7 +279,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -287,8 +298,11 @@ class ViewTemplateControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "ViewTemplate",
@@ -299,7 +313,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "html" => "html",
                 "css" => "css",
                 "js" => "js",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
@@ -308,7 +322,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -322,8 +336,11 @@ class ViewTemplateControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "ViewTemplate",
@@ -334,7 +351,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "html" => "",
                 "css" => "",
                 "js" => "",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "archived" => "0",
                 "starterContent" => false,
@@ -343,7 +360,7 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
 
         $client->request("POST", "/admin/ViewTemplate/1/save", array(
@@ -356,11 +373,14 @@ class ViewTemplateControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 1,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => null,
             "errors" => array("This name already exists in the system")
-        ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 

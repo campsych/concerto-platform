@@ -42,6 +42,7 @@ function DataTableStructureSaveController($scope, $uibModalInstance, $http, tabl
             function successCallback(response) {
                 switch (response.data.result) {
                     case BaseController.RESULT_OK: {
+                        // no need to update timestamp as collection will be refreshed
                         if (addModalDialog != null) {
                             addModalDialog.close($scope.object);
                         }

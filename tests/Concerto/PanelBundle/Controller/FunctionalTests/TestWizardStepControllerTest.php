@@ -177,7 +177,12 @@ class TestWizardStepControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/TestWizardStep/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
         $this->assertCount(0, self::$paramsRepository->findAll());
     }
@@ -194,9 +199,11 @@ class TestWizardStepControllerTest extends AFunctionalTest
         }
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array(
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
             "result" => 0
-        ), json_decode($client->getResponse()->getContent(), true));
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
         $this->assertCount(0, self::$paramsRepository->findAll());
     }
@@ -213,8 +220,11 @@ class TestWizardStepControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizardStep",
@@ -225,7 +235,7 @@ class TestWizardStepControllerTest extends AFunctionalTest
                 "wizard" => 1,
                 "colsNum" => 0,
                 "params" => array()
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 
@@ -241,8 +251,11 @@ class TestWizardStepControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizardStep",
@@ -273,7 +286,7 @@ class TestWizardStepControllerTest extends AFunctionalTest
                         )
                     )
                 )
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 

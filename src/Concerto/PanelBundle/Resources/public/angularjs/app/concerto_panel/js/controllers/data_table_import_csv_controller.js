@@ -36,6 +36,7 @@ function DataTableImportCsvController($scope, $uibModalInstance, FileUploader, $
         }).then(
             function success(httpResponse) {
                 if (httpResponse.data.result === 0) {
+                    // no need to update timestamp as collection will be refreshed
                     DialogsService.alertDialog(
                         Trans.DATA_TABLE_IO_DIALOG_TITLE_IMPORT,
                         Trans.DATA_TABLE_IO_DIALOG_MESSAGE_IMPORTED,

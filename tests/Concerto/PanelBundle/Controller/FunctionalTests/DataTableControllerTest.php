@@ -135,7 +135,12 @@ class DataTableControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/DataTable/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
@@ -267,9 +272,12 @@ class DataTableControllerTest extends AFunctionalTest
         }
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 2,
@@ -280,12 +288,12 @@ class DataTableControllerTest extends AFunctionalTest
                 "owner" => null,
                 "groups" => "",
                 "description" => "",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "columns" => array(),
                 "updatedBy" => "admin",
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 
@@ -300,9 +308,12 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 1,
@@ -313,12 +324,12 @@ class DataTableControllerTest extends AFunctionalTest
                 "owner" => null,
                 "groups" => "",
                 "description" => "edited table description",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
+                "columns" => $decodedResponse["object"]['columns'],
                 "updatedBy" => "admin",
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -333,9 +344,12 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 1,
@@ -346,12 +360,12 @@ class DataTableControllerTest extends AFunctionalTest
                 "owner" => null,
                 "groups" => "",
                 "description" => "edited table description",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
+                "columns" => $decodedResponse["object"]['columns'],
                 "updatedBy" => "admin",
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -366,9 +380,12 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
             "errors" => array(),
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => array(
                 "class_name" => "DataTable",
                 "id" => 2,
@@ -379,12 +396,12 @@ class DataTableControllerTest extends AFunctionalTest
                 "owner" => null,
                 "groups" => "",
                 "description" => "table description",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
-                "columns" => json_decode($client->getResponse()->getContent(), true)["object"]['columns'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
+                "columns" => $decodedResponse["object"]['columns'],
                 "updatedBy" => "admin",
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
 
         $client->request("POST", "/admin/DataTable/1/save", array(
@@ -394,11 +411,14 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 1,
             "object" => null,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array("This name already exists in the system")
-        ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
         self::$repository->clear();
         $entity = self::$repository->find(1);
@@ -505,7 +525,12 @@ class DataTableControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/DataTable/1/row/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
+        ], $decodedResponse);
 
         $expected = array(
             "content" => array(
@@ -677,7 +702,12 @@ class DataTableControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/DataTable/1/row/insert");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
 
         $expected = array(
             "content" => array(
@@ -702,7 +732,12 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
 
         $expected = array(
             "content" => array(
@@ -726,7 +761,12 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
 
         $expected = array(
             "content" => array(
@@ -750,7 +790,12 @@ class DataTableControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
 
         $expected = array(
             "content" => array(

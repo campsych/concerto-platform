@@ -27,6 +27,7 @@ abstract class ASectionController
     {
         $result["errors"] = $this->trans($result["errors"]);
         $result["result"] = count($result["errors"]) > 0 ? 1 : 0;
+        $result["objectTimestamp"] = time();
 
         $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
@@ -52,7 +53,10 @@ abstract class ASectionController
         if (count($errors) > 0) {
             $response = new Response(json_encode(array("result" => 1, "errors" => $errors)));
         } else {
-            $response = new Response(json_encode(array("result" => 0)));
+            $response = new Response(json_encode([
+                "result" => 0,
+                "objectTimestamp" => time()
+            ]));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;

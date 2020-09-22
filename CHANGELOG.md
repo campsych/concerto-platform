@@ -8,6 +8,7 @@
 #### Fixes
 
 * **http** node now handles network errors
+* fixed outdated object check
 
 ## 5.0.16 (2020-08-28)
 

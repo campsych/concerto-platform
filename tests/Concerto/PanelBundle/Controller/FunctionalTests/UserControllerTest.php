@@ -124,7 +124,12 @@ class UserControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/User/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         self::$repository->clear();
         $entity = self::$repository->find(1);
         $this->assertNull($entity);
@@ -149,15 +154,18 @@ class UserControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "User",
                 "id" => 2,
                 "username" => "new_user",
                 "email" => "new@user.com",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 "accessibility" => ATopEntity::ACCESS_PUBLIC,
                 'role_super_admin' => '1',
@@ -172,7 +180,7 @@ class UserControllerTest extends AFunctionalTest
                 'starterContent' => false,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 
@@ -195,15 +203,18 @@ class UserControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "User",
                 "id" => 1,
                 "username" => "renamed_user",
                 "email" => "new@user.com",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "renamed_user",
                 'role_super_admin' => '1',
                 'role_test' => '0',
@@ -218,7 +229,7 @@ class UserControllerTest extends AFunctionalTest
                 'starterContent' => false,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -241,15 +252,18 @@ class UserControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "User",
                 "id" => 1,
                 "username" => "admin",
                 "email" => "new@user.com",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 'role_super_admin' => '1',
                 'role_test' => '0',
@@ -264,7 +278,7 @@ class UserControllerTest extends AFunctionalTest
                 'starterContent' => false,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
@@ -287,15 +301,18 @@ class UserControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "User",
                 "id" => 2,
                 "username" => "new_user",
                 "email" => "new@user.com",
-                "updatedOn" => json_decode($client->getResponse()->getContent(), true)["object"]['updatedOn'],
+                "updatedOn" => $decodedResponse["object"]['updatedOn'],
                 "updatedBy" => "admin",
                 'role_super_admin' => '1',
                 'role_test' => '0',
@@ -310,7 +327,7 @@ class UserControllerTest extends AFunctionalTest
                 'starterContent' => false,
                 "lockedBy" => null,
                 "directLockBy" => null
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
 
         $client->request("POST", "/admin/User/1/save", array(
@@ -322,11 +339,14 @@ class UserControllerTest extends AFunctionalTest
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 1,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => null,
             "errors" => array("This login already exists in the system")
-        ), json_decode($client->getResponse()->getContent(), true));
+        ), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 

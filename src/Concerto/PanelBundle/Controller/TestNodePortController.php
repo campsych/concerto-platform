@@ -127,7 +127,11 @@ class TestNodePortController extends ASectionController
         );
 
         $errors = $this->trans($result["errors"]);
-        $response = new Response(json_encode(array("result" => count($errors) > 0 ? 1 : 0, "errors" => $errors)));
+        $response = new Response(json_encode([
+            "result" => count($errors) > 0 ? 1 : 0,
+            "errors" => $errors,
+            "objectTimestamp" => time()
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

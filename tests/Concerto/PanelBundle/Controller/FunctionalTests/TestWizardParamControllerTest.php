@@ -6,16 +6,19 @@ use Tests\Concerto\PanelBundle\AFunctionalTest;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\Test;
 
-class TestWizardParamControllerTest extends AFunctionalTest {
+class TestWizardParamControllerTest extends AFunctionalTest
+{
 
     private static $repository;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         parent::setUpBeforeClass();
         self::$repository = static::$entityManager->getRepository("ConcertoPanelBundle:TestWizardParam");
     }
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         $client = self::createLoggedClient();
@@ -78,7 +81,8 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertEquals(0, $content["result"]);
     }
 
-    public function testWizardCollectionAction() {
+    public function testWizardCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestWizardParam/TestWizard/1/collection');
@@ -107,7 +111,8 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testCollectionAction() {
+    public function testCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestWizardParam/collection');
@@ -136,7 +141,8 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testWizardAndTypeCollectionAction() {
+    public function testWizardAndTypeCollectionAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestWizardParam/TestWizard/1/type/0/collection');
@@ -170,27 +176,39 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testDeleteAction() {
+    public function testDeleteAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizardParam/1/delete");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"]
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
     }
 
-    public function testClearAction() {
+    public function testClearAction()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizardParam/TestWizard/1/clear");
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
-        $this->assertEquals(array("result" => 0), json_decode($client->getResponse()->getContent(), true));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals([
+            "result" => 0
+        ], $decodedResponse);
         $this->assertCount(0, self::$repository->findAll());
     }
 
-    public function testSaveActionNew() {
+    public function testSaveActionNew()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestVariable/-1/save", array(
@@ -217,8 +235,11 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizardParam",
@@ -238,11 +259,12 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "definition" => array(
                     "placeholder" => 0
                 )
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(2, self::$repository->findAll());
     }
 
-    public function testSaveActionRename() {
+    public function testSaveActionRename()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizardParam/1/save", array(
@@ -264,8 +286,11 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         }
         $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 0,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "errors" => array(),
             "object" => array(
                 "class_name" => "TestWizardParam",
@@ -285,11 +310,12 @@ class TestWizardParamControllerTest extends AFunctionalTest {
                 "definition" => array(
                     "placeholder" => 0
                 )
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
-    public function testSaveActionVariableAlreadyAssigned() {
+    public function testSaveActionVariableAlreadyAssigned()
+    {
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizardParam/-1/save", array(
@@ -306,11 +332,14 @@ class TestWizardParamControllerTest extends AFunctionalTest {
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
+
+        $decodedResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array(
             "result" => 1,
+            "objectTimestamp" => $decodedResponse["objectTimestamp"],
             "object" => null,
             "errors" => array("Only one wizard param can be assigned to specific test param"
-            )), json_decode($client->getResponse()->getContent(), true));
+            )), $decodedResponse);
         $this->assertCount(1, self::$repository->findAll());
     }
 
