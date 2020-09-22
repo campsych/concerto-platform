@@ -63,6 +63,10 @@ services:
         arguments:
             $administration: "%administration%"
 
+    Concerto\PanelBundle\Command\ConcertoTaskContentImportCommand:
+        arguments:
+            $administration: "%administration%"
+
     Concerto\PanelBundle\Command\ConcertoRCacheCommand:
         arguments:
             $testRunnerSettings: "%test_runner_settings%"

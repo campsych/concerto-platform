@@ -177,9 +177,9 @@ class TestController extends AExportableTabController
      * @param Request $request
      * @return Response
      */
-    public function importAction(Request $request)
+    public function scheduleImportAction(Request $request)
     {
-        return parent::importAction($request);
+        return parent::scheduleImportAction($request);
     }
 
     /**

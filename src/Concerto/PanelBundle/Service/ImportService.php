@@ -3,6 +3,10 @@
 namespace Concerto\PanelBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ImportService
@@ -25,9 +29,26 @@ class ImportService
     private $renames;
     private $version;
     private $entityManager;
+    private $adminService;
+    private $kernel;
     public $serviceMap;
 
-    public function __construct(EntityManagerInterface $entityManager, DataTableService $dataTableService, TestService $testService, TestNodeService $testNodeService, TestNodePortService $testNodePortService, TestNodeConnectionService $testNodeConnectionService, TestVariableService $testVariableService, TestWizardService $testWizardService, TestWizardStepService $testWizardStepService, TestWizardParamService $testWizardParamService, ViewTemplateService $viewTemplateService, $version)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        DataTableService $dataTableService,
+        TestService $testService,
+        TestNodeService $testNodeService,
+        TestNodePortService $testNodePortService,
+        TestNodeConnectionService $testNodeConnectionService,
+        TestVariableService $testVariableService,
+        TestWizardService $testWizardService,
+        TestWizardStepService $testWizardStepService,
+        TestWizardParamService $testWizardParamService,
+        ViewTemplateService $viewTemplateService,
+        $version,
+        AdministrationService $adminService,
+        KernelInterface $kernel
+    )
     {
         $this->entityManager = $entityManager;
         $this->dataTableService = $dataTableService;
@@ -41,6 +62,8 @@ class ImportService
         $this->testWizardParamService = $testWizardParamService;
         $this->viewTemplateService = $viewTemplateService;
         $this->version = $version;
+        $this->adminService = $adminService;
+        $this->kernel = $kernel;
 
         $this->map = array();
         $this->renames = array();
@@ -218,7 +241,7 @@ class ImportService
     {
         $this->map = array();
         $this->renames = array();
-        $this->entityManager->clear();
+        //$this->entityManager->clear();
     }
 
     public function importFromFile($file, $instructions, $unlink = true, &$errorMessages = null)
@@ -241,6 +264,30 @@ class ImportService
         }
 
         return $this->import($instructions, $data["collection"], $errorMessages);
+    }
+
+    public function scheduleTaskImportContent($file, $exportInstructions, &$output = null, &$errors = null)
+    {
+        if ($this->adminService->isTaskScheduled()) {
+            $errors[] = "tasks.already_scheduled";
+            return false;
+        }
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errors[] = "tasks.locked";
+            return false;
+        }
+
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+        $in = new ArrayInput(array(
+            "command" => "concerto:task:content:import",
+            "input" => $file,
+            "--instructions" => $exportInstructions
+        ));
+        $out = new BufferedOutput();
+        $returnCode = $app->run($in, $out);
+        $output .= $out->fetch();
+        return $returnCode === 0;
     }
 
     private function canCollectionBeModified($collection, $instructions, &$errorMessages)

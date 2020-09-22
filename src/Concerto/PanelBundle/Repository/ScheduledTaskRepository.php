@@ -18,12 +18,12 @@ class ScheduledTaskRepository extends AEntityRepository
 
     public function findAllPending()
     {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:ScheduledTask")->findBy(array("status" => ScheduledTask::STATUS_PENDING));
+        return $this->findBy(array("status" => ScheduledTask::STATUS_PENDING));
     }
 
     public function findAllOngoing()
     {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:ScheduledTask")->findBy(array("status" => ScheduledTask::STATUS_ONGOING));
+        return $this->findBy(array("status" => ScheduledTask::STATUS_ONGOING));
     }
 
     public function cancelPending()
@@ -34,6 +34,6 @@ class ScheduledTaskRepository extends AEntityRepository
 
     public function findLatestGit()
     {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:ScheduledTask")->findOneBy(array("type" => self::GIT_TYPES), array("id" => "DESC"));
+        return $this->findOneBy(array("type" => self::GIT_TYPES), array("id" => "DESC"));
     }
 }

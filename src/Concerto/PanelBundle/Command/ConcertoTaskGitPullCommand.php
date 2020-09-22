@@ -27,13 +27,12 @@ class ConcertoTaskGitPullCommand extends ConcertoScheduledTaskCommand
 
     protected function configure()
     {
+        parent::configure();
         $this->setName("concerto:task:git:pull")->setDescription("Git pull");
-
+        $this->getDefinition()->getOption("content-block")->setDefault(1);
         $this->addArgument("username", InputArgument::OPTIONAL, "Commit username", "admin");
         $this->addArgument("email", InputArgument::OPTIONAL, "Commit email", "admin@mydomain.com");
         $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
-
-        parent::configure();
     }
 
     public function getTaskDescription(ScheduledTask $task)
@@ -49,14 +48,13 @@ class ConcertoTaskGitPullCommand extends ConcertoScheduledTaskCommand
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    public function getTaskInfo(InputInterface $input)
     {
-        $info = array_merge(parent::getTaskInfo($task, $input), array(
+        return array_merge(parent::getTaskInfo($input), [
             "username" => $input->getArgument("username"),
             "email" => $input->getArgument("email"),
             "instructions" => $input->getOption("instructions")
-        ));
-        return $info;
+        ]);
     }
 
     public function getTaskType()

@@ -246,8 +246,8 @@ class GitService
 
     public function commit($message, &$output, &$errorMessages = null)
     {
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errorMessages[] = "git.locked";
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errorMessages[] = "tasks.locked";
             return false;
         }
 
@@ -366,7 +366,6 @@ class GitService
         $returnCode = $app->run($in, $out);
         $output .= $out->fetch();
         if ($returnCode === 0) {
-            $this->adminService->updateLastImportTime();
             return true;
         }
         $errorMessages[] = $out->fetch();
@@ -431,8 +430,8 @@ class GitService
             $errors[] = "tasks.already_scheduled";
             return false;
         }
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errors[] = "git.locked";
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errors[] = "tasks.locked";
             return false;
         }
 
@@ -458,8 +457,8 @@ class GitService
             $errors[] = "tasks.already_scheduled";
             return false;
         }
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errors[] = "git.locked";
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errors[] = "tasks.locked";
             return false;
         }
 
@@ -484,8 +483,8 @@ class GitService
             $errors[] = "tasks.already_scheduled";
             return false;
         }
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errors[] = "git.locked";
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errors[] = "tasks.locked";
             return false;
         }
 
@@ -524,8 +523,8 @@ class GitService
             $errors[] = "tasks.already_scheduled";
             return false;
         }
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errors[] = "git.locked";
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errors[] = "tasks.locked";
             return false;
         }
 
@@ -543,8 +542,8 @@ class GitService
 
     public function reset($instructions, &$output = null, &$errorMessages = null)
     {
-        if (!$this->adminService->canDoRiskyGitActions()) {
-            $errorMessages[] = "git.locked";
+        if (!$this->adminService->canDoMassContentModifications()) {
+            $errorMessages[] = "tasks.locked";
             return false;
         }
 

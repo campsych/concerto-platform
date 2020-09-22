@@ -27,11 +27,10 @@ class ConcertoTaskGitUpdateCommand extends ConcertoScheduledTaskCommand
 
     protected function configure()
     {
-        $this->setName("concerto:task:git:update")->setDescription("Updates git working copy");
-
-        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
-
         parent::configure();
+        $this->setName("concerto:task:git:update")->setDescription("Updates git working copy");
+        $this->getDefinition()->getOption("content-block")->setDefault(1);
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
     }
 
     public function getTaskDescription(ScheduledTask $task)
@@ -41,12 +40,11 @@ class ConcertoTaskGitUpdateCommand extends ConcertoScheduledTaskCommand
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    public function getTaskInfo(InputInterface $input)
     {
-        $info = array_merge(parent::getTaskInfo($task, $input), array(
+        return array_merge(parent::getTaskInfo($input), [
             "instructions" => $input->getOption("instructions")
-        ));
-        return $info;
+        ]);
     }
 
     public function getTaskType()

@@ -33,6 +33,7 @@ abstract class ConcertoScheduledTaskCommand extends Command
         $this->addOption("task", null, InputOption::VALUE_OPTIONAL, "Task id", null);
         $this->addOption("cancel-pending-on-fail", null, InputOption::VALUE_NONE, "Cancels all other pending tasks when this task fails", null);
         $this->addOption("instant-run", null, InputOption::VALUE_NONE, "Instant run without schedule", null);
+        $this->addOption("content-block", null, InputOption::VALUE_REQUIRED, "Blocks panel when pending or ongoing", 0);
     }
 
     protected function check(&$error, &$code, InputInterface $input)
@@ -44,12 +45,12 @@ abstract class ConcertoScheduledTaskCommand extends Command
 
     abstract public function getTaskDescription(ScheduledTask $task);
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    public function getTaskInfo(InputInterface $input)
     {
-        $info = array(
-            "cancel_pending_on_fail" => $input->getOption("cancel-pending-on-fail")
-        );
-        return $info;
+        return [
+            "cancel_pending_on_fail" => $input->getOption("cancel-pending-on-fail"),
+            "content_block" => $input->getOption("content-block")
+        ];
     }
 
     abstract public function getTaskType();
@@ -79,13 +80,17 @@ abstract class ConcertoScheduledTaskCommand extends Command
             //SCHEDULE TASK
 
             $this->onBeforeTaskCreate($input, $output);
+            $info = $this->getTaskInfo($input);
+            $contentBlock = $input->getOption("content-block");
 
             $task = new ScheduledTask();
             $task->setType($this->getTaskType());
             $tasksRepo->save($task);
-            $task->setInfo(json_encode($this->getTaskInfo($task, $input)));
             $task->setDescription($this->getTaskDescription($task));
+            $task->setInfo(json_encode($info));
             $tasksRepo->save($task);
+
+            if ($contentBlock) $this->administrationService->setContentBlock(true);
 
             $output->writeln("task #" . $task->getId() . " scheduled");
             $task_id = $task->getId();

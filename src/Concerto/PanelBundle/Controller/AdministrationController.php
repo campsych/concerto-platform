@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Controller;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Service\FileService;
 use Concerto\PanelBundle\Service\GitService;
+use Concerto\PanelBundle\Service\ImportService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\AdministrationService;
@@ -25,8 +26,9 @@ class AdministrationController
     private $fileService;
     private $gitService;
     private $translator;
+    private $importService;
 
-    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService, GitService $gitService, TranslatorInterface $translator)
+    public function __construct(EngineInterface $templating, AdministrationService $service, TestSessionCountService $sessionCountService, FileService $fileService, GitService $gitService, TranslatorInterface $translator, ImportService $importService)
     {
         $this->templating = $templating;
         $this->service = $service;
@@ -34,6 +36,7 @@ class AdministrationController
         $this->fileService = $fileService;
         $this->gitService = $gitService;
         $this->translator = $translator;
+        $this->importService = $importService;
     }
 
     /**
@@ -324,21 +327,30 @@ class AdministrationController
     }
 
     /**
-     * @Route("/Administration/content/import", name="Administration_content_import")
+     * @Route("/Administration/ScheduledTask/content_import", name="Administration_tasks_content_import")
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      * @return Response
      */
-    public function importContentAction(Request $request)
+    public function taskContentImportAction(Request $request)
     {
         $file = $request->get("file");
         if ($file) {
             $file = realpath($this->fileService->getPrivateUploadDirectory()) . "/" . $file;
         }
         $url = $request->get("url");
+        $input = $file ? $file : $url;
+        if ($input === null) $input = $this->service->getSettingValue("content_url");
+
         $instructions = $request->get("instructions");
-        $returnCode = $this->service->importContent($file ? $file : $url, $instructions, $output);
-        $response = new Response(json_encode(array("result" => $returnCode, "output" => $output)));
+        if ($instructions === null) $instructions = $this->service->getContentTransferOptions();
+
+        $success = $this->importService->scheduleTaskImportContent($input, $instructions, $output, $errors);
+        $response = new Response(json_encode([
+            "result" => $success ? 0 : 1,
+            "output" => $output,
+            "errors" => $success ? null : $this->trans($errors)
+        ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

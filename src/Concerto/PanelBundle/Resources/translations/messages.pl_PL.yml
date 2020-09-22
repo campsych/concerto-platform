@@ -86,9 +86,9 @@ import:
 
 tasks:
   already_scheduled: Obecnie już trwają lub są zaplanowane zadania.
+  locked: Niektóre obiekty są zablokowane. Odblokuj je, aby móc kontynuować operację.
 
 git:
-  locked: Niektóre obiekty są zablokowane. Odblokuj je, aby móc kontynuować operację.
   fetch_failed: Nieudany fetch
   behind_num_failed: Nieudany Git behind num
   ahead_num_failed: Nieudany Git ahead num

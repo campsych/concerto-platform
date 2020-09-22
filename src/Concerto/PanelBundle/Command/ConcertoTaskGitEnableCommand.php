@@ -32,24 +32,22 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
 
     protected function configure()
     {
-        $this->setName("concerto:task:git:enable")->setDescription("Git enable");
-        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
         parent::configure();
+        $this->setName("concerto:task:git:enable")->setDescription("Git enable");
+        $this->getDefinition()->getOption("content-block")->setDefault(1);
+        $this->addOption("instructions", "i", InputOption::VALUE_REQUIRED, "Import instructions", null);
     }
 
     public function getTaskDescription(ScheduledTask $task)
     {
-        $info = json_decode($task->getInfo(), true);
-        $desc = $this->templating->render("@ConcertoPanel/Administration/task_git_enable.html.twig", array());
-        return $desc;
+        return $this->templating->render("@ConcertoPanel/Administration/task_git_enable.html.twig", array());
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    public function getTaskInfo(InputInterface $input)
     {
-        $info = array_merge(parent::getTaskInfo($task, $input), array(
+        return array_merge(parent::getTaskInfo($input), [
             "instructions" => $input->getOption("instructions")
-        ));
-        return $info;
+        ]);
     }
 
     public function getTaskType()

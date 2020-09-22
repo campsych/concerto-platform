@@ -258,11 +258,13 @@ class AdministrationService
         return $streak && $time;
     }
 
-    public function getFailedAuthLockStreak() {
+    public function getFailedAuthLockStreak()
+    {
         return $this->getSettingValue("failed_auth_lock_streak");
     }
 
-    public function getFailedAuthLockTime() {
+    public function getFailedAuthLockTime()
+    {
         return $this->getSettingValue("failed_auth_lock_time");
     }
 
@@ -468,25 +470,6 @@ class AdministrationService
         return $return_var === 0;
     }
 
-    public function importContent($url = null, $instructions = null, &$output = null)
-    {
-        if ($url === null) $url = $this->getSettingValue("content_url");
-        if ($instructions === null) $instructions = $this->getContentTransferOptions();
-
-        $app = new Application($this->kernel);
-        $app->setAutoExit(false);
-        $in = new ArrayInput(array(
-            "command" => "concerto:content:import",
-            "input" => $url,
-            "--sc" => true,
-            "--instructions" => $instructions
-        ));
-        $out = new BufferedOutput();
-        $returnCode = $app->run($in, $out);
-        $output = $out->fetch();
-        return $returnCode;
-    }
-
     public function getContentTransferOptions()
     {
         return $this->getSettingValue("content_transfer_options");
@@ -541,6 +524,18 @@ class AdministrationService
         ), false);
     }
 
+    public function setContentBlock($enabled)
+    {
+        $this->setSettings(array(
+            "content_block" => $enabled ? 1 : 0
+        ), false);
+    }
+
+    public function isContentBlocked()
+    {
+        return $this->getSettingValue("content_block") === 1;
+    }
+
     /**
      * @return User
      */
@@ -554,7 +549,7 @@ class AdministrationService
         return $this->getSettingValue("session_runner_service");
     }
 
-    public function canDoRiskyGitActions()
+    public function canDoMassContentModifications()
     {
         if (count($this->dataTableRepository->findDirectlyLocked()) > 0) return false;
         if (count($this->testRepository->findDirectlyLocked()) > 0) return false;

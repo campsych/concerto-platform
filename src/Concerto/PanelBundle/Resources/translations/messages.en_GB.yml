@@ -85,9 +85,9 @@ import:
 
 tasks:
   already_scheduled: There are already pending or ongoing scheduled tasks.
+  locked: Some objects are locked. Unlock them to continue this operation.
 
 git:
-  locked: Some objects are locked. Unlock them to continue this operation.
   fetch_failed: Fetch failed
   behind_num_failed: Git behind num failed
   ahead_num_failed: Git ahead num failed

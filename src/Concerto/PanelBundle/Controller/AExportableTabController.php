@@ -45,15 +45,14 @@ abstract class AExportableTabController extends ASectionController
         return $response;
     }
 
-    public function importAction(Request $request)
+    public function scheduleImportAction(Request $request)
     {
-        $importedSuccessfully = $this->importService->importFromFile(
-            $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
-            json_decode($request->get("instructions"), true),
-            false,
-            $errorMessages);
+        $file = $this->fileService->getPrivateUploadDirectory() . $request->get("file");
+        $instructions = $request->get("instructions");
 
-        $response = new Response(json_encode(array("result" => $importedSuccessfully ? 0 : 1, "errors" => $this->trans($errorMessages))));
+        $success = $this->importService->scheduleTaskImportContent($file, $instructions, $output, $errorMessages);
+
+        $response = new Response(json_encode(array("result" => $success ? 0 : 1, "errors" => $this->trans($errorMessages))));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

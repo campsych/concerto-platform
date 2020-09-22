@@ -28,22 +28,30 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
             "<strong>" + importSource + "</strong><br/><br/>" +
             Trans.CONTENT_IMPORT_PROMPT,
             function (confirmResponse) {
-                $http.post(Paths.ADMINISTRATION_CONTENT_IMPORT, {
+                $http.post(Paths.ADMINISTRATION_TASKS_CONTENT_IMPORT, {
                     url: $scope.exposedSettingsMap.content_url,
                     instructions: $scope.exposedSettingsMap.content_transfer_options,
                     file: $scope.uploadItem ? $scope.uploadItem.file.name : null
                 }).then(function (httpResponse) {
                     let success = httpResponse.data.result === 0;
-                    let title = success ? Trans.CONTENT_IMPORT_SUCCESS : Trans.CONTENT_IMPORT_FAILURE;
 
-                    DialogsService.preDialog(
-                        title,
-                        null,
-                        httpResponse.data.output,
-                        function (preResponse) {
-                            $window.onbeforeunload = null;
-                            $window.location.reload();
-                        })
+                    if (success) {
+                        DialogsService.preDialog(
+                            Trans.CONTENT_IMPORT_SUCCESS,
+                            null,
+                            httpResponse.data.output,
+                            function (preResponse) {
+                                $window.onbeforeunload = null;
+                                $window.location.reload();
+                            });
+                    } else {
+                        DialogsService.alertDialog(
+                            Trans.CONTENT_IMPORT_FAILURE,
+                            httpResponse.data.errors.join("<br/>"),
+                            "danger",
+                            "lg"
+                        );
+                    }
                 });
             }
         );

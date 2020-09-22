@@ -16,6 +16,7 @@ class ScheduledTask implements \JsonSerializable
     const TYPE_GIT_UPDATE = 2;
     const TYPE_GIT_RESET = 3;
     const TYPE_R_PACKAGE_INSTALL = 4;
+    const TYPE_CONTENT_IMPORT = 5;
 
     const STATUS_PENDING = 0;
     const STATUS_ONGOING = 1;

@@ -26,14 +26,12 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
 
     protected function configure()
     {
+        parent::configure();
         $this->setName("concerto:task:package:install")->setDescription("Installs R package");
-
         $this->addOption("method", null, InputOption::VALUE_OPTIONAL, "R package install method", 0);
         $this->addOption("name", null, InputOption::VALUE_OPTIONAL, "R package name");
         $this->addOption("mirror", null, InputOption::VALUE_OPTIONAL, "R package mirror URL", "https://www.stats.bris.ac.uk/R/");
         $this->addOption("url", null, InputOption::VALUE_OPTIONAL, "R package source URL");
-
-        parent::configure();
     }
 
     protected function getCommand(ScheduledTask $task)
@@ -74,15 +72,14 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
         return $desc;
     }
 
-    public function getTaskInfo(ScheduledTask $task, InputInterface $input)
+    public function getTaskInfo(InputInterface $input)
     {
-        $info = array_merge(parent::getTaskInfo($task, $input), array(
+        return array_merge(parent::getTaskInfo($input), [
             "method" => $input->getOption("method"),
             "name" => $input->getOption("name"),
             "mirror" => $input->getOption("mirror"),
             "url" => $input->getOption("url")
-        ));
-        return $info;
+        ]);
     }
 
     public function getTaskType()
