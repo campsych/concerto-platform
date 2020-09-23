@@ -17,9 +17,9 @@ class DataTableService extends AExportableSectionService
     public $dbDataDao;
     private $testWizardParamService;
 
-    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->dbStructureService = $dbStructureService;
         $this->dbDataDao = $dbDataDao;

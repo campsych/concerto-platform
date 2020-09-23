@@ -25,9 +25,9 @@ class UserService extends ASectionService
     private $importService;
     private $validator;
 
-    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->roleRepository = $roleRepository;
         $this->validator = $validator;

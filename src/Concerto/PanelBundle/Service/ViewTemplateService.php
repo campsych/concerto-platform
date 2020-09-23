@@ -14,9 +14,9 @@ class ViewTemplateService extends AExportableSectionService
 
     private $testWizardParamService;
 
-    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->testWizardParamService = $testWizardParamService;
     }

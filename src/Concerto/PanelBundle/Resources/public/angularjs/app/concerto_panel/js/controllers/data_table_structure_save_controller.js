@@ -1,4 +1,4 @@
-function DataTableStructureSaveController($scope, $uibModalInstance, $http, table, object) {
+function DataTableStructureSaveController($scope, $uibModalInstance, $http, $timeout, table, object) {
     $scope.oldName = object.name;
     if ($scope.oldName === "") {
         $scope.oldName = "0";
@@ -50,7 +50,7 @@ function DataTableStructureSaveController($scope, $uibModalInstance, $http, tabl
                     }
                     case BaseController.RESULT_VALIDATION_FAILED: {
                         $scope.object.validationErrors = response.data.errors;
-                        $(".modal").animate({scrollTop: 0}, "slow");
+                        $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
                         break;
                     }
                 }

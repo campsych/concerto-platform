@@ -2,6 +2,8 @@
 
 #### Features
 
+* content import as scheduled task
+* content modifications blocked when content modifying scheduled task is ongoing
 * added **CONCERTO_COOKIES_SECURE** and **CONCERTO_COOKIES_SAME_SITE** config options exposed through env variables
 * added **CONCERTO_KEEP_ALIVE_INTERVAL_TIME**, **CONCERTO_KEEP_ALIVE_TOLERANCE_TIME** and **CONCERTO_SESSION_COOKIE_EXPIRY_TIME** config options exposed through env variables
 

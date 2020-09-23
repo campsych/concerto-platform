@@ -1,4 +1,4 @@
-function TestWizardStepSaveController($scope, $uibModalInstance, $http, object, wizard) {
+function TestWizardStepSaveController($scope, $uibModalInstance, $http, $timeout, object, wizard) {
     $scope.object = object;
     $scope.wizard = wizard;
     $scope.dialogTitle = "";
@@ -39,8 +39,7 @@ function TestWizardStepSaveController($scope, $uibModalInstance, $http, object, 
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     $scope.object.validationErrors = httpResponse.data.errors;
-                    $("html, body").animate({scrollTop: 0}, "slow");
-                    $(".modal").animate({scrollTop: 0}, "slow");
+                    $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
                     break;
                 }
             }

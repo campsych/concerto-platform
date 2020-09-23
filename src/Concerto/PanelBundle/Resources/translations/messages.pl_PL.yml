@@ -75,6 +75,7 @@ validate:
 
   locked: Obiekt przejęty przez kogoś innego.
   outdated: Ktoś zmienił obiekt. Twoja obecnie wczytana wersja nie jest juz aktualna. Proszę odświeżyć.
+  blocked: Modyfikacje zawartości są tymczasowo zablokowane. Spróbuj ponownie później.
 
 errors:
   title: Błedy systemu

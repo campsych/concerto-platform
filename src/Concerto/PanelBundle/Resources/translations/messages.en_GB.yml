@@ -74,6 +74,7 @@ validate:
         title.blank: Title field must not be empty
   locked: Is locked by someone else.
   outdated: Someone updated object. Your current loaded version is not the current one. Please refresh.
+  blocked: Content modification is temporary blocked. Try again later.
 
 errors:
   title: System errors

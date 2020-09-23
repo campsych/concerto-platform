@@ -17,9 +17,9 @@ class TestWizardStepService extends ASectionService
     private $validator;
     private $testWizardRepository;
 
-    public function __construct(TestWizardStepRepository $repository, ValidatorInterface $validator, TestWizardRepository $testWizardRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(TestWizardStepRepository $repository, ValidatorInterface $validator, TestWizardRepository $testWizardRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->validator = $validator;
         $this->testWizardRepository = $testWizardRepository;

@@ -18,9 +18,9 @@ class TestWizardService extends AExportableSectionService
     private $testWizardParamService;
     private $testWizardStepService;
 
-    public function __construct(TestWizardRepository $repository, ValidatorInterface $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(TestWizardRepository $repository, ValidatorInterface $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->testService = $testService;
         $this->testVariableService = $testVariableService;

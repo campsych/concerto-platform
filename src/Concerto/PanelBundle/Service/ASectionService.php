@@ -16,12 +16,14 @@ abstract class ASectionService
     public $repository;
     protected $securityAuthorizationChecker;
     protected $securityTokenStorage;
+    protected $administrationService;
 
-    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
         $this->repository = $repository;
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
         $this->securityTokenStorage = $securityTokenStorage;
+        $this->administrationService = $administrationService;
     }
 
     public static function getObjectImportInstruction($obj, $instructions)
@@ -76,7 +78,12 @@ abstract class ASectionService
         if ($timestamp === null) $timestamp = time();
 
         //accessed from command line
-        if($this->securityTokenStorage->getToken() === null) return true;
+        if ($this->securityTokenStorage->getToken() === null) return true;
+
+        if($this->administrationService->isContentBlocked()) {
+            $errorMessages = ["validate.blocked"];
+            return false;
+        }
 
         /** @var User $user */
         $user = $this->securityTokenStorage->getToken()->getUser();

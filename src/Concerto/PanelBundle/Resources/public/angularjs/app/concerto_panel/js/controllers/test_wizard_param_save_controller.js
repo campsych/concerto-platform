@@ -1,4 +1,4 @@
-function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibModal, TestWizardParam, wizardSteps, wizardParams, test, object, wizard) {
+function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibModal, $timeout, TestWizardParam, wizardSteps, wizardParams, test, object, wizard) {
     $scope.testVariablesCollectionPath = Paths.TEST_PARAMS_COLLECTION;
     $scope.stepsCollectionPath = Paths.TEST_WIZARD_STEP_COLLECTION;
     $scope.typeCollectionPath = Paths.TEST_WIZARD_PARAM_TYPE_COLLECTION;
@@ -73,7 +73,7 @@ function TestWizardParamSaveController($scope, $uibModalInstance, $http, $uibMod
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     $scope.object.validationErrors = httpResponse.data.errors;
-                    $(".modal").animate({scrollTop: 0}, "slow");
+                    $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
                     break;
                 }
             }

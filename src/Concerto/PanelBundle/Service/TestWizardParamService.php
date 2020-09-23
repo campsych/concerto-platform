@@ -40,9 +40,11 @@ class TestWizardParamService extends ASectionService
         TestNodePortService $testNodePortService,
         LoggerInterface $logger,
         TokenStorageInterface $securityTokenStorage,
-        TestNodeRepository $testNodeRepository)
+        TestNodeRepository $testNodeRepository,
+        AdministrationService $administrationService
+    )
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->validator = $validator;
         $this->testVariableService = $testVariableService;

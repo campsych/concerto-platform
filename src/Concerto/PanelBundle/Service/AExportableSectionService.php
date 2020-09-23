@@ -13,9 +13,9 @@ abstract class AExportableSectionService extends ASectionService
 {
     protected $validator;
 
-    public function __construct(AEntityRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(AEntityRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->validator = $validator;
     }

@@ -13,9 +13,9 @@ class TestSessionLogService extends ASectionService
 
     private $testService;
 
-    public function __construct(TestSessionLogRepository $repository, TestService $testService, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(TestSessionLogRepository $repository, TestService $testService, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->testService = $testService;
     }

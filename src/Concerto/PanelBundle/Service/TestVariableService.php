@@ -20,9 +20,9 @@ class TestVariableService extends ASectionService
     private $testNodeConnectionService;
     private $testRepository;
 
-    public function __construct(TestVariableRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage)
+    public function __construct(TestVariableRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->validator = $validator;
         $this->testNodePortService = $portService;

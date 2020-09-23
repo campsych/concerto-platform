@@ -1,4 +1,4 @@
-function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploader, importPath, preImportStatusPath, uiGridConstants, DialogsService) {
+function ImportController($scope, $uibModalInstance, $http, $uibModal, $timeout, FileUploader, importPath, preImportStatusPath, uiGridConstants, DialogsService) {
     $scope.item = null;
     $scope.object.validationErrors = [];
     $scope.importPath = importPath;
@@ -147,7 +147,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             $scope.object.validationErrors = response.data.errors;
-                            $(".modal").animate({scrollTop: 0}, "slow");
+                            $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
                             $scope.dirty = true;
                             break;
                         }
@@ -187,7 +187,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, FileUploa
                     }
                     case BaseController.RESULT_VALIDATION_FAILED: {
                         $scope.object.validationErrors = response.data.errors;
-                        $(".modal").animate({scrollTop: 0}, "slow");
+                        $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
                         $scope.dirty = true;
                         break;
                     }

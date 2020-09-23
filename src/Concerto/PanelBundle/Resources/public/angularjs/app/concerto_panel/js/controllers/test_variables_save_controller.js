@@ -1,4 +1,4 @@
-function TestVariablesSaveController($scope, $uibModalInstance, $http, object, test) {
+function TestVariablesSaveController($scope, $uibModalInstance, $http, $timeout, object, test) {
     $scope.object = object;
     $scope.test = test;
     $scope.dialogTitle = "";
@@ -52,7 +52,7 @@ function TestVariablesSaveController($scope, $uibModalInstance, $http, object, t
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     $scope.object.validationErrors = httpResponse.data.errors;
-                    $(".modal").animate({scrollTop: 0}, "slow");
+                    $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
                     break;
                 }
             }

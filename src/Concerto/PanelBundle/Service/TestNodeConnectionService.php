@@ -34,10 +34,11 @@ class TestNodeConnectionService extends ASectionService
         TestNodePortRepository $testNodePortRepository,
         AuthorizationCheckerInterface $securityAuthorizationChecker,
         TokenStorageInterface $securityTokenStorage,
-        TestNodeConnectionRepository $testNodeConnectionRepository
+        TestNodeConnectionRepository $testNodeConnectionRepository,
+        AdministrationService $administrationService
     )
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
 
         $this->validator = $validator;
         $this->testRepository = $testRepository;

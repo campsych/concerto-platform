@@ -533,7 +533,7 @@ class AdministrationService
 
     public function isContentBlocked()
     {
-        return $this->getSettingValue("content_block") === 1;
+        return $this->getSettingValue("content_block") == 1;
     }
 
     /**
