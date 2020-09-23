@@ -33,6 +33,7 @@ concertoPanel.config(function ($interpolateProvider) {
 
         if (config.url.match(/^.*\/rcache\/?\/html\/.*/)) return false;
         if (config.url.match(/^.*\/admin\/DataTable\/\d+\/row\/\d+\/update/)) return false;
+        if (config.url.match(/^.*\/admin\/Administration\/ScheduledTask\/collection/)) return false;
     };
     blockUIConfig.message = Trans.PLEASE_WAIT;
     blockUIConfig.delay = 250;

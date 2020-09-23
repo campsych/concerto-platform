@@ -1,4 +1,4 @@
-function AdministrationController($scope, $http, $uibModal, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService, DialogsService) {
+function AdministrationController($scope, $http, $uibModal, $filter, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService, DialogsService) {
     $scope.tabStateName = "administration";
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
     $scope.deleteMessagePath = Paths.ADMINISTRATION_MESSAGES_DELETE;
@@ -271,7 +271,7 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
             }, {
                 displayName: Trans.TASKS_LIST_FIELD_STATUS,
                 field: "status",
-                cellTemplate: "<div class='ui-grid-cell-contents'>{{grid.appScope.getTasksStatusLabel(row.entity.status)}}</div>"
+                cellTemplate: "<div class='ui-grid-cell-contents'>{{row.entity.status|tasksStatusLabel}}</div>"
             }, {
                 displayName: Trans.TASKS_LIST_FIELD_DESCRIPTION,
                 field: "description"
@@ -287,19 +287,8 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
         ]
     };
 
-    $scope.getTasksStatusLabel = function (id) {
-        switch (id) {
-            case 0:
-                return Trans.TASKS_LIST_FIELD_STATUS_PENDING;
-            case 1:
-                return Trans.TASKS_LIST_FIELD_STATUS_ONGOING;
-            case 2:
-                return Trans.TASKS_LIST_FIELD_STATUS_COMPLETED;
-            case 3:
-                return Trans.TASKS_LIST_FIELD_STATUS_FAILED;
-            case 4:
-                return Trans.TASKS_LIST_FIELD_STATUS_CANCELED;
-        }
+    $scope.getTasksStatusLabel = function (status) {
+        return $filter("tasksStatusLabel")(status);
     };
 
     $scope.apiClientsCollection = [];
@@ -460,4 +449,4 @@ function AdministrationController($scope, $http, $uibModal, AdministrationSettin
     $scope.refreshApiClients();
 }
 
-concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", "DialogsService", AdministrationController]);
+concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "$filter", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", "DialogsService", AdministrationController]);

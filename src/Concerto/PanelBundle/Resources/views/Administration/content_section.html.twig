@@ -114,7 +114,7 @@
                         <td>
                             <i class="glyphicon glyphicon-align-justify clickable" ng-click="showLatestTaskOutput()"></i>
                         </td>
-                        <td ng-bind="getTasksStatusLabel(gitStatus.latestTask.status)"></td>
+                        <td>{% verbatim %}{{ gitStatus.latestTask.status|taskStatusLabel }}{% endverbatim %}</td>
                     </tr>
                 </table>
             </div>

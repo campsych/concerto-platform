@@ -1,4 +1,4 @@
-function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService) {
+function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiGridConstants, GridService, DialogsService, BaseCollectionService, DataTableCollectionService, TestCollectionService, TestWizardCollectionService, UserCollectionService, ViewTemplateCollectionService, AdministrationSettingsService, AuthService, ScheduledTasksCollectionService) {
     $scope.super = {};
     $scope.exportable = false;
 
@@ -419,9 +419,12 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
             }
         });
 
-        modalInstance.result.then(function (object) {
-            $scope.object = object;
-            $scope.fetchAllCollections();
+        modalInstance.result.then(function () {
+            ScheduledTasksCollectionService.fetchObjectCollection(function () {
+                if (ScheduledTasksCollectionService.ongoingScheduledTasks.length > 0) {
+                    ScheduledTasksCollectionService.launchOngoingTaskDialog();
+                }
+            });
         }, function (dirty) {
             if (dirty === true) {
                 $scope.fetchAllCollections();

@@ -89,7 +89,6 @@ content:
     import_from_url: Zawartość zostanie zaimportowana z pola 'URL'.
     importing_content: Importowanie zawartości
     import_prompt: Jesteś pewien, że chcesz zaimportować zawartość? Tej operacji nie można cofnąć. Upewnij się, że posiadasz kopie zapasową swojej obecnej zawartości zanim kontynuujesz.
-    import_success: Import zakończony pomyślnie
     import_failure: Import nie powiódł się
 
 git:
@@ -145,7 +144,6 @@ git:
     push:
         title: Pchnięcie lokalnych commitów do zdalnego repozytorium
         confirm: Napewno pchać lokalne commity do zdalnego repozytorium?
-        success: Commity pchnięte
         failure: Nie udało się pchnąc lokalnych commitów
         button: Pchnij
     pull:
@@ -225,6 +223,12 @@ tasks:
             status.canceled: Anulowane
             description: Opis
             output: Wyjście
+    ongoing_dialog:
+        title: Trwają zaplanowane zadania
+        refresh_prompt: Wszystkie zaplanowane zadania zostały zakończone. Odśwież w dogodnym momencie.
+        button:
+            return: Powrót
+            refresh: Odśwież
         
 api_clients:
     fieldset:

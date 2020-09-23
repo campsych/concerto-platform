@@ -1,4 +1,4 @@
-function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal) {
+function AdministrationContentController($scope, $http, DialogsService, $window, FileUploader, $uibModal, ScheduledTasksCollectionService) {
     $scope.gitStatus = null;
     $scope.uploadItem = null;
     $scope.uploader = new FileUploader({
@@ -36,14 +36,11 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     let success = httpResponse.data.result === 0;
 
                     if (success) {
-                        DialogsService.preDialog(
-                            Trans.CONTENT_IMPORT_SUCCESS,
-                            null,
-                            httpResponse.data.output,
-                            function (preResponse) {
-                                $window.onbeforeunload = null;
-                                $window.location.reload();
-                            });
+                        ScheduledTasksCollectionService.fetchObjectCollection(function () {
+                            if (ScheduledTasksCollectionService.ongoingScheduledTasks.length > 0) {
+                                ScheduledTasksCollectionService.launchOngoingTaskDialog();
+                            }
+                        });
                     } else {
                         DialogsService.alertDialog(
                             Trans.CONTENT_IMPORT_FAILURE,
@@ -216,14 +213,21 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     $scope.refreshGitStatus();
 
                     let success = httpResponse.data.result === 0;
-                    let title = success ? Trans.GIT_PUSH_SUCCESS : Trans.GIT_PUSH_FAILURE;
-                    let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
-                    DialogsService.preDialog(
-                        title,
-                        null,
-                        content
-                    );
+                    if (success) {
+                        ScheduledTasksCollectionService.fetchObjectCollection(function () {
+                            if (ScheduledTasksCollectionService.ongoingScheduledTasks.length > 0) {
+                                ScheduledTasksCollectionService.launchOngoingTaskDialog();
+                            }
+                        });
+                    } else {
+                        let content = success ? httpResponse.data.output : httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
+                        DialogsService.preDialog(
+                            Trans.GIT_PUSH_FAILURE,
+                            null,
+                            content
+                        );
+                    }
                 });
             }
         );
@@ -244,7 +248,13 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
                     $scope.refreshGitStatus();
 
                     let success = httpResponse.data.result === 0;
-                    if (!success) {
+                    if (success) {
+                        ScheduledTasksCollectionService.fetchObjectCollection(function () {
+                            if (ScheduledTasksCollectionService.ongoingScheduledTasks.length > 0) {
+                                ScheduledTasksCollectionService.launchOngoingTaskDialog();
+                            }
+                        });
+                    } else {
                         let content = httpResponse.data.errors.join("\n") + "\n\n" + httpResponse.data.output;
 
                         DialogsService.preDialog(
@@ -365,4 +375,4 @@ function AdministrationContentController($scope, $http, DialogsService, $window,
     };
 }
 
-concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", AdministrationContentController]);
+concertoPanel.controller('AdministrationContentController', ["$scope", "$http", "DialogsService", "$window", "FileUploader", "$uibModal", "ScheduledTasksCollectionService", AdministrationContentController]);

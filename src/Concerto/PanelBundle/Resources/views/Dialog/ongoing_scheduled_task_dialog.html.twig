@@ -1,0 +1,22 @@
+{% trans_default_domain "Administration" %}
+<div type="text/ng-template" id="ongoing_scheduled_task_dialog.html">
+    <div class="modal-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'tasks.ongoing_dialog.title'|trans }}</div>
+            <div class="panel-body">
+                <ul>
+                    <li ng-repeat="task in service.ongoingScheduledTasks">
+                        ({% verbatim %}{{ task.status|taskStatusLabel }}) {% endverbatim %}<strong>{% verbatim %}{{ task.description }}{% endverbatim %}</strong>
+                    </li>
+                </ul>
+                <div ng-show="service.ongoingScheduledTasks.length === 0">
+                    {{ 'tasks.ongoing_dialog.refresh_prompt'|trans }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="return()">{{ 'tasks.ongoing_dialog.button.return'|trans }}</button>
+        <button class="btn btn-success" ng-click="refresh()" ng-show="service.ongoingScheduledTasks.length === 0">{{ 'tasks.ongoing_dialog.button.refresh'|trans }}</button>
+    </div>
+</div>

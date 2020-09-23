@@ -267,7 +267,8 @@ class ScheduledTask implements \JsonSerializable
             "type" => $this->getType(),
             "status" => $this->getStatus(),
             "description" => $this->getDescription(),
-            "output" => $this->getOutput()
+            "output" => $this->getOutput(),
+            "info" => $this->getInfo()
         );
     }
 

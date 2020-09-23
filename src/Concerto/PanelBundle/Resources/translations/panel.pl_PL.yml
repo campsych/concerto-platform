@@ -114,8 +114,6 @@ import:
   dialog:
     title: Importowanie obiektu
     description_warning: Konwersja obecnego obiektu na importowany jest uznawana wciąż za ekperymentalną i może prowadzić do utraty danych. Różnice pomiędzy wersją obecną i importowaną mogą również prowadzić do nieuniknionej utraty danych. Bardzo mocno zaleca się zrobienie kopii zapasowej bazy danych przed kontynuowaniem.
-    message:
-      imported: Obiekt zaimportowany
   fieldset:
     legend.tooltip: Zaimportuj obiekt z wcześniej wyeksportowanego pliku
   form:

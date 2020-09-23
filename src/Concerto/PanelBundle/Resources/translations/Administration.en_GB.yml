@@ -89,7 +89,6 @@ content:
     import_from_url: Content will be imported from 'URL' field.
     importing_content: Importing content
     import_prompt: Are you sure you want to import content? This is operation can not be undone. Please make sure you have a backup of your data in case anything goes wrong.
-    import_success: Import finished successfully
     import_failure: Import failed
 
 git:
@@ -145,7 +144,6 @@ git:
     push:
         title: Pushing local commits to remote
         confirm: Are you sure you want to push your local commits to remote?
-        success: Commits pushed
         failure: Failed pushing local commits
         button: Push
     pull:
@@ -225,6 +223,12 @@ tasks:
             status.canceled: Canceled
             description: Description
             output: Output
+    ongoing_dialog:
+        title: Ongoing scheduled tasks
+        refresh_prompt: All pending scheduled tasks are completed. Please refresh.
+        button:
+            return: Return
+            refresh: Refresh
             
 api_clients:
     fieldset:

@@ -176,13 +176,7 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, $timeout,
             function successCallback(response) {
                 switch (response.data.result) {
                     case BaseController.RESULT_OK: {
-                        $scope.dialogsService.alertDialog(
-                            Trans.IMPORT_DIALOG_TITLE,
-                            Trans.IMPORT_DIALOG_MESSAGE_IMPORTED,
-                            "success"
-                        );
-
-                        $uibModalInstance.close($scope.object);
+                        $uibModalInstance.close();
                         break;
                     }
                     case BaseController.RESULT_VALIDATION_FAILED: {
