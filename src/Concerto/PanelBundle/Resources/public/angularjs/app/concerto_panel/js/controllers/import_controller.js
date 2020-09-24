@@ -147,7 +147,10 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, $timeout,
                         }
                         case BaseController.RESULT_VALIDATION_FAILED: {
                             $scope.object.validationErrors = response.data.errors;
-                            $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
+                            $timeout(() => {
+                                let alert = $(".alert-danger").first();
+                                if(alert.length > 0) alert[0].scrollIntoView({behavior: "smooth"});
+                            });
                             $scope.dirty = true;
                             break;
                         }
@@ -181,7 +184,10 @@ function ImportController($scope, $uibModalInstance, $http, $uibModal, $timeout,
                     }
                     case BaseController.RESULT_VALIDATION_FAILED: {
                         $scope.object.validationErrors = response.data.errors;
-                        $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
+                        $timeout(() => {
+                            let alert = $(".alert-danger").first();
+                            if(alert.length > 0) alert[0].scrollIntoView({behavior: "smooth"});
+                        });
                         $scope.dirty = true;
                         break;
                     }

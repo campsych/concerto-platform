@@ -78,6 +78,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 1,
+                    "name" => "source",
                     "rename" => "source",
                     "action" => "0",
                     "starter_content" => false,
@@ -89,6 +90,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "TestWizard",
                     "id" => 1,
+                    "name" => "wizard",
                     "rename" => "wizard",
                     "action" => "0",
                     "starter_content" => false,
@@ -100,6 +102,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 2,
+                    "name" => "test",
                     "rename" => "test",
                     "action" => "0",
                     "starter_content" => false,
@@ -111,6 +114,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 3,
+                    "name" => "flow",
                     "rename" => "flow",
                     "action" => "0",
                     "starter_content" => false,
@@ -119,7 +123,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -148,6 +153,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 1,
+                    "name" => "source",
                     "rename" => "source",
                     "action" => "1",
                     "starter_content" => false,
@@ -159,6 +165,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "TestWizard",
                     "id" => 1,
+                    "name" => "wizard",
                     "rename" => "wizard",
                     "action" => "1",
                     "starter_content" => false,
@@ -170,6 +177,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 2,
+                    "name" => "test",
                     "rename" => "test",
                     "action" => "1",
                     "starter_content" => false,
@@ -181,6 +189,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 3,
+                    "name" => "flow",
                     "rename" => "flow",
                     "action" => "1",
                     "starter_content" => false,
@@ -189,7 +198,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -202,10 +212,10 @@ class ImportServiceTest extends AFunctionalTest
 
         //objects count
         $this->assertEquals(3, count(self::$testRepository->findAll()));
-        $this->assertEquals(11, count(self::$testVariableRepository->findAll()));
+        $this->assertEquals(9, count(self::$testVariableRepository->findAll()));
         $this->assertEquals(1, count(self::$testWizardRepository->findAll()));
         $this->assertEquals(1, count(self::$testWizardStepRepository->findAll()));
-        $this->assertEquals(3, count(self::$testWizardParamRepository->findAll()));
+        $this->assertEquals(2, count(self::$testWizardParamRepository->findAll()));
         $this->assertEquals(3, count(self::$testNodeRepository->findAll()));
         $this->assertEquals(5, count(self::$testNodePortRepository->findAll()));
         $this->assertEquals(1, count(self::$testNodeConnectionRepository->findAll()));
@@ -270,7 +280,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -328,7 +339,8 @@ class ImportServiceTest extends AFunctionalTest
                     "existing_object_name" => "test",
                     "can_ignore" => true,
                     "data" => "0")
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -365,6 +377,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 1,
+                    "name" => "source_info",
                     "rename" => "source_info",
                     "action" => "0",
                     "starter_content" => false,
@@ -376,6 +389,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "TestWizard",
                     "id" => 1,
+                    "name" => "info",
                     "rename" => "info",
                     "action" => "0",
                     "starter_content" => true,
@@ -387,6 +401,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 2,
+                    "name" => "info",
                     "rename" => "info",
                     "action" => "0",
                     "starter_content" => true,
@@ -398,6 +413,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 3,
+                    "name" => "flow",
                     "rename" => "flow",
                     "action" => "0",
                     "starter_content" => false,
@@ -406,7 +422,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -435,6 +452,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 1,
+                    "name" => "source_info",
                     "rename" => "source_info",
                     "action" => "1",
                     "starter_content" => false,
@@ -446,6 +464,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "TestWizard",
                     "id" => 1,
+                    "name" => "info",
                     "rename" => "info",
                     "action" => "1",
                     "starter_content" => true,
@@ -457,6 +476,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 2,
+                    "name" => "info",
                     "rename" => "info",
                     "action" => "1",
                     "starter_content" => true,
@@ -465,7 +485,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
 
         //HTTP response
@@ -509,6 +530,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "ViewTemplate",
                     "id" => 1,
+                    "name" => "view",
                     "rename" => "view",
                     "action" => "0",
                     "starter_content" => false,
@@ -517,7 +539,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -542,6 +565,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "ViewTemplate",
                     "id" => 1,
+                    "name" => "view",
                     "rename" => "view",
                     "action" => "1",
                     "starter_content" => false,
@@ -550,7 +574,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "0"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -580,6 +605,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "DataTable",
                     "id" => 1,
+                    "name" => "data",
                     "rename" => "data",
                     "action" => "0",
                     "starter_content" => false,
@@ -588,7 +614,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "1"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";
@@ -624,6 +651,7 @@ class ImportServiceTest extends AFunctionalTest
                 array(
                     "class_name" => "DataTable",
                     "id" => 1,
+                    "name" => "data",
                     "rename" => "data",
                     "action" => "1",
                     "starter_content" => false,
@@ -632,7 +660,8 @@ class ImportServiceTest extends AFunctionalTest
                     "can_ignore" => false,
                     "data" => "1"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         //HTTP response
         $fail_msg = "";

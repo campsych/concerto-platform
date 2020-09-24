@@ -254,8 +254,6 @@ class ImportService
             return false;
         }
 
-        if (!$this->canCollectionBeModified($data["collection"], $instructions, $errorMessages)) return false;
-
         foreach ($data["collection"] as &$obj) {
             $instruction = ASectionService::getObjectImportInstruction($obj, $instructions);
             if (array_key_exists("src", $instruction) && $instruction["src"] == 1) {
@@ -266,9 +264,9 @@ class ImportService
         return $this->import($instructions, $data["collection"], $errorMessages);
     }
 
-    public function scheduleTaskImportContent($file, $exportInstructions, &$output = null, &$errors = null)
+    public function scheduleTaskImportContent($file, $exportInstructions, $scheduled, &$output = null, &$errors = null)
     {
-        if ($this->adminService->isTaskScheduled()) {
+        if ($scheduled && $this->adminService->isTaskScheduled()) {
             $errors[] = "tasks.already_scheduled";
             return false;
         }
@@ -279,11 +277,12 @@ class ImportService
 
         $app = new Application($this->kernel);
         $app->setAutoExit(false);
-        $in = new ArrayInput(array(
+        $in = new ArrayInput([
             "command" => "concerto:task:content:import",
             "input" => $file,
+            "--instant-run" => !$scheduled,
             "--instructions" => $exportInstructions
-        ));
+        ]);
         $out = new BufferedOutput();
         $returnCode = $app->run($in, $out);
         $output .= $out->fetch();

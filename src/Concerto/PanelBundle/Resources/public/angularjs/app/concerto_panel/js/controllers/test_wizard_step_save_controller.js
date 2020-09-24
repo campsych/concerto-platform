@@ -39,7 +39,10 @@ function TestWizardStepSaveController($scope, $uibModalInstance, $http, $timeout
                 }
                 case BaseController.RESULT_VALIDATION_FAILED: {
                     $scope.object.validationErrors = httpResponse.data.errors;
-                    $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
+                    $timeout(() => {
+                        let alert = $(".alert-danger").first();
+                        if(alert.length > 0) alert[0].scrollIntoView({behavior: "smooth"});
+                    });
                     break;
                 }
             }

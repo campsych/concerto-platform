@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -20,12 +21,12 @@ class ConcertoTaskContentImportCommand extends ConcertoScheduledTaskCommand
     private $templating;
     private $kernel;
 
-    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, KernelInterface $kernel)
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, KernelInterface $kernel, ScheduledTaskRepository $scheduledTaskRepository)
     {
         $this->templating = $templating;
         $this->kernel = $kernel;
 
-        parent::__construct($administrationService, $administration, $doctrine);
+        parent::__construct($administrationService, $administration, $doctrine, $scheduledTaskRepository);
     }
 
     protected function configure()

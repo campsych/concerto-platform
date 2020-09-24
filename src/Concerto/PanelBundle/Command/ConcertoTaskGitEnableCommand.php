@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Concerto\PanelBundle\Service\GitService;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -22,12 +23,12 @@ class ConcertoTaskGitEnableCommand extends ConcertoScheduledTaskCommand
     /** @var OutputInterface */
     private $output;
 
-    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, GitService $gitService)
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, EngineInterface $templating, GitService $gitService, ScheduledTaskRepository $scheduledTaskRepository)
     {
         $this->templating = $templating;
         $this->gitService = $gitService;
 
-        parent::__construct($administrationService, $administration, $doctrine);
+        parent::__construct($administrationService, $administration, $doctrine, $scheduledTaskRepository);
     }
 
     protected function configure()

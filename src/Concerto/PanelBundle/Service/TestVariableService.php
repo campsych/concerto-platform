@@ -56,12 +56,7 @@ class TestVariableService extends ASectionService
 
     public function getBranches($test_id)
     {
-        /** @var Test $test */
-        $test = $this->testRepository->find($test_id);
-        $variables = $test->getVariables()->filter(function (TestVariable $variable) {
-            return $variable->getType() === 2;
-        });
-        return $this->authorizeCollection($variables);
+        return $this->authorizeCollection($this->repository->findByTestAndType($test_id, 2));
     }
 
     public function saveCollection($serializedVariables, Test $test, $flush = true)

@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
@@ -18,12 +19,14 @@ abstract class ConcertoScheduledTaskCommand extends Command
     protected $administrationService;
     protected $administration;
     protected $doctrine;
+    protected $scheduledTaskRepository;
 
-    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine)
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, ScheduledTaskRepository $scheduledTaskRepository)
     {
         $this->administrationService = $administrationService;
         $this->administration = $administration;
         $this->doctrine = $doctrine;
+        $this->scheduledTaskRepository = $scheduledTaskRepository;
 
         parent::__construct();
     }
@@ -71,8 +74,6 @@ abstract class ConcertoScheduledTaskCommand extends Command
         $task_id = $input->getOption("task");
         $instantRun = $input->getOption("instant-run");
 
-        $em = $this->doctrine->getManager();
-        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
         $task = null;
 
         $execute = $task_id || $instantRun;
@@ -81,14 +82,14 @@ abstract class ConcertoScheduledTaskCommand extends Command
 
             $this->onBeforeTaskCreate($input, $output);
             $info = $this->getTaskInfo($input);
-            $contentBlock = $input->getOption("content-block");
+            $contentBlock = !$instantRun && $input->getOption("content-block");
 
             $task = new ScheduledTask();
             $task->setType($this->getTaskType());
-            $tasksRepo->save($task);
+            $this->scheduledTaskRepository->save($task);
             $task->setDescription($this->getTaskDescription($task));
             $task->setInfo(json_encode($info));
-            $tasksRepo->save($task);
+            $this->scheduledTaskRepository->save($task);
 
             if ($contentBlock) $this->administrationService->setContentBlock(true);
 
@@ -98,21 +99,44 @@ abstract class ConcertoScheduledTaskCommand extends Command
         if ($execute) {
             //EXECUTE TASK
 
-            $task = $tasksRepo->find($task_id);
+            /** @var ScheduledTask $task */
+            $task = $this->scheduledTaskRepository->find($task_id);
             if (!$task) {
                 $output->writeln("invalid task id!");
+                $task->setStatus(ScheduledTask::STATUS_FAILED);
+                $this->scheduledTaskRepository->save($task);
+                $this->onTaskFinished($task, $output);
                 return 1;
             }
 
             $task->setStatus(ScheduledTask::STATUS_ONGOING);
-            $tasksRepo->save($task);
+            $this->scheduledTaskRepository->save($task);
 
             $return_code = $this->executeTask($task, $output);
             if ($return_code !== 0) {
                 $output->writeln("task #" . $task->getId() . " failed");
+                $task->setStatus(ScheduledTask::STATUS_FAILED);
+                $this->scheduledTaskRepository->save($task);
+                $this->onTaskFinished($task, $output);
                 return $return_code;
             }
+
             $output->writeln("task #" . $task->getId() . " finished successfully");
+            $task->setStatus(ScheduledTask::STATUS_COMPLETED);
+            $this->scheduledTaskRepository->save($task);
+
+            $this->onTaskFinished($task, $output);
+            return 0;
+        }
+    }
+
+    protected function onTaskFinished(ScheduledTask $task, OutputInterface $output)
+    {
+        $info = json_decode($task->getInfo(), true);
+        if ($task->getStatus() == ScheduledTask::STATUS_FAILED) {
+            if ($info["cancel_pending_on_fail"]) {
+                $this->scheduledTaskRepository->cancelPending();
+            }
         }
     }
 }

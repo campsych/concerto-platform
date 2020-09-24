@@ -161,13 +161,15 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 array(
                     "class_name" => "ViewTemplate",
                     "id" => 8,
+                    "name" => "some_template",
                     "rename" => "some_template",
                     "action" => "0",
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => null
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -186,13 +188,15 @@ class ViewTemplateControllerTest extends AFunctionalTest
                 array(
                     "class_name" => "ViewTemplate",
                     "id" => 8,
+                    "name" => "some_template",
                     "rename" => "view",
                     "action" => "0",
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "view"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));

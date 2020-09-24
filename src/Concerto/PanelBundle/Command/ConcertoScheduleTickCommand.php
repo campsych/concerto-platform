@@ -80,35 +80,19 @@ class ConcertoScheduleTickCommand extends Command
         $return_code = $app->run($input, $bo);
         $response = $bo->fetch();
 
-        $em = $this->doctrine->getManager();
-        $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
+        $this->scheduledTasksRepository->refresh($task);
         $task->appendOutput($response);
         $output->writeln($response);
-        $task->setStatus($return_code == 0 ? ScheduledTask::STATUS_COMPLETED : ScheduledTask::STATUS_FAILED);
-        $tasksRepo->save($task);
+        $this->scheduledTasksRepository->save($task);
 
-        $this->onTaskFinished($task, $output);
+        if ($this->administrationService->isContentBlocked() && !$this->isOngoingBlockingTaskExist()) {
+            $this->administrationService->setContentBlock(false);
+        }
 
         return $return_code;
     }
 
-    private function onTaskFinished(ScheduledTask $task, OutputInterface $output)
-    {
-        $info = json_decode($task->getInfo(), true);
-        if ($task->getStatus() == ScheduledTask::STATUS_FAILED) {
-            if ($info["cancel_pending_on_fail"]) {
-                $em = $this->doctrine->getManager();
-                $tasksRepo = $em->getRepository("ConcertoPanelBundle:ScheduledTask");
-                $tasksRepo->cancelPending();
-            }
-        }
-
-        if (!$this->isContentBlocked()) {
-            $this->administrationService->setContentBlock(false);
-        }
-    }
-
-    private function isContentBlocked()
+    private function isOngoingBlockingTaskExist()
     {
         foreach ($this->scheduledTasksRepository->findAllPending() as $task) {
             $info = json_decode($task->getInfo(), true);

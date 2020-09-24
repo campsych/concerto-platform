@@ -212,13 +212,15 @@ class TestControllerTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 1,
+                    "name" => "subtest",
                     "rename" => "imported_test",
                     "action" => "0",
                     "starter_content" => false,
                     "existing_object" => false,
                     "existing_object_name" => "null"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
@@ -238,13 +240,15 @@ class TestControllerTest extends AFunctionalTest
                 array(
                     "class_name" => "Test",
                     "id" => 1,
+                    "name" => "subtest",
                     "rename" => "test",
                     "action" => "0",
                     "starter_content" => false,
                     "existing_object" => true,
                     "existing_object_name" => "test"
                 )
-            ))
+            )),
+            "instant" => 1
         ));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));

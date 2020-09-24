@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Command;
 
+use Concerto\PanelBundle\Repository\ScheduledTaskRepository;
 use Concerto\PanelBundle\Service\AdministrationService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,12 +17,12 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
     private $testRunnerSettings;
     private $templating;
 
-    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, $testRunnerSettings, EngineInterface $templating)
+    public function __construct(AdministrationService $administrationService, $administration, ManagerRegistry $doctrine, $testRunnerSettings, EngineInterface $templating, ScheduledTaskRepository $scheduledTaskRepository)
     {
         $this->testRunnerSettings = $testRunnerSettings;
         $this->templating = $templating;
 
-        parent::__construct($administrationService, $administration, $doctrine);
+        parent::__construct($administrationService, $administration, $doctrine, $scheduledTaskRepository);
     }
 
     protected function configure()

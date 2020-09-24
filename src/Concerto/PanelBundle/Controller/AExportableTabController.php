@@ -49,8 +49,9 @@ abstract class AExportableTabController extends ASectionController
     {
         $file = $this->fileService->getPrivateUploadDirectory() . $request->get("file");
         $instructions = $request->get("instructions");
+        $scheduled = $request->get("instant") != 1;
 
-        $success = $this->importService->scheduleTaskImportContent($file, $instructions, $output, $errorMessages);
+        $success = $this->importService->scheduleTaskImportContent($file, $instructions, $scheduled, $output, $errorMessages);
 
         $response = new Response(json_encode(array("result" => $success ? 0 : 1, "errors" => $this->trans($errorMessages))));
         $response->headers->set('Content-Type', 'application/json');

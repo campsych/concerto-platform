@@ -384,7 +384,10 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
                     }
                     default: {
                         $scope.object.validationErrors = httpResponse.data.errors;
-                        $timeout(() => window.scrollTo({top: $(".alert").first().offset().top, behavior: "smooth"}));
+                        $timeout(() => {
+                            let alert = $(".alert-danger").first();
+                            if(alert.length > 0) alert[0].scrollIntoView({behavior: "smooth"});
+                        });
                         break;
                     }
                 }
