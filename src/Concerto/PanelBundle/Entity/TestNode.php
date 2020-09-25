@@ -369,7 +369,7 @@ class TestNode extends AEntity implements \JsonSerializable
 
     public function __toString()
     {
-        return "TestNode (#" + $this->getId() . ", title:" . ($this->getTitle() ? $this->getTitle() : $this->getSourceTest()->getName()) . ")";
+        return "TestNode (#" . $this->getId() . ", title:" . ($this->getTitle() ? $this->getTitle() : $this->getSourceTest()->getName()) . ")";
     }
 
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
