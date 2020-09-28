@@ -9,6 +9,7 @@ use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -23,9 +24,21 @@ class TestService extends AExportableSectionService
     private $slugifier;
     private $testWizardParamService;
 
-    public function __construct(TestRepository $repository, ValidatorInterface $validator, Slugify $slugifier, TestVariableService $testVariableService, TestNodeService $testNodeService, TestNodeConnectionService $testNodeConnectionService, TestNodePortService $testNodePortService, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        TestRepository $repository,
+        ValidatorInterface $validator,
+        Slugify $slugifier,
+        TestVariableService $testVariableService,
+        TestNodeService $testNodeService,
+        TestNodeConnectionService $testNodeConnectionService,
+        TestNodePortService $testNodePortService,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TestWizardParamService $testWizardParamService,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->testVariableService = $testVariableService;
         $this->testNodeService = $testNodeService;
@@ -75,8 +88,6 @@ class TestService extends AExportableSectionService
         if ($object === null) {
             $object = new Test();
             $object->setOwner($user);
-        } else {
-            $old_name = $object->getName();
         }
         $object->setName($name);
         if ($description !== null) {
@@ -107,10 +118,10 @@ class TestService extends AExportableSectionService
             $object->setSlug($urlslug . '-' . $slug_postfix++);
         }
 
-        return $this->resave($object, $old_name, $serializedVariables, $errors);
+        return $this->resave($object, $serializedVariables, $errors);
     }
 
-    private function resave(Test $object, $oldName, $serializedVariables = null, $errors = array(), $flush = true)
+    private function resave(Test $object, $serializedVariables = null, $errors = array(), $flush = true)
     {
         foreach ($this->validator->validate($object) as $err) {
             array_push($errors, $err->getMessage());
@@ -118,11 +129,11 @@ class TestService extends AExportableSectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->update($object, $oldName, $serializedVariables, $flush);
+        $this->update($object, $serializedVariables, $flush);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function update(Test $object, $oldName = null, $serializedVariables = null, $flush = true)
+    private function update(Test $object, $serializedVariables = null, $flush = true)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -130,11 +141,16 @@ class TestService extends AExportableSectionService
 
         $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $oldName, $isNew, $serializedVariables, $flush);
+        $changeSet = $this->repository->getChangeSet($object);
+        if ($isNew || !empty($changeSet)) {
+            $this->repository->save($object, $flush);
+            $this->onObjectSaved($object, $isNew, $serializedVariables, $flush);
+            $isRenamed = !$isNew && array_key_exists("name", $changeSet);
+            if ($isRenamed) $this->testWizardParamService->onObjectRename($object, $changeSet["name"][0]);
+        }
     }
 
-    private function onObjectSaved($test, $oldName, $isNew, $serializedVariables, $flush = true)
+    private function onObjectSaved($test, $isNew, $serializedVariables, $flush = true)
     {
         if ($test->getSourceWizard() != null) {
             if ($isNew) {
@@ -152,19 +168,15 @@ class TestService extends AExportableSectionService
             $this->testNodeService->save(0, 1, 15000, 15000, $test, $test, "", $flush);
             $this->testNodeService->save(0, 2, 15500, 15100, $test, $test, "", $flush);
         }
-
-        if (!$isNew && $oldName != $test->getName()) {
-            $this->testWizardParamService->onObjectRename($test, $oldName);
-        }
     }
 
     public function updateDependentTests(Test $sourceTest, $flush = true)
     {
-        $tests = $this->repository->findDependent($sourceTest);
+        $tests = $sourceTest->getDependantTests();
 
         $result = array();
         foreach ($tests as $test) {
-            $data = $this->resave($test, $test->getName(), null, array(), $flush);
+            $data = $this->resave($test, null, array(), $flush);
             array_push($result, $data);
         }
         return $result;
@@ -180,7 +192,7 @@ class TestService extends AExportableSectionService
             if ($object === null)
                 continue;
 
-            if ($object->getWizards()->count() > 0) {
+            if (count($object->getWizards()) > 0) {
                 array_push($result, array("object" => $object, "errors" => array("validate.test.delete.referenced")));
                 continue;
             }
@@ -357,7 +369,7 @@ class TestService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, $old_ent->getName(), null, false);
+        $this->update($ent, null, false);
         $map["Test"]["id" . $obj["id"]] = $ent;
 
         $this->onConverted($ent, $old_ent);

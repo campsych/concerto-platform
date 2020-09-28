@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\UserRepository;
 use Concerto\PanelBundle\Repository\RoleRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -25,9 +26,19 @@ class UserService extends ASectionService
     private $importService;
     private $validator;
 
-    public function __construct(UserRepository $repository, RoleRepository $roleRepository, ValidatorInterface $validator, EncoderFactoryInterface $encoderFactory, AuthorizationCheckerInterface $securityAuthorizationChecker, $uio, ImportService $importService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        UserRepository $repository,
+        RoleRepository $roleRepository,
+        ValidatorInterface $validator,
+        EncoderFactoryInterface $encoderFactory,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        $uio,
+        ImportService $importService,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->roleRepository = $roleRepository;
         $this->validator = $validator;

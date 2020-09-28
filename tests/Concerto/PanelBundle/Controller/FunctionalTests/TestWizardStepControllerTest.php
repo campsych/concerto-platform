@@ -175,7 +175,12 @@ class TestWizardStepControllerTest extends AFunctionalTest
         $client = self::createLoggedClient();
 
         $client->request("POST", "/admin/TestWizardStep/1/delete");
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
 
         $decodedResponse = json_decode($client->getResponse()->getContent(), true);

@@ -374,59 +374,20 @@ class TestNodePort extends AEntity implements \JsonSerializable
     }
 
     /**
-     * Add connection where port is source
-     *
-     * @param TestNodeConnection $connection
-     * @return TestNodePort
-     */
-    public function addSourceForConnections(TestNodeConnection $connection)
-    {
-        $this->sourceForConnections[] = $connection;
-
-        return $this;
-    }
-
-    /**
-     * Remove connection where port is source
-     *
-     * @param TestNodeConnection $connection
-     */
-    public function removeSourceForConnections(TestNodeConnection $connection)
-    {
-        $this->sourceForConnections->removeElement($connection);
-    }
-
-    /**
      * Get connections where port is source
      *
      * @return ArrayCollection
      */
     public function getSourceForConnections()
     {
-        return $this->sourceForConnections;
+        return $this->getNode()->getFlowTest()->getNodesConnectionsBySourcePort($this);
     }
 
-    /**
-     * Add connection where port is destination
-     *
-     * @param TestNodeConnection $connection
-     * @return TestNodePort
-     */
-    public function addDestinationForConnections(TestNodeConnection $connection)
+    public function getSourceForConnectionsByDefaultReturnFunction($defaultReturnFunction)
     {
-        $this->destinationForConnections[] = $connection;
-
-        return $this;
-    }
-
-    /**
-     * Remove connection where port is destination
-     *
-     * @param TestNodeConnection $connection
-     */
-    public function removeDestinationForConnections(TestNodeConnection $connection)
-    {
-        $this->destinationForConnections->removeElement($connection);
+        return $this->sourceForConnections->filter(function (TestNodeConnection $connection) use ($defaultReturnFunction) {
+            return $connection->hasDefaultReturnFunction() === $defaultReturnFunction;
+        })->toArray();
     }
 
     /**
@@ -436,7 +397,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
      */
     public function getDestinationForConnections()
     {
-        return $this->destinationForConnections;
+        return $this->getNode()->getFlowTest()->getNodesConnectionsByDestinationPort($this);
     }
 
     public function getAccessibility()
@@ -528,13 +489,11 @@ class TestNodePort extends AEntity implements \JsonSerializable
     public function preRemove()
     {
         $this->getNode()->removePort($this);
-        if ($this->getVariable()) $this->getVariable()->removePort($this);
     }
 
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if (!$this->getNode()->getPorts()->contains($this)) $this->getNode()->addPort($this);
-        if ($this->getVariable() && !$this->getVariable()->getPorts()->contains($this)) $this->getVariable()->addPort($this);
+        if (!$this->getNode()->hasPort($this)) $this->getNode()->addPort($this);
     }
 }

@@ -248,11 +248,16 @@ class ViewTemplate extends ATopEntity implements \JsonSerializable
     /**
      * Get tests that uses template as base
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getBaseTemplateForTests()
     {
-        return $this->baseTemplateForTests;
+        return $this->baseTemplateForTests->toArray();
+    }
+
+    public function isBaseTemplateForTest(Test $test)
+    {
+        return $this->baseTemplateForTests->contains($test);
     }
 
     /**

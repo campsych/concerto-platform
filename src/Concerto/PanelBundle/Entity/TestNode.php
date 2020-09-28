@@ -253,77 +253,24 @@ class TestNode extends AEntity implements \JsonSerializable
     /**
      * Get ports
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getPorts()
     {
-        return $this->ports;
+        return $this->ports->toArray();
     }
 
-    /**
-     * Add source for connection
-     *
-     * @param TestNodeConnection $connection
-     * @return TestNode
-     */
-    public function addSourceForConnection(TestNodeConnection $connection)
+    public function hasPort(TestNodePort $port)
     {
-        $this->sourceForConnections[] = $connection;
-
-        return $this;
+        return $this->ports->contains($port);
     }
 
-    /**
-     * Remove source for connection
-     *
-     * @param TestNodeConnection $connection
-     */
-    public function removeSourceForConnection(TestNodeConnection $connection)
+    public function getPortByVariable(TestVariable $variable)
     {
-        $this->sourceForConnections->removeElement($connection);
-    }
-
-    /**
-     * Get source for connections
-     *
-     * @return Collection
-     */
-    public function getSourceForConnections()
-    {
-        return $this->sourceForConnections;
-    }
-
-    /**
-     * Add destination for connection
-     *
-     * @param TestNodeConnection $connection
-     * @return TestNode
-     */
-    public function addDestinationForConnection(TestNodeConnection $connection)
-    {
-        $this->destinationForConnections[] = $connection;
-
-        return $this;
-    }
-
-    /**
-     * Remove destination for connection
-     *
-     * @param TestNodeConnection $connection
-     */
-    public function removeDestinationForConnection(TestNodeConnection $connection)
-    {
-        $this->destinationForConnections->removeElement($connection);
-    }
-
-    /**
-     * Get destination for connections
-     *
-     * @return ArrayCollection
-     */
-    public function getDestinationForConnections()
-    {
-        return $this->destinationForConnections;
+        foreach ($this->getPorts() as $port) {
+            if ($port->getVariable() === $variable) return $port;
+        }
+        return null;
     }
 
     public function getAccessibility()
@@ -388,7 +335,7 @@ class TestNode extends AEntity implements \JsonSerializable
             "sourceTest" => $this->sourceTest->getId(),
             "sourceTestName" => $this->sourceTest->getName(),
             "sourceTestDescription" => $this->sourceTest->getDescription(),
-            "ports" => self::jsonSerializeArray($this->getPorts()->toArray(), $dependencies, $normalizedIdsMap),
+            "ports" => self::jsonSerializeArray($this->getPorts(), $dependencies, $normalizedIdsMap),
         );
 
         if ($normalizedIdsMap !== null) {
@@ -410,7 +357,7 @@ class TestNode extends AEntity implements \JsonSerializable
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if (!$this->getFlowTest()->getNodes()->contains($this)) $this->getFlowTest()->addNode($this);
-        if (!$this->getSourceTest()->getSourceForNodes()->contains($this)) $this->getSourceTest()->addSourceForNodes($this);
+        if (!$this->getFlowTest()->hasNode($this)) $this->getFlowTest()->addNode($this);
+        if (!$this->getSourceTest()->isSourceForNodes($this)) $this->getSourceTest()->addSourceForNodes($this);
     }
 }

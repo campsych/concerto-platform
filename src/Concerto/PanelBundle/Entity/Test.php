@@ -145,6 +145,16 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->sourceWizard = null;
     }
 
+    public function getDependantTests()
+    {
+        $result = [];
+        foreach ($this->getWizards() as $wizard) {
+            /** @var TestWizard $wizard */
+            $results[] = $wizard->getResultingTests();
+        }
+        return $result;
+    }
+
     /**
      * Get source test wizard
      *
@@ -352,12 +362,12 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Add variables
      *
-     * @param TestVariable $variables
+     * @param TestVariable $variable
      * @return Test
      */
-    public function addVariable(TestVariable $variables)
+    public function addVariable(TestVariable $variable)
     {
-        $this->variables[] = $variables;
+        $this->variables->add($variable);
 
         return $this;
     }
@@ -365,31 +375,49 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Remove variables
      *
-     * @param TestVariable $variables
+     * @param TestVariable $variable
      */
-    public function removeVariable(TestVariable $variables)
+    public function removeVariable(TestVariable $variable)
     {
-        $this->variables->removeElement($variables);
+        $this->variables->removeElement($variable);
     }
 
     /**
      * Get variables
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getVariables()
     {
-        return $this->variables;
+        return $this->variables->toArray();
+    }
+
+    public function hasVariable(TestVariable $variable)
+    {
+        return $this->variables->contains($variable);
+    }
+
+    public function getVariablesByType($type)
+    {
+        $vars = $this->variables->filter(function (TestVariable $variable) use ($type) {
+            return $variable->getType() == $type;
+        })->toArray();
+        return array_values($vars);
     }
 
     /**
      * Get test wizards
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getWizards()
     {
-        return $this->wizards;
+        return $this->wizards->toArray();
+    }
+
+    public function hasWizard(TestWizard $wizard)
+    {
+        return $this->wizards->contains($wizard);
     }
 
     /**
@@ -479,11 +507,16 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Get nodes
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getNodes()
     {
-        return $this->nodes;
+        return $this->nodes->toArray();
+    }
+
+    public function hasNode(TestNode $node)
+    {
+        return $this->nodes->contains($node);
     }
 
     /**
@@ -512,11 +545,16 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Get nodes that this test is source for
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getSourceForNodes()
     {
-        return $this->sourceForNodes;
+        return $this->sourceForNodes->toArray();
+    }
+
+    public function isSourceForNodes(TestNode $node)
+    {
+        return $this->sourceForNodes->contains($node);
     }
 
     /**
@@ -550,11 +588,37 @@ class Test extends ATopEntity implements \JsonSerializable
     /**
      * Get nodes connections
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getNodesConnections()
     {
-        return $this->nodesConnections;
+        return $this->nodesConnections->toArray();
+    }
+
+    public function hasNodeConnection(TestNodeConnection $connection)
+    {
+        return $this->nodesConnections->contains($connection);
+    }
+
+    public function getNodesConnectionBySourcePortVariable(TestVariable $variable)
+    {
+        return $this->nodesConnections->filter(function (TestNodeConnection $connection) use ($variable) {
+            return $connection->getSourcePort() && $connection->getSourcePort()->getVariable() === $variable;
+        })->toArray();
+    }
+
+    public function getNodesConnectionsBySourcePort(TestNodePort $sourcePort)
+    {
+        return $this->nodesConnections->filter(function (TestNodeConnection $connection) use ($sourcePort) {
+            return $connection->getSourcePort() === $sourcePort;
+        })->toArray();
+    }
+
+    public function getNodesConnectionsByDestinationPort(TestNodePort $destinationPort)
+    {
+        return $this->nodesConnections->filter(function (TestNodeConnection $connection) use ($destinationPort) {
+            return $connection->getDestinationPort() === $destinationPort;
+        })->toArray();
     }
 
     /**
@@ -667,7 +731,7 @@ class Test extends ATopEntity implements \JsonSerializable
             $this->baseTemplate->jsonSerialize($dependencies, $normalizedIdsMap);
 
         //sorting for prettier diffs
-        $variables = $this->variables->toArray();
+        $variables = $this->getVariables();
         usort($variables, function ($a, $b) {
             $compareResult = strcmp($a->getName(), $b->getName());
             if ($compareResult !== 0) return $compareResult;
@@ -690,13 +754,13 @@ class Test extends ATopEntity implements \JsonSerializable
             "sourceWizardName" => $this->sourceWizard != null ? $this->sourceWizard->getName() : null,
             "sourceWizardTest" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getId() : null,
             "sourceWizardTestName" => $this->sourceWizard != null ? $this->sourceWizard->getTest()->getName() : null,
-            "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps()->toArray() : [], $dependencies, $normalizedIdsMap),
+            "steps" => self::jsonSerializeArray($this->sourceWizard ? $this->sourceWizard->getSteps() : [], $dependencies, $normalizedIdsMap),
             "updatedOn" => $this->getUpdated()->getTimestamp(),
             "updatedBy" => $this->getUpdatedBy(),
             "lockedBy" => $this->getLockBy() ? $this->getLockBy()->getId() : null,
             "directLockBy" => $this->getDirectLockBy() ? $this->getDirectLockBy()->getId() : null,
-            "nodes" => self::jsonSerializeArray($this->getNodes()->toArray(), $dependencies, $normalizedIdsMap),
-            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections()->toArray(), $dependencies, $normalizedIdsMap),
+            "nodes" => self::jsonSerializeArray($this->getNodes(), $dependencies, $normalizedIdsMap),
+            "nodesConnections" => self::jsonSerializeArray($this->getNodesConnections(), $dependencies, $normalizedIdsMap),
             "baseTemplate" => $this->baseTemplate != null ? $this->baseTemplate->getId() : null,
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
@@ -724,7 +788,7 @@ class Test extends ATopEntity implements \JsonSerializable
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if ($this->getSourceWizard() && !$this->getSourceWizard()->getResultingTests()->contains($this)) $this->getSourceWizard()->addResultingTest($this);
-        if ($this->getBaseTemplate() && !$this->getBaseTemplate()->getBaseTemplateForTests()->contains($this)) $this->getBaseTemplate()->addBaseTemplateForTest($this);
+        if ($this->getSourceWizard() && !$this->getSourceWizard()->isResultingTest($this)) $this->getSourceWizard()->addResultingTest($this);
+        if ($this->getBaseTemplate() && !$this->getBaseTemplate()->isBaseTemplateForTest($this)) $this->getBaseTemplate()->addBaseTemplateForTest($this);
     }
 }

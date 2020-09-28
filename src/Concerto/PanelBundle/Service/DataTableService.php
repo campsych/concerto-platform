@@ -6,6 +6,7 @@ use Concerto\PanelBundle\DAO\DBDataDAO;
 use Concerto\PanelBundle\Entity\DataTable;
 use Concerto\PanelBundle\Repository\DataTableRepository;
 use Concerto\PanelBundle\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -17,9 +18,18 @@ class DataTableService extends AExportableSectionService
     public $dbDataDao;
     private $testWizardParamService;
 
-    public function __construct(DataTableRepository $repository, ValidatorInterface $validator, DBStructureService $dbStructureService, DBDataDAO $dbDataDao, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        DataTableRepository $repository,
+        ValidatorInterface $validator,
+        DBStructureService $dbStructureService,
+        DBDataDAO $dbDataDao,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TestWizardParamService $testWizardParamService,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->dbStructureService = $dbStructureService;
         $this->dbDataDao = $dbDataDao;
@@ -92,11 +102,11 @@ class DataTableService extends AExportableSectionService
             return array("object" => null, "errors" => $errors);
         }
 
-        $this->update($object, $oldName);
+        $this->update($object);
         return array("object" => $object, "errors" => $errors);
     }
 
-    public function update(DataTable $obj, $oldName = null, $flush = true)
+    public function update(DataTable $obj, $flush = true)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -104,11 +114,13 @@ class DataTableService extends AExportableSectionService
 
         $obj->setUpdatedBy($user);
         $isNew = $obj->getId() === null;
-        $this->repository->save($obj, $flush);
-
-        $isRenamed = !$isNew && $oldName !== null && $oldName !== $obj->getName();
-        if ($isRenamed) {
-            $this->testWizardParamService->onObjectRename($obj, $oldName);
+        $changeSet = $this->repository->getChangeSet($obj);
+        if ($isNew || !empty($changeSet)) {
+            $this->repository->save($obj, $flush);
+            $isRenamed = !$isNew && array_key_exists("name", $changeSet);
+            if ($isRenamed) {
+                $this->testWizardParamService->onObjectRename($obj, $changeSet["name"][0]);
+            }
         }
     }
 
@@ -520,7 +532,7 @@ class DataTableService extends AExportableSectionService
         if (count($db_errors) > 0)
             return array("errors" => $db_errors, "entity" => null, "source" => $obj);
 
-        $this->update($ent, null, false);
+        $this->update($ent, false);
         $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         return array("errors" => null, "entity" => $ent);
@@ -581,7 +593,7 @@ class DataTableService extends AExportableSectionService
             }
         }
 
-        $this->update($ent, $old_ent->getName(), false);
+        $this->update($ent, false);
         $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         return array("errors" => null, "entity" => $ent);

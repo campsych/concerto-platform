@@ -7,6 +7,7 @@ use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\AEntityRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -17,13 +18,15 @@ abstract class ASectionService
     protected $securityAuthorizationChecker;
     protected $securityTokenStorage;
     protected $administrationService;
+    protected $logger;
 
-    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(AEntityRepository $repository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService, LoggerInterface $logger)
     {
         $this->repository = $repository;
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
         $this->securityTokenStorage = $securityTokenStorage;
         $this->administrationService = $administrationService;
+        $this->logger = $logger;
     }
 
     public static function getObjectImportInstruction($obj, $instructions)
@@ -80,7 +83,7 @@ abstract class ASectionService
         //accessed from command line
         if ($this->securityTokenStorage->getToken() === null) return true;
 
-        if($this->administrationService->isContentBlocked()) {
+        if ($this->administrationService->isContentBlocked()) {
             $errorMessages = ["validate.blocked"];
             return false;
         }

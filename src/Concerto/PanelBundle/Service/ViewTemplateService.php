@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\ViewTemplateRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -14,9 +15,16 @@ class ViewTemplateService extends AExportableSectionService
 
     private $testWizardParamService;
 
-    public function __construct(ViewTemplateRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TestWizardParamService $testWizardParamService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        ViewTemplateRepository $repository,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TestWizardParamService $testWizardParamService,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->testWizardParamService = $testWizardParamService;
     }
@@ -45,8 +53,6 @@ class ViewTemplateService extends AExportableSectionService
         $old_name = null;
         if ($object === null) {
             $object = new ViewTemplate();
-        } else {
-            $old_name = $object->getName();
         }
         if ($head !== null) {
             $object->setHead($head);
@@ -78,11 +84,11 @@ class ViewTemplateService extends AExportableSectionService
         if (count($errors) > 0) {
             return array("object" => null, "errors" => $errors);
         }
-        $this->update($object, $old_name);
+        $this->update($object);
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function update(ViewTemplate $object, $oldName = null, $flush = true)
+    private function update(ViewTemplate $object, $flush = true)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -90,11 +96,13 @@ class ViewTemplateService extends AExportableSectionService
 
         $object->setUpdatedBy($user);
         $isNew = $object->getId() === null;
-        $this->repository->save($object, $flush);
-
-        $isRenamed = !$isNew && $oldName !== $object->getName();
-        if ($isRenamed) {
-            $this->testWizardParamService->onObjectRename($object, $oldName);
+        $changeSet = $this->repository->getChangeSet($object);
+        if ($isNew || !empty($changeSet)) {
+            $this->repository->save($object, $flush);
+            $isRenamed = !$isNew && array_key_exists("name", $changeSet);
+            if ($isRenamed) {
+                $this->testWizardParamService->onObjectRename($object, $changeSet["name"][0]);
+            }
         }
     }
 
@@ -174,7 +182,7 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, null, false);
+        $this->update($ent, false);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -211,7 +219,7 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, $old_ent->getName(), false);
+        $this->update($ent, false);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }

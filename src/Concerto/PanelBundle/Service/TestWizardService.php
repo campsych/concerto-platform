@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\TestWizard;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -18,9 +19,20 @@ class TestWizardService extends AExportableSectionService
     private $testWizardParamService;
     private $testWizardStepService;
 
-    public function __construct(TestWizardRepository $repository, ValidatorInterface $validator, TestService $testService, TestVariableService $testVariableService, TestNodePortService $testNodePortService, TestWizardStepService $stepService, TestWizardParamService $paramService, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        TestWizardRepository $repository,
+        ValidatorInterface $validator,
+        TestService $testService,
+        TestVariableService $testVariableService,
+        TestNodePortService $testNodePortService,
+        TestWizardStepService $stepService,
+        TestWizardParamService $paramService,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->testService = $testService;
         $this->testVariableService = $testVariableService;
@@ -127,7 +139,7 @@ class TestWizardService extends AExportableSectionService
             if ($object === null)
                 continue;
 
-            if ($object->getResultingTests()->count() > 0) {
+            if (count($object->getResultingTests()) > 0) {
                 array_push($result, array("object" => $object, "errors" => array("validate.test.wizards.delete.referenced")));
                 continue;
             }

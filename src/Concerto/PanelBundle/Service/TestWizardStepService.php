@@ -7,6 +7,7 @@ use Concerto\PanelBundle\Entity\TestWizardStep;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestWizardRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -17,9 +18,16 @@ class TestWizardStepService extends ASectionService
     private $validator;
     private $testWizardRepository;
 
-    public function __construct(TestWizardStepRepository $repository, ValidatorInterface $validator, TestWizardRepository $testWizardRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        TestWizardStepRepository $repository,
+        ValidatorInterface $validator,
+        TestWizardRepository $testWizardRepository,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->validator = $validator;
         $this->testWizardRepository = $testWizardRepository;
@@ -64,10 +72,6 @@ class TestWizardStepService extends ASectionService
 
     private function update(TestWizardStep $object, $flush = true)
     {
-        $user = null;
-        $token = $this->securityTokenStorage->getToken();
-        if ($token !== null) $user = $token->getUser();
-
         $this->repository->save($object, $flush);
     }
 

@@ -5,6 +5,7 @@ namespace Concerto\PanelBundle\Service;
 use Concerto\PanelBundle\Entity\ATopEntity;
 use Concerto\PanelBundle\Repository\AEntityRepository;
 use Concerto\PanelBundle\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -13,9 +14,15 @@ abstract class AExportableSectionService extends ASectionService
 {
     protected $validator;
 
-    public function __construct(AEntityRepository $repository, ValidatorInterface $validator, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        AEntityRepository $repository,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->validator = $validator;
     }

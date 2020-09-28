@@ -170,7 +170,7 @@ class TestVariable extends AEntity implements \JsonSerializable
     }
 
     /**
-     * Set wether parameter is passable through URL
+     * Set whether parameter is passable through URL
      *
      * @param boolean $passableThroughUrl
      * @return TestVariable
@@ -264,11 +264,16 @@ class TestVariable extends AEntity implements \JsonSerializable
     /**
      * Get params
      *
-     * @return Collection
+     * @return array
      */
     public function getParams()
     {
-        return $this->params;
+        return $this->params->toArray();
+    }
+
+    public function hasParam(TestWizardParam $param)
+    {
+        return $this->params->contains($param);
     }
 
     /**
@@ -320,44 +325,16 @@ class TestVariable extends AEntity implements \JsonSerializable
     /**
      * Get child variables
      *
-     * @return Collection
+     * @return array
      */
     public function getChildVariables()
     {
-        return $this->childVariables;
+        return $this->childVariables->toArray();
     }
 
-    /**
-     * Add port
-     *
-     * @param TestNodePort $port
-     * @return TestVariable
-     */
-    public function addPort(TestNodePort $port)
+    public function hasChildVariable(TestVariable $child)
     {
-        $this->ports[] = $port;
-
-        return $this;
-    }
-
-    /**
-     * Remove port
-     *
-     * @param TestNodePort $port
-     */
-    public function removePort(TestNodePort $port)
-    {
-        $this->ports->removeElement($port);
-    }
-
-    /**
-     * Get ports
-     *
-     * @return Collection
-     */
-    public function getPorts()
-    {
-        return $this->ports;
+        return $this->childVariables->contains($child);
     }
 
     public function getAccessibility()
@@ -450,7 +427,7 @@ class TestVariable extends AEntity implements \JsonSerializable
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if ($this->getParentVariable() && !$this->getParentVariable()->getChildVariables()->contains($this)) $this->getParentVariable()->addChildVariable($this);
-        if (!$this->getTest()->getVariables()->contains($this)) $this->getTest()->addVariable($this);
+        if ($this->getParentVariable() && !$this->getParentVariable()->hasChildVariable($this)) $this->getParentVariable()->addChildVariable($this);
+        if (!$this->getTest()->hasVariable($this)) $this->getTest()->addVariable($this);
     }
 }

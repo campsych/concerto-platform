@@ -190,38 +190,13 @@ class TestWizardStep extends AEntity implements \JsonSerializable
     }
 
     /**
-     * Add test wizard params
-     *
-     * @param TestWizardParam $param
-     * @return TestWizardStep
-     */
-    public function addParam(TestWizardParam $param)
-    {
-        $this->params[] = $param;
-
-        return $this;
-    }
-
-    /**
-     * Remove test wizard param
-     *
-     * @param TestWizardParam $param
-     * @return TestWizardStep
-     */
-    public function removeParam(TestWizardParam $param)
-    {
-        $this->params->removeElement($param);
-        return $this;
-    }
-
-    /**
      * Get params
      *
      * @return Collection
      */
     public function getParams()
     {
-        return $this->params;
+        return $this->getWizard()->getParamsByStep($this);
     }
 
     public function getAccessibility()
@@ -266,7 +241,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable
     public function jsonSerialize(&$dependencies = array(), &$normalizedIdsMap = null)
     {
         //sorting for prettier diffs
-        $params = $this->params->toArray();
+        $params = $this->getParams();
         usort($params, function ($a, $b) {
             $compareResult = strcmp($a->getLabel(), $b->getLabel());
             return $compareResult;
@@ -300,6 +275,6 @@ class TestWizardStep extends AEntity implements \JsonSerializable
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if (!$this->getWizard()->getSteps()->contains($this)) $this->getWizard()->addStep($this);
+        if (!$this->getWizard()->hasStep($this)) $this->getWizard()->addStep($this);
     }
 }

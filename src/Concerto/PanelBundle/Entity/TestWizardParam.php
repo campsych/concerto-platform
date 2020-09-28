@@ -537,14 +537,12 @@ class TestWizardParam extends AEntity implements \JsonSerializable
     {
         $this->getVariable()->removeParam($this);
         $this->getWizard()->removeParam($this);
-        $this->getStep()->removeParam($this);
     }
 
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if (!$this->getVariable()->getParams()->contains($this)) $this->getVariable()->addParam($this);
-        if (!$this->getWizard()->getParams()->contains($this)) $this->getWizard()->addParam($this);
-        if (!$this->getStep()->getParams()->contains($this)) $this->getStep()->addParam($this);
+        if (!$this->getVariable()->hasParam($this)) $this->getVariable()->addParam($this);
+        if (!$this->getWizard()->hasParam($this)) $this->getWizard()->addParam($this);
     }
 }

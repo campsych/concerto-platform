@@ -22,16 +22,23 @@ class TestNodePortService extends ASectionService
     private $testVariableRepository;
     private $testNodeRepository;
     private $testNodeConnectionService;
-    private $logger;
 
-    public function __construct(TestNodePortRepository $repository, ValidatorInterface $validator, TestVariableRepository $testVariableRepository, TestNodeRepository $testNodeRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, LoggerInterface $logger, TestNodeConnectionService $testNodeConnectionService, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        TestNodePortRepository $repository,
+        ValidatorInterface $validator,
+        TestVariableRepository $testVariableRepository,
+        TestNodeRepository $testNodeRepository,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TestNodeConnectionService $testNodeConnectionService,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->validator = $validator;
         $this->testVariableRepository = $testVariableRepository;
         $this->testNodeRepository = $testNodeRepository;
-        $this->logger = $logger;
         $this->testNodeConnectionService = $testNodeConnectionService;
     }
 
@@ -46,10 +53,10 @@ class TestNodePortService extends ASectionService
 
     public function getOneByNodeAndVariable(TestNode $node, TestVariable $variable)
     {
-        return $this->authorizeObject($this->repository->findOneByNodeAndVariable($node, $variable));
+        return $this->authorizeObject($node->getPortByVariable($variable));
     }
 
-    public function save($object_id, TestNode $node, TestVariable $variable = null, $default, $value, $string, $type, $dynamic, $exposed, $name, $pointer, $pointerVariable, $flush = true)
+    public function save($object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $type, $dynamic, $exposed, $name, $pointer, $pointerVariable, $flush = true)
     {
         $errors = array();
         $object = $this->get($object_id);
@@ -127,13 +134,12 @@ class TestNodePortService extends ASectionService
 
     public function update(TestNodePort $object, $flush = true)
     {
-        $user = null;
-        $token = $this->securityTokenStorage->getToken();
-        if ($token !== null) $user = $token->getUser();
-
         $isNew = $object->getId() === null;
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $isNew);
+        $changeSet = $this->repository->getChangeSet($object);
+        if ($isNew || !empty($changeSet)) {
+            $this->repository->save($object, $flush);
+            $this->onObjectSaved($object, $isNew);
+        }
     }
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)

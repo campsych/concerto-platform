@@ -26,16 +26,6 @@ class TestRepository extends AEntityRepository
         return null;
     }
 
-    public function findDependent($source_test_id)
-    {
-        $result = array();
-        $wizards = $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestWizard")->findBy(array("test" => $source_test_id));
-        foreach ($wizards as $wiz) {
-            $result = array_merge($result, $this->findBy(array("sourceWizard" => $wiz->getId())));
-        }
-        return $result;
-    }
-
     public function findDirectlyLocked()
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select("t")->from("Concerto\PanelBundle\Entity\Test", "t")->where("t.directLockBy IS NOT NULL");

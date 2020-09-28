@@ -8,6 +8,7 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestVariableRepository;
 use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -20,9 +21,18 @@ class TestVariableService extends ASectionService
     private $testNodeConnectionService;
     private $testRepository;
 
-    public function __construct(TestVariableRepository $repository, ValidatorInterface $validator, TestNodePortService $portService, TestNodeConnectionService $connectionService, TestRepository $testRepository, AuthorizationCheckerInterface $securityAuthorizationChecker, TokenStorageInterface $securityTokenStorage, AdministrationService $administrationService)
+    public function __construct(
+        TestVariableRepository $repository,
+        ValidatorInterface $validator,
+        TestNodePortService $portService,
+        TestNodeConnectionService $connectionService,
+        TestRepository $testRepository,
+        AuthorizationCheckerInterface $securityAuthorizationChecker,
+        TokenStorageInterface $securityTokenStorage,
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->validator = $validator;
         $this->testNodePortService = $portService;
@@ -112,13 +122,12 @@ class TestVariableService extends ASectionService
 
     public function update(TestVariable $object, $flush = true)
     {
-        $user = null;
-        $token = $this->securityTokenStorage->getToken();
-        if ($token !== null) $user = $token->getUser();
-
         $isNew = $object->getId() === null;
-        $this->repository->save($object, $flush);
-        $this->onObjectSaved($object, $isNew, $flush);
+        $changeSet = $this->repository->getChangeSet($object);
+        if ($isNew || !empty($changeSet)) {
+            $this->repository->save($object, $flush);
+            $this->onObjectSaved($object, $isNew, $flush);
+        }
     }
 
     private function onObjectSaved(TestVariable $object, $isNew, $flush = true)

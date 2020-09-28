@@ -100,11 +100,16 @@ class TestWizard extends ATopEntity implements \JsonSerializable
     /**
      * Get resulting tests
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getResultingTests()
     {
-        return $this->resultingTests;
+        return $this->resultingTests->toArray();
+    }
+
+    public function isResultingTest(Test $test)
+    {
+        $this->resultingTests->contains($test);
     }
 
     /**
@@ -203,16 +208,35 @@ class TestWizard extends ATopEntity implements \JsonSerializable
     /**
      * Get params
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getParams()
     {
-        return $this->params;
+        return $this->params->toArray();
+    }
+
+    public function hasParam(TestWizardParam $param)
+    {
+        return $this->params->contains($param);
+    }
+
+    public function getParamsByStep(TestWizardStep $step)
+    {
+        return $this->params->filter(function (TestWizardParam $param) use ($step) {
+            return $param->getStep() === $step;
+        })->toArray();
+    }
+
+    public function getParamsByType($type)
+    {
+        return $this->params->filter(function (TestWizardParam $param) use ($type) {
+            return $param->getType() == $type;
+        })->toArray();
     }
 
     public function getParamByName($name)
     {
-        foreach ($this->params as $param) {
+        foreach ($this->getParams() as $param) {
             if ($param->getVariable()->getName() == $name)
                 return $param;
         }
@@ -246,11 +270,16 @@ class TestWizard extends ATopEntity implements \JsonSerializable
     /**
      * Get steps
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getSteps()
     {
-        return $this->steps;
+        return $this->steps->toArray();
+    }
+
+    public function hasStep(TestWizardStep $step)
+    {
+        return $this->steps->contains($step);
     }
 
     /**
@@ -306,7 +335,7 @@ class TestWizard extends ATopEntity implements \JsonSerializable
             "description" => $this->description,
             "accessibility" => $this->accessibility,
             "archived" => $this->archived ? "1" : "0",
-            "steps" => self::jsonSerializeArray($this->steps->toArray(), $dependencies, $normalizedIdsMap),
+            "steps" => self::jsonSerializeArray($this->getSteps(), $dependencies, $normalizedIdsMap),
             "test" => $this->getTest()->getId(),
             "testName" => $this->getTest()->getName(),
             "updatedOn" => $this->getUpdated()->getTimestamp(),
@@ -336,6 +365,6 @@ class TestWizard extends ATopEntity implements \JsonSerializable
     /** @ORM\PrePersist */
     public function prePersist()
     {
-        if (!$this->getTest()->getWizards()->contains($this)) $this->getTest()->addWizard($this);
+        if (!$this->getTest()->hasWizard($this)) $this->getTest()->addWizard($this);
     }
 }

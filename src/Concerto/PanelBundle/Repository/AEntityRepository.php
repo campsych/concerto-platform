@@ -28,15 +28,11 @@ abstract class AEntityRepository extends EntityRepository
 
     public function save($entities, $flush = true)
     {
-        //@TODO: get rid of $flush argument
-        $flush = true;
         if (is_array($entities)) {
             foreach ($entities as $entity) {
-                if (!$entity->getId()) $flush = true;
                 $this->getEntityManager()->persist($entity);
             }
         } else {
-            if (!$entities->getId()) $flush = true;
             $this->getEntityManager()->persist($entities);
         }
         if ($flush) $this->getEntityManager()->flush();
@@ -44,8 +40,6 @@ abstract class AEntityRepository extends EntityRepository
 
     public function delete($entities, $flush = true)
     {
-        //@TODO: get rid of $flush argument
-        $flush = true;
         if (is_array($entities)) {
             foreach ($entities as $entity) {
                 $this->getEntityManager()->remove($entity);
@@ -58,8 +52,6 @@ abstract class AEntityRepository extends EntityRepository
 
     public function deleteById($object_ids, $flush = true)
     {
-        //@TODO: get rid of $flush argument
-        $flush = true;
         foreach ($object_ids as $object_id) {
             $entity = $this->find($object_id);
             $this->getEntityManager()->remove($entity);
@@ -69,8 +61,6 @@ abstract class AEntityRepository extends EntityRepository
 
     public function deleteAll($flush = true)
     {
-        //@TODO: get rid of $flush argument
-        $flush = true;
         $entities = $this->findAll();
         foreach ($entities as $entity) {
             $this->getEntityManager()->remove($entity);
@@ -78,4 +68,9 @@ abstract class AEntityRepository extends EntityRepository
         if ($flush) $this->getEntityManager()->flush();
     }
 
+    public function getChangeSet($entity) {
+        $uow = $this->getEntityManager()->getUnitOfWork();
+        $uow->computeChangeSets();
+        return $uow->getEntityChangeSet($entity);
+    }
 }

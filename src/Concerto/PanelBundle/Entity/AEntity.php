@@ -108,7 +108,7 @@ abstract class AEntity
         return $normalizedIdsMap[$class][$id];
     }
 
-    public static function getEntityCollectionHash(Collection $collection)
+    public static function getEntityCollectionHash($collection)
     {
         $result = "";
         foreach ($collection as $entity) {

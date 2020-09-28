@@ -4,6 +4,7 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\DataTable;
 use Concerto\PanelBundle\Entity\Test;
+use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Entity\TestVariable;
 use Concerto\PanelBundle\Entity\ViewTemplate;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
@@ -28,7 +29,6 @@ class TestWizardParamService extends ASectionService
     private $testWizardStepRepository;
     private $testNodePortService;
     private $testNodeRepository;
-    private $logger;
 
     public function __construct(
         TestWizardParamRepository $repository,
@@ -44,14 +44,13 @@ class TestWizardParamService extends ASectionService
         AdministrationService $administrationService
     )
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->validator = $validator;
         $this->testVariableService = $testVariableService;
         $this->testWizardRepository = $testWizardRepository;
         $this->testWizardStepRepository = $testWizardStepRepository;
         $this->testNodePortService = $testNodePortService;
-        $this->logger = $logger;
         $this->testNodeRepository = $testNodeRepository;
     }
 
@@ -115,12 +114,12 @@ class TestWizardParamService extends ASectionService
 
     public function update(TestWizardParam $object, TestWizardParam $originalObject = null, $flush = true)
     {
-        $user = null;
-        $token = $this->securityTokenStorage->getToken();
-        if ($token !== null) $user = $token->getUser();
-
-        $this->repository->save($object);
-        $this->onObjectSaved($object, $originalObject, $flush);
+        $isNew = $object->getId() === null;
+        $changeSet = $this->repository->getChangeSet($object);
+        if($isNew || !empty($changeSet)) {
+            $this->repository->save($object);
+            $this->onObjectSaved($object, $originalObject, $flush);
+        }
     }
 
     private function onObjectSaved(TestWizardParam $object, TestWizardParam $originalObject = null, $flush = true)
@@ -341,13 +340,16 @@ class TestWizardParamService extends ASectionService
                     if (!in_array($newType, self::$simpleTypes)) {
                         $val = json_encode($val);
                     }
-                    $var->setValue($val);
-                    $this->testVariableService->update($var, $flush);
+                    if ($val !== $var->getValue()) {
+                        $var->setValue($val);
+                        $this->testVariableService->update($var, $flush);
+                    }
 
                     // ports update
                     $nodes = $var->getTest()->getSourceForNodes();
                     foreach ($nodes as $node) {
                         $ports = $node->getPorts();
+                        /** @var TestNodePort $port */
                         foreach ($ports as $port) {
                             if ($port->getVariable() !== null && $port->getVariable()->getId() == $var->getId()) {
                                 $portDstVal = $port->getValue();
@@ -359,8 +361,10 @@ class TestWizardParamService extends ASectionService
                                 if (!in_array($newType, self::$simpleTypes)) {
                                     $portVal = json_encode($portVal);
                                 }
-                                $port->setValue($portVal);
-                                $this->testNodePortService->update($port, $flush);
+                                if ($portVal !== $port->getValue()) {
+                                    $port->setValue($portVal);
+                                    $this->testNodePortService->update($port, $flush);
+                                }
                                 break;
                             }
                         }

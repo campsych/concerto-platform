@@ -511,11 +511,6 @@ class ImportServiceTest extends AFunctionalTest
         //changed objects
         $new_vars = self::$testVariableRepository->findBy(array("name" => "new_var"));
         $this->assertCount(2, $new_vars, "renamed np1 TestVariable not found!");
-        $new_var_ports_count = 0;
-        foreach ($new_vars as $var) {
-            $new_var_ports_count += $var->getPorts()->count();
-        }
-        $this->assertEquals(1, $new_var_ports_count, "More than one new_var port!");
     }
 
     public function testViewTemplateConvert()

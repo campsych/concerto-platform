@@ -61,7 +61,12 @@ class TestVariableControllerTest extends AFunctionalTest
         $client = self::createLoggedClient();
 
         $client->request('POST', '/admin/TestVariable/Test/1/collection');
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $fail_msg = "";
+        if (!$client->getResponse()->isSuccessful()) {
+            $crawler = $client->getCrawler();
+            $fail_msg = $crawler->filter("title")->text();
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful(), $fail_msg);
         $expected = array(
             array(
                 "class_name" => "TestVariable",

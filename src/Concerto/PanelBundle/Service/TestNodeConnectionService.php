@@ -13,6 +13,7 @@ use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Repository\TestNodeRepository;
 use Concerto\PanelBundle\Repository\TestNodePortRepository;
 use Concerto\PanelBundle\Security\ObjectVoter;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -35,10 +36,10 @@ class TestNodeConnectionService extends ASectionService
         AuthorizationCheckerInterface $securityAuthorizationChecker,
         TokenStorageInterface $securityTokenStorage,
         TestNodeConnectionRepository $testNodeConnectionRepository,
-        AdministrationService $administrationService
-    )
+        AdministrationService $administrationService,
+        LoggerInterface $logger)
     {
-        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService);
+        parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
         $this->validator = $validator;
         $this->testRepository = $testRepository;
@@ -95,27 +96,14 @@ class TestNodeConnectionService extends ASectionService
         return array("object" => $object, "errors" => $errors);
     }
 
-    private function onObjectSaved(TestNodeConnection $object, $isNew)
-    {
-    }
-
     private function update(TestNodeConnection $object, $flush = true)
     {
-        $user = null;
-        $token = $this->securityTokenStorage->getToken();
-        if ($token !== null) $user = $token->getUser();
-
-        $isNew = $object->getId() === null;
         $this->repository->save($object, $flush);
-
-        $this->onObjectSaved($object, $isNew);
     }
 
     public function updateDefaultReturnFunctions(TestNodePort $sourcePort)
     {
-        $connections = $sourcePort->getSourceForConnections()->filter(function (TestNodeConnection $connection) {
-            return $connection->hasDefaultReturnFunction();
-        });
+        $connections = $sourcePort->getSourceForConnectionsByDefaultReturnFunction(true);
 
         foreach ($connections as $connection) {
             $connection->setReturnFunction($sourcePort->getName());
@@ -145,9 +133,7 @@ class TestNodeConnectionService extends ASectionService
 
     public function onTestVariableSaved(TestVariable $variable, $is_new, $flush = true)
     {
-        $connections = $variable->getTest()->getNodesConnections()->filter(function (TestNodeConnection $connection) use ($variable) {
-            return $connection->getSourcePort() && $connection->getSourcePort()->getVariable() && $connection->getSourcePort()->getVariable()->getId() === $variable->getId();
-        });
+        $connections = $variable->getTest()->getNodesConnectionBySourcePortVariable($variable);
 
         foreach ($connections as $connection) {
             if ($connection->getReturnFunction() != $variable->getName() && $connection->hasDefaultReturnFunction()) {

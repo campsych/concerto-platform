@@ -7,9 +7,15 @@ namespace Concerto\PanelBundle\Repository;
  */
 class TestVariableRepository extends AEntityRepository
 {
+    public function findByTest($test_id)
+    {
+        $test = $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->find($test_id);
+        return $test->getVariables();
+    }
 
     public function findByTestAndType($test_id, $type)
     {
-        return $this->findBy(array("test" => $test_id, "type" => $type));
+        $test = $this->getEntityManager()->getRepository("ConcertoPanelBundle:Test")->find($test_id);
+        return $test->getVariablesByType($type);
     }
 }

@@ -13,9 +13,13 @@ class TestWizardParamRepository extends AEntityRepository
         $this->delete($this->findBy(array("wizard" => $wizard_id)));
     }
 
-    public function findByTestWizardAndType($wizard, $type)
+    public function findByTestWizardAndType($wizard_id, $type)
     {
-        return $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestWizardParam")->findBy(array("wizard" => $wizard, "type" => $type));
+        $wizard = $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestWizard")->find($wizard_id);
+        if ($wizard) {
+            return $wizard->getParamsByType($type);
+        }
+        return [];
     }
 
 }
