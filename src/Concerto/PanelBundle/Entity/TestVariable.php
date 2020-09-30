@@ -276,6 +276,28 @@ class TestVariable extends AEntity implements \JsonSerializable
         return $this->params->contains($param);
     }
 
+    public function getPorts()
+    {
+        return $this->ports->toArray();
+    }
+
+    public function hasPort(TestNodePort $port)
+    {
+        return $this->ports->contains($port);
+    }
+
+    public function addPort(TestNodePort $port)
+    {
+        $this->ports->add($port);
+        return $this;
+    }
+
+    public function removePort(TestNodePort $port)
+    {
+        $this->ports->removeElement($port);
+        return $this;
+    }
+
     /**
      * Set parent variable
      *

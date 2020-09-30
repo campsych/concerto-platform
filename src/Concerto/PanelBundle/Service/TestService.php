@@ -332,7 +332,7 @@ class TestService extends AExportableSectionService
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
         //shouldn't be update because it will lead to redundant variables
-        $this->repository->save($ent, false);
+        $this->repository->save($ent);
         $map["Test"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -369,7 +369,7 @@ class TestService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, null, false);
+        $this->update($ent, null);
         $map["Test"]["id" . $obj["id"]] = $ent;
 
         $this->onConverted($ent, $old_ent);

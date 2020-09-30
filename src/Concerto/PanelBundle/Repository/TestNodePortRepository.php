@@ -5,5 +5,6 @@ namespace Concerto\PanelBundle\Repository;
 /**
  * TestNodePortRepository
  */
-class TestNodePortRepository extends AEntityRepository {
+class TestNodePortRepository extends AEntityRepository
+{
 }

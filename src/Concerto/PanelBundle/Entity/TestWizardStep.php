@@ -5,8 +5,6 @@ namespace Concerto\PanelBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Concerto\PanelBundle\Entity\TestWizard;
-use Concerto\PanelBundle\Entity\TestWizardParam;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -182,7 +180,7 @@ class TestWizardStep extends AEntity implements \JsonSerializable
      * @param TestWizard $wizard
      * @return TestWizardStep
      */
-    public function setWizard($wizard)
+    public function setWizard(TestWizard $wizard)
     {
         $this->wizard = $wizard;
 
@@ -192,11 +190,29 @@ class TestWizardStep extends AEntity implements \JsonSerializable
     /**
      * Get params
      *
-     * @return Collection
+     * @return array
      */
     public function getParams()
     {
-        return $this->getWizard()->getParamsByStep($this);
+        //return $this->getWizard()->getParamsByStep($this);
+        return $this->params->toArray();
+    }
+
+    public function addParam(TestWizardParam $param)
+    {
+        $this->params->add($param);
+        return $this;
+    }
+
+    public function removeParam(TestWizardParam $param)
+    {
+        $this->params->removeElement($param);
+        return $this;
+    }
+
+    public function hasParam(TestWizardParam $param)
+    {
+        $this->params->contains($param);
     }
 
     public function getAccessibility()

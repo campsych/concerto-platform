@@ -182,7 +182,7 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, false);
+        $this->update($ent);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -219,7 +219,7 @@ class ViewTemplateService extends AExportableSectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, false);
+        $this->update($ent);
         $map["ViewTemplate"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }

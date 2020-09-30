@@ -230,7 +230,7 @@ class TestWizardParamService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, null, false);
+        $this->update($ent, null);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }
@@ -285,7 +285,7 @@ class TestWizardParamService extends ASectionService
         if (count($ent_errors_msg) > 0) {
             return array("errors" => $ent_errors_msg, "entity" => null, "source" => $obj);
         }
-        $this->update($ent, $old_ent, false);
+        $this->update($ent, $old_ent);
         $map["TestWizardParam"]["id" . $obj["id"]] = $ent;
         return array("errors" => null, "entity" => $ent);
     }

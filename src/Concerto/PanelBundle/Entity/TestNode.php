@@ -273,6 +273,13 @@ class TestNode extends AEntity implements \JsonSerializable
         return null;
     }
 
+    public function getPortsByNameType($name, $type)
+    {
+        return $this->ports->filter(function (TestNodePort $port) use ($name, $type) {
+            return $port->getName() === $name && $port->getType() == $type;
+        })->toArray();
+    }
+
     public function getAccessibility()
     {
         return $this->getFlowTest()->getAccessibility();
@@ -299,6 +306,50 @@ class TestNode extends AEntity implements \JsonSerializable
             }
         }
         return false;
+    }
+
+    public function getSourceForConnections()
+    {
+        return $this->sourceForConnections->toArray();
+    }
+
+    public function removeSourceForConnection(TestNodeConnection $connection)
+    {
+        $this->sourceForConnections->removeElement($connection);
+        return $this;
+    }
+
+    public function addSourceForConnection(TestNodeConnection $connection)
+    {
+        $this->sourceForConnections->add($connection);
+        return $this;
+    }
+
+    public function isSourceForConnection(TestNodeConnection $connection)
+    {
+        return $this->sourceForConnections->contains($connection);
+    }
+
+    public function getDestinationForConnections()
+    {
+        return $this->destinationForConnections->toArray();
+    }
+
+    public function removeDestinationForConnection(TestNodeConnection $connection)
+    {
+        $this->destinationForConnections->removeElement($connection);
+        return $this;
+    }
+
+    public function addDestinationForConnection(TestNodeConnection $connection)
+    {
+        $this->destinationForConnections->add($connection);
+        return $this;
+    }
+
+    public function isDestinationForConnection(TestNodeConnection $connection)
+    {
+        return $this->destinationForConnections->contains($connection);
     }
 
     public function getEntityHash()

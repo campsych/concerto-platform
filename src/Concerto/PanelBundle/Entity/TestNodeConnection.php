@@ -294,12 +294,20 @@ class TestNodeConnection extends AEntity implements \JsonSerializable
     /** @ORM\PreRemove */
     public function preRemove()
     {
+        $this->getSourceNode()->removeSourceForConnection($this);
+        if ($this->getSourcePort()) $this->getSourcePort()->removeSourceForConnection($this);
+        $this->getDestinationNode()->removeDestinationForConnection($this);
+        if ($this->getDestinationPort()) $this->getDestinationPort()->removeDestinationForConnection($this);
         $this->getFlowTest()->removeNodeConnection($this);
     }
 
     /** @ORM\PrePersist */
     public function prePersist()
     {
+        if (!$this->getSourceNode()->isSourceForConnection($this)) $this->getSourceNode()->addSourceForConnection($this);
+        if ($this->getSourcePort() && !$this->getSourcePort()->isSourceForConnection($this)) $this->getSourcePort()->addSourceForConnection($this);
+        if (!$this->getDestinationNode()->isDestinationForConnection($this)) $this->getDestinationNode()->addDestinationForConnection($this);
+        if ($this->getDestinationPort() && !$this->getDestinationPort()->isDestinationForConnection($this)) $this->getDestinationPort()->removeDestinationForConnection($this);
         if (!$this->getFlowTest()->hasNodeConnection($this)) $this->getFlowTest()->addNodeConnection($this);
     }
 }

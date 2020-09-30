@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestNodePortRepository")
- * @UniqueEntity(fields={"node","type","name"}, message="validate.test.ports.unique")
+ * @UniqueEntity(fields={"node","type","name"}, ignoreNull="node", message="validate.test.ports.unique")
  * @ORM\HasLifecycleCallbacks
  */
 class TestNodePort extends AEntity implements \JsonSerializable
@@ -376,11 +376,12 @@ class TestNodePort extends AEntity implements \JsonSerializable
     /**
      * Get connections where port is source
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getSourceForConnections()
     {
-        return $this->getNode()->getFlowTest()->getNodesConnectionsBySourcePort($this);
+        //return $this->getNode()->getFlowTest()->getNodesConnectionsBySourcePort($this);
+        return $this->sourceForConnections->toArray();
     }
 
     public function getSourceForConnectionsByDefaultReturnFunction($defaultReturnFunction)
@@ -390,14 +391,49 @@ class TestNodePort extends AEntity implements \JsonSerializable
         })->toArray();
     }
 
+    public function removeSourceForConnection(TestNodeConnection $connection)
+    {
+        $this->sourceForConnections->removeElement($connection);
+        return $this;
+    }
+
+    public function addSourceForConnection(TestNodeConnection $connection)
+    {
+        $this->sourceForConnections->add($connection);
+        return $this;
+    }
+
+    public function isSourceForConnection(TestNodeConnection $connection)
+    {
+        return $this->sourceForConnections->contains($connection);
+    }
+
     /**
      * Get connections where port is destination
      *
-     * @return ArrayCollection
+     * @return array
      */
     public function getDestinationForConnections()
     {
-        return $this->getNode()->getFlowTest()->getNodesConnectionsByDestinationPort($this);
+        //return $this->getNode()->getFlowTest()->getNodesConnectionsByDestinationPort($this);
+        return $this->destinationForConnections->toArray();
+    }
+
+    public function addDestinationForConnection(TestNodeConnection $connection)
+    {
+        $this->destinationForConnections->add($connection);
+        return $this;
+    }
+
+    public function removeDestinationForConnection(TestNodeConnection $connection)
+    {
+        $this->destinationForConnections->removeElement($connection);
+        return $this;
+    }
+
+    public function isDestinationForConnection(TestNodeConnection $connection)
+    {
+        return $this->destinationForConnections->contains($connection);
     }
 
     public function getAccessibility()
@@ -489,11 +525,13 @@ class TestNodePort extends AEntity implements \JsonSerializable
     public function preRemove()
     {
         $this->getNode()->removePort($this);
+        if ($this->getVariable()) $this->getVariable()->removePort($this);
     }
 
     /** @ORM\PrePersist */
     public function prePersist()
     {
         if (!$this->getNode()->hasPort($this)) $this->getNode()->addPort($this);
+        if ($this->getVariable() && !$this->getVariable()->hasPort($this)) $this->getVariable()->addPort($this);
     }
 }

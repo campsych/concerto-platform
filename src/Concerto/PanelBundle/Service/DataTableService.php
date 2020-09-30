@@ -532,7 +532,7 @@ class DataTableService extends AExportableSectionService
         if (count($db_errors) > 0)
             return array("errors" => $db_errors, "entity" => null, "source" => $obj);
 
-        $this->update($ent, false);
+        $this->update($ent);
         $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         return array("errors" => null, "entity" => $ent);
@@ -593,7 +593,7 @@ class DataTableService extends AExportableSectionService
             }
         }
 
-        $this->update($ent, false);
+        $this->update($ent);
         $map["DataTable"]["id" . $obj["id"]] = $ent;
 
         return array("errors" => null, "entity" => $ent);
