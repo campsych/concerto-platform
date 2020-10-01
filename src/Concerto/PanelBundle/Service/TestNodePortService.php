@@ -56,7 +56,7 @@ class TestNodePortService extends ASectionService
         return $this->authorizeObject($node->getPortByVariable($variable));
     }
 
-    public function save($object_id, TestNode $node, TestVariable $variable, $default, $value, $string, $type, $dynamic, $exposed, $name, $pointer, $pointerVariable, $flush = true)
+    public function save($object_id, TestNode $node, ?TestVariable $variable, $default, $value, $string, $type, $dynamic, $exposed, $name, $pointer, $pointerVariable, $flush = true)
     {
         $errors = array();
         $object = $this->get($object_id);
