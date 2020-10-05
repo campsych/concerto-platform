@@ -76,7 +76,9 @@ templateTimeLimit = getTemplateTimeLimit(testTimeLeft)
 #save state
 if(settings$sessionResuming == 1) {
   state$nextItemsIds = items[itemsIndices, "id"]
+  state$itemsIds = items[,"id"]
   state$page = page
+  state$testTimeStarted = testTimeStarted
 
   sessionTable = fromJSON(settings$sessionTable)
   concerto.table.query("

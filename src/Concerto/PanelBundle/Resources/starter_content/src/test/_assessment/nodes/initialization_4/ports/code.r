@@ -325,15 +325,16 @@ page = 0
 scores = NULL
 responses = NULL
 
-state = list(
-  testTimeStarted = testTimeStarted,
-  nextItemsIds = NULL,
-  page = 0
-)
-
 paramsNum = getParamsNum(settings$itemBankType, settings$itemBankTable, settings$itemBankFlatTable)
 items = getItems(settings$itemBankType, settings$itemBankItems, settings$itemBankTable, settings$itemBankFlatTable, settings$itemBankTableExtraFields, paramsNum)
 itemsNum = dim(items)[1]
+
+state = list(
+  testTimeStarted = testTimeStarted,
+  nextItemsIds = NULL,
+  itemsIds = items[,"id"],
+  page = 0
+)
 
 if(settings$sessionResuming == 1) {
   #get response data
@@ -341,17 +342,21 @@ if(settings$sessionResuming == 1) {
   resumedState = session[[sessionTable$columns$state]]
   if(!is.na(resumedState)) {
     state = fromJSON(resumedState)
+    resumedItemsIds = state$nextItemsIds
 
-    direction = 0
-    page = state$page
+    if(length(resumedItemsIds) > 0) {
+      direction = 0
+      page = state$page
 
-    sessionTestTimeStarted = as.numeric(state$testTimeStarted)
-    if(sessionTestTimeStarted != 0) {
-      testTimeStarted = sessionTestTimeStarted
-    }
+      if(!is.null(state$testTimeStarted)) {
+        sessionTestTimeStarted = as.numeric(state$testTimeStarted)
+        if(sessionTestTimeStarted != 0) {
+          testTimeStarted = sessionTestTimeStarted
+        }
+      }
 
-    responseTable = fromJSON(settings$responseBank)
-    responsesRecords = concerto.table.query("
+      responseTable = fromJSON(settings$responseBank)
+      responsesRecords = concerto.table.query("
 SELECT id, 
 {{scoreCol}} AS score, 
 {{timeTakenCol}} AS timeTaken,
@@ -370,24 +375,23 @@ WHERE {{sessionIdCol}}={{sessionId}}", params=list(
   sessionId = session$id
 ))
 
-    itemsAnswered = items[items[,"id"] %in% responsesRecords[,"item_id"],]
-    if(dim(itemsAnswered)[1] > 0) {
-      itemsLeft = items[-as.numeric(rownames(itemsAnswered)),]
-      items = rbind(itemsAnswered, itemsLeft)
-    }
+      restoredItemBank = NULL
+      for(id in state$itemsIds) {
+        item = items[items$id == id,]
+        if(nrow(item) > 0) {
+          restoredItemBank = rbind(restoredItemBank, item)
+        }
+      }
+      items = restoredItemBank
 
-    resumedItemsIds = state$nextItemsIds
-    if(length(resumedItemsIds) == 0) { 
-      resumedItemsIds = NULL
+      totalTimeTaken = sum(responsesRecords[,"timeTaken"])
+      itemsAdministered = which(items[,"id"] %in% responsesRecords[,"item_id"])
+      if(length(itemsAdministered) == 0) {
+        itemsAdministered = NULL
+      }
+      scores = responsesRecords[,"score"]
+      responses = responsesRecords[,"response"]
     }
-
-    totalTimeTaken = sum(responsesRecords[,"timeTaken"])
-    itemsAdministered = which(items[,"id"] %in% responsesRecords[,"item_id"])
-    if(length(itemsAdministered) == 0) {
-      itemsAdministered = NULL
-    }
-    scores = responsesRecords[,"score"]
-    responses = responsesRecords[,"response"]
   }
 }
 

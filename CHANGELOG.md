@@ -11,6 +11,7 @@
 
 * **http** node now handles network errors
 * fixed outdated object check
+* **assessment** db based resuming fixes
 
 ## 5.0.16 (2020-08-28)
 

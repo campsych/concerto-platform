@@ -1,4 +1,7 @@
 concerto.log(user, "user")
+if(is.na(test_id) || test_id == "") {
+  test_id = concerto$mainTest$id
+}
 
 formatFields = function(user, extraFields) {
   userId = 0
@@ -6,7 +9,7 @@ formatFields = function(user, extraFields) {
   fields = list(
     user_id=userId,
     internal_id=concerto$session$id, 
-    test_id=concerto$mainTest$id,
+    test_id=test_id,
     startedTime=Sys.time(),
     updateTime=Sys.time(),
     finished=0
@@ -65,7 +68,7 @@ WHERE
 ORDER BY id DESC", params=list(
   table=tableMap$table, 
   testIdColumn=tableMap$columns$test_id, 
-  testId=concerto$mainTest$id, 
+  testId=test_id, 
   userIdColumn=tableMap$columns$user_id, 
   userId=user$id,
   finishedColumn=tableMap$columns$finished
